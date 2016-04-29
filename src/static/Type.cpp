@@ -6,6 +6,7 @@
  */
 
 #include "Type.h"
+#include "ExprCore.h"
 #include <stdio.h>
 
 namespace psi {
@@ -44,6 +45,10 @@ Type::Type(const std::string &name, IConstructorContext *p) :
 
 Type::~Type() {
 	// TODO Auto-generated destructor stub
+}
+
+Expr Type::operator [] (const Expr &rhs) {
+	return Expr(new ExprCore(Expr::BinOp_ArrayRef, *this, rhs));
 }
 
 bool Type::insideInstance() {

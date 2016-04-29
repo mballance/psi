@@ -10,6 +10,7 @@
 #include <string>
 #include "IConstructorContext.h"
 #include "DeclarationScope.h"
+#include "Expr.h"
 
 namespace psi {
 
@@ -57,6 +58,9 @@ class Type : public DeclarationScope, public virtual IConstructorContext {
 		inline Type *getTypeData() const { return m_type_data; }
 
 		inline void setTypeData(Type *t) { m_type_data = t; }
+
+		Expr operator [] (const Expr &rhs);
+
 
 	private:
 
