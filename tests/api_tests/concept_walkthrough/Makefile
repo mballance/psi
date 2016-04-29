@@ -33,6 +33,8 @@ SRC= \
   MemoryStruct.cpp \
   Package.cpp \
   ResourceStruct.cpp \
+  StreamStruct.cpp \
+  String.cpp \
   Struct.cpp \
   Type.cpp \
 \

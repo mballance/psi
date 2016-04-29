@@ -2,3 +2,6 @@ output/
 Debug/
 *.o
 *.exe
+sav/
+*~
+classlib/
