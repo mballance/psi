@@ -110,6 +110,14 @@ static class c_code : public Package {
 
 		c_code(const std::string &name, IConstructorContext *p=nullptr) : Package(name, p) { }
 
+		Import do_write {"do_write", this,
+			(Bit<31,0>("addr"), Bit<31,0>("data"))
+		};
+
+		Import do_check {"do_check", this,
+			(Bit<31,0>("addr"), Bit<31,0>("data"))
+		};
+
 		// Declares an extension of 'write_data' to layer in the implementation
 		class write_data_ext : public ExtendAction<rw_comp::write_data> {
 			public:
@@ -120,13 +128,24 @@ static class c_code : public Package {
 						)"
 				};
 
-				Import do_write {"do_write", this,
-					(Bit<31,0>("addr"), Bit<31,0>("data"))
+				Exec do_write_body_native {Exec::Body, this,
+					do_write((out_data.address, out_data.data))
 				};
 
-				ImportCall c = do_write((out_data.address, out_data.data));
+
+//				ImportCall c = do_write((out_data.address, out_data.data));
 //				ImportCall c = do_write((5, 10));
 		} write_data_extT {this, rw_compT.write_dataT};
+
+	class read_data_ext : public ExtendAction<rw_comp::read_data> {
+	public:
+
+		read_data_ext(IConstructorContext *p, rw_comp::read_data &t_ref) : ExtendAction(p, t_ref) {}
+
+		Exec do_check_body_native {Exec::Body, this,
+			do_check((in_data.address, in_data.data))
+		};
+	};
 
 } c_codeT = c_code("c_code");
 

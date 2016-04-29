@@ -12,6 +12,7 @@
 
 namespace psi {
 
+class ImportCall;
 class Exec {
 
 	public:
@@ -36,6 +37,11 @@ class Exec {
 			IConstructorContext		*p,
 			const std::string 		&language,
 			const std::string 		&content);
+
+		Exec(
+			Exec::Kind 				kind,
+			IConstructorContext		*p,
+			const ImportCall		&call);
 
 		virtual ~Exec();
 

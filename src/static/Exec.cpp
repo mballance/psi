@@ -6,6 +6,7 @@
  */
 
 #include "Exec.h"
+#include "ImportCall.h"
 
 namespace psi {
 
@@ -20,6 +21,13 @@ Exec::Exec(
 			m_execKind(kind),
 			m_language(language),
 			m_content(content) {
+}
+
+Exec::Exec(
+		Exec::Kind 				kind,
+		IConstructorContext		*p,
+		const ImportCall		&call) {
+
 }
 
 Exec::~Exec() {
