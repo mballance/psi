@@ -16,7 +16,7 @@ namespace psi {
 template <class T> class Rand : public T {
 
 	public:
-		Rand(IConstructorContext *p, const std::string &name) : T(p, name) {
+		Rand(const std::string &name, IConstructorContext *p) : T(name, p) {
 			static_cast<Type *>(this)->setIsRand(true);
 		}
 

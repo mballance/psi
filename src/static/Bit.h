@@ -14,8 +14,8 @@ namespace psi {
 
 template <uint32_t MSB=0, uint32_t LSB=0> class Bit : public BitType {
 	public:
-		Bit(IConstructorContext *p, const std::string &name) :
-			BitType(p, name, MSB, LSB) {
+		Bit(const std::string &name, IConstructorContext *p=nullptr) :
+			BitType(name, p, MSB, LSB) {
 		}
 
 		virtual ~Bit() { }

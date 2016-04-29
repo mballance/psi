@@ -12,10 +12,8 @@ using namespace psi;
 static class data_s : public MemoryStruct {
 
 	public:
-		Rand<Bit<7,0>>		data    {this, "data"};
-		Rand<Bit<31,0>>		address {this, "address"};
-
-		int foo;
+		Rand<Bit<7,0>>		data    {"data", this};
+		Rand<Bit<31,0>>		address {"address", this};
 
 		data_s(
 			const std::string 		&name,
@@ -24,7 +22,7 @@ static class data_s : public MemoryStruct {
 		Constraint address_c {this, address >= 0x1000 && address <= 0x1FFF};
 
 	// Register this type definition
-} _data_s = data_s("data_s");
+} data_sT = data_s("data_s");
 
 static class rw_comp : public Component {
 
@@ -39,7 +37,7 @@ static class rw_comp : public Component {
 
 			Constraint resource_c {this, Expr(instance_id) == 1};
 
-	} _processor_s {"processor_s", this};
+	} processor_sT {"processor_s", this};
 
 	class write_data : public Action {
 
@@ -51,20 +49,20 @@ static class rw_comp : public Component {
 			// to the type-declaration object (_data_s), or with a string name.
 			// Note that C++ construction-order rules require us to use the 'string'
 			// form for proc, since it's declared in the same component.
-			Output<data_s>			out_data	{"out_data", this, _data_s};
+			Output<data_s>			out_data	{"out_data", this, data_sT};
 			Lock<processor_s>		proc 		{"proc", this, "processor_s"};
-	} _write_data {"write_data", this};
+	} write_dataT {"write_data", this};
 
 	class read_data : public Action {
 
 		public:
 			read_data(const std::string &name, IConstructorContext *p) : Action(name, p) { }
 
-			Input<data_s>			in_data		{"in_data", this, _data_s};
+			Input<data_s>			in_data		{"in_data", this, data_sT};
 			Lock<processor_s>		proc		{"proc", this, "processor_s"};
-	} _read_data {"read_data", this};
+	} read_dataT {"read_data", this};
 
-} _rw_comp = rw_comp("rw_comp");
+} rw_compT = rw_comp("rw_comp");
 
 static class top_comp : public Component {
 
@@ -79,10 +77,10 @@ static class top_comp : public Component {
 
 			// Action instance needs to know the details of its type. This is
 			// provided via a type-definition reference (eg _rw_comp._write_data)
-			Field<rw_comp::write_data>		wd1 {"wd1", this, _rw_comp._write_data};
-			Field<rw_comp::read_data>		rd1 {"rd1", this, _rw_comp._read_data};
-			Field<rw_comp::write_data>		wd2 {"wd2", this, _rw_comp._write_data};
-			Field<rw_comp::read_data>		rd2 {"rd2", this, _rw_comp._read_data};
+			Field<rw_comp::write_data>		wd1 {"wd1", this, rw_compT.write_dataT};
+			Field<rw_comp::read_data>		rd1 {"rd1", this, rw_compT.read_dataT};
+			Field<rw_comp::write_data>		wd2 {"wd2", this, rw_compT.write_dataT};
+			Field<rw_comp::read_data>		rd2 {"rd2", this, rw_compT.read_dataT};
 
 			// TODO: Bind -- make static?
 
@@ -117,15 +115,20 @@ static class c_code : public Package {
 			public:
 				write_data_ext(IConstructorContext *p, rw_comp::write_data &t_ref) : ExtendAction(p, t_ref) { }
 
-				/*
-				ImportFunction			do_write {
-					this, "do_write",
-					{ParamW2<Int<31,0>>("addr")}
+				Exec do_write_body {Exec::Body, this, "C", R"(
+						do_write({{address}}, {{data}}
+						)"
 				};
-				 */
-		} _write_data_ext {this, _rw_comp._write_data};
 
-} _c_code = c_code("c_code");
+				Import do_write {"do_write", this,
+					(Bit<31,0>("addr"), Bit<31,0>("data"))
+				};
+
+				ImportCall c = do_write((out_data.address, out_data.data));
+//				ImportCall c = do_write((5, 10));
+		} write_data_extT {this, rw_compT.write_dataT};
+
+} c_codeT = c_code("c_code");
 
 
 // Ignore: test code

@@ -13,6 +13,7 @@ namespace psi {
 
 Type::Type(IConstructorContext *p, const std::string &name) :
 		m_name(name), m_parent(p), m_type_data(nullptr) {
+	if (p != nullptr) {
 	if (getObjectType() == IObjectType::Component &&
 			p->getObjectType() == IObjectType::Component) {
 		// A component within a component is a field
@@ -24,6 +25,7 @@ Type::Type(IConstructorContext *p, const std::string &name) :
 		if (!insideInstance()) {
 			p->addField(this);
 		}
+	}
 	}
 }
 
@@ -49,6 +51,10 @@ Type::~Type() {
 
 Expr Type::operator [] (const Expr &rhs) {
 	return Expr(new ExprCore(Expr::BinOp_ArrayRef, *this, rhs));
+}
+
+ParamList Type::operator,(const Type &rhs) {
+	return ParamList(Param(*this), Param(rhs));
 }
 
 bool Type::insideInstance() {

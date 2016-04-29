@@ -10,6 +10,7 @@
 #include <string>
 #include "IConstructorContext.h"
 #include "Struct.h"
+#include "Exec.h"
 
 namespace psi {
 
@@ -22,6 +23,8 @@ class Action : public Struct {
 		virtual ~Action();
 
 		virtual IObjectType::ObjectType getObjectType();
+
+//		virtual Graph graph();
 
 };
 

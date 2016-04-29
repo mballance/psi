@@ -17,7 +17,7 @@ namespace psi {
 class BitType : public Type {
 
 	public:
-		BitType(IConstructorContext *p, const std::string &name, uint32_t msb, uint32_t lsb);
+		BitType(const std::string &name, IConstructorContext *p, uint32_t msb, uint32_t lsb);
 
 		virtual ~BitType();
 

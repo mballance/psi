@@ -16,7 +16,7 @@ namespace psi {
 class IntType : public Type {
 
 	public:
-		IntType(IConstructorContext *p, const std::string &name, uint32_t msb, uint32_t lsb);
+		IntType(const std::string &name, IConstructorContext *p, uint32_t msb, uint32_t lsb);
 
 		virtual ~IntType();
 };

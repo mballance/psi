@@ -11,6 +11,8 @@
 #include "IConstructorContext.h"
 #include "DeclarationScope.h"
 #include "Expr.h"
+#include "Param.h"
+#include "ParamList.h"
 
 namespace psi {
 
@@ -61,6 +63,7 @@ class Type : public DeclarationScope, public virtual IConstructorContext {
 
 		Expr operator [] (const Expr &rhs);
 
+		ParamList operator,(const Type &rhs);
 
 	private:
 

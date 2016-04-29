@@ -9,7 +9,7 @@
 
 namespace psi {
 
-IntType::IntType(IConstructorContext *p, const std::string &name, uint32_t msb, uint32_t lsb) : Type(p) {
+IntType::IntType(const std::string &name, IConstructorContext *p, uint32_t msb, uint32_t lsb) : Type(p) {
 	// TODO Auto-generated constructor stub
 
 }

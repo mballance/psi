@@ -11,10 +11,11 @@
 
 namespace psi {
 
-template <class T> class ExtendComponent : public Extend {
+template <class T> class ExtendComponent : public T {
 
 	public:
-		ExtendComponent(IConstructorContext *p, T &t_ref) : Extend(p, Extend::Component) {
+		ExtendComponent(IConstructorContext *p, T &t_ref) : T("<Extension>", m) {
+			// TODO: need to pass on extension data
 		}
 
 		virtual ~ExtendComponent() { }

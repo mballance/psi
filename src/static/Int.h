@@ -15,8 +15,8 @@ template <int MSB=31, int LSB=0> class Int : public IntType {
 
 	public:
 
-		Int(IConstructorContext *p, const std::string &name) :
-			IntType(p, name, MSB, LSB) { }
+		Int(const std::string &name, IConstructorContext *p) :
+			IntType(name, p, MSB, LSB) { }
 
 };
 

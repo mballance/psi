@@ -10,8 +10,8 @@
 namespace psi {
 
 BitType::BitType(
-		IConstructorContext		*p,
 		const std::string		&name,
+		IConstructorContext		*p,
 		uint32_t				msb,
 		uint32_t				lsb) : Type(p, name) {
 

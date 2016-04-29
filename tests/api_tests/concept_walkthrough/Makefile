@@ -20,18 +20,24 @@ SRC= \
   Action.cpp \
   BitType.cpp \
   Bool.cpp \
+  Chandle.cpp \
   Component.cpp \
   Constraint.cpp \
   ConstraintStmt.cpp \
   DeclarationScope.cpp \
   Graph.cpp \
+  Exec.cpp \
   Expr.cpp \
   ExprCore.cpp \
   Extend.cpp \
+  Import.cpp \
+  ImportCall.cpp \
   IntType.cpp \
   IObjectType.cpp \
   MemoryStruct.cpp \
   Package.cpp \
+  Param.cpp \
+  ParamList.cpp \
   ResourceStruct.cpp \
   StreamStruct.cpp \
   String.cpp \

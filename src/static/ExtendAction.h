@@ -11,10 +11,10 @@
 
 namespace psi {
 
-template <class T> class ExtendAction : public Extend {
+template <class T> class ExtendAction : public T {
 
 	public:
-		ExtendAction(IConstructorContext *p, T &t_ref) : Extend(p, Extend::Action) {
+		ExtendAction(IConstructorContext *p, T &t_ref) : T("<Unknown>", p) {
 		}
 
 		virtual ~ExtendAction() { }
