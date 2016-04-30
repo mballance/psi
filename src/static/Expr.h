@@ -9,7 +9,7 @@
 #define EXPR_H_
 
 #include "Types.h"
-#include <memory>
+#include "SharedPtr.h"
 
 namespace psi {
 
@@ -97,7 +97,7 @@ class Expr {
 	protected:
 
 	private:
-		std::shared_ptr<ExprCore>	m_core;
+		SharedPtr<ExprCore>		m_core;
 
 
 };

@@ -18,7 +18,7 @@ class MemoryStruct: public Struct {
 	public:
 		MemoryStruct(
 				const std::string 		&name,
-				IConstructorContext 	*p,
+				IConstructorContext 	*p=nullptr,
 				Struct					&super_type=Struct::None);
 
 		MemoryStruct(
