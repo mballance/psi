@@ -10,32 +10,18 @@
 
 #include <string>
 
-#include "DeclarationScope.h"
-#include "IConstructorContext.h"
+#include "Type.h"
 
 namespace psi {
 
-class TypeFactoryBase;
 class Package;
-class TypeRegistry : public virtual IConstructorContext, public DeclarationScope {
+class TypeRegistry : public Type {
 	friend class Package;
 
 	public:
 		TypeRegistry();
 
 		virtual ~TypeRegistry();
-
-//		void register_type(TypeFactoryBase *f, ObjectType t);
-
-		virtual IConstructorContext::ConstructorContextType getContextType() {
-			return IConstructorContext::Global;
-		}
-
-		virtual IObjectType::ObjectType getObjectType();
-
-		virtual IConstructorContext *getParent() {
-			return nullptr;
-		}
 
 		static TypeRegistry *global();
 
@@ -44,36 +30,6 @@ class TypeRegistry : public virtual IConstructorContext, public DeclarationScope
 		static TypeRegistry			*m_global;
 
 };
-
-class TypeFactoryBase {
-	protected:
-
-		std::string							m_name;
-
-	public:
-
-		TypeFactoryBase(const std::string &name);
-
-		virtual ~TypeFactoryBase();
-
-		virtual void *create(IConstructorContext *p) = 0;
-
-		const std::string &get_name() const { return m_name; }
-};
-
-//template <class T> class TypeFactory : public TypeFactoryBase {
-//	public:
-//
-//		TypeFactory(const std::string &name, TypeRegistry *rgy) : TypeFactoryBase(name) {
-//			rgy->register_type(this, T::m_object_type); // TODO
-//		}
-//
-//		virtual void *create(IConstructorContext *p) {
-//			return new T(p, m_name);
-//		}
-//
-//};
-
 
 
 } /* namespace psi */

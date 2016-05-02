@@ -8,7 +8,7 @@
 #ifndef RESOURCESTRUCT_H_
 #define RESOURCESTRUCT_H_
 #include <string>
-#include "IConstructorContext.h"
+
 #include "Struct.h"
 #include "Bit.h"
 #include "Rand.h"
@@ -18,10 +18,19 @@ namespace psi {
 class ResourceStruct : public Struct {
 
 	public:
-		Rand<Bit<31,0> >			instance_id;
+		Rand<psi::Bit<31,0> >			instance_id;
 
 	public:
-		ResourceStruct(const std::string &name, IConstructorContext *p);
+
+		ResourceStruct(
+				const std::string 	&name,
+				Type 				*p,
+				Struct 				&super_type=Struct::None);
+
+		ResourceStruct(
+				const std::string 	&name,
+				Type 				*p,
+				const std::string	&super_type);
 
 		virtual ~ResourceStruct();
 };

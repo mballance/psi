@@ -15,7 +15,15 @@ class StreamStruct : public Struct {
 
 	public:
 
-		StreamStruct(const std::string &name, IConstructorContext *p);
+		StreamStruct(
+				const std::string 	&name,
+				Type 				*p,
+				Struct				&super_type=Struct::None);
+
+		StreamStruct(
+				const std::string 	&name,
+				Type 				*p,
+				const std::string	&super_type);
 
 		virtual ~StreamStruct();
 };

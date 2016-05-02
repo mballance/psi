@@ -9,10 +9,7 @@
 
 namespace psi {
 
-Chandle::Chandle(const std::string &name, IConstructorContext *p) : Type(name, p) {
-	// TODO Auto-generated constructor stub
-
-}
+Chandle::Chandle(const std::string &name, Type *p) : Type(Type::TypeChandle, name, p) { }
 
 Chandle::~Chandle() {
 	// TODO Auto-generated destructor stub

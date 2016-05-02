@@ -8,21 +8,19 @@
 #ifndef ACTION_H_
 #define ACTION_H_
 #include <string>
-#include "IConstructorContext.h"
-#include "Struct.h"
+
+#include "Type.h"
 #include "Exec.h"
 
 namespace psi {
 
-class Action : public Struct {
+class Action : public Type {
 
 	public:
 
-		Action(const std::string &name, IConstructorContext *p);
+		Action(const std::string &name, Type *p);
 
 		virtual ~Action();
-
-		virtual IObjectType::ObjectType getObjectType();
 
 //		virtual Graph graph();
 

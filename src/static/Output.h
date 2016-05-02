@@ -9,7 +9,7 @@
 #define OUTPUT_H_
 #include <string>
 #include <stdio.h>
-#include "IConstructorContext.h"
+
 #include "Type.h"
 
 namespace psi {
@@ -18,9 +18,14 @@ namespace psi {
 template <class T> class Output : public T {
 
 	public:
-		Output(const std::string &name, IConstructorContext *p, T &type_ref) : T(name, p) {
+		Output(const std::string &name, Type *p, T &t_ref) : T(name, p) {
 			static_cast<Type *>(this)->setIsOutput(true);
-			static_cast<Type *>(this)->setTypeData(&type_ref);
+			static_cast<Type *>(this)->setTypeData(&t_ref);
+		}
+
+		Output(const std::string &name, Type *p, const std::string &t_ref) : T(name, p) {
+			static_cast<Type *>(this)->setIsOutput(true);
+			static_cast<Type *>(this)->setTypeName(t_ref);
 		}
 
 		virtual ~Output() { }

@@ -9,10 +9,15 @@
 
 namespace psi {
 
-StreamStruct::StreamStruct(const std::string &name, IConstructorContext *p) : Struct(name, p) {
-	// TODO Auto-generated constructor stub
+StreamStruct::StreamStruct(
+		const std::string 		&name,
+		Type 					*p,
+		Struct					&super_type) : Struct(Struct::Stream, name, p, super_type) { }
 
-}
+StreamStruct::StreamStruct(
+		const std::string 		&name,
+		Type 					*p,
+		const std::string		&super_type) : Struct(Struct::Stream, name, p, super_type) { }
 
 StreamStruct::~StreamStruct() {
 	// TODO Auto-generated destructor stub

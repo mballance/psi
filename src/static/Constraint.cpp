@@ -9,14 +9,11 @@
 
 namespace psi {
 
-Constraint::Constraint(IConstructorContext *p, const ConstraintStmt &stmt) {
-//	ctxt->addConstraintBlock(block);
-}
+Constraint::Constraint(Type *p, const ConstraintStmt &stmt) :
+		Type(Type::TypeConstraint, p), m_stmt(stmt) { }
 
-Constraint::Constraint(const std::string &name, IConstructorContext *p, const ConstraintStmt &stmt) {
-//	ctxt->addConstraintBlock(block);
-}
-
+Constraint::Constraint(const std::string &name, Type *p, const ConstraintStmt &stmt) :
+		Type(Type::TypeConstraint, name, p), m_stmt(stmt) { }
 
 Constraint::~Constraint() {
 	// TODO Auto-generated destructor stub

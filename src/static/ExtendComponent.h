@@ -7,15 +7,17 @@
 
 #ifndef SRC_STATIC_EXTENDCOMPONENT_H_
 #define SRC_STATIC_EXTENDCOMPONENT_H_
-#include "Extend.h"
+#include "Type.h"
 
 namespace psi {
 
 template <class T> class ExtendComponent : public T {
 
 	public:
-		ExtendComponent(IConstructorContext *p, T &t_ref) : T("<Extension>", m) {
-			// TODO: need to pass on extension data
+		ExtendComponent(Type *p, T &t_ref) : T("<Extension>", p) {
+			Type *t = static_cast<Type *>(this);
+			t->setTypeData(&t_ref);
+			t->setObjectType(Type::TypeExtendComponent);
 		}
 
 		virtual ~ExtendComponent() { }

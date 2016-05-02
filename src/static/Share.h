@@ -14,8 +14,12 @@ namespace psi {
 template <class T> class Share : public T {
 	public:
 
-		Share(const std::string &name, IConstructorContext *p, T &t_ref) : T(name, p) {
+		Share(const std::string &name, Type *p, T &t_ref) : T(name, p) {
 			static_cast<Type *>(this)->setTypeData(&t_ref);
+		}
+
+		Share(const std::string &name, Type *p, const std::string &t_ref) : T(name, p) {
+			static_cast<Type *>(this)->setTypeName(t_ref);
 		}
 
 		virtual ~Share();

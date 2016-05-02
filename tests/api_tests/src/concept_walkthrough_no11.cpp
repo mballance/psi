@@ -20,7 +20,7 @@ static class data_s : public MemoryStruct {
 
 		data_s(
 			const std::string 		&name,
-			IConstructorContext 	*p=nullptr) :
+			Type 	*p=nullptr) :
 				MemoryStruct(name, p),
 				data("data", this),
 				address("address", this) {
@@ -36,7 +36,7 @@ static class rw_comp : public Component {
 
 	public:
 
-	rw_comp(const std::string &name, IConstructorContext *p=nullptr) :
+	rw_comp(const std::string &name, Type *p=nullptr) :
 		Component(name, p),
 		_processor_s("processor_s", this),
 		_write_data("write_data", this),
@@ -47,7 +47,7 @@ static class rw_comp : public Component {
 
 			Constraint *resource_c;
 
-			processor_s(const std::string &name, IConstructorContext *p) : ResourceStruct(name, p) {
+			processor_s(const std::string &name, Type *p) : ResourceStruct(name, p) {
 				resource_c = new Constraint(this, instance_id == 1);
 			}
 
@@ -65,7 +65,7 @@ static class rw_comp : public Component {
 			Output<data_s>			out_data;
 			Lock<processor_s>		proc;
 
-			write_data(const std::string &name, IConstructorContext *p) :
+			write_data(const std::string &name, Type *p) :
 				Action(name, p),
 				out_data("out_data", this, _data_s),
 				proc("proc", this, "processor_s") { }
@@ -74,7 +74,7 @@ static class rw_comp : public Component {
 	class read_data : public Action {
 
 		public:
-			read_data(const std::string &name, IConstructorContext *p) :
+			read_data(const std::string &name, Type *p) :
 				Action(name, p),
 				in_data("in_data", this, _data_s),
 				proc("proc", this, "processor_s") { }
@@ -89,7 +89,7 @@ static class rw_comp : public Component {
 static class top_comp : public Component {
 
 	public:
-		top_comp(const std::string &name, IConstructorContext *p=nullptr) :
+		top_comp(const std::string &name, Type *p=nullptr) :
 			Component(name, p),
 			_my_test2("my_test2", this) { }
 
@@ -97,7 +97,7 @@ static class top_comp : public Component {
 
 		public:
 
-			my_test2(const std::string &name, IConstructorContext *p) :
+			my_test2(const std::string &name, Type *p) :
 				Action(name, p),
 				wd1("wd1", this, _rw_comp._write_data),
 				rd1("rd1", this, _rw_comp._read_data),
@@ -142,13 +142,13 @@ static class c_code : public Package {
 
 	public:
 
-		c_code(const std::string &name, IConstructorContext *p=nullptr) :
+		c_code(const std::string &name, Type *p=nullptr) :
 			Package(name, p), _write_data_ext(this, _rw_comp._write_data) { }
 
 		// Declares an extension of 'write_data' to layer in the implementation
 		class write_data_ext : public ExtendAction<rw_comp::write_data> {
 			public:
-				write_data_ext(IConstructorContext *p, rw_comp::write_data &t_ref) : ExtendAction(p, t_ref) { }
+				write_data_ext(Type *p, rw_comp::write_data &t_ref) : ExtendAction(p, t_ref) { }
 
 				/*
 				ImportFunction			do_write {
@@ -160,9 +160,3 @@ static class c_code : public Package {
 
 } _c_code = c_code("c_code");
 
-
-// Ignore: test code
-int main(int argc, char **argv) {
-	fprintf(stdout, "Hello World\n");
-	TypeRegistry::global()->build();
-}

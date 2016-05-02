@@ -8,7 +8,7 @@
 #ifndef INPUT_H_
 #define INPUT_H_
 #include <string>
-#include "IConstructorContext.h"
+
 #include "Type.h"
 
 namespace psi {
@@ -16,9 +16,15 @@ namespace psi {
 template <class T> class Input : public T {
 
 	public:
-		Input(const std::string &name, IConstructorContext *p, T &t_ref) : T(name, p) {
+		Input(const std::string &name, Type *p, T &t_ref) : T(name, p) {
 			static_cast<Type *>(this)->setIsInput(true);
 			static_cast<Type *>(this)->setTypeData(&t_ref);
+		}
+
+		Input(const std::string &name, Type *p, const std::string &t_ref) : T(name, p) {
+			static_cast<Type *>(this)->setIsInput(true);
+			static_cast<Type *>(this)->setTypeData(nullptr);
+			static_cast<Type *>(this)->setTypeName(t_ref);
 		}
 
 		virtual ~Input() { }

@@ -7,14 +7,17 @@
 
 #ifndef SRC_STATIC_EXTENDACTION_H_
 #define SRC_STATIC_EXTENDACTION_H_
-#include "Extend.h"
+#include "Type.h"
 
 namespace psi {
 
 template <class T> class ExtendAction : public T {
 
 	public:
-		ExtendAction(IConstructorContext *p, T &t_ref) : T("<Unknown>", p) {
+		ExtendAction(Type *p, T &t_ref) : T("<Extension>", p) {
+			Type *t = static_cast<Type *>(this);
+			t->setTypeData(&t_ref);
+			t->setObjectType(Type::TypeExtendAction);
 		}
 
 		virtual ~ExtendAction() { }

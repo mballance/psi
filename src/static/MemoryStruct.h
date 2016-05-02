@@ -9,7 +9,6 @@
 #define MEMORYSTRUCT_H_
 
 #include "Struct.h"
-#include "TypeRegistry.h"
 
 namespace psi {
 
@@ -18,12 +17,12 @@ class MemoryStruct: public Struct {
 	public:
 		MemoryStruct(
 				const std::string 		&name,
-				IConstructorContext 	*p=nullptr,
+				Type 					*p,
 				Struct					&super_type=Struct::None);
 
 		MemoryStruct(
 				const std::string 		&name,
-				IConstructorContext 	*p,
+				Type 					*p,
 				const std::string		&super_type);
 
 		virtual ~MemoryStruct();

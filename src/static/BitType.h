@@ -9,7 +9,7 @@
 #define BITTYPE_H_
 #include <stdint.h>
 #include <string>
-#include "IConstructorContext.h"
+
 #include "Type.h"
 
 namespace psi {
@@ -17,7 +17,11 @@ namespace psi {
 class BitType : public Type {
 
 	public:
-		BitType(const std::string &name, IConstructorContext *p, uint32_t msb, uint32_t lsb);
+		BitType(
+				const std::string 	&name,
+				Type 				*p,
+				uint32_t			msb,
+				uint32_t			lsb);
 
 		virtual ~BitType();
 

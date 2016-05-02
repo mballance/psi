@@ -8,25 +8,59 @@
 #ifndef STRUCT_H_
 #define STRUCT_H_
 #include <string>
-#include "IConstructorContext.h"
-#include "DeclarationScope.h"
+
 #include "Type.h"
-#include "IObjectType.h"
 
 namespace psi {
 
-class Struct : public Type, public virtual IObjectType {
+class Struct : public Type {
+
+public:
+	enum StructType {
+		Base,
+		Memory,
+		Stream,
+		Resource
+	};
 
 	public:
-
-		Struct(const std::string &name, IConstructorContext *p);
 
 		virtual ~Struct();
 
-		virtual IObjectType::ObjectType getObjectType();
+	protected:
 
-	public:
-		static ObjectType				m_object_type;
+
+		Struct(
+				const std::string 	&name,
+				Type 				*p=nullptr,
+				Struct 				&super_type=None);
+
+		Struct(
+				const std::string 	&name,
+				Type 				*p,
+				const std::string	&super_name);
+
+		Struct(
+				StructType			t,
+				const std::string 	&name,
+				Type 				*p=nullptr,
+				Struct 				&super_type=None);
+
+		Struct(
+				StructType			t,
+				const std::string 	&name,
+				Type 				*p,
+				const std::string	&super_name);
+
+	private:
+		Struct();
+
+	private:
+		StructType						m_structType;
+		Type							m_superRef;
+		Type							*m_super;
+
+	protected:
 		static Struct					None;
 };
 

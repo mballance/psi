@@ -8,18 +8,25 @@
 #ifndef CONSTRAINT_H_
 #define CONSTRAINT_H_
 #include <string>
-#include "IConstructorContext.h"
+
+#include "Type.h"
 #include "ConstraintStmt.h"
 
 namespace psi {
 
-class Constraint {
+class Constraint : public Type {
 public:
-	Constraint(IConstructorContext *p, const ConstraintStmt &stmt);
+	Constraint(Type *p, const ConstraintStmt &stmt);
 
-	Constraint(const std::string &name, IConstructorContext *p, const ConstraintStmt &stmt);
+	Constraint(
+			const std::string 		&name,
+			Type 					*p,
+			const ConstraintStmt 	&stmt);
 
 	virtual ~Constraint();
+
+private:
+	const ConstraintStmt			&m_stmt;
 };
 
 } /* namespace psi */

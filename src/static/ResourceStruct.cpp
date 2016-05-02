@@ -10,14 +10,19 @@
 
 namespace psi {
 
-ResourceStruct::ResourceStruct(const std::string &name, IConstructorContext *p) :
-	Struct(name, (p==nullptr)?TypeRegistry::global():p), instance_id("instance_id", this) {
+ResourceStruct::ResourceStruct(
+		const std::string 	&name,
+		Type 				*p,
+		Struct				&super_type) :
+				Struct(Struct::Resource, name, p, super_type),
+				instance_id("instance_id", this) { }
 
-	if (p == nullptr) {
-		p = TypeRegistry::global();
-	}
-
-}
+ResourceStruct::ResourceStruct(
+		const std::string 	&name,
+		Type 				*p,
+		const std::string	&super_type) :
+				Struct(Struct::Resource, name, p, super_type),
+				instance_id("instance_id", this) { }
 
 ResourceStruct::~ResourceStruct() {
 	// TODO Auto-generated destructor stub

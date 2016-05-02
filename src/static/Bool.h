@@ -16,7 +16,7 @@ namespace psi {
 class Bool: public Type {
 
 	public:
-		Bool(const std::string &name, IConstructorContext *p);
+		Bool(const std::string &name, Type *p);
 
 		virtual ~Bool();
 

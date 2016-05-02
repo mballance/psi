@@ -12,24 +12,18 @@ namespace psi {
 
 MemoryStruct::MemoryStruct(
 		const std::string 		&name,
-		IConstructorContext 	*p,
+		Type 					*p,
 		Struct					&super_type) :
-		Struct(name, (p==nullptr)?TypeRegistry::global():p) {
-
-	if (p == nullptr) {
-		p = TypeRegistry::global();
-	}
+		Struct(Struct::Memory, name,
+				(p==nullptr)?TypeRegistry::global():p, super_type) {
 }
 
 MemoryStruct::MemoryStruct(
 		const std::string 		&name,
-		IConstructorContext 	*p,
+		Type 					*p,
 		const std::string		&super_type) :
-		Struct(name, (p==nullptr)?TypeRegistry::global():p) {
-
-	if (p == nullptr) {
-		p = TypeRegistry::global();
-	}
+		Struct(Struct::Memory, name,
+				(p==nullptr)?TypeRegistry::global():p, super_type) {
 }
 
 MemoryStruct::~MemoryStruct() {

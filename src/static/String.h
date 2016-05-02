@@ -15,7 +15,7 @@ class String : public Type {
 
 	public:
 
-		String(const std::string &name, IConstructorContext *p);
+		String(const std::string &name, Type *p);
 
 		virtual ~String();
 };

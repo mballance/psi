@@ -17,9 +17,15 @@ namespace psi {
 template <class T> class Field : public T {
 	public:
 
-		Field(const std::string &name, IConstructorContext *p, T &t_ref) : T(name, p) {
+		Field(const std::string &name, Type *p, T &t_ref) : T(name, p) {
 			Type *t = static_cast<Type *>(this);
 			t->setTypeData(&t_ref);
+		}
+
+		Field(const std::string &name, Type *p, const std::string &t_ref) : T(name, p) {
+			Type *t = static_cast<Type *>(this);
+			t->setTypeData(nullptr);
+			t->setTypeName(t_ref);
 		}
 };
 

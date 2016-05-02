@@ -8,8 +8,8 @@
 #ifndef TYPE_H_
 #define TYPE_H_
 #include <string>
-#include "IConstructorContext.h"
-#include "DeclarationScope.h"
+#include <vector>
+
 #include "Expr.h"
 #include "Param.h"
 #include "ParamList.h"
@@ -17,30 +17,40 @@
 namespace psi {
 
 class Action;
+class Struct;
 
-class Type : public DeclarationScope, public virtual IConstructorContext {
+class Type {
+	friend class Struct;
+
+public:
+	enum ObjectType {
+		TypeAction,
+		TypeBit,
+		TypeBool,
+		TypeChandle,
+		TypeComponent,
+		TypeConstraint,
+		TypeImport,
+		TypeInt,
+		TypeExec,
+		TypeExtendAction,
+		TypeExtendComponent,
+		TypeExtendStruct,
+		TypePackage,
+		TypeString,
+		TypeStruct,
+		TypeRegistry,
+		TypeRef
+	};
 
 	public:
 
-		// TODO: remove
-		Type(IConstructorContext *p, const std::string &name="");
-
-		Type(const std::string &name, IConstructorContext *p=nullptr);
-
-		virtual ~Type();
-
-		virtual IConstructorContext::ConstructorContextType getContextType() {
-			// TODO: Placeholder for now
-			return ConstructorContext_TypeElab;
-		}
-
-		virtual IConstructorContext *getParent() {
+		virtual Type *getParent() const {
 			return m_parent;
 		}
 
-		virtual IObjectType::ObjectType getObjectType() {
-			// TODO: Placeholder for now
-			return IObjectType::Type;
+		inline Type::ObjectType getObjectType() const {
+			return m_type;
 		}
 
 		inline const std::string &getName() const { return m_name; }
@@ -61,31 +71,52 @@ class Type : public DeclarationScope, public virtual IConstructorContext {
 
 		inline void setTypeData(Type *t) { m_type_data = t; }
 
+		inline const std::string &getTypeName() const { return m_type_name; }
+
+		inline void setTypeName(const std::string &name) { m_type_name = name; }
+
 		Expr operator [] (const Expr &rhs);
 
 		ParamList operator,(const Type &rhs);
+
+		// Effectively private.
+		virtual void add(Type *item);
+
+		void setObjectType(Type::ObjectType t);
+
+		virtual const std::vector<Type *> getChildren() const;
+
+		static const char *toString(ObjectType t);
+
+	protected:
+
+		Type(Type::ObjectType t, Type *p);
+
+		Type(Type::ObjectType t, const std::string &name, Type *p);
+
+		virtual ~Type();
+
 
 	private:
 
 		bool insideInstance();
 
 	private:
+		ObjectType					m_type;
 		std::string					m_name;
-		IConstructorContext			*m_parent;
+		Type						*m_parent;
 
+		std::vector<Type *>			m_children;
+
+		// Handle to the declaring type for fields
 		Type						*m_type_data;
+		// Name of the declaring type
+		std::string					m_type_name;
 
+		// Mutually-exclusive (?)
 		bool						m_isRand;
 		bool						m_isInput;
 		bool						m_isOutput;
-
-//		virtual void add(psi::Action *action);
-//
-//		virtual void add(psi::Component *component);
-//
-//		virtual void add(psi::Package *package);
-//
-//		virtual void addField(psi::Type *t);
 
 };
 

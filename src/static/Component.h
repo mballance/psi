@@ -8,23 +8,17 @@
 #ifndef COMPONENT_H_
 #define COMPONENT_H_
 #include <string>
-#include "IConstructorContext.h"
-#include "DeclarationScope.h"
+
 #include "Type.h"
-#include "TypeRegistry.h"
 
 namespace psi {
 
-class Component : public Type, public virtual IConstructorContext {
+class Component : public Type {
 
 	public:
-		Component(const std::string &name, IConstructorContext *p=TypeRegistry::global());
+		Component(const std::string &name, Type *p);
 
 		virtual ~Component();
-
-		virtual ConstructorContextType getContextType();
-
-		virtual IObjectType::ObjectType getObjectType();
 
 };
 

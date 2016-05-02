@@ -9,10 +9,7 @@
 
 namespace psi {
 
-Bool::Bool(const std::string &name, IConstructorContext *p) : Type(name, p) {
-	// TODO Auto-generated constructor stub
-
-}
+Bool::Bool(const std::string &name, Type *p) : Type(Type::TypeBool, name, p) { }
 
 Bool::~Bool() {
 	// TODO Auto-generated destructor stub

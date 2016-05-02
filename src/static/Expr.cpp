@@ -54,8 +54,6 @@ Expr Expr::operator [] (uint32_t rhs) {
 
 void Expr::build() {
 	if (m_core.ptr() != nullptr) {
-		fprintf(stdout, "Expr: %s\n", toString(m_core->m_op));
-
 		m_core->m_lhs.build();
 		m_core->m_rhs.build();
 	}

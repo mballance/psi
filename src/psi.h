@@ -9,7 +9,6 @@
 #define SRC_PSI_H_
 
 #include "static/Action.h"
-#include "static/BinaryExpr.h"
 #include "static/Bit.h"
 #include "static/BitType.h"
 #include "static/Bool.h"
@@ -19,9 +18,10 @@
 #include "static/ConstraintStmt.h"
 #include "static/Field.h"
 #include "static/Exec.h"
-#include "static/Extend.h"
 #include "static/Expr.h"
 #include "static/ExtendAction.h"
+#include "static/ExtendComponent.h"
+#include "static/ExtendStruct.h"
 #include "static/Import.h"
 #include "static/ImportCall.h"
 #include "static/Input.h"

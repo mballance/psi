@@ -7,22 +7,25 @@
 
 #ifndef SRC_STATIC_EXEC_H_
 #define SRC_STATIC_EXEC_H_
+
 #include <string>
-#include "IConstructorContext.h"
+
+#include "Type.h"
+
 
 namespace psi {
 
 class ImportCall;
-class Exec {
+class Exec : public Type {
 
 	public:
-		enum Kind {
+		enum ExecKind {
 			Declaration,
 			Body,
 			PreSolve,
 			PostSolve
 		};
-		enum Type {
+		enum ExecType {
 			Null,
 			TargetTemplate,
 			Native
@@ -30,36 +33,33 @@ class Exec {
 
 	public:
 
-		Exec();
-
 		Exec(
-			Exec::Kind 				kind,
-			IConstructorContext		*p,
+			ExecKind 				kind,
+			Type					*p,
 			const std::string 		&language,
 			const std::string 		&content);
 
 		Exec(
-			Exec::Kind 				kind,
-			IConstructorContext		*p,
+			ExecKind 				kind,
+			Type					*p,
 			const ImportCall		&call);
 
 		virtual ~Exec();
 
 
-		inline Exec::Kind getExecKind() const {
+		inline ExecKind getExecKind() const {
 			return m_execKind;
 		}
 
-		inline Exec::Type getExecType() const {
+		inline ExecType getExecType() const {
 			return m_execType;
 		}
 
 	private:
-		Exec::Type			m_execType;
-		Exec::Kind			m_execKind;
+		ExecType			m_execType;
+		ExecKind			m_execKind;
 		std::string			m_language;
 		std::string			m_content;
-
 
 };
 

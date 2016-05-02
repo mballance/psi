@@ -7,14 +7,16 @@
 
 #ifndef SRC_STATIC_EXTENDSTRUCT_H_
 #define SRC_STATIC_EXTENDSTRUCT_H_
-#include "Extend.h"
 
 namespace psi {
 
-template <class T> class ExtendStruct : public Extend {
+template <class T> class ExtendStruct : public T {
 
 	public:
-		ExtendStruct(IConstructorContext *p, T &t_ref) : Extend(p, Extend::Struct) {
+		ExtendStruct(Type *p, T &t_ref) : T("<Extend>", p) {
+			Type *t = static_cast<Type *>(this);
+			t->setTypeData(&t_ref);
+			t->setObjectType(Type::TypeExtendStruct);
 		}
 
 		virtual ~ExtendStruct() { }

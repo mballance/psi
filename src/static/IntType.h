@@ -8,7 +8,7 @@
 #ifndef INTTYPE_H_
 #define INTTYPE_H_
 #include <string>
-#include "IConstructorContext.h"
+
 #include "Type.h"
 
 namespace psi {
@@ -16,9 +16,18 @@ namespace psi {
 class IntType : public Type {
 
 	public:
-		IntType(const std::string &name, IConstructorContext *p, uint32_t msb, uint32_t lsb);
+		IntType(
+				const std::string 	&name,
+				Type 				*p,
+				uint32_t			msb,
+				uint32_t			lsb);
 
 		virtual ~IntType();
+
+	private:
+
+		uint32_t					m_msb;
+		uint32_t					m_lsb;
 };
 
 } /* namespace psi */

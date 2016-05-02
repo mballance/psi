@@ -10,33 +10,18 @@
 
 #include <string>
 
-#include "DeclarationScope.h"
-#include "IConstructorContext.h"
-#include "TypeRegistry.h"
+#include "Type.h"
 
 namespace psi {
 
-class Package : public DeclarationScope, public virtual IConstructorContext {
+class Package : public Type {
 
 	public:
 
-		Package(const std::string &name, IConstructorContext *p=nullptr);
+		Package(const std::string &name, Type *p=nullptr);
 
 		virtual ~Package();
 
-		virtual IObjectType::ObjectType getObjectType();
-
-		virtual IConstructorContext::ConstructorContextType getContextType() {
-			// TODO: Placeholder
-			return IConstructorContext::Global;
-		}
-
-		virtual IConstructorContext *getParent() {
-			return TypeRegistry::global();
-		}
-
-	public:
-		static ObjectType				m_object_type;
 };
 
 } /* namespace psi */

@@ -15,7 +15,7 @@ class Chandle : public Type {
 
 	public:
 
-		Chandle(const std::string &name, IConstructorContext *p);
+		Chandle(const std::string &name, Type *p);
 
 		virtual ~Chandle();
 };

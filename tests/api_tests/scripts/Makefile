@@ -11,16 +11,13 @@ SRC= \
   Component.cpp \
   Constraint.cpp \
   ConstraintStmt.cpp \
-  DeclarationScope.cpp \
-  Graph.cpp \
   Exec.cpp \
   Expr.cpp \
   ExprCore.cpp \
-  Extend.cpp \
+  Graph.cpp \
   Import.cpp \
   ImportCall.cpp \
   IntType.cpp \
-  IObjectType.cpp \
   MemoryStruct.cpp \
   Package.cpp \
   Param.cpp \
@@ -32,11 +29,15 @@ SRC= \
   Type.cpp \
 \
   TypeRegistry.cpp 
+  
+SRC_ELAB = \
+	Elaborator.cpp
 
-LIB_TARGETS := libpsi.a
+LIB_TARGETS := libpsi.a libelab.a
 
 
 CXXFLAGS += -I$(SRCDIR) -I$(SRCDIR)/static
+CXXFLAGS += -I$(SRCDIR)/programmatic -I$(SRCDIR)/elaborator
 
 USE_CXX11 := $(call get_plusarg,USE_CXX11,$(PLUSARGS))
 
@@ -45,24 +46,31 @@ RUN_CXXFLAGS += -std=c++11
 endif
 
 libpsi.a : $(SRC:.cpp=.o)
-	rm -f $@
-	$(AR) vcq $@ $^
+	$(Q)rm -f $@
+	$(Q)$(AR) vcq $@ $^
+	
+libelab.a : $(SRC_ELAB:.cpp=.o)
+	$(Q)rm -f $@
+	$(Q)$(AR) vcq $@ $^
 
+TEST_LIBS=$(BUILD_DIR)/libpsi.a $(BUILD_DIR)/libelab.a
 
 include $(SIMSCRIPTS_DIR)/mkfiles/common_sim.mk
 
 %.o : $(SRCDIR)/static/%.cpp
-	$(CXX) $(CXXFLAGS) -c $^ -o $@
+	$(Q)$(CXX) $(CXXFLAGS) -c $^ -o $@
+	
+%.o : $(SRCDIR)/elaborator/%.cpp
+	$(Q)$(CXX) $(CXXFLAGS) -c $^ -o $@
 	
 %.o : $(SIM_DIR)/src/%.cpp
-	echo "USE_CXX11=$(USE_CXX11)"
-	echo "PLUSARGS=$(PLUSARGS)"
-	$(CXX) $(RUN_CXXFLAGS) $(CXXFLAGS) -c $^ -o $@
+	$(Q)$(CXX) $(RUN_CXXFLAGS) $(CXXFLAGS) -c $^ -o $@
 	
 ifeq (true,$(QUIET))
-$(TESTEXE)$(EXEEXT) : $(SIM_DIR)/src/$(TESTEXE).cpp
-	$(Q)$(CXX) -o $@ $^ $(RUN_CXXFLAGS) $(CXXFLAGS) $(BUILD_DIR)/libpsi.a > compile.log 2>&1
+COMPILE_REDIR:= > compile.log 2>&1
 else
-$(TESTEXE)$(EXEEXT) : $(SIM_DIR)/src/$(TESTEXE).cpp
-	$(Q)$(CXX) -o $@ $^ $(RUN_CXXFLAGS) $(CXXFLAGS) $(BUILD_DIR)/libpsi.a 2>&1 | tee compile.log
+COMPILE_REDIR:= 2>&1 | tee compile.log
 endif
+
+$(TESTEXE)$(EXEEXT) : $(SIM_DIR)/src/$(TESTEXE).cpp $(SIM_DIR)/src/test_main.cpp $(TEST_LIBS)
+	$(Q)$(CXX) -o $@ $^ $(RUN_CXXFLAGS) $(CXXFLAGS) $(BUILD_DIR)/libpsi.a $(COMPILE_REDIR)
