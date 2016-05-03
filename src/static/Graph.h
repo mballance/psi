@@ -7,15 +7,20 @@
 
 #ifndef GRAPH_H_
 #define GRAPH_H_
+#include "Type.h"
+#include "GraphStmtSeq.h"
 
 namespace psi {
 
 class Graph {
 
 	public:
-		Graph();
+		Graph(Type *p, const ParamList &seq);
 
 		virtual ~Graph();
+
+	private:
+//		GraphStmtSeq			m_seq;
 };
 
 } /* namespace psi */

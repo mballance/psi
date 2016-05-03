@@ -1,20 +1,20 @@
 /*
- * Graph.cpp
+ * ImportClass.cpp
  *
- *  Created on: Apr 23, 2016
+ *  Created on: Apr 29, 2016
  *      Author: ballance
  */
 
-#include "Graph.h"
+#include "ImportClass.h"
 
 namespace psi {
 
-Graph::Graph(Type *p, const ParamList &seq) {
+ImportClass::ImportClass() {
 	// TODO Auto-generated constructor stub
 
 }
 
-Graph::~Graph() {
+ImportClass::~ImportClass() {
 	// TODO Auto-generated destructor stub
 }
 

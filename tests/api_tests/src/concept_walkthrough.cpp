@@ -15,8 +15,8 @@ public:
 	Rand<Bit<31,0>>		address {"address", this};
 
 	data_s(
-		const std::string 		&name="data_s",
-		Type 	*p=nullptr) : MemoryStruct(name, p) { }
+		const std::string	&name="data_s",
+		Type				*p=nullptr) : MemoryStruct(name, p) { }
 
 	Constraint address_c {this, address >= 0x1000 && address <= 0x1FFF};
 
@@ -33,7 +33,7 @@ public:
 
 		processor_s(const std::string &name, Type *p) : ResourceStruct(name, p) { }
 
-		Constraint resource_c {this, Expr(instance_id) == 1};
+		Constraint resource_c {this, instance_id == 1};
 
 	} processor_sT {"processor_s", this};
 
@@ -78,22 +78,11 @@ public:
 		Field<rw_comp::write_data>		wd2 {"wd2", this, rw_compT.write_dataT};
 		Field<rw_comp::read_data>		rd2 {"rd2", this, rw_compT.read_dataT};
 
-			// TODO: Bind -- make static?
+		// Only a single graph is permitted per action
+		Graph graph {this,
+			(wd1, rd1, wd2, rd2)
+		};
 
-//#ifdef UNDEFINED
-//			my_test2() {
-//				bind(wd1.out_data, rd1.in_data);
-//				bind(wd2.out_data, rd1.in_data);
-//			};
-//
-//			// Only a single graph is permitted per action
-//			Graph graph {
-//				wd1, rd1, wd2, rd2,
-//	//			select {
-//	//
-//	//			}
-//			};
-//
 		Constraint addr_c {this, rd1.in_data.address != rd2.in_data.address };
 
 	} my_test2T {"my_test2", this}; // Complete registration of this type
@@ -127,6 +116,7 @@ public:
 
 		write_data_ext(Type *p, rw_comp::write_data &t_ref) : ExtendAction(p, t_ref) { }
 
+		// Example of a target-template exec block
 		Exec do_write_body {Exec::Body, this, "C", R"(
 				do_write({{address}}, {{data}}
 				)"
@@ -148,5 +138,4 @@ public:
 	};
 
 } c_codeT;
-
 

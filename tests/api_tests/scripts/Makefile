@@ -1,4 +1,6 @@
 
+# VERBOSE:=true
+
 include $(SIMSCRIPTS_DIR)/mkfiles/plusargs.mk
 
 SRCDIR := $(SIM_DIR)/../../src
@@ -11,10 +13,12 @@ SRC= \
   Component.cpp \
   Constraint.cpp \
   ConstraintStmt.cpp \
+  Elaborator.cpp \
   Exec.cpp \
   Expr.cpp \
   ExprCore.cpp \
   Graph.cpp \
+  GraphStmtSeq.cpp \
   Import.cpp \
   ImportCall.cpp \
   IntType.cpp \
@@ -30,14 +34,21 @@ SRC= \
 \
   TypeRegistry.cpp 
   
-SRC_ELAB = \
-	Elaborator.cpp
+SRC_IMPL = \
+  BaseItemImpl.cpp \
+  ModelImpl.cpp \
+  NamedItemImpl.cpp \
+  PackageImpl.cpp \
+  ScopeItemImpl.cpp
 
-LIB_TARGETS := libpsi.a libelab.a
+LIB_TARGETS := libpsi.a libimpl.a
 
 
 CXXFLAGS += -I$(SRCDIR) -I$(SRCDIR)/static
-CXXFLAGS += -I$(SRCDIR)/programmatic -I$(SRCDIR)/elaborator
+CXXFLAGS += -I$(SRCDIR)/programmatic 
+CXXFLAGS += -I$(SRCDIR)/../impl
+CXXFLAGS += -I$(SRCDIR)/apps
+CXXFLAGS += -g
 
 USE_CXX11 := $(call get_plusarg,USE_CXX11,$(PLUSARGS))
 
@@ -49,11 +60,11 @@ libpsi.a : $(SRC:.cpp=.o)
 	$(Q)rm -f $@
 	$(Q)$(AR) vcq $@ $^
 	
-libelab.a : $(SRC_ELAB:.cpp=.o)
+libimpl.a : $(SRC_IMPL:.cpp=.o)
 	$(Q)rm -f $@
 	$(Q)$(AR) vcq $@ $^
 
-TEST_LIBS=$(BUILD_DIR)/libpsi.a $(BUILD_DIR)/libelab.a
+TEST_LIBS=$(BUILD_DIR)/libpsi.a $(BUILD_DIR)/libelab.a $(BUILD_DIR)/libimpl.a
 
 include $(SIMSCRIPTS_DIR)/mkfiles/common_sim.mk
 
@@ -61,6 +72,9 @@ include $(SIMSCRIPTS_DIR)/mkfiles/common_sim.mk
 	$(Q)$(CXX) $(CXXFLAGS) -c $^ -o $@
 	
 %.o : $(SRCDIR)/elaborator/%.cpp
+	$(Q)$(CXX) $(CXXFLAGS) -c $^ -o $@
+
+%.o : $(SRCDIR)/../impl/%.cpp
 	$(Q)$(CXX) $(CXXFLAGS) -c $^ -o $@
 	
 %.o : $(SIM_DIR)/src/%.cpp

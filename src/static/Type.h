@@ -13,6 +13,7 @@
 #include "Expr.h"
 #include "Param.h"
 #include "ParamList.h"
+#include "GraphStmtSeq.h"
 
 namespace psi {
 
@@ -84,7 +85,7 @@ public:
 
 		void setObjectType(Type::ObjectType t);
 
-		virtual const std::vector<Type *> getChildren() const;
+		virtual const std::vector<Type *> &getChildren() const;
 
 		static const char *toString(ObjectType t);
 

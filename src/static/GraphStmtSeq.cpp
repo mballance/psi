@@ -1,25 +1,21 @@
 /*
- * PsiElaborator.cpp
+ * GraphStmtSeq.cpp
  *
  *  Created on: May 2, 2016
  *      Author: ballance
  */
 
-#include "Elaborator.h"
+#include "GraphStmtSeq.h"
 
 namespace psi {
 
-Elaborator::Elaborator() {
+GraphStmtSeq::GraphStmtSeq() {
 	// TODO Auto-generated constructor stub
 
 }
 
-Elaborator::~Elaborator() {
+GraphStmtSeq::~GraphStmtSeq() {
 	// TODO Auto-generated destructor stub
 }
 
-void Elaborator::elaborate(Type *root, IModel *model) {
-
 }
-
-} /* namespace psi */

@@ -22,6 +22,8 @@
 #include "static/ExtendAction.h"
 #include "static/ExtendComponent.h"
 #include "static/ExtendStruct.h"
+#include "static/Graph.h"
+#include "static/GraphStmtSeq.h"
 #include "static/Import.h"
 #include "static/ImportCall.h"
 #include "static/Input.h"

@@ -53,7 +53,7 @@ void Type::setObjectType(Type::ObjectType t) {
 	m_type = t;
 }
 
-const std::vector<Type *> Type::getChildren() const {
+const std::vector<Type *> &Type::getChildren() const {
 	return m_children;
 }
 

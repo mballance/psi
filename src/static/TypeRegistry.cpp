@@ -18,7 +18,8 @@ TypeRegistry::~TypeRegistry() {
 }
 
 TypeRegistry *TypeRegistry::global() {
-	if (!m_global) {
+	if (m_global == nullptr) {
+		fprintf(stdout, "New\n");
 		m_global = new TypeRegistry();
 	}
 	return m_global;
