@@ -41,6 +41,8 @@ SRC_IMPL = \
   BinaryExprImpl.cpp  \
   ComponentImpl.cpp \
   ConstraintBlockImpl.cpp \
+  ConstraintExprImpl.cpp \
+  ConstraintIfImpl.cpp \
   LiteralImpl.cpp \
   ModelImpl.cpp \
   NamedItemImpl.cpp \

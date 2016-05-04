@@ -11,6 +11,7 @@
 #ifndef SRC_APPS_PSI2XML_H_
 #define SRC_APPS_PSI2XML_H_
 #include <string>
+#include <vector>
 #include <stdint.h>
 
 #include "api/IModel.h"
@@ -32,6 +33,14 @@ private:
 	void process_pkg(IPackage *pkg);
 
 	void process_struct(IStruct *str);
+
+	void process_body(const std::vector<IBaseItem *> &items);
+
+	void process_constraint(IConstraint *c);
+
+	void process_constraint_block(IConstraintBlock *block);
+
+	void process_expr(IExpr *e);
 
 	void println(const std::string &str);
 

@@ -17,6 +17,7 @@
 #include "api/IComponent.h"
 #include "api/IConstraint.h"
 #include "api/IConstraintBlock.h"
+#include "api/IConstraintExpr.h"
 #include "api/IConstraintIf.h"
 #include "api/ILiteral.h"
 #include "api/IIntType.h"
@@ -73,6 +74,8 @@ namespace psi {
 			virtual ILiteral *mkStringLiteral(const std::string &v) = 0;
 
 			virtual IConstraintBlock *mkConstraintBlock(const std::string &name) = 0;
+
+			virtual IConstraintExpr *mkConstraintExpr(IExpr *expr) = 0;
 
 			virtual IConstraintIf *mkConstraintIf(
 					IExpr 			*cond,

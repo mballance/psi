@@ -15,6 +15,8 @@
 #include "api/IBaseItem.h"
 #include "ComponentImpl.h"
 #include "ConstraintBlockImpl.h"
+#include "ConstraintExprImpl.h"
+#include "ConstraintIfImpl.h"
 #include "LiteralImpl.h"
 #include "StructImpl.h"
 #include "BinaryExprImpl.h"
@@ -131,11 +133,16 @@ IConstraintBlock *ModelImpl::mkConstraintBlock(const std::string &name) {
 	return new ConstraintBlockImpl(name);
 }
 
+IConstraintExpr *ModelImpl::mkConstraintExpr(IExpr *expr) {
+	return new ConstraintExprImpl(expr);
+}
+
+
 IConstraintIf *ModelImpl::mkConstraintIf(
 		IExpr 			*cond,
 		IConstraint 	*true_c,
 		IConstraint 	*false_c) {
-	return 0;
+	return new ConstraintIfImpl(cond, true_c, false_c);
 }
 
 } /* namespace psi */

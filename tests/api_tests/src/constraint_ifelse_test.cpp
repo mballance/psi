@@ -17,7 +17,7 @@ public:
 	Rand<Bit<31,1>>				address {"address", this};
 	Rand<Bit<31,1>>				data 	{"data", this};
 
-	Constraint c1 {this,
+	Constraint c1 {"c1", this,
 		If {(control == 1), address < 10}
 	};
 

@@ -7,6 +7,8 @@
 
 #ifndef SRC_PSI_API_ILITERAL_H_
 #define SRC_PSI_API_ILITERAL_H_
+#include <stdint.h>
+#include <string>
 
 #include "api/IExpr.h"
 

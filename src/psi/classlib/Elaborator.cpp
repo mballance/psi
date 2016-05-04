@@ -80,7 +80,9 @@ void Elaborator::elaborate_component(Component *c) {
 }
 
 // TODO: should return
-void Elaborator::elaborate_constraint(Constraint *c) {
+IConstraint *Elaborator::elaborate_constraint(Constraint *c) {
+	IConstraintBlock *ret = m_model->mkConstraintBlock(c->getName());
+
 	Expr &e = c->getStmt();
 
 	if (e.getOp() != Expr::List) {
@@ -94,39 +96,55 @@ void Elaborator::elaborate_constraint(Constraint *c) {
 	for (; it!=l->getExprList().end(); it++) {
 		ExprCore *ec = it->ptr();
 
-		elaborate_constraint_stmt(ec);
-
+		IConstraint *c = elaborate_constraint_stmt(ec);
+		ret->add(c);
 	}
+
+	return ret;
 }
 
-void Elaborator::elaborate_constraint_if(ExprCoreIf *if_c) {
+IConstraintIf *Elaborator::elaborate_constraint_if(ExprCoreIf *if_c) {
 	fprintf(stdout, "elaborate_constraint_if: %p\n", if_c);
 
-	elaborate_expr(if_c->getCond().getCorePtr());
+	IExpr *cond = elaborate_expr(if_c->getCond().getCorePtr());
 
-	elaborate_constraint_stmt(if_c->getTrue().getCorePtr());
+	IConstraint *true_c = elaborate_constraint_stmt(
+			if_c->getTrue().getCorePtr());
+
+	IConstraint *false_c = 0;
 
 	if (if_c->getFalse().getCorePtr()) {
-		elaborate_constraint_stmt(if_c->getFalse().getCorePtr());
+		false_c = elaborate_constraint_stmt(
+				if_c->getFalse().getCorePtr());
 	}
+
+	return m_model->mkConstraintIf(cond, true_c, false_c);
 }
 
-void Elaborator::elaborate_constraint_stmt(ExprCore *s) {
+IConstraint *Elaborator::elaborate_constraint_stmt(ExprCore *s) {
+	IConstraint *ret = 0;
+
 	if (s->getOp() == Expr::Stmt_If || s->getOp() == Expr::Stmt_IfElse) {
-		elaborate_constraint_if(static_cast<ExprCoreIf *>(s));
+		ret = elaborate_constraint_if(static_cast<ExprCoreIf *>(s));
 	} else if (Expr::isBinOp(s->getOp())) {
-		elaborate_expr(s);
+		ret = m_model->mkConstraintExpr(elaborate_expr(s));
 	} else if (s->getOp() == Expr::List) {
+		IConstraintBlock *block = m_model->mkConstraintBlock("");
+
 		ExprCoreList *l = static_cast<ExprCoreList *>(s);
 		std::vector<SharedPtr<ExprCore> >::const_iterator it = l->getExprList().begin();
 		for (; it!=l->getExprList().end(); it++) {
-			elaborate_constraint_stmt(it->ptr());
+			block->add(elaborate_constraint_stmt(it->ptr()));
 		}
+
+		ret = block;
 	} else {
 		// Don't really know what's going on
 		fprintf(stdout, "Error: unknown constraint statement %s\n",
 				Expr::toString(s->getOp()));
 	}
+
+	return ret;
 }
 
 IExpr *Elaborator::elaborate_expr(ExprCore *e) {
@@ -263,7 +281,7 @@ void Elaborator::elaborate_struct(IPackage *pkg, Struct *str) {
 		fprintf(stdout, "ObjectType: %s\n", Type::toString(t->getObjectType()));
 
 		if (t->getObjectType() == Type::TypeConstraint) {
-			elaborate_constraint(static_cast<Constraint *>(t));
+			s->add(elaborate_constraint(static_cast<Constraint *>(t)));
 		}
 	}
 

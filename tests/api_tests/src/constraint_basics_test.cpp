@@ -14,7 +14,7 @@ public:
 	constraint_basics_test(const std::string &name="constraint_basics_test", Type *p=nullptr) :
 		Struct(name, p) { }
 
-	virtual ~constraint_basics_test();
+	virtual ~constraint_basics_test() { };
 
 	Rand<Bit<31,0>>				address {"address", this};
 

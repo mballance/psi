@@ -25,6 +25,10 @@ public:
 
 	virtual BinOpType getBinOpType() const { return m_op; }
 
+	virtual IExpr *getLHS() const { return m_lhs; }
+
+	virtual IExpr *getRHS() const { return m_rhs; }
+
 private:
 
 	IExpr									*m_lhs;

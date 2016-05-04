@@ -41,6 +41,10 @@ public:
 
 	virtual BinOpType getBinOpType() const = 0;
 
+	virtual IExpr *getLHS() const = 0;
+
+	virtual IExpr *getRHS() const = 0;
+
 };
 }
 

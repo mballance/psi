@@ -77,6 +77,8 @@ class ModelImpl: public IModel {
 
 		virtual IConstraintBlock *mkConstraintBlock(const std::string &name);
 
+		virtual IConstraintExpr *mkConstraintExpr(IExpr *expr);
+
 		virtual IConstraintIf *mkConstraintIf(
 				IExpr 			*cond,
 				IConstraint 	*true_c,

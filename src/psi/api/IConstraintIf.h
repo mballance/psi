@@ -8,6 +8,7 @@
 #ifndef SRC_PSI_API_ICONSTRAINTIF_H_
 #define SRC_PSI_API_ICONSTRAINTIF_H_
 #include "IConstraint.h"
+#include "IExpr.h"
 
 namespace psi {
 

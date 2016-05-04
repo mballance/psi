@@ -10,6 +10,8 @@
 #include <vector>
 
 #include "api/IAction.h"
+#include "api/IConstraint.h"
+#include "api/IConstraintIf.h"
 #include "api/IExpr.h"
 #include "api/IModel.h"
 #include "api/IPackage.h"
@@ -38,13 +40,13 @@ protected:
 
 	void elaborate_component(Component *c);
 
-	void elaborate_constraint(Constraint *c);
+	IConstraint *elaborate_constraint(Constraint *c);
 
-	void elaborate_constraint_if(ExprCoreIf *if_c);
+	IConstraintIf *elaborate_constraint_if(ExprCoreIf *if_c);
 
 	IExpr *elaborate_expr(ExprCore *e);
 
-	void elaborate_constraint_stmt(ExprCore *s);
+	IConstraint *elaborate_constraint_stmt(ExprCore *s);
 
 	void elaborate_struct(IPackage *pkg, Struct *str);
 
