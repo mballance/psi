@@ -23,6 +23,8 @@ ExprCore::ExprCore(const Type &t) : m_op(Expr::TypeRef) {
 	m_val.ref = &t;
 }
 
+ExprCore::ExprCore(Expr::Operator op) : m_op(op) { }
+
 ExprCore::ExprCore(Expr::Operator op, const Expr &lhs, const Expr &rhs) :
 	m_op(op), m_lhs(lhs), m_rhs(rhs) {
 }

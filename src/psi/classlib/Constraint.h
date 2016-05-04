@@ -16,17 +16,21 @@ namespace psi {
 
 class Constraint : public Type {
 public:
-	Constraint(Type *p, const ConstraintStmt &stmt);
+	Constraint(Type *p, const ExprList &stmt);
 
 	Constraint(
 			const std::string 		&name,
 			Type 					*p,
-			const ConstraintStmt 	&stmt);
+			const ExprList 			&stmt);
 
 	virtual ~Constraint();
 
+	ExprList &getStmt() {
+		return m_stmt;
+	}
+
 private:
-	const ConstraintStmt			&m_stmt;
+	ExprList				m_stmt;
 };
 
 } /* namespace psi */

@@ -9,10 +9,10 @@
 
 namespace psi {
 
-Constraint::Constraint(Type *p, const ConstraintStmt &stmt) :
+Constraint::Constraint(Type *p, const ExprList &stmt) :
 		Type(Type::TypeConstraint, p), m_stmt(stmt) { }
 
-Constraint::Constraint(const std::string &name, Type *p, const ConstraintStmt &stmt) :
+Constraint::Constraint(const std::string &name, Type *p, const ExprList &stmt) :
 		Type(Type::TypeConstraint, name, p), m_stmt(stmt) { }
 
 Constraint::~Constraint() {

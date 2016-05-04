@@ -14,7 +14,10 @@
 
 #include "api/IBaseItem.h"
 #include "ComponentImpl.h"
+#include "ConstraintBlockImpl.h"
+#include "LiteralImpl.h"
 #include "StructImpl.h"
+#include "BinaryExprImpl.h"
 
 namespace psi {
 
@@ -99,6 +102,40 @@ IStruct *ModelImpl::mkStruct(
 		IStruct::StructType		t,
 		IStruct 				*super_type) {
 	return new StructImpl(name, t, super_type);
+}
+
+IBinaryExpr *ModelImpl::mkBinExpr(
+		IExpr 					*lhs,
+		IBinaryExpr::BinOpType	op,
+		IExpr 					*rhs) {
+	return new BinaryExprImpl(lhs, op, rhs);
+}
+
+ILiteral *ModelImpl::mkIntLiteral(int64_t v) {
+	return new LiteralImpl(v);
+}
+
+ILiteral *ModelImpl::mkBitLiteral(uint64_t v) {
+	return new LiteralImpl(v);
+}
+
+ILiteral *ModelImpl::mkBoolLiteral(bool v) {
+	return new LiteralImpl(v);
+}
+
+ILiteral *ModelImpl::mkStringLiteral(const std::string &v) {
+	return new LiteralImpl(v);
+}
+
+IConstraintBlock *ModelImpl::mkConstraintBlock(const std::string &name) {
+	return new ConstraintBlockImpl(name);
+}
+
+IConstraintIf *ModelImpl::mkConstraintIf(
+		IExpr 			*cond,
+		IConstraint 	*true_c,
+		IConstraint 	*false_c) {
+	return 0;
 }
 
 } /* namespace psi */

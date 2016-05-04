@@ -11,9 +11,8 @@
 #include <vector>
 
 #include "classlib/Expr.h"
+#include "classlib/ExprList.h"
 #include "classlib/GraphStmtSeq.h"
-#include "classlib/Param.h"
-#include "classlib/ParamList.h"
 
 namespace psi {
 
@@ -78,7 +77,7 @@ public:
 
 		Expr operator [] (const Expr &rhs);
 
-		ParamList operator,(const Type &rhs);
+		ExprList operator,(const Type &rhs);
 
 		// Effectively private.
 		virtual void add(Type *item);

@@ -23,7 +23,10 @@ class Type;
 
 
 class ExprCore;
+class ExprCoreList;
 class Expr {
+
+	friend class ExprCoreList;
 
 	public:
 		enum Operator {
@@ -50,6 +53,10 @@ class Expr {
 			BinOp_Mod,
 			BinOp_ArrayRef,
 
+			Stmt_If,
+			Stmt_IfElse,
+
+			List,
 			TypeRef
 		};
 
@@ -69,6 +76,18 @@ class Expr {
 		virtual ~Expr();
 
 		void build();
+
+		const SharedPtr<ExprCore> &getCore() const { return m_core; }
+
+		SharedPtr<ExprCore> &getCore() { return m_core; }
+
+		ExprCore *getCorePtr() const { return m_core.ptr(); }
+
+		Operator getOp() const;
+
+		bool isBinOp() const;
+
+		static bool isBinOp(Operator op);
 
 		Expr operator [] (const Expr &rhs);
 
@@ -95,8 +114,6 @@ class Expr {
 		static const char *toString(Operator op);
 
 	protected:
-
-	private:
 		SharedPtr<ExprCore>		m_core;
 
 

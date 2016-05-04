@@ -12,20 +12,21 @@ SRC= \
   Chandle.cpp \
   Component.cpp \
   Constraint.cpp \
-  ConstraintStmt.cpp \
   Elaborator.cpp \
   Exec.cpp \
   Expr.cpp \
   ExprCore.cpp \
+  ExprCoreIf.cpp \
+  ExprCoreList.cpp \
+  ExprList.cpp \
   Graph.cpp \
   GraphStmtSeq.cpp \
+  If.cpp \
   Import.cpp \
   ImportCall.cpp \
   IntType.cpp \
   MemoryStruct.cpp \
   Package.cpp \
-  Param.cpp \
-  ParamList.cpp \
   ResourceStruct.cpp \
   StreamStruct.cpp \
   String.cpp \
@@ -37,7 +38,10 @@ SRC= \
 SRC_IMPL = \
   ActionImpl.cpp \
   BaseItemImpl.cpp \
+  BinaryExprImpl.cpp  \
   ComponentImpl.cpp \
+  ConstraintBlockImpl.cpp \
+  LiteralImpl.cpp \
   ModelImpl.cpp \
   NamedItemImpl.cpp \
   NamedScopeItemImpl.cpp \

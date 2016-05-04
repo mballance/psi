@@ -1,20 +1,20 @@
 /*
- * Graph.cpp
+ * ExprImpl.cpp
  *
- *  Created on: Apr 23, 2016
+ *  Created on: May 4, 2016
  *      Author: ballance
  */
 
-#include "classlib/Graph.h"
+#include "ExprImpl.h"
 
 namespace psi {
 
-Graph::Graph(Type *p, const ExprList &seq) {
+ExprImpl::ExprImpl(IExpr::ExprType t) : m_type(t) {
 	// TODO Auto-generated constructor stub
 
 }
 
-Graph::~Graph() {
+ExprImpl::~ExprImpl() {
 	// TODO Auto-generated destructor stub
 }
 

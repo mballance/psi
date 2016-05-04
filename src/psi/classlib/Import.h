@@ -14,17 +14,16 @@
 
 namespace psi {
 
-class ParamList;
-class IConstructorContext;
+class ExprList;
 class Import : public Type {
 
 	public:
 
-		Import(const std::string &name, Type *p, const ParamList &plist);
+		Import(const std::string &name, Type *p, const ExprList &plist);
 
 		virtual ~Import();
 
-		ImportCall operator()(const ParamList &plist);
+		ImportCall operator()(const ExprList &plist);
 
 		ImportCall operator()();
 };

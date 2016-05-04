@@ -13,6 +13,7 @@
 namespace psi {
 
 class ExprCore {
+
 	public:
 		friend class Expr;
 
@@ -24,9 +25,21 @@ class ExprCore {
 
 		ExprCore(Expr::Operator op, const Expr &lhs, const Expr &rhs);
 
+		ExprCore(Expr::Operator op);
+
 		virtual ~ExprCore();
 
-		private:
+		Expr::Operator getOp() const { return m_op; }
+
+		ExprCore *getLhsPtr() const { return m_lhs.getCorePtr(); }
+
+		ExprCore *getRhsPtr() const { return m_rhs.getCorePtr(); }
+
+		uint64_t getValUI() { return m_val.ull; }
+
+		int64_t getValI() { return m_val.i; }
+
+		protected:
 
 			union {
 				uint64_t			ull;

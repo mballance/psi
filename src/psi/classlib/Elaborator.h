@@ -10,13 +10,16 @@
 #include <vector>
 
 #include "api/IAction.h"
+#include "api/IExpr.h"
 #include "api/IModel.h"
 #include "api/IPackage.h"
 #include "classlib/Action.h"
 #include "classlib/Component.h"
+#include "classlib/Constraint.h"
 #include "classlib/Package.h"
 #include "classlib/Type.h"
 #include "classlib/Struct.h"
+#include "classlib/ExprCoreIf.h"
 
 namespace psi {
 
@@ -34,6 +37,14 @@ protected:
 	IAction *elaborate_action(Action *a);
 
 	void elaborate_component(Component *c);
+
+	void elaborate_constraint(Constraint *c);
+
+	void elaborate_constraint_if(ExprCoreIf *if_c);
+
+	IExpr *elaborate_expr(ExprCore *e);
+
+	void elaborate_constraint_stmt(ExprCore *s);
 
 	void elaborate_struct(IPackage *pkg, Struct *str);
 

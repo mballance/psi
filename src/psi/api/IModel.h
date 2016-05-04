@@ -12,8 +12,13 @@
 
 #include "api/IAction.h"
 #include "api/IBaseItem.h"
+#include "api/IBinaryExpr.h"
 #include "api/IBitType.h"
 #include "api/IComponent.h"
+#include "api/IConstraint.h"
+#include "api/IConstraintBlock.h"
+#include "api/IConstraintIf.h"
+#include "api/ILiteral.h"
 #include "api/IIntType.h"
 #include "api/IPackage.h"
 #include "api/IScopeItem.h"
@@ -53,6 +58,27 @@ namespace psi {
 					const std::string 		&name,
 					IStruct::StructType		t,
 					IStruct 				*super_type) = 0;
+
+			virtual IBinaryExpr *mkBinExpr(
+					IExpr 					*lhs,
+					IBinaryExpr::BinOpType	op,
+					IExpr 					*rhs) = 0;
+
+			virtual ILiteral *mkIntLiteral(int64_t v) = 0;
+
+			virtual ILiteral *mkBitLiteral(uint64_t v) = 0;
+
+			virtual ILiteral *mkBoolLiteral(bool v) = 0;
+
+			virtual ILiteral *mkStringLiteral(const std::string &v) = 0;
+
+			virtual IConstraintBlock *mkConstraintBlock(const std::string &name) = 0;
+
+			virtual IConstraintIf *mkConstraintIf(
+					IExpr 			*cond,
+					IConstraint 	*true_c,
+					IConstraint 	*false_c) = 0;
+
 	};
 
 }

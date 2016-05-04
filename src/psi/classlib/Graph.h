@@ -9,13 +9,14 @@
 #define GRAPH_H_
 #include "classlib/GraphStmtSeq.h"
 #include "classlib/Type.h"
+#include "classlib/ExprList.h"
 
 namespace psi {
 
 class Graph {
 
 	public:
-		Graph(Type *p, const ParamList &seq);
+		Graph(Type *p, const ExprList &seq);
 
 		virtual ~Graph();
 

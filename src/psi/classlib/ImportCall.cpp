@@ -8,11 +8,11 @@
 #include "classlib/ImportCall.h"
 
 #include "classlib/Import.h"
-#include "classlib/ParamList.h"
+#include "classlib/ExprList.h"
 
 namespace psi {
 
-ImportCall::ImportCall(const Import &imp, const ParamList &plist) {
+ImportCall::ImportCall(const Import &imp, const ExprList &plist) {
 	// TODO Auto-generated constructor stub
 
 }

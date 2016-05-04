@@ -8,6 +8,7 @@
 #ifndef IMPL_MODELIMPL_H_
 #define IMPL_MODELIMPL_H_
 #include "PackageImpl.h"
+#include "api/ILiteral.h"
 #include "api/IModel.h"
 #include "api/IStruct.h"
 #include "ScopeItemImpl.h"
@@ -60,6 +61,27 @@ class ModelImpl: public IModel {
 				const std::string 		&name,
 				IStruct::StructType		t,
 				IStruct 				*super_type);
+
+		virtual IBinaryExpr *mkBinExpr(
+				IExpr 					*lhs,
+				IBinaryExpr::BinOpType	op,
+				IExpr 					*rhs);
+
+		virtual ILiteral *mkIntLiteral(int64_t v);
+
+		virtual ILiteral *mkBitLiteral(uint64_t v);
+
+		virtual ILiteral *mkBoolLiteral(bool v);
+
+		virtual ILiteral *mkStringLiteral(const std::string &v);
+
+		virtual IConstraintBlock *mkConstraintBlock(const std::string &name);
+
+		virtual IConstraintIf *mkConstraintIf(
+				IExpr 			*cond,
+				IConstraint 	*true_c,
+				IConstraint 	*false_c);
+
 
 	private:
 		std::string					m_name;

@@ -42,8 +42,8 @@ Expr Type::operator [] (const Expr &rhs) {
 	return Expr(new ExprCore(Expr::BinOp_ArrayRef, *this, rhs));
 }
 
-ParamList Type::operator,(const Type &rhs) {
-	return ParamList(Param(*this), Param(rhs));
+ExprList Type::operator,(const Type &rhs) {
+	return ExprList(Expr(*this), Expr(rhs));
 }
 
 void Type::add(Type *item) {

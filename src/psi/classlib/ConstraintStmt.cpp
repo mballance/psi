@@ -9,10 +9,7 @@
 
 namespace psi {
 
-ConstraintStmt::ConstraintStmt(const Expr &expr) {
-	Expr e = expr;
-	e.build();
-
+ConstraintStmt::ConstraintStmt(const Expr &expr) : m_expr(expr) {
 }
 
 ConstraintStmt::~ConstraintStmt() {

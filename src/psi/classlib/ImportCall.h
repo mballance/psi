@@ -12,12 +12,12 @@
 namespace psi {
 
 class Import;
-class ParamList;
+class ExprList;
 class ImportCall {
 
 	public:
 
-		ImportCall(const Import &imp, const ParamList &plist);
+		ImportCall(const Import &imp, const ExprList &plist);
 
 		virtual ~ImportCall();
 

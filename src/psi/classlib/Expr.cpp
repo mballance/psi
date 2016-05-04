@@ -17,28 +17,31 @@ Expr::Expr() : m_core(nullptr) {
 
 }
 
-Expr::Expr(uint32_t v) : m_core(new ExprCore(v)) {
+Expr::Expr(uint32_t v) : m_core(new ExprCore(v)) { }
 
+Expr::Expr(int32_t v) : m_core(new ExprCore(v)) { }
+
+Expr::Expr(const Type &t) : m_core(new ExprCore(t)) { }
+
+Expr::Expr(const Expr &rhs) : m_core(rhs.m_core) { }
+
+Expr::Expr(ExprCore *rhs) : m_core(rhs) { }
+
+Expr::~Expr() { }
+
+Expr::Operator Expr::getOp() const {
+	return m_core->m_op;
 }
 
-Expr::Expr(int32_t v) : m_core(new ExprCore(v)) {
-
+bool Expr::isBinOp() const {
+	if (m_core.ptr()) {
+		return isBinOp(m_core->m_op);
+	}
+	return false;
 }
 
-Expr::Expr(const Type &t) : m_core(new ExprCore(t)) {
-
-}
-
-Expr::Expr(const Expr &rhs) : m_core(rhs.m_core) {
-
-}
-
-Expr::Expr(ExprCore *rhs) : m_core(rhs) {
-
-}
-
-Expr::~Expr() {
-	// TODO Auto-generated destructor stub
+bool Expr::isBinOp(Operator op) {
+	return (op >= BinOp_EqEq && op <= BinOp_ArrayRef);
 }
 
 Expr Expr::operator [] (const Expr &rhs) {
@@ -83,6 +86,9 @@ const char *Expr::toString(Operator op) {
 		case BinOp_Divide: return "/";
 		case BinOp_Mod: return "%";
 		case BinOp_ArrayRef: return "arrayref";
+		case Stmt_If: return "if";
+		case Stmt_IfElse: return "if/else";
+		case List: return "list";
 		case TypeRef: return "typeref";
 	}
 
