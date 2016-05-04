@@ -11,7 +11,9 @@
 #ifndef SRC_APPS_PSI2XML_H_
 #define SRC_APPS_PSI2XML_H_
 #include <string>
-#include "IModel.h"
+#include <stdint.h>
+
+#include "api/IModel.h"
 
 namespace psi {
 namespace apps {
@@ -24,8 +26,23 @@ public:
 
 	virtual const std::string &traverse(IModel *model);
 
+
 private:
+
+	void process_pkg(IPackage *pkg);
+
+	void process_struct(IStruct *str);
+
+	void println(const std::string &str);
+
+	void inc_indent();
+	void dec_indent();
+
+private:
+	std::string					m_ind;
+	uint32_t					m_ind_incr;
 	std::string					m_content;
+
 
 };
 

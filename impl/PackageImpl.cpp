@@ -6,12 +6,12 @@
  */
 
 #include "PackageImpl.h"
-#include "IAction.h"
-#include "IStruct.h"
+#include "api/IAction.h"
+#include "api/IStruct.h"
 
 namespace psi {
 
-PackageImpl::PackageImpl(const std::string &name) : NamedItemImpl(name, IBaseItem::TypePackage){
+PackageImpl::PackageImpl(const std::string &name) : m_name(name) {
 	// TODO Auto-generated constructor stub
 
 }

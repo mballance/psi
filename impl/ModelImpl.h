@@ -8,12 +8,13 @@
 #ifndef IMPL_MODELIMPL_H_
 #define IMPL_MODELIMPL_H_
 #include "PackageImpl.h"
-#include "IModel.h"
+#include "api/IModel.h"
+#include "api/IStruct.h"
 #include "ScopeItemImpl.h"
 
 namespace psi {
 
-class ModelImpl: public virtual IModel, public ScopeItemImpl {
+class ModelImpl: public IModel {
 
 	public:
 		ModelImpl();
@@ -22,7 +23,17 @@ class ModelImpl: public virtual IModel, public ScopeItemImpl {
 
 //		virtual const std::vector<IPackage*> &getPackages();
 
+		virtual IBaseItem::ItemType getType() const {
+			return IBaseItem::TypeModel;
+		}
+
+		virtual const std::string &getName() const {
+			return m_name;
+		}
+
 		virtual const std::vector<IBaseItem *> &getItems() const;
+
+		virtual void add(IBaseItem *it);
 
 		virtual IPackage *getGlobalPackage();
 
@@ -43,10 +54,17 @@ class ModelImpl: public virtual IModel, public ScopeItemImpl {
 //		 */
 //		virtual IAction *mkAction(const std::string &name, IAction *super_type);
 
+		virtual IComponent *mkComponent(const std::string &name);
+
+		virtual IStruct *mkStruct(
+				const std::string 		&name,
+				IStruct::StructType		t,
+				IStruct 				*super_type);
 
 	private:
-		PackageImpl					m_global_pkg;
+		std::string					m_name;
 		std::vector<IBaseItem *>	m_children;
+		PackageImpl					m_global_pkg;
 //		std::vector<IPackage *>		m_packages;
 
 };

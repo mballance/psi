@@ -7,18 +7,18 @@
 
 #ifndef IMPL_BASEITEMIMPL_H_
 #define IMPL_BASEITEMIMPL_H_
-#include "IBaseItem.h"
+#include "api/IBaseItem.h"
 
 namespace psi {
 
-	class BaseItemImpl : public virtual IBaseItem {
+	class BaseItemImpl /*: public virtual IBaseItem*/ {
 		public:
 
 			BaseItemImpl(IBaseItem::ItemType t);
 
 			virtual ~BaseItemImpl();
 
-			virtual IBaseItem::ItemType getType();
+			virtual IBaseItem::ItemType getType() const;
 
 		private:
 			IBaseItem::ItemType				m_type;

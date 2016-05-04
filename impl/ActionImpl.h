@@ -9,12 +9,12 @@
 #define IMPL_ACTIONIMPL_H_
 
 #include <string>
-#include "IAction.h"
+#include "api/IAction.h"
 #include "NamedItemImpl.h"
 
 namespace psi {
 
-	class ActionImpl: public virtual IAction, public NamedItemImpl {
+	class ActionImpl: public IAction {
 
 		public:
 
@@ -22,9 +22,22 @@ namespace psi {
 
 			virtual ~ActionImpl();
 
-		private:
+			virtual IBaseItem::ItemType getType() const {
+				return IBaseItem::TypeAction;
+			}
 
-			IAction					*m_super_type;
+			virtual const std::string &getName() const;
+
+			virtual const std::vector<IBaseItem *> &getItems() const;
+
+			virtual void add(IBaseItem *);
+
+
+		private:
+			std::string					m_name;
+			IAction						*m_super_type;
+			std::vector<IBaseItem *>	m_children;
+
 
 };
 

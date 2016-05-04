@@ -18,7 +18,7 @@ BaseItemImpl::~BaseItemImpl() {
 	// TODO Auto-generated destructor stub
 }
 
-IBaseItem::ItemType BaseItemImpl::getType() {
+IBaseItem::ItemType BaseItemImpl::getType() const {
 	return m_type;
 }
 

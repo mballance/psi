@@ -8,20 +8,35 @@
 #ifndef IMPL_PACKAGEIMPL_H_
 #define IMPL_PACKAGEIMPL_H_
 #include <vector>
-#include "IPackage.h"
-#include "NamedItemImpl.h"
+#include "api/IPackage.h"
+#include "NamedScopeItemImpl.h"
+#include "BaseItemImpl.h"
 
 namespace psi {
 
 class IAction;
 class IStruct;
 
-class PackageImpl : public virtual IPackage, public NamedItemImpl {
+class PackageImpl : public IPackage  {
 	public:
 
 		PackageImpl(const std::string &name);
 
 		virtual ~PackageImpl();
+
+		virtual IBaseItem::ItemType getType() const { return IBaseItem::TypePackage; }
+
+		virtual const std::vector<IBaseItem *> &getItems() const {
+			return m_children;
+		}
+
+		virtual void add(IBaseItem *item) {
+			m_children.push_back(item);
+		}
+
+		virtual const std::string &getName() const {
+			return m_name;
+		}
 
 		// TODO: Move to Component
 		virtual const std::vector<IAction *> getActions();
@@ -35,6 +50,8 @@ class PackageImpl : public virtual IPackage, public NamedItemImpl {
 		virtual IStruct *findStruct(const std::string &name);
 
 	private:
+		std::string							m_name;
+		std::vector<IBaseItem *>			m_children;
 		std::vector<IAction *>				m_actions;
 		std::vector<IStruct *>				m_structs;
 

@@ -35,17 +35,23 @@ SRC= \
   TypeRegistry.cpp 
   
 SRC_IMPL = \
+  ActionImpl.cpp \
   BaseItemImpl.cpp \
+  ComponentImpl.cpp \
   ModelImpl.cpp \
   NamedItemImpl.cpp \
+  NamedScopeItemImpl.cpp \
   PackageImpl.cpp \
-  ScopeItemImpl.cpp
+  ScopeItemImpl.cpp \
+  StructImpl.cpp
+  
+SRC_APPS = \
+  PSI2XML.cpp
 
-LIB_TARGETS := libpsi.a libimpl.a
+LIB_TARGETS := libapps.a libpsi.a libimpl.a
 
 
-CXXFLAGS += -I$(SRCDIR) -I$(SRCDIR)/static
-CXXFLAGS += -I$(SRCDIR)/programmatic 
+CXXFLAGS += -I$(SRCDIR)/psi
 CXXFLAGS += -I$(SRCDIR)/../impl
 CXXFLAGS += -I$(SRCDIR)/apps
 CXXFLAGS += -g
@@ -63,18 +69,22 @@ libpsi.a : $(SRC:.cpp=.o)
 libimpl.a : $(SRC_IMPL:.cpp=.o)
 	$(Q)rm -f $@
 	$(Q)$(AR) vcq $@ $^
+	
+libapps.a : $(SRC_APPS:.cpp=.o)
+	$(Q)rm -f $@
+	$(Q)$(AR) vcq $@ $^
 
-TEST_LIBS=$(BUILD_DIR)/libpsi.a $(BUILD_DIR)/libelab.a $(BUILD_DIR)/libimpl.a
+TEST_LIBS=$(BUILD_DIR)/libapps.a $(BUILD_DIR)/libpsi.a $(BUILD_DIR)/libimpl.a
 
 include $(SIMSCRIPTS_DIR)/mkfiles/common_sim.mk
 
-%.o : $(SRCDIR)/static/%.cpp
+%.o : $(SRCDIR)/psi/classlib/%.cpp
 	$(Q)$(CXX) $(CXXFLAGS) -c $^ -o $@
 	
-%.o : $(SRCDIR)/elaborator/%.cpp
-	$(Q)$(CXX) $(CXXFLAGS) -c $^ -o $@
-
 %.o : $(SRCDIR)/../impl/%.cpp
+	$(Q)$(CXX) $(CXXFLAGS) -c $^ -o $@
+	
+%.o : $(SRCDIR)/apps/%.cpp
 	$(Q)$(CXX) $(CXXFLAGS) -c $^ -o $@
 	
 %.o : $(SIM_DIR)/src/%.cpp

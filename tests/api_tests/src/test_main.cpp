@@ -7,15 +7,16 @@
 #include <vector>
 #include <stdio.h>
 #include "psi.h"
-#include "Elaborator.h"
-#include "TypeRegistry.h"
 #include "ModelImpl.h"
+#include "PSI2XML.h"
 
 using namespace psi;
+using namespace psi::apps;
 
 int main(int argc, char **argv) {
 	Elaborator elab;
 	ModelImpl  model;
+	PSI2XML    psi2xml;
 
 //	std::vector<IType *>::const_iterator it;
 	Type *global = TypeRegistry::global();
@@ -33,6 +34,10 @@ int main(int argc, char **argv) {
 //	}
 
 	elab.elaborate(TypeRegistry::global(), &model);
+
+	const std::string xml = psi2xml.traverse(&model);
+
+	fprintf(stdout, "Result:\n%s\n", xml.c_str());
 
 	return 0;
 }

@@ -6,12 +6,19 @@
  */
 
 #include "ModelImpl.h"
-#include "PackageImpl.h"
-#include "ActionImpl.h"
+
+#include <stdio.h>
+#include <iterator>
+#include <string>
+#include <vector>
+
+#include "api/IBaseItem.h"
+#include "ComponentImpl.h"
+#include "StructImpl.h"
 
 namespace psi {
 
-ModelImpl::ModelImpl() : ScopeItemImpl(IBaseItem::TypeModel), m_global_pkg("") {
+ModelImpl::ModelImpl() : m_global_pkg("") {
 	// TODO Auto-generated constructor stub
 
 }
@@ -28,6 +35,10 @@ const std::vector<IBaseItem *> &ModelImpl::getItems() const {
 	return m_children;
 }
 
+void ModelImpl::add(IBaseItem *it) {
+	m_children.push_back(it);
+}
+
 IPackage *ModelImpl::getGlobalPackage() {
 	return &m_global_pkg;
 }
@@ -36,13 +47,21 @@ IPackage *ModelImpl::findPackage(const std::string &name, bool create) {
 	std::vector<IBaseItem *>::iterator it;
 
 	for (it=m_children.begin(); it!=m_children.end(); it++) {
-//		if ((*it)->getName() == name) {
-//			return *it;
-//		}
+		if ((*it)->getType() == IBaseItem::TypePackage) {
+			IBaseItem *bi = *it;
+			IPackage *pkg_ir = reinterpret_cast<IPackage *>(bi);
+			IPackage *pkg_is = static_cast<IPackage *>(bi);
+			IPackage *pkg = reinterpret_cast<IPackage *>(*it);
+			if (pkg->getName() == name) {
+				return pkg;
+			}
+		}
 	}
 
 	if (create) {
-		return new PackageImpl(name);
+		PackageImpl *pkg = new PackageImpl(name);
+		m_children.push_back(pkg);
+		return pkg;
 	} else {
 		return 0;
 	}
@@ -70,5 +89,16 @@ IPackage *ModelImpl::findPackage(const std::string &name, bool create) {
 //IAction *ModelImpl::mkAction(const std::string &name, IAction *super_type) {
 //	return new ActionImpl(name, super_type);
 //}
+
+IComponent *ModelImpl::mkComponent(const std::string &name) {
+	return new ComponentImpl(name);
+}
+
+IStruct *ModelImpl::mkStruct(
+		const std::string 		&name,
+		IStruct::StructType		t,
+		IStruct 				*super_type) {
+	return new StructImpl(name, t, super_type);
+}
 
 } /* namespace psi */

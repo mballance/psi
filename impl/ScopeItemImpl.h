@@ -8,7 +8,7 @@
 #ifndef IMPL_SCOPEITEMIMPL_H_
 #define IMPL_SCOPEITEMIMPL_H_
 #include <vector>
-#include "IScopeItem.h"
+#include "api/IScopeItem.h"
 #include "BaseItemImpl.h"
 
 namespace psi {
@@ -23,7 +23,7 @@ class ScopeItemImpl : public virtual IScopeItem, public BaseItemImpl {
 
 		virtual void add(IBaseItem *item);
 
-	private:
+	protected:
 
 		std::vector<IBaseItem *>			m_children;
 };

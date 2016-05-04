@@ -8,7 +8,7 @@
 #ifndef IMPL_NAMEDITEMIMPL_H_
 #define IMPL_NAMEDITEMIMPL_H_
 #include <string>
-#include "INamedItem.h"
+#include "api/INamedItem.h"
 #include "BaseItemImpl.h"
 
 
