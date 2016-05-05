@@ -8,8 +8,13 @@
 #ifndef SRC_PROGRAMMATIC_IBASEITEM_H_
 #define SRC_PROGRAMMATIC_IBASEITEM_H_
 
-namespace psi {
+namespace psi_api {
 
+	/**
+	 * Class: IBaseItem
+	 *
+	 * Common base API to PSI objects
+	 */
 	class IBaseItem {
 
 	public:
@@ -21,6 +26,7 @@ namespace psi {
 			TypeChandle,
 			TypeComponent,
 			TypeConstraint,
+			TypeField,
 			TypeImport,
 			TypeInt,
 			TypeExec,
@@ -36,6 +42,10 @@ namespace psi {
 		public:
 			virtual ~IBaseItem() { }
 
+			/**
+			 * Method: getType()
+			 * Returns the type of this object.
+			 */
 			virtual ItemType getType() const = 0;
 
 	};

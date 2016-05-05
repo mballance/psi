@@ -13,6 +13,8 @@
 #include "api/IStruct.h"
 #include "ScopeItemImpl.h"
 
+using namespace psi_api;
+
 namespace psi {
 
 class ModelImpl: public IModel {
@@ -44,16 +46,16 @@ class ModelImpl: public IModel {
 		 * Data Types
 		 */
 
-//		virtual IBitType *mkBitType(uint32_t msb=0, uint32_t lsb=0);
-//
-//		virtual IIntType *mkIntType(uint32_t msb=31, uint32_t lsb=0);
-//
+		virtual IBitType *mkBitType(uint32_t msb=0, uint32_t lsb=0);
+
+		virtual IIntType *mkIntType(uint32_t msb=31, uint32_t lsb=0);
+
 //		// TODO: String, Bool types
 //
-//		/**
-//		 * Action
-//		 */
-//		virtual IAction *mkAction(const std::string &name, IAction *super_type);
+		/**
+		 * Action
+		 */
+		virtual IAction *mkAction(const std::string &name, IAction *super_type);
 
 		virtual IComponent *mkComponent(const std::string &name);
 
@@ -61,6 +63,15 @@ class ModelImpl: public IModel {
 				const std::string 		&name,
 				IStruct::StructType		t,
 				IStruct 				*super_type);
+
+		/**
+		 * Create a field for use in declaring the contents of an
+		 * action or struct data type
+		 */
+		virtual IField *mkField(
+				const std::string		&name,
+				IBaseItem				*field_type,
+				IField::FieldAttr		attr);
 
 		virtual IBinaryExpr *mkBinExpr(
 				IExpr 					*lhs,

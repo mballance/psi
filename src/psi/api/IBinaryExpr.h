@@ -10,7 +10,7 @@
 
 #include "api/IExpr.h"
 
-namespace psi {
+namespace psi_api {
 
 class IBinaryExpr : public IExpr {
 

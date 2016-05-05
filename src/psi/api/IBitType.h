@@ -9,19 +9,19 @@
 #define SRC_PROGRAMMATIC_IBITTYPE_H_
 
 #include <stdint.h>
-#include "api/IType.h"
+#include "api/IBaseItem.h"
 
-namespace psi {
+namespace psi_api {
 
-	class IBitType : public virtual IType {
+	class IBitType : public IBaseItem {
 
 		public:
 
 			virtual ~IBitType() { }
 
-			virtual uint32_t getMsb() = 0;
+			virtual uint32_t getMsb() const = 0;
 
-			virtual uint32_t getLsb() = 0;
+			virtual uint32_t getLsb() const = 0;
 
 	};
 }

@@ -13,7 +13,7 @@
 #include "api/INamedItem.h"
 #include "api/IScopeItem.h"
 
-namespace psi {
+namespace psi_api {
 
 class IAction;
 class IStruct;

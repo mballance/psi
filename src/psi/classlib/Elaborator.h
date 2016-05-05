@@ -23,6 +23,8 @@
 #include "classlib/Struct.h"
 #include "classlib/ExprCoreIf.h"
 
+using namespace psi_api;
+
 namespace psi {
 
 class Elaborator {
@@ -38,7 +40,7 @@ protected:
 
 	IAction *elaborate_action(Action *a);
 
-	void elaborate_component(Component *c);
+	IComponent *elaborate_component(Component *c);
 
 	IConstraint *elaborate_constraint(Constraint *c);
 
@@ -48,9 +50,11 @@ protected:
 
 	IConstraint *elaborate_constraint_stmt(ExprCore *s);
 
-	void elaborate_struct(IPackage *pkg, Struct *str);
+	IStruct *elaborate_struct(Struct *str);
 
 	void elaborate_package(IModel *model, Package *pkg_cl);
+
+	IBaseItem *elaborate_struct_action_body_item(Type *t);
 
 private:
 

@@ -10,6 +10,8 @@
 
 #include "api/IBinaryExpr.h"
 
+using namespace psi_api;
+
 namespace psi {
 
 class BinaryExprImpl: public IBinaryExpr {

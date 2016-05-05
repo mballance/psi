@@ -12,6 +12,8 @@
 
 #include "api/IConstraintBlock.h"
 
+using namespace psi_api;
+
 namespace psi {
 
 class ConstraintBlockImpl: public IConstraintBlock {

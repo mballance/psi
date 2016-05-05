@@ -9,7 +9,7 @@
 #define SRC_PROGRAMMATIC_INAMEDITEM_H_
 #include <string>
 
-namespace psi {
+namespace psi_api {
 
 	class INamedItem {
 		public:

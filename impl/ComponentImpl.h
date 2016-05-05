@@ -9,6 +9,8 @@
 #define IMPL_COMPONENTIMPL_H_
 #include "api/IComponent.h"
 
+using namespace psi_api;
+
 namespace psi {
 
 class ComponentImpl: public IComponent {

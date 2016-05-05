@@ -18,9 +18,9 @@ public:
 
 	Rand<Bit<31,0>>				address {"address", this};
 
-	Constraint c0 {this, address >= 0x1000 };
+	Constraint c0 {"c0", this, address >= 0x1000 }; // named constraint
 
-	Constraint c1 {this, address >= 0x1000 && address <= 0x1fff };
+	Constraint c1 {this, address >= 0x1000 && address <= 0x1fff }; // anonymous constraint
 
 	Constraint c2 {this, {
 			address >= 0x1000 , // comma used as constraint-statement separator

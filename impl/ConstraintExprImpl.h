@@ -9,6 +9,8 @@
 #define IMPL_CONSTRAINTEXPRIMPL_H_
 #include "api/IConstraintExpr.h"
 
+using namespace psi_api;
+
 namespace psi {
 
 class ConstraintExprImpl: public IConstraintExpr {

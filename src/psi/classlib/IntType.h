@@ -24,6 +24,10 @@ class IntType : public Type {
 
 		virtual ~IntType();
 
+		uint32_t getMsb() const { return m_msb; }
+
+		uint32_t getLsb() const { return m_lsb; }
+
 	private:
 
 		uint32_t					m_msb;

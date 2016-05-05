@@ -8,6 +8,8 @@
 #ifndef IMPL_EXPRIMPL_H_
 #define IMPL_EXPRIMPL_H_
 
+using namespace psi_api;
+
 namespace psi {
 
 class ExprImpl: public IExpr {

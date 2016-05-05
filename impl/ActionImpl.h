@@ -12,6 +12,8 @@
 #include "api/IAction.h"
 #include "NamedItemImpl.h"
 
+using namespace psi_api;
+
 namespace psi {
 
 	class ActionImpl: public IAction {

@@ -8,7 +8,7 @@
 #ifndef SRC_PSI_API_IEXPR_H_
 #define SRC_PSI_API_IEXPR_H_
 
-namespace psi {
+namespace psi_api {
 
 class IExpr {
 public:

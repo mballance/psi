@@ -12,7 +12,7 @@
 
 #include "api/IBaseItem.h"
 
-namespace psi {
+namespace psi_api {
 
 	class IScopeItem {
 	public:

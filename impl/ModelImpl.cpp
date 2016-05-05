@@ -13,10 +13,14 @@
 #include <vector>
 
 #include "api/IBaseItem.h"
+#include "ActionImpl.h"
+#include "BitTypeImpl.h"
 #include "ComponentImpl.h"
 #include "ConstraintBlockImpl.h"
 #include "ConstraintExprImpl.h"
 #include "ConstraintIfImpl.h"
+#include "FieldImpl.h"
+#include "IntTypeImpl.h"
 #include "LiteralImpl.h"
 #include "StructImpl.h"
 #include "BinaryExprImpl.h"
@@ -76,24 +80,22 @@ IPackage *ModelImpl::findPackage(const std::string &name, bool create) {
  * Data Types
  */
 
-//IBitType *ModelImpl::mkBitType(uint32_t msb=0, uint32_t lsb=0) {
-//	// TODO:
-//	return nullptr;
-//}
-//
-//IIntType *ModelImpl::mkIntType(uint32_t msb=31, uint32_t lsb=0) {
-//	// TODO:
-//	return nullptr;
-//}
+IBitType *ModelImpl::mkBitType(uint32_t msb, uint32_t lsb) {
+	return new BitTypeImpl(msb, lsb);
+}
+
+IIntType *ModelImpl::mkIntType(uint32_t msb, uint32_t lsb) {
+	return new IntTypeImpl(msb, lsb);
+}
 //
 //// TODO: String, Bool types
 //
-///**
-// * Action
-// */
-//IAction *ModelImpl::mkAction(const std::string &name, IAction *super_type) {
-//	return new ActionImpl(name, super_type);
-//}
+/**
+ * Action
+ */
+IAction *ModelImpl::mkAction(const std::string &name, IAction *super_type) {
+	return new ActionImpl(name, super_type);
+}
 
 IComponent *ModelImpl::mkComponent(const std::string &name) {
 	return new ComponentImpl(name);
@@ -104,6 +106,17 @@ IStruct *ModelImpl::mkStruct(
 		IStruct::StructType		t,
 		IStruct 				*super_type) {
 	return new StructImpl(name, t, super_type);
+}
+
+/**
+ * Create a field for use in declaring the contents of an
+ * action or struct data type
+ */
+IField *ModelImpl::mkField(
+		const std::string		&name,
+		IBaseItem				*field_type,
+		IField::FieldAttr		attr) {
+	return new FieldImpl(name, field_type, attr);
 }
 
 IBinaryExpr *ModelImpl::mkBinExpr(

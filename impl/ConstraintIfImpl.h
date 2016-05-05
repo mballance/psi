@@ -9,6 +9,8 @@
 #define IMPL_CONSTRAINTIFIMPL_H_
 #include "api/IConstraintIf.h"
 
+using namespace psi_api;
+
 namespace psi {
 
 class ConstraintIfImpl : public IConstraintIf {

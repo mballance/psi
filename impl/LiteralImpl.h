@@ -10,6 +10,8 @@
 #include <string>
 #include "api/ILiteral.h"
 
+using namespace psi_api;
+
 namespace psi {
 
 class LiteralImpl : public ILiteral {

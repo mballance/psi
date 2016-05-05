@@ -11,6 +11,8 @@
 #include "api/IScopeItem.h"
 #include "BaseItemImpl.h"
 
+using namespace psi_api;
+
 namespace psi {
 
 class ScopeItemImpl : public virtual IScopeItem, public BaseItemImpl {

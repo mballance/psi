@@ -19,20 +19,19 @@
 #include "api/IConstraintBlock.h"
 #include "api/IConstraintExpr.h"
 #include "api/IConstraintIf.h"
+#include "api/IField.h"
 #include "api/ILiteral.h"
 #include "api/IIntType.h"
 #include "api/IPackage.h"
 #include "api/IScopeItem.h"
 #include "api/IStruct.h"
 
-namespace psi {
+namespace psi_api {
 
 	class IModel : public IScopeItem {
 		public:
 
 			virtual ~IModel() { }
-
-//			virtual const std::vector<IPackage*> &getPackages() = 0;
 
 			virtual IPackage *getGlobalPackage() = 0;
 
@@ -42,23 +41,44 @@ namespace psi {
 			 * Data Types
 			 */
 
-//			virtual IBitType *mkBitType(uint32_t msb=0, uint32_t lsb=0) = 0;
-//
-//			virtual IIntType *mkIntType(uint32_t msb=31, uint32_t lsb=0) = 0;
+			/**
+			 * Create a new Bit data type. Used in creating action/struct fields
+			 */
+			virtual IBitType *mkBitType(uint32_t msb=0, uint32_t lsb=0) = 0;
+
+			/**
+			 * Create a new Int data type. Used in creating action/struct fields
+			 */
+			virtual IIntType *mkIntType(uint32_t msb=31, uint32_t lsb=0) = 0;
 //
 //			// TODO: String, Bool types
 //
-//			/**
-//			 * Action
-//			 */
-//			virtual IAction *mkAction(const std::string &name, IAction *super_type) = 0;
+			/**
+			 * Action
+			 */
+			virtual IAction *mkAction(const std::string &name, IAction *super_type) = 0;
 
+			/**
+			 * Create a new component type
+			 */
 			virtual IComponent *mkComponent(const std::string &name) = 0;
 
+			/**
+			 * Create a new struct type
+			 */
 			virtual IStruct *mkStruct(
 					const std::string 		&name,
 					IStruct::StructType		t,
 					IStruct 				*super_type) = 0;
+
+			/**
+			 * Create a field for use in declaring the contents of an
+			 * action or struct data type
+			 */
+			virtual IField *mkField(
+					const std::string		&name,
+					IBaseItem				*field_type,
+					IField::FieldAttr		attr=IField::FieldAttr_None) = 0;
 
 			virtual IBinaryExpr *mkBinExpr(
 					IExpr 					*lhs,

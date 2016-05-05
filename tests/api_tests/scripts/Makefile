@@ -39,10 +39,13 @@ SRC_IMPL = \
   ActionImpl.cpp \
   BaseItemImpl.cpp \
   BinaryExprImpl.cpp  \
+  BitTypeImpl.cpp \
   ComponentImpl.cpp \
   ConstraintBlockImpl.cpp \
   ConstraintExprImpl.cpp \
   ConstraintIfImpl.cpp \
+  FieldImpl.cpp \
+  IntTypeImpl.cpp \
   LiteralImpl.cpp \
   ModelImpl.cpp \
   NamedItemImpl.cpp \

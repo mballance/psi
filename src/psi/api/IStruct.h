@@ -12,7 +12,7 @@
 
 #include "api/IBaseItem.h"
 
-namespace psi {
+namespace psi_api {
 
 	class IStruct : public IBaseItem {
 	public:
@@ -37,7 +37,6 @@ namespace psi {
 			virtual StructType getStructType() const = 0;
 
 	};
-
 }
 
 

@@ -11,6 +11,7 @@
 #include "api/INamedItem.h"
 #include "BaseItemImpl.h"
 
+using namespace psi_api;
 
 namespace psi {
 

@@ -12,12 +12,14 @@
 
 #include "api/IStruct.h"
 
+using namespace psi_api;
+
 namespace psi {
 
 class StructImpl: public IStruct {
 public:
 
-	StructImpl(const std::string &name, IStruct::StructType t, IStruct *super_type);
+	StructImpl(const std::string &name, psi_api::IStruct::StructType t, IStruct *super_type);
 
 	virtual ~StructImpl();
 
@@ -31,15 +33,15 @@ public:
 
 	virtual void add(IBaseItem *it);
 
-	virtual IStruct::StructType getStructType() const {
+	virtual psi_api::IStruct::StructType getStructType() const {
 		return m_struct_type;
 	}
 
 private:
-	std::string					m_name;
-	IStruct::StructType			m_struct_type;
-	std::vector<IBaseItem *>	m_children;
-	IStruct						*m_super_type;
+	std::string						m_name;
+	psi_api::IStruct::StructType	m_struct_type;
+	std::vector<IBaseItem *>		m_children;
+	IStruct							*m_super_type;
 
 };
 

@@ -12,7 +12,7 @@
 
 #include "api/IExpr.h"
 
-namespace psi {
+namespace psi_api {
 
 class ILiteral : public IExpr {
 public:

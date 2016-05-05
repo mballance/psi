@@ -9,6 +9,8 @@
 #define IMPL_BASEITEMIMPL_H_
 #include "api/IBaseItem.h"
 
+using namespace psi_api;
+
 namespace psi {
 
 	class BaseItemImpl /*: public virtual IBaseItem*/ {

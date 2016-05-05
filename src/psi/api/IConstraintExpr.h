@@ -10,7 +10,7 @@
 #include "api/IConstraint.h"
 #include "api/IExpr.h"
 
-namespace psi {
+namespace psi_api {
 
 class IConstraintExpr : public IConstraint {
 

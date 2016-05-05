@@ -12,7 +12,7 @@
 
 #include "IConstraint.h"
 
-namespace psi {
+namespace psi_api {
 
 class IConstraintBlock : public IConstraint {
 

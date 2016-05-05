@@ -10,7 +10,10 @@
 #include "api/INamedItem.h"
 #include "api/IScopeItem.h"
 
+using namespace psi_api;
+
 namespace psi {
+
 class NamedScopeItemImpl : public virtual INamedItem, public IScopeItem {
 
 public:

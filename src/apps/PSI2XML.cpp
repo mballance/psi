@@ -35,6 +35,7 @@ const std::string &PSI2XML::traverse(IModel *model) {
 			IPackage *pkg = static_cast<IPackage *>(i);
 			process_pkg(pkg);
 		} else if (i->getType() == IBaseItem::TypeComponent) {
+			process_component(static_cast<IComponent *>(i));
 		} else {
 			// Really shouldn't be anything else in the global scope
 		}
@@ -73,7 +74,27 @@ void PSI2XML::process_pkg(IPackage *pkg) {
 	println("</package>");
 }
 
+void PSI2XML::process_action(IAction *a) {
+	IAction *super_a = 0; // TODO: super-type
+
+	std::string tag = "<action name=\"" + a->getName() + "\"";
+
+	if (super_a) {
+		tag += " super=\"" + super_a->getName() + "\"";
+	}
+
+	tag += ">";
+	println(tag);
+
+	inc_indent();
+	process_body(a->getItems());
+	dec_indent();
+
+	println("</action>");
+}
+
 void PSI2XML::process_struct(IStruct *str) {
+	IStruct *super_s = 0; // TODO: super-type
 	std::string tag = "<struct name=\"" + str->getName() + "\"";
 
 	// TODO: handle super-type
@@ -98,10 +119,42 @@ void PSI2XML::process_body(const std::vector<IBaseItem *> &items) {
 			process_constraint_block(static_cast<IConstraintBlock *>(i));
 			break;
 
+		case IBaseItem::TypeField:
+			process_field(static_cast<IField *>(i));
+			break;
+
 		default:
 			fprintf(stdout, "Error: Unknown body item %d\n", i->getType());
 		}
 	}
+}
+
+void PSI2XML::process_component(IComponent *c) {
+
+	println(std::string("<component name=\"") + c->getName() + "\">");
+	inc_indent();
+
+	process_comp_pkg_body(c->getItems());
+
+	dec_indent();
+	println("</component>");
+}
+
+void PSI2XML::process_comp_pkg_body(const std::vector<IBaseItem *> &items) {
+	std::vector<IBaseItem *>::const_iterator it=items.begin();
+
+	for (; it!=items.end(); it++) {
+		switch ((*it)->getType()) {
+			case IBaseItem::TypeAction:
+				process_action(static_cast<IAction *>(*it));
+				break;
+
+			case IBaseItem::TypeStruct:
+				process_struct(static_cast<IStruct *>(*it));
+				break;
+		}
+	}
+
 }
 
 void PSI2XML::process_constraint(IConstraint *c) {
@@ -210,19 +263,18 @@ void PSI2XML::process_expr(IExpr *e) {
 
 			switch (l->getLiteralType()) {
 			case ILiteral::LiteralBit: {
-				sprintf(val, "%ull", l->getBit());
+				sprintf(val, "0x%ullx", l->getBit());
 				tag = "<bit value=\"";
 				tag += val;
 				tag += "\"/>";
 			} break;
 			case ILiteral::LiteralInt: {
-				sprintf(val, "%ll", l->getInt());
+				sprintf(val, "0x%llx", l->getInt());
 				tag = "<int value=\"";
 				tag += val;
 				tag += "\"/>";
 			} break;
 			case ILiteral::LiteralBool: {
-				sprintf(val, "%ll", l->getInt());
 				tag = "<bool value=\"";
 				if (l->getBool()) {
 					tag += "true";
@@ -243,6 +295,58 @@ void PSI2XML::process_expr(IExpr *e) {
 			break;
 	}
 }
+
+void PSI2XML::process_field(IField *f) {
+	char msb_s[64], lsb_s[64];
+	std::string tag = "<field name=\"" + f->getName() + "\"";
+
+	switch (f->getAttr()) {
+	case IField::FieldAttr_Rand:
+		tag += " isRand=\"true\"";
+		break;
+	case IField::FieldAttr_Input:
+		tag += " isInput=\"true\"";
+		break;
+	case IField::FieldAttr_Output:
+		tag += " isOutput=\"true\"";
+		break;
+	}
+
+	tag += ">";
+	println(tag);
+
+	inc_indent();
+	println("<type>");
+	inc_indent();
+
+	IBaseItem *dt_i = f->getDataType();
+
+	if (dt_i->getType() == IBaseItem::TypeBit) {
+		IBitType *bt = static_cast<IBitType *>(dt_i);
+		sprintf(msb_s, "%d", bt->getMsb());
+		sprintf(lsb_s, "%d", bt->getLsb());
+		println(std::string("<bit msb=\"") +
+				msb_s + "\" lsb=\"" + lsb_s + "\"/>");
+	} else if (dt_i->getType() == IBaseItem::TypeInt) {
+		IIntType *bt = static_cast<IIntType *>(dt_i);
+		sprintf(msb_s, "%d", bt->getMsb());
+		sprintf(lsb_s, "%d", bt->getLsb());
+		println(std::string("<int msb=\"") +
+				msb_s + "\" lsb=\"" + lsb_s + "\"/>");
+	} else if (dt_i->getType() == IBaseItem::TypeAction) {
+	} else if (dt_i->getType() == IBaseItem::TypeStruct) {
+
+	} else {
+		println("<unknown/>");
+	}
+	dec_indent();
+
+	println("</type>");
+	dec_indent();
+
+	println("</field>");
+}
+
 void PSI2XML::println(const std::string &str) {
 	m_content.append(m_ind);
 	m_content.append(str);

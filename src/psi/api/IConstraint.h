@@ -9,7 +9,7 @@
 #define SRC_PSI_API_ICONSTRAINT_H_
 #include "IBaseItem.h"
 
-namespace psi {
+namespace psi_api {
 
 class IConstraint : public IBaseItem {
 public:

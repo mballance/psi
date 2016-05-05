@@ -8,14 +8,15 @@
 #ifndef IMPL_PACKAGEIMPL_H_
 #define IMPL_PACKAGEIMPL_H_
 #include <vector>
+#include "api/IAction.h"
 #include "api/IPackage.h"
+#include "api/IStruct.h"
 #include "NamedScopeItemImpl.h"
 #include "BaseItemImpl.h"
 
-namespace psi {
+using namespace psi_api;
 
-class IAction;
-class IStruct;
+namespace psi {
 
 class PackageImpl : public IPackage  {
 	public:

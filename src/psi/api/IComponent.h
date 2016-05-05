@@ -12,7 +12,7 @@
 
 #include "IBaseItem.h"
 
-namespace psi {
+namespace psi_api {
 
 class IComponent: public IBaseItem {
 	public:

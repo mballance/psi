@@ -8,6 +8,8 @@
 #include "classlib/Elaborator.h"
 #include "api/IComponent.h"
 #include "classlib/ExprCoreList.h"
+#include "classlib/BitType.h"
+#include "classlib/IntType.h"
 
 #include <stdio.h>
 
@@ -34,7 +36,8 @@ void Elaborator::elaborate(Type *root, IModel *model) {
 		Type *t = (*it);
 
 		if (t->getObjectType() == Type::TypeStruct) {
-			elaborate_struct(model->getGlobalPackage(), static_cast<Struct *>(t));
+			IStruct *s = elaborate_struct(static_cast<Struct *>(t));
+			m_model->getGlobalPackage()->add(s);
 		}
 	}
 
@@ -45,7 +48,8 @@ void Elaborator::elaborate(Type *root, IModel *model) {
 		if (t->getObjectType() == Type::TypePackage) {
 			elaborate_package(model, static_cast<Package *>(t));
 		} else if (t->getObjectType() == Type::TypeComponent) {
-			elaborate_component(static_cast<Component *>(t));
+			IComponent *c = elaborate_component(static_cast<Component *>(t));
+			m_model->add(c);
 		} else if (t->getObjectType() != Type::TypeStruct) {
 			// Error:
 			error(std::string("Unsupported root element: ") +
@@ -55,12 +59,27 @@ void Elaborator::elaborate(Type *root, IModel *model) {
 }
 
 IAction *Elaborator::elaborate_action(Action *c) {
-	IAction *a = 0;
+	IAction *super_a = 0; // TODO:
+	IAction *a = m_model->mkAction(c->getName(), super_a);
+
+	std::vector<Type *>::const_iterator it=c->getChildren().begin();
+
+	for (; it!=c->getChildren().end(); it++) {
+		IBaseItem *c = elaborate_struct_action_body_item(*it);
+
+		if (c) {
+			a->add(c);
+		} else {
+			fprintf(stdout, "Error: failed to build action child item %s\n",
+					Type::toString((*it)->getObjectType()));
+		}
+	}
+
 
 	return a;
 }
 
-void Elaborator::elaborate_component(Component *c) {
+IComponent *Elaborator::elaborate_component(Component *c) {
 	IComponent *comp = m_model->mkComponent(c->getName());
 
 	std::vector<Type *>::const_iterator it = c->getChildren().begin();
@@ -70,13 +89,18 @@ void Elaborator::elaborate_component(Component *c) {
 
 		if (t->getObjectType() == Type::TypeAction) {
 			IAction *a = elaborate_action(static_cast<Action *>(t));
-//			comp->add(a);
+			comp->add(a);
+		} else if (t->getObjectType() == Type::TypeStruct) {
+			IStruct *s = elaborate_struct(static_cast<Struct *>(t));
+			comp->add(s);
 		} else {
 			// TODO:
+			fprintf(stdout, "Error: Unknown component body item %s\n",
+					Type::toString(t->getObjectType()));
 		}
 	}
 
-	m_model->add(comp);
+	return comp;
 }
 
 // TODO: should return
@@ -148,8 +172,6 @@ IConstraint *Elaborator::elaborate_constraint_stmt(ExprCore *s) {
 }
 
 IExpr *Elaborator::elaborate_expr(ExprCore *e) {
-	fprintf(stdout, "expr: %s\n", Expr::toString(e->getOp()));
-
 	IExpr *ret = 0;
 
 	switch (e->getOp()) {
@@ -260,6 +282,11 @@ IExpr *Elaborator::elaborate_expr(ExprCore *e) {
 	case Expr::BinOp_ArrayRef:
 		fprintf(stdout, "TODO: ArrayRef\n");
 		break;
+
+	case Expr::TypeRef: {
+		ret = m_model->mkStringLiteral("typeref");
+		} break;
+
 	default:
 		fprintf(stdout, "Error: unkown expression %s\n",
 				Expr::toString(e->getOp()));
@@ -268,7 +295,7 @@ IExpr *Elaborator::elaborate_expr(ExprCore *e) {
 	return ret;
 }
 
-void Elaborator::elaborate_struct(IPackage *pkg, Struct *str) {
+IStruct *Elaborator::elaborate_struct(Struct *str) {
 	IStruct::StructType t = IStruct::Base; // TODO:
 	IStruct *super_type = 0; // TODO:
 	IStruct *s = m_model->mkStruct(str->getName(), t, super_type);
@@ -276,16 +303,17 @@ void Elaborator::elaborate_struct(IPackage *pkg, Struct *str) {
 	std::vector<Type *>::const_iterator it = str->getChildren().begin();
 
 	for (; it!=str->getChildren().end(); it++) {
-		Type *t = *it;
+		IBaseItem *api_it = elaborate_struct_action_body_item(*it);
 
-		fprintf(stdout, "ObjectType: %s\n", Type::toString(t->getObjectType()));
-
-		if (t->getObjectType() == Type::TypeConstraint) {
-			s->add(elaborate_constraint(static_cast<Constraint *>(t)));
+		if (api_it) {
+			s->add(api_it);
+		} else {
+			fprintf(stdout, "Error: failed to elaborate struct item: %s\n",
+					Type::toString((*it)->getObjectType()));
 		}
 	}
 
-	pkg->add(s);
+	return s;
 }
 
 void Elaborator::elaborate_package(IModel *model, Package *pkg_cl) {
@@ -297,6 +325,53 @@ void Elaborator::elaborate_package(IModel *model, Package *pkg_cl) {
 	}
 
 	pkg = model->findPackage(pkg_cl->getName(), true);
+}
+
+IBaseItem *Elaborator::elaborate_struct_action_body_item(Type *t) {
+	IBaseItem *ret = 0;
+
+	if (t->getObjectType() == Type::TypeConstraint) {
+		ret = elaborate_constraint(static_cast<Constraint *>(t));
+	} else if (t->getObjectType() == Type::TypeBit) {
+		// This is a bit-type field
+		BitType *bt = static_cast<BitType *>(t);
+		IField::FieldAttr attr = IField::FieldAttr_None;
+		if (bt->isRand()) {
+			attr = IField::FieldAttr_Rand;
+		} else if (bt->isInput()) {
+			attr = IField::FieldAttr_Input;
+		} else if (bt->isOutput()) {
+			attr = IField::FieldAttr_Output;
+		}
+		IBitType *field_t = m_model->mkBitType(bt->getMsb(), bt->getLsb());
+		ret = m_model->mkField(bt->getName(), field_t, attr);
+	} else if (t->getObjectType() == Type::TypeInt) {
+		// This is an int-type field
+		IntType *it = static_cast<IntType *>(t);
+		IField::FieldAttr attr = IField::FieldAttr_None;
+		if (it->isRand()) {
+			attr = IField::FieldAttr_Rand;
+		} else if (it->isInput()) {
+			attr = IField::FieldAttr_Input;
+		} else if (it->isOutput()) {
+			attr = IField::FieldAttr_Output;
+		}
+		IIntType *field_t = m_model->mkIntType(it->getMsb(), it->getLsb());
+		ret = m_model->mkField(it->getName(), field_t, attr);
+	} else if (t->getObjectType() == Type::TypeAction) {
+		// This is an action-type field
+
+	} else if (t->getObjectType() == Type::TypeStruct) {
+		// This is an struct-type field
+
+	} else if (t->getObjectType() == Type::TypeExec) {
+		// TODO:
+	} else {
+		// See if this is a field
+
+	}
+
+	return ret;
 }
 
 void Elaborator::error(const std::string &msg) {

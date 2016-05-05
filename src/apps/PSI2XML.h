@@ -15,6 +15,9 @@
 #include <stdint.h>
 
 #include "api/IModel.h"
+#include "api/IBaseItem.h"
+
+using namespace psi_api;
 
 namespace psi {
 namespace apps {
@@ -32,15 +35,23 @@ private:
 
 	void process_pkg(IPackage *pkg);
 
+	void process_action(IAction *a);
+
 	void process_struct(IStruct *str);
 
 	void process_body(const std::vector<IBaseItem *> &items);
+
+	void process_component(IComponent *c);
+
+	void process_comp_pkg_body(const std::vector<IBaseItem *> &items);
 
 	void process_constraint(IConstraint *c);
 
 	void process_constraint_block(IConstraintBlock *block);
 
 	void process_expr(IExpr *e);
+
+	void process_field(IField *f);
 
 	void println(const std::string &str);
 
