@@ -7,21 +7,22 @@
 
 #ifndef GRAPH_H_
 #define GRAPH_H_
-#include "classlib/GraphStmtSeq.h"
 #include "classlib/Type.h"
 #include "classlib/ExprList.h"
 
 namespace psi {
 
-class Graph {
+class Graph : public Type {
 
 	public:
 		Graph(Type *p, const ExprList &seq);
 
 		virtual ~Graph();
 
+		ExprList &getSequence() { return m_seq; }
+
 	private:
-//		GraphStmtSeq			m_seq;
+		ExprList				m_seq;
 };
 
 } /* namespace psi */

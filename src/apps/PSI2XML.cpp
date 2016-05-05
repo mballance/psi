@@ -263,13 +263,13 @@ void PSI2XML::process_expr(IExpr *e) {
 
 			switch (l->getLiteralType()) {
 			case ILiteral::LiteralBit: {
-				sprintf(val, "0x%ullx", l->getBit());
+				sprintf(val, "0x%llx", (long long)l->getBit());
 				tag = "<bit value=\"";
 				tag += val;
 				tag += "\"/>";
 			} break;
 			case ILiteral::LiteralInt: {
-				sprintf(val, "0x%llx", l->getInt());
+				sprintf(val, "0x%llx", (long long)l->getInt());
 				tag = "<int value=\"";
 				tag += val;
 				tag += "\"/>";

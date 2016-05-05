@@ -7,24 +7,25 @@
 
 #ifndef SRC_STATIC_SHAREDPTR_H_
 #define SRC_STATIC_SHAREDPTR_H_
+#include <stdio.h>
 #include "classlib/Types.h"
 
 template <class T> class SharedPtr {
 
 public:
 
-	SharedPtr(T *ptr=nullptr) : m_ptr(ptr), m_count(nullptr) {
+	SharedPtr(T *ptr/*=nullptr*/) : m_ptr(ptr), m_count(nullptr) {
 		if (m_ptr) {
 			m_count = new int();
 			*m_count = 1;
 		}
 	}
 
-	SharedPtr(T *ptr, int *count) : m_ptr(ptr), m_count(count) {
-		if (m_count) {
-			(*m_count)++;
-		}
-	}
+//	SharedPtr(T *ptr, int *count) : m_ptr(ptr), m_count(count) {
+//		if (m_count) {
+//			(*m_count)++;
+//		}
+//	}
 
 	SharedPtr(const SharedPtr<T> &p) :
 		m_ptr(p.m_ptr), m_count(p.m_count) {

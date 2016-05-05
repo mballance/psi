@@ -12,7 +12,6 @@
 
 #include "classlib/Expr.h"
 #include "classlib/ExprList.h"
-#include "classlib/GraphStmtSeq.h"
 
 namespace psi {
 
@@ -36,6 +35,7 @@ public:
 		TypeExtendAction,
 		TypeExtendComponent,
 		TypeExtendStruct,
+		TypeGraph,
 		TypePackage,
 		TypeString,
 		TypeStruct,

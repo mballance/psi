@@ -18,7 +18,7 @@ Type::Type(Type::ObjectType t, Type *p) :
 		m_isInput(false), m_isOutput(false) {
 	m_type_data = nullptr;
 
-	if (p != nullptr) {
+	if (p) {
 		p->add(this);
 	}
 }
@@ -29,7 +29,7 @@ Type::Type(Type::ObjectType t, const std::string &name, Type *p) :
 		m_isInput(false), m_isOutput(false) {
 	m_type_data = nullptr;
 
-	if (p != nullptr) {
+	if (p) {
 		p->add(this);
 	}
 }

@@ -56,6 +56,10 @@ class Expr {
 			Stmt_If,
 			Stmt_IfElse,
 
+			GraphSelect,
+			GraphParallel,
+			GraphSchedule,
+
 			List,
 			TypeRef
 		};
@@ -73,6 +77,8 @@ class Expr {
 
 		Expr(ExprCore *rhs);
 
+		Expr(const SharedPtr<ExprCore> &ptr);
+
 		virtual ~Expr();
 
 		void build();
@@ -84,6 +90,8 @@ class Expr {
 		ExprCore *getCorePtr() const { return m_core.ptr(); }
 
 		Operator getOp() const;
+
+		void setOp(Operator op);
 
 		bool isBinOp() const;
 

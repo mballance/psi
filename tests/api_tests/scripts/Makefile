@@ -20,14 +20,15 @@ SRC= \
   ExprCoreList.cpp \
   ExprList.cpp \
   Graph.cpp \
-  GraphStmtSeq.cpp \
   If.cpp \
   Import.cpp \
   ImportCall.cpp \
   IntType.cpp \
   MemoryStruct.cpp \
   Package.cpp \
+  Parallel.cpp \
   ResourceStruct.cpp \
+  Select.cpp \
   StreamStruct.cpp \
   String.cpp \
   Struct.cpp \

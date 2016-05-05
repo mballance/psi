@@ -9,10 +9,8 @@
 
 namespace psi {
 
-Graph::Graph(Type *p, const ExprList &seq) {
-	// TODO Auto-generated constructor stub
-
-}
+Graph::Graph(Type *p, const ExprList &seq) :
+		Type(Type::TypeGraph, p), m_seq(seq) { }
 
 Graph::~Graph() {
 	// TODO Auto-generated destructor stub

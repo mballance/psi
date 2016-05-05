@@ -23,6 +23,8 @@ Expr::Expr(int32_t v) : m_core(new ExprCore(v)) { }
 
 Expr::Expr(const Type &t) : m_core(new ExprCore(t)) { }
 
+Expr::Expr(const SharedPtr<ExprCore> &ptr) : m_core(ptr) { }
+
 Expr::Expr(const Expr &rhs) : m_core(rhs.m_core) { }
 
 Expr::Expr(ExprCore *rhs) : m_core(rhs) { }
@@ -31,6 +33,10 @@ Expr::~Expr() { }
 
 Expr::Operator Expr::getOp() const {
 	return m_core->m_op;
+}
+
+void Expr::setOp(Operator op) {
+	m_core->m_op = op;
 }
 
 bool Expr::isBinOp() const {
