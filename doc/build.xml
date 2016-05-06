@@ -1,0 +1,154 @@
+<project name="mkdoc" default="mkdoc">
+	
+	<property name="doc.dir" value="${basedir}"/>
+
+	<taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask">
+		<classpath path="${doc.dir}/xmltask.jar"/>
+	</taskdef>
+			
+	<target name="mkdoc" depends="rundox,filterdox">
+	</target>
+
+	<target name="rundox">
+		<delete dir="${doc.dir}/doxydocs"/>
+		<exec executable="doxygen" failonerror="true" failifexecutionfails="true"/>
+	</target>
+	
+	<target name="filterdox">
+		<delete dir="${doc.dir}/flatdocs"/>
+		<mkdir dir="${doc.dir}/flatdocs"/>
+		<delete dir="${doc.dir}/tmp"/>
+		<mkdir dir="${doc.dir}/tmp"/>
+		<copy todir="${doc.dir}/tmp">
+			<fileset dir="${doc.dir}/doxydocs/html"
+				includes="*.html"
+				excludes="*-members.html"/>
+			<filterchain>
+				<linecontains negate="true"><contains value="DOCTYPE"/></linecontains>
+				<linecontains negate="true"><contains value="#include"/></linecontains>
+				<!--
+				<linecontains negate="true"><contains value="The documentation for"/></linecontains>
+				<linecontains negate="true"><contains value='class="el"'/></linecontains>
+				<linecontainsregexp negate="true"><regexp pattern="^&lt;/ul&gt;"/></linecontainsregexp>
+				  -->
+			</filterchain>
+		</copy>
+		<replace dir="${doc.dir}/tmp" value="">
+			<include name="*.html"/>
+			<replacetoken> xmlns="http://www.w3.org/1999/xhtml"</replacetoken>
+		</replace>
+		<!--
+		<replace dir="${doc.dir}/tmp" value="">
+			<include name="*.html"/>
+			<replacetoken>psi_api::</replacetoken>
+			<replacetoken>psi::"</replacetoken>
+		</replace>
+		  -->
+		
+		<copy todir="${doc.dir}/flatdocs">
+			<fileset dir="${doc.dir}/doxydocs/html"
+				includes="*.css"/>
+			<!--
+			 -->
+			<fileset dir="${doc.dir}/doxydocs/html"
+				includes="*-members.html"/>
+			<fileset dir="${doc.dir}/doxydocs/html"
+				includes="*.png"/>
+		</copy>
+	
+		<xmltask todir="${doc.dir}/flatdocs">
+			<fileset dir="${doc.dir}/tmp"
+				includes="class*.html"
+				excludes="*-members.html"/>
+			<remove path="/html/body/div[@id='titlearea']"/>
+			<remove path="/html/head/script"/>
+			<remove path="/html/body/div[@id='top']/script"/>
+			<remove path="/html/body/div[@id='top']/div[@id='navrow1']"/>
+			<remove path="/html/body/div[@id='top']/div[@id='navrow2']"/>
+			<remove path="/html/body/div[@id='top']/div[@id='MSearchSelectWindow']"/>
+			<remove path="/html/body/div[@id='top']/div[@id='MSearchResultsWindow']"/>
+			<remove path="/html/body/div[@id='top']/div[@id='nav-path']"/>
+			<remove path="/html/body/div[@id='top']/div[@class='header']"/>
+			<remove path="/html/body/div[@id='top']/div[@class='summary']"/>
+			<remove path="/html/body/div[@id='top']/div[@id='titlearea']"/>
+			<remove path="/html/body/address[@class='footer']"/>
+			<remove path="/html/body/hr[@class='footer']"/>
+			<!--
+			<remove path="/html/head"/>
+			<copy path="/html/body/div[@id='top']/text()" buffer="psi_api_top" append="true"/>
+			<print buffer="psi_api_top"/>
+			  -->
+		</xmltask>
+		
+		<concat destfile="${doc.dir}/flatdocs/psi_api.html">
+			<fileset dir="${doc.dir}" includes="template_h.html"/>
+		</concat>
+			
+		<concat append="true" destfile="${doc.dir}/flatdocs/psi_api.html">
+			<fileset dir="${doc.dir}/flatdocs" 
+				includes="classpsi__api_*.html"
+				excludes="*-members.html"/>
+			<filterchain>
+				<linecontains negate="true"><contains value="body"/></linecontains>
+				<linecontains negate="true"><contains value="html&gt;"/></linecontains>
+			</filterchain>
+		</concat>
+			
+		<concat append="true" destfile="${doc.dir}/flatdocs/psi_api.html">
+			<fileset dir="${doc.dir}" includes="template_f.html"/>
+		</concat>
+		
+
+		<!--
+		<xmltask source="${doc.dir}/template.html" dest="${doc.dir}/api.html">
+			<insert path="/html/body" buffer="psi_api_top"/>
+		</xmltask>
+		  -->
+		
+
+		<!--
+		<mkdir dir="${doc.dir}/flatdocs/psi_api"/>
+		<mkdir dir="${doc.dir}/flatdocs/psi_classlib"/>
+		<concat destfile="${doc.dir}/flatdocs/psi_api/psi_api.html">
+			<fileset dir="${doc.dir}/flatdocs"
+				includes="classpsi__api_*.html"/>
+		</concat>
+		
+		<concat destfile="${doc.dir}/flatdocs/psi_classlib/psi_classlib.html">
+			<fileset dir="${doc.dir}/flatdocs"
+				includes="classpsi_1*.html"/>
+		</concat>
+		
+		<copy todir="${doc.dir}/flatdocs/psi_api">
+			<fileset dir="${doc.dir}/doxydocs/html"
+				includes="*.css"/>
+			<fileset dir="${doc.dir}/doxydocs/html"
+				includes="*.png"/>
+		</copy>
+		
+		<copy todir="${doc.dir}/flatdocs/psi_classlib">
+			<fileset dir="${doc.dir}/doxydocs/html"
+				includes="*.css"/>
+			<fileset dir="${doc.dir}/doxydocs/html"
+				includes="*.png"/>
+		</copy>
+
+		-->
+
+		<!--
+		<mkdir dir="${doc.dir}/flatdocs/psi_api"/>
+		<xmltask todir="${doc.dir}/flatdocs/psi_api">
+			<fileset dir="${doc.dir}/flatdocs"
+				includes="classpsi__api_1*.html"/>
+			<copy path="/html/body/div[@id='top']"/>
+		</xmltask>
+		<copy todir="${doc.dir}/flatdocs">
+			<fileset dir="${doc.dir}/doxydocs/html"
+				includes="*.css"/>
+			<fileset dir="${doc.dir}/doxydocs/html"
+				includes="*.png"/>
+		</copy>
+		-->
+	</target>
+		
+</project>

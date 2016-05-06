@@ -69,7 +69,7 @@ class Expr {
 
 		Expr(uint32_t v);
 
-		Expr(int v);
+		Expr(int32_t v);
 
 		Expr(const Type &t);
 
