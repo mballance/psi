@@ -6,3 +6,4 @@ sav/
 *~
 classlib/
 rundir/
+*.tar.gz
