@@ -37,23 +37,20 @@
 			<include name="*.html"/>
 			<replacetoken> xmlns="http://www.w3.org/1999/xhtml"</replacetoken>
 		</replace>
-		<!--
-		<replace dir="${doc.dir}/tmp" value="">
-			<include name="*.html"/>
-			<replacetoken>psi_api::</replacetoken>
-			<replacetoken>psi::"</replacetoken>
-		</replace>
-		  -->
 		
 		<copy todir="${doc.dir}/flatdocs">
 			<fileset dir="${doc.dir}/doxydocs/html"
 				includes="*.css"/>
-			<!--
-			 -->
 			<fileset dir="${doc.dir}/doxydocs/html"
 				includes="*-members.html"/>
 			<fileset dir="${doc.dir}/doxydocs/html"
 				includes="*.png"/>
+		</copy>
+
+		<mkdir dir="${doc.dir}/flatdocs/search"/>
+		<copy todir="${doc.dir}/flatdocs/search">
+			<fileset dir="${doc.dir}/doxydocs/html/search"
+				includes="*"/>
 		</copy>
 	
 		<xmltask todir="${doc.dir}/flatdocs">
@@ -61,7 +58,12 @@
 				includes="class*.html"
 				excludes="*-members.html"/>
 			<remove path="/html/body/div[@id='titlearea']"/>
-			<remove path="/html/head/script"/>
+			<remove path="/html/body/div[@class='header']/div[@class='summary']"/>
+			<rename 
+				path="/html/body/div[@class='header']/div[@class='headertitle']/div[@class='title']"
+				to="h2"/>
+			<rename path="//h2[@class='groupheader']" to="h3"/>
+			<remove path="//span[@class='mlabels']"/>
 			<remove path="/html/body/div[@id='top']/script"/>
 			<remove path="/html/body/div[@id='top']/div[@id='navrow1']"/>
 			<remove path="/html/body/div[@id='top']/div[@id='navrow2']"/>
@@ -73,13 +75,9 @@
 			<remove path="/html/body/div[@id='top']/div[@id='titlearea']"/>
 			<remove path="/html/body/address[@class='footer']"/>
 			<remove path="/html/body/hr[@class='footer']"/>
-			<!--
-			<remove path="/html/head"/>
-			<copy path="/html/body/div[@id='top']/text()" buffer="psi_api_top" append="true"/>
-			<print buffer="psi_api_top"/>
-			  -->
 		</xmltask>
-		
+
+		<!-- Build the PSI API Docs -->
 		<concat destfile="${doc.dir}/flatdocs/psi_api.html">
 			<fileset dir="${doc.dir}" includes="template_h.html"/>
 		</concat>
@@ -98,57 +96,33 @@
 			<fileset dir="${doc.dir}" includes="template_f.html"/>
 		</concat>
 		
-
-		<!--
-		<xmltask source="${doc.dir}/template.html" dest="${doc.dir}/api.html">
-			<insert path="/html/body" buffer="psi_api_top"/>
-		</xmltask>
-		  -->
-		
-
-		<!--
-		<mkdir dir="${doc.dir}/flatdocs/psi_api"/>
-		<mkdir dir="${doc.dir}/flatdocs/psi_classlib"/>
-		<concat destfile="${doc.dir}/flatdocs/psi_api/psi_api.html">
-			<fileset dir="${doc.dir}/flatdocs"
-				includes="classpsi__api_*.html"/>
+		<!-- Build the PSI Classlib Docs -->
+		<concat destfile="${doc.dir}/flatdocs/psi_classlib.html">
+			<fileset dir="${doc.dir}" includes="template_h.html"/>
+		</concat>
+			
+		<concat append="true" destfile="${doc.dir}/flatdocs/psi_classlib.html">
+			<fileset dir="${doc.dir}/flatdocs" 
+				includes="classpsi_1*.html"
+				excludes="*-members.html"/>
+			<filterchain>
+				<linecontains negate="true"><contains value="body"/></linecontains>
+				<linecontains negate="true"><contains value="html&gt;"/></linecontains>
+			</filterchain>
+		</concat>
+			
+		<concat append="true" destfile="${doc.dir}/flatdocs/psi_classlib.html">
+			<fileset dir="${doc.dir}" includes="template_f.html"/>
 		</concat>
 		
-		<concat destfile="${doc.dir}/flatdocs/psi_classlib/psi_classlib.html">
+		<!-- Now do a little cleanup -->
+		<delete>
 			<fileset dir="${doc.dir}/flatdocs"
-				includes="classpsi_1*.html"/>
-		</concat>
+				includes="classpsi__*.html"
+				excludes="*-members.html"/>
+		</delete>
 		
-		<copy todir="${doc.dir}/flatdocs/psi_api">
-			<fileset dir="${doc.dir}/doxydocs/html"
-				includes="*.css"/>
-			<fileset dir="${doc.dir}/doxydocs/html"
-				includes="*.png"/>
-		</copy>
-		
-		<copy todir="${doc.dir}/flatdocs/psi_classlib">
-			<fileset dir="${doc.dir}/doxydocs/html"
-				includes="*.css"/>
-			<fileset dir="${doc.dir}/doxydocs/html"
-				includes="*.png"/>
-		</copy>
-
-		-->
-
-		<!--
-		<mkdir dir="${doc.dir}/flatdocs/psi_api"/>
-		<xmltask todir="${doc.dir}/flatdocs/psi_api">
-			<fileset dir="${doc.dir}/flatdocs"
-				includes="classpsi__api_1*.html"/>
-			<copy path="/html/body/div[@id='top']"/>
-		</xmltask>
-		<copy todir="${doc.dir}/flatdocs">
-			<fileset dir="${doc.dir}/doxydocs/html"
-				includes="*.css"/>
-			<fileset dir="${doc.dir}/doxydocs/html"
-				includes="*.png"/>
-		</copy>
-		-->
+		<delete dir="${doc.dir}/tmp"/>
 	</target>
 		
 </project>
