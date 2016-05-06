@@ -1,13 +1,5 @@
 
-ifeq (,$(VERBOSE))
-VERBOSE := false
-else
-ifeq (true,$(VERBOSE))
-VERBOSE := true
-else
-VERBOSE := false
-endif
-endif
+include ../etc/defs_rules.mk
 
 ifeq (true,$(VERBOSE))
 ANT_VERBOSE := -v
@@ -16,4 +8,6 @@ endif
 all : 
 	ant $(ANT_VERBOSE)
 
-
+clean:
+	$(Q)rm -rf doxydocs
+	$(Q)rm -rf flatdocs
