@@ -14,14 +14,13 @@
 
 #include "api/IBaseItem.h"
 #include "ActionImpl.h"
-#include "BitTypeImpl.h"
 #include "ComponentImpl.h"
 #include "ConstraintBlockImpl.h"
 #include "ConstraintExprImpl.h"
 #include "ConstraintIfImpl.h"
 #include "FieldImpl.h"
-#include "IntTypeImpl.h"
 #include "LiteralImpl.h"
+#include "ScalarTypeImpl.h"
 #include "StructImpl.h"
 #include "BinaryExprImpl.h"
 
@@ -80,16 +79,21 @@ IPackage *ModelImpl::findPackage(const std::string &name, bool create) {
  * Data Types
  */
 
-IBitType *ModelImpl::mkBitType(uint32_t msb, uint32_t lsb) {
-	return new BitTypeImpl(msb, lsb);
+/**
+ * Creates a scalar type. The msb and lsb parameters are ignored for types
+ * other than Int and Bit
+ */
+IScalarType *ModelImpl::mkScalarType(
+		IScalarType::ScalarType t,
+		uint32_t				msb,
+		uint32_t				lsb) {
+	if (t != IScalarType::ScalarType_Bit && t != IScalarType::ScalarType_Int) {
+		msb = 0;
+		lsb = 0;
+	}
+	return new ScalarTypeImpl(t, msb, lsb);
 }
 
-IIntType *ModelImpl::mkIntType(uint32_t msb, uint32_t lsb) {
-	return new IntTypeImpl(msb, lsb);
-}
-//
-//// TODO: String, Bool types
-//
 /**
  * Action
  */

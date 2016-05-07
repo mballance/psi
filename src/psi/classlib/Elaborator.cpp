@@ -343,7 +343,8 @@ IBaseItem *Elaborator::elaborate_struct_action_body_item(Type *t) {
 		} else if (bt->isOutput()) {
 			attr = IField::FieldAttr_Output;
 		}
-		IBitType *field_t = m_model->mkBitType(bt->getMsb(), bt->getLsb());
+		IScalarType *field_t = m_model->mkScalarType(
+				IScalarType::ScalarType_Bit, bt->getMsb(), bt->getLsb());
 		ret = m_model->mkField(bt->getName(), field_t, attr);
 	} else if (t->getObjectType() == Type::TypeInt) {
 		// This is an int-type field
@@ -356,7 +357,8 @@ IBaseItem *Elaborator::elaborate_struct_action_body_item(Type *t) {
 		} else if (it->isOutput()) {
 			attr = IField::FieldAttr_Output;
 		}
-		IIntType *field_t = m_model->mkIntType(it->getMsb(), it->getLsb());
+		IScalarType *field_t = m_model->mkScalarType(
+				IScalarType::ScalarType_Int, it->getMsb(), it->getLsb());
 		ret = m_model->mkField(it->getName(), field_t, attr);
 	} else if (t->getObjectType() == Type::TypeAction) {
 		// This is an action-type field

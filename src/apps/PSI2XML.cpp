@@ -321,18 +321,27 @@ void PSI2XML::process_field(IField *f) {
 
 	IBaseItem *dt_i = f->getDataType();
 
-	if (dt_i->getType() == IBaseItem::TypeBit) {
-		IBitType *bt = static_cast<IBitType *>(dt_i);
-		sprintf(msb_s, "%d", bt->getMsb());
-		sprintf(lsb_s, "%d", bt->getLsb());
-		println(std::string("<bit msb=\"") +
-				msb_s + "\" lsb=\"" + lsb_s + "\"/>");
-	} else if (dt_i->getType() == IBaseItem::TypeInt) {
-		IIntType *bt = static_cast<IIntType *>(dt_i);
-		sprintf(msb_s, "%d", bt->getMsb());
-		sprintf(lsb_s, "%d", bt->getLsb());
-		println(std::string("<int msb=\"") +
-				msb_s + "\" lsb=\"" + lsb_s + "\"/>");
+	if (dt_i->getType() == IBaseItem::TypeScalar) {
+		IScalarType *st = static_cast<IScalarType *>(dt_i);
+		std::string tname = "unknown";
+		sprintf(msb_s, "%d", st->getMSB());
+		sprintf(lsb_s, "%d", st->getLSB());
+		bool has_bitwidth = false;
+
+		if (st->getScalarType() == IScalarType::ScalarType_Bit) {
+			tname = "bit";
+			has_bitwidth = true;
+		} else if (st->getScalarType() == IScalarType::ScalarType_Int) {
+			tname = "int";
+			has_bitwidth = true;
+		}
+
+		if (has_bitwidth) {
+			println(std::string("<") + tname + " msb=\"" +
+					msb_s + "\" lsb=\"" + lsb_s + "\"/>");
+		} else {
+			println(std::string("<") + tname + "/>");
+		}
 	} else if (dt_i->getType() == IBaseItem::TypeAction) {
 	} else if (dt_i->getType() == IBaseItem::TypeStruct) {
 

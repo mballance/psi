@@ -46,12 +46,15 @@ class ModelImpl: public IModel {
 		 * Data Types
 		 */
 
-		virtual IBitType *mkBitType(uint32_t msb=0, uint32_t lsb=0);
+		/**
+		 * Creates a scalar type. The msb and lsb parameters are ignored for types
+		 * other than Int and Bit
+		 */
+		virtual IScalarType *mkScalarType(
+				IScalarType::ScalarType t,
+				uint32_t				msb,
+				uint32_t				lsb);
 
-		virtual IIntType *mkIntType(uint32_t msb=31, uint32_t lsb=0);
-
-//		// TODO: String, Bool types
-//
 		/**
 		 * Action
 		 */

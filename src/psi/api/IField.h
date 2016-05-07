@@ -20,7 +20,10 @@ public:
 		FieldAttr_None = 0,
 		FieldAttr_Rand,
 		FieldAttr_Input,
-		FieldAttr_Output
+		FieldAttr_Lock,
+		FieldAttr_Output,
+		FieldAttr_Pool,
+		FieldAttr_Share
 	};
 
 public:

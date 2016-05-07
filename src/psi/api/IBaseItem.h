@@ -21,21 +21,17 @@ namespace psi_api {
 
 		enum ItemType {
 			TypeAction,
-			TypeBit,
-			TypeBool,
-			TypeChandle,
 			TypeComponent,
 			TypeConstraint,
 			TypeField,
 			TypeImport,
-			TypeInt,
 			TypeExec,
 			TypeExtendAction,
 			TypeExtendComponent,
 			TypeExtendStruct,
 			TypeModel,
 			TypePackage,
-			TypeString,
+			TypeScalar,
 			TypeStruct
 		};
 

@@ -13,7 +13,6 @@
 #include "api/IAction.h"
 #include "api/IBaseItem.h"
 #include "api/IBinaryExpr.h"
-#include "api/IBitType.h"
 #include "api/IComponent.h"
 #include "api/IConstraint.h"
 #include "api/IConstraintBlock.h"
@@ -21,8 +20,8 @@
 #include "api/IConstraintIf.h"
 #include "api/IField.h"
 #include "api/ILiteral.h"
-#include "api/IIntType.h"
 #include "api/IPackage.h"
+#include "api/IScalarType.h"
 #include "api/IScopeItem.h"
 #include "api/IStruct.h"
 
@@ -42,17 +41,14 @@ namespace psi_api {
 			 */
 
 			/**
-			 * Create a new Bit data type. Used in creating action/struct fields
+			 * Creates a scalar type. The msb and lsb parameters are ignored for types
+			 * other than Int and Bit
 			 */
-			virtual IBitType *mkBitType(uint32_t msb=0, uint32_t lsb=0) = 0;
+			virtual IScalarType *mkScalarType(
+					IScalarType::ScalarType t,
+					uint32_t				msb,
+					uint32_t				lsb) = 0;
 
-			/**
-			 * Create a new Int data type. Used in creating action/struct fields
-			 */
-			virtual IIntType *mkIntType(uint32_t msb=31, uint32_t lsb=0) = 0;
-//
-//			// TODO: String, Bool types
-//
 			/**
 			 * Action
 			 */

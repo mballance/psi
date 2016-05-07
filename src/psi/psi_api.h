@@ -10,8 +10,6 @@
 
 #include "api/IAction.h"
 #include "api/IBaseItem.h"
-#include "api/IBitType.h"
-#include "api/IIntType.h"
 #include "api/IModel.h"
 #include "api/INamedItem.h"
 #include "api/IPackage.h"
