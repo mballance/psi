@@ -1,9 +1,6 @@
-output/
 Debug/
 *.o
 *.exe
-sav/
 *~
-classlib/
 rundir/
 *.tar.gz
