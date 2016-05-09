@@ -5,13 +5,29 @@
 	<taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask">
 		<classpath path="${doc.dir}/xmltask.jar"/>
 	</taskdef>
+	
+	<target name="init">
+		<dirname property="psi.dir" file="${doc.dir}/"/>
+		<loadresource property="psi.dir.fs">
+			<propertyresource name="psi.dir"/>
+			<filterchain>
+				<replacestring from="\" to="/"/>
+			</filterchain>
+		</loadresource>
+	</target>
 			
-	<target name="mkdoc" depends="rundox,filterdox">
+	<target name="mkdoc" depends="init,rundox,filterdox">
 	</target>
 
 	<target name="rundox">
 		<delete dir="${doc.dir}/doxydocs"/>
+		<mkdir dir="${doc.dir}/doxydocs"/>
 		<exec executable="doxygen" failonerror="true" failifexecutionfails="true"/>
+		<!-- Filter out absolute paths in the 'generated from the following file' note-->
+		<replace dir="${doc.dir}/doxydocs/html"
+			value="" token="${psi.dir}/"/>
+		<replace dir="${doc.dir}/doxydocs/html"
+			value="" token="${psi.dir.fs}/"/>
 	</target>
 	
 	<target name="filterdox">

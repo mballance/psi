@@ -4,6 +4,10 @@
 
 - Add API support for graph block, if/else, and repeat statements
 
+- Update copyright notices for API and implementation
+
+* Add API, class library support for Bind
+
 ---------------------------------------------------------------------
 -- 0.1 Release --
 

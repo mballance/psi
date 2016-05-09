@@ -7,13 +7,15 @@ all:
 
 RULES:=1
 
-INCLUDE:=src tests impl
+INCLUDE:=src tests impl LICENSE ChangeLog.txt
 
 dist:
 	$(Q)$(MAKE) -C doc
-	$(Q)rm -rf tmp ; mkdir -p tmp/psi-$(VERSION)
+	$(Q)rm -rf tmp
+	$(Q)mkdir -p tmp/psi-$(VERSION)
+	$(Q)mkdir -p tmp/psi-$(VERSION)/doc
 	$(Q)tar cf - $(INCLUDE) | (cd tmp/psi-$(VERSION) ; tar xf -) 
-	$(Q)cp -r doc/doxydocs/html tmp/psi-$(VERSION)/doc
+	$(Q)cp -r doc/doxydocs/html tmp/psi-$(VERSION)/doc/html
 	$(Q)rm -rf tmp/psi-$(VERSION)/tests/api_tests/rundir
 	$(Q)cd tmp ; tar czf ../psi-$(VERSION).tar.gz psi-$(VERSION)
 	$(Q)rm -rf tmp
