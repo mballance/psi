@@ -116,6 +116,7 @@ const char *Expr::toString(Operator op) {
 	}
 
 
+DEFINE_OP_FUNCTIONS(=, Expr::BinOp_Eq)
 DEFINE_OP_FUNCTIONS(==, Expr::BinOp_EqEq)
 DEFINE_OP_FUNCTIONS(!=, Expr::BinOp_NotEq)
 DEFINE_OP_FUNCTIONS(>=, Expr::BinOp_GE)

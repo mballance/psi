@@ -29,10 +29,12 @@ namespace psi_api {
 			TypeExtendAction,
 			TypeExtendComponent,
 			TypeExtendStruct,
+			TypeGraphStmt,
 			TypeModel,
 			TypePackage,
 			TypeScalar,
-			TypeStruct
+			TypeStruct,
+			TypeSymbol
 		};
 
 		public:

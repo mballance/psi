@@ -36,6 +36,7 @@ class Expr {
 			LiteralBool,
 			LiteralString,
 
+			BinOp_Eq,
 			BinOp_EqEq,
 			BinOp_NotEq,
 			BinOp_GE,
@@ -103,6 +104,7 @@ class Expr {
 
 		Expr operator [] (uint32_t rhs);
 
+		DECLARE_OP_FUNCTIONS(friend, =)
 		DECLARE_OP_FUNCTIONS(friend, ==)
 		DECLARE_OP_FUNCTIONS(friend, !=)
 		DECLARE_OP_FUNCTIONS(friend, <=)
@@ -127,6 +129,7 @@ class Expr {
 
 };
 
+DECLARE_OP_FUNCTIONS( , =)
 DECLARE_OP_FUNCTIONS( , ==)
 DECLARE_OP_FUNCTIONS( , !=)
 DECLARE_OP_FUNCTIONS( , <=)

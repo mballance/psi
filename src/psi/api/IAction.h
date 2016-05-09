@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "api/IBaseItem.h"
+#include "api/IGraphStmt.h"
 
 namespace psi_api {
 	/**
@@ -40,6 +41,18 @@ namespace psi_api {
 			 * Adds a new sub-element to the action declaration
 			 */
 			virtual void add(IBaseItem *it) = 0;
+
+			/**
+			 * Method: getGraph
+			 * Returns the graph body, or null if there is none
+			 */
+			virtual IGraphStmt *getGraph() = 0;
+
+			/**
+			 * Method: setGraph
+			 * Sets the graph body
+			 */
+			virtual void setGraph(IGraphStmt *graph) = 0;
 
 	};
 }

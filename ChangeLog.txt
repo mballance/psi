@@ -1,0 +1,10 @@
+
+---------------------------------------------------------------------
+-- 0.2 Release --
+
+- Add API support for graph block, if/else, and repeat statements
+
+---------------------------------------------------------------------
+-- 0.1 Release --
+
+- Initial release
