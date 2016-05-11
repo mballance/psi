@@ -39,7 +39,7 @@ template <class T> class Pool : public T {
 			static_cast<Type *>(this)->setTypeName(t_ref);
 		}
 
-		virtual ~Pool();
+		virtual ~Pool() { }
 };
 
 } /* namespace psi */
