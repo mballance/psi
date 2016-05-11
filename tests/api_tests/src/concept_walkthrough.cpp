@@ -4,10 +4,7 @@
  *  Created on: Apr 23, 2016
  *      Author: ballance
  */
-#include "psi.h"
-#include <stdio.h>
-
-using namespace psi;
+#include "psi_tests.h"
 
 static class data_s : public MemoryStruct {
 public:

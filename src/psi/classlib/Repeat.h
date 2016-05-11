@@ -1,5 +1,5 @@
 /*
- * IField.h
+ * Repeat.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,54 +18,24 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: May 5, 2016
+ *  Created on: May 10, 2016
  *      Author: ballance
  */
 
-#ifndef SRC_PSI_API_IFIELD_H_
-#define SRC_PSI_API_IFIELD_H_
-#include <stdint.h>
-#include <string>
-#include "api/IBaseItem.h"
-#include "api/IFieldRef.h"
+#ifndef SRC_PSI_CLASSLIB_REPEAT_H_
+#define SRC_PSI_CLASSLIB_REPEAT_H_
 
-namespace psi_api {
+#include "classlib/Expr.h"
 
-class IField : public IBaseItem {
+namespace psi {
+
+class Repeat: public Expr {
 public:
+	Repeat(const Expr &expr, const Expr &body);
 
-	enum FieldAttr {
-		FieldAttr_None = 0,
-		FieldAttr_Rand,
-		FieldAttr_Input,
-		FieldAttr_Lock,
-		FieldAttr_Output,
-		FieldAttr_Pool,
-		FieldAttr_Share
-	};
-
-public:
-
-
-	virtual ~IField() { }
-
-	virtual const std::string &getName() const = 0;
-
-	virtual IBaseItem *getDataType() const = 0;
-
-	virtual FieldAttr getAttr() const = 0;
-
-	/**
-	 * Returns the reference expression for this field.
-	 */
-	virtual IFieldRef *getFieldRef() = 0;
-
+	virtual ~Repeat();
 };
 
+} /* namespace psi */
 
-}
-
-
-
-
-#endif /* SRC_PSI_API_IFIELD_H_ */
+#endif /* SRC_PSI_CLASSLIB_REPEAT_H_ */

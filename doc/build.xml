@@ -80,6 +80,7 @@
 				to="h2"/>
 			<rename path="//h2[@class='groupheader']" to="h3"/>
 			<remove path="//span[@class='mlabels']"/>
+			<remove path="//tr[contains(@class,'separator:')]"/>
 			<remove path="/html/body/div[@id='top']/script"/>
 			<remove path="/html/body/div[@id='top']/div[@id='navrow1']"/>
 			<remove path="/html/body/div[@id='top']/div[@id='navrow2']"/>

@@ -7,6 +7,7 @@ SRCDIR := $(SIM_DIR)/../../src
 
 SRC= \
   Action.cpp \
+  Bind.cpp \
   BitType.cpp \
   Bool.cpp \
   Chandle.cpp \
@@ -14,6 +15,7 @@ SRC= \
   Constraint.cpp \
   Elaborator.cpp \
   Exec.cpp \
+  ExportAction.cpp \
   Expr.cpp \
   ExprCore.cpp \
   ExprCoreIf.cpp \
@@ -25,10 +27,13 @@ SRC= \
   ImportCall.cpp \
   IntType.cpp \
   MemoryStruct.cpp \
+  NativeExecClosure.cpp \
   Package.cpp \
   Parallel.cpp \
+  Repeat.cpp \
   ResourceStruct.cpp \
   Select.cpp \
+  StateStruct.cpp \
   StreamStruct.cpp \
   String.cpp \
   Struct.cpp \
@@ -45,13 +50,13 @@ SRC_IMPL = \
   ConstraintExprImpl.cpp \
   ConstraintIfImpl.cpp \
   FieldImpl.cpp \
+  FieldRefImpl.cpp \
   LiteralImpl.cpp \
   ModelImpl.cpp \
   NamedItemImpl.cpp \
   NamedScopeItemImpl.cpp \
   PackageImpl.cpp \
   ScalarTypeImpl.cpp \
-  ScopeItemImpl.cpp \
   StructImpl.cpp
   
 SRC_APPS = \

@@ -26,7 +26,7 @@
 #define ACTION_H_
 #include <string>
 
-#include "classlib/Exec.h"
+#include "classlib/NativeExecClosure.h"
 #include "classlib/Type.h"
 
 namespace psi {
@@ -38,6 +38,59 @@ class Action : public Type {
 		Action(const std::string &name, Type *p);
 
 		virtual ~Action();
+
+	protected:
+
+		/**
+		 * Creates a native exec closure, pointing to a method
+		 * in the action class
+		 */
+		template <class C> static SharedPtr<NativeExecClosureBase> mk_exec(C *t, void (C::*m)()) {
+			return SharedPtr<NativeExecClosureBase>(new NativeExecClosure<C>(t, m));
+		}
+
+		/**
+		 * Enable this action's inline pre-solve method.
+		 * Note: This method must be invoked from the constructor
+		 */
+		void enable_inline_pre_solve();
+
+		/**
+		 * Enable this action's inline post-solve method.
+		 * Note: This method must be invoked from the constructor
+		 */
+		void enable_inline_post_solve();
+
+		/**
+		 * Enable this action's inline body method.
+		 * Note: This method must be invoked from the constructor
+		 */
+		void enable_inline_body();
+
+		/**
+		 * Inline pre_solve method. If enabled, this method will
+		 * be called during the solve process
+		 */
+		virtual void pre_solve() { }
+
+		/**
+		 * Inline post_solve method. If enabled, this method will
+		 * be called during the solve process
+		 */
+		virtual void post_solve() { }
+
+		/**
+		 * Inline post_solve method. If enabled, this method will
+		 * be called during the solve process
+		 */
+		virtual void body() { }
+
+	private:
+
+		bool						m_inlinePreSolve;
+		bool						m_inlinePostSolve;
+		bool						m_inlineBody;
+
 
 //		virtual Graph graph();
 

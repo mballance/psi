@@ -28,10 +28,26 @@
 
 #include "api/IAction.h"
 #include "api/IBaseItem.h"
+#include "api/IBinaryExpr.h"
+#include "api/IComponent.h"
+#include "api/IConstraint.h"
+#include "api/IConstraintBlock.h"
+#include "api/IConstraintExpr.h"
+#include "api/IConstraintIf.h"
+#include "api/IExpr.h"
+#include "api/IField.h"
+#include "api/IFieldRef.h"
+#include "api/IGraphBlockStmt.h"
+#include "api/IGraphIfElseStmt.h"
+#include "api/IGraphRepeatStmt.h"
+#include "api/IGraphStmt.h"
+#include "api/ILiteral.h"
 #include "api/IModel.h"
 #include "api/INamedItem.h"
 #include "api/IPackage.h"
+#include "api/IScalarType.h"
 #include "api/IScopeItem.h"
+#include "api/IStruct.h"
 
 
 

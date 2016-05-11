@@ -28,11 +28,13 @@
 #include <string>
 
 #include "classlib/Type.h"
-
+#include "classlib/NativeExecClosure.h"
+#include "classlib/SharedPtr.h"
 
 namespace psi {
 
 class ImportCall;
+
 class Exec : public Type {
 
 	public:
@@ -45,7 +47,8 @@ class Exec : public Type {
 		enum ExecType {
 			Null,
 			TargetTemplate,
-			Native
+			Native,
+			Inline
 		};
 
 	public:
@@ -61,6 +64,12 @@ class Exec : public Type {
 			Type					*p,
 			const ImportCall		&call);
 
+		Exec(
+			ExecKind								kind,
+			Type									*p,
+			const SharedPtr<NativeExecClosureBase>	&closure,
+			const std::vector<Type *>				&write_vars);
+
 		virtual ~Exec();
 
 
@@ -73,10 +82,12 @@ class Exec : public Type {
 		}
 
 	private:
-		ExecType			m_execType;
-		ExecKind			m_execKind;
-		std::string			m_language;
-		std::string			m_content;
+		ExecType							m_execType;
+		ExecKind							m_execKind;
+		std::string							m_language;
+		std::string							m_content;
+		SharedPtr<NativeExecClosureBase>	m_closure;
+
 
 };
 

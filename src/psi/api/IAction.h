@@ -57,7 +57,7 @@ namespace psi_api {
 			/**
 			 * Returns the graph body, or null if there is none
 			 */
-			virtual IGraphStmt *getGraph() = 0;
+			virtual IGraphStmt *getGraph() const = 0;
 
 			/**
 			 * Sets the graph body

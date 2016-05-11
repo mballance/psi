@@ -43,6 +43,7 @@ class Type {
 public:
 	enum ObjectType {
 		TypeAction,
+		TypeBind,
 		TypeBit,
 		TypeBool,
 		TypeChandle,
@@ -51,6 +52,7 @@ public:
 		TypeImport,
 		TypeInt,
 		TypeExec,
+		TypeExportAction,
 		TypeExtendAction,
 		TypeExtendComponent,
 		TypeExtendStruct,
@@ -93,6 +95,8 @@ public:
 		inline const std::string &getTypeName() const { return m_type_name; }
 
 		inline void setTypeName(const std::string &name) { m_type_name = name; }
+
+		Type *operator ()()  { return this; }
 
 		Expr operator [] (const Expr &rhs);
 

@@ -6,20 +6,30 @@
  */
 #include <vector>
 #include <stdio.h>
-#include "psi.h"
+#include "psi_tests.h"
 #include "ModelImpl.h"
 #include "PSI2XML.h"
 
-using namespace psi;
 using namespace psi::apps;
 
-int main(int argc, char **argv) {
+void build_model(IModel *) __attribute__((weak));
+
+/**
+ * Default version of the build_model function that uses
+ * definitions made by the class library
+ */
+void build_model(IModel *model) {
 	Elaborator elab;
+
+	Type *global = TypeRegistry::global();
+	elab.elaborate(TypeRegistry::global(), model);
+}
+
+int main(int argc, char **argv) {
 	ModelImpl  model;
 	PSI2XML    psi2xml;
 
 //	std::vector<IType *>::const_iterator it;
-	Type *global = TypeRegistry::global();
 
 //	fprintf(stdout, "Vector size: %d\n", global->getChildren().size());
 //	for (it=global->getChildren().begin();
@@ -33,7 +43,7 @@ int main(int argc, char **argv) {
 //		}
 //	}
 
-	elab.elaborate(TypeRegistry::global(), &model);
+	build_model(&model);
 
 	const std::string xml = psi2xml.traverse(&model);
 

@@ -28,7 +28,6 @@
 #include "api/ILiteral.h"
 #include "api/IModel.h"
 #include "api/IStruct.h"
-#include "ScopeItemImpl.h"
 
 using namespace psi_api;
 
@@ -106,7 +105,13 @@ class ModelImpl: public IModel {
 
 		virtual ILiteral *mkStringLiteral(const std::string &v);
 
-		virtual IConstraintBlock *mkConstraintBlock(const std::string &name);
+		virtual IConstraintBlock *mkConstraintBlock(
+				const std::string 		&name,
+				IConstraint				*c);
+
+		virtual IConstraintBlock *mkConstraintBlock(
+				const std::string 					&name,
+				const std::vector<IConstraint *>	&cl);
 
 		virtual IConstraintExpr *mkConstraintExpr(IExpr *expr);
 

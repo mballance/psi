@@ -49,10 +49,13 @@ public:
 
 	virtual FieldAttr getAttr() const { return m_attr; }
 
+	virtual IFieldRef *getFieldRef();
+
 private:
 	std::string					m_name;
 	IBaseItem					*m_field_type;
 	FieldAttr					m_attr;
+	IFieldRef					*m_field_ref;
 
 };
 

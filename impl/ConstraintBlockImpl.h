@@ -47,6 +47,8 @@ public:
 
 	virtual void add(IConstraint *c);
 
+	virtual void add(const std::vector<IConstraint *> &cl);
+
 	virtual const std::vector<IConstraint *> &getConstraints() const { return m_constraints; }
 
 private:

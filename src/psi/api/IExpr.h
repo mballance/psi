@@ -32,7 +32,7 @@ public:
 	enum ExprType {
 		ExprType_Literal,
 		ExprType_BinOp,
-		ExprType_TypeRef
+		ExprType_FieldRef
 	};
 
 public:

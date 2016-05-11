@@ -1,5 +1,5 @@
 /*
- * IField.h
+ * ExportAction.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,54 +18,30 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: May 5, 2016
+ *  Created on: May 10, 2016
  *      Author: ballance
  */
 
-#ifndef SRC_PSI_API_IFIELD_H_
-#define SRC_PSI_API_IFIELD_H_
-#include <stdint.h>
-#include <string>
-#include "api/IBaseItem.h"
-#include "api/IFieldRef.h"
+#include "ExportAction.h"
 
-namespace psi_api {
+namespace psi {
 
-class IField : public IBaseItem {
-public:
-
-	enum FieldAttr {
-		FieldAttr_None = 0,
-		FieldAttr_Rand,
-		FieldAttr_Input,
-		FieldAttr_Lock,
-		FieldAttr_Output,
-		FieldAttr_Pool,
-		FieldAttr_Share
-	};
-
-public:
-
-
-	virtual ~IField() { }
-
-	virtual const std::string &getName() const = 0;
-
-	virtual IBaseItem *getDataType() const = 0;
-
-	virtual FieldAttr getAttr() const = 0;
-
-	/**
-	 * Returns the reference expression for this field.
-	 */
-	virtual IFieldRef *getFieldRef() = 0;
-
-};
-
-
+ExportAction::ExportAction(
+		Action 				&t_ref,
+		Type 				*p) : Type(Type::TypeExportAction, p) {
+	setTypeData(&t_ref);
 }
 
+ExportAction::ExportAction(
+		Action 				&t_ref,
+		Type 				*p,
+		const ExprList		&exp_params) :
+	Type(Type::TypeExportAction, p), m_exp_params(exp_params) {
+	setTypeData(&t_ref);
+}
 
+ExportAction::~ExportAction() {
+	// TODO Auto-generated destructor stub
+}
 
-
-#endif /* SRC_PSI_API_IFIELD_H_ */
+}

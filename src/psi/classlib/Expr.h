@@ -74,9 +74,10 @@ class Expr {
 			Stmt_If,
 			Stmt_IfElse,
 
-			GraphSelect,
 			GraphParallel,
+			GraphRepeat,
 			GraphSchedule,
+			GraphSelect,
 
 			List,
 			TypeRef

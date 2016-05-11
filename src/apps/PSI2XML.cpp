@@ -309,7 +309,10 @@ void PSI2XML::process_expr(IExpr *e) {
 
 			} break;
 
-		case IExpr::ExprType_TypeRef:
+		case IExpr::ExprType_FieldRef:
+			std::string tag = "<field name=\"";
+			tag += static_cast<IFieldRef *>(e)->getField()->getName() + "\"/>";
+			println(tag);
 			break;
 	}
 }

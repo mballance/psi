@@ -26,6 +26,7 @@
 #define INCLUDED_PSI_H
 
 #include "classlib/Action.h"
+#include "classlib/Bind.h"
 #include "classlib/Bit.h"
 #include "classlib/BitType.h"
 #include "classlib/Bool.h"
@@ -34,6 +35,7 @@
 #include "classlib/Constraint.h"
 #include "classlib/Exec.h"
 #include "classlib/Expr.h"
+#include "classlib/ExportAction.h"
 #include "classlib/ExtendAction.h"
 #include "classlib/ExtendComponent.h"
 #include "classlib/ExtendStruct.h"
@@ -51,10 +53,12 @@
 #include "classlib/Parallel.h"
 #include "classlib/Pool.h"
 #include "classlib/Rand.h"
+#include "classlib/Repeat.h"
 #include "classlib/ResourceStruct.h"
 #include "classlib/Schedule.h"
 #include "classlib/Select.h"
 #include "classlib/Share.h"
+#include "classlib/StateStruct.h"
 #include "classlib/StreamStruct.h"
 #include "classlib/Struct.h"
 #include "classlib/TypeRegistry.h"

@@ -106,7 +106,21 @@ namespace psi_api {
 
 			virtual ILiteral *mkStringLiteral(const std::string &v) = 0;
 
-			virtual IConstraintBlock *mkConstraintBlock(const std::string &name) = 0;
+			/**
+			 * Construct a new constraint block. The constraint block is
+			 * anonymous if name="". The specified constraint will be
+			 * added to the block if it is non-null
+			 */
+			virtual IConstraintBlock *mkConstraintBlock(
+					const std::string 	&name,
+					IConstraint			*c=0) = 0;
+
+			/**
+			 * Construct a new constraint block, with a list of constraints
+			 */
+			virtual IConstraintBlock *mkConstraintBlock(
+					const std::string 					&name,
+					const std::vector<IConstraint *>	&cl) = 0;
 
 			virtual IConstraintExpr *mkConstraintExpr(IExpr *expr) = 0;
 

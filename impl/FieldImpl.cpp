@@ -24,6 +24,7 @@
  */
 
 #include "FieldImpl.h"
+#include "FieldRefImpl.h"
 
 namespace psi {
 
@@ -31,10 +32,18 @@ FieldImpl::FieldImpl(
 		const std::string		&name,
 		IBaseItem				*field_type,
 		IField::FieldAttr		attr) :
-				m_name(name), m_field_type(field_type), m_attr(attr) { }
+				m_name(name), m_field_type(field_type), m_attr(attr), m_field_ref(0) { }
 
 FieldImpl::~FieldImpl() {
 	// TODO Auto-generated destructor stub
+}
+
+IFieldRef *FieldImpl::getFieldRef() {
+	if (!m_field_ref) {
+		m_field_ref = new FieldRefImpl(this);
+	}
+
+	return m_field_ref;
 }
 
 } /* namespace psi */

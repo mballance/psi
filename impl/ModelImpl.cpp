@@ -163,8 +163,26 @@ ILiteral *ModelImpl::mkStringLiteral(const std::string &v) {
 	return new LiteralImpl(v);
 }
 
-IConstraintBlock *ModelImpl::mkConstraintBlock(const std::string &name) {
-	return new ConstraintBlockImpl(name);
+IConstraintBlock *ModelImpl::mkConstraintBlock(
+		const std::string 		&name,
+		IConstraint				*c) {
+	IConstraintBlock *ret = new ConstraintBlockImpl(name);
+
+	if (c) {
+		ret->add(c);
+	}
+
+	return ret;
+}
+
+IConstraintBlock *ModelImpl::mkConstraintBlock(
+		const std::string 					&name,
+		const std::vector<IConstraint *>	&cl) {
+	IConstraintBlock *ret = new ConstraintBlockImpl(name);
+
+	ret->add(cl);
+
+	return ret;
 }
 
 IConstraintExpr *ModelImpl::mkConstraintExpr(IExpr *expr) {

@@ -27,7 +27,7 @@
 namespace psi {
 
 ActionImpl::ActionImpl(const std::string &name, IAction *super_type) :
-		m_name(name), m_super_type(super_type) {
+		m_name(name), m_super_type(super_type), m_graph(0) {
 
 }
 
@@ -45,6 +45,10 @@ const std::vector<IBaseItem *> &ActionImpl::getItems() const {
 
 void ActionImpl::add(IBaseItem *it) {
 	m_children.push_back(it);
+}
+
+void ActionImpl::setGraph(IGraphStmt *graph) {
+	m_graph = graph;
 }
 
 

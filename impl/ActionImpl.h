@@ -51,11 +51,16 @@ namespace psi {
 
 			virtual void add(IBaseItem *);
 
+			virtual IGraphStmt *getGraph() const { return m_graph; }
+
+			virtual void setGraph(IGraphStmt *graph);
+
 
 		private:
 			std::string					m_name;
 			IAction						*m_super_type;
 			std::vector<IBaseItem *>	m_children;
+			IGraphStmt					*m_graph;
 
 
 };

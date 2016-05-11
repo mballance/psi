@@ -6,7 +6,13 @@
 
 - Update copyright notices for API and implementation
 
-* Add API, class library support for Bind
+- Add class library support for Bind
+
+- Add class library support for inline exec method
+
+- Add class library support for action export
+
+- Add class library support for state struct
 
 ---------------------------------------------------------------------
 -- 0.1 Release --
