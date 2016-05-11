@@ -79,6 +79,8 @@ class Expr {
 			GraphSchedule,
 			GraphSelect,
 
+			ImportCall,
+
 			List,
 			TypeRef
 		};

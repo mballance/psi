@@ -5,6 +5,9 @@ tests/classlib_dac_tutorial_first_example.f
 tests/classlib_dac_tutorial_resources.f
 tests/classlib_declare_action.f
 tests/classlib_declare_struct.f
+tests/classlib_export_action.f
+tests/classlib_inline_exec_1.f
+tests/classlib_native_exec_1.f
 tests/concept_walkthrough_no11.f
 tests/concept_walkthrough.f
 tests/constraint_basics_test.f

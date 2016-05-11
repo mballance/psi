@@ -102,6 +102,10 @@ public:
 
 		ExprList operator,(const Type &rhs);
 
+		Expr operator = (const Expr &rhs);
+
+//		Expr operator = (const ExprImportCall &rhs);
+
 		// Effectively private.
 		virtual void add(Type *item);
 

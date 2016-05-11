@@ -31,19 +31,23 @@ namespace psi {
 
 Import::Import(const std::string &name, Type *p, const ExprList &plist) :
 	Type(Type::TypeImport, name, p){
+}
 
+Import::Import(const std::string &name, Type *p,
+		const Type &ret, const ExprList &plist) :
+	Type(Type::TypeImport, name, p){
 }
 
 Import::~Import() {
 	// TODO Auto-generated destructor stub
 }
 
-ImportCall Import::operator()(const ExprList &plist) {
-	return ImportCall(*this, plist);
+ExprImportCall Import::operator()(const ExprList &plist) {
+	return ExprImportCall(*this, plist);
 }
 
-ImportCall Import::operator()() {
-	return ImportCall(*this, ExprList());
+ExprImportCall Import::operator()() {
+	return ExprImportCall(*this, ExprList());
 }
 
 } /* namespace psi */

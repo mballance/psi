@@ -29,6 +29,7 @@
 
 namespace psi {
 
+class Import;
 class ExprCore {
 
 	public:
@@ -41,6 +42,8 @@ class ExprCore {
 		ExprCore(const Type &t);
 
 		ExprCore(Expr::Operator op, const Expr &lhs, const Expr &rhs);
+
+		ExprCore(Import &import, const Expr &params);
 
 		ExprCore(Expr::Operator op);
 

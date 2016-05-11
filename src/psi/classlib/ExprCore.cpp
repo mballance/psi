@@ -23,8 +23,8 @@
  */
 
 #include "classlib/ExprCore.h"
-
 #include "classlib/Expr.h"
+#include "classlib/Import.h"
 
 namespace psi {
 
@@ -44,6 +44,11 @@ ExprCore::ExprCore(Expr::Operator op) : m_op(op) { }
 
 ExprCore::ExprCore(Expr::Operator op, const Expr &lhs, const Expr &rhs) :
 	m_op(op), m_lhs(lhs), m_rhs(rhs) {
+}
+
+ExprCore::ExprCore(Import &import, const Expr &params) :
+		m_op(Expr::ImportCall), m_lhs(params) {
+	m_val.ref = &import;
 }
 
 ExprCore::~ExprCore() {

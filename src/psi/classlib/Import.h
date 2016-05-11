@@ -26,23 +26,26 @@
 #define SRC_CLASSLIB_IMPORT_H_
 #include <string>
 
-#include "classlib/ImportCall.h"
+#include "classlib/Expr.h"
 #include "classlib/Type.h"
+#include "classlib/ExprImportCall.h"
 
 namespace psi {
 
-class ExprList;
 class Import : public Type {
 
 	public:
 
 		Import(const std::string &name, Type *p, const ExprList &plist);
 
+		Import(const std::string &name, Type *p,
+				const Type &ret, const ExprList &plist);
+
 		virtual ~Import();
 
-		ImportCall operator()(const ExprList &plist);
+		ExprImportCall operator()(const ExprList &plist);
 
-		ImportCall operator()();
+		ExprImportCall operator()();
 };
 
 

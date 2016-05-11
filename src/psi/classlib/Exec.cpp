@@ -24,8 +24,6 @@
 
 #include "classlib/Exec.h"
 
-#include "classlib/ImportCall.h"
-
 namespace psi {
 
 //Exec::Exec() : m_execType(Null) { }
@@ -46,12 +44,11 @@ Exec::Exec(
 Exec::Exec(
 		ExecKind 				kind,
 		Type					*p,
-		const ImportCall		&call) :
+		const ExprList			&stmts) :
 			Type(Type::TypeExec, p),
 			m_execType(Native),
 			m_execKind(kind),
-			m_language(""),
-			m_content(""),
+			m_stmts(stmts),
 			m_closure(0) {
 	// TODO: save call information
 }

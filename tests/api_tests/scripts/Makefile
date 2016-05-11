@@ -20,11 +20,11 @@ SRC= \
   ExprCore.cpp \
   ExprCoreIf.cpp \
   ExprCoreList.cpp \
+  ExprImportCall.cpp \
   ExprList.cpp \
   Graph.cpp \
   If.cpp \
   Import.cpp \
-  ImportCall.cpp \
   IntType.cpp \
   MemoryStruct.cpp \
   NativeExecClosure.cpp \

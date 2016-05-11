@@ -25,6 +25,7 @@
 #ifndef SRC_PSI_CLASSLIB_EXPRLIST_H_
 #define SRC_PSI_CLASSLIB_EXPRLIST_H_
 #include "classlib/Expr.h"
+#include "classlib/ExprImportCall.h"
 
 namespace psi {
 
@@ -46,6 +47,8 @@ class ExprList : public Expr {
 		virtual ~ExprList();
 
 		ExprList operator,(const Expr &rhs);
+
+//		ExprList operator,(const ExprImportCall &rhs);
 
 //		ExprList operator,(const Type &rhs);
 
