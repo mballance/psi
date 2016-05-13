@@ -24,6 +24,8 @@
 
 - Enhance elaborator to properly separate type hierarchy
 
+- Add a check for proper use of the type registry
+
 ---------------------------------------------------------------------
 -- 0.1 Release --
 
