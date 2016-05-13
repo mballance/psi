@@ -36,8 +36,8 @@ class BitType : public Type {
 
 	public:
 		BitType(
-				const std::string 	&name,
 				Type 				*p,
+				const std::string 	&name,
 				uint32_t			msb,
 				uint32_t			lsb);
 

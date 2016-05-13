@@ -28,13 +28,23 @@
 
 namespace psi {
 
-PackageImpl::PackageImpl(const std::string &name) : m_name(name) {
-	// TODO Auto-generated constructor stub
+PackageImpl::PackageImpl(const std::string &name, IBaseItem *parent) :
+		m_name(name), m_parent(parent) {
 
 }
 
 PackageImpl::~PackageImpl() {
 	// TODO Auto-generated destructor stub
+}
+
+IBaseItem *PackageImpl::clone() {
+	// TODO: implement clone
+	return 0;
+}
+
+void PackageImpl::add(IBaseItem *it) {
+	it->setParent(this);
+	m_children.push_back(it);
 }
 
 const std::vector<IAction *> PackageImpl::getActions() {

@@ -27,13 +27,19 @@
 
 namespace psi {
 
-ConstraintBlockImpl::ConstraintBlockImpl(const std::string &name) : m_name(name) {
+ConstraintBlockImpl::ConstraintBlockImpl(const std::string &name) :
+		m_parent(0), m_name(name) {
 	// TODO Auto-generated constructor stub
 
 }
 
 ConstraintBlockImpl::~ConstraintBlockImpl() {
 	// TODO Auto-generated destructor stub
+}
+
+IBaseItem *ConstraintBlockImpl::clone() {
+	// TODO: implement clone
+	return 0;
 }
 
 void ConstraintBlockImpl::add(IConstraint *c) {

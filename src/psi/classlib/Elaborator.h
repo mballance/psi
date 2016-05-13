@@ -58,7 +58,7 @@ protected:
 
 	IAction *elaborate_action(Action *a);
 
-	IComponent *elaborate_component(Component *c);
+	IComponent *elaborate_component(IScopeItem *scope, Component *c);
 
 	IConstraint *elaborate_constraint(Constraint *c);
 
@@ -75,6 +75,23 @@ protected:
 	IBaseItem *elaborate_struct_action_body_item(Type *t);
 
 private:
+
+	static IField::FieldAttr getAttr(Type *t);
+
+	IBaseItem *find_type_decl(Type *t);
+
+	static IScopeItem *find_named_scope(
+			const std::vector<IBaseItem *> 	&list,
+			const std::string 				&name);
+
+	static bool should_filter(
+			const std::vector<Type *>		&items,
+			uint32_t						i,
+			const std::vector<Type *>		&type_h);
+
+	static void build_type_hierarchy(
+			std::vector<Type *>				&type_h,
+			Type							*t);
 
 	void error(const std::string &msg);
 

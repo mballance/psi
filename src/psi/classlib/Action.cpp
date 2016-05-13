@@ -29,7 +29,13 @@
 
 namespace psi {
 
-Action::Action(const std::string &name, Type *p) : Type(Type::TypeAction, name, p) { }
+Action::Action(
+		Type 				*p,
+		const std::string 	&name,
+		Action				*super_type) : Type(Type::TypeAction, p, name),
+				m_super_type(super_type) {
+
+}
 
 Action::~Action() {
 	// TODO Auto-generated destructor stub

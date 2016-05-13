@@ -28,15 +28,15 @@
 #include <string>
 #include <vector>
 
-#include "api/INamedItem.h"
 #include "api/IScopeItem.h"
+#include "api/INamedItem.h"
 
 namespace psi_api {
 
 class IAction;
 class IStruct;
 
-class IPackage : public IBaseItem, public virtual IScopeItem, public virtual INamedItem {
+class IPackage : public IScopeItem, public virtual INamedItem {
 
 	public:
 

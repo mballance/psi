@@ -28,15 +28,19 @@
 #include <string>
 
 #include "classlib/Type.h"
+#include "classlib/TypeRgy.h"
 
 namespace psi {
 
 template <class T> class Rand : public T {
 
 	public:
-		Rand(const std::string &name, Type *p) : T(name, p) {
+		Rand(Type *p, const std::string &name) : T(p, name) {
 			Type *t = static_cast<Type *>(this);
 			t->setIsRand(true);
+			if (t->getObjectType() == Type::TypeStruct) {
+				t->setTypeData(TypeRgy<T>::type_id());
+			}
 		}
 
 		virtual ~Rand() { };

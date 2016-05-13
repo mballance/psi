@@ -27,17 +27,21 @@
 #include <vector>
 
 #include "api/IBaseItem.h"
+#include "api/IScopeItem.h"
 #include "api/IGraphStmt.h"
+#include "api/INamedItem.h"
 
 namespace psi_api {
 	/**
 	 * Specifies the API to an Action declaration
 	 */
-	class IAction : public IBaseItem {
+	class IAction : public IScopeItem, public virtual INamedItem {
 
 		public:
 
 			virtual ~IAction() { };
+
+			virtual IAction *getSuperType() const = 0;
 
 			/**
 			 * Returns the name of the action

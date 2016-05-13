@@ -26,13 +26,19 @@
 
 namespace psi {
 
-ComponentImpl::ComponentImpl(const std::string &name) : m_name(name) {
+ComponentImpl::ComponentImpl(const std::string &name) :
+		m_parent(0), m_name(name) {
 	// TODO Auto-generated constructor stub
 
 }
 
 ComponentImpl::~ComponentImpl() {
 	// TODO Auto-generated destructor stub
+}
+
+IBaseItem *ComponentImpl::clone() {
+	// TODO: implement clone
+	return 0;
 }
 
 const std::string &ComponentImpl::getName() const {
@@ -44,6 +50,7 @@ const std::vector<IBaseItem *> &ComponentImpl::getItems() const {
 }
 
 void ComponentImpl::add(IBaseItem *it) {
+	it->setParent(this);
 	m_children.push_back(it);
 }
 

@@ -43,13 +43,19 @@ public:
 
 	virtual const std::string &getName() const;
 
+	virtual IBaseItem *clone();
+
+	virtual IBaseItem *getParent() const { return m_parent; }
+
+	void setParent(IBaseItem *p) { m_parent = p; }
+
 	virtual const std::vector<IBaseItem *> &getItems() const;
 
 	virtual void add(IBaseItem *it);
 
 
 private:
-
+	IBaseItem					*m_parent;
 	std::string					m_name;
 	std::vector<IBaseItem *>	m_children;
 

@@ -28,8 +28,8 @@
 
 namespace psi {
 
-Component::Component(const std::string &name, Type *p) :
-		Type(Type::TypeComponent, name, (p==nullptr)?TypeRegistry::global():p) { }
+Component::Component(Type *p, const std::string &name) :
+		Type(Type::TypeComponent, (p)?p:TypeRegistry::global(), name) { }
 
 Component::~Component() {
 	// TODO Auto-generated destructor stub

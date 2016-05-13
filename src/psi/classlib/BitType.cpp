@@ -28,10 +28,10 @@
 namespace psi {
 
 BitType::BitType(
-		const std::string		&name,
 		Type					*p,
+		const std::string		&name,
 		uint32_t				msb,
-		uint32_t				lsb) : Type(Type::TypeBit, name, p),
+		uint32_t				lsb) : Type(Type::TypeBit, p, name),
 				m_msb(msb), m_lsb(lsb) {
 
 }

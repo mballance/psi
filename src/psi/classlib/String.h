@@ -32,7 +32,9 @@ class String : public Type {
 
 	public:
 
-		String(const std::string &name, Type *p);
+		String(Type *p, const std::string &name);
+
+		String(const std::string &name);
 
 		virtual ~String();
 };

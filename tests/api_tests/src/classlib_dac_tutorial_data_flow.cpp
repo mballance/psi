@@ -9,46 +9,57 @@
 
 static class S : public Struct {
 public:
-	S(const std::string &name="S", Type *p=0) : Struct(name, p) { }
+	TypeRgy<S>			type_id {this};
+
+	S(Type *p=0, psi_name &name="S") : Struct(p, name) { }
 
 } St;
 
 static class CA : public Component {
 public:
-	CA(const std::string &name="CA", Type *p=0) : Component(name, p) {
+	TypeRgy<CA>			type_id {this};
+
+	CA(Type *p=0, psi_name name="CA") : Component(p, name) {
 	}
 
 	class A : public Action {
 	public:
-		A(const std::string &name="A", Type *p=0) : Action(name, p) { }
+		TypeRgy<A>			type_id {this};
 
-		Output<S>			out_s {"out_s", this, St};
-	} At { "A", this };
+		A(Type *p=0, psi_name name="A") : Action(p, name) { }
+
+		Output<S>			out_s {this, "out_s"};
+	} At {this};
 
 } CAt;
 
 static class CB : public Component {
 public:
-	CB(const std::string &name="CB", Type *p=0) : Component(name, p) { }
+	TypeRgy<CB>			type_id {this};
+
+	CB(Type *p=0, psi_name name="CB") : Component(p, name) { }
 
 	class B : public Action {
 	public:
-		B(const std::string &name, Type *p) : Action(name, p) { }
+		TypeRgy<B>			type_id {this};
+		B(Type *p=0, psi_name name="B") : Action(p, name) { }
 
 		Input<S>			in_s {"in_s", this, St};
 
-	} Bt { "B", this };
+	} Bt {this };
 } CBt;
 
 static class static_structure : public Component {
 public:
-	Field<CA>			ca1 {"ca1", this, CAt};
-	Field<CA>			ca2 {"ca2", this, CAt};
-	Field<CB>			cb1 {"cb1", this, CBt};
-	Field<CB>			cb2 {"cb2", this, CBt};
+	TypeRgy<static_structure>	type_id {this};
 
-	static_structure(const std::string &name="static_structure", Type *p=0)
-		: Component(name, p) {
+	Field<CA>			ca1 {"ca1", this};
+	Field<CA>			ca2 {"ca2", this};
+	Field<CB>			cb1 {"cb1", this};
+	Field<CB>			cb2 {"cb2", this};
+
+	static_structure(Type *p, psi_name name="static_structure")
+		: Component(p, name) {
 
 	}
 
@@ -61,7 +72,8 @@ public:
 
 	class entry_point : public Action {
 	public:
-		entry_point(const std::string &name, Type *p) : Action(name, p) { }
+		TypeRgy<entry_point>	type_id {this};
+		entry_point(Type *p, psi_name name) : Action(p, name) { }
 
 	} entry_pointT {"entry_point", this};
 

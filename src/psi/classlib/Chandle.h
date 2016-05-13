@@ -32,7 +32,12 @@ class Chandle : public Type {
 
 	public:
 
-		Chandle(const std::string &name, Type *p);
+		Chandle(
+				Type				*p,
+				const std::string 	&name);
+
+		Chandle(
+				const std::string 	&name);
 
 		virtual ~Chandle();
 };

@@ -27,7 +27,11 @@
 
 namespace psi {
 
-Bool::Bool(const std::string &name, Type *p) : Type(Type::TypeBool, name, p) { }
+Bool::Bool(
+		Type				*p,
+		const std::string 	&name) : Type(Type::TypeBool, p, name) { }
+
+Bool::Bool(const std::string &name) : Type(Type::TypeBool, 0, name) { }
 
 Bool::~Bool() {
 	// TODO Auto-generated destructor stub

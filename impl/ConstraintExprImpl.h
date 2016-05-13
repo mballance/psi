@@ -41,6 +41,12 @@ public:
 
 	virtual ConstraintType getConstraintType() const { return IConstraint::ConstraintType_Expr; }
 
+	virtual IBaseItem *clone();
+
+	virtual IBaseItem *getParent() const { return 0; }
+
+	void setParent(IBaseItem *p) { }
+
 	virtual IExpr *getExpr() const { return m_expr; }
 
 private:

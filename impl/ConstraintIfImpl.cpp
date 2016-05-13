@@ -34,4 +34,9 @@ ConstraintIfImpl::~ConstraintIfImpl() {
 	// TODO Auto-generated destructor stub
 }
 
+IBaseItem *ConstraintIfImpl::clone() {
+	// TODO:
+	return 0;
+}
+
 } /* namespace psi */

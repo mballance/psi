@@ -38,19 +38,23 @@ namespace psi {
 class PackageImpl : public IPackage  {
 	public:
 
-		PackageImpl(const std::string &name);
+		PackageImpl(const std::string &name, IBaseItem *parent=0);
 
 		virtual ~PackageImpl();
 
 		virtual IBaseItem::ItemType getType() const { return IBaseItem::TypePackage; }
 
+		virtual IBaseItem *clone();
+
+		virtual IBaseItem *getParent() const { return m_parent; }
+
+		void setParent(IBaseItem *p) { m_parent = p; }
+
 		virtual const std::vector<IBaseItem *> &getItems() const {
 			return m_children;
 		}
 
-		virtual void add(IBaseItem *item) {
-			m_children.push_back(item);
-		}
+		virtual void add(IBaseItem *item);
 
 		virtual const std::string &getName() const {
 			return m_name;
@@ -68,6 +72,7 @@ class PackageImpl : public IPackage  {
 		virtual IStruct *findStruct(const std::string &name);
 
 	private:
+		IBaseItem							*m_parent;
 		std::string							m_name;
 		std::vector<IBaseItem *>			m_children;
 		std::vector<IAction *>				m_actions;

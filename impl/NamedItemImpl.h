@@ -41,6 +41,7 @@ class NamedItemImpl : public virtual INamedItem, public BaseItemImpl {
 
 		virtual const std::string &getName();
 
+
 	private:
 
 		std::string					m_name;

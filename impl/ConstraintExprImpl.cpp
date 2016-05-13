@@ -33,4 +33,9 @@ ConstraintExprImpl::~ConstraintExprImpl() {
 	// TODO Auto-generated destructor stub
 }
 
+IBaseItem *ConstraintExprImpl::clone() {
+	// TODO:
+	return 0;
+}
+
 } /* namespace psi */

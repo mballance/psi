@@ -26,18 +26,16 @@
 #define LOCK_H_
 #include <string>
 
+#include "classlib/Type.h"
+#include "classlib/TypeRgy.h"
 
 namespace psi {
 
 template <class T> class Lock: public T {
 
 	public:
-		Lock(const std::string &name, Type *p, T &t_ref) : T(name, p) {
-			static_cast<Type *>(this)->setTypeData(&t_ref);
-		}
-
-		Lock(const std::string &name, Type *p, const std::string &t_ref) : T(name, p) {
-			static_cast<Type *>(this)->setTypeName(t_ref);
+		Lock(Type *p, const std::string &name) : T(p, name) {
+			static_cast<Type *>(this)->setTypeData(TypeRgy<T>::type_id());
 		}
 
 		virtual ~Lock() { }

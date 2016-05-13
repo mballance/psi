@@ -35,8 +35,8 @@ public:
 	Constraint(Type *p, const ExprList &stmt);
 
 	Constraint(
-			const std::string 		&name,
 			Type 					*p,
+			const std::string 		&name,
 			const ExprList 			&stmt);
 
 	virtual ~Constraint();

@@ -33,8 +33,8 @@ namespace psi {
 
 class ExportAction: public Type {
 public:
-	ExportAction(Action &t_ref, Type *p);
-	ExportAction(Action &t_ref, Type *p, const ExprList &exp_params);
+	ExportAction(Type *p, Action *at);
+	ExportAction(Type *p, Action *at, const ExprList &exp_params);
 	virtual ~ExportAction();
 
 private:

@@ -44,7 +44,15 @@ public:
 		return IBaseItem::TypeStruct;
 	}
 
+	virtual IStruct *getSuperType() const { return m_super_type; }
+
 	virtual const std::string &getName() const;
+
+	virtual IBaseItem *clone();
+
+	virtual IBaseItem *getParent() const { return m_parent; }
+
+	void setParent(IBaseItem *p) { m_parent = p; }
 
 	virtual const std::vector<IBaseItem *> &getItems() const;
 
@@ -55,6 +63,7 @@ public:
 	}
 
 private:
+	IBaseItem						*m_parent;
 	std::string						m_name;
 	psi_api::IStruct::StructType	m_struct_type;
 	std::vector<IBaseItem *>		m_children;

@@ -41,6 +41,9 @@ PSI2XML::~PSI2XML() {
 const std::string &PSI2XML::traverse(IModel *model) {
 	m_content.clear();
 
+	println("<model>");
+	inc_indent();
+
 	IPackage *pkg = model->getGlobalPackage();
 	process_pkg(pkg);
 
@@ -58,6 +61,9 @@ const std::string &PSI2XML::traverse(IModel *model) {
 			// Really shouldn't be anything else in the global scope
 		}
 	}
+
+	dec_indent();
+	println("</model>");
 
 
 	return m_content;
@@ -93,12 +99,12 @@ void PSI2XML::process_pkg(IPackage *pkg) {
 }
 
 void PSI2XML::process_action(IAction *a) {
-	IAction *super_a = 0; // TODO: super-type
+	IAction *super_a = a->getSuperType();
 
 	std::string tag = "<action name=\"" + a->getName() + "\"";
 
 	if (super_a) {
-		tag += " super=\"" + super_a->getName() + "\"";
+		tag += " super=\"" + type2string(super_a) + "\"";
 	}
 
 	tag += ">";
@@ -116,6 +122,9 @@ void PSI2XML::process_struct(IStruct *str) {
 	std::string tag = "<struct name=\"" + str->getName() + "\"";
 
 	// TODO: handle super-type
+	if (str->getSuperType()) {
+		tag += " super=\"" + type2string(str->getSuperType()) + "\"";
+	}
 	tag += ">";
 	println(tag);
 
@@ -249,22 +258,22 @@ void PSI2XML::process_expr(IExpr *e) {
 			IBinaryExpr *be = static_cast<IBinaryExpr *>(e);
 			std::string op = "<unknown>";
 			switch (be->getBinOpType()) {
-			case IBinaryExpr::BinOp_EqEq: op = "=="; break;
-			case IBinaryExpr::BinOp_NotEq: op = "!="; break;
-			case IBinaryExpr::BinOp_GE: op = ">="; break;
-			case IBinaryExpr::BinOp_GT: op = ">"; break;
-			case IBinaryExpr::BinOp_LE: op = "<="; break;
-			case IBinaryExpr::BinOp_LT: op = "<"; break;
-			case IBinaryExpr::BinOp_And: op = "&"; break;
-			case IBinaryExpr::BinOp_AndAnd: op = "&&"; break;
-			case IBinaryExpr::BinOp_Or: op = "|"; break;
-			case IBinaryExpr::BinOp_OrOr: op = "||"; break;
-			case IBinaryExpr::BinOp_Minus: op = "-"; break;
-			case IBinaryExpr::BinOp_Plus: op = "+"; break;
-			case IBinaryExpr::BinOp_Multiply: op = "*"; break;
-			case IBinaryExpr::BinOp_Divide: op = "/"; break;
-			case IBinaryExpr::BinOp_Mod: op = "%"; break;
-			case IBinaryExpr::BinOp_ArrayRef: op = "[]"; break;
+			case IBinaryExpr::BinOp_EqEq: op = "EqEq"; break;
+			case IBinaryExpr::BinOp_NotEq: op = "NotEq"; break;
+			case IBinaryExpr::BinOp_GE: op = "GE"; break;
+			case IBinaryExpr::BinOp_GT: op = "GT"; break;
+			case IBinaryExpr::BinOp_LE: op = "LE"; break;
+			case IBinaryExpr::BinOp_LT: op = "LT"; break;
+			case IBinaryExpr::BinOp_And: op = "And"; break;
+			case IBinaryExpr::BinOp_AndAnd: op = "AndAnd"; break;
+			case IBinaryExpr::BinOp_Or: op = "Or"; break;
+			case IBinaryExpr::BinOp_OrOr: op = "OrOr"; break;
+			case IBinaryExpr::BinOp_Minus: op = "Minus"; break;
+			case IBinaryExpr::BinOp_Plus: op = "Plus"; break;
+			case IBinaryExpr::BinOp_Multiply: op = "Mul"; break;
+			case IBinaryExpr::BinOp_Divide: op = "Div"; break;
+			case IBinaryExpr::BinOp_Mod: op = "Mod"; break;
+			case IBinaryExpr::BinOp_ArrayRef: op = "ArrRef"; break;
 			}
 			println("<binexp op=\"" + op + "\">");
 			inc_indent();
@@ -344,7 +353,7 @@ void PSI2XML::process_field(IField *f) {
 
 	if (dt_i->getType() == IBaseItem::TypeScalar) {
 		IScalarType *st = static_cast<IScalarType *>(dt_i);
-		std::string tname = "unknown";
+		std::string tname = "unknown-scalar";
 		sprintf(msb_s, "%d", st->getMSB());
 		sprintf(lsb_s, "%d", st->getLSB());
 		bool has_bitwidth = false;
@@ -355,6 +364,9 @@ void PSI2XML::process_field(IField *f) {
 		} else if (st->getScalarType() == IScalarType::ScalarType_Int) {
 			tname = "int";
 			has_bitwidth = true;
+		} else if (st->getScalarType() == IScalarType::ScalarType_Bool) {
+			tname = "bool";
+			has_bitwidth = false;
 		}
 
 		if (has_bitwidth) {
@@ -364,8 +376,9 @@ void PSI2XML::process_field(IField *f) {
 			println(std::string("<") + tname + "/>");
 		}
 	} else if (dt_i->getType() == IBaseItem::TypeAction) {
+		println(std::string("<action type=\"") + type2string(dt_i) + "\"/>");
 	} else if (dt_i->getType() == IBaseItem::TypeStruct) {
-
+		println(std::string("<struct type=\"") + type2string(dt_i) + "\"/>");
 	} else {
 		println("<unknown/>");
 	}
@@ -375,6 +388,27 @@ void PSI2XML::process_field(IField *f) {
 	dec_indent();
 
 	println("</field>");
+}
+
+std::string PSI2XML::type2string(IBaseItem *it) {
+	std::string ret;
+
+	while (it) {
+		INamedItem *ni = toNamedItem(it);
+
+		if (ni) {
+			if (ret.size() > 0) {
+				ret.insert(0, "::");
+			}
+			ret.insert(0, ni->getName());
+		} else {
+			break;
+		}
+
+		it = it->getParent();
+	}
+
+	return ret;
 }
 
 void PSI2XML::println(const std::string &str) {
@@ -397,6 +431,16 @@ void PSI2XML::dec_indent() {
 	}
 }
 
+INamedItem *PSI2XML::toNamedItem(IBaseItem *it) {
+	switch (it->getType()) {
+	case IBaseItem::TypeAction: return static_cast<IAction *>(it);
+	case IBaseItem::TypeComponent: return static_cast<IComponent *>(it);
+	case IBaseItem::TypeField: return static_cast<IField *>(it);
+	case IBaseItem::TypeStruct: return static_cast<IStruct *>(it);
+	}
+
+	return 0;
+}
 
 }
 }

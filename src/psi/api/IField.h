@@ -28,10 +28,11 @@
 #include <string>
 #include "api/IBaseItem.h"
 #include "api/IFieldRef.h"
+#include "api/INamedItem.h"
 
 namespace psi_api {
 
-class IField : public IBaseItem {
+class IField : public IBaseItem, public virtual INamedItem {
 public:
 
 	enum FieldAttr {

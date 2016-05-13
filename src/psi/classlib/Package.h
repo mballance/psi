@@ -35,7 +35,9 @@ class Package : public Type {
 
 	public:
 
-		Package(const std::string &name, Type *p=nullptr);
+		Package(
+				Type				*p,
+				const std::string 	&name);
 
 		virtual ~Package();
 

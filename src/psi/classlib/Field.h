@@ -28,21 +28,16 @@
 #include <string>
 
 #include "classlib/Type.h"
+#include "classlib/TypeRgy.h"
 
 namespace psi {
 
 template <class T> class Field : public T {
 	public:
 
-		Field(const std::string &name, Type *p, T &t_ref) : T(name, p) {
+		Field(Type *p, const std::string &name) : T(name, p) {
 			Type *t = static_cast<Type *>(this);
-			t->setTypeData(&t_ref);
-		}
-
-		Field(const std::string &name, Type *p, const std::string &t_ref) : T(name, p) {
-			Type *t = static_cast<Type *>(this);
-			t->setTypeData(nullptr);
-			t->setTypeName(t_ref);
+			t->setTypeData(TypeRgy<T>::type_id());
 		}
 };
 

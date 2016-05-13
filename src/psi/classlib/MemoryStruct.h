@@ -33,14 +33,9 @@ class MemoryStruct: public Struct {
 
 	public:
 		MemoryStruct(
-				const std::string 		&name,
 				Type 					*p,
-				Struct					&super_type=Struct::None);
-
-		MemoryStruct(
 				const std::string 		&name,
-				Type 					*p,
-				const std::string		&super_type);
+				Struct					*super_type=0);
 
 		virtual ~MemoryStruct();
 };

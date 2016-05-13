@@ -46,9 +46,11 @@ class ModelImpl: public IModel {
 			return IBaseItem::TypeModel;
 		}
 
-		virtual const std::string &getName() const {
-			return m_name;
-		}
+		virtual IBaseItem *clone() { return 0; }
+
+		virtual IBaseItem *getParent() const { return 0; }
+
+		void setParent(IBaseItem *p) { }
 
 		virtual const std::vector<IBaseItem *> &getItems() const;
 
@@ -122,10 +124,8 @@ class ModelImpl: public IModel {
 
 
 	private:
-		std::string					m_name;
 		std::vector<IBaseItem *>	m_children;
 		PackageImpl					m_global_pkg;
-//		std::vector<IPackage *>		m_packages;
 
 };
 

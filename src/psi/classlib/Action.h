@@ -35,9 +35,14 @@ class Action : public Type {
 
 	public:
 
-		Action(const std::string &name, Type *p);
+		Action(
+				Type 						*p,
+				const std::string 			&name,
+				Action						*super_type=0);
 
 		virtual ~Action();
+
+		Action *getSuperType() const { return m_super_type; }
 
 	protected:
 
@@ -49,50 +54,8 @@ class Action : public Type {
 			return SharedPtr<NativeExecClosureBase>(new NativeExecClosure<C>(t, m));
 		}
 
-		/**
-		 * Enable this action's inline pre-solve method.
-		 * Note: This method must be invoked from the constructor
-		 */
-		void enable_inline_pre_solve();
-
-		/**
-		 * Enable this action's inline post-solve method.
-		 * Note: This method must be invoked from the constructor
-		 */
-		void enable_inline_post_solve();
-
-		/**
-		 * Enable this action's inline body method.
-		 * Note: This method must be invoked from the constructor
-		 */
-		void enable_inline_body();
-
-		/**
-		 * Inline pre_solve method. If enabled, this method will
-		 * be called during the solve process
-		 */
-		virtual void pre_solve() { }
-
-		/**
-		 * Inline post_solve method. If enabled, this method will
-		 * be called during the solve process
-		 */
-		virtual void post_solve() { }
-
-		/**
-		 * Inline post_solve method. If enabled, this method will
-		 * be called during the solve process
-		 */
-		virtual void body() { }
-
 	private:
-
-		bool						m_inlinePreSolve;
-		bool						m_inlinePostSolve;
-		bool						m_inlineBody;
-
-
-//		virtual Graph graph();
+		Action								*m_super_type;
 
 };
 

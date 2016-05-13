@@ -54,19 +54,19 @@ class Exec : public Type {
 	public:
 
 		Exec(
-			ExecKind 								kind,
 			Type									*p,
+			ExecKind 								kind,
 			const std::string 						&language,
 			const std::string 						&content);
 
 		Exec(
-			ExecKind 								kind,
 			Type									*p,
+			ExecKind 								kind,
 			const ExprList							&stmts);
 
 		Exec(
-			ExecKind								kind,
 			Type									*p,
+			ExecKind								kind,
 			const SharedPtr<NativeExecClosureBase>	&closure,
 			const std::vector<Type *>				&write_vars);
 

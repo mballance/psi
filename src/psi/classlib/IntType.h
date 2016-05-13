@@ -34,8 +34,8 @@ class IntType : public Type {
 
 	public:
 		IntType(
-				const std::string 	&name,
 				Type 				*p,
+				const std::string 	&name,
 				uint32_t			msb,
 				uint32_t			lsb);
 

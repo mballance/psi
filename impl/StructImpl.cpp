@@ -43,6 +43,11 @@ const std::string &StructImpl::getName() const {
 	return m_name;
 }
 
+IBaseItem *StructImpl::clone() {
+	// TODO:
+	return 0;
+}
+
 const std::vector<IBaseItem *> &StructImpl::getItems() const {
 	return m_children;
 }

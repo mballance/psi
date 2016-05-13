@@ -20,7 +20,7 @@ class StateStruct: public Struct {
 public:
 	Rand<Bool>			initial;
 
-	StateStruct(const std::string &name, Type *p);
+	StateStruct(Type *p, const std::string &name, Struct *super=0);
 
 	virtual ~StateStruct();
 };

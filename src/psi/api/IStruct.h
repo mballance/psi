@@ -28,11 +28,12 @@
 #include <string>
 #include <vector>
 
-#include "api/IBaseItem.h"
+#include "api/IScopeItem.h"
+#include "api/INamedItem.h"
 
 namespace psi_api {
 
-	class IStruct : public IBaseItem {
+	class IStruct : public IScopeItem, public virtual INamedItem {
 	public:
 
 		enum StructType {
@@ -45,6 +46,8 @@ namespace psi_api {
 		public:
 
 			virtual ~IStruct() { }
+
+			virtual IStruct *getSuperType() const = 0;
 
 			virtual const std::string &getName() const = 0;
 

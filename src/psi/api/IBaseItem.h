@@ -63,6 +63,17 @@ namespace psi_api {
 			 */
 			virtual ItemType getType() const = 0;
 
+			/**
+			 * Create an exact copy of this item
+			 */
+			virtual IBaseItem *clone() = 0;
+
+			virtual IBaseItem *getParent() const = 0;
+
+			/**
+			 * Implementation: not called by user code
+			 */
+			virtual void setParent(IBaseItem *it) = 0;
 	};
 
 

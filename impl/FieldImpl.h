@@ -43,6 +43,12 @@ public:
 
 	virtual IBaseItem::ItemType getType() const { return IBaseItem::TypeField; }
 
+	virtual IBaseItem *clone();
+
+	virtual IBaseItem *getParent() const { return m_parent; }
+
+	void setParent(IBaseItem *p) { m_parent = p; }
+
 	virtual const std::string &getName() const { return m_name; }
 
 	virtual IBaseItem *getDataType() const { return m_field_type; }
@@ -51,7 +57,10 @@ public:
 
 	virtual IFieldRef *getFieldRef();
 
+
+
 private:
+	IBaseItem					*m_parent;
 	std::string					m_name;
 	IBaseItem					*m_field_type;
 	FieldAttr					m_attr;

@@ -31,7 +31,7 @@
 
 namespace psi_api {
 
-	class IScopeItem {
+	class IScopeItem : public IBaseItem {
 	public:
 
 		virtual ~IScopeItem() { }

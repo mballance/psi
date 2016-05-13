@@ -35,14 +35,9 @@ class StreamStruct : public Struct {
 	public:
 
 		StreamStruct(
-				const std::string 	&name,
 				Type 				*p,
-				Struct				&super_type=Struct::None);
-
-		StreamStruct(
 				const std::string 	&name,
-				Type 				*p,
-				const std::string	&super_type);
+				Struct				*super_type=0);
 
 		virtual ~StreamStruct();
 };

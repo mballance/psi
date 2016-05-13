@@ -34,6 +34,7 @@ namespace psi_api {
 			virtual ~INamedItem() { }
 
 			virtual const std::string &getName() const = 0;
+
 	};
 }
 

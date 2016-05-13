@@ -18,6 +18,12 @@
 
 - Add basic mechanism for inline exec (hook class method)
 
+- Modify type registration process, add TypeRgy class
+
+- Modify constructor argument order to minimize user-created code
+
+- Enhance elaborator to properly separate type hierarchy
+
 ---------------------------------------------------------------------
 -- 0.1 Release --
 

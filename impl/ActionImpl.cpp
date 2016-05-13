@@ -26,8 +26,10 @@
 
 namespace psi {
 
-ActionImpl::ActionImpl(const std::string &name, IAction *super_type) :
-		m_name(name), m_super_type(super_type), m_graph(0) {
+ActionImpl::ActionImpl(
+		const std::string 	&name,
+		IAction 			*super_type) :
+		m_parent(0), m_name(name), m_super_type(super_type), m_graph(0) {
 
 }
 
@@ -43,7 +45,13 @@ const std::vector<IBaseItem *> &ActionImpl::getItems() const {
 	return m_children;
 }
 
+IBaseItem *ActionImpl::clone() {
+	// TODO: implement clone
+	return 0;
+}
+
 void ActionImpl::add(IBaseItem *it) {
+	it->setParent(this);
 	m_children.push_back(it);
 }
 

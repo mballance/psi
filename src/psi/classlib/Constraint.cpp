@@ -29,8 +29,8 @@ namespace psi {
 Constraint::Constraint(Type *p, const ExprList &stmt) :
 		Type(Type::TypeConstraint, p), m_stmt(stmt) { }
 
-Constraint::Constraint(const std::string &name, Type *p, const ExprList &stmt) :
-		Type(Type::TypeConstraint, name, p), m_stmt(stmt) { }
+Constraint::Constraint(Type *p, const std::string &name, const ExprList &stmt) :
+		Type(Type::TypeConstraint, p, name), m_stmt(stmt) { }
 
 Constraint::~Constraint() {
 	// TODO Auto-generated destructor stub

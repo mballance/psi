@@ -119,7 +119,7 @@ public:
 
 		Type(Type::ObjectType t, Type *p);
 
-		Type(Type::ObjectType t, const std::string &name, Type *p);
+		Type(Type::ObjectType t, Type *p, const std::string &name);
 
 		virtual ~Type();
 
@@ -145,6 +145,11 @@ public:
 		bool						m_isInput;
 		bool						m_isOutput;
 
+};
+
+class TypeRef : public Type {
+public:
+	TypeRef(const std::string &str) : Type(Type::TypeAction, 0) { }
 };
 
 } /* namespace psi */

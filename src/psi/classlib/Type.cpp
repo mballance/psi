@@ -41,7 +41,7 @@ Type::Type(Type::ObjectType t, Type *p) :
 	}
 }
 
-Type::Type(Type::ObjectType t, const std::string &name, Type *p) :
+Type::Type(Type::ObjectType t, Type *p, const std::string &name) :
 		m_type(t), m_name(name), m_parent(p),
 		m_type_data(nullptr), m_isRand(false),
 		m_isInput(false), m_isOutput(false) {

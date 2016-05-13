@@ -70,10 +70,14 @@ private:
 
 	void process_field(IField *f);
 
+	static std::string type2string(IBaseItem *it);
+
 	void println(const std::string &str);
 
 	void inc_indent();
 	void dec_indent();
+
+	static INamedItem *toNamedItem(IBaseItem *it);
 
 private:
 	std::string					m_ind;

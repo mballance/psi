@@ -9,8 +9,8 @@
 
 namespace psi {
 
-StateStruct::StateStruct(const std::string &name, Type *p) :
-		Struct(name, p), initial("initial", this) {
+StateStruct::StateStruct(Type *p, const std::string &name, Struct *super) :
+		Struct(p, name, super), initial(this, "initial") {
 
 }
 

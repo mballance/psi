@@ -40,14 +40,9 @@ class ResourceStruct : public Struct {
 	public:
 
 		ResourceStruct(
-				const std::string 	&name,
 				Type 				*p,
-				Struct 				&super_type=Struct::None);
-
-		ResourceStruct(
 				const std::string 	&name,
-				Type 				*p,
-				const std::string	&super_type);
+				Struct 				*super_type=0);
 
 		virtual ~ResourceStruct();
 };

@@ -37,13 +37,23 @@ namespace psi {
 
 		public:
 
-			ActionImpl(const std::string &name, IAction *super_type);
+			ActionImpl(
+					const std::string 	&name,
+					IAction 			*super_type);
 
 			virtual ~ActionImpl();
+
+			virtual IAction *getSuperType() const { return m_super_type; }
 
 			virtual IBaseItem::ItemType getType() const {
 				return IBaseItem::TypeAction;
 			}
+
+			virtual IBaseItem *clone();
+
+			virtual IBaseItem *getParent() const { return m_parent; }
+
+			void setParent(IBaseItem *p) { m_parent = p; }
 
 			virtual const std::string &getName() const;
 
@@ -58,6 +68,7 @@ namespace psi {
 
 		private:
 			std::string					m_name;
+			IBaseItem					*m_parent;
 			IAction						*m_super_type;
 			std::vector<IBaseItem *>	m_children;
 			IGraphStmt					*m_graph;

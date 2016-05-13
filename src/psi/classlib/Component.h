@@ -33,7 +33,9 @@ namespace psi {
 class Component : public Type {
 
 	public:
-		Component(const std::string &name, Type *p);
+		Component(
+				Type				*p,
+				const std::string 	&name);
 
 		virtual ~Component();
 

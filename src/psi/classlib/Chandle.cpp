@@ -26,7 +26,12 @@
 
 namespace psi {
 
-Chandle::Chandle(const std::string &name, Type *p) : Type(Type::TypeChandle, name, p) { }
+Chandle::Chandle(Type *p, const std::string &name) :
+		Type(Type::TypeChandle, p, name) { }
+
+Chandle::Chandle(const std::string &name) :
+		Type(Type::TypeChandle, 0, name) { }
+
 
 Chandle::~Chandle() {
 	// TODO Auto-generated destructor stub

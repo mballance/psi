@@ -29,8 +29,8 @@ namespace psi {
 //Exec::Exec() : m_execType(Null) { }
 
 Exec::Exec(
-		ExecKind 				kind,
 		Type					*p,
+		ExecKind 				kind,
 		const std::string 		&language,
 		const std::string 		&content) :
 			Type(Type::TypeExec, p),
@@ -42,8 +42,8 @@ Exec::Exec(
 }
 
 Exec::Exec(
-		ExecKind 				kind,
 		Type					*p,
+		ExecKind 				kind,
 		const ExprList			&stmts) :
 			Type(Type::TypeExec, p),
 			m_execType(Native),
@@ -54,8 +54,8 @@ Exec::Exec(
 }
 
 Exec::Exec(
-		ExecKind								kind,
 		Type									*p,
+		ExecKind								kind,
 		const SharedPtr<NativeExecClosureBase>	&closure,
 		const std::vector<Type *>				&write_vars) :
 				Type(Type::TypeExec, p),

@@ -35,4 +35,9 @@ ScalarTypeImpl::~ScalarTypeImpl() {
 	// TODO Auto-generated destructor stub
 }
 
+IBaseItem *ScalarTypeImpl::clone() {
+	// TODO:
+	return 0;
+}
+
 } /* namespace psi */

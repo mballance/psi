@@ -36,9 +36,9 @@ class Import : public Type {
 
 	public:
 
-		Import(const std::string &name, Type *p, const ExprList &plist);
+		Import(Type *p, const std::string &name, const ExprList &plist);
 
-		Import(const std::string &name, Type *p,
+		Import(Type *p, const std::string &name,
 				const Type &ret, const ExprList &plist);
 
 		virtual ~Import();

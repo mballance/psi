@@ -41,6 +41,12 @@ public:
 
 	virtual ConstraintType getConstraintType() const { return IConstraint::ConstraintType_If; }
 
+	virtual IBaseItem *clone();
+
+	virtual IBaseItem *getParent() const { return 0; }
+
+	void setParent(IBaseItem *p) { }
+
 	virtual IExpr *getCond() const { return m_cond; }
 
 	virtual IConstraint *getTrue() const { return m_true; }

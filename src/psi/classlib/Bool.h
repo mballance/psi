@@ -34,7 +34,11 @@ namespace psi {
 class Bool: public Type {
 
 	public:
-		Bool(const std::string &name, Type *p);
+		Bool(
+				Type				*p,
+				const std::string 	&name);
+
+		Bool(const std::string &name);
 
 		virtual ~Bool();
 

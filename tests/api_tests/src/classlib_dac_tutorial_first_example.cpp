@@ -9,37 +9,37 @@
 static class C : public Component {
 public:
 
-	C(const std::string &name="C", Type *p=0) : Component(name, p)  { }
+	C(Type *p=0, psi_name name="C") : Component(p, name)  { }
 
 	class A : public Action {
 	public:
-		A(const std::string &name, Type *p) : Action(name, p) { }
-	} At {"A", this};
+		A(Type *p=0, psi_name name="A") : Action(p, name) { }
+	} At {this};
 
 } Ct;
 
 
 class static_structure : public Component {
 public:
-	Field<C>		c1 { "c1",  this, Ct };
-	Field<C>		c2 { "c2",  this, Ct };
+	Field<C>		c1 {this, "c1"};
+	Field<C>		c2 {this, "c2"};
 
 	static_structure(
-			const std::string 	&name="static_structure",
-			Type 				*p=0) : Component(name, p) { }
+			Type				*p=0,
+			const std::string 	&name="static_structure") : Component(p, name) { }
 
 	class entry : public Action {
 	public:
-		Field<C::A>				a1 {"a1", this, Ct.At};
-		Field<C::A>				a2 {"a2", this, Ct.At};
+		Field<C::A>				a1 {this, "a1"};
+		Field<C::A>				a2 {this, "a2"};
 
-		entry(const std::string &name, Type *p) : Action(name, p) { }
+		entry(Type *p=0, psi_name name="entry") : Action(p, name) { }
 
 		Graph g1 {this, Repeat {
 			a1, a2
 		}};
 
-	} entryT {"entry", this};
+	} entryT {this};
 
 } static_structureT;
 

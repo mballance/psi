@@ -27,11 +27,12 @@
 #include <string>
 #include <vector>
 
-#include "IBaseItem.h"
+#include "api/IScopeItem.h"
+#include "api/INamedItem.h"
 
 namespace psi_api {
 
-class IComponent: public IBaseItem {
+class IComponent: public IScopeItem, public virtual INamedItem {
 	public:
 
 		virtual ~IComponent() { };

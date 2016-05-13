@@ -35,14 +35,9 @@ namespace psi {
 template <class T> class Output : public T {
 
 	public:
-		Output(const std::string &name, Type *p, T &t_ref) : T(name, p) {
+		Output(Type *p, const std::string &name) : T(p, name) {
 			static_cast<Type *>(this)->setIsOutput(true);
-			static_cast<Type *>(this)->setTypeData(&t_ref);
-		}
-
-		Output(const std::string &name, Type *p, const std::string &t_ref) : T(name, p) {
-			static_cast<Type *>(this)->setIsOutput(true);
-			static_cast<Type *>(this)->setTypeName(t_ref);
+			static_cast<Type *>(this)->setTypeData(TypeRgy<T>::type_id());
 		}
 
 		virtual ~Output() { }

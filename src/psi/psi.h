@@ -60,11 +60,14 @@
 #include "classlib/StateStruct.h"
 #include "classlib/StreamStruct.h"
 #include "classlib/Struct.h"
+#include "classlib/TypeRgy.h"
 #include "classlib/TypeRegistry.h"
 
 #include "psi_api.h"
 
 #include "classlib/Elaborator.h"
+
+typedef const std::string & psi_name;
 
 #endif /* INCLUDED_PSI_H */
 

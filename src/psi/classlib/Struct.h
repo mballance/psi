@@ -45,41 +45,30 @@ public:
 
 		virtual ~Struct();
 
+		Struct *getSuperType() const { return m_super; }
+
 	protected:
 
 
 		Struct(
-				const std::string 	&name,
-				Type 				*p=nullptr,
-				Struct 				&super_type=None);
-
-		Struct(
-				const std::string 	&name,
 				Type 				*p,
-				const std::string	&super_name);
+				const std::string 	&name,
+				Struct 				*super_type=0);
 
 		Struct(
 				StructType			t,
-				const std::string 	&name,
-				Type 				*p=nullptr,
-				Struct 				&super_type=None);
-
-		Struct(
-				StructType			t,
-				const std::string 	&name,
 				Type 				*p,
-				const std::string	&super_name);
+				const std::string 	&name,
+				Struct 				*super_type=0);
+
 
 	private:
 		Struct();
 
 	private:
 		StructType						m_structType;
-		Type							m_superRef;
-		Type							*m_super;
+		Struct							*m_super;
 
-	protected:
-		static Struct					None;
 };
 
 } /* namespace psi */

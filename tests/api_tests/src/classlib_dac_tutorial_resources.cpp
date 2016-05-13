@@ -9,33 +9,39 @@
 
 static class R : public ResourceStruct {
 public:
-	R(const std::string &name="R", Type *p=0) : ResourceStruct(name, p) { }
+	TypeRgy<R>		type_id {this};
+
+	R(Type *p=0, psi_name name="R") : ResourceStruct(p, name) { }
 
 } Rt;
 
 static class C : public Component {
 public:
-	C(const std::string &name="C", Type *p=0) : Component(name, p) { }
+	TypeRgy<C>		type_id {this};
+
+	C(psi_name name="C", Type *p=0) : Component(p, name) { }
 
 	class A : public Action {
 	public:
-		A(const std::string &name, Type *p) : Action(name, p) { }
+		A(Type *p=0, psi_name name="A") : Action(p, name) { }
 
-		Lock<R>			rc {"rc", this, Rt};
+		Lock<R>			rc {this, "rc"};
 
-	} At {"A", this};
+	} At {this};
 
 } Ct;
 
 static class static_structure : public Component {
 public:
-	static_structure(const std::string &name="static_structure", Type *p=0)
-		: Component(name, p) { }
+	TypeRgy<static_structure>		type_id {this};
 
-	Field<C>			c1 {"c1", this, Ct};
-	Field<C>			c2 {"c2", this, Ct};
+	static_structure(Type *p=0, psi_name name="static_structure")
+		: Component(p, name) { }
 
-	Pool<R>				rp {"rp", this, Rt};
+	Field<C>			c1 {this, "c1"};
+	Field<C>			c2 {this, "c2"};
+
+	Pool<R>				rp {this, "rp"};
 
 	// Bind rp, c1.A, c2.A
 	Bind b {this, {rp(), c1(), c2()}};
@@ -44,22 +50,25 @@ public:
 
 static class top : public Component {
 public:
+	TypeRgy<top>		type_id {this};
 
-	top(const std::string &name="top", Type *p=0) : Component(name, p) { }
+	top(psi_name name="top", Type *p=0) : Component(p, name) { }
 
 	class entry_point : public Action {
 	public:
-		entry_point(const std::string &name, Type *p) : Action(name, p) { }
+		TypeRgy<entry_point>		type_id {this};
 
-		C::A			a1 {"a1", this};
-		C::A			a2 {"a2", this};
+		entry_point(Type *p=0, psi_name name="entry_point") : Action(p, name) { }
+
+		C::A			a1 {this, "a1"};
+		C::A			a2 {this, "a2"};
 
 		Graph graph {this,
 			Parallel {
 				(a1, a2)
 			}
 		};
-	};
+	} entry_pointT {this};
 
 } topT;
 

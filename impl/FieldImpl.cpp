@@ -32,10 +32,16 @@ FieldImpl::FieldImpl(
 		const std::string		&name,
 		IBaseItem				*field_type,
 		IField::FieldAttr		attr) :
-				m_name(name), m_field_type(field_type), m_attr(attr), m_field_ref(0) { }
+				m_parent(0), m_name(name), m_field_type(field_type),
+				m_attr(attr), m_field_ref(0) { }
 
 FieldImpl::~FieldImpl() {
 	// TODO Auto-generated destructor stub
+}
+
+IBaseItem *FieldImpl::clone() {
+	// TODO: implement clone
+	return 0;
 }
 
 IFieldRef *FieldImpl::getFieldRef() {
