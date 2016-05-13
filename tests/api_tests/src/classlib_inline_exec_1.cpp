@@ -44,6 +44,11 @@ public:
 			{ p5() }
 		};
 
+		Exec post_solve_f {Exec::PostSolve, this,
+			{this, post_solve},
+			{ p5() }
+		};
+
 		void pre_solve() {
 			// TODO: set p4
 		}

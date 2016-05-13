@@ -9,9 +9,10 @@
 
 static class S : public Struct {
 public:
-	TypeRgy<S>			type_id {this};
 
 	S(Type *p=0, psi_name &name="S") : Struct(p, name) { }
+
+	TypeRgy<S>			type_id {this};
 
 } St;
 

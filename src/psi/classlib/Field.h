@@ -35,9 +35,13 @@ namespace psi {
 template <class T> class Field : public T {
 	public:
 
-		Field(Type *p, const std::string &name) : T(name, p) {
+		Field(Type *p, const std::string &name) : T(p, name) {
 			Type *t = static_cast<Type *>(this);
-			t->setTypeData(TypeRgy<T>::type_id());
+			if (t->getObjectType() == Type::TypeAction ||
+					t->getObjectType() == Type::TypeStruct ||
+					t->getObjectType() == Type::TypeComponent) {
+				t->setTypeData(TypeRgy<T>::type_id());
+			}
 		}
 };
 

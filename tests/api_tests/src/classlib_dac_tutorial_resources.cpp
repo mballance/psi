@@ -43,7 +43,9 @@ public:
 
 	Pool<R>				rp {this, "rp"};
 
-	// Bind rp, c1.A, c2.A
+	Bind b1 {this, rp, c1};
+	Bind b2 {this, rp, c2};
+
 	Bind b {this, {rp(), c1(), c2()}};
 
 } static_structureT;
@@ -60,8 +62,8 @@ public:
 
 		entry_point(Type *p=0, psi_name name="entry_point") : Action(p, name) { }
 
-		C::A			a1 {this, "a1"};
-		C::A			a2 {this, "a2"};
+		Field<C::A>			a1 {this, "a1"};
+		Field<C::A>			a2 {this, "a2"};
 
 		Graph graph {this,
 			Parallel {

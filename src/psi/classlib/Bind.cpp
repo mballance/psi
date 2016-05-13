@@ -9,13 +9,16 @@
 
 namespace psi {
 
-Bind::Bind(Type *p, Type &i1, Type &i2) : Type(TypeBind, p) {
+Bind::Bind(Type *p, Type &i1, Type &i2) : Type(TypeBind, p) { }
 
-}
+Bind::Bind(Type *p, Type &i1, Type &i2, Type &i3) : Type(TypeBind, p) { }
 
-Bind::Bind(Type *p, Type *i1, Type *i2) : Type(TypeBind, p) {
+Bind::Bind(Type *p, Type &i1, Type &i2, Type &i3,
+		Type &i4) : Type(TypeBind, p) { }
 
-}
+Bind::Bind(Type *p, Type &i1, Type &i2, Type &i3,
+		Type &i4, Type &i5) : Type(TypeBind, p) { }
+
 
 Bind::Bind(Type *p, const std::vector<Type *> &items) : Type(TypeBind, p) {
 //	std::vector<Type *>::const_iterator it;

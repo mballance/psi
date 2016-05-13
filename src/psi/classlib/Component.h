@@ -35,9 +35,15 @@ class Component : public Type {
 	public:
 		Component(
 				Type				*p,
-				const std::string 	&name);
+				const std::string 	&name,
+				Component			*super=0);
 
 		virtual ~Component();
+
+		Component *getSuperType() const { return m_super; }
+
+	private:
+		Component					*m_super;
 
 };
 

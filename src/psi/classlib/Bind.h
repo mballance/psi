@@ -17,7 +17,11 @@ class Bind: public Type {
 public:
 	Bind(Type *p, Type &i1, Type &i2);
 
-	Bind(Type *p, Type *i1, Type *i2);
+	Bind(Type *p, Type &i1, Type &i2, Type &i3);
+
+	Bind(Type *p, Type &i1, Type &i2, Type &i3, Type &i4);
+
+	Bind(Type *p, Type &i1, Type &i2, Type &i3, Type &i4, Type &i5);
 
 	Bind(Type *p, const std::vector<Type *> &items);
 
