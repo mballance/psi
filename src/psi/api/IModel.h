@@ -98,6 +98,9 @@ namespace psi_api {
 					IBinaryExpr::BinOpType	op,
 					IExpr 					*rhs) = 0;
 
+			virtual IFieldRef *mkFieldRef(
+					const std::vector<IField *>		&field_path) = 0;
+
 			virtual ILiteral *mkIntLiteral(int64_t v) = 0;
 
 			virtual ILiteral *mkBitLiteral(uint64_t v) = 0;

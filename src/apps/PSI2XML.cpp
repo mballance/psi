@@ -318,11 +318,25 @@ void PSI2XML::process_expr(IExpr *e) {
 
 			} break;
 
-		case IExpr::ExprType_FieldRef:
-			std::string tag = "<field name=\"";
-			tag += static_cast<IFieldRef *>(e)->getField()->getName() + "\"/>";
-			println(tag);
-			break;
+		case IExpr::ExprType_FieldRef: {
+			const std::vector<IField *> &fields =
+					static_cast<IFieldRef *>(e)->getFieldPath();
+
+			for (uint32_t i=0; i<fields.size(); i++) {
+				IField *field = fields.at(i);
+
+				if (i+1<fields.size()) {
+					println(std::string("<fieldref name=\"" + field->getName() + "\">"));
+					inc_indent();
+				} else {
+					println(std::string("<fieldref name=\"" + field->getName() + "\"/>"));
+				}
+			}
+			for (uint32_t i=0; i<fields.size()-1; i++) {
+				dec_indent();
+				println("</fieldref>");
+			}
+			} break;
 	}
 }
 

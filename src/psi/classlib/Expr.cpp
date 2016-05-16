@@ -38,7 +38,7 @@ Expr::Expr(uint32_t v) : m_core(new ExprCore(v)) { }
 
 Expr::Expr(int32_t v) : m_core(new ExprCore(v)) { }
 
-Expr::Expr(const Type &t) : m_core(new ExprCore(t)) { }
+Expr::Expr(Type &t) : m_core(new ExprCore(t)) { }
 
 Expr::Expr(const SharedPtr<ExprCore> &ptr) : m_core(ptr) { }
 
@@ -118,11 +118,12 @@ const char *Expr::toString(Operator op) {
 	return "UNKNOWN";
 }
 
+//Expr operator _op (const Type &lhs, const Expr &rhs) { \
+//	return Expr(new ExprCore(_code, lhs, rhs)); \
+//} \
+
 #define DEFINE_OP_FUNCTIONS(_op, _code) \
 	Expr operator _op (const Expr &lhs, const Expr &rhs) { \
-		return Expr(new ExprCore(_code, lhs, rhs)); \
-	} \
-	Expr operator _op (const Type &lhs, const Expr &rhs) { \
 		return Expr(new ExprCore(_code, lhs, rhs)); \
 	} \
 	Expr operator _op (int32_t lhs, const Expr &rhs) { \

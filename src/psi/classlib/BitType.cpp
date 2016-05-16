@@ -40,4 +40,13 @@ BitType::~BitType() {
 	// TODO Auto-generated destructor stub
 }
 
+uint64_t BitType::get() {
+	// TODO:
+	return 0;
+}
+
+void BitType::set(uint64_t v) {
+	// TODO:
+}
+
 } /* namespace psi */

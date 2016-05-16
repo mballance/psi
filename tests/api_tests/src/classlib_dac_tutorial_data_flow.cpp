@@ -45,7 +45,7 @@ public:
 		TypeRgy<B>			type_id {this};
 		B(Type *p=0, psi_name name="B") : Action(p, name) { }
 
-		Input<S>			in_s {"in_s", this, St};
+		Input<S>			in_s {this, "in_s"};
 
 	} Bt {this };
 } CBt;
@@ -54,29 +54,26 @@ static class static_structure : public Component {
 public:
 	TypeRgy<static_structure>	type_id {this};
 
-	Field<CA>			ca1 {"ca1", this};
-	Field<CA>			ca2 {"ca2", this};
-	Field<CB>			cb1 {"cb1", this};
-	Field<CB>			cb2 {"cb2", this};
+	Field<CA>			ca1 {this, "ca1"};
+	Field<CA>			ca2 {this, "ca2"};
+	Field<CB>			cb1 {this, "cb1"};
+	Field<CB>			cb2 {this, "cb2"};
 
-	static_structure(Type *p, psi_name name="static_structure")
+	static_structure(Type *p=0, psi_name name="static_structure")
 		: Component(p, name) {
 
 	}
 
-	Bind b2 { this, {
-			ca1.At.out_s(),
-			ca2.At.out_s(),
-			cb1.Bt.in_s(),
-			cb2.Bt.in_s()}
-	};
+	Bind b2 { this,
+			ca1.At.out_s, ca2.At.out_s,
+			cb1.Bt.in_s, cb2.Bt.in_s };
 
 	class entry_point : public Action {
 	public:
 		TypeRgy<entry_point>	type_id {this};
-		entry_point(Type *p, psi_name name) : Action(p, name) { }
+		entry_point(Type *p=0, psi_name name="entry_point") : Action(p, name) { }
 
-	} entry_pointT {"entry_point", this};
+	} entry_pointT {this};
 
 } static_structureT;
 

@@ -39,7 +39,7 @@ class ExprCore {
 
 		ExprCore(int32_t v);
 
-		ExprCore(const Type &t);
+		ExprCore(Type &t);
 
 		ExprCore(Expr::Operator op, const Expr &lhs, const Expr &rhs);
 
@@ -59,6 +59,8 @@ class ExprCore {
 
 		int64_t getValI() { return m_val.i; }
 
+		Type *getTypePtr() const { return m_val.ref; }
+
 		protected:
 
 			union {
@@ -66,7 +68,7 @@ class ExprCore {
 				int64_t				ll;
 				uint32_t			ui;
 				int32_t				i;
-				const Type			*ref;
+				Type				*ref;
 			} 						m_val;
 
 			Expr::Operator			m_op;

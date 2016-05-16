@@ -7,7 +7,7 @@
 
 #ifndef IMPL_FIELDREFIMPL_H_
 #define IMPL_FIELDREFIMPL_H_
-#include "FieldImpl.h"
+#include "api/IField.h"
 #include "api/IFieldRef.h"
 
 using namespace psi_api;
@@ -16,17 +16,17 @@ namespace psi {
 
 class FieldRefImpl: public IFieldRef {
 public:
-	FieldRefImpl(FieldImpl *field);
+	FieldRefImpl(const std::vector<IField *> &field_path);
 
 	virtual ~FieldRefImpl();
 
 	virtual ExprType getType() const { return IExpr::ExprType_FieldRef; }
 
-	virtual IField *getField() const { return m_field; }
+	virtual const std::vector<IField *> &getFieldPath() const { return m_field_path; }
 
 private:
+	std::vector<IField *>	m_field_path;
 
-	FieldImpl				*m_field;
 };
 
 } /* namespace psi */

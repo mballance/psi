@@ -40,7 +40,7 @@ class ExprList : public Expr {
 
 		ExprList(const Expr &e);
 
-		ExprList(const Type &t);
+		ExprList(Type &t);
 
 		ExprList(int v);
 

@@ -60,7 +60,7 @@ Expr Type::operator [] (const Expr &rhs) {
 	return Expr(new ExprCore(Expr::BinOp_ArrayRef, *this, rhs));
 }
 
-ExprList Type::operator,(const Type &rhs) {
+ExprList Type::operator,(Type &rhs) {
 	return ExprList(Expr(*this), Expr(rhs));
 }
 

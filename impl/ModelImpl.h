@@ -99,6 +99,9 @@ class ModelImpl: public IModel {
 				IBinaryExpr::BinOpType	op,
 				IExpr 					*rhs);
 
+		virtual IFieldRef *mkFieldRef(
+				const std::vector<IField *>		&field_path);
+
 		virtual ILiteral *mkIntLiteral(int64_t v);
 
 		virtual ILiteral *mkBitLiteral(uint64_t v);

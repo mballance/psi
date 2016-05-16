@@ -56,11 +56,6 @@ public:
 
 	virtual FieldAttr getAttr() const = 0;
 
-	/**
-	 * Returns the reference expression for this field.
-	 */
-	virtual IFieldRef *getFieldRef() = 0;
-
 };
 
 

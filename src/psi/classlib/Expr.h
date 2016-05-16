@@ -32,9 +32,11 @@ namespace psi {
 
 class Type;
 
+//	_prefix Expr operator _op (const Type &lhs, const Expr &rhs); \
+
+
 #define DECLARE_OP_FUNCTIONS(_prefix, _op) \
 	_prefix Expr operator _op (const Expr &lhs, const Expr &rhs); \
-	_prefix Expr operator _op (const Type &lhs, const Expr &rhs); \
 	_prefix Expr operator _op (int32_t lhs, const Expr &rhs);     \
 	_prefix Expr operator _op (uint32_t lhs, const Expr &rhs);    \
 
@@ -92,7 +94,7 @@ class Expr {
 
 		Expr(int32_t v);
 
-		Expr(const Type &t);
+		Expr(Type &t);
 
 		Expr(const Expr &rhs);
 

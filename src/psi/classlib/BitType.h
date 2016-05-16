@@ -47,6 +47,22 @@ class BitType : public Type {
 
 		uint32_t getLsb() const { return m_lsb; }
 
+		/**
+		 * The get method returns the solve-time value of this
+		 * data field. Calling this method is only valid
+		 * on fields of this type, and only from within an
+		 * inline-exec callback.
+		 */
+		uint64_t get();
+
+		/**
+		 * The set method sets the value of this data field.
+		 * Calling this method is only valid on fields
+		 * of this type, and only from within an
+		 * inline-exec callback.
+		 */
+		void set(uint64_t v);
+
 	private:
 
 		uint32_t				m_msb;

@@ -9,7 +9,8 @@
 
 namespace psi {
 
-FieldRefImpl::FieldRefImpl(FieldImpl *field) : m_field(field) {
+FieldRefImpl::FieldRefImpl(const std::vector<IField *> &field_path) :
+		m_field_path(field_path) {
 	// TODO Auto-generated constructor stub
 
 }

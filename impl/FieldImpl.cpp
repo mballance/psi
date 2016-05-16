@@ -33,7 +33,7 @@ FieldImpl::FieldImpl(
 		IBaseItem				*field_type,
 		IField::FieldAttr		attr) :
 				m_parent(0), m_name(name), m_field_type(field_type),
-				m_attr(attr), m_field_ref(0) { }
+				m_attr(attr) { }
 
 FieldImpl::~FieldImpl() {
 	// TODO Auto-generated destructor stub
@@ -42,14 +42,6 @@ FieldImpl::~FieldImpl() {
 IBaseItem *FieldImpl::clone() {
 	// TODO: implement clone
 	return 0;
-}
-
-IFieldRef *FieldImpl::getFieldRef() {
-	if (!m_field_ref) {
-		m_field_ref = new FieldRefImpl(this);
-	}
-
-	return m_field_ref;
 }
 
 } /* namespace psi */

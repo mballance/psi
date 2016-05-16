@@ -39,6 +39,7 @@ namespace psi_api {
 		enum StructType {
 			Base,
 			Memory,
+			State,
 			Stream,
 			Resource
 		};

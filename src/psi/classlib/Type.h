@@ -100,7 +100,7 @@ public:
 
 		Expr operator [] (const Expr &rhs);
 
-		ExprList operator,(const Type &rhs);
+		ExprList operator,(Type &rhs);
 
 		Expr operator = (const Expr &rhs);
 

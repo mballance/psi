@@ -36,7 +36,8 @@ namespace psi {
 
 using namespace std;
 
-Elaborator::Elaborator() : m_model(0) {
+Elaborator::Elaborator() : m_model(0),
+		m_model_expr_ctxt(0), m_class_expr_ctxt(0) {
 	// TODO Auto-generated constructor stub
 
 }
@@ -93,6 +94,8 @@ IAction *Elaborator::elaborate_action(Action *c) {
 	}
 	IAction *a = m_model->mkAction(c->getName(), super_a);
 
+	set_expr_ctxt(a, c);
+
 	std::vector<Type *>::const_iterator it=c->getChildren().begin();
 
 	for (; it!=c->getChildren().end(); it++) {
@@ -116,10 +119,13 @@ IComponent *Elaborator::elaborate_component(IScopeItem *scope, Component *c) {
 		scope->add(comp);
 	}
 
+
 	std::vector<Type *>::const_iterator it = c->getChildren().begin();
 
 	for (; it!=c->getChildren().end(); it++) {
 		Type *t = *it;
+
+		set_expr_ctxt(comp, c);
 
 		if (t->getObjectType() == Type::TypeAction) {
 			IAction *a = elaborate_action(static_cast<Action *>(t));
@@ -316,7 +322,70 @@ IExpr *Elaborator::elaborate_expr(ExprCore *e) {
 		break;
 
 	case Expr::TypeRef: {
-		ret = m_model->mkStringLiteral("typeref");
+		Type *t = e->getTypePtr();
+		std::vector<Type *>	  types;
+		std::vector<IField *> fields;
+
+		while (t) {
+			// Traverse up to the point where we find the
+			// declaration scope that contains this expression
+			if (t == m_class_expr_ctxt) {
+				// TODO: might need to do something different for extended types?
+				break;
+			} else {
+				types.push_back(t);
+			}
+			t = t->getParent();
+		}
+
+		IScopeItem *scope = toScopeItem(m_model_expr_ctxt);
+		if (scope) {
+			for (int32_t i=types.size()-1; i>=0; i--) {
+				Type *t = types.at(i);
+				IBaseItem *t_it = 0;
+
+				for (std::vector<IBaseItem *>::const_iterator s_it=scope->getItems().begin();
+						s_it!=scope->getItems().end(); s_it++) {
+					if ((*s_it)->getType() == IBaseItem::TypeField &&
+							static_cast<IField *>(*s_it)->getName() == t->getName()) {
+						t_it = *s_it;
+						break;
+					}
+				}
+
+				if (t_it) {
+					if (t_it->getType() == IBaseItem::TypeField) {
+						IField *field = static_cast<IField *>(t_it);
+
+						fields.push_back(field);
+
+						if (i > 0) {
+							scope = toScopeItem(field->getDataType());
+
+							if (!scope) {
+								error(std::string("Field ") + t->getName() + " is not user-defined");
+								break;
+							}
+						}
+					}
+				} else {
+					error(std::string("Failed to find field ") + t->getName());
+					break;
+				}
+			}
+		} else {
+			error(std::string("Current context (") +
+					m_class_expr_ctxt->getName().c_str() +
+					") is not a scope");
+		}
+
+//		fprintf(stdout, "--> Typeref\n");
+//		for (std::vector<IField *>::const_iterator it=fields.begin();
+//				it!=fields.end(); it++) {
+//			fprintf(stdout, "  Field: %s\n", (*it)->getName().c_str());
+//		}
+//		fprintf(stdout, "<-- Typeref\n");
+		ret = m_model->mkFieldRef(fields);
 		} break;
 
 	default:
@@ -353,6 +422,8 @@ IStruct *Elaborator::elaborate_struct(Struct *str) {
 	}
 
 	IStruct *s = m_model->mkStruct(str->getName(), t, super_type);
+
+	set_expr_ctxt(s, str);
 
 	for (uint32_t i=0; i<str->getChildren().size(); i++) {
 		Type *t = str->getChildren().at(i);
@@ -429,6 +500,11 @@ IBaseItem *Elaborator::elaborate_struct_action_body_item(Type *t) {
 	}
 
 	return ret;
+}
+
+void Elaborator::set_expr_ctxt(IBaseItem *model_ctxt, Type *class_ctxt) {
+	m_model_expr_ctxt = model_ctxt;
+	m_class_expr_ctxt = class_ctxt;
 }
 
 IField::FieldAttr Elaborator::getAttr(Type *t) {
@@ -589,6 +665,24 @@ void Elaborator::build_type_hierarchy(
 			t = 0;
 		}
 	}
+}
+
+IScopeItem *Elaborator::toScopeItem(IBaseItem *it) {
+	switch (it->getType()) {
+	case IBaseItem::TypeAction: return static_cast<IAction *>(it);
+	case IBaseItem::TypeStruct: return static_cast<IStruct *>(it);
+	case IBaseItem::TypeComponent: return static_cast<IComponent *>(it);
+	}
+	return 0;
+}
+
+INamedItem *Elaborator::toNamedItem(IBaseItem *it) {
+	switch (it->getType()) {
+	case IBaseItem::TypeAction: return static_cast<IAction *>(it);
+	case IBaseItem::TypeStruct: return static_cast<IStruct *>(it);
+	case IBaseItem::TypeComponent: return static_cast<IComponent *>(it);
+	}
+	return 0;
 }
 
 void Elaborator::error(const std::string &msg) {

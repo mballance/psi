@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema 
+	xmlns="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://accellera.org/PSS" 
+	xmlns:pss="http://accellera.org/PSS" 
+	elementFormDefault="qualified" xmlns:Q1="http://accellera.org/PSS">
+
+
+	<complexType name="Action">
+		<choice maxOccurs="unbounded" minOccurs="0">
+			<element name="field" type="pss:ActionField"/>
+			<element name="constraint" type="pss:Constraint"/>
+			<element name="graph" type="pss:Graph"/>
+		</choice>
+    	<attribute name="name" type="string" use="required"/>
+    	<attribute name="super" type="string" use="optional"/>
+    	<attribute name="type" use="optional">
+    		<simpleType>
+    			<restriction base="string">
+    				<enumeration value="memory"/>
+    				<enumeration value="state"/>
+    				<enumeration value="stream"/>
+    			</restriction>
+    		</simpleType>
+    	</attribute>
+	</complexType>
+	
+	<complexType name="ActionField">
+		<choice maxOccurs="1" minOccurs="1">
+			
+		</choice>
+		<attribute name="name" type="string" use="required"/>
+		<attribute name="attr" use="optional">
+			<simpleType>
+				<restriction base="string">
+					<enumeration value="input"/>
+					<enumeration value="output"/>
+					<enumeration value="lock"/>
+					<enumeration value="share"/>
+					<enumeration value="rand"/>
+				</restriction>
+			</simpleType>
+		</attribute>
+	</complexType>
+	
+	<complexType name="Component">
+	</complexType>
+
+    <complexType name="Constraint">
+    	<attribute name="name" type="string" use="optional"></attribute>
+    </complexType>
+    
+    <complexType name="Graph">
+    </complexType>
+
+    <complexType name="Struct">
+		<choice maxOccurs="unbounded" minOccurs="0">
+			<element name="field"/>
+			<element name="constraint" type="pss:Constraint"/>
+		</choice>
+    	<attribute name="name" type="string" use="required"></attribute>
+    	<attribute name="super" type="string" use="optional"/>
+    	<attribute name="type" type="string"/>
+    </complexType>
+
+    <complexType name="Package">
+    	<choice maxOccurs="unbounded" minOccurs="0">
+    		<element name="action" type="pss:Action" />
+    		<element name="struct" type="pss:Package" />
+    	</choice>
+    	<attribute name="name" type="string" use="required"></attribute>
+    </complexType>
+    
+	<complexType name="ExtendAction">
+		<choice maxOccurs="unbounded" minOccurs="0">
+			<element name="field"/>
+			<element name="constraint" type="pss:Constraint"/>
+			<element name="graph" type="pss:Graph"/>
+		</choice>	
+	</complexType>    
+	
+    <complexType name="ExtendComponent">
+    </complexType>
+    
+    <complexType name="ExtendStruct">
+    </complexType>
+
+	<complexType name="Model">
+		<choice maxOccurs="unbounded" minOccurs="0">
+			<element name="struct" type="pss:Struct" />
+			<element name="package" type="pss:Package" />
+		</choice>
+	</complexType>
+    
+    <element name="model" type="pss:Model"/>
+
+
+</schema>

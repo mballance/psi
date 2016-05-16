@@ -36,6 +36,7 @@
 #include "ConstraintExprImpl.h"
 #include "ConstraintIfImpl.h"
 #include "FieldImpl.h"
+#include "FieldRefImpl.h"
 #include "LiteralImpl.h"
 #include "ScalarTypeImpl.h"
 #include "StructImpl.h"
@@ -145,6 +146,11 @@ IBinaryExpr *ModelImpl::mkBinExpr(
 		IBinaryExpr::BinOpType	op,
 		IExpr 					*rhs) {
 	return new BinaryExprImpl(lhs, op, rhs);
+}
+
+IFieldRef *ModelImpl::mkFieldRef(
+		const std::vector<IField *>		&field_path) {
+	return new FieldRefImpl(field_path);
 }
 
 ILiteral *ModelImpl::mkIntLiteral(int64_t v) {

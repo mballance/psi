@@ -36,7 +36,7 @@ ExprCore::ExprCore(int32_t v) : m_op(Expr::LiteralInt) {
 	m_val.i = v;
 }
 
-ExprCore::ExprCore(const Type &t) : m_op(Expr::TypeRef) {
+ExprCore::ExprCore(Type &t) : m_op(Expr::TypeRef) {
 	m_val.ref = &t;
 }
 

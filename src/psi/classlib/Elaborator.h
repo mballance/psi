@@ -64,6 +64,7 @@ protected:
 
 	IConstraintIf *elaborate_constraint_if(ExprCoreIf *if_c);
 
+
 	IExpr *elaborate_expr(ExprCore *e);
 
 	IConstraint *elaborate_constraint_stmt(ExprCore *s);
@@ -75,6 +76,8 @@ protected:
 	IBaseItem *elaborate_struct_action_body_item(Type *t);
 
 private:
+
+	void set_expr_ctxt(IBaseItem *model_ctxt, Type *class_ctxt);
 
 	static IField::FieldAttr getAttr(Type *t);
 
@@ -93,9 +96,14 @@ private:
 			std::vector<Type *>				&type_h,
 			Type							*t);
 
+	static IScopeItem *toScopeItem(IBaseItem *it);
+	static INamedItem *toNamedItem(IBaseItem *it);
+
 	void error(const std::string &msg);
 
 private:
+	IBaseItem				*m_model_expr_ctxt;
+	Type					*m_class_expr_ctxt;
 	IModel					*m_model;
 
 

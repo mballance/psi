@@ -36,7 +36,7 @@ ExprList::ExprList(const Expr &e1, const Expr &e2) : Expr(new ExprCoreList(e1, e
 
 ExprList::ExprList(const Expr &e) : Expr(new ExprCoreList(e)) { }
 
-ExprList::ExprList(const Type &t) : Expr(new ExprCoreList(Expr(t))) {
+ExprList::ExprList(Type &t) : Expr(new ExprCoreList(Expr(t))) {
 
 }
 
