@@ -54,6 +54,8 @@ public:
 
 	virtual IBaseItem *getDataType() const = 0;
 
+	virtual void setDataType(IBaseItem *type) = 0;
+
 	virtual FieldAttr getAttr() const = 0;
 
 };

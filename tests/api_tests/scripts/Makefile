@@ -49,6 +49,7 @@ SRC_IMPL = \
   ConstraintBlockImpl.cpp \
   ConstraintExprImpl.cpp \
   ConstraintIfImpl.cpp \
+  ExtendImpl.cpp \
   FieldImpl.cpp \
   FieldRefImpl.cpp \
   LiteralImpl.cpp \
@@ -60,7 +61,9 @@ SRC_IMPL = \
   StructImpl.cpp
   
 SRC_APPS = \
-  PSI2XML.cpp
+  PSI2XML.cpp \
+  XML2PSI.cpp \
+  PSIUtil.cpp
 
 LIB_TARGETS := libapps.a libpsi.a libimpl.a
 
@@ -111,4 +114,4 @@ COMPILE_REDIR:= 2>&1 | tee compile.log
 endif
 
 $(TESTEXE)$(EXEEXT) : $(SIM_DIR)/src/$(TESTEXE).cpp $(SIM_DIR)/src/test_main.cpp $(TEST_LIBS)
-	$(Q)$(CXX) -o $@ $^ $(RUN_CXXFLAGS) $(CXXFLAGS) $(BUILD_DIR)/libpsi.a $(COMPILE_REDIR)
+	$(Q)$(CXX) -o $@ $^ $(RUN_CXXFLAGS) $(CXXFLAGS) $(BUILD_DIR)/libpsi.a -lexpat $(COMPILE_REDIR)

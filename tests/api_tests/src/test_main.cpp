@@ -9,6 +9,7 @@
 #include "psi_tests.h"
 #include "ModelImpl.h"
 #include "PSI2XML.h"
+#include "XML2PSI.h"
 
 using namespace psi::apps;
 
@@ -27,7 +28,9 @@ void build_model(IModel *model) {
 
 int main(int argc, char **argv) {
 	ModelImpl  model;
+	ModelImpl  xml_model;
 	PSI2XML    psi2xml;
+	XML2PSI    xml2psi;
 
 //	std::vector<IType *>::const_iterator it;
 
@@ -45,9 +48,17 @@ int main(int argc, char **argv) {
 
 	build_model(&model);
 
-	const std::string xml = psi2xml.traverse(&model);
+	const std::string xml1 = psi2xml.traverse(&model);
 
-	fprintf(stdout, "Result:\n%s\n", xml.c_str());
+	fprintf(stdout, "Result:\n%s\n", xml1.c_str());
+
+	xml2psi.process(xml1, &xml_model);
+
+	const std::string xml2 = psi2xml.traverse(&xml_model);
+
+	fprintf(stdout, "Result2:\n%s\n", xml2.c_str());
+#ifdef UNDEFINED
+#endif
 
 	return 0;
 }

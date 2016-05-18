@@ -53,6 +53,8 @@ public:
 
 	virtual IBaseItem *getDataType() const { return m_field_type; }
 
+	virtual void setDataType(IBaseItem *type) { m_field_type = type; }
+
 	virtual FieldAttr getAttr() const { return m_attr; }
 
 

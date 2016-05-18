@@ -35,6 +35,7 @@
 #include "api/IConstraintBlock.h"
 #include "api/IConstraintExpr.h"
 #include "api/IConstraintIf.h"
+#include "api/IExtend.h"
 #include "api/IField.h"
 #include "api/ILiteral.h"
 #include "api/IPackage.h"
@@ -83,6 +84,8 @@ namespace psi_api {
 					const std::string 		&name,
 					IStruct::StructType		t,
 					IStruct 				*super_type) = 0;
+
+			virtual IExtend *mkExtend(IBaseItem	*target) = 0;
 
 			/**
 			 * Create a field for use in declaring the contents of an

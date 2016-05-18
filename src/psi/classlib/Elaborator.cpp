@@ -29,6 +29,7 @@
 #include "classlib/BitType.h"
 #include "classlib/IntType.h"
 #include "classlib/Bool.h"
+#include "classlib/Chandle.h"
 
 #include <stdio.h>
 
@@ -482,6 +483,11 @@ IBaseItem *Elaborator::elaborate_struct_action_body_item(Type *t) {
 
 		IScalarType *field_t = m_model->mkScalarType(
 				IScalarType::ScalarType_Bool, 0, 0);
+		ret = m_model->mkField(it->getName(), field_t, getAttr(it));
+	} else if (t->getObjectType() == Type::TypeChandle) {
+		Chandle *it = static_cast<Chandle *>(t);
+		IScalarType *field_t = m_model->mkScalarType(
+				IScalarType::ScalarType_Chandle, 0, 0);
 		ret = m_model->mkField(it->getName(), field_t, getAttr(it));
 	} else if (t->getObjectType() == Type::TypeAction) {
 		// This is an action-type field

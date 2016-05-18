@@ -346,13 +346,13 @@ void PSI2XML::process_field(IField *f) {
 
 	switch (f->getAttr()) {
 	case IField::FieldAttr_Rand:
-		tag += " isRand=\"true\"";
+		tag += " type=\"rand\"";
 		break;
 	case IField::FieldAttr_Input:
-		tag += " isInput=\"true\"";
+		tag += " type=\"input\"";
 		break;
 	case IField::FieldAttr_Output:
-		tag += " isOutput=\"true\"";
+		tag += " type=\"output\"";
 		break;
 	}
 
@@ -360,45 +360,44 @@ void PSI2XML::process_field(IField *f) {
 	println(tag);
 
 	inc_indent();
-	println("<type>");
-	inc_indent();
 
 	IBaseItem *dt_i = f->getDataType();
 
-	if (dt_i->getType() == IBaseItem::TypeScalar) {
-		IScalarType *st = static_cast<IScalarType *>(dt_i);
-		std::string tname = "unknown-scalar";
-		sprintf(msb_s, "%d", st->getMSB());
-		sprintf(lsb_s, "%d", st->getLSB());
-		bool has_bitwidth = false;
+	if (dt_i) {
+		if (dt_i->getType() == IBaseItem::TypeScalar) {
+			IScalarType *st = static_cast<IScalarType *>(dt_i);
+			std::string tname = "unknown-scalar";
+			sprintf(msb_s, "%d", st->getMSB());
+			sprintf(lsb_s, "%d", st->getLSB());
+			bool has_bitwidth = false;
 
-		if (st->getScalarType() == IScalarType::ScalarType_Bit) {
-			tname = "bit";
-			has_bitwidth = true;
-		} else if (st->getScalarType() == IScalarType::ScalarType_Int) {
-			tname = "int";
-			has_bitwidth = true;
-		} else if (st->getScalarType() == IScalarType::ScalarType_Bool) {
-			tname = "bool";
-			has_bitwidth = false;
-		}
+			if (st->getScalarType() == IScalarType::ScalarType_Bit) {
+				tname = "bit";
+				has_bitwidth = true;
+			} else if (st->getScalarType() == IScalarType::ScalarType_Int) {
+				tname = "int";
+				has_bitwidth = true;
+			} else if (st->getScalarType() == IScalarType::ScalarType_Bool) {
+				tname = "bool";
+				has_bitwidth = false;
+			}
 
-		if (has_bitwidth) {
-			println(std::string("<") + tname + " msb=\"" +
-					msb_s + "\" lsb=\"" + lsb_s + "\"/>");
+			if (has_bitwidth) {
+				println(std::string("<") + tname + " msb=\"" +
+						msb_s + "\" lsb=\"" + lsb_s + "\"/>");
+			} else {
+				println(std::string("<") + tname + "/>");
+			}
+		} else if (dt_i->getType() == IBaseItem::TypeAction) {
+			println(std::string("<action type=\"") + type2string(dt_i) + "\"/>");
+		} else if (dt_i->getType() == IBaseItem::TypeStruct) {
+			println(std::string("<struct type=\"") + type2string(dt_i) + "\"/>");
 		} else {
-			println(std::string("<") + tname + "/>");
+			println("<unknown/>");
 		}
-	} else if (dt_i->getType() == IBaseItem::TypeAction) {
-		println(std::string("<action type=\"") + type2string(dt_i) + "\"/>");
-	} else if (dt_i->getType() == IBaseItem::TypeStruct) {
-		println(std::string("<struct type=\"") + type2string(dt_i) + "\"/>");
 	} else {
-		println("<unknown/>");
+		println("<null/>");
 	}
-	dec_indent();
-
-	println("</type>");
 	dec_indent();
 
 	println("</field>");

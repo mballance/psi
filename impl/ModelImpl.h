@@ -85,6 +85,8 @@ class ModelImpl: public IModel {
 				IStruct::StructType		t,
 				IStruct 				*super_type);
 
+		virtual IExtend *mkExtend(IBaseItem *target);
+
 		/**
 		 * Create a field for use in declaring the contents of an
 		 * action or struct data type

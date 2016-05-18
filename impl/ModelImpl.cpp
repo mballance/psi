@@ -35,6 +35,7 @@
 #include "ConstraintBlockImpl.h"
 #include "ConstraintExprImpl.h"
 #include "ConstraintIfImpl.h"
+#include "ExtendImpl.h"
 #include "FieldImpl.h"
 #include "FieldRefImpl.h"
 #include "LiteralImpl.h"
@@ -128,6 +129,10 @@ IStruct *ModelImpl::mkStruct(
 		IStruct::StructType		t,
 		IStruct 				*super_type) {
 	return new StructImpl(name, t, super_type);
+}
+
+IExtend *ModelImpl::mkExtend(IBaseItem *target) {
+	return new ExtendImpl(target);
 }
 
 /**
