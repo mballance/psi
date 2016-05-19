@@ -291,18 +291,18 @@ void PSI2XML::process_expr(IExpr *e) {
 			switch (l->getLiteralType()) {
 			case ILiteral::LiteralBit: {
 				sprintf(val, "0x%llx", (long long)l->getBit());
-				tag = "<bit value=\"";
+				tag = "<literal type=\"bit\" value=\"";
 				tag += val;
 				tag += "\"/>";
 			} break;
 			case ILiteral::LiteralInt: {
 				sprintf(val, "0x%llx", (long long)l->getInt());
-				tag = "<int value=\"";
+				tag = "<literal type=\"int\" value=\"";
 				tag += val;
 				tag += "\"/>";
 			} break;
 			case ILiteral::LiteralBool: {
-				tag = "<bool value=\"";
+				tag = "<literal type=\"bool\" value=\"";
 				if (l->getBool()) {
 					tag += "true";
 				} else {
@@ -332,7 +332,7 @@ void PSI2XML::process_expr(IExpr *e) {
 					println(std::string("<fieldref name=\"" + field->getName() + "\"/>"));
 				}
 			}
-			for (uint32_t i=0; i<fields.size()-1; i++) {
+			for (uint32_t i=0; fields.size()>0 && i<fields.size()-1; i++) {
 				dec_indent();
 				println("</fieldref>");
 			}

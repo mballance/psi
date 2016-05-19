@@ -37,6 +37,7 @@ public:
 	enum StructType {
 		Base,
 		Memory,
+		State,
 		Stream,
 		Resource
 	};
@@ -46,6 +47,8 @@ public:
 		virtual ~Struct();
 
 		Struct *getSuperType() const { return m_super; }
+
+		StructType getStructType() const { return m_structType; }
 
 	protected:
 

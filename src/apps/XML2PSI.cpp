@@ -50,6 +50,30 @@ void XML2PSI::enter_action(const strmap &attr) {
 	m_scope_stack.push(action);
 }
 
+void XML2PSI::enter_bit_int_type(bool is_bit, const strmap &attr) {
+	IBaseItem *type = 0;
+
+	uint32_t msb=(is_bit)?0:31;
+	uint32_t lsb=0;
+	strmap::const_iterator msb_i = attr.find("msb");
+	strmap::const_iterator lsb_i = attr.find("lsb");
+
+	if (msb_i != attr.end()) {
+		msb = strtoul(msb_i->second.c_str(), 0, 0);
+	}
+
+	if (lsb_i != attr.end()) {
+		lsb = strtoul(lsb_i->second.c_str(), 0, 0);
+	}
+
+	type = m_model->mkScalarType(
+			(is_bit)?IScalarType::ScalarType_Bit:IScalarType::ScalarType_Int,
+					msb, lsb);
+
+	static_cast<IField *>(m_scope_stack.top())->setDataType(type);
+	m_scope_stack.push(type);
+}
+
 void XML2PSI::enter_component(const strmap &attr) {
 	IComponent *comp = m_model->mkComponent(attr.find("name")->second);
 
@@ -77,6 +101,14 @@ void XML2PSI::enter_field(const strmap &attr) {
 
 	PSIUtil::toScopeItem(m_scope_stack.top())->add(field);
 	m_scope_stack.push(field);
+}
+
+void XML2PSI::enter_literal(const strmap &attr) {
+	strmap::const_iterator type_i = attr.find("type");
+	strmap::const_iterator value_i = attr.find("value");
+
+	// TODO:
+	m_scope_stack.push(0);
 }
 
 void XML2PSI::enter_package(const strmap &attr) {
@@ -163,8 +195,12 @@ void XML2PSI::start(const std::string &el, const char **attr) {
 		m_scope_stack.push(m_model);
 	} else if (el == "action") {
 		enter_action(attr_m);
+	} else if (el == "bit" || el == "int") {
+		enter_bit_int_type((el == "bit"), attr_m);
 	} else if (el == "component") {
 		enter_component(attr_m);
+	} else if (el == "literal") {
+		enter_literal(attr_m);
 	} else if (el == "null") {
 		m_scope_stack.push(0);
 	} else if (el == "package") {
@@ -178,6 +214,8 @@ void XML2PSI::start(const std::string &el, const char **attr) {
 		} else {
 			enter_struct(attr_v);
 		}
+	} else {
+		m_scope_stack.push(0);
 	}
 }
 

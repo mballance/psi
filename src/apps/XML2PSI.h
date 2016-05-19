@@ -33,9 +33,13 @@ private:
 
 	void enter_action(const strmap &attr);
 
+	void enter_bit_int_type(bool is_bit, const strmap &attr);
+
 	void enter_component(const strmap &attr);
 
 	void enter_field(const strmap &attr);
+
+	void enter_literal(const strmap &attr);
 
 	void enter_package(const strmap &attr);
 

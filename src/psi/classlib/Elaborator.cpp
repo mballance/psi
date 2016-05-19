@@ -422,6 +422,13 @@ IStruct *Elaborator::elaborate_struct(Struct *str) {
 		}
 	}
 
+	switch (str->getStructType()) {
+		case Struct::Memory: t = IStruct::Memory; break;
+		case Struct::State: t = IStruct::State; break;
+		case Struct::Stream: t = IStruct::Stream; break;
+		case Struct::Resource: t = IStruct::Resource; break;
+	}
+
 	IStruct *s = m_model->mkStruct(str->getName(), t, super_type);
 
 	set_expr_ctxt(s, str);
