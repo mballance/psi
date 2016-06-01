@@ -37,7 +37,7 @@ template <class T> class Rand : public T {
 	public:
 		Rand(Type *p, const std::string &name) : T(p, name) {
 			Type *t = static_cast<Type *>(this);
-			t->setIsRand(true);
+			t->setAttr(Type::AttrRand);
 			if (t->getObjectType() == Type::TypeStruct) {
 				t->setTypeData(TypeRgy<T>::type_id());
 			}

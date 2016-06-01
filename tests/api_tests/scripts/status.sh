@@ -13,19 +13,19 @@ if test ! -f "model.xml"; then
   exit 0
 fi
 
-if test ! -f "model2.xml"; then
-  echo "FAILED: $1 - no model2.xml"
-  exit 0
-fi
+#if test ! -f "model2.xml"; then
+#  echo "FAILED: $1 - no model2.xml"
+#  exit 0
+#fi
 
-diff model.xml model2.xml > model_xml.diff
-diff_l=`cat model_xml.diff | wc -l`
+#diff model.xml model2.xml > model_xml.diff
+#diff_l=`cat model_xml.diff | wc -l`
 
-if test $diff_l -eq 0; then
-  rm -f model_xml.diff
-else
-  echo "FAILED: $1 - differences in model.xml"
-fi
+#if test $diff_l -eq 0; then
+#  rm -f model_xml.diff
+#else
+#  echo "FAILED: $1 - differences in model.xml"
+#fi
 
 # Check against the reference file
 if test -f ${SIM_DIR}/tests/${1}.xml; then

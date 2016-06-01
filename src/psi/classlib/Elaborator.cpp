@@ -100,7 +100,12 @@ IAction *Elaborator::elaborate_action(Action *c) {
 	std::vector<Type *>::const_iterator it=c->getChildren().begin();
 
 	for (; it!=c->getChildren().end(); it++) {
-		IBaseItem *c = elaborate_struct_action_body_item(*it);
+		IBaseItem *c = 0;
+		if ((*it)->getObjectType() == Type::TypeBind) {
+			c = elaborate_bind(static_cast<Bind *>(*it));
+		} else {
+			c = elaborate_struct_action_body_item(*it);
+		}
 
 		if (c) {
 			a->add(c);
@@ -112,6 +117,16 @@ IAction *Elaborator::elaborate_action(Action *c) {
 
 
 	return a;
+}
+
+IBind *Elaborator::elaborate_bind(Bind *b) {
+	const std::vector<Type *> &items = b->getItems();
+	std::vector<IBaseItem *> items_psi;
+
+	// TODO: must map Type references to PSI references
+	// What this really means is converting the Type references to expressions
+
+	return m_model->mkBind(items_psi);
 }
 
 IComponent *Elaborator::elaborate_component(IScopeItem *scope, Component *c) {
@@ -508,7 +523,7 @@ IBaseItem *Elaborator::elaborate_struct_action_body_item(Type *t) {
 	} else if (t->getObjectType() == Type::TypeExec) {
 		// TODO:
 	} else {
-		// See if this is a field
+		// TODO: See if this is a field
 
 	}
 
@@ -522,12 +537,14 @@ void Elaborator::set_expr_ctxt(IBaseItem *model_ctxt, Type *class_ctxt) {
 
 IField::FieldAttr Elaborator::getAttr(Type *t) {
 	IField::FieldAttr attr = IField::FieldAttr_None;
-	if (t->isRand()) {
-		attr = IField::FieldAttr_Rand;
-	} else if (t->isInput()) {
-		attr = IField::FieldAttr_Input;
-	} else if (t->isOutput()) {
-		attr = IField::FieldAttr_Output;
+
+	switch (t->getAttr()) {
+	case Type::AttrInput: attr = IField::FieldAttr_Input; break;
+	case Type::AttrOutput: attr = IField::FieldAttr_Output; break;
+	case Type::AttrLock: attr = IField::FieldAttr_Lock; break;
+	case Type::AttrShare: attr = IField::FieldAttr_Share; break;
+	case Type::AttrRand: attr = IField::FieldAttr_Rand; break;
+	case Type::AttrPool: attr = IField::FieldAttr_Pool; break;
 	}
 
 	return attr;

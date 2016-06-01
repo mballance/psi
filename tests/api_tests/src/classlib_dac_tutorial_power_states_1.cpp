@@ -8,6 +8,8 @@
 
 static class power_state_s : public StateStruct {
 public:
+	TypeRgy<power_state_s>		type_id {this};
+
 	power_state_s(Type *p=0, psi_name name="power_state_s") : StateStruct(p, name) { }
 
 	Rand<Bit<1,0>>		dmn_A {this, "dmn_A"};
@@ -29,6 +31,8 @@ public:
 
 static class my_system_c : public Component {
 public:
+	TypeRgy<my_system_c>		type_id {this};
+
 	my_system_c(Type *p=0, psi_name name="my_system_c") : Component(p, name) { }
 
 	Field<power_state_s>			ps {this, "ps"};

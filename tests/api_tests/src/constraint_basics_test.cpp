@@ -11,14 +11,13 @@ using namespace psi;
 
 static class constraint_basics_test : public Struct {
 public:
-	constraint_basics_test(const std::string &name="constraint_basics_test", Type *p=nullptr) :
-		Struct(name, p) { }
+	constraint_basics_test(Type *p=0, const std::string &name="constraint_basics_test") : Struct(p, name) { }
 
 	virtual ~constraint_basics_test() { };
 
-	Rand<Bit<31,0>>				address {"address", this};
+	Rand<Bit<31,0>>				address {this, "address"};
 
-	Constraint c0 {"c0", this, address >= 0x1000 }; // named constraint
+	Constraint c0 {this, address >= 0x1000 }; // named constraint
 
 	Constraint c1 {this, address >= 0x1000 && address <= 0x1fff }; // anonymous constraint
 

@@ -33,7 +33,9 @@ template <class T> class Pool : public T {
 
 	public:
 		Pool(Type *p, const std::string &name) : T(p, name) {
-			static_cast<Type *>(this)->setTypeData(TypeRgy<T>::type_id());
+			Type *t = static_cast<Type *>(this);
+			t->setAttr(Type::AttrPool);
+			t->setTypeData(TypeRgy<T>::type_id());
 		}
 
 		virtual ~Pool() { }

@@ -33,7 +33,9 @@ template <class T> class Share : public T {
 	public:
 
 		Share(Type *p, const std::string &name) : T(p, name) {
-			static_cast<Type *>(this)->setTypeData(TypeRgy<T>::type_id());
+			Type *t = static_cast<Type *>(this);
+			t->setAttr(Type::AttrShare);
+			t->setTypeData(TypeRgy<T>::type_id());
 		}
 
 		virtual ~Share();

@@ -10,32 +10,34 @@
 using namespace psi;
 
 static class graph_seq_comp : public Component {
-
 public:
+	TypeRgy<graph_seq_comp>		type_id {this};
 
-	graph_seq_comp(const std::string &name="graph_seq_comp", Type *p = nullptr) :
-		Component(name, p) { }
+	graph_seq_comp(Type *p=0, const std::string &name="graph_seq_comp") :
+		Component(p, name) { }
 
 	class A1 : public Action {
 	public:
-		A1(const std::string &name, Type *p) : Action(name, p) { }
+		TypeRgy<A1>		type_id {this};
+		A1(Type *p=0, const std::string &name="A1") : Action(p, name) { }
 
-	} A1T { "A1", this };
+	} A1T {this};
 
 	class graph_seq_test : public Action {
 	public:
+		TypeRgy<graph_seq_test>		type_id {this};
 
-		graph_seq_test(const std::string &name, Type *p) : Action(name, p) { }
+		graph_seq_test(Type *p=0, const std::string &name="graph_seq_test") : Action(p, name) { }
 
-		Field<A1> a1{"a1", this, "A1"};
-		Field<A1> a2{"a2", this, "A1"};
-		Field<A1> a3{"a3", this, "A1"};
+		Field<A1> a1{this, "a1"};
+		Field<A1> a2{this, "a2"};
+		Field<A1> a3{this, "a3"};
 
 		Graph graph {this,
 			(a1, a2, a3)
 		};
 
-	} graph_seq_testT { "graph_seq_test", this };
+	} graph_seq_testT {this};
 
 } graph_seq_compT;
 

@@ -36,8 +36,9 @@ template <class T> class Output : public T {
 
 	public:
 		Output(Type *p, const std::string &name) : T(p, name) {
-			static_cast<Type *>(this)->setIsOutput(true);
-			static_cast<Type *>(this)->setTypeData(TypeRgy<T>::type_id());
+			Type *t = static_cast<Type *>(this);
+			t->setAttr(Type::AttrOutput);
+			t->setTypeData(TypeRgy<T>::type_id());
 		}
 
 		virtual ~Output() { }

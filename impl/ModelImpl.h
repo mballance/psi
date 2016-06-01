@@ -78,6 +78,8 @@ class ModelImpl: public IModel {
 		 */
 		virtual IAction *mkAction(const std::string &name, IAction *super_type);
 
+		virtual IBind *mkBind(const std::vector<IBaseItem *> &targets);
+
 		virtual IComponent *mkComponent(const std::string &name);
 
 		virtual IStruct *mkStruct(

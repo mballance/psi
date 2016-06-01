@@ -26,6 +26,11 @@ public:
 	Bind(Type *p, const std::vector<Type *> &items);
 
 	virtual ~Bind();
+
+	const std::vector<Type *> &getItems() const { return m_items; }
+
+private:
+	std::vector<Type *>						m_items;
 };
 
 } /* namespace psi */

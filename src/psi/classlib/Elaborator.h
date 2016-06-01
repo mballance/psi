@@ -28,12 +28,14 @@
 #include <vector>
 
 #include "api/IAction.h"
+#include "api/IBind.h"
 #include "api/IConstraint.h"
 #include "api/IConstraintIf.h"
 #include "api/IExpr.h"
 #include "api/IModel.h"
 #include "api/IPackage.h"
 #include "classlib/Action.h"
+#include "classlib/Bind.h"
 #include "classlib/Component.h"
 #include "classlib/Constraint.h"
 #include "classlib/Package.h"
@@ -57,6 +59,8 @@ public:
 protected:
 
 	IAction *elaborate_action(Action *a);
+
+	IBind *elaborate_bind(Bind *b);
 
 	IComponent *elaborate_component(IScopeItem *scope, Component *c);
 

@@ -11,19 +11,19 @@ using namespace psi;
 
 static class constraint_ifelse_test : public Struct {
 public:
-	constraint_ifelse_test(const std::string &name="constraint_ifelse_test", Type *p=0) : Struct(name, p) { }
+	constraint_ifelse_test(Type *p=0, const std::string &name="constraint_ifelse_test") : Struct(p, name) { }
 
-	Rand<Bit<>>					control {"control", this};
-	Rand<Bit<31,1>>				address {"address", this};
-	Rand<Bit<31,1>>				data 	{"data", this};
+	Rand<Bit<>>					control {this, "control"};
+	Rand<Bit<31,1>>				address {this, "address"};
+	Rand<Bit<31,1>>				data 	{this, "data"};
 
-	Constraint c1 {"c1", this,
+	Constraint c1 {this, "c1",
 		If {(control == 1), address < 10}
 	};
 
 	Constraint c2 {this,
 		If {
-			(control == 1), // params okay
+			(control == 1),
 			{
 				address < 10,
 				data > 0 && data < 100

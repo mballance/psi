@@ -19,7 +19,7 @@ static class C : public Component {
 public:
 	TypeRgy<C>		type_id {this};
 
-	C(psi_name name="C", Type *p=0) : Component(p, name) { }
+	C(Type *p=0, psi_name name="C") : Component(p, name) { }
 
 	class A : public Action {
 	public:

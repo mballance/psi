@@ -54,9 +54,11 @@ private:
 
 	void process_action(IAction *a);
 
-	void process_struct(IStruct *str);
+	void process_bind(IBind *b);
 
 	void process_body(const std::vector<IBaseItem *> &items);
+
+	void process_struct(IStruct *str);
 
 	void process_component(IComponent *c);
 

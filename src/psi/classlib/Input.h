@@ -35,8 +35,9 @@ template <class T> class Input : public T {
 
 	public:
 		Input(Type *p, const std::string &name) : T(p, name) {
-			static_cast<Type *>(this)->setIsInput(true);
-			static_cast<Type *>(this)->setTypeData(TypeRgy<T>::type_id());
+			Type *t = static_cast<Type *>(this);
+			t->setAttr(Type::AttrInput);
+			t->setTypeData(TypeRgy<T>::type_id());
 		}
 
 		virtual ~Input() { }

@@ -31,6 +31,7 @@
 
 #include "api/IBaseItem.h"
 #include "ActionImpl.h"
+#include "BindImpl.h"
 #include "ComponentImpl.h"
 #include "ConstraintBlockImpl.h"
 #include "ConstraintExprImpl.h"
@@ -111,6 +112,10 @@ IScalarType *ModelImpl::mkScalarType(
 		lsb = 0;
 	}
 	return new ScalarTypeImpl(t, msb, lsb);
+}
+
+IBind *ModelImpl::mkBind(const std::vector<IBaseItem *> &targets) {
+	return new BindImpl(targets);
 }
 
 /**

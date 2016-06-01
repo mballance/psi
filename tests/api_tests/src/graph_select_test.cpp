@@ -10,24 +10,28 @@
 using namespace psi;
 
 class top_c : public Component {
-
 public:
-	top_c(const std::string &name="top_c", Type *p=0) : Component(name, p) { }
+	TypeRgy<top_c>			type_id {this};
+
+	top_c(Type *p=0, const std::string &name="top_c") : Component(p, name) { }
 
 	class A1 : public Action {
 	public:
-		A1(const std::string &name="A1", Type *p=0) : Action(name, p) { }
+		TypeRgy<A1>			type_id {this};
+		A1(Type *p=0, const std::string &name="A1") : Action(p, name) { }
 
-	} A1T {"A1", this};
+	} A1T {this};
 
 	class graph_select_test : public Action {
 	public:
-		graph_select_test(const std::string &name="graph_select_test", Type *p=0) : Action(name, p) { }
+		TypeRgy<graph_select_test>		type_id {this};
 
-		Field<A1>			a1_1 {"a1_1", this, "A1"};
-		Field<A1>			a1_2 {"a1_2", this, "A1"};
-		Field<A1>			a1_3 {"a1_3", this, "A1"};
-		Field<A1>			a1_4 {"a1_4", this, "A1"};
+		graph_select_test(Type *p=0, const std::string &name="graph_select_test") : Action(p, name) { }
+
+		Field<A1>			a1_1 {this, "a1_1"};
+		Field<A1>			a1_2 {this, "a1_2"};
+		Field<A1>			a1_3 {this, "a1_3"};
+		Field<A1>			a1_4 {this, "a1_4"};
 
 		Graph graph {this,
 			(
@@ -47,7 +51,7 @@ public:
 				}
 			)
 		};
-	} graph_select_testT { "graph_select_test", this };
+	} graph_select_testT {this};
 
 } top_cT;
 

@@ -1,71 +1,35 @@
 
 # VERBOSE:=true
 
-include $(SIMSCRIPTS_DIR)/mkfiles/plusargs.mk
+BUILDDIR := $(BUILD_DIR)
+LIBDIR := $(BUILDDIR)
+PSI_BUILDDIR := $(BUILDDIR)
 
 SRCDIR := $(SIM_DIR)/../../src
 
-SRC= \
-  Action.cpp \
-  Bind.cpp \
-  BitType.cpp \
-  Bool.cpp \
-  Chandle.cpp \
-  Component.cpp \
-  Constraint.cpp \
-  Elaborator.cpp \
-  Exec.cpp \
-  ExportAction.cpp \
-  Expr.cpp \
-  ExprCore.cpp \
-  ExprCoreIf.cpp \
-  ExprCoreList.cpp \
-  ExprImportCall.cpp \
-  ExprList.cpp \
-  Graph.cpp \
-  If.cpp \
-  Import.cpp \
-  IntType.cpp \
-  MemoryStruct.cpp \
-  NativeExecClosure.cpp \
-  Package.cpp \
-  Parallel.cpp \
-  Repeat.cpp \
-  ResourceStruct.cpp \
-  Select.cpp \
-  StateStruct.cpp \
-  StreamStruct.cpp \
-  String.cpp \
-  Struct.cpp \
-  Type.cpp \
-\
-  TypeRegistry.cpp 
-  
-SRC_IMPL = \
-  ActionImpl.cpp \
-  BaseItemImpl.cpp \
-  BinaryExprImpl.cpp  \
-  ComponentImpl.cpp \
-  ConstraintBlockImpl.cpp \
-  ConstraintExprImpl.cpp \
-  ConstraintIfImpl.cpp \
-  ExtendImpl.cpp \
-  FieldImpl.cpp \
-  FieldRefImpl.cpp \
-  LiteralImpl.cpp \
-  ModelImpl.cpp \
-  NamedItemImpl.cpp \
-  NamedScopeItemImpl.cpp \
-  PackageImpl.cpp \
-  ScalarTypeImpl.cpp \
-  StructImpl.cpp
-  
-SRC_APPS = \
-  PSI2XML.cpp \
-  XML2PSI.cpp \
-  PSIUtil.cpp
+ifeq (true,$(VERBOSE))
+define DO_CXX
+$(Q)$(CXX) -c -o $@ $^ $(CXXFLAGS)
+endef
+define MK_AR
+$(Q)rm -f $@
+$(Q)$(AR) vcq $@ $^
+endef 
+else # End Verbose
+define DO_CXX
+$(Q)echo "CXX $^"
+$(Q)$(CXX) -c -o $@ $^ $(CXXFLAGS)
+endef
+define MK_AR
+$(Q)rm -f $@
+$(Q)echo "ar $@"
+$(Q)$(AR) cq $@ $^
+endef 
+endif
 
-LIB_TARGETS := libapps.a libpsi.a libimpl.a
+
+include $(SIMSCRIPTS_DIR)/mkfiles/plusargs.mk
+include $(SIM_DIR)/../../rules_defs.mk
 
 
 CXXFLAGS += -I$(SRCDIR)/psi
@@ -79,33 +43,34 @@ ifeq (true,$(USE_CXX11))
 RUN_CXXFLAGS += -std=c++11
 endif
 
-libpsi.a : $(SRC:.cpp=.o)
-	$(Q)rm -f $@
-	$(Q)$(AR) vcq $@ $^
-	
-libimpl.a : $(SRC_IMPL:.cpp=.o)
-	$(Q)rm -f $@
-	$(Q)$(AR) vcq $@ $^
-	
-libapps.a : $(SRC_APPS:.cpp=.o)
-	$(Q)rm -f $@
-	$(Q)$(AR) vcq $@ $^
+#libpsi.a : $(SRC:.cpp=.o)
+#	$(Q)rm -f $@
+#	$(Q)$(AR) vcq $@ $^
+#	
+#libimpl.a : $(SRC_IMPL:.cpp=.o)
+#	$(Q)rm -f $@
+#	$(Q)$(AR) vcq $@ $^
+#	
+#libapps.a : $(SRC_APPS:.cpp=.o)
+#	$(Q)rm -f $@
+#	$(Q)$(AR) vcq $@ $^
 
-TEST_LIBS=$(BUILD_DIR)/libapps.a $(BUILD_DIR)/libpsi.a $(BUILD_DIR)/libimpl.a
+TEST_LIBS=$(BUILD_DIR)/libpsi_apps.a $(BUILD_DIR)/libpsi.a $(BUILD_DIR)/libpsi_impl.a
 
 include $(SIMSCRIPTS_DIR)/mkfiles/common_sim.mk
+include $(SIM_DIR)/../../rules_defs.mk
 
-%.o : $(SRCDIR)/psi/classlib/%.cpp
-	$(Q)$(CXX) $(CXXFLAGS) -c $^ -o $@
-	
-%.o : $(SRCDIR)/../impl/%.cpp
-	$(Q)$(CXX) $(CXXFLAGS) -c $^ -o $@
-	
-%.o : $(SRCDIR)/apps/%.cpp
-	$(Q)$(CXX) $(CXXFLAGS) -c $^ -o $@
-	
-%.o : $(SIM_DIR)/src/%.cpp
-	$(Q)$(CXX) $(RUN_CXXFLAGS) $(CXXFLAGS) -c $^ -o $@
+#%.o : $(SRCDIR)/psi/classlib/%.cpp
+#	$(Q)$(CXX) $(CXXFLAGS) -c $^ -o $@
+#	
+#%.o : $(SRCDIR)/../impl/%.cpp
+#	$(Q)$(CXX) $(CXXFLAGS) -c $^ -o $@
+#	
+#%.o : $(SRCDIR)/apps/%.cpp
+#	$(Q)$(CXX) $(CXXFLAGS) -c $^ -o $@
+#	
+#%.o : $(SIM_DIR)/src/%.cpp
+#	$(Q)$(CXX) $(RUN_CXXFLAGS) $(CXXFLAGS) -c $^ -o $@
 	
 ifeq (true,$(QUIET))
 COMPILE_REDIR:= > compile.log 2>&1
@@ -115,3 +80,5 @@ endif
 
 $(TESTEXE)$(EXEEXT) : $(SIM_DIR)/src/$(TESTEXE).cpp $(SIM_DIR)/src/test_main.cpp $(TEST_LIBS)
 	$(Q)$(CXX) -o $@ $^ $(RUN_CXXFLAGS) $(CXXFLAGS) $(BUILD_DIR)/libpsi.a -lexpat $(COMPILE_REDIR)
+
+	

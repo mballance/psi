@@ -38,6 +38,7 @@ namespace psi_api {
 
 		enum ItemType {
 			TypeAction,
+			TypeBind,
 			TypeComponent,
 			TypeConstraint,
 			TypeField,
@@ -46,6 +47,7 @@ namespace psi_api {
 			TypeExtend,
 			TypeGraphStmt,
 			TypeModel, // 10
+			TypeObject,
 			TypePackage,
 			TypeScalar,
 			TypeStruct,

@@ -64,6 +64,16 @@ public:
 		TypeRef
 	};
 
+	enum FieldAttr {
+		AttrNone = 0,
+		AttrInput,
+		AttrOutput,
+		AttrLock,
+		AttrShare,
+		AttrRand,
+		AttrPool
+	};
+
 	public:
 
 		virtual Type *getParent() const {
@@ -76,25 +86,13 @@ public:
 
 		inline const std::string &getName() const { return m_name; }
 
-		inline bool isRand() const { return m_isRand; }
+		FieldAttr getAttr() const { return m_attr; }
 
-		inline void setIsRand(bool r) { m_isRand = r; }
-
-		inline bool isInput() const { return m_isInput; }
-
-		inline void setIsInput(bool i) { m_isInput = i; m_isOutput = false; }
-
-		inline bool isOutput() const { return m_isOutput; }
-
-		inline void setIsOutput(bool o) { m_isOutput = o; m_isInput = false; }
-
-		inline Type *getTypeData() const { return m_type_data; }
+		void setAttr(FieldAttr attr) { m_attr = attr; }
 
 		inline void setTypeData(Type *t) { m_type_data = t; }
 
-		inline const std::string &getTypeName() const { return m_type_name; }
-
-		inline void setTypeName(const std::string &name) { m_type_name = name; }
+		inline Type *getTypeData() const { return m_type_data; }
 
 		Type *operator ()()  { return this; }
 
@@ -133,17 +131,13 @@ public:
 		std::string					m_name;
 		Type						*m_parent;
 
+
 		std::vector<Type *>			m_children;
 
 		// Handle to the declaring type for fields
 		Type						*m_type_data;
-		// Name of the declaring type
-		std::string					m_type_name;
 
-		// Mutually-exclusive (?)
-		bool						m_isRand;
-		bool						m_isInput;
-		bool						m_isOutput;
+		FieldAttr					m_attr;
 
 };
 

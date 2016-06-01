@@ -18,23 +18,27 @@ XML2PSI::XML2PSI() {
 }
 
 void XML2PSI::process(const std::string &content, IModel *model) {
-	XML_Parser p = XML_ParserCreate(0);
+	XML_Parser p = ::XML_ParserCreate(0);
 
 	m_model = model;
 	while (!m_scope_stack.empty()) {
-		m_scope_stack.pop();
+		pop();
 	}
 
-	XML_SetElementHandler(p, &XML2PSI::start, &XML2PSI::end);
-	XML_SetUserData(p, this);
+	::XML_SetElementHandler(p, &XML2PSI::start, &XML2PSI::end);
+	::XML_SetUserData(p, this);
 
-	XML_Parse(p, content.c_str(), content.length(), 0);
+	::XML_Parse(p, content.c_str(), content.length(), 0);
 
-	XML_ParserFree(p);
+	::XML_ParserFree(p);
 }
 
 XML2PSI::~XML2PSI() {
 	// TODO Auto-generated destructor stub
+}
+
+void XML2PSI::enter_unhandled(const std::string &tag, const strmap &attr) {
+	push(0); // push a nop
 }
 
 void XML2PSI::enter_action(const strmap &attr) {
@@ -46,8 +50,8 @@ void XML2PSI::enter_action(const strmap &attr) {
 
 	IAction *action = m_model->mkAction(
 			attr.find("name")->second, super);
-	PSIUtil::toScopeItem(m_scope_stack.top())->add(action);
-	m_scope_stack.push(action);
+	PSIUtil::toScopeItem(top())->add(action);
+	push(action);
 }
 
 void XML2PSI::enter_bit_int_type(bool is_bit, const strmap &attr) {
@@ -70,15 +74,15 @@ void XML2PSI::enter_bit_int_type(bool is_bit, const strmap &attr) {
 			(is_bit)?IScalarType::ScalarType_Bit:IScalarType::ScalarType_Int,
 					msb, lsb);
 
-	static_cast<IField *>(m_scope_stack.top())->setDataType(type);
-	m_scope_stack.push(type);
+	static_cast<IField *>(top())->setDataType(type);
+	push(type);
 }
 
 void XML2PSI::enter_component(const strmap &attr) {
 	IComponent *comp = m_model->mkComponent(attr.find("name")->second);
 
-	PSIUtil::toScopeItem(m_scope_stack.top())->add(comp);
-	m_scope_stack.push(comp);
+	PSIUtil::toScopeItem(top())->add(comp);
+	push(comp);
 }
 
 void XML2PSI::enter_field(const strmap &attr) {
@@ -92,15 +96,21 @@ void XML2PSI::enter_field(const strmap &attr) {
 			field_attr = IField::FieldAttr_Input;
 		} else if (type->second == "output") {
 			field_attr = IField::FieldAttr_Output;
+		} else if (type->second == "lock") {
+			field_attr = IField::FieldAttr_Lock;
+		} else if (type->second == "share") {
+			field_attr = IField::FieldAttr_Share;
+		} else if (type->second == "pool") {
+			field_attr = IField::FieldAttr_Pool;
 		} else {
-			// TODO:
+			// TODO: Error
 		}
 	}
 
 	IField *field = m_model->mkField(attr.at("name"), 0, field_attr);
 
-	PSIUtil::toScopeItem(m_scope_stack.top())->add(field);
-	m_scope_stack.push(field);
+	PSIUtil::toScopeItem(top())->add(field);
+	push(field);
 }
 
 void XML2PSI::enter_literal(const strmap &attr) {
@@ -108,7 +118,7 @@ void XML2PSI::enter_literal(const strmap &attr) {
 	strmap::const_iterator value_i = attr.find("value");
 
 	// TODO:
-	m_scope_stack.push(0);
+	push(0);
 }
 
 void XML2PSI::enter_package(const strmap &attr) {
@@ -119,9 +129,9 @@ void XML2PSI::enter_package(const strmap &attr) {
 	}
 
 	if (name == "") {
-		m_scope_stack.push(m_model->getGlobalPackage());
+		push(m_model->getGlobalPackage());
 	} else {
-		m_scope_stack.push(m_model->findPackage(name, true));
+		push(m_model->findPackage(name, true));
 	}
 }
 
@@ -131,68 +141,64 @@ void XML2PSI::enter_struct_type(const strmap &attr) {
 
 	std::vector<std::string> path = split_path(type);
 
-	IBaseItem *p = m_scope_stack.top(); // parent -- probably a field
-	m_scope_stack.pop();
-	IScopeItem *s = PSIUtil::toScopeItem(m_scope_stack.top());
-	m_scope_stack.push(p); // replace the parent
+	IBaseItem *p = pop(); // parent -- probably a field
+	IScopeItem *s = PSIUtil::toScopeItem(top());
+	push(p); // replace the parent
 
 	type_h = find_type(s, path);
 
-	if (m_scope_stack.top()->getType() == IBaseItem::TypeField) {
-		static_cast<IField *>(m_scope_stack.top())->setDataType(type_h);
-		m_scope_stack.push(type_h);
+	if (top()->getType() == IBaseItem::TypeField) {
+		static_cast<IField *>(top())->setDataType(type_h);
+		push(type_h);
 	} else {
 		// not a field
 		fprintf(stdout, "Error: Field not found on the stack\n");
 	}
 }
 
-void XML2PSI::enter_struct(const std::vector<strpair> &attr) {
+void XML2PSI::enter_struct(const strmap &attr) {
+	strmap::const_iterator name_it = attr.find("name");
+	strmap::const_iterator super_it = attr.find("super");
+	strmap::const_iterator type_it = attr.find("type");
 	std::string name;
 	IStruct *super=0;
 	IStruct::StructType type=IStruct::Base;
 
-	for (std::vector<strpair>::const_iterator it=attr.begin();
-			it!=attr.end(); it++) {
-		strpair p = *it;
-
-		if (p.first == "name") {
-			name = p.second;
-		} else if (p.first == "super") {
-			// TODO: find type
-		} else if (p.first == "type") {
-			if (p.second == "") {
-			} else {
-			}
+	if (type_it != attr.end()) {
+		if (type_it->second == "memory") {
+			type = IStruct::Memory;
+		} else if (type_it->second == "stream") {
+			type = IStruct::Stream;
+		} else if (type_it->second == "state") {
+			type = IStruct::State;
+		} else if (type_it->second == "resource") {
+			type = IStruct::Resource;
+		} else {
+			// TODO: Error handling
 		}
 	}
 
 	IStruct *s = m_model->mkStruct(name, type, super);
-	IScopeItem *scope = PSIUtil::toScopeItem(m_scope_stack.top());
+	IScopeItem *scope = PSIUtil::toScopeItem(top());
 
 	if (scope) {
 		scope->add(s);
-		m_scope_stack.push(s);
+		push(s);
 	} else {
 		fprintf(stdout, "top %p %d is not a scope\n",
-				m_scope_stack.top(), m_scope_stack.top()->getType());
+				top(), top()->getType());
 	}
 }
 
 void XML2PSI::start(const std::string &el, const char **attr) {
-	std::vector<strpair> attr_v;
 	strmap attr_m;
-//	fprintf(stdout, "<%s>\n", el.c_str());
-//	fflush(stdout);
 
 	for (int i=0; attr[i]; i+=2) {
 		attr_m.insert(strmap_ent(attr[i], attr[i+1]));
-		strpair p(attr[i], attr[i+1]);
-		attr_v.push_back(p);
 	}
 
 	if (el == "model") {
-		m_scope_stack.push(m_model);
+		push(m_model);
 	} else if (el == "action") {
 		enter_action(attr_m);
 	} else if (el == "bit" || el == "int") {
@@ -202,25 +208,26 @@ void XML2PSI::start(const std::string &el, const char **attr) {
 	} else if (el == "literal") {
 		enter_literal(attr_m);
 	} else if (el == "null") {
-		m_scope_stack.push(0);
+		push(0);
 	} else if (el == "package") {
 		enter_package(attr_m);
 	} else if (el == "field") {
 		enter_field(attr_m);
 	} else if (el == "struct") {
-		if (m_scope_stack.top()->getType() == IBaseItem::TypeField) {
+		if (top()->getType() == IBaseItem::TypeField) {
 			// Parent is <type>
 			enter_struct_type(attr_m);
 		} else {
-			enter_struct(attr_v);
+			enter_struct(attr_m);
 		}
 	} else {
-		m_scope_stack.push(0);
+		enter_unhandled(el, attr_m);
+		push(0);
 	}
 }
 
 void XML2PSI::end(const std::string &el) {
-	m_scope_stack.pop();
+	pop();
 //	fprintf(stdout, "</%s> %s\n", el.c_str(), m_scope_stack.empty()?"true":"false");
 //	fflush(stdout);
 }
@@ -308,6 +315,20 @@ std::vector<std::string> XML2PSI::split_path(const std::string &path) {
 	ret.push_back(path.substr(start, i-start));
 
 	return ret;
+}
+
+void XML2PSI::push(IBaseItem *it) {
+	m_scope_stack.push(it);
+}
+
+IBaseItem *XML2PSI::pop() {
+	IBaseItem *ret = m_scope_stack.top();
+	m_scope_stack.pop();
+	return ret;
+}
+
+IBaseItem *XML2PSI::top() {
+	return m_scope_stack.top();
 }
 
 }

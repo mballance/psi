@@ -25,6 +25,7 @@
 
 #ifndef IMPL_EXPRIMPL_H_
 #define IMPL_EXPRIMPL_H_
+#include "psi_api.h"
 
 using namespace psi_api;
 

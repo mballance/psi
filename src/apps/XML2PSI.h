@@ -25,11 +25,13 @@ public:
 
 	virtual void process(const std::string &content, IModel *model);
 
-private:
+protected:
 	typedef std::pair<std::string,std::string> strpair;
 
 	typedef std::map<std::string,std::string> strmap;
 	typedef std::pair<std::string,std::string> strmap_ent;
+
+	void enter_unhandled(const std::string &tag, const strmap &attr);
 
 	void enter_action(const strmap &attr);
 
@@ -43,7 +45,7 @@ private:
 
 	void enter_package(const strmap &attr);
 
-	void enter_struct(const std::vector<strpair> &attr);
+	void enter_struct(const strmap &attr);
 
 	void enter_struct_type(const strmap &attr);
 
@@ -60,6 +62,14 @@ private:
 	IBaseItem *find_type(IScopeItem *curr, const std::vector<std::string> &path);
 
 	std::vector<std::string> split_path(const std::string &path);
+
+	void push(IBaseItem *it);
+
+	IBaseItem *pop();
+
+	IBaseItem *top();
+
+private:
 
 
 private:

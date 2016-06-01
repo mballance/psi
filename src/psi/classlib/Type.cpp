@@ -32,10 +32,7 @@ namespace psi {
 
 Type::Type(Type::ObjectType t, Type *p) :
 		m_type(t), m_name(""), m_parent(p),
-		m_type_data(nullptr), m_isRand(false),
-		m_isInput(false), m_isOutput(false) {
-	m_type_data = nullptr;
-
+		m_type_data(0), m_attr(AttrNone) {
 	if (p) {
 		p->add(this);
 	}
@@ -43,9 +40,7 @@ Type::Type(Type::ObjectType t, Type *p) :
 
 Type::Type(Type::ObjectType t, Type *p, const std::string &name) :
 		m_type(t), m_name(name), m_parent(p),
-		m_type_data(nullptr), m_isRand(false),
-		m_isInput(false), m_isOutput(false) {
-	m_type_data = nullptr;
+		m_type_data(0), m_attr(AttrNone) {
 
 	if (p) {
 		p->add(this);

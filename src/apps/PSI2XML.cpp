@@ -125,6 +125,14 @@ void PSI2XML::process_struct(IStruct *str) {
 	if (str->getSuperType()) {
 		tag += " super=\"" + type2string(str->getSuperType()) + "\"";
 	}
+
+	switch (str->getStructType()) {
+	case IStruct::Memory: tag += " type=\"memory\""; break;
+	case IStruct::Resource: tag += " type=\"resource\""; break;
+	case IStruct::Stream: tag += " type=\"stream\""; break;
+	case IStruct::State: tag += " type=\"state\""; break;
+	}
+
 	tag += ">";
 	println(tag);
 
@@ -135,6 +143,19 @@ void PSI2XML::process_struct(IStruct *str) {
 	println("</struct>");
 }
 
+void PSI2XML::process_bind(IBind *b) {
+	println("<bind>");
+	inc_indent();
+
+	for (std::vector<IBaseItem *>::const_iterator it=b->getTargets().begin();
+			it!=b->getTargets().end(); it++) {
+		// TODO:
+	}
+
+	dec_indent();
+	println("</bind>");
+}
+
 void PSI2XML::process_body(const std::vector<IBaseItem *> &items) {
 	std::vector<IBaseItem *>::const_iterator it = items.begin();
 
@@ -142,6 +163,9 @@ void PSI2XML::process_body(const std::vector<IBaseItem *> &items) {
 		IBaseItem *i = *it;
 
 		switch (i->getType()) {
+		case IBaseItem::TypeBind:
+			process_bind(static_cast<IBind *>(i));
+			break;
 		case IBaseItem::TypeConstraint:
 			process_constraint_block(static_cast<IConstraintBlock *>(i));
 			break;
@@ -353,6 +377,15 @@ void PSI2XML::process_field(IField *f) {
 		break;
 	case IField::FieldAttr_Output:
 		tag += " type=\"output\"";
+		break;
+	case IField::FieldAttr_Lock:
+		tag += " type=\"lock\"";
+		break;
+	case IField::FieldAttr_Share:
+		tag += " type=\"share\"";
+		break;
+	case IField::FieldAttr_Pool:
+		tag += " type=\"pool\"";
 		break;
 	}
 

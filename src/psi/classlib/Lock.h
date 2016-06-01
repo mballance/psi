@@ -35,7 +35,9 @@ template <class T> class Lock: public T {
 
 	public:
 		Lock(Type *p, const std::string &name) : T(p, name) {
-			static_cast<Type *>(this)->setTypeData(TypeRgy<T>::type_id());
+			Type *t = static_cast<Type *>(this);
+			t->setTypeData(TypeRgy<T>::type_id());
+			t->setAttr(Type::AttrLock);
 		}
 
 		virtual ~Lock() { }

@@ -30,6 +30,7 @@
 #include "api/IAction.h"
 #include "api/IBaseItem.h"
 #include "api/IBinaryExpr.h"
+#include "api/IBind.h"
 #include "api/IComponent.h"
 #include "api/IConstraint.h"
 #include "api/IConstraintBlock.h"
@@ -71,6 +72,12 @@ namespace psi_api {
 			 * Action
 			 */
 			virtual IAction *mkAction(const std::string &name, IAction *super_type) = 0;
+
+			/**
+			 * Creates a new bind statement
+			 */
+			virtual IBind *mkBind(const std::vector<IBaseItem *> &targets) = 0;
+
 
 			/**
 			 * Create a new component type
