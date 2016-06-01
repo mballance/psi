@@ -28,7 +28,6 @@
 #include <string>
 
 #include "classlib/Type.h"
-#include "classlib/NativeExecClosure.h"
 #include "classlib/SharedPtr.h"
 
 namespace psi {
@@ -64,10 +63,13 @@ class Exec : public Type {
 			ExecKind 								kind,
 			const ExprList							&stmts);
 
+		/**
+		 * Inline exec block that activates the appropriate
+		 * hook method
+		 */
 		Exec(
 			Type									*p,
 			ExecKind								kind,
-			const SharedPtr<NativeExecClosureBase>	&closure,
 			const std::vector<Type *>				&write_vars);
 
 		virtual ~Exec();
@@ -88,8 +90,6 @@ class Exec : public Type {
 		std::string							m_language;
 		std::string							m_content;
 		ExprList							m_stmts;
-		SharedPtr<NativeExecClosureBase>	m_closure;
-
 
 };
 

@@ -36,6 +36,7 @@
 #include "api/IConstraintBlock.h"
 #include "api/IConstraintExpr.h"
 #include "api/IConstraintIf.h"
+#include "api/IExec.h"
 #include "api/IExtend.h"
 #include "api/IField.h"
 #include "api/ILiteral.h"
@@ -83,6 +84,18 @@ namespace psi_api {
 			 * Create a new component type
 			 */
 			virtual IComponent *mkComponent(const std::string &name) = 0;
+
+			virtual IExec *mkTargetTemplateExec(
+					IExec::ExecKind 		kind,
+					const std::string 		&text) = 0;
+
+			virtual IExec *mkInlineExec(
+					IExec::ExecKind 		kind,
+					IInlineExec				*exec) = 0;
+
+			virtual IExec *mkNativeExec(
+					IExec::ExecKind			kind,
+					IExpr					*stmts) = 0;
 
 			/**
 			 * Create a new struct type

@@ -41,5 +41,16 @@ Action::~Action() {
 	// TODO Auto-generated destructor stub
 }
 
+void Action::pre_solve() {
+
+}
+
+void Action::post_solve() {
+
+}
+
+void Action::body() {
+
+}
 
 } /* namespace psi */

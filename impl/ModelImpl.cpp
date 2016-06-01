@@ -36,6 +36,7 @@
 #include "ConstraintBlockImpl.h"
 #include "ConstraintExprImpl.h"
 #include "ConstraintIfImpl.h"
+#include "ExecImpl.h"
 #include "ExtendImpl.h"
 #include "FieldImpl.h"
 #include "FieldRefImpl.h"
@@ -127,6 +128,27 @@ IAction *ModelImpl::mkAction(const std::string &name, IAction *super_type) {
 
 IComponent *ModelImpl::mkComponent(const std::string &name) {
 	return new ComponentImpl(name);
+}
+
+IExec *ModelImpl::mkTargetTemplateExec(
+		IExec::ExecKind			kind,
+		const std::string		&text) {
+	// TODO:
+	return 0;
+}
+
+IExec *ModelImpl::mkInlineExec(
+		IExec::ExecKind			kind,
+		IInlineExec				*exec) {
+	// TODO:
+	return 0;
+}
+
+IExec *ModelImpl::mkNativeExec(
+		IExec::ExecKind			kind,
+		IExpr					*stmts) {
+	// TODO:
+	return 0;
 }
 
 IStruct *ModelImpl::mkStruct(

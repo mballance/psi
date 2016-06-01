@@ -52,6 +52,25 @@ public:
 
 	protected:
 
+		/**
+		 * Solver hook method. Enabled by instantiating an inline Exec block
+		 * for ExecKind::PreSolve
+		 */
+		virtual void pre_solve();
+
+		/**
+		 * Solver hook method. Enabled by instantiating an inline Exec block
+		 * for ExecKind::PostSolve
+		 */
+		virtual void post_solve();
+
+		/**
+		 * Solver hook method. Enabled by instantiating an inline Exec block
+		 * for ExecKind::Body
+		 */
+		virtual void body();
+
+
 
 		Struct(
 				Type 				*p,

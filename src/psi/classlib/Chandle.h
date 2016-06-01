@@ -40,6 +40,22 @@ class Chandle : public Type {
 				const std::string 	&name);
 
 		virtual ~Chandle();
+
+		/**
+		 * The get method returns the solve-time value of this
+		 * data field. Calling this method is only valid
+		 * on fields of this type, and only from within an
+		 * inline-exec callback.
+		 */
+		void *get();
+
+		/**
+		 * The set method sets the value of this data field.
+		 * Calling this method is only valid on fields
+		 * of this type, and only from within an
+		 * inline-exec callback.
+		 */
+		void set(void *v);
 };
 
 } /* namespace psi */

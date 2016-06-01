@@ -26,7 +26,6 @@
 #define ACTION_H_
 #include <string>
 
-#include "classlib/NativeExecClosure.h"
 #include "classlib/Type.h"
 
 namespace psi {
@@ -47,12 +46,23 @@ class Action : public Type {
 	protected:
 
 		/**
-		 * Creates a native exec closure, pointing to a method
-		 * in the action class
+		 * Solver hook method. Enabled by instantiating an inline Exec block
+		 * for ExecKind::PreSolve
 		 */
-		template <class C> static SharedPtr<NativeExecClosureBase> mk_exec(C *t, void (C::*m)()) {
-			return SharedPtr<NativeExecClosureBase>(new NativeExecClosure<C>(t, m));
-		}
+		virtual void pre_solve();
+
+		/**
+		 * Solver hook method. Enabled by instantiating an inline Exec block
+		 * for ExecKind::PostSolve
+		 */
+		virtual void post_solve();
+
+		/**
+		 * Solver hook method. Enabled by instantiating an inline Exec block
+		 * for ExecKind::Body
+		 */
+		virtual void body();
+
 
 	private:
 		Action								*m_super_type;

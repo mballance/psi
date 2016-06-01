@@ -25,6 +25,7 @@
 #ifndef SRC_CLASSLIB_STRING_H_
 #define SRC_CLASSLIB_STRING_H_
 #include "classlib/Type.h"
+#include <string>
 
 namespace psi {
 
@@ -37,6 +38,26 @@ class String : public Type {
 		String(const std::string &name);
 
 		virtual ~String();
+
+		/**
+		 * The get method returns the solve-time value of this
+		 * data field. Calling this method is only valid
+		 * on fields of this type, and only from within an
+		 * inline-exec callback.
+		 */
+		const std::string &get();
+
+		/**
+		 * The set method sets the value of this data field.
+		 * Calling this method is only valid on fields
+		 * of this type, and only from within an
+		 * inline-exec callback.
+		 */
+		void set(const std::string &v);
+
+	private:
+		std::string					m_val;
+
 };
 
 } /* namespace psi */

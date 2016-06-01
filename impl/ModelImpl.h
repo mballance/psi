@@ -82,6 +82,18 @@ class ModelImpl: public IModel {
 
 		virtual IComponent *mkComponent(const std::string &name);
 
+		virtual IExec *mkTargetTemplateExec(
+				IExec::ExecKind			kind,
+				const std::string		&text);
+
+		virtual IExec *mkInlineExec(
+				IExec::ExecKind			kind,
+				IInlineExec				*exec);
+
+		virtual IExec *mkNativeExec(
+				IExec::ExecKind			kind,
+				IExpr					*stmts);
+
 		virtual IStruct *mkStruct(
 				const std::string 		&name,
 				IStruct::StructType		t,

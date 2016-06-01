@@ -37,4 +37,13 @@ Chandle::~Chandle() {
 	// TODO Auto-generated destructor stub
 }
 
+void *Chandle::get() {
+	// TODO:
+	return 0;
+}
+
+void Chandle::set(void *v) {
+	// TODO:
+}
+
 } /* namespace psi */

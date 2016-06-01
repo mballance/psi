@@ -14,37 +14,13 @@ namespace psi_api {
 class IObject : public IBaseItem {
 public:
 
-	enum ObjectType {
-		ObjectType_Object, //! Action or Struct object
-		ObjectType_Int,
-		ObjectType_Bit,
-		ObjectType_Chandle,
-		ObjectType_String,
-		ObjectType_IntArray,
-		ObjectType_BitArray,
-		ObjectType_ObjArray
-	};
-
 	virtual ~IObject() { }
 
-	virtual ObjectType getObjectType() = 0;
-
 	/**
-	 * Returns a sub-field of a composite-type object.
+	 * Returns the declaration type of this object, such
+	 * as IAction, IStruct, IScalarType
 	 */
-	virtual IObject *getField(IField *field) = 0;
-
-	int64_t getIntValue() = 0;
-
-	void setIntValue(int64_t v) = 0;
-
-	/**
-	 * Returns the bit value
-	 */
-	uint64_t getBitValue() = 0;
-
-	void setBitValue(uint64_t v) = 0;
-
+	virtual IBaseItem *getTypeDeclaration() = 0;
 
 };
 

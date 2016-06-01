@@ -37,8 +37,7 @@ Exec::Exec(
 			m_execType(TargetTemplate),
 			m_execKind(kind),
 			m_language(language),
-			m_content(content),
-			m_closure(0) {
+			m_content(content) {
 }
 
 Exec::Exec(
@@ -48,20 +47,17 @@ Exec::Exec(
 			Type(Type::TypeExec, p),
 			m_execType(Native),
 			m_execKind(kind),
-			m_stmts(stmts),
-			m_closure(0) {
+			m_stmts(stmts) {
 	// TODO: save call information
 }
 
 Exec::Exec(
 		Type									*p,
 		ExecKind								kind,
-		const SharedPtr<NativeExecClosureBase>	&closure,
 		const std::vector<Type *>				&write_vars) :
 				Type(Type::TypeExec, p),
 				m_execType(Inline),
-				m_execKind(kind),
-				m_closure(closure) {
+				m_execKind(kind) {
 
 }
 

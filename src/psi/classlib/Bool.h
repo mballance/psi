@@ -42,6 +42,21 @@ class Bool: public Type {
 
 		virtual ~Bool();
 
+		/**
+		 * The get method returns the solve-time value of this
+		 * data field. Calling this method is only valid on
+		 * fields of this type, and from within an inline-exec callback
+		 */
+		bool get();
+
+		/**
+		 * The set method sets the value of this data field.
+		 * Calling this method is only valid on fields
+		 * of this type, and only from within an
+		 * inline-exec callback.
+		 */
+		void set(bool v);
+
 };
 
 } /* namespace psi */

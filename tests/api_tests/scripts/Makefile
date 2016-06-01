@@ -43,34 +43,11 @@ ifeq (true,$(USE_CXX11))
 RUN_CXXFLAGS += -std=c++11
 endif
 
-#libpsi.a : $(SRC:.cpp=.o)
-#	$(Q)rm -f $@
-#	$(Q)$(AR) vcq $@ $^
-#	
-#libimpl.a : $(SRC_IMPL:.cpp=.o)
-#	$(Q)rm -f $@
-#	$(Q)$(AR) vcq $@ $^
-#	
-#libapps.a : $(SRC_APPS:.cpp=.o)
-#	$(Q)rm -f $@
-#	$(Q)$(AR) vcq $@ $^
-
 TEST_LIBS=$(BUILD_DIR)/libpsi_apps.a $(BUILD_DIR)/libpsi.a $(BUILD_DIR)/libpsi_impl.a
 
 include $(SIMSCRIPTS_DIR)/mkfiles/common_sim.mk
 include $(SIM_DIR)/../../rules_defs.mk
 
-#%.o : $(SRCDIR)/psi/classlib/%.cpp
-#	$(Q)$(CXX) $(CXXFLAGS) -c $^ -o $@
-#	
-#%.o : $(SRCDIR)/../impl/%.cpp
-#	$(Q)$(CXX) $(CXXFLAGS) -c $^ -o $@
-#	
-#%.o : $(SRCDIR)/apps/%.cpp
-#	$(Q)$(CXX) $(CXXFLAGS) -c $^ -o $@
-#	
-#%.o : $(SIM_DIR)/src/%.cpp
-#	$(Q)$(CXX) $(RUN_CXXFLAGS) $(CXXFLAGS) -c $^ -o $@
 	
 ifeq (true,$(QUIET))
 COMPILE_REDIR:= > compile.log 2>&1

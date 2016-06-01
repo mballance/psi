@@ -53,5 +53,16 @@ Struct::~Struct() {
 	// TODO Auto-generated destructor stub
 }
 
+void Struct::pre_solve() {
+
+}
+
+void Struct::post_solve() {
+
+}
+
+void Struct::body() {
+
+}
 
 } /* namespace psi */

@@ -34,4 +34,13 @@ String::~String() {
 	// TODO Auto-generated destructor stub
 }
 
+const std::string &String::get() {
+	// TODO:
+	return m_val;
+}
+
+void String::set(const std::string &v) {
+
+}
+
 } /* namespace psi */

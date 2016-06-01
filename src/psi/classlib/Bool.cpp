@@ -37,4 +37,13 @@ Bool::~Bool() {
 	// TODO Auto-generated destructor stub
 }
 
+bool Bool::get() {
+	// TODO:
+	return false;
+}
+
+void Bool::set(bool v) {
+	// TODO:
+}
+
 } /* namespace psi */
