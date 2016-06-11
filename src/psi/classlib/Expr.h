@@ -27,8 +27,11 @@
 
 #include "classlib/SharedPtr.h"
 #include "classlib/Types.h"
+//#include "classlib/ExprListBuilder.h"
 
 namespace psi {
+
+class ExprListBuilder;
 
 class Type;
 
@@ -60,7 +63,7 @@ class Expr {
 			BinOp_NotEq,
 			BinOp_GE,
 			BinOp_GT,
-			BinOp_LE,
+			BinOp_LE, // 10
 			BinOp_LT,
 			BinOp_And,
 			BinOp_AndAnd,
@@ -70,7 +73,7 @@ class Expr {
 			BinOp_Plus,
 			BinOp_Multiply,
 			BinOp_Divide,
-			BinOp_Mod,
+			BinOp_Mod, // 20
 			BinOp_ArrayRef,
 
 			Stmt_If,
@@ -84,7 +87,7 @@ class Expr {
 			ImportCall,
 
 			List,
-			TypeRef
+			TypeRef // 30
 		};
 
 	public:
@@ -119,6 +122,8 @@ class Expr {
 		bool isBinOp() const;
 
 		static bool isBinOp(Operator op);
+
+		ExprListBuilder operator,(const Expr &rhs);
 
 		Expr operator [] (const Expr &rhs);
 

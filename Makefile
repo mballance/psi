@@ -7,7 +7,7 @@ all:
 
 RULES:=1
 
-INCLUDE:=src tests impl LICENSE ChangeLog.txt
+INCLUDE:=src tests impl LICENSE ChangeLog.txt rules_defs.mk
 
 dist:
 	$(Q)$(MAKE) -C doc

@@ -32,12 +32,14 @@
 #include "api/IConstraint.h"
 #include "api/IConstraintIf.h"
 #include "api/IExpr.h"
+#include "api/IGraphStmt.h"
 #include "api/IModel.h"
 #include "api/IPackage.h"
 #include "classlib/Action.h"
 #include "classlib/Bind.h"
 #include "classlib/Component.h"
 #include "classlib/Constraint.h"
+#include "classlib/Graph.h"
 #include "classlib/Package.h"
 #include "classlib/Type.h"
 #include "classlib/Struct.h"
@@ -78,6 +80,13 @@ protected:
 	void elaborate_package(IModel *model, Package *pkg_cl);
 
 	IBaseItem *elaborate_struct_action_body_item(Type *t);
+
+	IFieldRef *elaborate_field_ref(Type *ref);
+
+	IGraphStmt *elaborate_graph(Graph *g);
+
+	IGraphStmt *elaborate_graph_stmt(ExprCore *stmt);
+
 
 private:
 

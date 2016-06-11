@@ -112,6 +112,10 @@ void PSI2XML::process_action(IAction *a) {
 
 	inc_indent();
 	process_body(a->getItems());
+
+	if (a->getGraph()) {
+		process_graph(a->getGraph());
+	}
 	dec_indent();
 
 	println("</action>");
@@ -178,6 +182,7 @@ void PSI2XML::process_body(const std::vector<IBaseItem *> &items) {
 			fprintf(stdout, "Error: Unknown body item %d\n", i->getType());
 		}
 	}
+
 }
 
 void PSI2XML::process_component(IComponent *c) {
@@ -436,6 +441,118 @@ void PSI2XML::process_field(IField *f) {
 	println("</field>");
 }
 
+void PSI2XML::process_graph(IGraphStmt *graph) {
+	std::vector<IGraphStmt *>::const_iterator it;
+
+	println("<graph>");
+	inc_indent();
+
+	process_graph_stmt(graph);
+
+	dec_indent();
+	println("</graph>");
+}
+
+void PSI2XML::process_graph_stmt(IGraphStmt *stmt) {
+	switch (stmt->getStmtType()) {
+	case IGraphStmt::GraphStmt_Block: {
+		println("<block>");
+		inc_indent();
+		process_graph_block_stmt(static_cast<IGraphBlockStmt *>(stmt));
+		dec_indent();
+		println("</block>");
+	} break;
+
+	case IGraphStmt::GraphStmt_IfElse: {
+		fprintf(stdout, "TODO: GraphStmt_IfElse\n");
+	} break;
+
+	case IGraphStmt::GraphStmt_Parallel: {
+		println("<parallel>");
+		inc_indent();
+
+		process_graph_block_stmt(static_cast<IGraphBlockStmt *>(stmt));
+
+		dec_indent();
+		println("</parallel>");
+	} break;
+
+	case IGraphStmt::GraphStmt_Schedule: {
+		println("<schedule>");
+		inc_indent();
+
+		process_graph_block_stmt(static_cast<IGraphBlockStmt *>(stmt));
+
+		dec_indent();
+		println("</schedule>");
+	} break;
+
+	case IGraphStmt::GraphStmt_Select: {
+		println("<select>");
+		inc_indent();
+
+		process_graph_block_stmt(static_cast<IGraphBlockStmt *>(stmt));
+
+		dec_indent();
+		println("</select>");
+	} break;
+
+	case IGraphStmt::GraphStmt_Repeat: {
+		IGraphRepeatStmt *r = static_cast<IGraphRepeatStmt *>(stmt);
+
+		std::string tag = "<repeat type=\"";
+		switch (r->getRepeatType()) {
+			case IGraphRepeatStmt::RepeatType_Forever: tag += "forever"; break;
+			case IGraphRepeatStmt::RepeatType_While: tag += "while"; break;
+			case IGraphRepeatStmt::RepeatType_Until: tag += "until"; break;
+		}
+		tag += "\">";
+		println(tag);
+		inc_indent();
+
+		// TODO: handle non-forever versions
+		process_graph_stmt(r->getBody());
+
+		dec_indent();
+		println("</repeat>");
+	} break;
+
+	case IGraphStmt::GraphStmt_Traverse: {
+		IGraphTraverseStmt *t = static_cast<IGraphTraverseStmt *>(stmt);
+
+		std::string tag = "<traverse action=\"";
+		tag += path2string(t->getAction());
+
+		if (t->getWith()) {
+			tag += "\">";
+		} else {
+			tag += "\"/>";
+		}
+
+		println(tag);
+
+		if (t->getWith()) {
+			println("<with>");
+			// TODO: elaborate with constraint
+			println("</with>");
+
+			println("</traverse>");
+		}
+	} break;
+
+	default: fprintf(stdout, "TODO: handle graph stmt %d\n", stmt->getStmtType());
+
+	}
+}
+
+void PSI2XML::process_graph_block_stmt(IGraphBlockStmt *block) {
+	std::vector<IGraphStmt *>::const_iterator it;
+
+	for (it=block->getStmts().begin(); it!=block->getStmts().end(); it++) {
+		process_graph_stmt(*it);
+	}
+}
+
 std::string PSI2XML::type2string(IBaseItem *it) {
 	std::string ret;
 
@@ -452,6 +569,22 @@ std::string PSI2XML::type2string(IBaseItem *it) {
 		}
 
 		it = it->getParent();
+	}
+
+	return ret;
+}
+
+std::string PSI2XML::path2string(IFieldRef *f) {
+	std::string ret;
+	std::vector<IField *>::const_iterator it;
+
+	for (it=f->getFieldPath().begin(); it!=f->getFieldPath().end(); ) {
+		IField *field = *(it);
+		ret += field->getName();
+		it++;
+		if (it != f->getFieldPath().end()) {
+			ret += ".";
+		}
 	}
 
 	return ret;

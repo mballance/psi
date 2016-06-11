@@ -26,6 +26,7 @@
 #define SRC_PSI_CLASSLIB_REPEAT_H_
 
 #include "classlib/Expr.h"
+#include "classlib/ExprListBuilder.h"
 
 namespace psi {
 
@@ -33,7 +34,14 @@ class Repeat: public Expr {
 public:
 	Repeat(const Expr &expr, const Expr &body);
 
+	Repeat(const Expr &body);
+
 	virtual ~Repeat();
+
+	ExprListBuilder operator,(const Expr &rhs);
+
+	ExprListBuilder operator,(const ExprListBuilder &rhs);
+
 };
 
 } /* namespace psi */

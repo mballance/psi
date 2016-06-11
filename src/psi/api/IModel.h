@@ -39,6 +39,10 @@
 #include "api/IExec.h"
 #include "api/IExtend.h"
 #include "api/IField.h"
+#include "api/IGraphBlockStmt.h"
+#include "api/IGraphIfElseStmt.h"
+#include "api/IGraphRepeatStmt.h"
+#include "api/IGraphTraverseStmt.h"
 #include "api/ILiteral.h"
 #include "api/IPackage.h"
 #include "api/IScalarType.h"
@@ -123,6 +127,22 @@ namespace psi_api {
 
 			virtual IFieldRef *mkFieldRef(
 					const std::vector<IField *>		&field_path) = 0;
+
+			/**
+			 * Creates a new block statement. Parallel, Schedule, Select, and
+			 * Block statements are all, fundamentally, block statements.
+			 * The value of the 'type' parameter can be
+			 * GraphStmt_Block, GraphStmt_Parallel, GraphStmt_Schedule, or GraphStmt_Select
+			 */
+			virtual IGraphBlockStmt *mkGraphBlockStmt(
+					IGraphStmt::GraphStmtType type=IGraphStmt::GraphStmt_Block) = 0;
+
+			virtual IGraphTraverseStmt *mkGraphTraverseStmt(
+					IFieldRef *action, IConstraint *with_c=0) = 0;
+
+			virtual IGraphRepeatStmt *mkGraphRepeatStmt(
+					IGraphRepeatStmt::RepeatType type,
+					IExpr *expr, IGraphStmt *body) = 0;
 
 			virtual ILiteral *mkIntLiteral(int64_t v) = 0;
 

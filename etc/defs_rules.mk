@@ -1,6 +1,6 @@
 
 ifneq (1,$(RULES))
-VERSION:=0.3
+VERSION:=0.4
 
 ifneq (true,$(VERBOSE))
 VERBOSE:=false

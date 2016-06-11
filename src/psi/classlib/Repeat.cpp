@@ -31,6 +31,18 @@ Repeat::Repeat(const Expr &expr, const Expr &body) :
 		Expr(new ExprCore(Expr::GraphRepeat, expr, body)) {
 }
 
+Repeat::Repeat(const Expr &body) :
+		Expr(new ExprCore(Expr::GraphRepeat, Expr(1), body)) {
+}
+
 Repeat::~Repeat() { }
+
+ExprListBuilder Repeat::operator,(const Expr &rhs) {
+	return ExprListBuilder(*this, rhs);
+}
+
+ExprListBuilder Repeat::operator,(const ExprListBuilder &rhs) {
+	return ExprListBuilder(*this, rhs);
+}
 
 } /* namespace psi */

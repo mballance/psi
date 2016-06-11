@@ -36,6 +36,10 @@
 #define nullptr 0
 #endif
 
+#ifdef PSI_HAVE_CXX_11
+#include <initializer_list>
+#endif
+
 #include <stdint.h>
 
 

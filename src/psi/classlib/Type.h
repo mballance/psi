@@ -31,6 +31,7 @@
 
 #include "classlib/Expr.h"
 #include "classlib/ExprList.h"
+#include "classlib/ExprListBuilder.h"
 
 namespace psi {
 
@@ -98,7 +99,7 @@ public:
 
 		Expr operator [] (const Expr &rhs);
 
-		ExprList operator,(Type &rhs);
+		ExprListBuilder operator,(Type &rhs);
 
 		Expr operator = (const Expr &rhs);
 

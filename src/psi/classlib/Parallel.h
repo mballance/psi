@@ -27,14 +27,27 @@
 #define SRC_PSI_CLASSLIB_PARALLEL_H_
 
 #include "Expr.h"
-#include "ExprList.h"
+#include "ExprListBuilder.h"
 
 namespace psi {
 
+class ExprList;
 class Parallel: public Expr {
 public:
 	Parallel(const ExprList &body);
+
+#ifdef UNDEFINED
+#ifdef PSI_HAVE_CXX_11
+	Parallel(std::initializer_list<Expr> l) : Parallel(ExprList(l)) { };
+#endif
+#endif
+
 	virtual ~Parallel();
+
+	ExprListBuilder operator,(const Expr &rhs);
+
+	ExprListBuilder operator,(const ExprListBuilder &rhs);
+
 };
 
 } /* namespace psi */

@@ -15,11 +15,13 @@ public:
 
 	virtual ~IActionObject() { }
 
+	virtual IAction *getAction() const = 0;
+
 	/**
 	 * Returns the object representation of a
 	 * field of this struct.
 	 */
-	IObject getField(IField *field) = 0;
+	virtual IObject *getField(IField *field) = 0;
 
 
 };

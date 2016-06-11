@@ -15,11 +15,13 @@ public:
 
 	virtual ~IStructObject() { }
 
+	virtual IStruct *getStruct() const = 0;
+
 	/**
 	 * Returns the object representation of a
 	 * field of this struct.
 	 */
-	IObject getField(IField *field) = 0;
+	virtual IObject *getField(IField *field) = 0;
 
 
 };

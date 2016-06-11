@@ -30,6 +30,7 @@
 namespace psi {
 
 class Import;
+class Expr;
 class ExprCore {
 
 	public:

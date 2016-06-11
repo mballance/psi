@@ -33,9 +33,9 @@ class IGraphBlockStmt : public IGraphStmt {
 public:
 	virtual ~IGraphBlockStmt() { }
 
-	const std::vector<IGraphStmt *> &getStmts() const;
+	virtual const std::vector<IGraphStmt *> &getStmts() const = 0;
 
-	void add(IGraphStmt *stmt);
+	virtual void add(IGraphStmt *stmt) = 0;
 
 };
 

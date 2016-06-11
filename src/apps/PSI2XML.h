@@ -72,7 +72,15 @@ private:
 
 	void process_field(IField *f);
 
+	void process_graph(IGraphStmt *graph);
+
+	void process_graph_stmt(IGraphStmt *stmt);
+
+	void process_graph_block_stmt(IGraphBlockStmt *block);
+
 	static std::string type2string(IBaseItem *it);
+
+	static std::string path2string(IFieldRef *f);
 
 	void println(const std::string &str);
 

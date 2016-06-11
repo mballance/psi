@@ -110,6 +110,17 @@ class ModelImpl: public IModel {
 				IBaseItem				*field_type,
 				IField::FieldAttr		attr);
 
+		virtual IGraphBlockStmt *mkGraphBlockStmt(
+				IGraphStmt::GraphStmtType type=IGraphStmt::GraphStmt_Block);
+
+		virtual IGraphTraverseStmt *mkGraphTraverseStmt(
+				IFieldRef *action, IConstraint *with_c=0);
+
+		virtual IGraphRepeatStmt *mkGraphRepeatStmt(
+				IGraphRepeatStmt::RepeatType type,
+				IExpr *expr, IGraphStmt *body);
+
+
 		virtual IBinaryExpr *mkBinExpr(
 				IExpr 					*lhs,
 				IBinaryExpr::BinOpType	op,

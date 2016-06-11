@@ -22,6 +22,7 @@
  *      Author: ballance
  */
 
+#include <vector>
 #include "ExprList.h"
 #include "ExprCoreList.h"
 #include <stdio.h>
@@ -32,9 +33,10 @@ ExprList::ExprList() : Expr(new ExprCoreList()) { }
 
 ExprList::ExprList(const SharedPtr<ExprCore> &ptr) : Expr(ptr) { }
 
-ExprList::ExprList(const Expr &e1, const Expr &e2) : Expr(new ExprCoreList(e1, e2)) { }
-
-ExprList::ExprList(const Expr &e) : Expr(new ExprCoreList(e)) { }
+ExprList::ExprList(const ExprListBuilder &el) : Expr(new ExprCoreList()) {
+	ExprCoreList *c_t = static_cast<ExprCoreList *>(m_core.ptr());
+	traverse_expr_builder(c_t, el);
+}
 
 ExprList::ExprList(Type &t) : Expr(new ExprCoreList(Expr(t))) {
 
@@ -42,21 +44,30 @@ ExprList::ExprList(Type &t) : Expr(new ExprCoreList(Expr(t))) {
 
 ExprList::~ExprList() { }
 
-ExprList ExprList::operator,(const Expr &rhs) {
-	ExprCoreList *c_t = static_cast<ExprCoreList *>(m_core.ptr());
+//ExprListBuilder ExprList::operator,(const Expr &rhs) {
+////	ExprCoreList *c_t = static_cast<ExprCoreList *>(m_core.ptr());yy
+//
+//	fprintf(stdout, "ExprList::operator,(Expr) %d\n",
+//			rhs.getCorePtr()->getOp());
+//
+////	if (rhs.getCore().ptr()) {
+////		if (rhs.getOp() == Expr::List) {
+////			fprintf(stdout, "rhs is a list\n");
+////			ExprCoreList *rhs_c = static_cast<ExprCoreList *>(rhs.getCorePtr());
+////			std::vector<SharedPtr<ExprCore> >::const_iterator it;
+////			for (it=rhs_c->getExprList().begin(); it!=rhs_c->getExprList().end(); it++) {
+////				c_t->m_exprList.push_back((*it));
+////			}
+////		} else {
+////			c_t->m_exprList.push_back(rhs.getCore());
+////		}
+////	}
+////	return ExprList(m_core); // Hand off our shared pointer
+//	return ExprListBuilder();
+//}
 
-	if (rhs.getCore().ptr()) {
-		if (rhs.getOp() == Expr::List) {
-			ExprCoreList *rhs_c = static_cast<ExprCoreList *>(rhs.getCorePtr());
-			std::vector<SharedPtr<ExprCore> >::const_iterator it;
-			for (it=rhs_c->getExprList().begin(); it!=rhs_c->getExprList().end(); it++) {
-				c_t->m_exprList.push_back((*it));
-			}
-		} else {
-			c_t->m_exprList.push_back(rhs.getCore());
-		}
-	}
-	return ExprList(m_core); // Hand off our shared pointer
+const std::vector<SharedPtr<ExprCore> > &ExprList::getExprList() const {
+	return static_cast<ExprCoreList *>(m_core.ptr())->m_exprList;
 }
 
 //ExprList ExprList::operator,(const Type &rhs) {
@@ -65,5 +76,27 @@ ExprList ExprList::operator,(const Expr &rhs) {
 //	return ExprList(m_core);
 //}
 
+void ExprList::traverse_expr_builder(ExprCoreList *c_t, const ExprListBuilder &el) {
+	if (el.getBuilderList().size() > 0) {
+		// List of builders. Must convert each to an ExprCoreList
+		// and add it to the list we're building
+		std::vector<ExprListBuilder>::const_iterator it;
+
+		for (it=el.getBuilderList().begin(); it!=el.getBuilderList().end(); it++) {
+			ExprCoreList *c_tp = new ExprCoreList();
+
+			traverse_expr_builder(c_tp, *it);
+
+			c_t->m_exprList.push_back(SharedPtr<ExprCore>(c_tp));
+		}
+	} else {
+		// List of CoreExpr. Add to the current list
+		std::vector<SharedPtr<ExprCore> >::const_iterator it;
+		for (it=el.getList().begin(); it!=el.getList().end(); it++) {
+			c_t->m_exprList.push_back(*it);
+		}
+	}
+
+}
 
 } /* namespace psi */

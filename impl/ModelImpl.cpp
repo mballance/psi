@@ -40,6 +40,9 @@
 #include "ExtendImpl.h"
 #include "FieldImpl.h"
 #include "FieldRefImpl.h"
+#include "GraphBlockStmtImpl.h"
+#include "GraphRepeatStmtImpl.h"
+#include "GraphTraverseStmtImpl.h"
 #include "LiteralImpl.h"
 #include "ScalarTypeImpl.h"
 #include "StructImpl.h"
@@ -171,6 +174,21 @@ IField *ModelImpl::mkField(
 		IBaseItem				*field_type,
 		IField::FieldAttr		attr) {
 	return new FieldImpl(name, field_type, attr);
+}
+
+IGraphBlockStmt *ModelImpl::mkGraphBlockStmt(IGraphStmt::GraphStmtType type) {
+	return new GraphBlockStmtImpl(type);
+}
+
+IGraphRepeatStmt *ModelImpl::mkGraphRepeatStmt(
+		IGraphRepeatStmt::RepeatType type,
+		IExpr *expr, IGraphStmt *body) {
+	return new GraphRepeatStmtImpl(type, expr, body);
+}
+
+IGraphTraverseStmt *ModelImpl::mkGraphTraverseStmt(
+		IFieldRef *action, IConstraint *with_c) {
+	return new GraphTraverseStmtImpl(action, with_c);
 }
 
 IBinaryExpr *ModelImpl::mkBinExpr(

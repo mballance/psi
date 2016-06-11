@@ -24,7 +24,7 @@
 
 #ifndef SRC_PSI_CLASSLIB_SELECT_H_
 #define SRC_PSI_CLASSLIB_SELECT_H_
-
+#include <vector>
 #include "Expr.h"
 #include "ExprList.h"
 
@@ -34,6 +34,12 @@ class Select: public Expr {
 public:
 
 	Select(const ExprList &list);
+
+#ifdef UNDEFINED
+#ifdef PSI_HAVE_CXX_11
+	Select(std::initializer_list<Expr> l) : Select(ExprList(l)) { };
+#endif
+#endif
 
 	virtual ~Select();
 

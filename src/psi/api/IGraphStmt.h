@@ -43,7 +43,10 @@ public:
 		GraphStmt_Select,
 		//! Graph repeat, repeat while, or repeat ... while statement.
 		//! Object is of type IGraphRepeatStmt
-		GraphStmt_Repeat
+		GraphStmt_Repeat,
+
+		/*! Graph action-traversal statement */
+		GraphStmt_Traverse
 	};
 
 public:

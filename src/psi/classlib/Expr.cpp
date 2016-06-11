@@ -27,6 +27,7 @@
 #include <stdio.h>
 #include "classlib/ExprCore.h"
 #include "classlib/Type.h"
+#include "classlib/ExprListBuilder.h"
 
 namespace psi {
 
@@ -61,6 +62,11 @@ bool Expr::isBinOp() const {
 		return isBinOp(m_core->m_op);
 	}
 	return false;
+}
+
+ExprListBuilder Expr::operator,(const Expr &rhs) {
+	fprintf(stdout, "Expr::operator,\n");
+	return ExprListBuilder(*this, rhs);
 }
 
 bool Expr::isBinOp(Operator op) {

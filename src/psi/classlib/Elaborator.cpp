@@ -30,6 +30,7 @@
 #include "classlib/IntType.h"
 #include "classlib/Bool.h"
 #include "classlib/Chandle.h"
+#include "classlib/Repeat.h"
 
 #include <stdio.h>
 
@@ -103,15 +104,25 @@ IAction *Elaborator::elaborate_action(Action *c) {
 		IBaseItem *c = 0;
 		if ((*it)->getObjectType() == Type::TypeBind) {
 			c = elaborate_bind(static_cast<Bind *>(*it));
+
+			if (c) {
+				a->add(c);
+			} else {
+				fprintf(stdout, "Error: failed to build action child item %s\n",
+						Type::toString((*it)->getObjectType()));
+			}
+		} if ((*it)->getObjectType() == Type::TypeGraph) {
+			IGraphStmt *g = elaborate_graph(static_cast<Graph *>((*it)));
+			a->setGraph(g);
 		} else {
 			c = elaborate_struct_action_body_item(*it);
-		}
 
-		if (c) {
-			a->add(c);
-		} else {
-			fprintf(stdout, "Error: failed to build action child item %s\n",
-					Type::toString((*it)->getObjectType()));
+			if (c) {
+				a->add(c);
+			} else {
+				fprintf(stdout, "Error: failed to build action child item %s\n",
+						Type::toString((*it)->getObjectType()));
+			}
 		}
 	}
 
@@ -338,70 +349,9 @@ IExpr *Elaborator::elaborate_expr(ExprCore *e) {
 		break;
 
 	case Expr::TypeRef: {
-		Type *t = e->getTypePtr();
-		std::vector<Type *>	  types;
-		std::vector<IField *> fields;
+		ret = elaborate_field_ref(e->getTypePtr());
 
-		while (t) {
-			// Traverse up to the point where we find the
-			// declaration scope that contains this expression
-			if (t == m_class_expr_ctxt) {
-				// TODO: might need to do something different for extended types?
-				break;
-			} else {
-				types.push_back(t);
-			}
-			t = t->getParent();
-		}
 
-		IScopeItem *scope = toScopeItem(m_model_expr_ctxt);
-		if (scope) {
-			for (int32_t i=types.size()-1; i>=0; i--) {
-				Type *t = types.at(i);
-				IBaseItem *t_it = 0;
-
-				for (std::vector<IBaseItem *>::const_iterator s_it=scope->getItems().begin();
-						s_it!=scope->getItems().end(); s_it++) {
-					if ((*s_it)->getType() == IBaseItem::TypeField &&
-							static_cast<IField *>(*s_it)->getName() == t->getName()) {
-						t_it = *s_it;
-						break;
-					}
-				}
-
-				if (t_it) {
-					if (t_it->getType() == IBaseItem::TypeField) {
-						IField *field = static_cast<IField *>(t_it);
-
-						fields.push_back(field);
-
-						if (i > 0) {
-							scope = toScopeItem(field->getDataType());
-
-							if (!scope) {
-								error(std::string("Field ") + t->getName() + " is not user-defined");
-								break;
-							}
-						}
-					}
-				} else {
-					error(std::string("Failed to find field ") + t->getName());
-					break;
-				}
-			}
-		} else {
-			error(std::string("Current context (") +
-					m_class_expr_ctxt->getName().c_str() +
-					") is not a scope");
-		}
-
-//		fprintf(stdout, "--> Typeref\n");
-//		for (std::vector<IField *>::const_iterator it=fields.begin();
-//				it!=fields.end(); it++) {
-//			fprintf(stdout, "  Field: %s\n", (*it)->getName().c_str());
-//		}
-//		fprintf(stdout, "<-- Typeref\n");
-		ret = m_model->mkFieldRef(fields);
 		} break;
 
 	default:
@@ -513,7 +463,10 @@ IBaseItem *Elaborator::elaborate_struct_action_body_item(Type *t) {
 		ret = m_model->mkField(it->getName(), field_t, getAttr(it));
 	} else if (t->getObjectType() == Type::TypeAction) {
 		// This is an action-type field
+		Action *it = static_cast<Action *>(t);
+		IBaseItem *action_t = find_type_decl(t->getTypeData());
 
+		ret = m_model->mkField(it->getName(), action_t, getAttr(it));
 	} else if (t->getObjectType() == Type::TypeStruct) {
 		// This is an struct-type field
 		Struct *it = static_cast<Struct *>(t);
@@ -525,6 +478,148 @@ IBaseItem *Elaborator::elaborate_struct_action_body_item(Type *t) {
 	} else {
 		// TODO: See if this is a field
 
+	}
+
+	return ret;
+}
+
+IFieldRef *Elaborator::elaborate_field_ref(Type *t) {
+	std::vector<Type *>	  types;
+	std::vector<IField *> fields;
+
+	while (t) {
+		// Traverse up to the point where we find the
+		// declaration scope that contains this expression
+		if (t == m_class_expr_ctxt) {
+			// TODO: might need to do something different for extended types?
+			break;
+		} else {
+			types.push_back(t);
+		}
+		t = t->getParent();
+	}
+
+	IScopeItem *scope = toScopeItem(m_model_expr_ctxt);
+	if (scope) {
+		for (int32_t i=types.size()-1; i>=0; i--) {
+			Type *t = types.at(i);
+			IBaseItem *t_it = 0;
+
+			for (std::vector<IBaseItem *>::const_iterator s_it=scope->getItems().begin();
+					s_it!=scope->getItems().end(); s_it++) {
+				if ((*s_it)->getType() == IBaseItem::TypeField &&
+						static_cast<IField *>(*s_it)->getName() == t->getName()) {
+					t_it = *s_it;
+					break;
+				}
+			}
+
+			if (t_it) {
+				if (t_it->getType() == IBaseItem::TypeField) {
+					IField *field = static_cast<IField *>(t_it);
+
+					fields.push_back(field);
+
+					if (i > 0) {
+						scope = toScopeItem(field->getDataType());
+
+						if (!scope) {
+							error(std::string("Field ") + t->getName() + " is not user-defined");
+							break;
+						}
+					}
+				}
+			} else {
+				error(std::string("Failed to find field ") + t->getName());
+				break;
+			}
+		}
+	} else {
+		error(std::string("Current context (") +
+				m_class_expr_ctxt->getName().c_str() +
+				") is not a scope");
+	}
+
+	return m_model->mkFieldRef(fields);
+}
+
+IGraphStmt *Elaborator::elaborate_graph(Graph *g) {
+	ExprList stmts = g->getSequence();
+	if (stmts.getExprList().size() > 1) {
+		std::vector<SharedPtr<ExprCore> >::const_iterator it;
+		IGraphBlockStmt *block = m_model->mkGraphBlockStmt(IGraphStmt::GraphStmt_Block);
+
+		for (it=stmts.getExprList().begin(); it!=stmts.getExprList().end(); it++) {
+			IGraphStmt *stmt = elaborate_graph_stmt((*it).ptr());
+			if (stmt) {
+				block->add(stmt);
+			} else {
+				fprintf(stdout, "Error: failed to elaborate %d\n", (*it).ptr()->getOp());
+			}
+		}
+
+		return block;
+	} else {
+		return elaborate_graph_stmt(stmts.getExprList().at(0).ptr());
+	}
+}
+
+IGraphStmt *Elaborator::elaborate_graph_stmt(ExprCore *stmt) {
+	IGraphStmt *ret = 0;
+
+	switch (stmt->getOp()) {
+	case Expr::GraphParallel:
+	case Expr::GraphSelect:
+	case Expr::GraphSchedule:
+	case Expr::List: {
+		// All are block statements
+		IGraphBlockStmt *block = m_model->mkGraphBlockStmt(
+				(stmt->getOp() == Expr::GraphParallel)?IGraphStmt::GraphStmt_Parallel:
+						(stmt->getOp() == Expr::GraphSelect)?IGraphStmt::GraphStmt_Select:
+						(stmt->getOp() == Expr::GraphSchedule)?IGraphStmt::GraphStmt_Schedule:
+								IGraphStmt::GraphStmt_Block);
+		ExprCoreList *stmt_l = static_cast<ExprCoreList *>(stmt);
+		std::vector<SharedPtr<ExprCore> >::const_iterator it;
+		for (it=stmt_l->getExprList().begin();
+				it!=stmt_l->getExprList().end(); it++) {
+			IGraphStmt *s = elaborate_graph_stmt((*it).ptr());
+			if (s) {
+				block->add(s);
+			} else {
+				fprintf(stdout, "Error: failed to elaborate %d\n",
+						(*it).ptr()->getOp());
+			}
+		}
+		ret = block;
+	} break;
+
+	case Expr::GraphRepeat: {
+		IGraphRepeatStmt::RepeatType type = IGraphRepeatStmt::RepeatType_Forever;
+
+		// TODO: must handle other types
+		IExpr *cond = 0;
+		IGraphStmt *body;
+		body = elaborate_graph_stmt(stmt->getRhsPtr());
+
+		IGraphRepeatStmt *repeat_stmt = m_model->mkGraphRepeatStmt(
+				type, cond, body);
+		ret = repeat_stmt;
+	} break;
+
+	case Expr::TypeRef: {
+		IFieldRef *ref = elaborate_field_ref(stmt->getTypePtr());
+
+		if (ref) {
+			ret = m_model->mkGraphTraverseStmt(ref, 0);
+		} else {
+			fprintf(stdout, "Error: failed to elaborate action ref\n");
+		}
+	} break;
+
+	}
+
+	if (!ret) {
+		fprintf(stdout, "Error: Unhandled graph stmt %d\n", stmt->getOp());
 	}
 
 	return ret;
