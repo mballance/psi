@@ -43,7 +43,11 @@ ifeq (true,$(USE_CXX11))
 RUN_CXXFLAGS += -std=c++11
 endif
 
+#ifeq (true,$(USE_CXX11))
+#TEST_LIBS=$(BUILD_DIR)/libpsi_apps.a $(BUILD_DIR)/libpsi_11.a $(BUILD_DIR)/libpsi_impl.a
+#else
 TEST_LIBS=$(BUILD_DIR)/libpsi_apps.a $(BUILD_DIR)/libpsi.a $(BUILD_DIR)/libpsi_impl.a
+#endif
 
 include $(SIMSCRIPTS_DIR)/mkfiles/common_sim.mk
 include $(SIM_DIR)/../../rules_defs.mk

@@ -22,20 +22,20 @@ public:
 
 		top_action(Type *p=0, psi_name name="top_action") : Action(p, name) { }
 
-//		Graph g {this, (a, b, Parallel {ExprList(c, a)})};
-//		Graph g {this, ((c,b,a), (a,b), (a,b,c)) };
-		Graph g {this, (
+		Graph g {this, {
 			a,
 			b,
-			Parallel {(
+			Parallel {
 				a,
-				Repeat {
-//				Parallel {
-					c
+				Repeat {5,
+					{
+						c
+					}
 				},
 				a
-			)}
-		)};
+			}
+		}
+		};
 
 	} _top_actionT {this};
 

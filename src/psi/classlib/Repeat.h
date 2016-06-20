@@ -24,7 +24,7 @@
 
 #ifndef SRC_PSI_CLASSLIB_REPEAT_H_
 #define SRC_PSI_CLASSLIB_REPEAT_H_
-
+#include "classlib/Types.h"
 #include "classlib/Expr.h"
 #include "classlib/ExprListBuilder.h"
 
@@ -32,9 +32,13 @@ namespace psi {
 
 class Repeat: public Expr {
 public:
-	Repeat(const Expr &expr, const Expr &body);
 
-	Repeat(const Expr &body);
+#ifdef PSI_HAVE_CXX_11
+	Repeat(const Expr &cond, std::initializer_list<Expr> l) :
+		Repeat(cond, ExprList(l)) { }
+#endif
+
+	Repeat(const Expr &cond, const Expr &body);
 
 	virtual ~Repeat();
 

@@ -33,13 +33,14 @@ public:
 		Field<A1>			a1_3 {this, "a1_3"};
 		Field<A1>			a1_4 {this, "a1_4"};
 
-		Graph graph {this,
-			(
+		Graph graph {this, {
 				Select {
-					(
-						(a1_1, a1_2),
-						(a1_3, a1_4)
-					)
+						Sequential{a1_1, a1_2},
+						Sequential{a1_3, a1_4}
+				},
+				Parallel {
+						Sequential{a1_1, a1_2},
+						Sequential{a1_3, a1_4}
 				},
 				Parallel {
 					(
@@ -47,7 +48,7 @@ public:
 						(a1_3, a1_4)
 					)
 				}
-			)
+		}
 		};
 	} graph_select_testT {this};
 

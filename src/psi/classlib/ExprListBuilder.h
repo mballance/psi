@@ -8,6 +8,7 @@
 #ifndef SRC_PSI_CLASSLIB_EXPRLISTBUILDER_H_
 #define SRC_PSI_CLASSLIB_EXPRLISTBUILDER_H_
 #include <vector>
+#include "classlib/Types.h"
 #include "classlib/SharedPtr.h"
 #include "classlib/ExprCore.h"
 
@@ -18,7 +19,19 @@ class ExprCore;
 
 class ExprListBuilder {
 public:
+
 	ExprListBuilder();
+
+#ifdef PSI_HAVE_CXX_11
+	ExprListBuilder(std::initializer_list<Expr> l) : ExprListBuilder() {
+		std::initializer_list<Expr>::const_iterator it;
+
+		for (it=l.begin(); it!=l.end(); it++) {
+			m_list.push_back((*it).getCore());
+		}
+	}
+#endif
+
 	ExprListBuilder(const Expr &e1, const Expr &e2);
 
 	ExprListBuilder(const Expr &e1, const ExprListBuilder &e2);

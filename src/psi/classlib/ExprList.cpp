@@ -44,37 +44,18 @@ ExprList::ExprList(Type &t) : Expr(new ExprCoreList(Expr(t))) {
 
 ExprList::~ExprList() { }
 
-//ExprListBuilder ExprList::operator,(const Expr &rhs) {
-////	ExprCoreList *c_t = static_cast<ExprCoreList *>(m_core.ptr());yy
-//
-//	fprintf(stdout, "ExprList::operator,(Expr) %d\n",
-//			rhs.getCorePtr()->getOp());
-//
-////	if (rhs.getCore().ptr()) {
-////		if (rhs.getOp() == Expr::List) {
-////			fprintf(stdout, "rhs is a list\n");
-////			ExprCoreList *rhs_c = static_cast<ExprCoreList *>(rhs.getCorePtr());
-////			std::vector<SharedPtr<ExprCore> >::const_iterator it;
-////			for (it=rhs_c->getExprList().begin(); it!=rhs_c->getExprList().end(); it++) {
-////				c_t->m_exprList.push_back((*it));
-////			}
-////		} else {
-////			c_t->m_exprList.push_back(rhs.getCore());
-////		}
-////	}
-////	return ExprList(m_core); // Hand off our shared pointer
-//	return ExprListBuilder();
-//}
+ExprListBuilder ExprList::operator,(const Expr &rhs) {
+	return ExprListBuilder(*this, rhs);
+}
 
 const std::vector<SharedPtr<ExprCore> > &ExprList::getExprList() const {
 	return static_cast<ExprCoreList *>(m_core.ptr())->m_exprList;
 }
 
-//ExprList ExprList::operator,(const Type &rhs) {
-//	ExprCoreList *c_t = static_cast<ExprCoreList *>(m_core.ptr());
-//	fprintf(stdout, "ExprList::operator: Type rhs\n");
-//	return ExprList(m_core);
-//}
+void ExprList::append(const Expr &e) {
+	std::vector<SharedPtr<ExprCore> > &l = static_cast<ExprCoreList *>(m_core.ptr())->m_exprList;
+	l.push_back(e.getCore());
+}
 
 void ExprList::traverse_expr_builder(ExprCoreList *c_t, const ExprListBuilder &el) {
 	if (el.getBuilderList().size() > 0) {

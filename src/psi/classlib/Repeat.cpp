@@ -27,12 +27,12 @@
 
 namespace psi {
 
-Repeat::Repeat(const Expr &expr, const Expr &body) :
-		Expr(new ExprCore(Expr::GraphRepeat, expr, body)) {
-}
+//Repeat::Repeat(const Expr &expr, const ExprListBuilder &body) :
+//		Expr(new ExprCore(Expr::GraphRepeat, expr, ExprList(body))) {
+//}
 
-Repeat::Repeat(const Expr &body) :
-		Expr(new ExprCore(Expr::GraphRepeat, Expr(1), body)) {
+Repeat::Repeat(const Expr &cond, const Expr &body) :
+		Expr(new ExprCore(Expr::GraphRepeat, cond, body)) {
 }
 
 Repeat::~Repeat() { }

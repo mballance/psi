@@ -16,6 +16,7 @@ ExprListBuilder::ExprListBuilder() {
 }
 
 ExprListBuilder::ExprListBuilder(const Expr &e1, const Expr &e2) {
+	fprintf(stdout, "ExprListBuilder: e1, e2\n");
 	m_list.push_back(e1.getCore());
 	m_list.push_back(e2.getCore());
 }

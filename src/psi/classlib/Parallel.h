@@ -26,8 +26,9 @@
 #ifndef SRC_PSI_CLASSLIB_PARALLEL_H_
 #define SRC_PSI_CLASSLIB_PARALLEL_H_
 
-#include "Expr.h"
-#include "ExprListBuilder.h"
+#include "classlib/Types.h"
+#include "classlib/Expr.h"
+#include "classlib/ExprListBuilder.h"
 
 namespace psi {
 
@@ -36,10 +37,8 @@ class Parallel: public Expr {
 public:
 	Parallel(const ExprList &body);
 
-#ifdef UNDEFINED
 #ifdef PSI_HAVE_CXX_11
 	Parallel(std::initializer_list<Expr> l) : Parallel(ExprList(l)) { };
-#endif
 #endif
 
 	virtual ~Parallel();

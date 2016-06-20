@@ -56,6 +56,7 @@
 #include "classlib/ResourceStruct.h"
 #include "classlib/Schedule.h"
 #include "classlib/Select.h"
+#include "classlib/Sequential.h"
 #include "classlib/Share.h"
 #include "classlib/StateStruct.h"
 #include "classlib/StreamStruct.h"
