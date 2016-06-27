@@ -27,6 +27,7 @@
 
 #include <string>
 #include "api/IAction.h"
+#include "api/IField.h"
 #include "NamedItemImpl.h"
 
 using namespace psi_api;
@@ -65,6 +66,11 @@ namespace psi {
 
 			virtual void setGraph(IGraphStmt *graph);
 
+			/**
+			 * Locates and returns the named field. Returns 0 if
+			 * the named field does not exist
+			 */
+			virtual IField *getField(const std::string &name);
 
 		private:
 			std::string					m_name;

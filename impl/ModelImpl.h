@@ -152,6 +152,10 @@ class ModelImpl: public IModel {
 				IConstraint 	*true_c,
 				IConstraint 	*false_c);
 
+		/**
+		 * Null implementation
+		 */
+		virtual IField *getField(const std::string &name) { return 0; }
 
 	private:
 		std::vector<IBaseItem *>	m_children;

@@ -71,6 +71,14 @@ class PackageImpl : public IPackage  {
 
 		virtual IStruct *findStruct(const std::string &name);
 
+		/**
+		 * Locates and returns the named field. Returns 0 if
+		 * the named field does not exist
+		 *
+		 * Note: packages don't have fields
+		 */
+		virtual IField *getField(const std::string &name) { return 0; }
+
 	private:
 		IBaseItem							*m_parent;
 		std::string							m_name;

@@ -6,6 +6,7 @@
  */
 
 #include "ExtendImpl.h"
+#include "FieldImpl.h"
 
 namespace psi {
 
@@ -27,6 +28,26 @@ ExtendImpl::~ExtendImpl() {
 void ExtendImpl::add(IBaseItem *it) {
 	m_items.push_back(it);
 	it->setParent(this);
+}
+
+/**
+ * Locates and returns the named field. Returns 0 if
+ * the named field does not exist
+ */
+IField *ExtendImpl::getField(const std::string &name) {
+	IField *ret = 0;
+	std::vector<IBaseItem *>::const_iterator it;
+
+	for (it=m_items.begin(); it!=m_items.end(); it++) {
+		if ((*it)->getType() == IBaseItem::TypeField &&
+				static_cast<FieldImpl *>(*it)->getName() == name) {
+			ret = static_cast<FieldImpl *>(*it);
+			break;
+		}
+
+	}
+
+	return ret;
 }
 
 } /* namespace psi */

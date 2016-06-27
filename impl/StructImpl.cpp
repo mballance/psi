@@ -23,6 +23,7 @@
  */
 
 #include "StructImpl.h"
+#include "FieldImpl.h"
 
 namespace psi {
 
@@ -54,6 +55,26 @@ const std::vector<IBaseItem *> &StructImpl::getItems() const {
 
 void StructImpl::add(IBaseItem *it) {
 	m_children.push_back(it);
+}
+
+/**
+ * Locates and returns the named field. Returns 0 if
+ * the named field does not exist
+ */
+IField *StructImpl::getField(const std::string &name) {
+	IField *ret = 0;
+	std::vector<IBaseItem *>::const_iterator it;
+
+	for (it=m_children.begin(); it!=m_children.end(); it++) {
+		if ((*it)->getType() == IBaseItem::TypeField &&
+				static_cast<FieldImpl *>(*it)->getName() == name) {
+			ret = static_cast<FieldImpl *>(*it);
+			break;
+		}
+
+	}
+
+	return ret;
 }
 
 } /* namespace psi */

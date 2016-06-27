@@ -9,6 +9,7 @@
 #define IMPL_EXTENDIMPL_H_
 #include <vector>
 #include "api/IExtend.h"
+#include "api/IField.h"
 
 using namespace psi_api;
 
@@ -34,6 +35,12 @@ public:
 	virtual const std::vector<IBaseItem *> &getItems() const { return m_items; }
 
 	virtual void add(IBaseItem *it);
+
+	/**
+	 * Locates and returns the named field. Returns 0 if
+	 * the named field does not exist
+	 */
+	virtual IField *getField(const std::string &name);
 
 private:
 	IExtend::ExtendType				m_extendType;

@@ -30,6 +30,7 @@
 #include "api/IBaseItem.h"
 
 namespace psi_api {
+	class IField;
 
 	class IScopeItem : public IBaseItem {
 	public:
@@ -39,6 +40,12 @@ namespace psi_api {
 		virtual const std::vector<IBaseItem *> &getItems() const = 0;
 
 		virtual void add(IBaseItem *item) = 0;
+
+		/**
+		 * Locates and returns the named field. Returns 0 if
+		 * the named field does not exist
+		 */
+		virtual IField *getField(const std::string &name) = 0;
 
 //		virtual const std::string &getName() const = 0;
 

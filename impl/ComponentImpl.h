@@ -25,6 +25,7 @@
 #ifndef IMPL_COMPONENTIMPL_H_
 #define IMPL_COMPONENTIMPL_H_
 #include "api/IComponent.h"
+#include "api/IField.h"
 
 using namespace psi_api;
 
@@ -52,6 +53,12 @@ public:
 	virtual const std::vector<IBaseItem *> &getItems() const;
 
 	virtual void add(IBaseItem *it);
+
+	/**
+	 * Locates and returns the named field. Returns 0 if
+	 * the named field does not exist
+	 */
+	virtual IField *getField(const std::string &name);
 
 
 private:

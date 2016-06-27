@@ -27,6 +27,7 @@
 #include <string>
 #include <vector>
 
+#include "api/IField.h"
 #include "api/IStruct.h"
 
 using namespace psi_api;
@@ -61,6 +62,12 @@ public:
 	virtual psi_api::IStruct::StructType getStructType() const {
 		return m_struct_type;
 	}
+
+	/**
+	 * Locates and returns the named field. Returns 0 if
+	 * the named field does not exist
+	 */
+	virtual IField *getField(const std::string &name);
 
 private:
 	IBaseItem						*m_parent;
