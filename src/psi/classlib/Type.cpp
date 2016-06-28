@@ -55,7 +55,7 @@ Expr Type::operator [] (const Expr &rhs) {
 	return Expr(new ExprCore(Expr::BinOp_ArrayRef, *this, rhs));
 }
 
-ExprListBuilder Type::operator,(Type &rhs) {
+ExprListBuilder Type::operator,(const Type &rhs) {
 	return ExprListBuilder(*this, rhs);
 }
 
@@ -97,20 +97,6 @@ const char *Type::toString(ObjectType t) {
 
 bool Type::insideInstance() {
 	bool ret = false;
-
-	// Traverse up through my hierarchy looking for
-//	Type *
-//	Type *
-//
-//	while (c != nullptr && cp != nullptr) {
-//		if (c->getObjectType() == IObjectType::Action &&
-//				cp->getObjectType() == IObjectType::Action) {
-//			ret = true;
-//			break;
-//		}
-//		c = cp;
-//		cp = cp->getParent();
-//	}
 
 	return ret;
 }

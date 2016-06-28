@@ -26,6 +26,7 @@
 #define SRC_PSI_CLASSLIB_EXPORTACTION_H_
 
 #include "classlib/Type.h"
+#include "classlib/Types.h"
 #include "classlib/Action.h"
 #include "classlib/ExprList.h"
 

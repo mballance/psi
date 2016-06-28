@@ -29,10 +29,10 @@ public:
 
 	top_pkg(Type *p=0, psi_name name="top_pkg") : Package(p, name) { }
 
-	ExportAction exp1 {this, my_compT.my_actionT};
+	ExportAction exp1 {this, TypeRgy<my_comp::my_action>::type_id()};
 
-	ExportAction exp2 {this, my_compT.my_actionT,
-		 (my_compT.my_actionT.mode, my_compT.my_actionT.mode2)};
+//	ExportAction exp2 {this, TypeRgy<my_comp::my_action>::type_id(),
+//		 (my_compT.my_actionT.mode, my_compT.my_actionT.mode2)};
 
 } top_pkgT;
 

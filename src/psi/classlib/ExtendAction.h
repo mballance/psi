@@ -32,7 +32,7 @@ namespace psi {
 template <class T> class ExtendAction : public T {
 
 	public:
-		ExtendAction(Type *p) : T("<Extension>", p) {
+		ExtendAction(Type *p) : T(p) {
 			Type *t = static_cast<Type *>(this);
 			t->setTypeData(TypeRgy<T>::type_id());
 			t->setObjectType(Type::TypeExtendAction);

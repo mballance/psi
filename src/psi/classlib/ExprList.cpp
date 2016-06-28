@@ -31,6 +31,11 @@ namespace psi {
 
 ExprList::ExprList() : Expr(new ExprCoreList()) { }
 
+ExprList::ExprList(const Expr &e) : Expr(new ExprCoreList()) {
+	ExprCoreList *c_t = static_cast<ExprCoreList *>(m_core.ptr());
+	c_t->m_exprList.push_back(e.getCore());
+}
+
 ExprList::ExprList(const SharedPtr<ExprCore> &ptr) : Expr(ptr) { }
 
 ExprList::ExprList(const ExprListBuilder &el) : Expr(new ExprCoreList()) {
@@ -38,9 +43,7 @@ ExprList::ExprList(const ExprListBuilder &el) : Expr(new ExprCoreList()) {
 	traverse_expr_builder(c_t, el);
 }
 
-ExprList::ExprList(Type &t) : Expr(new ExprCoreList(Expr(t))) {
-
-}
+//ExprList::ExprList(Type &t) : Expr(new ExprCoreList(Expr(t))) { }
 
 ExprList::~ExprList() { }
 

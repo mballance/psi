@@ -521,10 +521,15 @@ IFieldRef *Elaborator::elaborate_field_ref(Type *t) {
 					fields.push_back(field);
 
 					if (i > 0) {
-						scope = toScopeItem(field->getDataType());
+						if (field->getDataType()) {
+							scope = toScopeItem(field->getDataType());
 
-						if (!scope) {
-							error(std::string("Field ") + t->getName() + " is not user-defined");
+							if (!scope) {
+								error(std::string("Field ") + t->getName() + " is not user-defined");
+								break;
+							}
+						} else {
+							error(std::string("Field ") + field->getName() + " doesn't have a type");
 							break;
 						}
 					}

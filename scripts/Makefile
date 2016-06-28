@@ -1,12 +1,14 @@
 
-include etc/defs_rules.mk
+include ../etc/defs_rules.mk
+include ../src/rules_defs.mk
 
-all:
-	$(Q)echo "Make Targets:"
-	$(Q)echo "    dist - create a distribution package"
 
 RULES:=1
 
+all: $(LIB_TARGETS) $(EXE_TARGETS) $(INST_TARGETS)
+	$(Q)echo "Make Targets:"
+	$(Q)echo "    dist - create a distribution package"
+	
 INCLUDE:=src tests impl LICENSE ChangeLog.txt rules_defs.mk
 
 dist:
@@ -25,6 +27,7 @@ clean:
 	$(Q)rm -rf tmp Debug
 	$(Q)$(MAKE) -C doc clean
 
-include etc/defs_rules.mk
+include ../src/rules_defs.mk
+include ../etc/defs_rules.mk
 
 	

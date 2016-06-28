@@ -502,6 +502,7 @@ void PSI2XML::process_graph_stmt(IGraphStmt *stmt) {
 
 		std::string tag = "<repeat type=\"";
 		switch (r->getRepeatType()) {
+			// TODO: counted
 			case IGraphRepeatStmt::RepeatType_Forever: tag += "forever"; break;
 			case IGraphRepeatStmt::RepeatType_While: tag += "while"; break;
 			case IGraphRepeatStmt::RepeatType_Until: tag += "until"; break;

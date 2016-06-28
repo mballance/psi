@@ -16,7 +16,6 @@ ExprListBuilder::ExprListBuilder() {
 }
 
 ExprListBuilder::ExprListBuilder(const Expr &e1, const Expr &e2) {
-	fprintf(stdout, "ExprListBuilder: e1, e2\n");
 	m_list.push_back(e1.getCore());
 	m_list.push_back(e2.getCore());
 }
@@ -29,7 +28,6 @@ ExprListBuilder::ExprListBuilder(const Expr &e1, const ExprListBuilder &e2) {
 }
 
 ExprListBuilder &ExprListBuilder::operator,(const ExprListBuilder &rhs) {
-	fprintf(stdout, "ExprListBuilder::operator,(ExprListBuilder)\n");
 
 	// Convert ourselves int a list of builders
 	if (m_list.size() > 0) {
@@ -55,7 +53,6 @@ ExprListBuilder::~ExprListBuilder() {
 }
 
 ExprListBuilder &ExprListBuilder::operator,(const Expr &rhs) {
-	fprintf(stdout, "ExprListBuilder::operator,(Expr)\n");
 	m_list.push_back(rhs.getCore());
 	return *this;
 }

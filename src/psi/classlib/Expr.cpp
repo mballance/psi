@@ -31,7 +31,7 @@
 
 namespace psi {
 
-Expr::Expr() : m_core(nullptr) {
+Expr::Expr() : m_core(0) {
 
 }
 
@@ -39,7 +39,7 @@ Expr::Expr(uint32_t v) : m_core(new ExprCore(v)) { }
 
 Expr::Expr(int32_t v) : m_core(new ExprCore(v)) { }
 
-Expr::Expr(Type &t) : m_core(new ExprCore(t)) { }
+Expr::Expr(const Type &t) : m_core(new ExprCore(t)) { }
 
 Expr::Expr(const SharedPtr<ExprCore> &ptr) : m_core(ptr) { }
 
@@ -86,7 +86,7 @@ Expr Expr::operator [] (uint32_t rhs) {
 }
 
 void Expr::build() {
-	if (m_core.ptr() != nullptr) {
+	if (m_core.ptr()) {
 		m_core->m_lhs.build();
 		m_core->m_rhs.build();
 	}

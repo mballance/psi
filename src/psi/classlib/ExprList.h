@@ -54,9 +54,11 @@ class ExprList : public Expr {
 
 		ExprList(const ExprListBuilder &el);
 
-		ExprList(Type &t);
+		ExprList(const Expr &rhs);
 
-		ExprList(int v);
+//		ExprList(Type &t);
+
+//		ExprList(int v);
 
 		virtual ~ExprList();
 

@@ -52,8 +52,8 @@ int main(int argc, char **argv) {
 
 	fprintf(stdout, "Result:\n%s\n", xml1.c_str());
 
-//	xml2psi.process(xml1, &xml_model);
-//
+	xml2psi.process(xml1, &xml_model);
+
 //	const std::string xml2 = psi2xml.traverse(&xml_model);
 //
 //	fprintf(stdout, "Result2:\n%s\n", xml2.c_str());

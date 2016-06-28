@@ -97,7 +97,7 @@ class Expr {
 
 		Expr(int32_t v);
 
-		Expr(Type &t);
+		Expr(const Type &t);
 
 		Expr(const Expr &rhs);
 

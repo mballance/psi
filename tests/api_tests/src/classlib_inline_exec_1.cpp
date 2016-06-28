@@ -8,46 +8,40 @@
 
 static class methods_pkg : public Package {
 public:
-	methods_pkg(const std::string &name="methods_pkg", Type *p=0) : Package(name, p) { }
+	TypeRgy<methods_pkg>		type_id {this};
 
-	Import my_func { "my_func", this,
+	methods_pkg(Type *p=0, psi_name name="methods_pkg") : Package(p, name) { }
+
+	Import my_func {this, "my_func",
 		(Bit<7,0>("a"), Bit<31,0>("b"))};
 
-	Import my_func2 { "my_func2", this, Bit<7,0>(""),
+	Import my_func2 {this, "my_func2", Bit<7,0>(""),
 		(Bit<7,0>("a"), Bit<31,0>("b"))};
 
 } methods_pkgT;
 
 class top : public Component {
 public:
+	TypeRgy<top>			type_id {this};
 
-	top(const std::string &name="top", Type *p=0) : Component(name, p) { }
+	top(Type *p=0, psi_name name="top") : Component(p, name) { }
 
 
 	class entry_point : public Action {
 	public:
-		entry_point(const std::string &name, Type *p) : Action(name, p) { }
+		TypeRgy<entry_point>		type_id {this};
 
-		Rand<Bit<7,0>>			p1 {"p1",this};
-		Rand<Bit<31,0>>			p2 {"p2",this};
-		Rand<Bit<31,0>>			p3 {"p3",this};
-		Bit<31,0>				p4 {"p4",this};
-		Bit<31,0>				p5 {"p5",this};
+		entry_point(Type *p=0, psi_name name="entry_point") : Action(p, name) { }
 
-		Exec pre_solve_e {Exec::PreSolve, this,
-			mk_exec(this, pre_solve),
-			{ p4() }
-		};
+		Rand<Bit<7,0>>			p1 {this, "p1"};
+		Rand<Bit<31,0>>			p2 {this, "p2"};
+		Rand<Bit<31,0>>			p3 {this, "p3"};
+		Bit<31,0>				p4 {this, "p4"};
+		Bit<31,0>				p5 {this, "p5"};
 
-		Exec post_solve_e {Exec::PostSolve, this,
-			mk_exec(this, post_solve),
-			{ p5() }
-		};
+		Exec pre_solve_e {this, Exec::PreSolve, { p4() } };
 
-		Exec post_solve_f {Exec::PostSolve, this,
-			{this, post_solve},
-			{ p5() }
-		};
+		Exec post_solve_e {this, Exec::PostSolve, { p5() } };
 
 		void pre_solve() {
 			// TODO: set p4
@@ -58,7 +52,7 @@ public:
 		}
 
 
-	} entry_pointT {"entry_point", this};
+	} entry_pointT {this};
 
 } topT;
 

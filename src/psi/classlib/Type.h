@@ -99,7 +99,7 @@ public:
 
 		Expr operator [] (const Expr &rhs);
 
-		ExprListBuilder operator,(Type &rhs);
+		ExprListBuilder operator,(const Type &rhs);
 
 		Expr operator = (const Expr &rhs);
 

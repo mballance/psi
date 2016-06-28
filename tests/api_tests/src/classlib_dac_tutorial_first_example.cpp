@@ -8,6 +8,7 @@
 
 static class C : public Component {
 public:
+	TypeRgy<C>		type_id {this};
 
 	C(Type *p=0, psi_name name="C") : Component(p, name)  { }
 
@@ -21,6 +22,8 @@ public:
 
 class static_structure : public Component {
 public:
+	TypeRgy<static_structure>		type_id{this};
+
 	Field<C>		c1 {this, "c1"};
 	Field<C>		c2 {this, "c2"};
 
@@ -30,14 +33,19 @@ public:
 
 	class entry : public Action {
 	public:
+		TypeRgy<entry>			type_id{this};
+
 		Field<C::A>				a1 {this, "a1"};
 		Field<C::A>				a2 {this, "a2"};
 
 		entry(Type *p=0, psi_name name="entry") : Action(p, name) { }
 
-		Graph g1 {this, Repeat {
-			a1, a2
-		}};
+		Graph g1 {this, {
+			Repeat {
+				a1, a2
+			}
+		}
+		};
 
 	} entryT {this};
 

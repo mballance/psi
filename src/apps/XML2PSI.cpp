@@ -18,23 +18,205 @@ XML2PSI::XML2PSI() {
 }
 
 void XML2PSI::process(const std::string &content, IModel *model) {
-	XML_Parser p = ::XML_ParserCreate(0);
-
+	LIBXML_TEST_VERSION
 	m_model = model;
-	while (!m_scope_stack.empty()) {
-		pop();
+
+	xmlDocPtr doc;
+
+	// TODO: call validater
+	doc = xmlReadMemory(
+			content.c_str(),
+			content.length(),
+			"content.xml",
+			0,
+			0);
+
+	fprintf(stdout, "doc=%p\n", doc);
+
+	xmlNode *n = xmlDocGetRootElement(doc);
+
+	for (; n; n=n->next) {
+		if (n->type != XML_ELEMENT_NODE) {
+			continue;
+		}
+
+		std::string name;
+		name.append(reinterpret_cast<const char *>(n->name));
+
+		if (name == "model") {
+			elaborate_model(n);
+		} else {
+			fprintf(stdout, "Error: unhandled root element %s\n",
+					name.c_str());
+		}
 	}
 
-	::XML_SetElementHandler(p, &XML2PSI::start, &XML2PSI::end);
-	::XML_SetUserData(p, this);
+	xmlFreeDoc(doc);
 
-	::XML_Parse(p, content.c_str(), content.length(), 0);
-
-	::XML_ParserFree(p);
+//	XML_Parser p = ::XML_ParserCreate(0);
+//
+//	while (!m_scope_stack.empty()) {
+//		pop();
+//	}
+//
+//	::XML_SetElementHandler(p, &XML2PSI::start, &XML2PSI::end);
+//	::XML_SetUserData(p, this);
+//
+//	::XML_Parse(p, content.c_str(), content.length(), 0);
+//
+//	::XML_ParserFree(p);
 }
 
 XML2PSI::~XML2PSI() {
 	// TODO Auto-generated destructor stub
+}
+
+void XML2PSI::elaborate_model(xmlNode *m) {
+	strmap attr;
+
+	for (xmlNode *n=m->children; n; n=n->next) {
+		if (n->type != XML_ELEMENT_NODE) {
+			continue;
+		}
+		std::string name(reinterpret_cast<const char *>(n->name));
+
+		get_attributes(n, attr);
+		if (name == "package") {
+			elaborate_package(n, attr);
+		} else if (name == "component") {
+			m_model->add(elaborate_component(n, attr));
+		} else {
+			fprintf(stdout, "Error: unhandled model element %s\n",
+					name.c_str());
+		}
+	}
+}
+
+IAction *XML2PSI::elaborate_action(xmlNode *p, const strmap &attr) {
+	strmap attr_m;
+	IAction *super = 0;
+
+	if (attr.find("super") != attr.end()) {
+		// TODO: look up super
+	}
+
+	IAction *a = m_model->mkAction(
+			attr.find("name")->second, super);
+
+	for (xmlNode *n=p->children; n; n=n->next) {
+		if (n->type != XML_ELEMENT_NODE) {
+			continue;
+		}
+
+		std::string name(reinterpret_cast<const char *>(n->name));
+		get_attributes(n, attr_m);
+
+		if (name == "field") {
+			a->add(elaborate_field(n, attr_m));
+		} else {
+			fprintf(stdout, "Error: unhandled action element %s\n", name.c_str());
+		}
+	}
+
+	return a;
+}
+
+IComponent *XML2PSI::elaborate_component(xmlNode *p, const strmap &attr) {
+	IComponent *c = m_model->mkComponent(attr.find("name")->second);
+	strmap attr_m;
+
+	for (xmlNode *n=p->children; n; n=n->next) {
+		if (n->type != XML_ELEMENT_NODE) {
+			continue;
+		}
+
+		std::string name(reinterpret_cast<const char *>(n->name));
+		get_attributes(n, attr_m);
+
+		if (name == "action") {
+			c->add(elaborate_action(n, attr_m));
+		} else if (name == "field") {
+			c->add(elaborate_field(n, attr_m));
+		} else {
+			fprintf(stdout, "Error: unhandled component element %s\n",
+					name.c_str());
+		}
+	}
+
+	return c;
+}
+
+IField *XML2PSI::elaborate_field(xmlNode *p, const strmap &attr) {
+	IField *field = 0;
+	IField::FieldAttr field_attr = IField::FieldAttr_None;
+	strmap attr_m;
+	strmap::const_iterator type = attr.find("type");
+
+	if (type != attr.end()) {
+		if (type->second == "rand") {
+			field_attr = IField::FieldAttr_Rand;
+		} else if (type->second == "input") {
+			field_attr = IField::FieldAttr_Input;
+		} else if (type->second == "output") {
+			field_attr = IField::FieldAttr_Output;
+		} else if (type->second == "lock") {
+			field_attr = IField::FieldAttr_Lock;
+		} else if (type->second == "share") {
+			field_attr = IField::FieldAttr_Share;
+		} else if (type->second == "pool") {
+			field_attr = IField::FieldAttr_Pool;
+		} else {
+			// TODO: Error
+		}
+	}
+
+	IBaseItem *field_t = 0;
+	for (xmlNode *n=p->children; n; n=n->next) {
+		std::string name(reinterpret_cast<const char *>(n->name));
+
+		get_attributes(n, attr_m);
+
+		if (name == "type") {
+//			field_t = elaborate_type(n, attr_m);
+		} else {
+			fprintf(stdout, "Error: unhandled field element %s\n", name.c_str());
+		}
+	}
+
+	field = m_model->mkField(attr.at("name"), field_t, field_attr);
+
+	return field;
+}
+
+void XML2PSI::elaborate_package(xmlNode *p, const strmap &attr) {
+	std::string name;
+	strmap attr_m;
+	IPackage *pkg;
+
+	if (attr.find("name") != attr.end()) {
+		name = attr.find("name")->second;
+	}
+
+	if (name == "") {
+		pkg = m_model->getGlobalPackage();
+	} else {
+		pkg = m_model->findPackage(name, true);
+	}
+
+	for (xmlNode *n=p->children; n; n=n->next) {
+		if (n->type != XML_ELEMENT_NODE) {
+			continue;
+		}
+		std::string name(reinterpret_cast<const char *>(n->name));
+		get_attributes(n, attr_m);
+
+		if (name == "action") {
+		} else if (name == "struct") {
+		} else {
+			fprintf(stdout, "Error: unhandled package element %s\n",
+					name.c_str());
+		}
+	}
 }
 
 void XML2PSI::enter_unhandled(const std::string &tag, const strmap &attr) {
@@ -329,6 +511,16 @@ IBaseItem *XML2PSI::pop() {
 
 IBaseItem *XML2PSI::top() {
 	return m_scope_stack.top();
+}
+
+void XML2PSI::get_attributes(xmlNode *n, strmap &attr_m) {
+	attr_m.clear();
+
+	for (xmlAttrPtr attr=n->properties; attr; attr=attr->next) {
+		std::string name = reinterpret_cast<const char *>(attr->name);
+		std::string value = reinterpret_cast<const char *>(xmlGetProp(n, attr->name));
+		attr_m.insert(strmap_ent(name, value));
+	}
 }
 
 }

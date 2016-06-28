@@ -30,7 +30,7 @@
 
 namespace psi {
 
-TypeRegistry::TypeRegistry() : Type(Type::TypeRegistry, nullptr) {
+TypeRegistry::TypeRegistry() : Type(Type::TypeRegistry, 0) {
 }
 
 TypeRegistry::~TypeRegistry() {
@@ -38,8 +38,7 @@ TypeRegistry::~TypeRegistry() {
 }
 
 TypeRegistry *TypeRegistry::global() {
-	if (m_global == nullptr) {
-		fprintf(stdout, "New\n");
+	if (!m_global) {
 		m_global = new TypeRegistry();
 	}
 	return m_global;

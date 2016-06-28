@@ -31,11 +31,6 @@
 #endif
 #endif
 
-// Provide a back-compat definition for nullptr
-#ifndef PSI_HAVE_CXX_11
-#define nullptr 0
-#endif
-
 #ifdef PSI_HAVE_CXX_11
 #include <initializer_list>
 #endif

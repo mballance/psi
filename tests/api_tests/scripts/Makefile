@@ -35,6 +35,7 @@ include $(SIM_DIR)/../../rules_defs.mk
 CXXFLAGS += -I$(SRCDIR)/psi
 CXXFLAGS += -I$(SRCDIR)/../impl
 CXXFLAGS += -I$(SRCDIR)/apps
+CXXFLAGS += -I/usr/include/libxml2
 CXXFLAGS += -g
 
 USE_CXX11 := $(call get_plusarg,USE_CXX11,$(PLUSARGS))
@@ -60,6 +61,6 @@ COMPILE_REDIR:= 2>&1 | tee compile.log
 endif
 
 $(TESTEXE)$(EXEEXT) : $(SIM_DIR)/src/$(TESTEXE).cpp $(SIM_DIR)/src/test_main.cpp $(TEST_LIBS)
-	$(Q)$(CXX) -o $@ $^ $(RUN_CXXFLAGS) $(CXXFLAGS) $(BUILD_DIR)/libpsi.a -lexpat $(COMPILE_REDIR)
+	$(Q)$(CXX) -o $@ $^ $(RUN_CXXFLAGS) $(CXXFLAGS) $(BUILD_DIR)/libpsi.a -lexpat -lxml2 $(COMPILE_REDIR)
 
 	

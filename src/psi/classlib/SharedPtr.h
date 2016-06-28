@@ -32,7 +32,7 @@ template <class T> class SharedPtr {
 
 public:
 
-	SharedPtr(T *ptr/*=nullptr*/) : m_ptr(ptr), m_count(nullptr) {
+	SharedPtr(T *ptr) : m_ptr(ptr), m_count(0) {
 		if (m_ptr) {
 			m_count = new int();
 			*m_count = 1;

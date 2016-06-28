@@ -40,7 +40,7 @@ class ExprCore {
 
 		ExprCore(int32_t v);
 
-		ExprCore(Type &t);
+		ExprCore(const Type &t);
 
 		ExprCore(Expr::Operator op, const Expr &lhs, const Expr &rhs);
 

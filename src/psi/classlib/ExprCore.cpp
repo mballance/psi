@@ -36,8 +36,8 @@ ExprCore::ExprCore(int32_t v) : m_op(Expr::LiteralInt) {
 	m_val.i = v;
 }
 
-ExprCore::ExprCore(Type &t) : m_op(Expr::TypeRef) {
-	m_val.ref = &t;
+ExprCore::ExprCore(const Type &t) : m_op(Expr::TypeRef) {
+	m_val.ref = const_cast<Type *>(&t);
 }
 
 ExprCore::ExprCore(Expr::Operator op) : m_op(op) { }

@@ -7,6 +7,8 @@
 
 #ifndef SRC_APPS_XML2PSI_H_
 #define SRC_APPS_XML2PSI_H_
+#include <libxml2/libxml/parser.h>
+#include <libxml2/libxml/tree.h>
 #include <expat.h>
 #include <stack>
 #include <map>
@@ -30,6 +32,16 @@ protected:
 
 	typedef std::map<std::string,std::string> strmap;
 	typedef std::pair<std::string,std::string> strmap_ent;
+
+	void elaborate_model(xmlNode *m);
+
+	IAction *elaborate_action(xmlNode *p, const strmap &attr);
+
+	IComponent *elaborate_component(xmlNode *p, const strmap &attr);
+
+	IField *elaborate_field(xmlNode *p, const strmap &attr);
+
+	void elaborate_package(xmlNode *p, const strmap &attr);
 
 	void enter_unhandled(const std::string &tag, const strmap &attr);
 
@@ -70,6 +82,8 @@ protected:
 	IBaseItem *top();
 
 private:
+
+	static void get_attributes(xmlNode *n, strmap &attr);
 
 
 private:
