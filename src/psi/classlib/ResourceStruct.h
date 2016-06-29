@@ -32,7 +32,10 @@
 
 namespace psi {
 
+template <class T> class TypeRgy;
+
 class ResourceStruct : public Struct {
+	friend TypeRgy<ResourceStruct>;
 
 	public:
 		Rand<psi::Bit<31,0> >			instance_id;
@@ -45,6 +48,9 @@ class ResourceStruct : public Struct {
 				Struct 				*super_type=0);
 
 		virtual ~ResourceStruct();
+
+	private:
+		ResourceStruct(Type *p);
 };
 
 } /* namespace psi */

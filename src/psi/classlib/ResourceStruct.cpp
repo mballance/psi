@@ -41,4 +41,8 @@ ResourceStruct::~ResourceStruct() {
 	// TODO Auto-generated destructor stub
 }
 
+ResourceStruct::ResourceStruct(Type *p) :
+		Struct(Struct::Resource, p, "", 0),
+		instance_id(this, "instance_id") { }
+
 } /* namespace psi */

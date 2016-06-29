@@ -29,7 +29,10 @@
 
 namespace psi {
 
+template <class T> class TypeRgy;
+
 class MemoryStruct: public Struct {
+	friend TypeRgy<MemoryStruct>;
 
 	public:
 		MemoryStruct(
@@ -38,6 +41,9 @@ class MemoryStruct: public Struct {
 				Struct					*super_type=0);
 
 		virtual ~MemoryStruct();
+
+	private:
+		MemoryStruct(Type *p);
 };
 
 } /* namespace psi */

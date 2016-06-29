@@ -39,4 +39,6 @@ MemoryStruct::~MemoryStruct() {
 	// TODO Auto-generated destructor stub
 }
 
+MemoryStruct::MemoryStruct(Type *p) : Struct(Struct::Memory, p, "", 0) { }
+
 } /* namespace psi */

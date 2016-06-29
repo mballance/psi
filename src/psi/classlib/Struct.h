@@ -31,7 +31,9 @@
 
 namespace psi {
 
+template <class T> class TypeRgy;
 class Struct : public Type {
+	friend TypeRgy<Struct>;
 
 public:
 	enum StructType {
@@ -85,7 +87,7 @@ public:
 
 
 	private:
-		Struct();
+		Struct(Type *p=0);
 
 	private:
 		StructType						m_structType;

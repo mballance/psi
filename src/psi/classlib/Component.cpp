@@ -38,4 +38,8 @@ Component::~Component() {
 	// TODO Auto-generated destructor stub
 }
 
+Component::Component(Type *p) : Type(Type::TypeComponent, p, "") {
+	// Unused constructor required by TypeRgy
+}
+
 } /* namespace psi */

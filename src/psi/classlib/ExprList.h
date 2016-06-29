@@ -42,8 +42,6 @@ class ExprList : public Expr {
 		ExprList(std::initializer_list<Expr> l) : ExprList() {
 			std::initializer_list<Expr>::const_iterator it;
 
-			fprintf(stdout, "ExprList<initializer>\n");
-
 			for (it=l.begin(); it!=l.end(); it++) {
 				append(*it);
 			}

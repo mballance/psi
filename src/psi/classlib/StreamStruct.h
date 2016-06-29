@@ -30,7 +30,10 @@
 
 namespace psi {
 
+template <class T> class TypeRgy;
+
 class StreamStruct : public Struct {
+	friend TypeRgy<StreamStruct>;
 
 	public:
 
@@ -40,6 +43,10 @@ class StreamStruct : public Struct {
 				Struct				*super_type=0);
 
 		virtual ~StreamStruct();
+
+	private:
+
+		StreamStruct(Type *p);
 };
 
 } /* namespace psi */

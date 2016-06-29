@@ -30,7 +30,9 @@
 
 namespace psi {
 
+template <class T> class TypeRgy;
 class Component : public Type {
+	friend TypeRgy<Component>;
 
 	public:
 		Component(
@@ -41,6 +43,9 @@ class Component : public Type {
 		virtual ~Component();
 
 		Component *getSuperType() const { return m_super; }
+
+	private:
+		Component(Type *p);
 
 	private:
 		Component					*m_super;

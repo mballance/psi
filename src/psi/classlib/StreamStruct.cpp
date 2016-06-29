@@ -35,4 +35,6 @@ StreamStruct::~StreamStruct() {
 	// TODO Auto-generated destructor stub
 }
 
+StreamStruct::StreamStruct(Type *p) : Struct(Struct::Stream, p, "", 0) { }
+
 } /* namespace psi */

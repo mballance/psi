@@ -28,7 +28,7 @@
 
 namespace psi {
 
-Struct::Struct() : Type(Type::TypeStruct, 0, ""),
+Struct::Struct(Type *p) : Type(Type::TypeStruct, p, ""),
 		m_structType(Struct::Base), m_super(0) { }
 
 Struct::Struct(

@@ -64,10 +64,9 @@
 #include "classlib/TypeRgy.h"
 #include "classlib/TypeRegistry.h"
 #include "classlib/Types.h"
+#include "classlib/PsiMacros.h"
 
-#ifdef PSI_HAVE_CXX_11
-#define psi_field(name) name { this, #name }
-#endif
+
 
 #include "psi_api.h"
 

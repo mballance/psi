@@ -14,6 +14,11 @@ StateStruct::StateStruct(Type *p, const std::string &name, Struct *super) :
 
 }
 
+StateStruct::StateStruct(Type *p) :
+		Struct(State, p, "", 0), initial(this, "initial") {
+
+}
+
 StateStruct::~StateStruct() {
 	// TODO Auto-generated destructor stub
 }

@@ -30,7 +30,9 @@
 
 namespace psi {
 
+template <class T> class TypeRgy;
 class Action : public Type {
+	friend TypeRgy<Action>;
 
 	public:
 
@@ -62,6 +64,9 @@ class Action : public Type {
 		 * for ExecKind::Body
 		 */
 		virtual void body();
+
+	private:
+		Action(Type *p);
 
 
 	private:

@@ -41,6 +41,10 @@ Action::~Action() {
 	// TODO Auto-generated destructor stub
 }
 
+Action::Action(Type *p) : Type(Type::TypeAction, p, "") {
+	// Unused constructor used by TypeRgy
+}
+
 void Action::pre_solve() {
 
 }
