@@ -37,8 +37,8 @@ public:
 
 		Exec pre_solve {this, Exec::PreSolve,
 			{
-					methods_pkgT.my_func((p1, p2)),
-					methods_pkgT.my_func((p1+1, p2+4)) /*,
+					psi_typeid(methods_pkg).my_func((p1, p2)),
+					psi_typeid(methods_pkg).my_func((p1+1, p2+4)) /*,
 					p3 = methods_pkgT.my_func((p1+1, p2+4)),
 					p2 != 5
 					 */

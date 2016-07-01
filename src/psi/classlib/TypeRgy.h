@@ -15,16 +15,16 @@ namespace psi {
 template <class T> class TypeRgy {
 
 public:
-	TypeRgy(const std::string &name, Type *p) {
+	TypeRgy(const std::string &name, T *p) {
 		if (!m_type_id) {
-			m_type_id = static_cast<T *>(p);
+			m_type_id = p;
 			m_valid = true;
 		}
 	}
 
-	TypeRgy(Type *p) {
+	TypeRgy(T *p) {
 		if (!m_type_id) {
-			m_type_id = static_cast<T *>(p);
+			m_type_id = p;
 		}
 	}
 
@@ -33,8 +33,11 @@ public:
 			m_type_id = new T(0);
 			fprintf(stdout, "Error: Object %s is missing type registration\n",
 					m_type_id->getName().c_str());
+			// Calling the constructor will set m_valid=true.
+			// Flip back, since we aren't actually valid
 			m_valid = false;
-			// Note that this will result in a non-null result being returned
+			// Note that this will result in a non-null (but incorrect)
+			// result being returned
 		}
 		return m_type_id;
 	}

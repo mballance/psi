@@ -65,7 +65,6 @@ bool Expr::isBinOp() const {
 }
 
 ExprListBuilder Expr::operator,(const Expr &rhs) {
-	fprintf(stdout, "Expr::operator,\n");
 	return ExprListBuilder(*this, rhs);
 }
 

@@ -6,8 +6,6 @@
  */
 #include "psi_tests.h"
 
-
-
 class power_state_s : public StateStruct {
 public:
 	psi_ctor(power_state_s, StateStruct);
@@ -29,7 +27,8 @@ public:
 
 	};
 
-} power_state_sT;
+};
+psi_global_type(power_state_s);
 
 
 class my_system_c : public Component {
@@ -50,30 +49,35 @@ public:
 		Constraint B_c {this, "B_c", { next.dmn_B == prev.dmn_B }};
 		Constraint C_c {this, "C_c", { next.dmn_C == prev.dmn_C }};
 
-	} power_transitionT {this};
+	};
+	psi_type(power_transition);
 
 	class A_transition : public power_transition {
 	public:
 		psi_ctor(A_transition, power_transition);
 
 		Constraint A_c {this, "A_c", {next.dmn_A == prev.dmn_A + step}};
-	} A_transitionT {this};
+	};
+	psi_type(A_transition);
 
 	class B_transition : public power_transition {
 	public:
 		psi_ctor(B_transition, power_transition);
 
 		Constraint B_c {this, "B_c", {next.dmn_B == prev.dmn_B + step}};
-	} B_transitionT {this};
+	};
+	psi_type(B_transition);
 
 	class C_transition : public power_transition {
 	public:
 		psi_ctor(C_transition, power_transition);
 
 		Constraint C_c {this, "C_c", {next.dmn_C == prev.dmn_C + step}};
-	} C_transitionT {this};
+	};
+	psi_type(C_transition);
 
-} my_system_cT;
+};
+psi_global_type(my_system_c);
 
 
 
