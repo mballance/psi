@@ -26,11 +26,11 @@
 
 namespace psi {
 
-Chandle::Chandle(Type *p, const std::string &name) :
-		Type(Type::TypeChandle, p, name) { }
+Chandle::Chandle(BaseItem *p, const std::string &name) :
+		BaseItem(BaseItem::TypeChandle, p, name) { }
 
 Chandle::Chandle(const std::string &name) :
-		Type(Type::TypeChandle, 0, name) { }
+		BaseItem(BaseItem::TypeChandle, 0, name) { }
 
 
 Chandle::~Chandle() {

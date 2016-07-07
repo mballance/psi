@@ -9,7 +9,7 @@
 class data_s : public MemoryStruct {
 public:
 
-	data_s(const Parent &p, psi_name name="data_s") : MemoryStruct(this, name) { }
+	data_s(const Scope &p, psi_name name="data_s") : MemoryStruct(this, name) { }
 
 	Rand<Bit<7,0>>				data    {this, "data"};
 	Rand<Bit<31,0>>				address {this, "address"};
@@ -23,12 +23,12 @@ TypeDecl<data_s>	data_sT;
 class rw_comp : public Component {
 public:
 
-	rw_comp(Type *p=0, psi_name name="rw_comp") : Component(p, name) { }
+	rw_comp(BaseItem *p=0, psi_name name="rw_comp") : Component(p, name) { }
 
 	class processor_s : public ResourceStruct {
 	public:
 
-		processor_s(const Parent &p, psi_name name="processor_s") : ResourceStruct(this, name) { }
+		processor_s(const Scope &p, psi_name name="processor_s") : ResourceStruct(this, name) { }
 
 		Constraint resource_c {this, instance_id == 1};
 
@@ -38,7 +38,7 @@ public:
 	class write_data : public Action {
 	public:
 
-		write_data(const Parent &p, psi_name name="write_data") : Action(this, name) { }
+		write_data(const Scope &p, psi_name name="write_data") : Action(this, name) { }
 
 		// When instantiating a field of a non-primitive type, a reference
 		// to its declaration must be provided. This can be done via a reference
@@ -53,7 +53,7 @@ public:
 	class write_data2 : public write_data {
 	public:
 
-		write_data2(const Parent &p, psi_name name="write_data2") : write_data(this, name) { }
+		write_data2(const Scope &p, psi_name name="write_data2") : write_data(this, name) { }
 
 	};
 	TypeDecl<write_data2> write_data2T {this};

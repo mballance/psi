@@ -24,26 +24,26 @@
 
 #include "classlib/Struct.h"
 #include "classlib/Model.h"
-#include "classlib/Parent.h"
+#include "classlib/Scope.h"
 
 namespace psi {
 
-Struct::Struct(Type *p) : Type(Type::TypeStruct, p, ""),
+Struct::Struct(BaseItem *p) : BaseItem(BaseItem::TypeStruct, p, ""),
 		m_structType(Struct::Base), m_super(0) { }
 
 Struct::Struct(
-		const Parent 		&p,
+		const Scope 		&p,
 		const std::string 	&name) :
-				Type(Type::TypeStruct, p.parent(), name),
+				BaseItem(BaseItem::TypeStruct, p.parent(), name),
 				m_structType(Struct::Base), m_super(0) {
 	// TODO: determine super-struct information
 }
 
 Struct::Struct(
 		Struct::StructType	t,
-		const Parent		&p,
+		const Scope		&p,
 		const std::string 	&name) :
-				Type(Type::TypeStruct, p.parent(), name),
+				BaseItem(BaseItem::TypeStruct, p.parent(), name),
 				m_structType(t), m_super(0) {
 	// TODO: determine super-struct information
 //	m_super = super_type;

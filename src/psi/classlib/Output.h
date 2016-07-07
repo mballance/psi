@@ -27,7 +27,7 @@
 #include <string>
 #include <stdio.h>
 
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 
 namespace psi {
 
@@ -35,10 +35,10 @@ namespace psi {
 template <class T> class Output : public T {
 
 	public:
-		Output(Type *p, const std::string &name) : T(p, name) {
-			Type *t = static_cast<Type *>(this);
-			t->setAttr(Type::AttrOutput);
-			t->setTypeData(TypeRgy<T>::type_id());
+		Output(const Scope &p, const std::string &name) : T(p, name) {
+			BaseItem *t = static_cast<BaseItem *>(this);
+			t->setAttr(BaseItem::AttrOutput);
+			t->setTypeData(TypeDecl<T>::type_id());
 		}
 
 		virtual ~Output() { }

@@ -25,7 +25,7 @@
 #ifndef SRC_CLASSLIB_EXPRCORE_H_
 #define SRC_CLASSLIB_EXPRCORE_H_
 #include "classlib/Expr.h"
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 
 namespace psi {
 
@@ -40,7 +40,7 @@ class ExprCore {
 
 		ExprCore(int32_t v);
 
-		ExprCore(const Type &t);
+		ExprCore(const BaseItem &t);
 
 		ExprCore(Expr::Operator op, const Expr &lhs, const Expr &rhs);
 
@@ -60,7 +60,7 @@ class ExprCore {
 
 		int64_t getValI() { return m_val.i; }
 
-		Type *getTypePtr() const { return m_val.ref; }
+		BaseItem *getTypePtr() const { return m_val.ref; }
 
 		protected:
 
@@ -69,7 +69,7 @@ class ExprCore {
 				int64_t				ll;
 				uint32_t			ui;
 				int32_t				i;
-				Type				*ref;
+				BaseItem				*ref;
 			} 						m_val;
 
 			Expr::Operator			m_op;

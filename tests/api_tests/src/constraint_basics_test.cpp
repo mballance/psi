@@ -11,7 +11,7 @@ using namespace psi;
 
 static class constraint_basics_test : public Struct {
 public:
-	constraint_basics_test(Type *p=0, const std::string &name="constraint_basics_test") : Struct(p, name) { }
+	constraint_basics_test(BaseItem *p=0, const std::string &name="constraint_basics_test") : Struct(p, name) { }
 
 	virtual ~constraint_basics_test() { };
 

@@ -32,7 +32,7 @@ namespace psi {
 template <uint32_t MSB=0, uint32_t LSB=0> class Bit : public BitType {
 
 	public:
-		Bit(Type *p, const std::string &name) : BitType(p, name, MSB, LSB) { }
+		Bit(BaseItem *p, const std::string &name) : BitType(p, name, MSB, LSB) { }
 
 		Bit(const std::string &name) : BitType(0, name, MSB, LSB) { }
 

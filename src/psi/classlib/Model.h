@@ -29,13 +29,13 @@
 #include <string>
 #include <vector>
 
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 
 namespace psi {
 
 class Package;
-class Parent;
-class Model : public Type {
+class Scope;
+class Model : public BaseItem {
 	friend class Package;
 
 	public:
@@ -45,14 +45,14 @@ class Model : public Type {
 
 		static Model *global();
 
-		void push_scope(const Parent *p);
+		void push_scope(const Scope *p);
 
 		void pop_scope();
 
-		const std::vector<const Parent *> &get_scope() const;
+		const std::vector<const Scope *> &get_scope() const;
 
 	private:
-		std::vector<const Parent *>		m_scope;
+		std::vector<const Scope *>		m_scope;
 
 		static Model			*m_global;
 

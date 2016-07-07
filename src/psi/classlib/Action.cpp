@@ -30,11 +30,11 @@
 namespace psi {
 
 Action::Action(
-		const Parent		&p,
-		const std::string	&name) : Type(Type::TypeAction, p.parent(), name) {
+		const Scope		&p,
+		const std::string	&name) : BaseItem(BaseItem::TypeAction, p.parent(), name) {
 	m_super_type = 0;
 
-	const std::vector<const Parent *> &scope = Model::global()->get_scope();
+	const std::vector<const Scope *> &scope = Model::global()->get_scope();
 
 	fprintf(stdout, "--> scope %s\n", name.c_str());
 	for (int i=scope.size()-2; i>=0; i--) {
@@ -47,19 +47,15 @@ Action::Action(
 }
 
 Action::Action(
-		Type 				*p,
+		BaseItem 				*p,
 		const std::string 	&name,
-		Action				*super_type) : Type(Type::TypeAction, p, name),
+		Action				*super_type) : BaseItem(BaseItem::TypeAction, p, name),
 				m_super_type(super_type) {
 
 }
 
 Action::~Action() {
 	// TODO Auto-generated destructor stub
-}
-
-Action::Action(Type *p) : Type(Type::TypeAction, p, "") {
-	// Unused constructor used by TypeRgy
 }
 
 void Action::pre_solve() {

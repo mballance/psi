@@ -24,7 +24,7 @@
 
 #ifndef SRC_CLASSLIB_SHARE_H_
 #define SRC_CLASSLIB_SHARE_H_
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 #include "classlib/TypeRgy.h"
 
 namespace psi {
@@ -32,9 +32,9 @@ namespace psi {
 template <class T> class Share : public T {
 	public:
 
-		Share(Type *p, const std::string &name) : T(p, name) {
-			Type *t = static_cast<Type *>(this);
-			t->setAttr(Type::AttrShare);
+		Share(BaseItem *p, const std::string &name) : T(p, name) {
+			BaseItem *t = static_cast<BaseItem *>(this);
+			t->setAttr(BaseItem::AttrShare);
 			t->setTypeData(TypeRgy<T>::type_id());
 		}
 

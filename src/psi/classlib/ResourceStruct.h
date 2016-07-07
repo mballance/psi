@@ -43,13 +43,13 @@ class ResourceStruct : public Struct {
 	public:
 
 		ResourceStruct(
-				const Parent 		&p,
+				const Scope 		&p,
 				const std::string 	&name);
 
 		virtual ~ResourceStruct();
 
 	private:
-		ResourceStruct(const Parent &p);
+		ResourceStruct(const Scope &p);
 };
 
 } /* namespace psi */

@@ -27,15 +27,15 @@
 
 #include <string>
 
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 
 namespace psi {
 
-class Bool: public Type {
+class Bool: public BaseItem {
 
 	public:
 		Bool(
-				Type				*p,
+				BaseItem				*p,
 				const std::string 	&name);
 
 		Bool(const std::string &name);

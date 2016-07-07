@@ -24,18 +24,18 @@
 
 #ifndef SRC_CLASSLIB_EXTENDACTION_H_
 #define SRC_CLASSLIB_EXTENDACTION_H_
-#include "classlib/Type.h"
-#include "classlib/TypeRgy.h"
+#include "classlib/BaseItem.h"
+#include "classlib/TypeDecl.h"
 
 namespace psi {
 
 template <class T> class ExtendAction : public T {
 
 	public:
-		ExtendAction(Type *p) : T(p) {
-			Type *t = static_cast<Type *>(this);
-			t->setTypeData(TypeRgy<T>::type_id());
-			t->setObjectType(Type::TypeExtendAction);
+		ExtendAction(BaseItem *p) : T(p) {
+			BaseItem *t = static_cast<BaseItem *>(this);
+			t->setTypeData(TypeDecl<T>::type_id());
+			t->setObjectType(BaseItem::TypeExtendAction);
 		}
 
 		virtual ~ExtendAction() { }

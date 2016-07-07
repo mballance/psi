@@ -27,16 +27,16 @@
 namespace psi {
 
 ExportAction::ExportAction(
-		Type				*p,
-		Action				*t_ref) : Type(Type::TypeExportAction, p) {
+		BaseItem				*p,
+		Action				*t_ref) : BaseItem(BaseItem::TypeExportAction, p) {
 	setTypeData(t_ref);
 }
 
 ExportAction::ExportAction(
-		Type 				*p,
+		BaseItem 				*p,
 		Action				*t_ref,
 		const ExprList		&exp_params) :
-	Type(Type::TypeExportAction, p), m_exp_params(exp_params) {
+	BaseItem(BaseItem::TypeExportAction, p), m_exp_params(exp_params) {
 	setTypeData(t_ref);
 }
 

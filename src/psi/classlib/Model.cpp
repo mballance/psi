@@ -25,13 +25,13 @@
  */
 
 #include "classlib/Model.h"
-#include "classlib/Parent.h"
+#include "classlib/Scope.h"
 
 #include <stdio.h>
 
 namespace psi {
 
-Model::Model() : Type(Type::Model, 0) {
+Model::Model() : BaseItem(BaseItem::Model, 0) {
 }
 
 Model::~Model() {
@@ -45,16 +45,16 @@ Model *Model::global() {
 	return m_global;
 }
 
-void Model::push_scope(const Parent *p) {
+void Model::push_scope(const Scope *p) {
 	m_scope.push_back(p);
 }
 
 void Model::pop_scope() {
-	const Parent *p = m_scope.back();
+	const Scope *p = m_scope.back();
 	m_scope.pop_back();
 }
 
-const std::vector<const Parent *> &Model::get_scope() const {
+const std::vector<const Scope *> &Model::get_scope() const {
 	return m_scope;
 }
 

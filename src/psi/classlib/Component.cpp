@@ -28,18 +28,14 @@
 
 namespace psi {
 
-Component::Component(Type *p, const std::string &name, Component *super) :
-		Type(Type::TypeComponent, (p)?p:Model::global(), name),
+Component::Component(BaseItem *p, const std::string &name, Component *super) :
+		BaseItem(BaseItem::TypeComponent, (p)?p:Model::global(), name),
 		m_super(super) {
 
 }
 
 Component::~Component() {
 	// TODO Auto-generated destructor stub
-}
-
-Component::Component(Type *p) : Type(Type::TypeComponent, p, "") {
-	// Unused constructor required by TypeRgy
 }
 
 } /* namespace psi */

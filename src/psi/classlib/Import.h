@@ -27,19 +27,19 @@
 #include <string>
 
 #include "classlib/Expr.h"
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 #include "classlib/ExprImportCall.h"
 
 namespace psi {
 
-class Import : public Type {
+class Import : public BaseItem {
 
 	public:
 
-		Import(Type *p, const std::string &name, const ExprList &plist);
+		Import(BaseItem *p, const std::string &name, const ExprList &plist);
 
-		Import(Type *p, const std::string &name,
-				const Type &ret, const ExprList &plist);
+		Import(BaseItem *p, const std::string &name,
+				const BaseItem &ret, const ExprList &plist);
 
 		virtual ~Import();
 

@@ -26,22 +26,20 @@
 #define ACTION_H_
 #include <string>
 
-#include "classlib/Type.h"
-#include "classlib/Parent.h"
+#include "classlib/BaseItem.h"
+#include "classlib/Scope.h"
 
 namespace psi {
 
-template <class T> class TypeRgy;
-class Action : public Type {
-	friend TypeRgy<Action>;
+class Action : public BaseItem {
 
 	public:
 
-		Action(const Parent &p, const std::string &name);
+		Action(const Scope &p, const std::string &name);
 
 		// Unused
 		Action(
-				Type 						*p,
+				BaseItem 						*p,
 				const std::string 			&name,
 				Action						*super_type);
 
@@ -70,7 +68,6 @@ class Action : public Type {
 		virtual void body();
 
 	private:
-		Action(Type *p);
 
 
 	private:

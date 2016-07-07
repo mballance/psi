@@ -28,15 +28,15 @@
 #include <stdint.h>
 #include <string>
 
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 
 namespace psi {
 
-class BitType : public Type {
+class BitType : public BaseItem {
 
 	public:
 		BitType(
-				Type 				*p,
+				BaseItem 				*p,
 				const std::string 	&name,
 				uint32_t			msb,
 				uint32_t			lsb);

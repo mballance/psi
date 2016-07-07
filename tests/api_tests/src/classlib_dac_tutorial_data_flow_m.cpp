@@ -10,7 +10,7 @@
 class S : public Struct {
 public:
 
-	S(const Scope &p, psi_name &name="S") : Struct(p, name) { }
+	psi_ctor(S, Struct);
 
 };
 psi_global_type(S);
@@ -21,9 +21,9 @@ public:
 
 	class A : public Action {
 	public:
-		A(const Scope &p, psi_name name="A") : Action(p, name) { }
+		psi_ctor(A, Action);
 
-		Output<S>			out_s {this, "out_s"};
+		Output<S>			psi_field(out_s);
 	};
 	psi_type(A);
 
@@ -36,9 +36,9 @@ public:
 
 	class B : public Action {
 	public:
-		B(const Scope &p=0, psi_name name) : Action(p, name) { }
+		psi_ctor(B, Action);
 
-		Input<S>			in_s {this, "in_s"};
+		Input<S>			psi_field(in_s);
 	};
 	psi_type(B);
 };
@@ -47,10 +47,10 @@ psi_global_type(CB);
 class static_structure : public Component {
 public:
 
-	Field<CA>			ca1 {this, "ca1"};
-	Field<CA>			ca2 {this, "ca2"};
-	Field<CB>			cb1 {this, "cb1"};
-	Field<CB>			cb2 {this, "cb2"};
+	Field<CA>			psi_field(ca1);
+	Field<CA>			psi_field(ca2);
+	Field<CB>			psi_field(cb1);
+	Field<CB>			psi_field(cb2);
 
 	static_structure(BaseItem *p=0, psi_name name="static_structure")
 		: Component(p, name) { }
@@ -61,8 +61,7 @@ public:
 
 	class entry_point : public Action {
 	public:
-		entry_point(const Scope &p=0, psi_name name) : Action(p, name) { }
-
+		psi_ctor(entry_point, Action);
 	};
 	psi_type(entry_point);
 

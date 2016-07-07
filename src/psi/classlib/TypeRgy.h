@@ -8,7 +8,7 @@
 #ifndef SRC_PSI_CLASSLIB_TYPERGY_H_
 #define SRC_PSI_CLASSLIB_TYPERGY_H_
 #include <string>
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 
 namespace psi {
 

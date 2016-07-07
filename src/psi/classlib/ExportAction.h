@@ -25,17 +25,17 @@
 #ifndef SRC_PSI_CLASSLIB_EXPORTACTION_H_
 #define SRC_PSI_CLASSLIB_EXPORTACTION_H_
 
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 #include "classlib/Types.h"
 #include "classlib/Action.h"
 #include "classlib/ExprList.h"
 
 namespace psi {
 
-class ExportAction: public Type {
+class ExportAction: public BaseItem {
 public:
-	ExportAction(Type *p, Action *at);
-	ExportAction(Type *p, Action *at, const ExprList &exp_params);
+	ExportAction(BaseItem *p, Action *at);
+	ExportAction(BaseItem *p, Action *at, const ExprList &exp_params);
 	virtual ~ExportAction();
 
 private:

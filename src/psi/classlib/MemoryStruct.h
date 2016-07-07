@@ -29,20 +29,18 @@
 
 namespace psi {
 
-template <class T> class TypeRgy;
 
 class MemoryStruct: public Struct {
-	friend TypeRgy<MemoryStruct>;
 
 	public:
 		MemoryStruct(
-				const Parent			&p,
+				const Scope			&p,
 				const std::string 		&name);
 
 		virtual ~MemoryStruct();
 
 	private:
-		MemoryStruct(const Parent &p);
+
 };
 
 } /* namespace psi */

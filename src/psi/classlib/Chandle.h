@@ -24,16 +24,16 @@
 
 #ifndef SRC_CLASSLIB_CHANDLE_H_
 #define SRC_CLASSLIB_CHANDLE_H_
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 
 namespace psi {
 
-class Chandle : public Type {
+class Chandle : public BaseItem {
 
 	public:
 
 		Chandle(
-				Type				*p,
+				BaseItem				*p,
 				const std::string 	&name);
 
 		Chandle(

@@ -48,16 +48,16 @@ Elaborator::~Elaborator() {
 	// TODO Auto-generated destructor stub
 }
 
-void Elaborator::elaborate(Type *root, IModel *model) {
-	vector<Type *>::const_iterator it;
+void Elaborator::elaborate(BaseItem *root, IModel *model) {
+	vector<BaseItem *>::const_iterator it;
 
 	m_model = model;
 
 	// First, go through and declare global data types
 	for (it=root->getChildren().begin(); it!=root->getChildren().end(); it++) {
-		Type *t = (*it);
+		BaseItem *t = (*it);
 
-		if (t->getObjectType() == Type::TypeStruct) {
+		if (t->getObjectType() == BaseItem::TypeStruct) {
 			IStruct *s = elaborate_struct(static_cast<Struct *>(t));
 			m_model->getGlobalPackage()->add(s);
 		}
@@ -65,18 +65,18 @@ void Elaborator::elaborate(Type *root, IModel *model) {
 
 	// Next, go through and declare global scopes
 	for (it=root->getChildren().begin(); it!=root->getChildren().end(); it++) {
-		Type *t = (*it);
+		BaseItem *t = (*it);
 
-		if (t->getObjectType() == Type::TypePackage) {
+		if (t->getObjectType() == BaseItem::TypePackage) {
 			elaborate_package(model, static_cast<Package *>(t));
-		} else if (t->getObjectType() == Type::TypeComponent) {
+		} else if (t->getObjectType() == BaseItem::TypeComponent) {
 			IComponent *c = elaborate_component(m_model, static_cast<Component *>(t));
 			fprintf(stdout, "elaborate component: %s\n", c->getName().c_str());
 //			m_model->add(c);
-		} else if (t->getObjectType() != Type::TypeStruct) {
+		} else if (t->getObjectType() != BaseItem::TypeStruct) {
 			// Error:
 			error(std::string("Unsupported root element: ") +
-					Type::toString(t->getObjectType()));
+					BaseItem::toString(t->getObjectType()));
 		}
 	}
 }
@@ -98,20 +98,20 @@ IAction *Elaborator::elaborate_action(Action *c) {
 
 	set_expr_ctxt(a, c);
 
-	std::vector<Type *>::const_iterator it=c->getChildren().begin();
+	std::vector<BaseItem *>::const_iterator it=c->getChildren().begin();
 
 	for (; it!=c->getChildren().end(); it++) {
 		IBaseItem *c = 0;
-		if ((*it)->getObjectType() == Type::TypeBind) {
+		if ((*it)->getObjectType() == BaseItem::TypeBind) {
 			c = elaborate_bind(static_cast<Bind *>(*it));
 
 			if (c) {
 				a->add(c);
 			} else {
 				fprintf(stdout, "Error: failed to build action child item %s\n",
-						Type::toString((*it)->getObjectType()));
+						BaseItem::toString((*it)->getObjectType()));
 			}
-		} if ((*it)->getObjectType() == Type::TypeGraph) {
+		} if ((*it)->getObjectType() == BaseItem::TypeGraph) {
 			IGraphStmt *g = elaborate_graph(static_cast<Graph *>((*it)));
 			a->setGraph(g);
 		} else {
@@ -121,7 +121,7 @@ IAction *Elaborator::elaborate_action(Action *c) {
 				a->add(c);
 			} else {
 				fprintf(stdout, "Error: failed to build action child item %s\n",
-						Type::toString((*it)->getObjectType()));
+						BaseItem::toString((*it)->getObjectType()));
 			}
 		}
 	}
@@ -131,11 +131,11 @@ IAction *Elaborator::elaborate_action(Action *c) {
 }
 
 IBind *Elaborator::elaborate_bind(Bind *b) {
-	const std::vector<Type *> &items = b->getItems();
+	const std::vector<BaseItem *> &items = b->getItems();
 	std::vector<IBaseItem *> items_psi;
 
-	// TODO: must map Type references to PSI references
-	// What this really means is converting the Type references to expressions
+	// TODO: must map BaseItem references to PSI references
+	// What this really means is converting the BaseItem references to expressions
 
 	return m_model->mkBind(items_psi);
 }
@@ -147,23 +147,23 @@ IComponent *Elaborator::elaborate_component(IScopeItem *scope, Component *c) {
 	}
 
 
-	std::vector<Type *>::const_iterator it = c->getChildren().begin();
+	std::vector<BaseItem *>::const_iterator it = c->getChildren().begin();
 
 	for (; it!=c->getChildren().end(); it++) {
-		Type *t = *it;
+		BaseItem *t = *it;
 
 		set_expr_ctxt(comp, c);
 
-		if (t->getObjectType() == Type::TypeAction) {
+		if (t->getObjectType() == BaseItem::TypeAction) {
 			IAction *a = elaborate_action(static_cast<Action *>(t));
 			comp->add(a);
-		} else if (t->getObjectType() == Type::TypeStruct) {
+		} else if (t->getObjectType() == BaseItem::TypeStruct) {
 			IStruct *s = elaborate_struct(static_cast<Struct *>(t));
 			comp->add(s);
 		} else {
 			// TODO:
 			fprintf(stdout, "Error: Unknown component body item %s\n",
-					Type::toString(t->getObjectType()));
+					BaseItem::toString(t->getObjectType()));
 		}
 	}
 
@@ -365,7 +365,7 @@ IExpr *Elaborator::elaborate_expr(ExprCore *e) {
 IStruct *Elaborator::elaborate_struct(Struct *str) {
 	IStruct::StructType t = IStruct::Base; // TODO:
 	IStruct *super_type = 0;
-	std::vector<Type *>		type_h;
+	std::vector<BaseItem *>		type_h;
 
 	if (str->getSuperType()) {
 		// Look for the actual type
@@ -399,7 +399,7 @@ IStruct *Elaborator::elaborate_struct(Struct *str) {
 	set_expr_ctxt(s, str);
 
 	for (uint32_t i=0; i<str->getChildren().size(); i++) {
-		Type *t = str->getChildren().at(i);
+		BaseItem *t = str->getChildren().at(i);
 		bool filter = false;
 
 		if (super_type) {
@@ -413,7 +413,7 @@ IStruct *Elaborator::elaborate_struct(Struct *str) {
 				s->add(api_it);
 			} else {
 				fprintf(stdout, "Error: failed to elaborate struct item: %s\n",
-						Type::toString(t->getObjectType()));
+						BaseItem::toString(t->getObjectType()));
 			}
 		}
 	}
@@ -432,48 +432,48 @@ void Elaborator::elaborate_package(IModel *model, Package *pkg_cl) {
 	pkg = model->findPackage(pkg_cl->getName(), true);
 }
 
-IBaseItem *Elaborator::elaborate_struct_action_body_item(Type *t) {
+IBaseItem *Elaborator::elaborate_struct_action_body_item(BaseItem *t) {
 	IBaseItem *ret = 0;
 
-	if (t->getObjectType() == Type::TypeConstraint) {
+	if (t->getObjectType() == BaseItem::TypeConstraint) {
 		ret = elaborate_constraint(static_cast<Constraint *>(t));
-	} else if (t->getObjectType() == Type::TypeBit) {
+	} else if (t->getObjectType() == BaseItem::TypeBit) {
 		// This is a bit-type field
 		BitType *bt = static_cast<BitType *>(t);
 		IScalarType *field_t = m_model->mkScalarType(
 				IScalarType::ScalarType_Bit, bt->getMsb(), bt->getLsb());
 		ret = m_model->mkField(bt->getName(), field_t, getAttr(bt));
-	} else if (t->getObjectType() == Type::TypeInt) {
+	} else if (t->getObjectType() == BaseItem::TypeInt) {
 		// This is an int-type field
 		IntType *it = static_cast<IntType *>(t);
 		IScalarType *field_t = m_model->mkScalarType(
 				IScalarType::ScalarType_Int, it->getMsb(), it->getLsb());
 		ret = m_model->mkField(it->getName(), field_t, getAttr(it));
-	} else if (t->getObjectType() == Type::TypeBool) {
+	} else if (t->getObjectType() == BaseItem::TypeBool) {
 		// Boolean field
 		Bool *it = static_cast<Bool *>(t);
 
 		IScalarType *field_t = m_model->mkScalarType(
 				IScalarType::ScalarType_Bool, 0, 0);
 		ret = m_model->mkField(it->getName(), field_t, getAttr(it));
-	} else if (t->getObjectType() == Type::TypeChandle) {
+	} else if (t->getObjectType() == BaseItem::TypeChandle) {
 		Chandle *it = static_cast<Chandle *>(t);
 		IScalarType *field_t = m_model->mkScalarType(
 				IScalarType::ScalarType_Chandle, 0, 0);
 		ret = m_model->mkField(it->getName(), field_t, getAttr(it));
-	} else if (t->getObjectType() == Type::TypeAction) {
+	} else if (t->getObjectType() == BaseItem::TypeAction) {
 		// This is an action-type field
 		Action *it = static_cast<Action *>(t);
 		IBaseItem *action_t = find_type_decl(t->getTypeData());
 
 		ret = m_model->mkField(it->getName(), action_t, getAttr(it));
-	} else if (t->getObjectType() == Type::TypeStruct) {
+	} else if (t->getObjectType() == BaseItem::TypeStruct) {
 		// This is an struct-type field
 		Struct *it = static_cast<Struct *>(t);
 		IBaseItem *struct_t = find_type_decl(t->getTypeData());
 
 		ret = m_model->mkField(it->getName(), struct_t, getAttr(it));
-	} else if (t->getObjectType() == Type::TypeExec) {
+	} else if (t->getObjectType() == BaseItem::TypeExec) {
 		// TODO:
 	} else {
 		// TODO: See if this is a field
@@ -483,8 +483,8 @@ IBaseItem *Elaborator::elaborate_struct_action_body_item(Type *t) {
 	return ret;
 }
 
-IFieldRef *Elaborator::elaborate_field_ref(Type *t) {
-	std::vector<Type *>	  types;
+IFieldRef *Elaborator::elaborate_field_ref(BaseItem *t) {
+	std::vector<BaseItem *>	  types;
 	std::vector<IField *> fields;
 
 	while (t) {
@@ -502,7 +502,7 @@ IFieldRef *Elaborator::elaborate_field_ref(Type *t) {
 	IScopeItem *scope = toScopeItem(m_model_expr_ctxt);
 	if (scope) {
 		for (int32_t i=types.size()-1; i>=0; i--) {
-			Type *t = types.at(i);
+			BaseItem *t = types.at(i);
 			IBaseItem *t_it = 0;
 
 			for (std::vector<IBaseItem *>::const_iterator s_it=scope->getItems().begin();
@@ -630,30 +630,30 @@ IGraphStmt *Elaborator::elaborate_graph_stmt(ExprCore *stmt) {
 	return ret;
 }
 
-void Elaborator::set_expr_ctxt(IBaseItem *model_ctxt, Type *class_ctxt) {
+void Elaborator::set_expr_ctxt(IBaseItem *model_ctxt, BaseItem *class_ctxt) {
 	m_model_expr_ctxt = model_ctxt;
 	m_class_expr_ctxt = class_ctxt;
 }
 
-IField::FieldAttr Elaborator::getAttr(Type *t) {
+IField::FieldAttr Elaborator::getAttr(BaseItem *t) {
 	IField::FieldAttr attr = IField::FieldAttr_None;
 
 	switch (t->getAttr()) {
-	case Type::AttrInput: attr = IField::FieldAttr_Input; break;
-	case Type::AttrOutput: attr = IField::FieldAttr_Output; break;
-	case Type::AttrLock: attr = IField::FieldAttr_Lock; break;
-	case Type::AttrShare: attr = IField::FieldAttr_Share; break;
-	case Type::AttrRand: attr = IField::FieldAttr_Rand; break;
-	case Type::AttrPool: attr = IField::FieldAttr_Pool; break;
+	case BaseItem::AttrInput: attr = IField::FieldAttr_Input; break;
+	case BaseItem::AttrOutput: attr = IField::FieldAttr_Output; break;
+	case BaseItem::AttrLock: attr = IField::FieldAttr_Lock; break;
+	case BaseItem::AttrShare: attr = IField::FieldAttr_Share; break;
+	case BaseItem::AttrRand: attr = IField::FieldAttr_Rand; break;
+	case BaseItem::AttrPool: attr = IField::FieldAttr_Pool; break;
 	}
 
 	return attr;
 }
 
-IBaseItem *Elaborator::find_type_decl(Type *t) {
-	std::vector<Type *> type_p;
+IBaseItem *Elaborator::find_type_decl(BaseItem *t) {
+	std::vector<BaseItem *> type_p;
 
-	Type *ti = t;
+	BaseItem *ti = t;
 	while (ti) {
 		type_p.push_back(ti);
 		ti = ti->getParent();
@@ -665,7 +665,7 @@ IBaseItem *Elaborator::find_type_decl(Type *t) {
 
 		if (s) {
 			s = find_named_scope(s->getItems(), ti->getName());
-		} else if (ti->getObjectType() != Type::Model) { // Skip global-scope references
+		} else if (ti->getObjectType() != BaseItem::Model) { // Skip global-scope references
 			// global search
 			// First, do a global lookup for package and component items
 			s = find_named_scope(m_model->getItems(), ti->getName());
@@ -677,7 +677,7 @@ IBaseItem *Elaborator::find_type_decl(Type *t) {
 			}
 		}
 
-		if (!s && ti->getObjectType() != Type::Model) {
+		if (!s && ti->getObjectType() != BaseItem::Model) {
 			error(std::string("Failed to find type ") + ti->getName());
 			break;
 		}
@@ -720,9 +720,9 @@ IScopeItem *Elaborator::find_named_scope(
 }
 
 bool Elaborator::should_filter(
-		const std::vector<Type *>	&items,
+		const std::vector<BaseItem *>	&items,
 		uint32_t					i,
-		const std::vector<Type *>	&type_h) {
+		const std::vector<BaseItem *>	&type_h) {
 	// Base types are evaluated first
 	// - Must preserve 'override' elements
 	// - Must filter out re-declarations
@@ -733,7 +733,7 @@ bool Elaborator::should_filter(
 	// -> Preserve if
 	bool ret = false;
 
-	Type *item = items.at(i);
+	BaseItem *item = items.at(i);
 	const std::string &name = items.at(i)->getName();
 
 	if (name == "" || type_h.size() == 1) {
@@ -744,10 +744,10 @@ bool Elaborator::should_filter(
 	// Count the occurrences of this item in the parent
 	uint32_t parent_c = 0;
 
-	Type *p = type_h.at(1);
-	for (std::vector<Type *>::const_iterator it=p->getChildren().begin();
+	BaseItem *p = type_h.at(1);
+	for (std::vector<BaseItem *>::const_iterator it=p->getChildren().begin();
 			it != p->getChildren().end(); it++) {
-		Type *t = *it;
+		BaseItem *t = *it;
 
 		if (t->getObjectType() == item->getObjectType() &&
 				t->getName() == item->getName()) {
@@ -764,7 +764,7 @@ bool Elaborator::should_filter(
 		uint32_t last_i = 0;
 
 		for (uint32_t ii=0; ii<items.size(); ii++) {
-			Type *t = items.at(ii);
+			BaseItem *t = items.at(ii);
 
 			if (t->getObjectType() == item->getObjectType() &&
 					t->getName() == item->getName()) {
@@ -782,14 +782,14 @@ bool Elaborator::should_filter(
 }
 
 void Elaborator::build_type_hierarchy(
-		std::vector<Type *>			&items,
-		Type						*t) {
+		std::vector<BaseItem *>			&items,
+		BaseItem						*t) {
 	while (t) {
 		items.push_back(t);
 
-		if (t->getObjectType() == Type::TypeAction) {
+		if (t->getObjectType() == BaseItem::TypeAction) {
 			t = static_cast<Action *>(t)->getSuperType();
-		} else if (t->getObjectType() == Type::TypeStruct) {
+		} else if (t->getObjectType() == BaseItem::TypeStruct) {
 			t = static_cast<Struct *>(t)->getSuperType();
 		} else {
 			t = 0;

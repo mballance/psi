@@ -27,16 +27,16 @@
 
 #include <string>
 
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 
 namespace psi {
 
-class Package : public Type {
+class Package : public BaseItem {
 
 	public:
 
 		Package(
-				Type				*p,
+				BaseItem				*p,
 				const std::string 	&name);
 
 		virtual ~Package();

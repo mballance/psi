@@ -7,35 +7,31 @@
 #include "psi_tests.h"
 
 
-static class R : public ResourceStruct {
+class R : public ResourceStruct {
 public:
-	TypeRgy<R>		type_id {this};
+	R(BaseItem *p=0, psi_name name="R") : ResourceStruct(p, name) { }
 
-	R(Type *p=0, psi_name name="R") : ResourceStruct(p, name) { }
+};
+TypeDecl<R> Rt;
 
-} Rt;
-
-static class C : public Component {
+class C : public Component {
 public:
-	TypeRgy<C>		type_id {this};
-
-	C(Type *p=0, psi_name name="C") : Component(p, name) { }
+	C(BaseItem *p=0, psi_name name="C") : Component(p, name) { }
 
 	class A : public Action {
 	public:
-		A(Type *p=0, psi_name name="A") : Action(p, name) { }
+		A(BaseItem *p=0, psi_name name="A") : Action(p, name) { }
 
 		Lock<R>			rc {this, "rc"};
+	};
+	TypeDecl<A> At {this};
 
-	} At {this};
+};
+TypeDecl<C> Ct;
 
-} Ct;
-
-static class static_structure : public Component {
+class static_structure : public Component {
 public:
-	TypeRgy<static_structure>		type_id {this};
-
-	static_structure(Type *p=0, psi_name name="static_structure")
+	static_structure(BaseItem *p=0, psi_name name="static_structure")
 		: Component(p, name) { }
 
 	Field<C>			c1 {this, "c1"};
@@ -48,19 +44,16 @@ public:
 
 	Bind b {this, {rp(), c1(), c2()}};
 
-} static_structureT;
+};
+TypeDecl<static_structure> static_structureT;
 
-static class top : public Component {
+class top : public Component {
 public:
-	TypeRgy<top>		type_id {this};
-
-	top(psi_name name="top", Type *p=0) : Component(p, name) { }
+	top(psi_name name="top", BaseItem *p=0) : Component(p, name) { }
 
 	class entry_point : public Action {
 	public:
-		TypeRgy<entry_point>		type_id {this};
-
-		entry_point(Type *p=0, psi_name name="entry_point") : Action(p, name) { }
+		entry_point(BaseItem *p=0, psi_name name="entry_point") : Action(p, name) { }
 
 		Field<C::A>			a1 {this, "a1"};
 		Field<C::A>			a2 {this, "a2"};
@@ -70,9 +63,11 @@ public:
 				(a1, a2)
 			}
 		};
-	} entry_pointT {this};
+	};
+	TypeDecl<entry_point> entry_pointT {this};
 
-} topT;
+};
+TypeDecl<top> topT;
 
 
 

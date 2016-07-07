@@ -33,9 +33,9 @@ namespace psi {
 
 class ExprListBuilder;
 
-class Type;
+class BaseItem;
 
-//	_prefix Expr operator _op (const Type &lhs, const Expr &rhs); \
+//	_prefix Expr operator _op (const BaseItem &lhs, const Expr &rhs); \
 
 
 #define DECLARE_OP_FUNCTIONS(_prefix, _op) \
@@ -97,7 +97,7 @@ class Expr {
 
 		Expr(int32_t v);
 
-		Expr(const Type &t);
+		Expr(const BaseItem &t);
 
 		Expr(const Expr &rhs);
 

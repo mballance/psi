@@ -397,7 +397,7 @@ void XML2PSI::start(const std::string &el, const char **attr) {
 		enter_field(attr_m);
 	} else if (el == "struct") {
 		if (top()->getType() == IBaseItem::TypeField) {
-			// Parent is <type>
+			// Scope is <type>
 			enter_struct_type(attr_m);
 		} else {
 			enter_struct(attr_m);

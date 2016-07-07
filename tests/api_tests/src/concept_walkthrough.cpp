@@ -11,7 +11,7 @@ public:
 	Rand<Bit<7,0>>		psi_field(data);
 	Rand<Bit<31,0>>		psi_field(address);
 
-	data_s(Type *p=0, psi_name name="data_s") : MemoryStruct(p, name) { }
+	data_s(BaseItem *p=0, psi_name name="data_s") : MemoryStruct(p, name) { }
 
 	Constraint address_c {this, address >= 0x1000 && address <= 0x1FFF};
 
@@ -21,11 +21,11 @@ TypeDecl<data_s>		data_sT;
 class rw_comp : public Component {
 public:
 
-	rw_comp(Type *p=0, psi_name name="rw_comp") : Component(p, name) { }
+	rw_comp(BaseItem *p=0, psi_name name="rw_comp") : Component(p, name) { }
 
 	class processor_s : public ResourceStruct {
 	public:
-		processor_s(Type *p=0, psi_name name="processor_s") : ResourceStruct(p, name) { }
+		processor_s(BaseItem *p=0, psi_name name="processor_s") : ResourceStruct(p, name) { }
 
 		Constraint resource_c {this, instance_id == 1};
 
@@ -34,7 +34,7 @@ public:
 
 	class write_data : public Action {
 	public:
-		write_data(Type *p=0, psi_name name="write_data") : Action(p, name) { }
+		write_data(BaseItem *p=0, psi_name name="write_data") : Action(p, name) { }
 
 		Output<data_s>			psi_field(out_data);
 		Lock<processor_s>		psi_field(proc);
@@ -44,7 +44,7 @@ public:
 
 	class read_data : public Action {
 	public:
-		read_data(Type *p=0, const std::string &name="read_data") : Action(p, name) { }
+		read_data(BaseItem *p=0, const std::string &name="read_data") : Action(p, name) { }
 
 		Input<data_s>			psi_field(in_data);
 		Lock<processor_s>		psi_field(proc);
@@ -56,11 +56,11 @@ TypeDecl<rw_comp>	rw_compT;
 
 class top_comp : public Component {
 public:
-	top_comp(Type *p=0, psi_name name="top_comp") : Component(p, name) { }
+	top_comp(BaseItem *p=0, psi_name name="top_comp") : Component(p, name) { }
 
 	class my_test2 : public Action {
 	public:
-		my_test2(Type *p=0, psi_name name="my_test2") : Action(p, name) { }
+		my_test2(BaseItem *p=0, psi_name name="my_test2") : Action(p, name) { }
 
 		// Action instance needs to know the details of its type. This is
 		// provided via a type-definition reference (eg _rw_comp._write_data)
@@ -84,7 +84,7 @@ TypeDecl<top_comp>		top_compT;
 
 class c_methods : public Package {
 public:
-	c_methods(Type *p=0, psi_name name="c_methods") : Package(p, name) { }
+	c_methods(BaseItem *p=0, psi_name name="c_methods") : Package(p, name) { }
 
 	// Prototypes for import functions
 	Import do_write {this, "do_write",
@@ -100,12 +100,12 @@ TypeDecl<c_methods>		c_methodsT;
 
 class c_code : public Package {
 public:
-	c_code(Type *p=0, psi_name name="c_code") : Package(p, name) { }
+	c_code(BaseItem *p=0, psi_name name="c_code") : Package(p, name) { }
 
 	// Declares an extension of 'write_data' to layer in the implementation
 	class write_data_ext : public ExtendAction<rw_comp::write_data> {
 	public:
-		write_data_ext(Type *p=0) : ExtendAction(p) { }
+		write_data_ext(BaseItem *p=0) : ExtendAction(p) { }
 
 		// Example of a target-template exec block
 		Exec do_write_body {this, Exec::Body, "C", R"(
@@ -121,7 +121,7 @@ public:
 	class read_data_ext : public ExtendAction<rw_comp::read_data> {
 	public:
 
-		read_data_ext(Type *p=0) : ExtendAction(p) {}
+		read_data_ext(BaseItem *p=0) : ExtendAction(p) {}
 
 		Exec do_check_body_native {this, Exec::Body,
 			c_methodsT.do_check((in_data.address, in_data.data))

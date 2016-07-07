@@ -1,27 +1,27 @@
 /*
- * Parent.cpp
+ * Scope.cpp
  *
  *  Created on: Jul 7, 2016
  *      Author: ballance
  */
 
-#include "classlib/Parent.h"
+#include "classlib/Scope.h"
 #include "classlib/Model.h"
 
 namespace psi {
 
-Parent::Parent(int v) {
+Scope::Scope(int v) {
 	m_type = &typeid(this);
 	m_ctxt = Model::global();
 	enter();
 }
 
-Parent::~Parent() {
+Scope::~Scope() {
 	leave();
 }
 
-Type *Parent::parent() const {
-	const std::vector<const Parent *> &scope = Model::global()->get_scope();
+BaseItem *Scope::parent() const {
+	const std::vector<const Scope *> &scope = Model::global()->get_scope();
 
 	// Return the first case where m_parent != this
 	for (int i=scope.size()-1; i>=0; i--) {
@@ -30,23 +30,21 @@ Type *Parent::parent() const {
 		}
 	}
 
-	fprintf(stdout, "Error: Fell off the end of Parent::parent\n");
-
 	return Model::global();
 }
 
-const char *Parent::name() const {
+const char *Scope::name() const {
 	return m_type->name();
 }
 
-void Parent::enter() {
+void Scope::enter() {
 	if (!m_ctxt) {
 		m_ctxt = Model::global();
 	}
 	Model::global()->push_scope(this);
 }
 
-void Parent::leave() {
+void Scope::leave() {
 	Model::global()->pop_scope();
 }
 

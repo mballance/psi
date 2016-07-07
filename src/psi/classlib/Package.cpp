@@ -29,8 +29,8 @@
 
 namespace psi {
 
-Package::Package(Type *p, const std::string &name) :
-		Type(Type::TypePackage, (p)?p:Model::global(), name) { }
+Package::Package(BaseItem *p, const std::string &name) :
+		BaseItem(BaseItem::TypePackage, (p)?p:Model::global(), name) { }
 
 Package::~Package() {
 	// TODO Auto-generated destructor stub

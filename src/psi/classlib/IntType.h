@@ -26,15 +26,15 @@
 #define INTTYPE_H_
 #include <string>
 
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 
 namespace psi {
 
-class IntType : public Type {
+class IntType : public BaseItem {
 
 	public:
 		IntType(
-				Type 				*p,
+				BaseItem 				*p,
 				const std::string 	&name,
 				uint32_t			msb,
 				uint32_t			lsb);

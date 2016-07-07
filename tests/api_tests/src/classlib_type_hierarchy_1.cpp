@@ -11,7 +11,7 @@ class Base : public Struct {
 public:
 	TypeRgy<Base>			type_id {this};
 
-	Base(Type *p=0, psi_name name="Base", Struct *super=0) : Struct(p, name, super) { }
+	Base(BaseItem *p=0, psi_name name="Base", Struct *super=0) : Struct(p, name, super) { }
 
 	Rand<Bit<7,0>>			a {this, "a"};
 	Rand<Bit<7,0>>			b {this, "b"};
@@ -27,7 +27,7 @@ class Ext : public Base {
 public:
 	TypeRgy<Ext>			type_id {this};
 
-	Ext(Type *p=0, psi_name name="Ext", Struct *super=TypeRgy<Base>::type_id()) :
+	Ext(BaseItem *p=0, psi_name name="Ext", Struct *super=TypeRgy<Base>::type_id()) :
 		Base(p, name, super) { }
 
 	Constraint c {this, "c", {

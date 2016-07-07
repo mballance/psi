@@ -26,8 +26,8 @@
 
 namespace psi {
 
-Graph::Graph(Type *p, const ExprList &seq) :
-		Type(Type::TypeGraph, p), m_seq(seq) { }
+Graph::Graph(BaseItem *p, const ExprList &seq) :
+		BaseItem(BaseItem::TypeGraph, p), m_seq(seq) { }
 
 Graph::~Graph() {
 	// TODO Auto-generated destructor stub

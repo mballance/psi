@@ -14,8 +14,8 @@
  */
 #define psi_ctor(_name, _super) \
 	public: \
-	_name (Type *p=0, psi_name name=#_name, \
-			_super *super=TypeRgy<_super>::valid()?TypeRgy<_super>::type_id():0) : _super(p, name, super) { }
+	_name (const Scope &p, psi_name name) : _super(this, name) { }
+
 #endif /* End PSI_HAVE_CXX_11 */
 
 /**

@@ -13,13 +13,13 @@ static class graph_seq_comp : public Component {
 public:
 	TypeRgy<graph_seq_comp>		type_id {this};
 
-	graph_seq_comp(Type *p=0, const std::string &name="graph_seq_comp") :
+	graph_seq_comp(BaseItem *p=0, const std::string &name="graph_seq_comp") :
 		Component(p, name) { }
 
 	class A1 : public Action {
 	public:
 		TypeRgy<A1>		type_id {this};
-		A1(Type *p=0, const std::string &name="A1") : Action(p, name) { }
+		A1(BaseItem *p=0, const std::string &name="A1") : Action(p, name) { }
 
 	} A1T {this};
 
@@ -27,7 +27,7 @@ public:
 	public:
 		TypeRgy<graph_seq_test>		type_id {this};
 
-		graph_seq_test(Type *p=0, const std::string &name="graph_seq_test") : Action(p, name) { }
+		graph_seq_test(BaseItem *p=0, const std::string &name="graph_seq_test") : Action(p, name) { }
 
 		Field<A1> a1{this, "a1"};
 		Field<A1> a2{this, "a2"};

@@ -9,7 +9,7 @@
 class power_state_s : public StateStruct {
 public:
 
-	power_state_s(Type *p=0, psi_name name="power_state_s")
+	power_state_s(BaseItem *p=0, psi_name name="power_state_s")
 		: StateStruct(p, name) { }
 
 	Rand<Bit<1,0>>		dmn_A {this, "dmn_A"};
@@ -36,14 +36,14 @@ TypeDecl<power_state_s>		power_state_sT;
 class my_system_c : public Component {
 public:
 
-	my_system_c(Type *p=0, psi_name name="my_system_c")
+	my_system_c(BaseItem *p=0, psi_name name="my_system_c")
 		: Component(p, name) { }
 
 	class power_transition : public Action {
 	public:
 
 		power_transition(
-				Type 		*p=0,
+				BaseItem 		*p=0,
 				psi_name	name="power_transition",
 				Action 		*super=0) : Action(p, name, super) { }
 
@@ -64,7 +64,7 @@ public:
 	public:
 
 		A_transition(
-				Type 		*p=0,
+				BaseItem 		*p=0,
 				psi_name	name="A_transition",
 				Action		*super=TypeRgy<power_transition>::type_id()) :
 			power_transition(p, name, super) { }
@@ -78,7 +78,7 @@ public:
 		TypeRgy<B_transition>		type_id {this};
 
 		B_transition(
-				Type 				*p=0,
+				BaseItem 				*p=0,
 				const std::string 	&name="B_transition",
 				Action				*super=TypeRgy<power_transition>::type_id()) :
 			power_transition(p, name, super) { }
@@ -91,7 +91,7 @@ public:
 	public:
 
 		C_transition(
-				Type				*p=0,
+				BaseItem				*p=0,
 				const std::string 	&name="C_transition",
 				Action				*super=TypeRgy<power_transition>::type_id()) :
 			power_transition(p, name, super) { }

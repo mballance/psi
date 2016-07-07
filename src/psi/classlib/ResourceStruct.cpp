@@ -30,7 +30,7 @@
 namespace psi {
 
 ResourceStruct::ResourceStruct(
-		const Parent		&p,
+		const Scope		&p,
 		const std::string 	&name) :
 				Struct(Struct::Resource, p, name),
 				instance_id(this, "instance_id") { }
@@ -39,7 +39,7 @@ ResourceStruct::~ResourceStruct() {
 	// TODO Auto-generated destructor stub
 }
 
-ResourceStruct::ResourceStruct(const Parent &p) :
+ResourceStruct::ResourceStruct(const Scope &p) :
 		Struct(Struct::Resource, p, ""),
 		instance_id(this, "instance_id") { }
 

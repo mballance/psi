@@ -6,11 +6,9 @@
  */
 #include "psi_tests.h"
 
-static class power_state_s : public StateStruct {
+class power_state_s : public StateStruct {
 public:
-	TypeRgy<power_state_s>		type_id {this};
-
-	power_state_s(Type *p=0, psi_name name="power_state_s") : StateStruct(p, name) { }
+	power_state_s(BaseItem *p=0, psi_name name="power_state_s") : StateStruct(p, name) { }
 
 	Rand<Bit<1,0>>		dmn_A {this, "dmn_A"};
 	Rand<Bit<1,0>>		dmn_B {this, "dmn_B"};
@@ -27,17 +25,17 @@ public:
 			}
 		}
 	};
-} power_state_sT;
+};
+TypeDecl<power_state_s> power_state_sT;
 
-static class my_system_c : public Component {
+class my_system_c : public Component {
 public:
-	TypeRgy<my_system_c>		type_id {this};
-
-	my_system_c(Type *p=0, psi_name name="my_system_c") : Component(p, name) { }
+	my_system_c(BaseItem *p=0, psi_name name="my_system_c") : Component(p, name) { }
 
 	Field<power_state_s>			ps {this, "ps"};
 
-} my_system_cT;
+};
+TypeDecl<my_system_c> my_system_cT;
 
 
 

@@ -24,7 +24,7 @@
 
 #ifndef SRC_CLASSLIB_POOL_H_
 #define SRC_CLASSLIB_POOL_H_
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 #include "classlib/TypeRgy.h"
 
 namespace psi {
@@ -32,9 +32,9 @@ namespace psi {
 template <class T> class Pool : public T {
 
 	public:
-		Pool(Type *p, const std::string &name) : T(p, name) {
-			Type *t = static_cast<Type *>(this);
-			t->setAttr(Type::AttrPool);
+		Pool(BaseItem *p, const std::string &name) : T(p, name) {
+			BaseItem *t = static_cast<BaseItem *>(this);
+			t->setAttr(BaseItem::AttrPool);
 			t->setTypeData(TypeRgy<T>::type_id());
 		}
 

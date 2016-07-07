@@ -1,5 +1,5 @@
 /*
- * Type.cpp
+ * BaseItem.cpp
  *
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -23,14 +23,14 @@
  *      Author: ballance
  */
 
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 
 #include <stdio.h>
 #include "classlib/ExprCore.h"
 
 namespace psi {
 
-Type::Type(Type::ObjectType t, Type *p) :
+BaseItem::BaseItem(BaseItem::ObjectType t, BaseItem *p) :
 		m_type(t), m_name(""), m_parent(p),
 		m_type_data(0), m_attr(AttrNone) {
 	if (p) {
@@ -38,7 +38,7 @@ Type::Type(Type::ObjectType t, Type *p) :
 	}
 }
 
-Type::Type(Type::ObjectType t, Type *p, const std::string &name) :
+BaseItem::BaseItem(BaseItem::ObjectType t, BaseItem *p, const std::string &name) :
 		m_type(t), m_name(name), m_parent(p),
 		m_type_data(0), m_attr(AttrNone) {
 
@@ -46,35 +46,35 @@ Type::Type(Type::ObjectType t, Type *p, const std::string &name) :
 		fprintf(stdout, "%s: Adding to scope\n", m_name.c_str());
 		p->add(this);
 	} else {
-		fprintf(stdout, "%s: Parent is NULL\n", m_name.c_str());
+		fprintf(stdout, "%s: Scope is NULL\n", m_name.c_str());
 	}
 }
 
-Type::~Type() {
+BaseItem::~BaseItem() {
 	// TODO Auto-generated destructor stub
 }
 
-Expr Type::operator [] (const Expr &rhs) {
+Expr BaseItem::operator [] (const Expr &rhs) {
 	return Expr(new ExprCore(Expr::BinOp_ArrayRef, *this, rhs));
 }
 
-ExprListBuilder Type::operator,(const Type &rhs) {
+ExprListBuilder BaseItem::operator,(const BaseItem &rhs) {
 	return ExprListBuilder(*this, rhs);
 }
 
-void Type::add(Type *item) {
+void BaseItem::add(BaseItem *item) {
 	m_children.push_back(item);
 }
 
-void Type::setObjectType(Type::ObjectType t) {
+void BaseItem::setObjectType(BaseItem::ObjectType t) {
 	m_type = t;
 }
 
-const std::vector<Type *> &Type::getChildren() const {
+const std::vector<BaseItem *> &BaseItem::getChildren() const {
 	return m_children;
 }
 
-const char *Type::toString(ObjectType t) {
+const char *BaseItem::toString(ObjectType t) {
 	switch (t) {
 		case TypeAction: return "TypeAction";
 		case TypeBit: return "TypeBit";
@@ -98,7 +98,7 @@ const char *Type::toString(ObjectType t) {
 	return "Unknown";
 }
 
-bool Type::insideInstance() {
+bool BaseItem::insideInstance() {
 	bool ret = false;
 
 	return ret;

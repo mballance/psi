@@ -27,10 +27,10 @@
 namespace psi {
 
 IntType::IntType(
-		Type 				*p,
+		BaseItem 				*p,
 		const std::string 	&name,
 		uint32_t			msb,
-		uint32_t			lsb) : Type(Type::TypeInt, p, name), m_msb(msb), m_lsb(lsb) {
+		uint32_t			lsb) : BaseItem(BaseItem::TypeInt, p, name), m_msb(msb), m_lsb(lsb) {
 
 }
 

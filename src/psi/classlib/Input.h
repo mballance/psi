@@ -26,18 +26,18 @@
 #define INPUT_H_
 #include <string>
 
-#include "classlib/Type.h"
-#include "classlib/TypeRgy.h"
+#include "classlib/BaseItem.h"
+#include "classlib/TypeDecl.h"
 
 namespace psi {
 
 template <class T> class Input : public T {
 
 	public:
-		Input(Type *p, const std::string &name) : T(p, name) {
-			Type *t = static_cast<Type *>(this);
-			t->setAttr(Type::AttrInput);
-			t->setTypeData(TypeRgy<T>::type_id());
+		Input(BaseItem *p, const std::string &name) : T(p, name) {
+			BaseItem *t = static_cast<BaseItem *>(this);
+			t->setAttr(BaseItem::AttrInput);
+			t->setTypeData(TypeDecl<T>::type_id());
 		}
 
 		virtual ~Input() { }

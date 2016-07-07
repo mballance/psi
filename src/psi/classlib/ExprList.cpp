@@ -43,7 +43,7 @@ ExprList::ExprList(const ExprListBuilder &el) : Expr(new ExprCoreList()) {
 	traverse_expr_builder(c_t, el);
 }
 
-//ExprList::ExprList(Type &t) : Expr(new ExprCoreList(Expr(t))) { }
+//ExprList::ExprList(BaseItem &t) : Expr(new ExprCoreList(Expr(t))) { }
 
 ExprList::~ExprList() { }
 

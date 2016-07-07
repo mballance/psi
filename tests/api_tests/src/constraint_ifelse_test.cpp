@@ -11,7 +11,7 @@ using namespace psi;
 
 static class constraint_ifelse_test : public Struct {
 public:
-	constraint_ifelse_test(Type *p=0, const std::string &name="constraint_ifelse_test") : Struct(p, name) { }
+	constraint_ifelse_test(BaseItem *p=0, const std::string &name="constraint_ifelse_test") : Struct(p, name) { }
 
 	Rand<Bit<>>					control {this, "control"};
 	Rand<Bit<31,1>>				address {this, "address"};

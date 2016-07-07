@@ -27,20 +27,20 @@
 
 #include <string>
 
-#include "classlib/Type.h"
-#include "classlib/TypeRgy.h"
+#include "classlib/BaseItem.h"
+#include "classlib/TypeDecl.h"
 
 namespace psi {
 
 template <class T> class Field : public T {
 	public:
 
-		Field(Type *p, const std::string &name) : T(p, name) {
-			Type *t = static_cast<Type *>(this);
-			if (t->getObjectType() == Type::TypeAction ||
-					t->getObjectType() == Type::TypeStruct ||
-					t->getObjectType() == Type::TypeComponent) {
-				t->setTypeData(TypeRgy<T>::type_id());
+		Field(BaseItem *p, const std::string &name) : T(p, name) {
+			BaseItem *t = static_cast<BaseItem *>(this);
+			if (t->getObjectType() == BaseItem::TypeAction ||
+					t->getObjectType() == BaseItem::TypeStruct ||
+					t->getObjectType() == BaseItem::TypeComponent) {
+				t->setTypeData(TypeDecl<T>::type_id());
 			}
 		}
 };

@@ -1,12 +1,12 @@
 /*
- * Parent.h
+ * Scope.h
  *
  *  Created on: Jul 7, 2016
  *      Author: ballance
  */
 
-#ifndef SRC_PSI_CLASSLIB_PARENT_H_
-#define SRC_PSI_CLASSLIB_PARENT_H_
+#ifndef SRC_PSI_CLASSLIB_SCOPE_H_
+#define SRC_PSI_CLASSLIB_SCOPE_H_
 #include <string>
 #include <vector>
 #include <typeinfo>
@@ -14,10 +14,10 @@
 
 namespace psi {
 
-class Type;
-class Parent {
+class BaseItem;
+class Scope {
 public:
-	template <class T> Parent(T *p) {
+	template <class T> Scope(T *p) {
 		// Save the type of the super-class
 		m_type = &typeid(T);
 
@@ -27,16 +27,16 @@ public:
 		enter();
 	}
 
-	// TODO: Should be able to remove this when conversion to Parent & is complete
-	Parent(int v); //
+	// TODO: Should be able to remove this when conversion to Scope & is complete
+	Scope(int v); //
 
-	Type *parent() const;
+	BaseItem *parent() const;
 
-	Type *ctxt() const { return m_ctxt; }
+	BaseItem *ctxt() const { return m_ctxt; }
 
 	const char *name() const;
 
-	virtual ~Parent();
+	virtual ~Scope();
 
 private:
 	void enter();
@@ -44,10 +44,10 @@ private:
 	void leave();
 
 private:
-	Type					*m_ctxt;
+	BaseItem					*m_ctxt;
 	const std::type_info	*m_type;
 };
 
 } /* namespace psi */
 
-#endif /* SRC_PSI_CLASSLIB_PARENT_H_ */
+#endif /* SRC_PSI_CLASSLIB_SCOPE_H_ */

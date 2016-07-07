@@ -27,14 +27,14 @@
 
 #include <string>
 
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 #include "classlib/SharedPtr.h"
 
 namespace psi {
 
 class ImportCall;
 
-class Exec : public Type {
+class Exec : public BaseItem {
 
 	public:
 		enum ExecKind {
@@ -53,13 +53,13 @@ class Exec : public Type {
 	public:
 
 		Exec(
-			Type									*p,
+			BaseItem									*p,
 			ExecKind 								kind,
 			const std::string 						&language,
 			const std::string 						&content);
 
 		Exec(
-			Type									*p,
+			BaseItem									*p,
 			ExecKind 								kind,
 			const ExprList							&stmts);
 
@@ -68,9 +68,9 @@ class Exec : public Type {
 		 * hook method
 		 */
 		Exec(
-			Type									*p,
+			BaseItem									*p,
 			ExecKind								kind,
-			const std::vector<Type *>				&write_vars);
+			const std::vector<BaseItem *>				&write_vars);
 
 		virtual ~Exec();
 

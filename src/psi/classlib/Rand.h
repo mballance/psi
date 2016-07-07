@@ -27,7 +27,7 @@
 #define SRC_RAND_H_
 #include <string>
 
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 #include "classlib/TypeRgy.h"
 
 namespace psi {
@@ -35,10 +35,10 @@ namespace psi {
 template <class T> class Rand : public T {
 
 	public:
-		Rand(Type *p, const std::string &name) : T(p, name) {
-			Type *t = static_cast<Type *>(this);
-			t->setAttr(Type::AttrRand);
-			if (t->getObjectType() == Type::TypeStruct) {
+		Rand(BaseItem *p, const std::string &name) : T(p, name) {
+			BaseItem *t = static_cast<BaseItem *>(this);
+			t->setAttr(BaseItem::AttrRand);
+			if (t->getObjectType() == BaseItem::TypeStruct) {
 				t->setTypeData(TypeRgy<T>::type_id());
 			}
 		}

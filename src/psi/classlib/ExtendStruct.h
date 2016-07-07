@@ -24,17 +24,17 @@
 
 #ifndef SRC_CLASSLIB_EXTENDSTRUCT_H_
 #define SRC_CLASSLIB_EXTENDSTRUCT_H_
-#include "classlib/TypeRgy.h"
+#include "classlib/TypeDecl.h"
 
 namespace psi {
 
 template <class T> class ExtendStruct : public T {
 
 	public:
-		ExtendStruct(Type *p) : T("<Extend>", p) {
-			Type *t = static_cast<Type *>(this);
-			t->setTypeData(TypeRgy<T>::type_id());
-			t->setObjectType(Type::TypeExtendStruct);
+		ExtendStruct(BaseItem *p) : T("<Extend>", p) {
+			BaseItem *t = static_cast<BaseItem *>(this);
+			t->setTypeData(TypeDecl<T>::type_id());
+			t->setObjectType(BaseItem::TypeExtendStruct);
 		}
 
 		virtual ~ExtendStruct() { }

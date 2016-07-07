@@ -38,14 +38,14 @@ class StreamStruct : public Struct {
 	public:
 
 		StreamStruct(
-				const Parent 		&p,
+				const Scope 		&p,
 				const std::string 	&name);
 
 		virtual ~StreamStruct();
 
 	private:
 
-		StreamStruct(const Parent &p);
+		StreamStruct(const Scope &p);
 };
 
 } /* namespace psi */

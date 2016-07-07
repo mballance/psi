@@ -10,7 +10,7 @@ static class methods_pkg : public Package {
 public:
 	TypeRgy<methods_pkg>		type_id {this};
 
-	methods_pkg(Type *p=0, psi_name name="methods_pkg") : Package(p, name) { }
+	methods_pkg(BaseItem *p=0, psi_name name="methods_pkg") : Package(p, name) { }
 
 	Import my_func { this, "my_func",
 		(Bit<7,0>("a"), Bit<31,0>("b"))};
@@ -24,12 +24,12 @@ class top : public Component {
 public:
 	TypeRgy<top>			type_id {this};
 
-	top(Type *p=0, psi_name name="top") : Component(p, name) { }
+	top(BaseItem *p=0, psi_name name="top") : Component(p, name) { }
 
 
 	class entry_point : public Action {
 	public:
-		entry_point(Type *p=0, psi_name name="entry_point") : Action(p, name) { }
+		entry_point(BaseItem *p=0, psi_name name="entry_point") : Action(p, name) { }
 
 		Rand<Bit<7,0>>			p1 {this,"p1"};
 		Rand<Bit<31,0>>			p2 {this,"p2"};

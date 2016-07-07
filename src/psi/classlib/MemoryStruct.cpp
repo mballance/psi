@@ -29,7 +29,7 @@
 namespace psi {
 
 MemoryStruct::MemoryStruct(
-		const Parent			&p,
+		const Scope			&p,
 		const std::string 		&name) : Struct(Struct::Memory, p, name) {
 }
 
@@ -37,6 +37,5 @@ MemoryStruct::~MemoryStruct() {
 	// TODO Auto-generated destructor stub
 }
 
-MemoryStruct::MemoryStruct(const Parent &p) : Struct(Struct::Memory, p, "") { }
 
 } /* namespace psi */
