@@ -46,13 +46,19 @@ int main(int argc, char **argv) {
 //		}
 //	}
 
+	fprintf(stdout, "--> build_model\n");
 	build_model(&model);
+	fprintf(stdout, "<-- build_model\n");
 
+	fprintf(stdout, "--> psi2xml\n");
 	const std::string xml1 = psi2xml.traverse(&model);
+	fprintf(stdout, "<-- psi2xml\n");
 
 	fprintf(stdout, "Result:\n%s\n", xml1.c_str());
 
+	fprintf(stdout, "--> xml2psi\n");
 	xml2psi.process(xml1, &xml_model);
+	fprintf(stdout, "<-- xml2psi\n");
 
 //	const std::string xml2 = psi2xml.traverse(&xml_model);
 //

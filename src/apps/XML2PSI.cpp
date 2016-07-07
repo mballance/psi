@@ -173,6 +173,9 @@ IField *XML2PSI::elaborate_field(xmlNode *p, const strmap &attr) {
 	IBaseItem *field_t = 0;
 	for (xmlNode *n=p->children; n; n=n->next) {
 		std::string name(reinterpret_cast<const char *>(n->name));
+		if (n->type != XML_ELEMENT_NODE) {
+			continue;
+		}
 
 		get_attributes(n, attr_m);
 
