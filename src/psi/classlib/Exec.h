@@ -29,6 +29,7 @@
 
 #include "classlib/BaseItem.h"
 #include "classlib/SharedPtr.h"
+#include "classlib/Types.h"
 
 namespace psi {
 
@@ -68,9 +69,28 @@ class Exec : public BaseItem {
 		 * hook method
 		 */
 		Exec(
-			BaseItem									*p,
+			BaseItem								*p,
 			ExecKind								kind,
-			const std::vector<BaseItem *>				&write_vars);
+			const std::vector<BaseItem *>			&write_vars);
+
+#ifdef PSI_HAVE_CXX_11
+		Exec(
+			BaseItem								*p,
+			ExecKind								kind,
+			std::initializer_list<BaseItem>			write_vars) :
+				BaseItem(BaseItem::TypeExec, p),
+				m_execType(Inline),
+				m_execKind(kind) {
+			// TODO: save write variables
+//			std::vector<BaseItem *> ptr_v;
+//
+//			for (std::initializer_list<BaseItem>::const_iterator it=write_vars.begin();
+//					it!=write_vars.end(); it++) {
+//				ptr_v.
+//
+//			}
+		}
+#endif
 
 		virtual ~Exec();
 

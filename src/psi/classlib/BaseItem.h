@@ -114,13 +114,13 @@ public:
 
 		static const char *toString(ObjectType t);
 
+		virtual ~BaseItem();
+
 	protected:
 
 		BaseItem(BaseItem::ObjectType t, BaseItem *p);
 
 		BaseItem(BaseItem::ObjectType t, BaseItem *p, const std::string &name);
-
-		virtual ~BaseItem();
 
 
 	private:
