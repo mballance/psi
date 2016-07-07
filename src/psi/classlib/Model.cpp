@@ -25,6 +25,7 @@
  */
 
 #include "classlib/Model.h"
+#include "classlib/Parent.h"
 
 #include <stdio.h>
 
@@ -42,6 +43,19 @@ Model *Model::global() {
 		m_global = new Model();
 	}
 	return m_global;
+}
+
+void Model::push_scope(const Parent *p) {
+	m_scope.push_back(p);
+}
+
+void Model::pop_scope() {
+	const Parent *p = m_scope.back();
+	m_scope.pop_back();
+}
+
+const std::vector<const Parent *> &Model::get_scope() const {
+	return m_scope;
 }
 
 Model *Model::m_global = 0;

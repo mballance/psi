@@ -14,7 +14,10 @@ template <class T> class TypeDecl : public T {
 public:
 
 	TypeDecl(Type *namespace_p=0) :
-		T(namespace_p), m_type_id(this) { }
+		T(namespace_p), m_type_id(this) {
+		fprintf(stdout, "TypeDecl: %s\n",
+				static_cast<Type *>(this)->getName().c_str());
+	}
 
 private:
 	TypeRgy<T>		m_type_id;

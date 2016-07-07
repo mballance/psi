@@ -30,6 +30,23 @@
 namespace psi {
 
 Action::Action(
+		const Parent		&p,
+		const std::string	&name) : Type(Type::TypeAction, p.parent(), name) {
+	m_super_type = 0;
+
+	const std::vector<const Parent *> &scope = Model::global()->get_scope();
+
+	fprintf(stdout, "--> scope %s\n", name.c_str());
+	for (int i=scope.size()-2; i>=0; i--) {
+		if (scope.at(i)->ctxt() != this) {
+			break;
+		}
+		fprintf(stdout, "  extends from %s\n", scope.at(i)->name());
+	}
+	fprintf(stdout, "<-- scope %s\n", name.c_str());
+}
+
+Action::Action(
 		Type 				*p,
 		const std::string 	&name,
 		Action				*super_type) : Type(Type::TypeAction, p, name),

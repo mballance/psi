@@ -9,13 +9,13 @@
 
 namespace psi {
 
-StateStruct::StateStruct(Type *p, const std::string &name, Struct *super) :
-		Struct(State, p, name, super), initial(this, "initial") {
+StateStruct::StateStruct(const Parent &p, const std::string &name) :
+		Struct(State, p, name), initial(this, "initial") {
 
 }
 
-StateStruct::StateStruct(Type *p) :
-		Struct(State, p, "", 0), initial(this, "initial") {
+StateStruct::StateStruct(const Parent &p) :
+		Struct(State, p, ""), initial(this, "initial") {
 
 }
 

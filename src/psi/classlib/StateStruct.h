@@ -16,18 +16,19 @@
 
 namespace psi {
 
+class Parent;
 class StateStruct: public Struct {
 public:
 	friend TypeRgy<StateStruct>;
 
 	Rand<Bool>			initial;
 
-	StateStruct(Type *p, const std::string &name, Struct *super=0);
+	StateStruct(const Parent &p, const std::string &name);
 
 	virtual ~StateStruct();
 
 private:
-	StateStruct(Type *p);
+	StateStruct(const Parent &p);
 };
 
 } /* namespace psi */

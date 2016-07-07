@@ -32,8 +32,17 @@
 namespace psi {
 
 template <class T> class TypeRgy;
+class ResourceStruct;
+class StateStruct;
+class MemoryStruct;
+class StreamStruct;
+class Parent;
 class Struct : public Type {
 	friend TypeRgy<Struct>;
+	friend ResourceStruct;
+	friend StateStruct;
+	friend MemoryStruct;
+	friend StreamStruct;
 
 public:
 	enum StructType {
@@ -75,18 +84,16 @@ public:
 
 
 		Struct(
-				Type 				*p,
-				const std::string 	&name,
-				Struct 				*super_type=0);
+				const Parent		&p,
+				const std::string 	&name);
+
+	private:
 
 		Struct(
 				StructType			t,
-				Type 				*p,
-				const std::string 	&name,
-				Struct 				*super_type=0);
+				const Parent		&p,
+				const std::string 	&name);
 
-
-	private:
 		Struct(Type *p=0);
 
 	private:

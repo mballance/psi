@@ -43,7 +43,10 @@ Type::Type(Type::ObjectType t, Type *p, const std::string &name) :
 		m_type_data(0), m_attr(AttrNone) {
 
 	if (p) {
+		fprintf(stdout, "%s: Adding to scope\n", m_name.c_str());
 		p->add(this);
+	} else {
+		fprintf(stdout, "%s: Parent is NULL\n", m_name.c_str());
 	}
 }
 

@@ -27,12 +27,14 @@
 #define SRC_TYPEREGISTRY_H_
 
 #include <string>
+#include <vector>
 
 #include "classlib/Type.h"
 
 namespace psi {
 
 class Package;
+class Parent;
 class Model : public Type {
 	friend class Package;
 
@@ -43,7 +45,14 @@ class Model : public Type {
 
 		static Model *global();
 
+		void push_scope(const Parent *p);
+
+		void pop_scope();
+
+		const std::vector<const Parent *> &get_scope() const;
+
 	private:
+		std::vector<const Parent *>		m_scope;
 
 		static Model			*m_global;
 

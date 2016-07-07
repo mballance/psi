@@ -27,6 +27,7 @@
 #include <string>
 
 #include "classlib/Type.h"
+#include "classlib/Parent.h"
 
 namespace psi {
 
@@ -36,10 +37,13 @@ class Action : public Type {
 
 	public:
 
+		Action(const Parent &p, const std::string &name);
+
+		// Unused
 		Action(
 				Type 						*p,
 				const std::string 			&name,
-				Action						*super_type=0);
+				Action						*super_type);
 
 		virtual ~Action();
 

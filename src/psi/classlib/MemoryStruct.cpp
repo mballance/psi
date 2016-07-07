@@ -29,16 +29,14 @@
 namespace psi {
 
 MemoryStruct::MemoryStruct(
-		Type 					*p,
-		const std::string 		&name,
-		Struct					*super_type) :
-		Struct(Struct::Memory, (p)?p:Model::global(), name, super_type) {
+		const Parent			&p,
+		const std::string 		&name) : Struct(Struct::Memory, p, name) {
 }
 
 MemoryStruct::~MemoryStruct() {
 	// TODO Auto-generated destructor stub
 }
 
-MemoryStruct::MemoryStruct(Type *p) : Struct(Struct::Memory, p, "", 0) { }
+MemoryStruct::MemoryStruct(const Parent &p) : Struct(Struct::Memory, p, "") { }
 
 } /* namespace psi */

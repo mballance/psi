@@ -38,15 +38,14 @@ class StreamStruct : public Struct {
 	public:
 
 		StreamStruct(
-				Type 				*p,
-				const std::string 	&name,
-				Struct				*super_type=0);
+				const Parent 		&p,
+				const std::string 	&name);
 
 		virtual ~StreamStruct();
 
 	private:
 
-		StreamStruct(Type *p);
+		StreamStruct(const Parent &p);
 };
 
 } /* namespace psi */

@@ -36,14 +36,13 @@ class MemoryStruct: public Struct {
 
 	public:
 		MemoryStruct(
-				Type 					*p,
-				const std::string 		&name,
-				Struct					*super_type=0);
+				const Parent			&p,
+				const std::string 		&name);
 
 		virtual ~MemoryStruct();
 
 	private:
-		MemoryStruct(Type *p);
+		MemoryStruct(const Parent &p);
 };
 
 } /* namespace psi */

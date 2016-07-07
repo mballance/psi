@@ -23,8 +23,8 @@
  */
 
 #include "classlib/Struct.h"
-
 #include "classlib/Model.h"
+#include "classlib/Parent.h"
 
 namespace psi {
 
@@ -32,21 +32,21 @@ Struct::Struct(Type *p) : Type(Type::TypeStruct, p, ""),
 		m_structType(Struct::Base), m_super(0) { }
 
 Struct::Struct(
-		Type 				*p,
-		const std::string 	&name,
-		Struct 				*super_type) :
-				Type(Type::TypeStruct, (p)?p:Model::global(), name),
-				m_structType(Struct::Base), m_super(super_type) {
+		const Parent 		&p,
+		const std::string 	&name) :
+				Type(Type::TypeStruct, p.parent(), name),
+				m_structType(Struct::Base), m_super(0) {
+	// TODO: determine super-struct information
 }
 
 Struct::Struct(
 		Struct::StructType	t,
-		Type 				*p,
-		const std::string 	&name,
-		Struct 				*super_type) :
-				Type(Type::TypeStruct, (p)?p:Model::global(), name),
-				m_structType(t), m_super(super_type) {
-	m_super = super_type;
+		const Parent		&p,
+		const std::string 	&name) :
+				Type(Type::TypeStruct, p.parent(), name),
+				m_structType(t), m_super(0) {
+	// TODO: determine super-struct information
+//	m_super = super_type;
 }
 
 Struct::~Struct() {
