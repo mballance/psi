@@ -63,7 +63,7 @@
 #include "classlib/Struct.h"
 #include "classlib/TypeDecl.h"
 #include "classlib/TypeRgy.h"
-#include "classlib/TypeRegistry.h"
+#include "classlib/Model.h"
 #include "classlib/Types.h"
 #include "classlib/PsiMacros.h"
 

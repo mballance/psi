@@ -25,7 +25,7 @@
 
 #include "classlib/ResourceStruct.h"
 
-#include "classlib/TypeRegistry.h"
+#include "classlib/Model.h"
 
 namespace psi {
 
@@ -33,7 +33,7 @@ ResourceStruct::ResourceStruct(
 		Type 				*p,
 		const std::string 	&name,
 		Struct				*super_type) :
-				Struct(Struct::Resource, (p)?p:TypeRegistry::global(),
+				Struct(Struct::Resource, (p)?p:Model::global(),
 						name, super_type),
 				instance_id(this, "instance_id") { }
 

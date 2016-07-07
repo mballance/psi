@@ -24,7 +24,7 @@
 
 #include "classlib/Struct.h"
 
-#include "classlib/TypeRegistry.h"
+#include "classlib/Model.h"
 
 namespace psi {
 
@@ -35,7 +35,7 @@ Struct::Struct(
 		Type 				*p,
 		const std::string 	&name,
 		Struct 				*super_type) :
-				Type(Type::TypeStruct, (p)?p:TypeRegistry::global(), name),
+				Type(Type::TypeStruct, (p)?p:Model::global(), name),
 				m_structType(Struct::Base), m_super(super_type) {
 }
 
@@ -44,7 +44,7 @@ Struct::Struct(
 		Type 				*p,
 		const std::string 	&name,
 		Struct 				*super_type) :
-				Type(Type::TypeStruct, (p)?p:TypeRegistry::global(), name),
+				Type(Type::TypeStruct, (p)?p:Model::global(), name),
 				m_structType(t), m_super(super_type) {
 	m_super = super_type;
 }

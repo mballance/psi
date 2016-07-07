@@ -24,12 +24,12 @@
 
 #include "classlib/Component.h"
 
-#include "classlib/TypeRegistry.h"
+#include "classlib/Model.h"
 
 namespace psi {
 
 Component::Component(Type *p, const std::string &name, Component *super) :
-		Type(Type::TypeComponent, (p)?p:TypeRegistry::global(), name),
+		Type(Type::TypeComponent, (p)?p:Model::global(), name),
 		m_super(super) {
 
 }

@@ -61,7 +61,7 @@ public:
 		TypePackage,
 		TypeString,
 		TypeStruct,
-		TypeRegistry,
+		Model,
 		TypeRef
 	};
 

@@ -25,12 +25,12 @@
 #include "classlib/Package.h"
 
 #include <stdio.h>
-#include "classlib/TypeRegistry.h"
+#include "classlib/Model.h"
 
 namespace psi {
 
 Package::Package(Type *p, const std::string &name) :
-		Type(Type::TypePackage, (p)?p:TypeRegistry::global(), name) { }
+		Type(Type::TypePackage, (p)?p:Model::global(), name) { }
 
 Package::~Package() {
 	// TODO Auto-generated destructor stub

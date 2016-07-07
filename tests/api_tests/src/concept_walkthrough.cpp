@@ -6,10 +6,8 @@
  */
 #include "psi_tests.h"
 
-static class data_s : public MemoryStruct {
+class data_s : public MemoryStruct {
 public:
-	TypeRgy<data_s>		type_id{this};
-
 	Rand<Bit<7,0>>		psi_field(data);
 	Rand<Bit<31,0>>		psi_field(address);
 
@@ -17,58 +15,51 @@ public:
 
 	Constraint address_c {this, address >= 0x1000 && address <= 0x1FFF};
 
-	// Register this type definition
-} data_sT;
+};
+TypeDecl<data_s>		data_sT;
 
-static class rw_comp : public Component {
+class rw_comp : public Component {
 public:
-	TypeRgy<rw_comp>		type_id{this};
 
 	rw_comp(Type *p=0, psi_name name="rw_comp") : Component(p, name) { }
 
 	class processor_s : public ResourceStruct {
 	public:
-		TypeRgy<processor_s>		type_id{this};
-
 		processor_s(Type *p=0, psi_name name="processor_s") : ResourceStruct(p, name) { }
 
 		Constraint resource_c {this, instance_id == 1};
 
-	} processor_sT {this};
+	};
+	TypeDecl<processor_s>	processor_sT {this};
 
 	class write_data : public Action {
 	public:
-		TypeRgy<write_data>		type_id{this};
-
 		write_data(Type *p=0, psi_name name="write_data") : Action(p, name) { }
 
 		Output<data_s>			psi_field(out_data);
 		Lock<processor_s>		psi_field(proc);
 
-	} write_dataT {this};
+	};
+	TypeDecl<write_data>	write_dataT {this};
 
 	class read_data : public Action {
 	public:
-		TypeRgy<read_data>		type_id{this};
-
 		read_data(Type *p=0, const std::string &name="read_data") : Action(p, name) { }
 
 		Input<data_s>			psi_field(in_data);
 		Lock<processor_s>		psi_field(proc);
-	} read_dataT {this};
+	};
+	TypeDecl<read_data>		read_dataT {this};
 
-} rw_compT;
+};
+TypeDecl<rw_comp>	rw_compT;
 
 class top_comp : public Component {
 public:
-	TypeRgy<top_comp>		type_id{this};
-
 	top_comp(Type *p=0, psi_name name="top_comp") : Component(p, name) { }
 
 	class my_test2 : public Action {
 	public:
-		TypeRgy<my_test2>		type_id{this};
-
 		my_test2(Type *p=0, psi_name name="my_test2") : Action(p, name) { }
 
 		// Action instance needs to know the details of its type. This is
@@ -85,14 +76,14 @@ public:
 
 		Constraint addr_c {this, rd1.in_data.address != rd2.in_data.address };
 
-	} my_test2T {this}; // Complete registration of this type
+	};
+	TypeDecl<my_test2>	my_test2T {this}; // Complete registration of this type
 
-} top_compT;
+};
+TypeDecl<top_comp>		top_compT;
 
 class c_methods : public Package {
 public:
-	TypeRgy<c_methods>		type_id{this};
-
 	c_methods(Type *p=0, psi_name name="c_methods") : Package(p, name) { }
 
 	// Prototypes for import functions
@@ -104,18 +95,16 @@ public:
 		(Bit<31,0>("addr"), Bit<31,0>("data"))
 	};
 
-} c_methodsT;
+};
+TypeDecl<c_methods>		c_methodsT;
 
 class c_code : public Package {
 public:
-	TypeRgy<c_code>		type_id{this};
-
 	c_code(Type *p=0, psi_name name="c_code") : Package(p, name) { }
 
 	// Declares an extension of 'write_data' to layer in the implementation
 	class write_data_ext : public ExtendAction<rw_comp::write_data> {
 	public:
-
 		write_data_ext(Type *p=0) : ExtendAction(p) { }
 
 		// Example of a target-template exec block
@@ -139,5 +128,6 @@ public:
 		};
 	} read_data_extT {this};
 
-} c_codeT;
+};
+TypeDecl<c_code>		c_codeT;
 

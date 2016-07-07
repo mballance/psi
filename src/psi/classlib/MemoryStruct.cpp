@@ -24,7 +24,7 @@
 
 #include "classlib/MemoryStruct.h"
 
-#include "classlib/TypeRegistry.h"
+#include "classlib/Model.h"
 
 namespace psi {
 
@@ -32,7 +32,7 @@ MemoryStruct::MemoryStruct(
 		Type 					*p,
 		const std::string 		&name,
 		Struct					*super_type) :
-		Struct(Struct::Memory, (p)?p:TypeRegistry::global(), name, super_type) {
+		Struct(Struct::Memory, (p)?p:Model::global(), name, super_type) {
 }
 
 MemoryStruct::~MemoryStruct() {

@@ -25,7 +25,7 @@
 #include "classlib/Action.h"
 
 #include <stdio.h>
-#include "classlib/TypeRegistry.h"
+#include "classlib/Model.h"
 
 namespace psi {
 

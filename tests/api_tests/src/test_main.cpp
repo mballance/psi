@@ -22,8 +22,8 @@ void build_model(IModel *) __attribute__((weak));
 void build_model(IModel *model) {
 	Elaborator elab;
 
-	Type *global = TypeRegistry::global();
-	elab.elaborate(TypeRegistry::global(), model);
+	Type *global = Model::global();
+	elab.elaborate(Model::global(), model);
 }
 
 int main(int argc, char **argv) {

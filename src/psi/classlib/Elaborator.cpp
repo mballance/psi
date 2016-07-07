@@ -665,7 +665,7 @@ IBaseItem *Elaborator::find_type_decl(Type *t) {
 
 		if (s) {
 			s = find_named_scope(s->getItems(), ti->getName());
-		} else if (ti->getObjectType() != Type::TypeRegistry) { // Skip global-scope references
+		} else if (ti->getObjectType() != Type::Model) { // Skip global-scope references
 			// global search
 			// First, do a global lookup for package and component items
 			s = find_named_scope(m_model->getItems(), ti->getName());
@@ -677,7 +677,7 @@ IBaseItem *Elaborator::find_type_decl(Type *t) {
 			}
 		}
 
-		if (!s && ti->getObjectType() != Type::TypeRegistry) {
+		if (!s && ti->getObjectType() != Type::Model) {
 			error(std::string("Failed to find type ") + ti->getName());
 			break;
 		}

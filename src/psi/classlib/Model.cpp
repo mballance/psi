@@ -1,5 +1,5 @@
 /*
- * TypeRegistry.cpp
+ * Model.cpp
  *
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -24,26 +24,26 @@
  *      Author: ballance
  */
 
-#include "classlib/TypeRegistry.h"
+#include "classlib/Model.h"
 
 #include <stdio.h>
 
 namespace psi {
 
-TypeRegistry::TypeRegistry() : Type(Type::TypeRegistry, 0) {
+Model::Model() : Type(Type::Model, 0) {
 }
 
-TypeRegistry::~TypeRegistry() {
+Model::~Model() {
 	// TODO Auto-generated destructor stub
 }
 
-TypeRegistry *TypeRegistry::global() {
+Model *Model::global() {
 	if (!m_global) {
-		m_global = new TypeRegistry();
+		m_global = new Model();
 	}
 	return m_global;
 }
 
-TypeRegistry *TypeRegistry::m_global = 0;
+Model *Model::m_global = 0;
 
 } /* namespace psi */

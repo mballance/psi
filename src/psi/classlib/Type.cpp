@@ -88,7 +88,7 @@ const char *Type::toString(ObjectType t) {
 		case TypePackage: return "TypePackage";
 		case TypeString: return "TypeString";
 		case TypeStruct: return "TypeStruct";
-		case TypeRegistry: return "TypeRegistry";
+		case Model: return "Model";
 		case TypeRef: return "TypeRef";
 	}
 

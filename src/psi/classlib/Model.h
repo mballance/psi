@@ -1,5 +1,5 @@
 /*
- * TypeRegistry.h
+ * Model.h
  *
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -33,19 +33,19 @@
 namespace psi {
 
 class Package;
-class TypeRegistry : public Type {
+class Model : public Type {
 	friend class Package;
 
 	public:
-		TypeRegistry();
+		Model();
 
-		virtual ~TypeRegistry();
+		virtual ~Model();
 
-		static TypeRegistry *global();
+		static Model *global();
 
 	private:
 
-		static TypeRegistry			*m_global;
+		static Model			*m_global;
 
 };
 
