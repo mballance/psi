@@ -28,10 +28,14 @@
 #include "classlib/Scope.h"
 
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+// TODO: header file is GCC-specific
+#include <cxxabi.h>
 
 namespace psi {
 
-Model::Model() : BaseItem(BaseItem::Model, 0) {
+Model::Model() : BaseItem(BaseItem::Model, 0), m_active_scope(this) {
 }
 
 Model::~Model() {
@@ -47,6 +51,10 @@ Model *Model::global() {
 
 void Model::push_scope(const Scope *p) {
 	m_scope.push_back(p);
+
+	if (p->ctxt()) {
+		m_active_scope = p->ctxt();
+	}
 }
 
 void Model::pop_scope() {
@@ -56,6 +64,96 @@ void Model::pop_scope() {
 
 const std::vector<const Scope *> &Model::get_scope() const {
 	return m_scope;
+}
+
+std::string Model::getActiveTypeName(BaseItem *it) {
+	const Scope *scope = 0;
+	for (int i=m_scope.size()-1; i>=0; i--) {
+		if (m_scope.at(i)->ctxt() == it) {
+			scope = m_scope.at(i);
+		} else {
+			break;
+		}
+	}
+
+	if (scope) {
+		return Model::demangle(scope);
+	}
+
+	return "global";
+}
+
+BaseItem *Model::getActiveScope() {
+	fprintf(stdout, "Model::getActiveScope scope=%d\n",
+			(m_active_scope)?m_active_scope->getObjectType():-1);
+	if (m_scope.size() == 0) {
+		return this;
+	} else if (m_scope.at(m_scope.size()-1)->ctxt()) {
+		return m_active_scope;
+	} else {
+		// Currently in a blacked-out region
+		return 0;
+	}
+//	fprintf(stdout, "Model::getActiveScope size=%d\n", m_scope.size());
+//
+//	for (int i=m_scope.size()-1; i>=0; i--) {
+//		fprintf(stdout, "  %d %p it=%p\n", i, m_scope.at(i)->ctxt(), it);
+//		if (m_scope.at(i)->ctxt() && m_scope.at(i)->ctxt() != it) {
+//			fprintf(stdout, "Returning %d\n", m_scope.at(i)->ctxt()->getObjectType());
+//			return m_scope.at(i)->ctxt();
+//		}
+//	}
+//
+//	return 0;
+}
+
+std::string Model::demangle(const Scope *s) {
+	std::vector<std::string> name;
+	const std::type_info *info = s->get_typeinfo();
+
+    char *n = abi::__cxa_demangle(info->name(), 0, 0, 0);
+
+    fprintf(stdout, "--> n=%s\n", n);
+
+    char *r = n;
+    int nl = strlen(n);
+
+    // Forget about pointer
+    char *tp = &n[nl-1];
+    if (n[nl-1] == '*') {
+            n[nl-1] = 0;
+            tp--;
+    }
+
+    // Accumulate name elements, while killing template specializations
+    int bk=0;
+    while (tp > n) {
+            if (*tp == '>') {
+                    bk++;
+            } else if (*tp == '<') {
+                    bk--;
+                    if (bk == 0) {
+                            *tp = 0;
+                    }
+            } else if (*tp == ':' && bk == 0) {
+                    name.insert(name.begin(), tp+1);
+
+                    if (tp > 0) {
+                            tp--;
+                            if (*tp == ':') {
+                                    *tp = 0;
+                            }
+                    }
+                    break;
+            }
+            tp--;
+    }
+
+    name.insert(name.begin(), n);
+
+    free(n);
+
+    return name.at(name.size()-1);
 }
 
 Model *Model::m_global = 0;

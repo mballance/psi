@@ -43,36 +43,27 @@ class BaseItem {
 
 public:
 	enum ObjectType {
-		TypeAction,
+		TypeAction,    // 0
 		TypeBind,
 		TypeBit,
 		TypeBool,
 		TypeChandle,
-		TypeComponent,
+		TypeComponent, // 5
 		TypeConstraint,
 		TypeImport,
 		TypeInt,
 		TypeExec,
-		TypeExportAction,
+		TypeExportAction, // 10
 		TypeExtendAction,
 		TypeExtendComponent,
 		TypeExtendStruct,
+		TypeField,
 		TypeGraph,
 		TypePackage,
 		TypeString,
-		TypeStruct,
-		Model,
+		TypeStruct, // 18
+		Model, // 19
 		TypeRef
-	};
-
-	enum FieldAttr {
-		AttrNone = 0,
-		AttrInput,
-		AttrOutput,
-		AttrLock,
-		AttrShare,
-		AttrRand,
-		AttrPool
 	};
 
 	public:
@@ -84,16 +75,6 @@ public:
 		inline BaseItem::ObjectType getObjectType() const {
 			return m_type;
 		}
-
-		inline const std::string &getName() const { return m_name; }
-
-		FieldAttr getAttr() const { return m_attr; }
-
-		void setAttr(FieldAttr attr) { m_attr = attr; }
-
-		inline void setTypeData(BaseItem *t) { m_type_data = t; }
-
-		inline BaseItem *getTypeData() const { return m_type_data; }
 
 		BaseItem *operator ()()  { return this; }
 
@@ -120,25 +101,15 @@ public:
 
 		BaseItem(BaseItem::ObjectType t, BaseItem *p);
 
-		BaseItem(BaseItem::ObjectType t, BaseItem *p, const std::string &name);
-
-
 	private:
 
 		bool insideInstance();
 
 	private:
 		ObjectType					m_type;
-		std::string					m_name;
-		BaseItem						*m_parent;
+		BaseItem					*m_parent;
 
-
-		std::vector<BaseItem *>			m_children;
-
-		// Handle to the declaring type for fields
-		BaseItem						*m_type_data;
-
-		FieldAttr					m_attr;
+		std::vector<BaseItem *>		m_children;
 
 };
 

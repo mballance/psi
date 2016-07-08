@@ -23,14 +23,13 @@
  */
 
 #include "classlib/MemoryStruct.h"
-
 #include "classlib/Model.h"
+#include "classlib/Scope.h"
 
 namespace psi {
 
-MemoryStruct::MemoryStruct(
-		const Scope			&p,
-		const std::string 		&name) : Struct(Struct::Memory, p, name) {
+MemoryStruct::MemoryStruct(const Scope &p) : Struct(Struct::Memory, p.parent()) {
+
 }
 
 MemoryStruct::~MemoryStruct() {

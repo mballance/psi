@@ -29,29 +29,21 @@
 
 namespace psi {
 
-Action::Action(
-		const Scope		&p,
-		const std::string	&name) : BaseItem(BaseItem::TypeAction, p.parent(), name) {
+Action::Action(const Scope	&p) : NamedBaseItem(BaseItem::TypeAction, p.parent()) {
 	m_super_type = 0;
+
+	setName(Model::global()->getActiveTypeName(this));
 
 	const std::vector<const Scope *> &scope = Model::global()->get_scope();
 
-	fprintf(stdout, "--> scope %s\n", name.c_str());
-	for (int i=scope.size()-2; i>=0; i--) {
-		if (scope.at(i)->ctxt() != this) {
-			break;
-		}
-		fprintf(stdout, "  extends from %s\n", scope.at(i)->name());
-	}
-	fprintf(stdout, "<-- scope %s\n", name.c_str());
-}
-
-Action::Action(
-		BaseItem 				*p,
-		const std::string 	&name,
-		Action				*super_type) : BaseItem(BaseItem::TypeAction, p, name),
-				m_super_type(super_type) {
-
+//	fprintf(stdout, "--> scope %s\n", name.c_str());
+//	for (int i=scope.size()-2; i>=0; i--) {
+//		if (scope.at(i)->ctxt() != this) {
+//			break;
+//		}
+//		fprintf(stdout, "  extends from %s\n", scope.at(i)->name());
+//	}
+//	fprintf(stdout, "<-- scope %s\n", name.c_str());
 }
 
 Action::~Action() {

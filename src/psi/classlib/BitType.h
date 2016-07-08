@@ -36,8 +36,12 @@ class BitType : public BaseItem {
 
 	public:
 		BitType(
-				BaseItem 				*p,
-				const std::string 	&name,
+				BaseItem 			*p,
+				uint32_t			msb,
+				uint32_t			lsb);
+
+		BitType(
+				const std::string	&name,
 				uint32_t			msb,
 				uint32_t			lsb);
 

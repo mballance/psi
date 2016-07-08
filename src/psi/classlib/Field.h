@@ -29,18 +29,28 @@
 
 #include "classlib/BaseItem.h"
 #include "classlib/TypeDecl.h"
+#include "classlib/FieldItem.h"
 
 namespace psi {
 
-template <class T> class Field : public T {
+template <class T> class Field : public FieldItem, public T {
 	public:
 
-		Field(BaseItem *p, const std::string &name) : T(p, name) {
-			BaseItem *t = static_cast<BaseItem *>(this);
+		Field(BaseItem *p, const std::string &name) : FieldItem(p, name), T(p) {
+			// Both FieldItem and T extend from BaseItem.
+			// Ensure we don't get confused...
+			FieldItem *f = static_cast<FieldItem *>(this);
+			T *t = static_cast<T *>(this);
+
+			// Get the 'authoratative' type declaration from
+			// TypeDecl<> in the case of a user-defined type. Otherwise,
+			// just set the type handle
 			if (t->getObjectType() == BaseItem::TypeAction ||
 					t->getObjectType() == BaseItem::TypeStruct ||
 					t->getObjectType() == BaseItem::TypeComponent) {
-				t->setTypeData(TypeDecl<T>::type_id());
+				f->setDataType(TypeDecl<T>::type_id());
+			} else {
+				f->setDataType(t);
 			}
 		}
 };

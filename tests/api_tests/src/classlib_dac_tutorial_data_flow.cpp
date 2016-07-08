@@ -10,18 +10,18 @@
 class S : public Struct {
 public:
 
-	S(const Scope &p, psi_name &name="S") : Struct(p, name) { }
+	S(const Scope &p) : Struct(this) { }
 
 };
 psi_global_type(S);
 
 class CA : public Component {
 public:
-	CA(BaseItem *p=0, psi_name name="CA") : Component(p, name) { }
+	CA(const Scope &p) : Component(this) { }
 
 	class A : public Action {
 	public:
-		A(const Scope &p, psi_name name="A") : Action(p, name) { }
+		A(const Scope &p) : Action(this) { }
 
 		Output<S>			out_s {this, "out_s"};
 	};
@@ -32,11 +32,11 @@ psi_global_type(CA);
 
 class CB : public Component {
 public:
-	CB(BaseItem *p=0, psi_name name="CB") : Component(p, name) { }
+	CB(const Scope &p) : Component(this) { }
 
 	class B : public Action {
 	public:
-		B(const Scope &p=0, psi_name name) : Action(p, name) { }
+		B(const Scope &p) : Action(this) { }
 
 		Input<S>			in_s {this, "in_s"};
 	};
@@ -52,16 +52,16 @@ public:
 	Field<CB>			cb1 {this, "cb1"};
 	Field<CB>			cb2 {this, "cb2"};
 
-	static_structure(BaseItem *p=0, psi_name name="static_structure")
-		: Component(p, name) { }
+	static_structure(const Scope &p) : Component(this) { }
 
+	// TODO:
 	Bind b2 { this,
 			ca1._A_t.out_s, ca2._A_t.out_s,
 			cb1._B_t.in_s, cb2._B_t.in_s };
 
 	class entry_point : public Action {
 	public:
-		entry_point(const Scope &p=0, psi_name name) : Action(p, name) { }
+		entry_point(const Scope &p) : Action(this) { }
 
 	};
 	psi_type(entry_point);

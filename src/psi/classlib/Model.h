@@ -51,8 +51,15 @@ class Model : public BaseItem {
 
 		const std::vector<const Scope *> &get_scope() const;
 
+		std::string getActiveTypeName(BaseItem *it);
+
+		BaseItem *getActiveScope();
+
+		static std::string demangle(const Scope *s);
+
 	private:
 		std::vector<const Scope *>		m_scope;
+		BaseItem						*m_active_scope;
 
 		static Model			*m_global;
 

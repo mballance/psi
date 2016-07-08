@@ -34,8 +34,12 @@ class IntType : public BaseItem {
 
 	public:
 		IntType(
-				BaseItem 				*p,
-				const std::string 	&name,
+				BaseItem 			*p,
+				uint32_t			msb,
+				uint32_t			lsb);
+
+		IntType(
+				const std::string	&name,
 				uint32_t			msb,
 				uint32_t			lsb);
 

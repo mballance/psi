@@ -40,6 +40,7 @@
 #include "classlib/Component.h"
 #include "classlib/Constraint.h"
 #include "classlib/Graph.h"
+#include "classlib/FieldItem.h"
 #include "classlib/Package.h"
 #include "classlib/BaseItem.h"
 #include "classlib/Struct.h"
@@ -92,7 +93,7 @@ private:
 
 	void set_expr_ctxt(IBaseItem *model_ctxt, BaseItem *class_ctxt);
 
-	static IField::FieldAttr getAttr(BaseItem *t);
+	static IField::FieldAttr getAttr(FieldItem *t);
 
 	IBaseItem *find_type_decl(BaseItem *t);
 
@@ -112,11 +113,13 @@ private:
 	static IScopeItem *toScopeItem(IBaseItem *it);
 	static INamedItem *toNamedItem(IBaseItem *it);
 
+	static NamedBaseItem *toNamedItem(BaseItem *it);
+
 	void error(const std::string &msg);
 
 private:
 	IBaseItem				*m_model_expr_ctxt;
-	BaseItem					*m_class_expr_ctxt;
+	BaseItem				*m_class_expr_ctxt;
 	IModel					*m_model;
 
 

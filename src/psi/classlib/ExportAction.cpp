@@ -27,9 +27,9 @@
 namespace psi {
 
 ExportAction::ExportAction(
-		BaseItem				*p,
+		BaseItem			*p,
 		Action				*t_ref) : BaseItem(BaseItem::TypeExportAction, p) {
-	setTypeData(t_ref);
+//	setTypeData(t_ref);
 }
 
 ExportAction::ExportAction(
@@ -37,7 +37,7 @@ ExportAction::ExportAction(
 		Action				*t_ref,
 		const ExprList		&exp_params) :
 	BaseItem(BaseItem::TypeExportAction, p), m_exp_params(exp_params) {
-	setTypeData(t_ref);
+//	setTypeData(t_ref);
 }
 
 ExportAction::~ExportAction() {

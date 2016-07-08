@@ -24,18 +24,17 @@
 
 #ifndef SRC_CLASSLIB_SHARE_H_
 #define SRC_CLASSLIB_SHARE_H_
-#include "classlib/BaseItem.h"
-#include "classlib/TypeRgy.h"
+#include "classlib/FieldItem.h"
+#include "classlib/TypeDecl.h"
 
 namespace psi {
 
-template <class T> class Share : public T {
+template <class T> class Share : public FieldItem, public T {
 	public:
 
-		Share(BaseItem *p, const std::string &name) : T(p, name) {
-			BaseItem *t = static_cast<BaseItem *>(this);
-			t->setAttr(BaseItem::AttrShare);
-			t->setTypeData(TypeRgy<T>::type_id());
+		Share(BaseItem *p, const std::string &name) : FieldItem(p, name), T(p) {
+			setAttr(FieldItem::AttrShare);
+			setDataType(TypeDecl<T>::id());
 		}
 
 		virtual ~Share();

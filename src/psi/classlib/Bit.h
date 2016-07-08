@@ -25,6 +25,7 @@
 #ifndef SRC_BIT_H_
 #define SRC_BIT_H_
 #include "classlib/BitType.h"
+#include "classlib/Scope.h"
 #include "classlib/Types.h"
 
 namespace psi {
@@ -32,9 +33,9 @@ namespace psi {
 template <uint32_t MSB=0, uint32_t LSB=0> class Bit : public BitType {
 
 	public:
-		Bit(BaseItem *p, const std::string &name) : BitType(p, name, MSB, LSB) { }
+		Bit(const Scope &p) : BitType(p.parent(), MSB, LSB) { }
 
-		Bit(const std::string &name) : BitType(0, name, MSB, LSB) { }
+		Bit(const std::string &name) : BitType(name, MSB, LSB) { }
 
 		virtual ~Bit() { }
 };

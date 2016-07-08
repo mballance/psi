@@ -32,12 +32,9 @@ class Chandle : public BaseItem {
 
 	public:
 
-		Chandle(
-				BaseItem				*p,
-				const std::string 	&name);
+		Chandle(BaseItem *p);
 
-		Chandle(
-				const std::string 	&name);
+		Chandle(const std::string 	&name);
 
 		virtual ~Chandle();
 

@@ -25,17 +25,16 @@
 #ifndef SRC_CLASSLIB_EXTENDACTION_H_
 #define SRC_CLASSLIB_EXTENDACTION_H_
 #include "classlib/BaseItem.h"
+#include "classlib/ExtendItem.h"
 #include "classlib/TypeDecl.h"
 
 namespace psi {
 
-template <class T> class ExtendAction : public T {
+template <class T> class ExtendAction : public ExtendItem, public T {
 
 	public:
-		ExtendAction(BaseItem *p) : T(p) {
-			BaseItem *t = static_cast<BaseItem *>(this);
-			t->setTypeData(TypeDecl<T>::type_id());
-			t->setObjectType(BaseItem::TypeExtendAction);
+		ExtendAction(const Scope &p) : ExtendItem(this, BaseItem::TypeExtendAction), T(this) {
+			setDataType(TypeDecl<T>::type_id());
 		}
 
 		virtual ~ExtendAction() { }

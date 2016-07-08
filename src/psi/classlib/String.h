@@ -33,7 +33,7 @@ class String : public BaseItem {
 
 	public:
 
-		String(BaseItem *p, const std::string &name);
+		String(BaseItem *p);
 
 		String(const std::string &name);
 

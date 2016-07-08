@@ -10,9 +10,9 @@
 
 namespace psi {
 
-Scope::Scope(int v) {
+Scope::Scope(ScopeType t) : m_scope_type(t) {
 	m_type = &typeid(this);
-	m_ctxt = Model::global();
+	m_ctxt = 0;
 	enter();
 }
 
@@ -38,14 +38,26 @@ const char *Scope::name() const {
 }
 
 void Scope::enter() {
-	if (!m_ctxt) {
-		m_ctxt = Model::global();
-	}
-	Model::global()->push_scope(this);
+//	if (!m_ctxt) {
+//		m_ctxt = Model::global();
+//	}
+//	if (m_ctxt) {
+		fprintf(stdout, "--> enter %s %d\n",
+				(m_scope_type == ScopeType_FieldDecl)?"FieldDecl":
+						(m_scope_type == ScopeType_TypeDecl)?"TypeDecl":"UNKNOWN",
+				(m_ctxt)?m_ctxt->getObjectType():-1);
+		Model::global()->push_scope(this);
+//	}
 }
 
 void Scope::leave() {
-	Model::global()->pop_scope();
+//	if (m_ctxt) {
+		fprintf(stdout, "<-- leave %s %d\n",
+				(m_scope_type == ScopeType_FieldDecl)?"FieldDecl":
+						(m_scope_type == ScopeType_TypeDecl)?"TypeDecl":"UNKNOWN",
+				(m_ctxt)?m_ctxt->getObjectType():-1);
+		Model::global()->pop_scope();
+//	}
 }
 
 } /* namespace psi */

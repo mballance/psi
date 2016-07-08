@@ -27,18 +27,18 @@
 #include <string>
 #include <stdio.h>
 
-#include "classlib/BaseItem.h"
+#include "classlib/FieldItem.h"
+#include "classlib/TypeDecl.h"
 
 namespace psi {
 
 // TODO: may need an OutputBase class to enable binding
-template <class T> class Output : public T {
+template <class T> class Output : public FieldItem, public T {
 
 	public:
-		Output(const Scope &p, const std::string &name) : T(p, name) {
-			BaseItem *t = static_cast<BaseItem *>(this);
-			t->setAttr(BaseItem::AttrOutput);
-			t->setTypeData(TypeDecl<T>::type_id());
+		Output(BaseItem *p, const std::string &name) : FieldItem(p, name), T(Scope::ScopeType_FieldDecl) {
+			setAttr(FieldItem::AttrOutput);
+			setDataType(TypeDecl<T>::type_id());
 		}
 
 		virtual ~Output() { }

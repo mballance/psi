@@ -27,18 +27,16 @@
 #define STRUCT_H_
 #include <string>
 
-#include "classlib/BaseItem.h"
+#include "classlib/NamedBaseItem.h"
 
 namespace psi {
 
-template <class T> class TypeRgy;
 class ResourceStruct;
 class StateStruct;
 class MemoryStruct;
 class StreamStruct;
 class Scope;
-class Struct : public BaseItem {
-	friend TypeRgy<Struct>;
+class Struct : public NamedBaseItem {
 	friend ResourceStruct;
 	friend StateStruct;
 	friend MemoryStruct;
@@ -83,18 +81,13 @@ public:
 
 
 
-		Struct(
-				const Scope		&p,
-				const std::string 	&name);
+		Struct(const Scope &p);
 
 	private:
 
 		Struct(
 				StructType			t,
-				const Scope		&p,
-				const std::string 	&name);
-
-		Struct(BaseItem *p=0);
+				BaseItem			*p);
 
 	private:
 		StructType						m_structType;

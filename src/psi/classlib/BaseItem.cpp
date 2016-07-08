@@ -24,6 +24,8 @@
  */
 
 #include "classlib/BaseItem.h"
+#include "classlib/NamedBaseItem.h"
+#include "classlib/Model.h"
 
 #include <stdio.h>
 #include "classlib/ExprCore.h"
@@ -31,23 +33,26 @@
 namespace psi {
 
 BaseItem::BaseItem(BaseItem::ObjectType t, BaseItem *p) :
-		m_type(t), m_name(""), m_parent(p),
-		m_type_data(0), m_attr(AttrNone) {
+		m_type(t), m_parent(p) {
+//	if (t != Model) {
+//		BaseItem *scope = Model::global()->getActiveScope();
+//		fprintf(stdout, "    p=%p scope=%p %d\n", p, scope,
+//				(scope)?scope->getObjectType():-1);
+//	}
+
 	if (p) {
 		p->add(this);
 	}
-}
-
-BaseItem::BaseItem(BaseItem::ObjectType t, BaseItem *p, const std::string &name) :
-		m_type(t), m_name(name), m_parent(p),
-		m_type_data(0), m_attr(AttrNone) {
-
-	if (p) {
-		fprintf(stdout, "%s: Adding to scope\n", m_name.c_str());
-		p->add(this);
-	} else {
-		fprintf(stdout, "%s: Scope is NULL\n", m_name.c_str());
-	}
+//	} else if (t == BaseItem::TypeField) {
+//		// Add to the last active scope
+//		BaseItem *scope = Model::global()->getActiveScope();
+//
+//		fprintf(stdout, "-- Add Field\n");
+//
+//		if (scope) {
+//			scope->add(this);
+//		}
+//	}
 }
 
 BaseItem::~BaseItem() {
@@ -63,6 +68,14 @@ ExprListBuilder BaseItem::operator,(const BaseItem &rhs) {
 }
 
 void BaseItem::add(BaseItem *item) {
+	NamedBaseItem *ni_t = NamedBaseItem::to(this);
+	NamedBaseItem *ni_it = NamedBaseItem::to(item);
+
+	fprintf(stdout, "add %d (%s) -> %d (%s)\n",
+			item->getObjectType(),
+			(ni_it)?ni_it->getName().c_str():"NULL",
+			getObjectType(),
+			(ni_t)?ni_t->getName().c_str():"NULL");
 	m_children.push_back(item);
 }
 

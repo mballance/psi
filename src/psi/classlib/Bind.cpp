@@ -9,27 +9,27 @@
 
 namespace psi {
 
-Bind::Bind(BaseItem *p, BaseItem &i1, BaseItem &i2) : BaseItem(TypeBind, p) {
+Bind::Bind(BaseItem *p, FieldItem &i1, FieldItem &i2) : BaseItem(TypeBind, p) {
 	m_items.push_back(&i1);
 	m_items.push_back(&i2);
 }
 
-Bind::Bind(BaseItem *p, BaseItem &i1, BaseItem &i2, BaseItem &i3) : BaseItem(TypeBind, p) {
+Bind::Bind(BaseItem *p, FieldItem &i1, FieldItem &i2, FieldItem &i3) : BaseItem(TypeBind, p) {
 	m_items.push_back(&i1);
 	m_items.push_back(&i2);
 	m_items.push_back(&i3);
 }
 
-Bind::Bind(BaseItem *p, BaseItem &i1, BaseItem &i2, BaseItem &i3,
-		BaseItem &i4) : BaseItem(TypeBind, p) {
+Bind::Bind(BaseItem *p, FieldItem &i1, FieldItem &i2, FieldItem &i3,
+		FieldItem &i4) : BaseItem(TypeBind, p) {
 	m_items.push_back(&i1);
 	m_items.push_back(&i2);
 	m_items.push_back(&i3);
 	m_items.push_back(&i4);
 }
 
-Bind::Bind(BaseItem *p, BaseItem &i1, BaseItem &i2, BaseItem &i3,
-		BaseItem &i4, BaseItem &i5) : BaseItem(TypeBind, p) {
+Bind::Bind(BaseItem *p, FieldItem &i1, FieldItem &i2, FieldItem &i3,
+		FieldItem &i4, FieldItem &i5) : BaseItem(TypeBind, p) {
 	m_items.push_back(&i1);
 	m_items.push_back(&i2);
 	m_items.push_back(&i3);
@@ -38,7 +38,7 @@ Bind::Bind(BaseItem *p, BaseItem &i1, BaseItem &i2, BaseItem &i3,
 }
 
 
-Bind::Bind(BaseItem *p, const std::vector<BaseItem *> &items) :
+Bind::Bind(BaseItem *p, const std::vector<FieldItem *> &items) :
 		BaseItem(TypeBind, p), m_items(items) {
 
 }

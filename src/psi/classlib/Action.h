@@ -26,22 +26,16 @@
 #define ACTION_H_
 #include <string>
 
-#include "classlib/BaseItem.h"
+#include "classlib/NamedBaseItem.h"
 #include "classlib/Scope.h"
 
 namespace psi {
 
-class Action : public BaseItem {
+class Action : public NamedBaseItem {
 
 	public:
 
-		Action(const Scope &p, const std::string &name);
-
-		// Unused
-		Action(
-				BaseItem 						*p,
-				const std::string 			&name,
-				Action						*super_type);
+		Action(const Scope &p);
 
 		virtual ~Action();
 

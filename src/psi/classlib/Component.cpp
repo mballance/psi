@@ -28,10 +28,9 @@
 
 namespace psi {
 
-Component::Component(BaseItem *p, const std::string &name, Component *super) :
-		BaseItem(BaseItem::TypeComponent, (p)?p:Model::global(), name),
-		m_super(super) {
-
+Component::Component(const Scope &p) :
+		NamedBaseItem(BaseItem::TypeComponent, p.parent()) {
+	setName(Model::global()->getActiveTypeName(this));
 }
 
 Component::~Component() {

@@ -39,6 +39,7 @@ public:
 	virtual ~ExportAction();
 
 private:
+//	Action					*m_action;
 	ExprList				m_exp_params;
 };
 

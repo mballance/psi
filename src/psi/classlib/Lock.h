@@ -26,18 +26,17 @@
 #define LOCK_H_
 #include <string>
 
-#include "classlib/BaseItem.h"
+#include "classlib/FieldItem.h"
 #include "classlib/TypeDecl.h"
 
 namespace psi {
 
-template <class T> class Lock: public T {
+template <class T> class Lock: public FieldItem, public T {
 
 	public:
-		Lock(BaseItem *p, const std::string &name) : T(p, name) {
-			BaseItem *t = static_cast<BaseItem *>(this);
-			t->setTypeData(TypeDecl<T>::type_id());
-			t->setAttr(BaseItem::AttrLock);
+		Lock(BaseItem *p, const std::string &name) : FieldItem(p, name), T(p) {
+			setDataType(TypeDecl<T>::id());
+			setAttr(FieldItem::AttrLock);
 		}
 
 		virtual ~Lock() { }

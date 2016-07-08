@@ -33,9 +33,7 @@ namespace psi {
 class MemoryStruct: public Struct {
 
 	public:
-		MemoryStruct(
-				const Scope			&p,
-				const std::string 		&name);
+		MemoryStruct(const Scope &p);
 
 		virtual ~MemoryStruct();
 

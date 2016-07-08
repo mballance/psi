@@ -30,22 +30,14 @@
 
 namespace psi {
 
-template <class T> class TypeRgy;
-
 class StreamStruct : public Struct {
-	friend TypeRgy<StreamStruct>;
 
 	public:
 
-		StreamStruct(
-				const Scope 		&p,
-				const std::string 	&name);
+		StreamStruct(const Scope &p);
 
 		virtual ~StreamStruct();
 
-	private:
-
-		StreamStruct(const Scope &p);
 };
 
 } /* namespace psi */

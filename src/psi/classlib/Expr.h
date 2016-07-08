@@ -97,7 +97,7 @@ class Expr {
 
 		Expr(int32_t v);
 
-		Expr(const BaseItem &t);
+		Expr(const FieldItem &t);
 
 		Expr(const Expr &rhs);
 

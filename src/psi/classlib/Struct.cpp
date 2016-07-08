@@ -28,22 +28,13 @@
 
 namespace psi {
 
-Struct::Struct(BaseItem *p) : BaseItem(BaseItem::TypeStruct, p, ""),
-		m_structType(Struct::Base), m_super(0) { }
-
-Struct::Struct(
-		const Scope 		&p,
-		const std::string 	&name) :
-				BaseItem(BaseItem::TypeStruct, p.parent(), name),
+Struct::Struct(const Scope &p) : NamedBaseItem(BaseItem::TypeStruct, p.parent()),
 				m_structType(Struct::Base), m_super(0) {
-	// TODO: determine super-struct information
+	setName(Model::global()->getActiveTypeName(this));
 }
 
-Struct::Struct(
-		Struct::StructType	t,
-		const Scope		&p,
-		const std::string 	&name) :
-				BaseItem(BaseItem::TypeStruct, p.parent(), name),
+Struct::Struct(Struct::StructType t, BaseItem *p) :
+				NamedBaseItem(BaseItem::TypeStruct, p),
 				m_structType(t), m_super(0) {
 	// TODO: determine super-struct information
 //	m_super = super_type;

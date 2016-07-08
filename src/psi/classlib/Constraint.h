@@ -26,11 +26,11 @@
 #define CONSTRAINT_H_
 #include <string>
 
-#include "classlib/BaseItem.h"
+#include "classlib/NamedBaseItem.h"
 
 namespace psi {
 
-class Constraint : public BaseItem {
+class Constraint : public NamedBaseItem {
 public:
 	Constraint(BaseItem *p, const ExprList &stmt);
 

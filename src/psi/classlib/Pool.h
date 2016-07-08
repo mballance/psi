@@ -24,18 +24,17 @@
 
 #ifndef SRC_CLASSLIB_POOL_H_
 #define SRC_CLASSLIB_POOL_H_
-#include "classlib/BaseItem.h"
-#include "classlib/TypeRgy.h"
+#include "classlib/FieldItem.h"
+#include "classlib/TypeDecl.h"
 
 namespace psi {
 
-template <class T> class Pool : public T {
+template <class T> class Pool : public FieldItem, public T {
 
 	public:
-		Pool(BaseItem *p, const std::string &name) : T(p, name) {
-			BaseItem *t = static_cast<BaseItem *>(this);
-			t->setAttr(BaseItem::AttrPool);
-			t->setTypeData(TypeRgy<T>::type_id());
+		Pool(BaseItem *p, const std::string &name) : FieldItem(p, name), T(p) {
+			setAttr(FieldItem::AttrPool);
+			setDataType(TypeDecl<T>::id());
 		}
 
 		virtual ~Pool() { }

@@ -30,12 +30,12 @@
 namespace psi {
 
 Import::Import(BaseItem *p, const std::string &name, const ExprList &plist) :
-	BaseItem(BaseItem::TypeImport, p, name){
+	NamedBaseItem(BaseItem::TypeImport, p, name){
 }
 
 Import::Import(BaseItem *p, const std::string &name,
 		const BaseItem &ret, const ExprList &plist) :
-	BaseItem(BaseItem::TypeImport, p, name) { }
+	NamedBaseItem(BaseItem::TypeImport, p, name) { }
 
 Import::~Import() {
 	// TODO Auto-generated destructor stub

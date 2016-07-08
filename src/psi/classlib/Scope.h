@@ -17,7 +17,16 @@ namespace psi {
 class BaseItem;
 class Scope {
 public:
+	enum ScopeType {
+		ScopeType_TypeDecl,        // class S : public Struct
+		ScopeType_FieldDecl,       // Field<S>
+		ScopeType_TypeRegistration // TypeDecl<S>
+	};
+
+public:
 	template <class T> Scope(T *p) {
+		m_scope_type = ScopeType_TypeDecl;
+
 		// Save the type of the super-class
 		m_type = &typeid(T);
 
@@ -27,16 +36,19 @@ public:
 		enter();
 	}
 
-	// TODO: Should be able to remove this when conversion to Scope & is complete
-	Scope(int v); //
+	Scope(ScopeType t); //
+
+	virtual ~Scope();
 
 	BaseItem *parent() const;
 
 	BaseItem *ctxt() const { return m_ctxt; }
 
-	const char *name() const;
+	const std::type_info *get_typeinfo() const { return m_type; }
 
-	virtual ~Scope();
+	ScopeType getType() const { return m_scope_type; }
+
+	const char *name() const;
 
 private:
 	void enter();
@@ -44,7 +56,8 @@ private:
 	void leave();
 
 private:
-	BaseItem					*m_ctxt;
+	ScopeType				m_scope_type;
+	BaseItem				*m_ctxt;
 	const std::type_info	*m_type;
 };
 

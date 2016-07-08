@@ -27,12 +27,12 @@
 #include <string>
 
 #include "classlib/Expr.h"
-#include "classlib/BaseItem.h"
+#include "classlib/NamedBaseItem.h"
 #include "classlib/ExprImportCall.h"
 
 namespace psi {
 
-class Import : public BaseItem {
+class Import : public NamedBaseItem {
 
 	public:
 

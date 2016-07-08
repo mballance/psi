@@ -8,11 +8,11 @@
 
 class C : public Component {
 public:
-	C(BaseItem *p=0, psi_name name="C") : Component(p, name)  { }
+	C(const Scope &p) : Component(p)  { }
 
 	class A : public Action {
 	public:
-		A(const Scope &p=0, psi_name name="A") : Action(p, name) { }
+		A(const Scope &p) : Action(p) { }
 	};
 	TypeDecl<A> At {this};
 
@@ -25,16 +25,14 @@ public:
 	Field<C>		c1 {this, "c1"};
 	Field<C>		c2 {this, "c2"};
 
-	static_structure(
-			BaseItem				*p=0,
-			const std::string 	&name="static_structure") : Component(p, name) { }
+	static_structure(const Scope &p) : Component(p) { }
 
 	class entry : public Action {
 	public:
 		Field<C::A>				a1 {this, "a1"};
 		Field<C::A>				a2 {this, "a2"};
 
-		entry(BaseItem *p=0, psi_name name="entry") : Action(p, name) { }
+		entry(const Scope &p) : Action(p) { }
 
 		Graph g1 {this, {
 			Repeat {

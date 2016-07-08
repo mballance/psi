@@ -27,10 +27,10 @@
 namespace psi {
 
 Constraint::Constraint(BaseItem *p, const ExprList &stmt) :
-		BaseItem(BaseItem::TypeConstraint, p), m_stmt(stmt) { }
+		NamedBaseItem(BaseItem::TypeConstraint, p), m_stmt(stmt) { }
 
 Constraint::Constraint(BaseItem *p, const std::string &name, const ExprList &stmt) :
-		BaseItem(BaseItem::TypeConstraint, p, name), m_stmt(stmt) { }
+		NamedBaseItem(BaseItem::TypeConstraint, p, name), m_stmt(stmt) { }
 
 Constraint::~Constraint() {
 	// TODO Auto-generated destructor stub

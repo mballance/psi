@@ -27,6 +27,7 @@
 #include "api/IComponent.h"
 #include "classlib/ExprCoreList.h"
 #include "classlib/BitType.h"
+#include "classlib/Import.h"
 #include "classlib/IntType.h"
 #include "classlib/Bool.h"
 #include "classlib/Chandle.h"
@@ -131,7 +132,7 @@ IAction *Elaborator::elaborate_action(Action *c) {
 }
 
 IBind *Elaborator::elaborate_bind(Bind *b) {
-	const std::vector<BaseItem *> &items = b->getItems();
+	const std::vector<FieldItem *> &items = b->getItems();
 	std::vector<IBaseItem *> items_psi;
 
 	// TODO: must map BaseItem references to PSI references
@@ -437,42 +438,46 @@ IBaseItem *Elaborator::elaborate_struct_action_body_item(BaseItem *t) {
 
 	if (t->getObjectType() == BaseItem::TypeConstraint) {
 		ret = elaborate_constraint(static_cast<Constraint *>(t));
-	} else if (t->getObjectType() == BaseItem::TypeBit) {
-		// This is a bit-type field
-		BitType *bt = static_cast<BitType *>(t);
-		IScalarType *field_t = m_model->mkScalarType(
-				IScalarType::ScalarType_Bit, bt->getMsb(), bt->getLsb());
-		ret = m_model->mkField(bt->getName(), field_t, getAttr(bt));
-	} else if (t->getObjectType() == BaseItem::TypeInt) {
-		// This is an int-type field
-		IntType *it = static_cast<IntType *>(t);
-		IScalarType *field_t = m_model->mkScalarType(
-				IScalarType::ScalarType_Int, it->getMsb(), it->getLsb());
-		ret = m_model->mkField(it->getName(), field_t, getAttr(it));
-	} else if (t->getObjectType() == BaseItem::TypeBool) {
-		// Boolean field
-		Bool *it = static_cast<Bool *>(t);
+	} else if (t->getObjectType() == BaseItem::TypeField) {
+		FieldItem *f = static_cast<FieldItem *>(t);
+		BaseItem *dt = f->getDataType();
+		IField::FieldAttr attr = getAttr(f);
 
-		IScalarType *field_t = m_model->mkScalarType(
-				IScalarType::ScalarType_Bool, 0, 0);
-		ret = m_model->mkField(it->getName(), field_t, getAttr(it));
-	} else if (t->getObjectType() == BaseItem::TypeChandle) {
-		Chandle *it = static_cast<Chandle *>(t);
-		IScalarType *field_t = m_model->mkScalarType(
-				IScalarType::ScalarType_Chandle, 0, 0);
-		ret = m_model->mkField(it->getName(), field_t, getAttr(it));
-	} else if (t->getObjectType() == BaseItem::TypeAction) {
-		// This is an action-type field
-		Action *it = static_cast<Action *>(t);
-		IBaseItem *action_t = find_type_decl(t->getTypeData());
+		if (dt->getObjectType() == BaseItem::TypeBit) {
+			// This is a bit-type field
+			BitType *bt = static_cast<BitType *>(dt);
+			IScalarType *field_t = m_model->mkScalarType(
+					IScalarType::ScalarType_Bit, bt->getMsb(), bt->getLsb());
+			ret = m_model->mkField(f->getName(), field_t, attr);
+		} else if (dt->getObjectType() == BaseItem::TypeInt) {
+			// This is an int-type field
+			IntType *it = static_cast<IntType *>(dt);
+			IScalarType *field_t = m_model->mkScalarType(
+					IScalarType::ScalarType_Int, it->getMsb(), it->getLsb());
+			ret = m_model->mkField(f->getName(), field_t, attr);
+		} else if (dt->getObjectType() == BaseItem::TypeBool) {
+			// Boolean field
+			Bool *it = static_cast<Bool *>(dt);
 
-		ret = m_model->mkField(it->getName(), action_t, getAttr(it));
-	} else if (t->getObjectType() == BaseItem::TypeStruct) {
-		// This is an struct-type field
-		Struct *it = static_cast<Struct *>(t);
-		IBaseItem *struct_t = find_type_decl(t->getTypeData());
-
-		ret = m_model->mkField(it->getName(), struct_t, getAttr(it));
+			IScalarType *field_t = m_model->mkScalarType(
+					IScalarType::ScalarType_Bool, 0, 0);
+			ret = m_model->mkField(f->getName(), field_t, attr);
+		} else if (dt->getObjectType() == BaseItem::TypeChandle) {
+			Chandle *it = static_cast<Chandle *>(dt);
+			IScalarType *field_t = m_model->mkScalarType(
+					IScalarType::ScalarType_Chandle, 0, 0);
+			ret = m_model->mkField(f->getName(), field_t, attr);
+		} else if (dt->getObjectType() == BaseItem::TypeAction) {
+			// This is an action-type field
+			IBaseItem *action_t = find_type_decl(dt);
+			ret = m_model->mkField(f->getName(), action_t, attr);
+		} else if (dt->getObjectType() == BaseItem::TypeStruct) {
+			// This is an struct-type field
+			IBaseItem *struct_t = find_type_decl(dt);
+			ret = m_model->mkField(f->getName(), struct_t, attr);
+		} else {
+			// Error
+		}
 	} else if (t->getObjectType() == BaseItem::TypeExec) {
 		// TODO:
 	} else {
@@ -484,8 +489,8 @@ IBaseItem *Elaborator::elaborate_struct_action_body_item(BaseItem *t) {
 }
 
 IFieldRef *Elaborator::elaborate_field_ref(BaseItem *t) {
-	std::vector<BaseItem *>	  types;
-	std::vector<IField *> fields;
+	std::vector<NamedBaseItem *>	types;
+	std::vector<IField *> 			fields;
 
 	while (t) {
 		// Traverse up to the point where we find the
@@ -494,7 +499,11 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItem *t) {
 			// TODO: might need to do something different for extended types?
 			break;
 		} else {
-			types.push_back(t);
+			NamedBaseItem *ni = toNamedItem(t);
+
+			if (ni) {
+				types.push_back(ni);
+			}
 		}
 		t = t->getParent();
 	}
@@ -502,7 +511,7 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItem *t) {
 	IScopeItem *scope = toScopeItem(m_model_expr_ctxt);
 	if (scope) {
 		for (int32_t i=types.size()-1; i>=0; i--) {
-			BaseItem *t = types.at(i);
+			NamedBaseItem *t = types.at(i);
 			IBaseItem *t_it = 0;
 
 			for (std::vector<IBaseItem *>::const_iterator s_it=scope->getItems().begin();
@@ -540,9 +549,9 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItem *t) {
 			}
 		}
 	} else {
-		error(std::string("Current context (") +
-				m_class_expr_ctxt->getName().c_str() +
-				") is not a scope");
+		NamedBaseItem *scope = toNamedItem(m_class_expr_ctxt);
+		std::string name = (scope)?scope->getName():"UNKNOWN";
+		error(std::string("Current context (") + name + ") is not a scope");
 	}
 
 	return m_model->mkFieldRef(fields);
@@ -635,28 +644,28 @@ void Elaborator::set_expr_ctxt(IBaseItem *model_ctxt, BaseItem *class_ctxt) {
 	m_class_expr_ctxt = class_ctxt;
 }
 
-IField::FieldAttr Elaborator::getAttr(BaseItem *t) {
+IField::FieldAttr Elaborator::getAttr(FieldItem *t) {
 	IField::FieldAttr attr = IField::FieldAttr_None;
 
 	switch (t->getAttr()) {
-	case BaseItem::AttrInput: attr = IField::FieldAttr_Input; break;
-	case BaseItem::AttrOutput: attr = IField::FieldAttr_Output; break;
-	case BaseItem::AttrLock: attr = IField::FieldAttr_Lock; break;
-	case BaseItem::AttrShare: attr = IField::FieldAttr_Share; break;
-	case BaseItem::AttrRand: attr = IField::FieldAttr_Rand; break;
-	case BaseItem::AttrPool: attr = IField::FieldAttr_Pool; break;
+	case FieldItem::AttrInput: attr = IField::FieldAttr_Input; break;
+	case FieldItem::AttrOutput: attr = IField::FieldAttr_Output; break;
+	case FieldItem::AttrLock: attr = IField::FieldAttr_Lock; break;
+	case FieldItem::AttrShare: attr = IField::FieldAttr_Share; break;
+	case FieldItem::AttrRand: attr = IField::FieldAttr_Rand; break;
+	case FieldItem::AttrPool: attr = IField::FieldAttr_Pool; break;
 	}
 
 	return attr;
 }
 
 IBaseItem *Elaborator::find_type_decl(BaseItem *t) {
-	std::vector<BaseItem *> type_p;
+	std::vector<NamedBaseItem *> type_p;
 
-	BaseItem *ti = t;
+	NamedBaseItem *ti = toNamedItem(t);;
 	while (ti) {
 		type_p.push_back(ti);
-		ti = ti->getParent();
+		ti = toNamedItem(ti->getParent());
 	}
 
 	IScopeItem *s = 0;
@@ -734,9 +743,9 @@ bool Elaborator::should_filter(
 	bool ret = false;
 
 	BaseItem *item = items.at(i);
-	const std::string &name = items.at(i)->getName();
+	NamedBaseItem *ni = toNamedItem(item);
 
-	if (name == "" || type_h.size() == 1) {
+	if (!ni || ni->getName() == "" || type_h.size() == 1) {
 		// Always preserve unnamed items
 		return false;
 	}
@@ -748,9 +757,10 @@ bool Elaborator::should_filter(
 	for (std::vector<BaseItem *>::const_iterator it=p->getChildren().begin();
 			it != p->getChildren().end(); it++) {
 		BaseItem *t = *it;
+		NamedBaseItem *ni_t = toNamedItem(t);
 
 		if (t->getObjectType() == item->getObjectType() &&
-				t->getName() == item->getName()) {
+				ni && ni_t && ni->getName() == ni_t->getName()) {
 			parent_c++;
 		}
 	}
@@ -765,9 +775,10 @@ bool Elaborator::should_filter(
 
 		for (uint32_t ii=0; ii<items.size(); ii++) {
 			BaseItem *t = items.at(ii);
+			NamedBaseItem *ni_t = toNamedItem(t);
 
 			if (t->getObjectType() == item->getObjectType() &&
-					t->getName() == item->getName()) {
+					ni && ni_t && ni->getName() == ni_t->getName()) {
 				this_c++;
 				last_i = ii;
 			}
@@ -813,6 +824,11 @@ INamedItem *Elaborator::toNamedItem(IBaseItem *it) {
 	case IBaseItem::TypeComponent: return static_cast<IComponent *>(it);
 	}
 	return 0;
+}
+
+NamedBaseItem *Elaborator::toNamedItem(BaseItem *it) {
+	return NamedBaseItem::to(it);
+
 }
 
 void Elaborator::error(const std::string &msg) {

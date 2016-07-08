@@ -28,16 +28,19 @@
 #include <string>
 
 #include "classlib/BaseItem.h"
+#include "classlib/Scope.h"
 
 namespace psi {
 
 class Bool: public BaseItem {
 
 	public:
-		Bool(
-				BaseItem				*p,
-				const std::string 	&name);
+		Bool(const Scope &p);
 
+		/**
+		 * This constructor is used for composing parameter lists.
+		 * The name is that of the parameter
+		 */
 		Bool(const std::string &name);
 
 		virtual ~Bool();
@@ -56,6 +59,9 @@ class Bool: public BaseItem {
 		 * inline-exec callback.
 		 */
 		void set(bool v);
+
+	private:
+		std::string					m_name;
 
 };
 

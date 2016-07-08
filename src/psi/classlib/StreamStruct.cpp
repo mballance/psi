@@ -27,14 +27,11 @@
 
 namespace psi {
 
-StreamStruct::StreamStruct(
-		const Scope			&p,
-		const std::string 		&name) : Struct(Struct::Stream, p, name) { }
+StreamStruct::StreamStruct(const Scope &p) :
+		Struct(Struct::Stream, p.parent()) { }
 
 StreamStruct::~StreamStruct() {
 	// TODO Auto-generated destructor stub
 }
-
-StreamStruct::StreamStruct(const Scope &p) : Struct(Struct::Stream, p, "") { }
 
 } /* namespace psi */

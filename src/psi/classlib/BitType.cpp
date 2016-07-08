@@ -28,12 +28,17 @@
 namespace psi {
 
 BitType::BitType(
-		BaseItem					*p,
+		BaseItem				*p,
+		uint32_t				msb,
+		uint32_t				lsb) :
+	BaseItem(BaseItem::TypeBit, p), m_msb(msb), m_lsb(lsb) { }
+
+BitType::BitType(
 		const std::string		&name,
 		uint32_t				msb,
-		uint32_t				lsb) : BaseItem(BaseItem::TypeBit, p, name),
-				m_msb(msb), m_lsb(lsb) {
-
+		uint32_t				lsb) :
+	BaseItem(BaseItem::TypeBit, 0), m_msb(msb), m_lsb(lsb) {
+	fprintf(stdout, "Error: support BitType::BitType(name)\n");
 }
 
 BitType::~BitType() {
