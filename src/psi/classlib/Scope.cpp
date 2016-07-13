@@ -10,7 +10,7 @@
 
 namespace psi {
 
-Scope::Scope(ScopeType t) : m_scope_type(t) {
+Scope::Scope(bool in_field_decl) : m_in_field_decl(in_field_decl) {
 	m_type = &typeid(this);
 	m_ctxt = 0;
 	enter();
@@ -37,27 +37,29 @@ const char *Scope::name() const {
 	return m_type->name();
 }
 
+void Scope::init(const std::type_info *type, BaseItem *ctxt) {
+	m_type = type;
+	m_ctxt = ctxt;
+
+	// Propagate current state
+	m_in_field_decl = Model::global()->in_field_decl();
+//	fprintf(stdout, "Scope::init: %s m_ctxt=%p m_in_field_decl=%s\n",
+//			(m_type)?m_type->name():"NULL",
+//			m_ctxt, (m_in_field_decl)?"true":"false");
+}
+
 void Scope::enter() {
-//	if (!m_ctxt) {
-//		m_ctxt = Model::global();
-//	}
-//	if (m_ctxt) {
-		fprintf(stdout, "--> enter %s %d\n",
-				(m_scope_type == ScopeType_FieldDecl)?"FieldDecl":
-						(m_scope_type == ScopeType_TypeDecl)?"TypeDecl":"UNKNOWN",
-				(m_ctxt)?m_ctxt->getObjectType():-1);
+//		fprintf(stdout, "--> enter %s %s %d\n",
+//				(m_in_field_decl)?"FieldDecl":"TypeDecl", name(),
+//				(m_ctxt)?m_ctxt->getObjectType():-1);
 		Model::global()->push_scope(this);
-//	}
 }
 
 void Scope::leave() {
-//	if (m_ctxt) {
-		fprintf(stdout, "<-- leave %s %d\n",
-				(m_scope_type == ScopeType_FieldDecl)?"FieldDecl":
-						(m_scope_type == ScopeType_TypeDecl)?"TypeDecl":"UNKNOWN",
-				(m_ctxt)?m_ctxt->getObjectType():-1);
-		Model::global()->pop_scope();
-//	}
+//		fprintf(stdout, "<-- leave %s %s %d\n",
+//				(m_in_field_decl)?"FieldDecl":"TypeDecl", name(),
+//				(m_ctxt)?m_ctxt->getObjectType():-1);
+		Model::global()->pop_scope(this);
 }
 
 } /* namespace psi */

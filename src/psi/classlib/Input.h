@@ -31,15 +31,19 @@
 
 namespace psi {
 
-template <class T> class Input : public FieldItem, public T {
+template <class T> class Input : public T {
 
 	public:
-		Input(BaseItem *p, const std::string &name) : FieldItem(p, name), T(p) {
-			setAttr(FieldItem::AttrInput);
-			setDataType(TypeDecl<T>::type_id());
+		Input(BaseItem *p, const std::string &name) : T(Scope(true)), m_field(p, name) {
+			m_field.setAttr(FieldItem::AttrInput);
+			m_field.setDataType(TypeDecl<T>::type_id());
 		}
 
 		virtual ~Input() { }
+
+	private:
+
+		FieldItem					m_field;
 };
 
 } /* namespace psi */

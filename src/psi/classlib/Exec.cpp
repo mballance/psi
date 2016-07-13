@@ -23,13 +23,26 @@
  */
 
 #include "classlib/Exec.h"
+#include "classlib/ExtendItem.h"
 
 namespace psi {
 
 //Exec::Exec() : m_execType(Null) { }
 
 Exec::Exec(
-		BaseItem					*p,
+		BaseItem				*p,
+		ExecKind 				kind,
+		const std::string 		&language,
+		const std::string 		&content) :
+			BaseItem(BaseItem::TypeExec, p),
+			m_execType(TargetTemplate),
+			m_execKind(kind),
+			m_language(language),
+			m_content(content) {
+}
+
+Exec::Exec(
+		ExtendItem				*p,
 		ExecKind 				kind,
 		const std::string 		&language,
 		const std::string 		&content) :
@@ -42,6 +55,17 @@ Exec::Exec(
 
 Exec::Exec(
 		BaseItem					*p,
+		ExecKind 				kind,
+		const ExprList			&stmts) :
+			BaseItem(BaseItem::TypeExec, p),
+			m_execType(Native),
+			m_execKind(kind),
+			m_stmts(stmts) {
+	// TODO: save call information
+}
+
+Exec::Exec(
+		ExtendItem				*p,
 		ExecKind 				kind,
 		const ExprList			&stmts) :
 			BaseItem(BaseItem::TypeExec, p),

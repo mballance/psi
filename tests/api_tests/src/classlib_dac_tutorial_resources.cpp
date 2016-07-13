@@ -9,54 +9,52 @@
 
 class R : public ResourceStruct {
 public:
-	R(BaseItem *p=0, psi_name name="R") : ResourceStruct(p, name) { }
+	psi_ctor(R, ResourceStruct);
 
 };
-TypeDecl<R> Rt;
+psi_global_type(R);
 
 class C : public Component {
 public:
-	C(BaseItem *p=0, psi_name name="C") : Component(p, name) { }
+	psi_ctor(C, Component);
 
 	class A : public Action {
 	public:
-		A(BaseItem *p=0, psi_name name="A") : Action(p, name) { }
+		psi_ctor(A, Action);
 
-		Lock<R>			rc {this, "rc"};
+		Lock<R>			psi_field(rc);
 	};
-	TypeDecl<A> At {this};
-
+	psi_type(A);
 };
-TypeDecl<C> Ct;
+psi_global_type(C);
 
 class static_structure : public Component {
 public:
-	static_structure(BaseItem *p=0, psi_name name="static_structure")
-		: Component(p, name) { }
+	psi_ctor(static_structure, Component);
 
-	Field<C>			c1 {this, "c1"};
-	Field<C>			c2 {this, "c2"};
+	Field<C>			psi_field(c1);
+	Field<C>			psi_field(c2);
 
-	Pool<R>				rp {this, "rp"};
+	Pool<R>				psi_field(rp);
 
 	Bind b1 {this, rp, c1};
 	Bind b2 {this, rp, c2};
 
-	Bind b {this, {rp(), c1(), c2()}};
+	Bind b {this, rp, c1, c2};
 
 };
-TypeDecl<static_structure> static_structureT;
+psi_global_type(static_structure);
 
 class top : public Component {
 public:
-	top(psi_name name="top", BaseItem *p=0) : Component(p, name) { }
+	psi_ctor(top, Component);
 
 	class entry_point : public Action {
 	public:
-		entry_point(BaseItem *p=0, psi_name name="entry_point") : Action(p, name) { }
+		psi_ctor(entry_point, Action);
 
-		Field<C::A>			a1 {this, "a1"};
-		Field<C::A>			a2 {this, "a2"};
+		Field<C::A>			psi_field(a1);
+		Field<C::A>			psi_field(a2);
 
 		Graph graph {this,
 			Parallel {
@@ -64,10 +62,10 @@ public:
 			}
 		};
 	};
-	TypeDecl<entry_point> entry_pointT {this};
+	psi_type(entry_point);
 
 };
-TypeDecl<top> topT;
+psi_global_type(top);
 
 
 

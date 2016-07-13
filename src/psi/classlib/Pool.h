@@ -29,15 +29,19 @@
 
 namespace psi {
 
-template <class T> class Pool : public FieldItem, public T {
+template <class T> class Pool : public T {
 
 	public:
-		Pool(BaseItem *p, const std::string &name) : FieldItem(p, name), T(p) {
-			setAttr(FieldItem::AttrPool);
-			setDataType(TypeDecl<T>::id());
+		Pool(BaseItem *p, const std::string &name) : T(p), m_field(p, name) {
+			m_field.setAttr(FieldItem::AttrPool);
+			m_field.setDataType(TypeDecl<T>::id());
 		}
 
 		virtual ~Pool() { }
+
+	private:
+
+		FieldItem					m_field;
 };
 
 } /* namespace psi */

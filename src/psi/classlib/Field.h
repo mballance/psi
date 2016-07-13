@@ -33,13 +33,12 @@
 
 namespace psi {
 
-template <class T> class Field : public FieldItem, public T {
+template <class T> class Field : public T {
 	public:
 
-		Field(BaseItem *p, const std::string &name) : FieldItem(p, name), T(p) {
+		Field(BaseItem *p, const std::string &name) : T(Scope(true)), m_field(p, name) {
 			// Both FieldItem and T extend from BaseItem.
 			// Ensure we don't get confused...
-			FieldItem *f = static_cast<FieldItem *>(this);
 			T *t = static_cast<T *>(this);
 
 			// Get the 'authoratative' type declaration from
@@ -48,11 +47,21 @@ template <class T> class Field : public FieldItem, public T {
 			if (t->getObjectType() == BaseItem::TypeAction ||
 					t->getObjectType() == BaseItem::TypeStruct ||
 					t->getObjectType() == BaseItem::TypeComponent) {
-				f->setDataType(TypeDecl<T>::type_id());
+				m_field.setDataType(TypeDecl<T>::type_id());
 			} else {
-				f->setDataType(t);
+				m_field.setDataType(t);
 			}
 		}
+
+		/*
+		 * Provide an explicit conversion function to tell the
+		 * compiler how to interpret the fact that both we and T extend
+		 * from BaseItem
+		 */
+		operator Expr() const { return Expr(static_cast<const FieldItem &>(m_field)); }
+
+	private:
+		FieldItem						m_field;
 };
 
 }

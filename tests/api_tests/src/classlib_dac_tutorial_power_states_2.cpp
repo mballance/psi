@@ -9,12 +9,11 @@
 class power_state_s : public StateStruct {
 public:
 
-	power_state_s(BaseItem *p=0, psi_name name="power_state_s")
-		: StateStruct(p, name) { }
+	psi_ctor(power_state_s, StateStruct);
 
-	Rand<Bit<1,0>>		dmn_A {this, "dmn_A"};
-	Rand<Bit<1,0>>		dmn_B {this, "dmn_B"};
-	Rand<Bit<1,0>>		dmn_C {this, "dmn_C"};
+	Rand<Bit<1,0>>		psi_field(dmn_A);
+	Rand<Bit<1,0>>		psi_field(dmn_B);
+	Rand<Bit<1,0>>		psi_field(dmn_C);
 
 	Constraint c {this, {
 			If {dmn_C != 0, dmn_B == 0},
@@ -30,26 +29,22 @@ public:
 	};
 
 };
-TypeDecl<power_state_s>		power_state_sT;
+psi_global_type(power_state_s);
 
 
 class my_system_c : public Component {
 public:
 
-	my_system_c(BaseItem *p=0, psi_name name="my_system_c")
-		: Component(p, name) { }
+	psi_ctor(my_system_c, Component);
 
 	class power_transition : public Action {
 	public:
 
-		power_transition(
-				BaseItem 		*p=0,
-				psi_name	name="power_transition",
-				Action 		*super=0) : Action(p, name, super) { }
+		psi_ctor(power_transition, Action);
 
-		Rand<Int<31,0>>				step {this, "step"};
-		Input<power_state_s>		prev {this, "prev"};
-		Output<power_state_s>		next {this, "next"};
+		Rand<Int<31,0>>				psi_field(step);
+		Input<power_state_s>		psi_field(prev);
+		Output<power_state_s>		psi_field(next);
 
 		Constraint step_c {this, {step == -1 || step == 1}};
 
@@ -58,50 +53,35 @@ public:
 		Constraint C_c {this, "C_c", { next.dmn_C == prev.dmn_C }};
 
 	};
-	TypeDecl<power_transition> power_transitionT {this};
+	psi_type(power_transition);
 
 	class A_transition : public power_transition {
 	public:
-
-		A_transition(
-				BaseItem 		*p=0,
-				psi_name	name="A_transition",
-				Action		*super=TypeRgy<power_transition>::type_id()) :
-			power_transition(p, name, super) { }
+		psi_ctor(A_transition, power_transition);
 
 		Constraint A_c {this, "A_c", {next.dmn_A == prev.dmn_A + step}};
 	};
-	TypeDecl<A_transition> A_transitionT {this};
+	psi_type(A_transition);
 
 	class B_transition : public power_transition {
 	public:
-		TypeRgy<B_transition>		type_id {this};
-
-		B_transition(
-				BaseItem 				*p=0,
-				const std::string 	&name="B_transition",
-				Action				*super=TypeRgy<power_transition>::type_id()) :
-			power_transition(p, name, super) { }
+		psi_ctor(B_transition, power_transition);
 
 		Constraint B_c {this, "B_c", {next.dmn_B == prev.dmn_B + step}};
 	};
-	TypeDecl<B_transition> B_transitionT {this};
+	psi_type(B_transition);
 
 	class C_transition : public power_transition {
 	public:
 
-		C_transition(
-				BaseItem				*p=0,
-				const std::string 	&name="C_transition",
-				Action				*super=TypeRgy<power_transition>::type_id()) :
-			power_transition(p, name, super) { }
+		psi_ctor(C_transition, power_transition);
 
 		Constraint C_c {this, "C_c", {next.dmn_C == prev.dmn_C + step}};
 	};
-	TypeDecl<C_transition> C_transitionT {this};
+	psi_type(C_transition);
 
 };
-TypeDecl<my_system_c> my_system_cT;
+psi_global_type(my_system_c);
 
 
 

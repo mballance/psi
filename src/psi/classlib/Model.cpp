@@ -35,8 +35,8 @@
 
 namespace psi {
 
-Model::Model() : BaseItem(BaseItem::Model, 0), m_active_scope(this) {
-}
+Model::Model() : BaseItem(BaseItem::Model),
+		m_last_scope(this), m_in_field_decl(false) { }
 
 Model::~Model() {
 	// TODO Auto-generated destructor stub
@@ -53,13 +53,32 @@ void Model::push_scope(const Scope *p) {
 	m_scope.push_back(p);
 
 	if (p->ctxt()) {
-		m_active_scope = p->ctxt();
+		m_last_scope = p->ctxt();
 	}
+	m_in_field_decl = p->in_field_decl();
 }
 
-void Model::pop_scope() {
-	const Scope *p = m_scope.back();
-	m_scope.pop_back();
+void Model::pop_scope(const Scope *p) {
+//	const Scope *p_c = m_scope.back();
+
+	// If the last element is 'p', then pop until
+	// we exit that hierarchy
+	if (m_scope.back()->ctxt() == p->ctxt()) {
+		m_last_scope = m_scope.back()->ctxt();
+
+		while (m_scope.size() > 0 &&
+				m_scope.back()->ctxt() == p->ctxt()) {
+			const Scope *pp = m_scope.back();
+//			fprintf(stdout, "  pop-back %p\n", pp->ctxt());
+			m_scope.pop_back();
+		}
+
+		// Update 'm_in_field_decl' state
+		if (m_scope.size() > 0) {
+			m_in_field_decl = m_scope.at(m_scope.size()-1)->in_field_decl();
+		}
+	}
+
 }
 
 const std::vector<const Scope *> &Model::get_scope() const {
@@ -84,16 +103,29 @@ std::string Model::getActiveTypeName(BaseItem *it) {
 }
 
 BaseItem *Model::getActiveScope() {
-	fprintf(stdout, "Model::getActiveScope scope=%d\n",
-			(m_active_scope)?m_active_scope->getObjectType():-1);
-	if (m_scope.size() == 0) {
-		return this;
-	} else if (m_scope.at(m_scope.size()-1)->ctxt()) {
-		return m_active_scope;
-	} else {
-		// Currently in a blacked-out region
+//	fprintf(stdout, "Model::getActiveScope scope=%d\n",
+//			(m_last_scope)?m_last_scope->getObjectType():-1);
+
+	if (m_in_field_decl) {
 		return 0;
+	} else {
+		// Search back until we find something different than 'us'
+		BaseItem *curr = (m_scope.size())?m_scope.at(m_scope.size()-1)->ctxt():0;
+
+		for (int i=m_scope.size()-1; i>=0; i--) {
+			if (m_scope.at(i)->ctxt() != curr) {
+				curr = m_scope.at(i)->ctxt();
+				break;
+			}
+		}
+
+		if (!curr) {
+			return this;
+		} else {
+			return curr;
+		}
 	}
+
 //	fprintf(stdout, "Model::getActiveScope size=%d\n", m_scope.size());
 //
 //	for (int i=m_scope.size()-1; i>=0; i--) {
@@ -113,7 +145,7 @@ std::string Model::demangle(const Scope *s) {
 
     char *n = abi::__cxa_demangle(info->name(), 0, 0, 0);
 
-    fprintf(stdout, "--> n=%s\n", n);
+//    fprintf(stdout, "--> n=%s\n", n);
 
     char *r = n;
     int nl = strlen(n);

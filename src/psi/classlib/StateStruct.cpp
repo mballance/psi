@@ -12,7 +12,7 @@ namespace psi {
 
 StateStruct::StateStruct(const Scope &p) :
 		Struct(State, p.parent()), initial(this, "initial") {
-
+	setName(Model::global()->getActiveTypeName(this));
 }
 
 StateStruct::~StateStruct() {

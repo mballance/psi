@@ -39,4 +39,14 @@ NamedBaseItem *NamedBaseItem::to(BaseItem *it) {
 	return 0;
 }
 
+std::string NamedBaseItem::getName(BaseItem *it) {
+	NamedBaseItem *ni = (it)?to(it):0;
+
+	if (ni) {
+		return ni->getName();
+	} else {
+		return "UNNAMED";
+	}
+}
+
 } /* namespace psi */

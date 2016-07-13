@@ -132,7 +132,7 @@ IAction *Elaborator::elaborate_action(Action *c) {
 }
 
 IBind *Elaborator::elaborate_bind(Bind *b) {
-	const std::vector<FieldItem *> &items = b->getItems();
+	const std::vector<BaseItem *> &items = b->getItems();
 	std::vector<IBaseItem *> items_psi;
 
 	// TODO: must map BaseItem references to PSI references

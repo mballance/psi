@@ -5,17 +5,15 @@
  *      Author: ballance
  */
 
-#include "psi.h"
+#include "psi_tests.h"
 
-using namespace psi;
-
-static class constraint_ifelse_test : public Struct {
+class constraint_ifelse_test : public Struct {
 public:
-	constraint_ifelse_test(BaseItem *p=0, const std::string &name="constraint_ifelse_test") : Struct(p, name) { }
+	psi_struct_ctor(constraint_ifelse_test);
 
-	Rand<Bit<>>					control {this, "control"};
-	Rand<Bit<31,1>>				address {this, "address"};
-	Rand<Bit<31,1>>				data 	{this, "data"};
+	Rand<Bit<>>			psi_field(control);
+	Rand<Bit<31,1>>		psi_field(address);
+	Rand<Bit<31,1>>		psi_field(data);
 
 	Constraint c1 {this, "c1",
 		If {(control == 1), address < 10}
@@ -34,6 +32,7 @@ public:
 		}
 	};
 
-} constraint_ifelse_testT;
+};
+psi_global_type(constraint_ifelse_test);
 
 

@@ -32,24 +32,34 @@
 
 namespace psi {
 
-template <class T> class Rand : public FieldItem, public T {
+template <class T> class Rand : public T {
 
 	public:
-		Rand(BaseItem *p, const std::string &name) :
-			FieldItem(p, name), T(Scope::ScopeType_FieldDecl) {
+		Rand(BaseItem *p, const std::string &name) : T(true), m_field(p, name) {
 			T *t = static_cast<T *>(this);
 
-			setAttr(FieldItem::AttrRand);
+			m_field.setAttr(FieldItem::AttrRand);
 
 			if (t->getObjectType() == BaseItem::TypeAction ||
 					t->getObjectType() == BaseItem::TypeStruct) {
-				setDataType(TypeDecl<T>::id());
+				m_field.setDataType(TypeDecl<T>::id());
 			} else {
-				setDataType(t);
+				m_field.setDataType(t);
 			}
 		}
 
 		virtual ~Rand() { };
+
+		/*
+		 * Provide an explicit conversion function to tell the
+		 * compiler how to interpret the fact that both we and T extend
+		 * from BaseItem
+		 */
+		operator Expr() const { return Expr(static_cast<const FieldItem &>(m_field)); }
+
+	private:
+
+		FieldItem					m_field;
 
 };
 

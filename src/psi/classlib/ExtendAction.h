@@ -33,9 +33,11 @@ namespace psi {
 template <class T> class ExtendAction : public ExtendItem, public T {
 
 	public:
-		ExtendAction(const Scope &p) : ExtendItem(this, BaseItem::TypeExtendAction), T(this) {
+		ExtendAction(const Scope &p) : ExtendItem(p, BaseItem::TypeExtendAction), T(p) {
 			setDataType(TypeDecl<T>::type_id());
 		}
+
+		operator BaseItem *() { return this; }
 
 		virtual ~ExtendAction() { }
 

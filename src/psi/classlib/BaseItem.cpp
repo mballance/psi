@@ -36,24 +36,22 @@ BaseItem::BaseItem(BaseItem::ObjectType t, BaseItem *p) :
 		m_type(t), m_parent(p) {
 //	if (t != Model) {
 //		BaseItem *scope = Model::global()->getActiveScope();
-//		fprintf(stdout, "    p=%p scope=%p %d\n", p, scope,
-//				(scope)?scope->getObjectType():-1);
+////		fprintf(stdout, "BaseItem::BaseItem    p=%s scope=%s\n",
+////				NamedBaseItem::getName(p).c_str(), NamedBaseItem::getName(scope).c_str());
+//
+//		if (p != scope) {
+//			fprintf(stdout, "Error: p=%p scope=%p\n", p, scope);
+//		}
 //	}
 
 	if (p) {
 		p->add(this);
 	}
-//	} else if (t == BaseItem::TypeField) {
-//		// Add to the last active scope
-//		BaseItem *scope = Model::global()->getActiveScope();
-//
-//		fprintf(stdout, "-- Add Field\n");
-//
-//		if (scope) {
-//			scope->add(this);
-//		}
-//	}
 }
+
+// Constructor used by Model()
+BaseItem::BaseItem(BaseItem::ObjectType t) :
+		m_type(t), m_parent(0) { }
 
 BaseItem::~BaseItem() {
 	// TODO Auto-generated destructor stub
@@ -68,14 +66,14 @@ ExprListBuilder BaseItem::operator,(const BaseItem &rhs) {
 }
 
 void BaseItem::add(BaseItem *item) {
-	NamedBaseItem *ni_t = NamedBaseItem::to(this);
-	NamedBaseItem *ni_it = NamedBaseItem::to(item);
-
-	fprintf(stdout, "add %d (%s) -> %d (%s)\n",
-			item->getObjectType(),
-			(ni_it)?ni_it->getName().c_str():"NULL",
-			getObjectType(),
-			(ni_t)?ni_t->getName().c_str():"NULL");
+//	NamedBaseItem *ni_t = NamedBaseItem::to(this);
+//	NamedBaseItem *ni_it = NamedBaseItem::to(item);
+//
+//	fprintf(stdout, "add %d (%s) -> %d (%s)\n",
+//			item->getObjectType(),
+//			(ni_it)?ni_it->getName().c_str():"NULL",
+//			getObjectType(),
+//			(ni_t)?ni_t->getName().c_str():"NULL");
 	m_children.push_back(item);
 }
 
@@ -101,6 +99,7 @@ const char *BaseItem::toString(ObjectType t) {
 		case TypeExtendAction: return "TypeExtendAction";
 		case TypeExtendComponent: return "TypeExtendComponent";
 		case TypeExtendStruct: return "TypeExtendStruct";
+		case TypeField: return "TypeField";
 		case TypePackage: return "TypePackage";
 		case TypeString: return "TypeString";
 		case TypeStruct: return "TypeStruct";

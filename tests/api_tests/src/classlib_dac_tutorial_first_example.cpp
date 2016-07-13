@@ -8,31 +8,31 @@
 
 class C : public Component {
 public:
-	C(const Scope &p) : Component(p)  { }
+	psi_ctor(C, Component);
 
 	class A : public Action {
 	public:
-		A(const Scope &p) : Action(p) { }
+		psi_ctor(A, Action);
 	};
-	TypeDecl<A> At {this};
+	psi_type(A);
 
 };
-TypeDecl<C> Ct;
+psi_global_type(C);
 
 
 class static_structure : public Component {
 public:
-	Field<C>		c1 {this, "c1"};
-	Field<C>		c2 {this, "c2"};
+	Field<C>		psi_field(c1);
+	Field<C>		psi_field(c2);
 
-	static_structure(const Scope &p) : Component(p) { }
+	psi_ctor(static_structure, Component);
 
 	class entry : public Action {
 	public:
-		Field<C::A>				a1 {this, "a1"};
-		Field<C::A>				a2 {this, "a2"};
+		Field<C::A>				psi_field(a1);
+		Field<C::A>				psi_field(a2);
 
-		entry(const Scope &p) : Action(p) { }
+		psi_ctor(entry, Action);
 
 		Graph g1 {this, {
 			Repeat {
@@ -42,10 +42,9 @@ public:
 		};
 
 	};
-	TypeDecl<entry> entryT {this};
-
+	psi_type(entry);
 };
-TypeDecl<static_structure> static_structureT;
+psi_global_type(static_structure);
 
 
 

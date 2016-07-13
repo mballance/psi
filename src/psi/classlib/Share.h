@@ -29,15 +29,18 @@
 
 namespace psi {
 
-template <class T> class Share : public FieldItem, public T {
+template <class T> class Share : public T {
 	public:
 
-		Share(BaseItem *p, const std::string &name) : FieldItem(p, name), T(p) {
-			setAttr(FieldItem::AttrShare);
-			setDataType(TypeDecl<T>::id());
+		Share(BaseItem *p, const std::string &name) : T(p), m_field(p, name) {
+			m_field.setAttr(FieldItem::AttrShare);
+			m_field.setDataType(TypeDecl<T>::id());
 		}
 
 		virtual ~Share();
+
+	private:
+		FieldItem				m_field;
 };
 
 } /* namespace psi */

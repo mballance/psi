@@ -14,7 +14,7 @@ namespace psi {
 template <class T> class TypeDecl : public T {
 public:
 
-	TypeDecl(BaseItem *namespace_p=Model::global()) : T(namespace_p) {
+	TypeDecl(BaseItem *namespace_p=Model::global()) : T(Scope(this, namespace_p)) {
 		if (!m_type_id) {
 			m_valid = true;
 			m_type_id = this;
@@ -25,7 +25,7 @@ public:
 	static T *type_id() {
 
 		if (!m_type_id) {
-			m_type_id = new T(Scope::ScopeType_FieldDecl); // anonymous
+			m_type_id = new T(true); // anonymous
 			// TODO: need to demangle name
 			fprintf(stdout, "Error: Object %s is missing type registration\n",
 					typeid(T).name());

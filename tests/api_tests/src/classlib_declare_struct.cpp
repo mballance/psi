@@ -8,10 +8,10 @@
 
 class data_s : public MemoryStruct {
 public:
-	data_s(BaseItem *p=0, psi_name name="data_s") : MemoryStruct(p, name) { }
+	psi_ctor(data_s, MemoryStruct);
 
-	Rand<Bit<7,0>>				data    {this, "data"};
-	Rand<Bit<31,0>>				address {this, "address"};
+	Rand<Bit<7,0>>				psi_field(data);
+	Rand<Bit<31,0>>				psi_field(address);
 
 	Constraint address_c {this,
 		address >= 0x1000 && address <= 0x1FFF

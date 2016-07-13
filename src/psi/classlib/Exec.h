@@ -34,6 +34,7 @@
 namespace psi {
 
 class ImportCall;
+class ExtendItem;
 
 class Exec : public BaseItem {
 
@@ -54,13 +55,24 @@ class Exec : public BaseItem {
 	public:
 
 		Exec(
-			BaseItem									*p,
+			BaseItem								*p,
 			ExecKind 								kind,
 			const std::string 						&language,
 			const std::string 						&content);
 
 		Exec(
-			BaseItem									*p,
+			ExtendItem								*p,
+			ExecKind 								kind,
+			const std::string 						&language,
+			const std::string 						&content);
+
+		Exec(
+			BaseItem								*p,
+			ExecKind 								kind,
+			const ExprList							&stmts);
+
+		Exec(
+			ExtendItem								*p,
 			ExecKind 								kind,
 			const ExprList							&stmts);
 

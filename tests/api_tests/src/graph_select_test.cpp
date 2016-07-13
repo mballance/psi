@@ -11,27 +11,23 @@ using namespace psi;
 
 class top_c : public Component {
 public:
-	TypeRgy<top_c>			type_id {this};
-
-	top_c(BaseItem *p=0, const std::string &name="top_c") : Component(p, name) { }
+	psi_ctor(top_c, Component);
 
 	class A1 : public Action {
 	public:
-		TypeRgy<A1>			type_id {this};
-		A1(BaseItem *p=0, const std::string &name="A1") : Action(p, name) { }
+		psi_ctor(A1, Action);
 
-	} A1T {this};
+	};
+	psi_type(A1);
 
 	class graph_select_test : public Action {
 	public:
-		TypeRgy<graph_select_test>		type_id {this};
+		psi_ctor(graph_select_test, Action);
 
-		graph_select_test(BaseItem *p=0, const std::string &name="graph_select_test") : Action(p, name) { }
-
-		Field<A1>			a1_1 {this, "a1_1"};
-		Field<A1>			a1_2 {this, "a1_2"};
-		Field<A1>			a1_3 {this, "a1_3"};
-		Field<A1>			a1_4 {this, "a1_4"};
+		Field<A1>			psi_field(a1_1);
+		Field<A1>			psi_field(a1_2);
+		Field<A1>			psi_field(a1_3);
+		Field<A1>			psi_field(a1_4);
 
 		Graph graph {this, {
 				Select {
@@ -41,16 +37,12 @@ public:
 				Parallel {
 						Sequential{a1_1, a1_2},
 						Sequential{a1_3, a1_4}
-				},
-				Parallel {
-					(
-						(a1_1, a1_2),
-						(a1_3, a1_4)
-					)
 				}
 		}
 		};
-	} graph_select_testT {this};
+	};
+	psi_type(graph_select_test);
 
-} top_cT;
+};
+psi_global_type(top_c);
 

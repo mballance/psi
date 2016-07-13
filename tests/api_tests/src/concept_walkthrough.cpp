@@ -11,56 +11,54 @@ public:
 	Rand<Bit<7,0>>		psi_field(data);
 	Rand<Bit<31,0>>		psi_field(address);
 
-	data_s(BaseItem *p=0, psi_name name="data_s") : MemoryStruct(p, name) { }
+	psi_ctor(data_s, MemoryStruct);
 
 	Constraint address_c {this, address >= 0x1000 && address <= 0x1FFF};
-
 };
-TypeDecl<data_s>		data_sT;
+psi_global_type(data_s);
 
 class rw_comp : public Component {
 public:
 
-	rw_comp(BaseItem *p=0, psi_name name="rw_comp") : Component(p, name) { }
+	psi_ctor(rw_comp, Component);
 
 	class processor_s : public ResourceStruct {
 	public:
-		processor_s(BaseItem *p=0, psi_name name="processor_s") : ResourceStruct(p, name) { }
+		psi_ctor(processor_s, ResourceStruct);
 
 		Constraint resource_c {this, instance_id == 1};
 
 	};
-	TypeDecl<processor_s>	processor_sT {this};
+	psi_type(processor_s);
 
 	class write_data : public Action {
 	public:
-		write_data(BaseItem *p=0, psi_name name="write_data") : Action(p, name) { }
+		psi_ctor(write_data, Action);
 
 		Output<data_s>			psi_field(out_data);
 		Lock<processor_s>		psi_field(proc);
-
 	};
-	TypeDecl<write_data>	write_dataT {this};
+	psi_type(write_data);
 
 	class read_data : public Action {
 	public:
-		read_data(BaseItem *p=0, const std::string &name="read_data") : Action(p, name) { }
+		psi_ctor(read_data, Action);
 
 		Input<data_s>			psi_field(in_data);
 		Lock<processor_s>		psi_field(proc);
 	};
-	TypeDecl<read_data>		read_dataT {this};
+	psi_type(read_data);
 
 };
-TypeDecl<rw_comp>	rw_compT;
+psi_global_type(rw_comp);
 
 class top_comp : public Component {
 public:
-	top_comp(BaseItem *p=0, psi_name name="top_comp") : Component(p, name) { }
+	psi_ctor(top_comp, Component);
 
 	class my_test2 : public Action {
 	public:
-		my_test2(BaseItem *p=0, psi_name name="my_test2") : Action(p, name) { }
+		psi_ctor(my_test2, Action);
 
 		// Action instance needs to know the details of its type. This is
 		// provided via a type-definition reference (eg _rw_comp._write_data)
@@ -71,20 +69,22 @@ public:
 
 		// Only a single graph is permitted per action
 		Graph graph {this,
-			(wd1, rd1, wd2, rd2)
+			Sequential {
+				wd1, rd1, wd2, rd2
+			}
 		};
 
 		Constraint addr_c {this, rd1.in_data.address != rd2.in_data.address };
 
 	};
-	TypeDecl<my_test2>	my_test2T {this}; // Complete registration of this type
+	psi_type(my_test2);
 
 };
-TypeDecl<top_comp>		top_compT;
+psi_global_type(top_comp);
 
 class c_methods : public Package {
 public:
-	c_methods(BaseItem *p=0, psi_name name="c_methods") : Package(p, name) { }
+	psi_ctor(c_methods, Package);
 
 	// Prototypes for import functions
 	Import do_write {this, "do_write",
@@ -96,16 +96,16 @@ public:
 	};
 
 };
-TypeDecl<c_methods>		c_methodsT;
+psi_global_type(c_methods);
 
 class c_code : public Package {
 public:
-	c_code(BaseItem *p=0, psi_name name="c_code") : Package(p, name) { }
+	psi_ctor(c_code, Package);
 
 	// Declares an extension of 'write_data' to layer in the implementation
 	class write_data_ext : public ExtendAction<rw_comp::write_data> {
 	public:
-		write_data_ext(BaseItem *p=0) : ExtendAction(p) { }
+		write_data_ext(const Scope &p) : ExtendAction(p) { }
 
 		// Example of a target-template exec block
 		Exec do_write_body {this, Exec::Body, "C", R"(
@@ -114,20 +114,20 @@ public:
 		};
 
 		Exec do_write_body_native {this, Exec::Body,
-			c_methodsT.do_write((out_data.address, out_data.data))
+			_c_methods_t.do_write((out_data.address, out_data.data))
 		};
 	} write_data_extT {this};
 
 	class read_data_ext : public ExtendAction<rw_comp::read_data> {
 	public:
 
-		read_data_ext(BaseItem *p=0) : ExtendAction(p) {}
+		read_data_ext(const Scope &p) : ExtendAction(p) {}
 
-		Exec do_check_body_native {this, Exec::Body,
-			c_methodsT.do_check((in_data.address, in_data.data))
-		};
+//		Exec do_check_body_native {this, Exec::Body,
+//			c_methodsT.do_check((in_data.address, in_data.data))
+//		};
 	} read_data_extT {this};
 
 };
-TypeDecl<c_code>		c_codeT;
+psi_global_type(c_code);
 

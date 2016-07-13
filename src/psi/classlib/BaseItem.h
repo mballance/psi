@@ -53,7 +53,7 @@ public:
 		TypeImport,
 		TypeInt,
 		TypeExec,
-		TypeExportAction, // 10
+		TypeExportItem, // 10
 		TypeExtendAction,
 		TypeExtendComponent,
 		TypeExtendStruct,
@@ -100,6 +100,8 @@ public:
 	protected:
 
 		BaseItem(BaseItem::ObjectType t, BaseItem *p);
+
+		BaseItem(BaseItem::ObjectType t);
 
 	private:
 

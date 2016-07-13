@@ -12,7 +12,7 @@ int refmodel_get_next_value() {
 
 class methods_pkg : public Package {
 public:
-	methods_pkg(BaseItem *p=0, psi_name name="methods_pkg") : Package(p, name) { }
+	psi_package_ctor(methods_pkg);
 
 	Import my_func {this, "my_func",
 		(Bit<7,0>("a"), Bit<31,0>("b"))};
@@ -21,22 +21,21 @@ public:
 		(Bit<7,0>("a"), Bit<31,0>("b"))};
 
 };
-TypeDecl<methods_pkg> methods_pkgT;
+psi_global_type(methods_pkg);
 
 class top : public Component {
 public:
-	top(BaseItem *p=0, psi_name name="top") : Component(p, name) { }
-
+	psi_component_ctor(top);
 
 	class entry_point : public Action {
 	public:
-		entry_point(BaseItem *p=0, psi_name name="entry_point") : Action(p, name) { }
+		psi_action_ctor(entry_point);
 
-		Rand<Bit<7,0>>			p1 {this, "p1"};
-		Rand<Bit<31,0>>			p2 {this, "p2"};
-		Rand<Bit<31,0>>			p3 {this, "p3"};
-		Bit<31,0>				p4 {this, "p4"};
-		Bit<31,0>				p5 {this, "p5"};
+		Rand<Bit<7,0>>		psi_field(p1);
+		Rand<Bit<31,0>>		psi_field(p2);
+		Rand<Bit<31,0>>		psi_field(p3);
+		Field<Bit<31,0>>	psi_field(p4);
+		Field<Bit<31,0>>	psi_field(p5);
 
 		Exec pre_solve_e {this, Exec::PreSolve, { p4 } };
 
@@ -52,9 +51,9 @@ public:
 			p4.set(p1.get() + p2.get());
 		}
 	};
-	TypeDecl<entry_point> entry_pointT {this};
+	psi_type(entry_point);
 
 };
-TypeDecl<top> topT;
+psi_global_type(top);
 
 

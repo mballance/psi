@@ -6,11 +6,9 @@
  */
 #include "psi_tests.h"
 
-static class methods_pkg : public Package {
+class methods_pkg : public Package {
 public:
-	TypeRgy<methods_pkg>		type_id {this};
-
-	methods_pkg(BaseItem *p=0, psi_name name="methods_pkg") : Package(p, name) { }
+	psi_ctor(methods_pkg, Package);
 
 	Import my_func { this, "my_func",
 		(Bit<7,0>("a"), Bit<31,0>("b"))};
@@ -18,22 +16,20 @@ public:
 	Import my_func2 { this, "my_func2", Bit<7,0>(""),
 		(Bit<7,0>("a"), Bit<31,0>("b"))};
 
-} methods_pkgT;
+};
+psi_global_type(methods_pkg);
 
 class top : public Component {
 public:
-	TypeRgy<top>			type_id {this};
-
-	top(BaseItem *p=0, psi_name name="top") : Component(p, name) { }
-
+	psi_ctor(top, Component);
 
 	class entry_point : public Action {
 	public:
-		entry_point(BaseItem *p=0, psi_name name="entry_point") : Action(p, name) { }
+		psi_ctor(entry_point, Action);
 
-		Rand<Bit<7,0>>			p1 {this,"p1"};
-		Rand<Bit<31,0>>			p2 {this,"p2"};
-		Rand<Bit<31,0>>			p3 {this,"p3"};
+		Rand<Bit<7,0>>		psi_field(p1);
+		Rand<Bit<7,0>>		psi_field(p2);
+		Rand<Bit<7,0>>		psi_field(p3);
 
 		Exec pre_solve {this, Exec::PreSolve,
 			{
@@ -53,8 +49,10 @@ public:
 		};
 
 
-	} entry_pointT {this};
+	};
+	psi_type(entry_point);
 
-} topT;
+};
+psi_global_type(top);
 
 

@@ -35,6 +35,8 @@ template <uint32_t MSB=0, uint32_t LSB=0> class Bit : public BitType {
 	public:
 		Bit(const Scope &p) : BitType(p.parent(), MSB, LSB) { }
 
+		Bit(const char *name) : BitType(name, MSB, LSB) { }
+
 		Bit(const std::string &name) : BitType(name, MSB, LSB) { }
 
 		virtual ~Bit() { }

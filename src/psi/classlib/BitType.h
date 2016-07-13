@@ -67,6 +67,8 @@ class BitType : public BaseItem {
 		 */
 		void set(uint64_t v);
 
+//		ExprListBuilder operator,(const BitType &rhs);
+
 	private:
 
 		uint32_t				m_msb;

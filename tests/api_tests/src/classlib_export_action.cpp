@@ -8,27 +8,34 @@
 
 class my_comp : public Component {
 public:
-	my_comp(BaseItem *p=0, psi_name name="my_comp") : Component(p, name) { }
+	psi_component_ctor(my_comp);
 
 	class my_action : public Action {
 	public:
-		Rand<Bit<1,0>>				mode  {this, "mode"};
-		Rand<Bit<1,0>>				mode2 {this, "mode2"};
-		my_action(BaseItem *p=0, psi_name name="my_action") : Action(p, name) { }
-	};
-	TypeDecl<my_action> my_actionT {this};
+		psi_action_ctor(my_action);
 
+		Rand<Bit<1,0>>		psi_field(mode);
+		Rand<Bit<1,0>>		psi_field(mode2);
+	};
+	psi_type(my_action);
 };
-TypeDecl<my_comp> my_compT;
+psi_global_type(my_comp);
 
 class top_pkg : public Package {
 public:
-	top_pkg(BaseItem *p=0, psi_name name="top_pkg") : Package(p, name) { }
+	psi_package_ctor(top_pkg);
 
-	ExportAction exp1 {this, TypeDecl<my_comp::my_action>::type_id()};
-
+	Export<my_comp::my_action> exp1 {this};
 };
-TypeDecl<top_pkg> top_pkgT;
+psi_global_type(top_pkg);
 
+class top_pkg2 : public Package {
+public:
+	psi_package_ctor(top_pkg2);
+
+	// Export the 'mode' field as a method parameter
+	Export<my_comp::my_action> exp1 {this, {exp1.mode}};
+};
+psi_global_type(top_pkg2);
 
 

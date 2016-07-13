@@ -33,15 +33,25 @@
 namespace psi {
 
 // TODO: may need an OutputBase class to enable binding
-template <class T> class Output : public FieldItem, public T {
+template <class T> class Output : public T {
 
 	public:
-		Output(BaseItem *p, const std::string &name) : FieldItem(p, name), T(Scope::ScopeType_FieldDecl) {
-			setAttr(FieldItem::AttrOutput);
-			setDataType(TypeDecl<T>::type_id());
+		Output(BaseItem *p, const std::string &name) : T(Scope(true)), m_field(p, name) {
+			m_field.setAttr(FieldItem::AttrOutput);
+			m_field.setDataType(TypeDecl<T>::type_id());
 		}
 
 		virtual ~Output() { }
+
+		/*
+		 * Provide an explicit conversion function to tell the
+		 * compiler how to interpret the fact that both we and T extend
+		 * from BaseItem
+		 */
+		operator Expr() const { return Expr(static_cast<const FieldItem &>(*this)); }
+
+	private:
+		FieldItem					m_field;
 };
 
 } /* namespace psi */

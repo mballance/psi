@@ -25,6 +25,8 @@ public:
 
 	static NamedBaseItem *to(BaseItem *it);
 
+	static std::string getName(BaseItem *it);
+
 private:
 	std::string					m_name;
 };

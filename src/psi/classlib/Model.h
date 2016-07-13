@@ -47,7 +47,7 @@ class Model : public BaseItem {
 
 		void push_scope(const Scope *p);
 
-		void pop_scope();
+		void pop_scope(const Scope *p);
 
 		const std::vector<const Scope *> &get_scope() const;
 
@@ -55,11 +55,14 @@ class Model : public BaseItem {
 
 		BaseItem *getActiveScope();
 
+		bool in_field_decl() const { return m_in_field_decl; }
+
 		static std::string demangle(const Scope *s);
 
 	private:
 		std::vector<const Scope *>		m_scope;
-		BaseItem						*m_active_scope;
+		BaseItem						*m_last_scope;
+		bool							m_in_field_decl;
 
 		static Model			*m_global;
 
