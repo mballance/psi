@@ -17,6 +17,8 @@ class data_s : public MemoryStruct {
 };
 psi_global_type(data_s);
 
+
+
 class data_s_ext : public data_s {
 	psi_ctor(data_s_ext, data_s);
 

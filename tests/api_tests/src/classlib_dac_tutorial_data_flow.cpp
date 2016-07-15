@@ -16,6 +16,21 @@ psi_global_type(S);
 
 class CA : public Component {
 public:
+	CA(const Scope &p) : Component(this) { }
+
+	class A : public Action {
+	public:
+		A(const Scope &p) : Action(this) {
+
+		Output<S>			out_s {this, "out_s"};
+	};
+	TypeDecl<A> _A_t {this};
+
+};
+TypeDecl<CA> _CA_t;
+
+class CA : public Component {
+public:
 	psi_ctor(CA, Component);
 
 	class A : public Action {

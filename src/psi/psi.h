@@ -66,6 +66,7 @@
 #include "classlib/TypeDecl.h"
 #include "classlib/Model.h"
 #include "classlib/Types.h"
+#include "classlib/With.h"
 #include "classlib/PsiMacros.h"
 
 

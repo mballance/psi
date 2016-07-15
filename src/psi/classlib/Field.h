@@ -58,7 +58,9 @@ template <class T> class Field : public T {
 		 * compiler how to interpret the fact that both we and T extend
 		 * from BaseItem
 		 */
-		operator Expr() const { return Expr(static_cast<const FieldItem &>(m_field)); }
+		operator Expr() const { return Expr(m_field); }
+
+		operator const FieldItem &() const { return m_field; }
 
 	private:
 		FieldItem						m_field;

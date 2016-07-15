@@ -84,7 +84,7 @@ psi_global_type(top_comp);
 
 class c_methods : public Package {
 public:
-	psi_ctor(c_methods, Package);
+	psi_package_ctor(c_methods);
 
 	// Prototypes for import functions
 	Import do_write {this, "do_write",
@@ -123,9 +123,9 @@ public:
 
 		read_data_ext(const Scope &p) : ExtendAction(p) {}
 
-//		Exec do_check_body_native {this, Exec::Body,
-//			c_methodsT.do_check((in_data.address, in_data.data))
-//		};
+		Exec do_check_body_native {this, Exec::Body,
+			_c_methods_t.do_check((in_data.address, in_data.data))
+		};
 	} read_data_extT {this};
 
 };

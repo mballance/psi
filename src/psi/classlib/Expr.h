@@ -83,6 +83,7 @@ class Expr {
 			GraphRepeat,
 			GraphSchedule,
 			GraphSelect,
+			GraphWith,
 
 			ImportCall,
 

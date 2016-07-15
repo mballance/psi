@@ -13,6 +13,8 @@ public:
 	class A : public Action {
 	public:
 		psi_ctor(A, Action);
+
+		Rand<Bit<3,0>>		psi_field(field1);
 	};
 	psi_type(A);
 
@@ -21,26 +23,23 @@ psi_global_type(C);
 
 
 class static_structure : public Component {
-public:
+	psi_ctor(static_structure, Component);
+
 	Field<C>		psi_field(c1);
 	Field<C>		psi_field(c2);
 
-	psi_ctor(static_structure, Component);
-
 	class entry : public Action {
-	public:
+		psi_ctor(entry, Action);
+
 		Field<C::A>				psi_field(a1);
 		Field<C::A>				psi_field(a2);
 
-		psi_ctor(entry, Action);
-
 		Graph g1 {this, {
 			Repeat {
-				a1, a2
+				a1, With { a2, {a2.field1 < 2}}
 			}
 		}
 		};
-
 	};
 	psi_type(entry);
 };

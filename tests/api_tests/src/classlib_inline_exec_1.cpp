@@ -48,7 +48,7 @@ public:
 
 		void post_solve() {
 			// Set p5 based on a calculated value
-			p4.set(p1.get() + p2.get());
+			p5.set(p1.get() + p2.get());
 		}
 	};
 	psi_type(entry_point);

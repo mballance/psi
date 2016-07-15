@@ -632,6 +632,18 @@ IGraphStmt *Elaborator::elaborate_graph_stmt(ExprCore *stmt) {
 		}
 	} break;
 
+	case Expr::GraphWith: {
+		BaseItem *lhs = stmt->getLhsPtr()->getTypePtr();
+		IFieldRef *ref = elaborate_field_ref(lhs); // stmt->getTypePtr());
+		IConstraint *c = elaborate_constraint_stmt(stmt->getRhsPtr());
+
+		if (ref) {
+			ret = m_model->mkGraphTraverseStmt(ref, c);
+		} else {
+			fprintf(stdout, "Error: failed to elaborate action ref\n");
+		}
+	} break;
+
 	}
 
 	if (!ret) {
