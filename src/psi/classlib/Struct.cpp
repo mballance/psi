@@ -23,30 +23,22 @@
  */
 
 #include "classlib/Struct.h"
-
 #include "classlib/Model.h"
+#include "classlib/Scope.h"
 
 namespace psi {
 
-Struct::Struct(Type *p) : Type(Type::TypeStruct, p, ""),
-		m_structType(Struct::Base), m_super(0) { }
-
-Struct::Struct(
-		Type 				*p,
-		const std::string 	&name,
-		Struct 				*super_type) :
-				Type(Type::TypeStruct, (p)?p:Model::global(), name),
-				m_structType(Struct::Base), m_super(super_type) {
+Struct::Struct(const Scope &p) : NamedBaseItem(BaseItem::TypeStruct, p.parent()),
+				m_structType(Struct::Base) {
+	m_super_type = Model::global()->getSuperType(this);
+	setName(Model::global()->getActiveTypeName(this).leaf());
 }
 
-Struct::Struct(
-		Struct::StructType	t,
-		Type 				*p,
-		const std::string 	&name,
-		Struct 				*super_type) :
-				Type(Type::TypeStruct, (p)?p:Model::global(), name),
-				m_structType(t), m_super(super_type) {
-	m_super = super_type;
+Struct::Struct(Struct::StructType t, BaseItem *p) :
+				NamedBaseItem(BaseItem::TypeStruct, p),
+				m_structType(t) {
+	m_super_type = Model::global()->getSuperType(this);
+	setName(Model::global()->getActiveTypeName(this).leaf());
 }
 
 Struct::~Struct() {

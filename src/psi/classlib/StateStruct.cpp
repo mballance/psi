@@ -5,18 +5,16 @@
  *      Author: ballance
  */
 
-#include "StateStruct.h"
+#include "classlib/StateStruct.h"
+#include "classlib/TypePath.h"
 
 namespace psi {
 
-StateStruct::StateStruct(Type *p, const std::string &name, Struct *super) :
-		Struct(State, p, name, super), initial(this, "initial") {
 
-}
-
-StateStruct::StateStruct(Type *p) :
-		Struct(State, p, "", 0), initial(this, "initial") {
-
+StateStruct::StateStruct(const Scope &p) :
+		Struct(State, p.parent()), initial(this, "initial") {
+	TypePath path = Model::global()->getActiveTypeName(this);
+	setName(path.leaf());
 }
 
 StateStruct::~StateStruct() {

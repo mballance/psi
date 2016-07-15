@@ -40,8 +40,9 @@
 #include "classlib/Component.h"
 #include "classlib/Constraint.h"
 #include "classlib/Graph.h"
+#include "classlib/FieldItem.h"
 #include "classlib/Package.h"
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 #include "classlib/Struct.h"
 #include "classlib/ExprCoreIf.h"
 
@@ -56,7 +57,7 @@ public:
 
 	virtual ~Elaborator();
 
-	void elaborate(Type *root, IModel *model);
+	void elaborate(BaseItem *root, IModel *model);
 
 protected:
 
@@ -79,9 +80,9 @@ protected:
 
 	void elaborate_package(IModel *model, Package *pkg_cl);
 
-	IBaseItem *elaborate_struct_action_body_item(Type *t);
+	IBaseItem *elaborate_struct_action_body_item(BaseItem *t);
 
-	IFieldRef *elaborate_field_ref(Type *ref);
+	IFieldRef *elaborate_field_ref(BaseItem *ref);
 
 	IGraphStmt *elaborate_graph(Graph *g);
 
@@ -90,33 +91,39 @@ protected:
 
 private:
 
-	void set_expr_ctxt(IBaseItem *model_ctxt, Type *class_ctxt);
+	void set_expr_ctxt(IBaseItem *model_ctxt, BaseItem *class_ctxt);
 
-	static IField::FieldAttr getAttr(Type *t);
+	static IField::FieldAttr getAttr(FieldItem *t);
 
-	IBaseItem *find_type_decl(Type *t);
+	BaseItem *find_cl_type_decl(const TypePath &t);
 
-	static IScopeItem *find_named_scope(
+	IBaseItem *find_type_decl(const TypePath &t);
+
+	IBaseItem *find_type_decl(BaseItem *t);
+
+	static IBaseItem *find_named_scope(
 			const std::vector<IBaseItem *> 	&list,
 			const std::string 				&name);
 
 	static bool should_filter(
-			const std::vector<Type *>		&items,
+			const std::vector<BaseItem *>		&items,
 			uint32_t						i,
-			const std::vector<Type *>		&type_h);
+			const std::vector<BaseItem *>		&type_h);
 
-	static void build_type_hierarchy(
-			std::vector<Type *>				&type_h,
-			Type							*t);
+	void build_type_hierarchy(
+			std::vector<BaseItem *>				&type_h,
+			BaseItem							*t);
 
 	static IScopeItem *toScopeItem(IBaseItem *it);
 	static INamedItem *toNamedItem(IBaseItem *it);
+
+	static NamedBaseItem *toNamedItem(BaseItem *it);
 
 	void error(const std::string &msg);
 
 private:
 	IBaseItem				*m_model_expr_ctxt;
-	Type					*m_class_expr_ctxt;
+	BaseItem				*m_class_expr_ctxt;
 	IModel					*m_model;
 
 

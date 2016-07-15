@@ -54,7 +54,7 @@ class ExprList : public Expr {
 
 		ExprList(const Expr &rhs);
 
-//		ExprList(Type &t);
+//		ExprList(BaseItem &t);
 
 //		ExprList(int v);
 

@@ -6,11 +6,13 @@
  */
 #include "psi_tests.h"
 
-static class methods_pkg : public Package {
-public:
-	TypeRgy<methods_pkg>		type_id {this};
+int refmodel_get_next_value() {
+	return 27;
+}
 
-	methods_pkg(Type *p=0, psi_name name="methods_pkg") : Package(p, name) { }
+class methods_pkg : public Package {
+public:
+	psi_package_ctor(methods_pkg);
 
 	Import my_func {this, "my_func",
 		(Bit<7,0>("a"), Bit<31,0>("b"))};
@@ -18,42 +20,40 @@ public:
 	Import my_func2 {this, "my_func2", Bit<7,0>(""),
 		(Bit<7,0>("a"), Bit<31,0>("b"))};
 
-} methods_pkgT;
+};
+psi_global_type(methods_pkg);
 
 class top : public Component {
 public:
-	TypeRgy<top>			type_id {this};
-
-	top(Type *p=0, psi_name name="top") : Component(p, name) { }
-
+	psi_component_ctor(top);
 
 	class entry_point : public Action {
 	public:
-		TypeRgy<entry_point>		type_id {this};
+		psi_action_ctor(entry_point);
 
-		entry_point(Type *p=0, psi_name name="entry_point") : Action(p, name) { }
+		Rand<Bit<7,0>>		psi_field(p1);
+		Rand<Bit<31,0>>		psi_field(p2);
+		Rand<Bit<31,0>>		psi_field(p3);
+		Field<Bit<31,0>>	psi_field(p4);
+		Field<Bit<31,0>>	psi_field(p5);
 
-		Rand<Bit<7,0>>			p1 {this, "p1"};
-		Rand<Bit<31,0>>			p2 {this, "p2"};
-		Rand<Bit<31,0>>			p3 {this, "p3"};
-		Bit<31,0>				p4 {this, "p4"};
-		Bit<31,0>				p5 {this, "p5"};
+		Exec pre_solve_e {this, Exec::PreSolve, { p4 } };
 
-		Exec pre_solve_e {this, Exec::PreSolve, { p4() } };
-
-		Exec post_solve_e {this, Exec::PostSolve, { p5() } };
+		Exec post_solve_e {this, Exec::PostSolve, { p5 } };
 
 		void pre_solve() {
-			// TODO: set p4
+			// Set p4 based on calling a generation-time method
+			p4.set(refmodel_get_next_value());
 		}
 
 		void post_solve() {
-			// TODO: set p5
+			// Set p5 based on a calculated value
+			p4.set(p1.get() + p2.get());
 		}
+	};
+	psi_type(entry_point);
 
-
-	} entry_pointT {this};
-
-} topT;
+};
+psi_global_type(top);
 
 

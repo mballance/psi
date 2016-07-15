@@ -14,8 +14,26 @@
  */
 #define psi_ctor(_name, _super) \
 	public: \
-	_name (Type *p=0, psi_name name=#_name, \
-			_super *super=TypeRgy<_super>::valid()?TypeRgy<_super>::type_id():0) : _super(p, name, super) { }
+	_name (const Scope &p) : _super(this) { }
+
+#define psi_constraint(_name, _body) \
+		Constraint _name {this, #_name, _body};
+
+#define psi_action_ctor(_name) \
+		psi_ctor(_name, Action)
+
+#define psi_component_ctor(_name) \
+		psi_ctor(_name, Component)
+
+#define psi_package_ctor(_name) \
+		psi_ctor(_name, Package)
+
+#define psi_struct_ctor(_name) \
+		psi_ctor(_name, Struct)
+
+#define psi_state_ctor(_name) \
+		psi_ctor(_name, StateStruct)
+
 #endif /* End PSI_HAVE_CXX_11 */
 
 /**
@@ -34,6 +52,6 @@
 #endif /* End PSI_HAVE_CXX_11 */
 
 #define psi_typeid(T) \
-	(*TypeRgy<T>::type_id())
+	(*TypeDecl<T>::type_id())
 
 #endif /* INCLUDED_PSI_MACROS_H */

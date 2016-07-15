@@ -5,17 +5,13 @@
  *      Author: ballance
  */
 
-#include "psi.h"
+#include "psi_tests.h"
 
-using namespace psi;
-
-static class constraint_basics_test : public Struct {
+class constraint_basics_test : public Struct {
 public:
-	constraint_basics_test(Type *p=0, const std::string &name="constraint_basics_test") : Struct(p, name) { }
+	psi_struct_ctor(constraint_basics_test);
 
-	virtual ~constraint_basics_test() { };
-
-	Rand<Bit<31,0>>				address {this, "address"};
+	Rand<Bit<31,0>>			psi_field(address);
 
 	Constraint c0 {this, address >= 0x1000 }; // named constraint
 
@@ -27,5 +23,6 @@ public:
 			address <= 0x1fff
 			} };
 
-} constraint_basics_testT;
+};
+psi_global_type(constraint_basics_test);
 

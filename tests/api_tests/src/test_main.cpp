@@ -22,7 +22,7 @@ void build_model(IModel *) __attribute__((weak));
 void build_model(IModel *model) {
 	Elaborator elab;
 
-	Type *global = Model::global();
+	BaseItem *global = Model::global();
 	elab.elaborate(Model::global(), model);
 }
 
@@ -37,11 +37,11 @@ int main(int argc, char **argv) {
 //	fprintf(stdout, "Vector size: %d\n", global->getChildren().size());
 //	for (it=global->getChildren().begin();
 //			it != global->getChildren().end(); ++it) {
-//		Type *t = (*it);
+//		BaseItem *t = (*it);
 //		fprintf(stdout, "PTR: %p\n", t);
 //		if (t != nullptr) {
-//		fprintf(stdout, "Type: %s %s\n",
-//				Type::toString(t->getObjectType()),
+//		fprintf(stdout, "BaseItem: %s %s\n",
+//				BaseItem::toString(t->getObjectType()),
 //				t->getName().c_str());
 //		}
 //	}

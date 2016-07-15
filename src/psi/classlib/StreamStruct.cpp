@@ -23,18 +23,15 @@
  */
 
 #include "classlib/StreamStruct.h"
+#include "classlib/Scope.h"
 
 namespace psi {
 
-StreamStruct::StreamStruct(
-		Type 					*p,
-		const std::string 		&name,
-		Struct					*super_type) : Struct(Struct::Stream, p, name, super_type) { }
+StreamStruct::StreamStruct(const Scope &p) :
+		Struct(Struct::Stream, p.parent()) { }
 
 StreamStruct::~StreamStruct() {
 	// TODO Auto-generated destructor stub
 }
-
-StreamStruct::StreamStruct(Type *p) : Struct(Struct::Stream, p, "", 0) { }
 
 } /* namespace psi */

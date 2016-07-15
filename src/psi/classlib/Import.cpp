@@ -29,13 +29,13 @@
 
 namespace psi {
 
-Import::Import(Type *p, const std::string &name, const ExprList &plist) :
-	Type(Type::TypeImport, p, name){
+Import::Import(BaseItem *p, const std::string &name, const ExprList &plist) :
+	NamedBaseItem(BaseItem::TypeImport, p, name){
 }
 
-Import::Import(Type *p, const std::string &name,
-		const Type &ret, const ExprList &plist) :
-	Type(Type::TypeImport, p, name) { }
+Import::Import(BaseItem *p, const std::string &name,
+		const BaseItem &ret, const ExprList &plist) :
+	NamedBaseItem(BaseItem::TypeImport, p, name) { }
 
 Import::~Import() {
 	// TODO Auto-generated destructor stub

@@ -27,13 +27,21 @@
 #define STRUCT_H_
 #include <string>
 
-#include "classlib/Type.h"
+#include "classlib/NamedBaseItem.h"
+#include "classlib/TypePath.h"
 
 namespace psi {
 
-template <class T> class TypeRgy;
-class Struct : public Type {
-	friend TypeRgy<Struct>;
+class ResourceStruct;
+class StateStruct;
+class MemoryStruct;
+class StreamStruct;
+class Scope;
+class Struct : public NamedBaseItem {
+	friend ResourceStruct;
+	friend StateStruct;
+	friend MemoryStruct;
+	friend StreamStruct;
 
 public:
 	enum StructType {
@@ -48,7 +56,7 @@ public:
 
 		virtual ~Struct();
 
-		Struct *getSuperType() const { return m_super; }
+		const TypePath &getSuperType() const { return m_super_type; }
 
 		StructType getStructType() const { return m_structType; }
 
@@ -74,25 +82,17 @@ public:
 
 
 
-		Struct(
-				Type 				*p,
-				const std::string 	&name,
-				Struct 				*super_type=0);
+		Struct(const Scope &p);
+
+	private:
 
 		Struct(
 				StructType			t,
-				Type 				*p,
-				const std::string 	&name,
-				Struct 				*super_type=0);
-
-
-	private:
-		Struct(Type *p=0);
+				BaseItem			*p);
 
 	private:
 		StructType						m_structType;
-		Struct							*m_super;
-
+		TypePath						m_super_type;
 };
 
 } /* namespace psi */

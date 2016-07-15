@@ -23,17 +23,18 @@
  */
 
 #include "classlib/Exec.h"
+#include "classlib/ExtendItem.h"
 
 namespace psi {
 
 //Exec::Exec() : m_execType(Null) { }
 
 Exec::Exec(
-		Type					*p,
+		BaseItem				*p,
 		ExecKind 				kind,
 		const std::string 		&language,
 		const std::string 		&content) :
-			Type(Type::TypeExec, p),
+			BaseItem(BaseItem::TypeExec, p),
 			m_execType(TargetTemplate),
 			m_execKind(kind),
 			m_language(language),
@@ -41,10 +42,22 @@ Exec::Exec(
 }
 
 Exec::Exec(
-		Type					*p,
+		ExtendItem				*p,
+		ExecKind 				kind,
+		const std::string 		&language,
+		const std::string 		&content) :
+			BaseItem(BaseItem::TypeExec, p),
+			m_execType(TargetTemplate),
+			m_execKind(kind),
+			m_language(language),
+			m_content(content) {
+}
+
+Exec::Exec(
+		BaseItem					*p,
 		ExecKind 				kind,
 		const ExprList			&stmts) :
-			Type(Type::TypeExec, p),
+			BaseItem(BaseItem::TypeExec, p),
 			m_execType(Native),
 			m_execKind(kind),
 			m_stmts(stmts) {
@@ -52,10 +65,21 @@ Exec::Exec(
 }
 
 Exec::Exec(
-		Type									*p,
+		ExtendItem				*p,
+		ExecKind 				kind,
+		const ExprList			&stmts) :
+			BaseItem(BaseItem::TypeExec, p),
+			m_execType(Native),
+			m_execKind(kind),
+			m_stmts(stmts) {
+	// TODO: save call information
+}
+
+Exec::Exec(
+		BaseItem									*p,
 		ExecKind								kind,
-		const std::vector<Type *>				&write_vars) :
-				Type(Type::TypeExec, p),
+		const std::vector<BaseItem *>				&write_vars) :
+				BaseItem(BaseItem::TypeExec, p),
 				m_execType(Inline),
 				m_execKind(kind) {
 

@@ -26,26 +26,21 @@
 #define COMPONENT_H_
 #include <string>
 
-#include "classlib/Type.h"
+#include "classlib/NamedBaseItem.h"
+#include "classlib/Scope.h"
 
 namespace psi {
 
-template <class T> class TypeRgy;
-class Component : public Type {
-	friend TypeRgy<Component>;
+class Component : public NamedBaseItem {
 
 	public:
-		Component(
-				Type				*p,
-				const std::string 	&name,
-				Component			*super=0);
+		Component(const Scope &p);
 
 		virtual ~Component();
 
 		Component *getSuperType() const { return m_super; }
 
 	private:
-		Component(Type *p);
 
 	private:
 		Component					*m_super;

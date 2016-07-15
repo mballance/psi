@@ -26,24 +26,21 @@
 #define ACTION_H_
 #include <string>
 
-#include "classlib/Type.h"
+#include "classlib/NamedBaseItem.h"
+#include "classlib/Scope.h"
+#include "classlib/TypePath.h"
 
 namespace psi {
 
-template <class T> class TypeRgy;
-class Action : public Type {
-	friend TypeRgy<Action>;
+class Action : public NamedBaseItem {
 
 	public:
 
-		Action(
-				Type 						*p,
-				const std::string 			&name,
-				Action						*super_type=0);
+		Action(const Scope &p);
 
 		virtual ~Action();
 
-		Action *getSuperType() const { return m_super_type; }
+		const TypePath &getSuperType() const { return m_super_type; }
 
 	protected:
 
@@ -66,11 +63,10 @@ class Action : public Type {
 		virtual void body();
 
 	private:
-		Action(Type *p);
 
 
 	private:
-		Action								*m_super_type;
+		TypePath							m_super_type;
 
 };
 

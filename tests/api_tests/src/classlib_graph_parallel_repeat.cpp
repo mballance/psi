@@ -2,25 +2,23 @@
 
 class top_comp : public Component {
 public:
-	TypeRgy<top_comp>		type_id {this};
-
-	top_comp(Type *p=0, psi_name name="top_comp") : Component(p, name) { }
+	psi_ctor(top_comp, Component);
 
 	class at : public Action {
 	public:
-		TypeRgy<at>			type_id {this};
+		psi_ctor(at, Action);
 
-		Rand<Bit<3,0>>		field {this, "field"};
-
-		at(Type *p=0, psi_name name="at") : Action(p, name) { }
-	} _at {this};
+		Rand<Bit<3,0>>		psi_field(field);
+	};
+	psi_type(at);
 
 	class top_action : public Action {
 	public:
-		TypeRgy<top_action>		type_id {this};
-		Field<at>				a{this, "a"}, b{this, "b"}, c{this, "c"};
+		psi_ctor(top_action, Action);
 
-		top_action(Type *p=0, psi_name name="top_action") : Action(p, name) { }
+		Field<at>		psi_field(a);
+		Field<at>		psi_field(b);
+		Field<at>		psi_field(c);
 
 		Graph g {this, {
 			a,
@@ -37,6 +35,8 @@ public:
 		}
 		};
 
-	} _top_actionT {this};
+	};
+	psi_type(top_action);
 
-} _top_compT;
+};
+psi_global_type(top_comp);

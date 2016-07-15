@@ -32,25 +32,16 @@
 
 namespace psi {
 
-template <class T> class TypeRgy;
-
 class ResourceStruct : public Struct {
-	friend TypeRgy<ResourceStruct>;
-
 	public:
 		Rand<psi::Bit<31,0> >			instance_id;
 
 	public:
 
-		ResourceStruct(
-				Type 				*p,
-				const std::string 	&name,
-				Struct 				*super_type=0);
+		ResourceStruct(const Scope &p);
 
 		virtual ~ResourceStruct();
 
-	private:
-		ResourceStruct(Type *p);
 };
 
 } /* namespace psi */

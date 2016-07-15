@@ -32,11 +32,10 @@ template <int MSB=31, int LSB=0> class Int : public IntType {
 
 	public:
 
-		Int(Type *p, const std::string &name) :
-			IntType(p, name, MSB, LSB) { }
+		Int(const Scope &p) : IntType(p.parent(), MSB, LSB) { }
 
 		Int(const std::string &name) :
-			IntType(0, name, MSB, LSB) { }
+			IntType(name, MSB, LSB) { }
 
 };
 

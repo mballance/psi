@@ -7,75 +7,66 @@
 
 #include "psi_tests.h"
 
-static class S : public Struct {
+class S : public Struct {
 public:
+	psi_ctor(S, Struct);
 
-	S(Type *p=0, psi_name &name="S") : Struct(p, name) { }
+};
+psi_global_type(S);
 
-	TypeRgy<S>			type_id {this};
-
-} St;
-
-static class CA : public Component {
+class CA : public Component {
 public:
-	TypeRgy<CA>			type_id {this};
-
-	CA(Type *p=0, psi_name name="CA") : Component(p, name) {
-	}
+	psi_ctor(CA, Component);
 
 	class A : public Action {
 	public:
-		TypeRgy<A>			type_id {this};
+		psi_ctor(A, Action);
 
-		A(Type *p=0, psi_name name="A") : Action(p, name) { }
+		Output<S>			psi_field(out_s);
+	};
+	psi_type(A);
 
-		Output<S>			out_s {this, "out_s"};
-	} At {this};
+};
+psi_global_type(CA);
 
-} CAt;
-
-static class CB : public Component {
+class CB : public Component {
 public:
-	TypeRgy<CB>			type_id {this};
-
-	CB(Type *p=0, psi_name name="CB") : Component(p, name) { }
+	psi_ctor(CB, Component);
 
 	class B : public Action {
 	public:
-		TypeRgy<B>			type_id {this};
-		B(Type *p=0, psi_name name="B") : Action(p, name) { }
+		psi_ctor(B, Action);
 
-		Input<S>			in_s {this, "in_s"};
+		Input<S>			psi_field(in_s);
+	};
+	psi_type(B);
+};
+psi_global_type(CB);
 
-	} Bt {this };
-} CBt;
-
-static class static_structure : public Component {
+class static_structure : public Component {
 public:
-	TypeRgy<static_structure>	type_id {this};
 
-	Field<CA>			ca1 {this, "ca1"};
-	Field<CA>			ca2 {this, "ca2"};
-	Field<CB>			cb1 {this, "cb1"};
-	Field<CB>			cb2 {this, "cb2"};
+	Field<CA>			psi_field(ca1);
+	Field<CA>			psi_field(ca2);
+	Field<CB>			psi_field(cb1);
+	Field<CB>			psi_field(cb2);
 
-	static_structure(Type *p=0, psi_name name="static_structure")
-		: Component(p, name) {
+	psi_ctor(static_structure, Component);
 
-	}
-
+	// TODO:
 	Bind b2 { this,
-			ca1.At.out_s, ca2.At.out_s,
-			cb1.Bt.in_s, cb2.Bt.in_s };
+			ca1._A_t.out_s, ca2._A_t.out_s,
+			cb1._B_t.in_s, cb2._B_t.in_s };
 
 	class entry_point : public Action {
 	public:
-		TypeRgy<entry_point>	type_id {this};
-		entry_point(Type *p=0, psi_name name="entry_point") : Action(p, name) { }
+		psi_ctor(entry_point, Action);
 
-	} entry_pointT {this};
+	};
+	psi_type(entry_point);
 
-} static_structureT;
+};
+psi_global_type(static_structure);
 
 
 

@@ -28,16 +28,20 @@
 #include <stdint.h>
 #include <string>
 
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 
 namespace psi {
 
-class BitType : public Type {
+class BitType : public BaseItem {
 
 	public:
 		BitType(
-				Type 				*p,
-				const std::string 	&name,
+				BaseItem 			*p,
+				uint32_t			msb,
+				uint32_t			lsb);
+
+		BitType(
+				const std::string	&name,
 				uint32_t			msb,
 				uint32_t			lsb);
 
@@ -62,6 +66,8 @@ class BitType : public Type {
 		 * inline-exec callback.
 		 */
 		void set(uint64_t v);
+
+//		ExprListBuilder operator,(const BitType &rhs);
 
 	private:
 

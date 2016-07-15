@@ -24,16 +24,16 @@
 
 #ifndef SRC_CLASSLIB_STRING_H_
 #define SRC_CLASSLIB_STRING_H_
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 #include <string>
 
 namespace psi {
 
-class String : public Type {
+class String : public BaseItem {
 
 	public:
 
-		String(Type *p, const std::string &name);
+		String(BaseItem *p);
 
 		String(const std::string &name);
 

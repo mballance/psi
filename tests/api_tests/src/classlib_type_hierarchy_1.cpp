@@ -9,31 +9,28 @@
 
 class Base : public Struct {
 public:
-	TypeRgy<Base>			type_id {this};
+	psi_ctor(Base, Struct);
 
-	Base(Type *p=0, psi_name name="Base", Struct *super=0) : Struct(p, name, super) { }
-
-	Rand<Bit<7,0>>			a {this, "a"};
-	Rand<Bit<7,0>>			b {this, "b"};
+	Rand<Bit<7,0>>		psi_field(a);
+	Rand<Bit<7,0>>		psi_field(b);
 
 	Constraint c {this, "c", {
 			a == 5,
 			b == 6
 	}};
 
-} BaseT;
+};
+psi_global_type(Base);
 
 class Ext : public Base {
 public:
-	TypeRgy<Ext>			type_id {this};
-
-	Ext(Type *p=0, psi_name name="Ext", Struct *super=TypeRgy<Base>::type_id()) :
-		Base(p, name, super) { }
+	psi_ctor(Ext, Base);
 
 	Constraint c {this, "c", {
 			a == 7,
 			b == 8
 	}};
-} ExtT;
+};
+psi_global_type(Ext);
 
 

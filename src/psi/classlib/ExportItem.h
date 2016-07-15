@@ -1,5 +1,5 @@
 /*
- * ExportAction.cpp
+ * ExportItem.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,26 +22,36 @@
  *      Author: ballance
  */
 
-#include "ExportAction.h"
+#ifndef SRC_PSI_CLASSLIB_EXPORTACTION_H_
+#define SRC_PSI_CLASSLIB_EXPORTACTION_H_
+
+#include "classlib/BaseItem.h"
+#include "classlib/Types.h"
+#include "classlib/Action.h"
+#include "classlib/ExprList.h"
 
 namespace psi {
 
-ExportAction::ExportAction(
-		Type				*p,
-		Action				*t_ref) : Type(Type::TypeExportAction, p) {
-	setTypeData(t_ref);
+class ExportItem: public BaseItem {
+public:
+	ExportItem(BaseItem *p);
+
+	ExportItem(BaseItem *p, const ExprList &exp_params);
+
+	virtual ~ExportItem();
+
+	void setDataType(BaseItem *t) { m_data_type = t; }
+
+	BaseItem *getDataType() const { return m_data_type; }
+
+protected:
+
+
+private:
+	BaseItem				*m_data_type;
+	ExprList				m_exp_params;
+};
+
 }
 
-ExportAction::ExportAction(
-		Type 				*p,
-		Action				*t_ref,
-		const ExprList		&exp_params) :
-	Type(Type::TypeExportAction, p), m_exp_params(exp_params) {
-	setTypeData(t_ref);
-}
-
-ExportAction::~ExportAction() {
-	// TODO Auto-generated destructor stub
-}
-
-}
+#endif /* SRC_PSI_CLASSLIB_EXPORTACTION_H_ */

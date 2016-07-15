@@ -27,14 +27,16 @@
 
 #include <string>
 
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 #include "classlib/SharedPtr.h"
+#include "classlib/Types.h"
 
 namespace psi {
 
 class ImportCall;
+class ExtendItem;
 
-class Exec : public Type {
+class Exec : public BaseItem {
 
 	public:
 		enum ExecKind {
@@ -53,13 +55,24 @@ class Exec : public Type {
 	public:
 
 		Exec(
-			Type									*p,
+			BaseItem								*p,
 			ExecKind 								kind,
 			const std::string 						&language,
 			const std::string 						&content);
 
 		Exec(
-			Type									*p,
+			ExtendItem								*p,
+			ExecKind 								kind,
+			const std::string 						&language,
+			const std::string 						&content);
+
+		Exec(
+			BaseItem								*p,
+			ExecKind 								kind,
+			const ExprList							&stmts);
+
+		Exec(
+			ExtendItem								*p,
 			ExecKind 								kind,
 			const ExprList							&stmts);
 
@@ -68,9 +81,28 @@ class Exec : public Type {
 		 * hook method
 		 */
 		Exec(
-			Type									*p,
+			BaseItem								*p,
 			ExecKind								kind,
-			const std::vector<Type *>				&write_vars);
+			const std::vector<BaseItem *>			&write_vars);
+
+#ifdef PSI_HAVE_CXX_11
+		Exec(
+			BaseItem								*p,
+			ExecKind								kind,
+			std::initializer_list<BaseItem>			write_vars) :
+				BaseItem(BaseItem::TypeExec, p),
+				m_execType(Inline),
+				m_execKind(kind) {
+			// TODO: save write variables
+//			std::vector<BaseItem *> ptr_v;
+//
+//			for (std::initializer_list<BaseItem>::const_iterator it=write_vars.begin();
+//					it!=write_vars.end(); it++) {
+//				ptr_v.
+//
+//			}
+		}
+#endif
 
 		virtual ~Exec();
 

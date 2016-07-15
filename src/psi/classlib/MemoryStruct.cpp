@@ -23,22 +23,17 @@
  */
 
 #include "classlib/MemoryStruct.h"
-
 #include "classlib/Model.h"
+#include "classlib/Scope.h"
 
 namespace psi {
 
-MemoryStruct::MemoryStruct(
-		Type 					*p,
-		const std::string 		&name,
-		Struct					*super_type) :
-		Struct(Struct::Memory, (p)?p:Model::global(), name, super_type) {
+MemoryStruct::MemoryStruct(const Scope &p) : Struct(Struct::Memory, p.parent()) {
 }
 
 MemoryStruct::~MemoryStruct() {
 	// TODO Auto-generated destructor stub
 }
 
-MemoryStruct::MemoryStruct(Type *p) : Struct(Struct::Memory, p, "", 0) { }
 
 } /* namespace psi */

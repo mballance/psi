@@ -7,72 +7,65 @@
 #include "psi_tests.h"
 
 
-static class R : public ResourceStruct {
+class R : public ResourceStruct {
 public:
-	TypeRgy<R>		type_id {this};
+	psi_ctor(R, ResourceStruct);
 
-	R(Type *p=0, psi_name name="R") : ResourceStruct(p, name) { }
+};
+psi_global_type(R);
 
-} Rt;
-
-static class C : public Component {
+class C : public Component {
 public:
-	TypeRgy<C>		type_id {this};
-
-	C(Type *p=0, psi_name name="C") : Component(p, name) { }
+	psi_ctor(C, Component);
 
 	class A : public Action {
 	public:
-		A(Type *p=0, psi_name name="A") : Action(p, name) { }
+		psi_ctor(A, Action);
 
-		Lock<R>			rc {this, "rc"};
+		Lock<R>			psi_field(rc);
+	};
+	psi_type(A);
+};
+psi_global_type(C);
 
-	} At {this};
-
-} Ct;
-
-static class static_structure : public Component {
+class static_structure : public Component {
 public:
-	TypeRgy<static_structure>		type_id {this};
+	psi_ctor(static_structure, Component);
 
-	static_structure(Type *p=0, psi_name name="static_structure")
-		: Component(p, name) { }
+	Field<C>			psi_field(c1);
+	Field<C>			psi_field(c2);
 
-	Field<C>			c1 {this, "c1"};
-	Field<C>			c2 {this, "c2"};
-
-	Pool<R>				rp {this, "rp"};
+	Pool<R>				psi_field(rp);
 
 	Bind b1 {this, rp, c1};
 	Bind b2 {this, rp, c2};
 
-	Bind b {this, {rp(), c1(), c2()}};
+	Bind b {this, rp, c1, c2};
 
-} static_structureT;
+};
+psi_global_type(static_structure);
 
-static class top : public Component {
+class top : public Component {
 public:
-	TypeRgy<top>		type_id {this};
-
-	top(psi_name name="top", Type *p=0) : Component(p, name) { }
+	psi_ctor(top, Component);
 
 	class entry_point : public Action {
 	public:
-		TypeRgy<entry_point>		type_id {this};
+		psi_ctor(entry_point, Action);
 
-		entry_point(Type *p=0, psi_name name="entry_point") : Action(p, name) { }
-
-		Field<C::A>			a1 {this, "a1"};
-		Field<C::A>			a2 {this, "a2"};
+		Field<C::A>			psi_field(a1);
+		Field<C::A>			psi_field(a2);
 
 		Graph graph {this,
 			Parallel {
 				(a1, a2)
 			}
 		};
-	} entry_pointT {this};
+	};
+	psi_type(entry_point);
 
-} topT;
+};
+psi_global_type(top);
 
 
 

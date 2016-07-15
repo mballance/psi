@@ -26,16 +26,16 @@
 #define CONSTRAINT_H_
 #include <string>
 
-#include "classlib/Type.h"
+#include "classlib/NamedBaseItem.h"
 
 namespace psi {
 
-class Constraint : public Type {
+class Constraint : public NamedBaseItem {
 public:
-	Constraint(Type *p, const ExprList &stmt);
+	Constraint(BaseItem *p, const ExprList &stmt);
 
 	Constraint(
-			Type 					*p,
+			BaseItem 					*p,
 			const std::string 		&name,
 			const ExprList 			&stmt);
 

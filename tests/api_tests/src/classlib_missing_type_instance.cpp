@@ -12,7 +12,7 @@ class missing_type_instance : public Struct {
 public:
 	TypeRgy<missing_type_instance>		type_id {this};
 
-	missing_type_instance(Type *p=0, psi_name name="missing_type_instance") : Struct(p, name) { }
+	missing_type_instance(BaseItem *p=0, psi_name name="missing_type_instance") : Struct(p, name) { }
 
 };
 
@@ -21,7 +21,7 @@ public:
 
 	Rand<missing_type_instance>		f {this, "f"};
 
-	instance_s(Type *p=0, psi_name name="instance_s") : Struct(p, name) { }
+	instance_s(BaseItem *p=0, psi_name name="instance_s") : Struct(p, name) { }
 
 } instance_sT;
 

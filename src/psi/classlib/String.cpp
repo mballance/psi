@@ -26,9 +26,9 @@
 
 namespace psi {
 
-String::String(Type *p, const std::string &name) : Type(Type::TypeString, p, name) { }
+String::String(BaseItem *p) : BaseItem(BaseItem::TypeString, p) { }
 
-String::String(const std::string &name) : Type(Type::TypeString, 0, name) { }
+String::String(const std::string &name) : BaseItem(BaseItem::TypeString, 0) { }
 
 String::~String() {
 	// TODO Auto-generated destructor stub

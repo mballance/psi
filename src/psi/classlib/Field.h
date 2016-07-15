@@ -27,22 +27,41 @@
 
 #include <string>
 
-#include "classlib/Type.h"
-#include "classlib/TypeRgy.h"
+#include "classlib/BaseItem.h"
+#include "classlib/TypeDecl.h"
+#include "classlib/FieldItem.h"
 
 namespace psi {
 
 template <class T> class Field : public T {
 	public:
 
-		Field(Type *p, const std::string &name) : T(p, name) {
-			Type *t = static_cast<Type *>(this);
-			if (t->getObjectType() == Type::TypeAction ||
-					t->getObjectType() == Type::TypeStruct ||
-					t->getObjectType() == Type::TypeComponent) {
-				t->setTypeData(TypeRgy<T>::type_id());
+		Field(BaseItem *p, const std::string &name) : T(Scope(true)), m_field(p, name) {
+			// Both FieldItem and T extend from BaseItem.
+			// Ensure we don't get confused...
+			T *t = static_cast<T *>(this);
+
+			// Get the 'authoratative' type declaration from
+			// TypeDecl<> in the case of a user-defined type. Otherwise,
+			// just set the type handle
+			if (t->getObjectType() == BaseItem::TypeAction ||
+					t->getObjectType() == BaseItem::TypeStruct ||
+					t->getObjectType() == BaseItem::TypeComponent) {
+				m_field.setDataType(TypeDecl<T>::type_id());
+			} else {
+				m_field.setDataType(t);
 			}
 		}
+
+		/*
+		 * Provide an explicit conversion function to tell the
+		 * compiler how to interpret the fact that both we and T extend
+		 * from BaseItem
+		 */
+		operator Expr() const { return Expr(static_cast<const FieldItem &>(m_field)); }
+
+	private:
+		FieldItem						m_field;
 };
 
 }

@@ -172,6 +172,10 @@ IField *XML2PSI::elaborate_field(xmlNode *p, const strmap &attr) {
 
 	IBaseItem *field_t = 0;
 	for (xmlNode *n=p->children; n; n=n->next) {
+		if (n->type != XML_ELEMENT_NODE) {
+			continue;
+		}
+
 		std::string name(reinterpret_cast<const char *>(n->name));
 		if (n->type != XML_ELEMENT_NODE) {
 			continue;
@@ -400,7 +404,7 @@ void XML2PSI::start(const std::string &el, const char **attr) {
 		enter_field(attr_m);
 	} else if (el == "struct") {
 		if (top()->getType() == IBaseItem::TypeField) {
-			// Parent is <type>
+			// Scope is <type>
 			enter_struct_type(attr_m);
 		} else {
 			enter_struct(attr_m);

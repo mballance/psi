@@ -23,23 +23,18 @@
  */
 
 #include "classlib/Component.h"
-
 #include "classlib/Model.h"
+#include "classlib/TypePath.h"
 
 namespace psi {
 
-Component::Component(Type *p, const std::string &name, Component *super) :
-		Type(Type::TypeComponent, (p)?p:Model::global(), name),
-		m_super(super) {
-
+Component::Component(const Scope &p) :
+		NamedBaseItem(BaseItem::TypeComponent, p.parent()) {
+	setName(Model::global()->getActiveTypeName(this).leaf());
 }
 
 Component::~Component() {
 	// TODO Auto-generated destructor stub
-}
-
-Component::Component(Type *p) : Type(Type::TypeComponent, p, "") {
-	// Unused constructor required by TypeRgy
 }
 
 } /* namespace psi */

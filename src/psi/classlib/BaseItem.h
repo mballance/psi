@@ -1,5 +1,5 @@
 /*
- * Type.h
+ * BaseItem.h
  *
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -38,90 +38,70 @@ namespace psi {
 class Action;
 class Struct;
 
-class Type {
+class BaseItem {
 	friend class Struct;
 
 public:
 	enum ObjectType {
-		TypeAction,
+		TypeAction,    // 0
 		TypeBind,
 		TypeBit,
 		TypeBool,
 		TypeChandle,
-		TypeComponent,
+		TypeComponent, // 5
 		TypeConstraint,
 		TypeImport,
 		TypeInt,
 		TypeExec,
-		TypeExportAction,
+		TypeExportItem, // 10
 		TypeExtendAction,
 		TypeExtendComponent,
 		TypeExtendStruct,
+		TypeField,
 		TypeGraph,
 		TypePackage,
 		TypeString,
-		TypeStruct,
-		Model,
+		TypeStruct, // 18
+		Model, // 19
 		TypeRef
-	};
-
-	enum FieldAttr {
-		AttrNone = 0,
-		AttrInput,
-		AttrOutput,
-		AttrLock,
-		AttrShare,
-		AttrRand,
-		AttrPool
 	};
 
 	public:
 
-		virtual Type *getParent() const {
+		virtual BaseItem *getParent() const {
 			return m_parent;
 		}
 
-		inline Type::ObjectType getObjectType() const {
+		inline BaseItem::ObjectType getObjectType() const {
 			return m_type;
 		}
 
-		inline const std::string &getName() const { return m_name; }
-
-		FieldAttr getAttr() const { return m_attr; }
-
-		void setAttr(FieldAttr attr) { m_attr = attr; }
-
-		inline void setTypeData(Type *t) { m_type_data = t; }
-
-		inline Type *getTypeData() const { return m_type_data; }
-
-		Type *operator ()()  { return this; }
+		BaseItem *operator ()()  { return this; }
 
 		Expr operator [] (const Expr &rhs);
 
-		ExprListBuilder operator,(const Type &rhs);
+		ExprListBuilder operator,(const BaseItem &rhs);
 
 		Expr operator = (const Expr &rhs);
 
 //		Expr operator = (const ExprImportCall &rhs);
 
 		// Effectively private.
-		virtual void add(Type *item);
+		virtual void add(BaseItem *item);
 
-		void setObjectType(Type::ObjectType t);
+		void setObjectType(BaseItem::ObjectType t);
 
-		virtual const std::vector<Type *> &getChildren() const;
+		virtual const std::vector<BaseItem *> &getChildren() const;
 
 		static const char *toString(ObjectType t);
 
+		virtual ~BaseItem();
+
 	protected:
 
-		Type(Type::ObjectType t, Type *p);
+		BaseItem(BaseItem::ObjectType t, BaseItem *p);
 
-		Type(Type::ObjectType t, Type *p, const std::string &name);
-
-		virtual ~Type();
-
+		BaseItem(BaseItem::ObjectType t);
 
 	private:
 
@@ -129,22 +109,15 @@ public:
 
 	private:
 		ObjectType					m_type;
-		std::string					m_name;
-		Type						*m_parent;
+		BaseItem					*m_parent;
 
-
-		std::vector<Type *>			m_children;
-
-		// Handle to the declaring type for fields
-		Type						*m_type_data;
-
-		FieldAttr					m_attr;
+		std::vector<BaseItem *>		m_children;
 
 };
 
-class TypeRef : public Type {
+class TypeRef : public BaseItem {
 public:
-	TypeRef(const std::string &str) : Type(Type::TypeAction, 0) { }
+	TypeRef(const std::string &str) : BaseItem(BaseItem::TypeAction, 0) { }
 };
 
 } /* namespace psi */

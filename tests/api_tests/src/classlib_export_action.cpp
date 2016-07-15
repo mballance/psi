@@ -6,35 +6,36 @@
  */
 #include "psi_tests.h"
 
-static class my_comp : public Component {
+class my_comp : public Component {
 public:
-	TypeRgy<my_comp>		type_id {this};
-
-	my_comp(Type *p=0, psi_name name="my_comp") : Component(p, name) { }
+	psi_component_ctor(my_comp);
 
 	class my_action : public Action {
 	public:
-		TypeRgy<my_action>		type_id {this};
+		psi_action_ctor(my_action);
 
-		Rand<Bit<1,0>>				mode  {this, "mode"};
-		Rand<Bit<1,0>>				mode2 {this, "mode2"};
-		my_action(Type *p=0, psi_name name="my_action") : Action(p, name) { }
-	} my_actionT {this};
+		Rand<Bit<1,0>>		psi_field(mode);
+		Rand<Bit<1,0>>		psi_field(mode2);
+	};
+	psi_type(my_action);
+};
+psi_global_type(my_comp);
 
-} my_compT;
-
-static class top_pkg : public Package {
+class top_pkg : public Package {
 public:
-	TypeRgy<top_pkg>		type_id {this};
+	psi_package_ctor(top_pkg);
 
-	top_pkg(Type *p=0, psi_name name="top_pkg") : Package(p, name) { }
+	Export<my_comp::my_action> exp1 {this};
+};
+psi_global_type(top_pkg);
 
-	ExportAction exp1 {this, TypeRgy<my_comp::my_action>::type_id()};
+class top_pkg2 : public Package {
+public:
+	psi_package_ctor(top_pkg2);
 
-//	ExportAction exp2 {this, TypeRgy<my_comp::my_action>::type_id(),
-//		 (my_compT.my_actionT.mode, my_compT.my_actionT.mode2)};
-
-} top_pkgT;
-
+	// Export the 'mode' field as a method parameter
+	Export<my_comp::my_action> exp1 {this, {exp1.mode}};
+};
+psi_global_type(top_pkg2);
 
 

@@ -27,7 +27,8 @@
 #include <string>
 #include <stdio.h>
 
-#include "classlib/Type.h"
+#include "classlib/FieldItem.h"
+#include "classlib/TypeDecl.h"
 
 namespace psi {
 
@@ -35,13 +36,22 @@ namespace psi {
 template <class T> class Output : public T {
 
 	public:
-		Output(Type *p, const std::string &name) : T(p, name) {
-			Type *t = static_cast<Type *>(this);
-			t->setAttr(Type::AttrOutput);
-			t->setTypeData(TypeRgy<T>::type_id());
+		Output(BaseItem *p, const std::string &name) : T(Scope(true)), m_field(p, name) {
+			m_field.setAttr(FieldItem::AttrOutput);
+			m_field.setDataType(TypeDecl<T>::type_id());
 		}
 
 		virtual ~Output() { }
+
+		/*
+		 * Provide an explicit conversion function to tell the
+		 * compiler how to interpret the fact that both we and T extend
+		 * from BaseItem
+		 */
+		operator Expr() const { return Expr(static_cast<const FieldItem &>(*this)); }
+
+	private:
+		FieldItem					m_field;
 };
 
 } /* namespace psi */

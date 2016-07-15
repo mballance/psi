@@ -26,7 +26,7 @@
 
 #include <stdio.h>
 #include "classlib/ExprCore.h"
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 #include "classlib/ExprListBuilder.h"
 
 namespace psi {
@@ -39,7 +39,7 @@ Expr::Expr(uint32_t v) : m_core(new ExprCore(v)) { }
 
 Expr::Expr(int32_t v) : m_core(new ExprCore(v)) { }
 
-Expr::Expr(const Type &t) : m_core(new ExprCore(t)) { }
+Expr::Expr(const BaseItem &t) : m_core(new ExprCore(t)) { }
 
 Expr::Expr(const SharedPtr<ExprCore> &ptr) : m_core(ptr) { }
 
@@ -123,7 +123,7 @@ const char *Expr::toString(Operator op) {
 	return "UNKNOWN";
 }
 
-//Expr operator _op (const Type &lhs, const Expr &rhs) { \
+//Expr operator _op (const BaseItem &lhs, const Expr &rhs) { \
 //	return Expr(new ExprCore(_code, lhs, rhs)); \
 //} \
 

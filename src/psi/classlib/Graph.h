@@ -24,15 +24,15 @@
 
 #ifndef GRAPH_H_
 #define GRAPH_H_
-#include "classlib/Type.h"
+#include "classlib/BaseItem.h"
 #include "classlib/ExprList.h"
 
 namespace psi {
 
-class Graph : public Type {
+class Graph : public BaseItem {
 
 	public:
-		Graph(Type *p, const ExprList &seq);
+		Graph(BaseItem *p, const ExprList &seq);
 
 		virtual ~Graph();
 
