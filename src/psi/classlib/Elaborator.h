@@ -95,9 +95,13 @@ private:
 
 	static IField::FieldAttr getAttr(FieldItem *t);
 
+	BaseItem *find_cl_type_decl(const TypePath &t);
+
+	IBaseItem *find_type_decl(const TypePath &t);
+
 	IBaseItem *find_type_decl(BaseItem *t);
 
-	static IScopeItem *find_named_scope(
+	static IBaseItem *find_named_scope(
 			const std::vector<IBaseItem *> 	&list,
 			const std::string 				&name);
 
@@ -106,7 +110,7 @@ private:
 			uint32_t						i,
 			const std::vector<BaseItem *>		&type_h);
 
-	static void build_type_hierarchy(
+	void build_type_hierarchy(
 			std::vector<BaseItem *>				&type_h,
 			BaseItem							*t);
 

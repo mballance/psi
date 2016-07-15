@@ -30,12 +30,12 @@
 namespace psi {
 
 Action::Action(const Scope	&p) : NamedBaseItem(BaseItem::TypeAction, p.parent()) {
-	m_super_type = 0;
+	m_super_type = Model::global()->getSuperType(this);
 
-	setName(Model::global()->getActiveTypeName(this));
+	TypePath type = Model::global()->getActiveTypeName(this);
+	setName(type.leaf());
 
-	const std::vector<const Scope *> &scope = Model::global()->get_scope();
-
+//	const std::vector<const Scope *> &scope = Model::global()->get_scope();
 //	fprintf(stdout, "--> scope %s\n", name.c_str());
 //	for (int i=scope.size()-2; i>=0; i--) {
 //		if (scope.at(i)->ctxt() != this) {

@@ -16,6 +16,9 @@
 	public: \
 	_name (const Scope &p) : _super(this) { }
 
+#define psi_constraint(_name, _body) \
+		Constraint _name {this, #_name, _body};
+
 #define psi_action_ctor(_name) \
 		psi_ctor(_name, Action)
 

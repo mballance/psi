@@ -28,6 +28,7 @@
 
 #include "classlib/NamedBaseItem.h"
 #include "classlib/Scope.h"
+#include "classlib/TypePath.h"
 
 namespace psi {
 
@@ -39,7 +40,7 @@ class Action : public NamedBaseItem {
 
 		virtual ~Action();
 
-		Action *getSuperType() const { return m_super_type; }
+		const TypePath &getSuperType() const { return m_super_type; }
 
 	protected:
 
@@ -65,7 +66,7 @@ class Action : public NamedBaseItem {
 
 
 	private:
-		Action								*m_super_type;
+		TypePath							m_super_type;
 
 };
 

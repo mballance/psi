@@ -85,9 +85,12 @@ const std::vector<const Scope *> &Model::get_scope() const {
 	return m_scope;
 }
 
-std::string Model::getActiveTypeName(BaseItem *it) {
+TypePath Model::getActiveTypeName(BaseItem *it) {
 	const Scope *scope = 0;
+//	fprintf(stdout, "--> getActiveTypeName\n");
 	for (int i=m_scope.size()-1; i>=0; i--) {
+//		fprintf(stdout, "m_scope[%d]=%p it=%p\n",
+//				i, m_scope.at(i)->ctxt(), it);
 		if (m_scope.at(i)->ctxt() == it) {
 			scope = m_scope.at(i);
 		} else {
@@ -96,10 +99,52 @@ std::string Model::getActiveTypeName(BaseItem *it) {
 	}
 
 	if (scope) {
-		return Model::demangle(scope);
+		TypePath ret = Model::demangle(scope);
+
+//		for (std::vector<std::string>::const_iterator it=ret.get().begin();
+//				it!=ret.get().end(); it++) {
+//			fprintf(stdout, "  path=%s\n", (*it).c_str());
+//		}
+
+		return ret;
 	}
 
-	return "global";
+	return TypePath();
+}
+
+TypePath Model::getSuperType(BaseItem *it) {
+	// Looking for <last+1>
+//	fprintf(stdout, "--> getSuperType\n");
+	int i=0;
+	for (i=m_scope.size()-1; i>=0; i--) {
+//		fprintf(stdout, "m_scope[%d]=%p it=%p\n",
+//				i, m_scope.at(i)->ctxt(), it);
+		if (m_scope.at(i)->ctxt() != it) {
+			// The 'leaf' is actually the next one
+			i++;
+			break;
+		}
+	}
+
+//	fprintf(stdout, "i=%d scope.size=%d\n", i, m_scope.size());
+	if (m_scope.size() > i+1) {
+//		fprintf(stdout, "scope[i+1]=%s scope[i]=%s\n",
+//				m_scope.at(i+1)->get_typeinfo()->name(),
+//				m_scope.at(i)->get_typeinfo()->name());
+		if (m_scope.at(i+1)->get_typeinfo() != m_scope.at(i)->get_typeinfo()) {
+			TypePath super = Model::demangle(m_scope.at(i+1));
+
+			for (std::vector<std::string>::const_iterator it=super.get().begin();
+					it!=super.get().end(); it++) {
+//				fprintf(stdout, "  path=%s\n", (*it).c_str());
+			}
+
+			return super;
+		}
+	}
+//	fprintf(stdout, "<-- getSuperType\n");
+
+	return TypePath();
 }
 
 BaseItem *Model::getActiveScope() {
@@ -139,8 +184,8 @@ BaseItem *Model::getActiveScope() {
 //	return 0;
 }
 
-std::string Model::demangle(const Scope *s) {
-	std::vector<std::string> name;
+TypePath Model::demangle(const Scope *s) {
+	TypePath name;
 	const std::type_info *info = s->get_typeinfo();
 
     char *n = abi::__cxa_demangle(info->name(), 0, 0, 0);
@@ -168,7 +213,7 @@ std::string Model::demangle(const Scope *s) {
                             *tp = 0;
                     }
             } else if (*tp == ':' && bk == 0) {
-                    name.insert(name.begin(), tp+1);
+                    name.prepend(tp+1);
 
                     if (tp > 0) {
                             tp--;
@@ -181,11 +226,11 @@ std::string Model::demangle(const Scope *s) {
             tp--;
     }
 
-    name.insert(name.begin(), n);
+    name.prepend(n);
 
     free(n);
 
-    return name.at(name.size()-1);
+    return name;
 }
 
 Model *Model::m_global = 0;

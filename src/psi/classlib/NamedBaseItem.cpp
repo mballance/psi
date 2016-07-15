@@ -19,7 +19,8 @@ namespace psi {
 NamedBaseItem::NamedBaseItem(
 		BaseItem::ObjectType 	t,
 		BaseItem 				*p,
-		const std::string 		&name) : BaseItem(t, p), m_name(name) { }
+		const std::string 		&name) : BaseItem(t, p), m_name(name) {
+}
 
 NamedBaseItem::~NamedBaseItem() {
 	// TODO Auto-generated destructor stub

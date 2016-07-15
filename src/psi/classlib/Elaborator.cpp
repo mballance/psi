@@ -32,6 +32,7 @@
 #include "classlib/Bool.h"
 #include "classlib/Chandle.h"
 #include "classlib/Repeat.h"
+#include "classlib/Model.h"
 
 #include <stdio.h>
 
@@ -85,7 +86,7 @@ void Elaborator::elaborate(BaseItem *root, IModel *model) {
 IAction *Elaborator::elaborate_action(Action *c) {
 	IAction *super_a = 0; // TODO:
 
-	if (c->getSuperType()) {
+	if (!c->getSuperType().isNull()) {
 		// Locate the type
 		IBaseItem *t = find_type_decl(c->getSuperType());
 
@@ -368,22 +369,21 @@ IStruct *Elaborator::elaborate_struct(Struct *str) {
 	IStruct *super_type = 0;
 	std::vector<BaseItem *>		type_h;
 
-	if (str->getSuperType()) {
+	if (!str->getSuperType().isNull()) {
 		// Look for the actual type
 		IBaseItem *it_b = find_type_decl(str->getSuperType());
 
 		build_type_hierarchy(type_h, str);
 
 		if (!it_b) {
-			error(std::string("Failed to find struct type") +
-					str->getSuperType()->getName());
+			error(std::string("Failed to find struct type ") +
+					str->getSuperType().toString());
 		} else {
 			if (it_b->getType() == IBaseItem::TypeStruct) {
 				super_type = static_cast<IStruct *>(it_b);
 			} else {
 				error(std::string("Super type ") +
-						str->getSuperType()->getName() +
-						" is not a struct type");
+						str->getSuperType().toString());
 			}
 		}
 	}
@@ -544,7 +544,9 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItem *t) {
 					}
 				}
 			} else {
-				error(std::string("Failed to find field ") + t->getName());
+				INamedItem *named_it = toNamedItem(scope);
+				error(std::string("Failed to find field ") + t->getName() +
+						std::string(" in scope ") + ((named_it)?named_it->getName():"UNNAMED"));
 				break;
 			}
 		}
@@ -659,10 +661,83 @@ IField::FieldAttr Elaborator::getAttr(FieldItem *t) {
 	return attr;
 }
 
+BaseItem *Elaborator::find_cl_type_decl(const TypePath &path) {
+	BaseItem *ret = 0;
+	BaseItem *scope = Model::global();
+
+	for (std::vector<std::string>::const_iterator it=path.get().begin();
+			it!=path.get().end(); it++) {
+		const std::string &it_s = (*it);
+		const std::vector<BaseItem *> &item_v = scope->getChildren();
+		fprintf(stdout, "  Path Elem: %s\n", (*it).c_str());
+
+		BaseItem *o = 0;
+		for (std::vector<BaseItem *>::const_iterator o_it=item_v.begin();
+				o_it!=item_v.end(); o_it++) {
+			NamedBaseItem *named_it = NamedBaseItem::to((*o_it));
+
+			if (named_it && named_it->getName() == it_s) {
+				o = *o_it;
+				break;
+			}
+		}
+
+		if (o) {
+			ret = o;
+			scope = o;
+		} else {
+			NamedBaseItem *scope_n = NamedBaseItem::to(scope);
+			fprintf(stdout, "Error: Failed to find %s in scope %s\n",
+					it_s.c_str(), (scope_n)?scope_n->getName().c_str():"UNNAMED");
+			ret = 0;
+			break;
+		}
+
+	}
+
+	return ret;
+}
+
+IBaseItem *Elaborator::find_type_decl(const TypePath &path) {
+	IScopeItem *s = 0;
+	IBaseItem *ret;
+	for (std::vector<std::string>::const_iterator it=path.get().begin();
+			it!=path.get().end(); it++) {
+
+		if (s) {
+			ret = find_named_scope(s->getItems(), *it);
+		} else {
+			// global search
+			// First, do a global lookup for package and component items
+			ret = find_named_scope(m_model->getItems(), *it);
+
+			if (!ret) {
+				// Next, look for global data types
+				ret = find_named_scope(
+						m_model->getGlobalPackage()->getItems(), *it);
+			}
+		}
+
+		if (!ret) {
+			error(std::string("Failed to find type ") + *it);
+			break;
+		}
+
+		s = toScopeItem(ret);
+
+		if (!s) {
+			break;
+		}
+	}
+
+	return ret;
+}
+
 IBaseItem *Elaborator::find_type_decl(BaseItem *t) {
+	IBaseItem *ret = 0;
 	std::vector<NamedBaseItem *> type_p;
 
-	NamedBaseItem *ti = toNamedItem(t);;
+	NamedBaseItem *ti = toNamedItem(t);
 	while (ti) {
 		type_p.push_back(ti);
 		ti = toNamedItem(ti->getParent());
@@ -673,55 +748,46 @@ IBaseItem *Elaborator::find_type_decl(BaseItem *t) {
 		ti = type_p.at(i);
 
 		if (s) {
-			s = find_named_scope(s->getItems(), ti->getName());
+			ret = find_named_scope(s->getItems(), ti->getName());
 		} else if (ti->getObjectType() != BaseItem::Model) { // Skip global-scope references
 			// global search
 			// First, do a global lookup for package and component items
-			s = find_named_scope(m_model->getItems(), ti->getName());
+			ret = find_named_scope(m_model->getItems(), ti->getName());
 
-			if (!s) {
-				s = find_named_scope(
+			if (!ret) {
+				ret = find_named_scope(
 						m_model->getGlobalPackage()->getItems(),
 						ti->getName());
 			}
 		}
 
-		if (!s && ti->getObjectType() != BaseItem::Model) {
+		if (!ret && ti->getObjectType() != BaseItem::Model) {
 			error(std::string("Failed to find type ") + ti->getName());
+			break;
+		}
+
+		s = toScopeItem(ret);
+
+		if (!s) {
 			break;
 		}
 	}
 
-	return s;
+	return ret;
 }
 
-IScopeItem *Elaborator::find_named_scope(
+IBaseItem *Elaborator::find_named_scope(
 		const std::vector<IBaseItem *>			&items,
 		const std::string						&name) {
-	IScopeItem *ret = 0;
+	IBaseItem *ret = 0;
 	std::vector<IBaseItem *>::const_iterator it;
 
 	for (it=items.begin(); it!=items.end(); it++) {
-		if ((*it)->getType() == IBaseItem::TypeComponent) {
-//			fprintf(stdout, "    Component: %s\n", static_cast<IComponent *>(*it)->getName().c_str());
-			if (static_cast<IComponent *>(*it)->getName() == name) {
-				ret = static_cast<IComponent *>(*it);
-				break;
-			}
-		} else if ((*it)->getType() == IBaseItem::TypeAction) {
-//			fprintf(stdout, "    Action: %s\n", static_cast<IAction *>(*it)->getName().c_str());
-			if (static_cast<IAction *>(*it)->getName() == name) {
-				ret = static_cast<IAction *>(*it);
-				break;
-			}
-		} else if ((*it)->getType() == IBaseItem::TypeStruct) {
-//			fprintf(stdout, "    Struct: %s\n", static_cast<IStruct *>(*it)->getName().c_str());
-			if (static_cast<IStruct *>(*it)->getName() == name) {
-				ret = static_cast<IStruct *>(*it);
-				break;
-			}
-		} else {
-            fprintf(stdout, "    Unknown: it=%d\n", (*it)->getType());
+		INamedItem *named_it = toNamedItem(*it);
+
+		if (named_it && named_it->getName() == name) {
+			ret = *it;
+			break;
 		}
 	}
 
@@ -730,7 +796,7 @@ IScopeItem *Elaborator::find_named_scope(
 
 bool Elaborator::should_filter(
 		const std::vector<BaseItem *>	&items,
-		uint32_t					i,
+		uint32_t						i,
 		const std::vector<BaseItem *>	&type_h) {
 	// Base types are evaluated first
 	// - Must preserve 'override' elements
@@ -799,9 +865,9 @@ void Elaborator::build_type_hierarchy(
 		items.push_back(t);
 
 		if (t->getObjectType() == BaseItem::TypeAction) {
-			t = static_cast<Action *>(t)->getSuperType();
+			t = find_cl_type_decl(static_cast<Action *>(t)->getSuperType());
 		} else if (t->getObjectType() == BaseItem::TypeStruct) {
-			t = static_cast<Struct *>(t)->getSuperType();
+			t = find_cl_type_decl(static_cast<Struct *>(t)->getSuperType());
 		} else {
 			t = 0;
 		}

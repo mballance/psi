@@ -26,12 +26,14 @@
 
 #include <stdio.h>
 #include "classlib/Model.h"
+#include "classlib/TypePath.h"
 
 namespace psi {
 
 Package::Package(const Scope &p) :
 		NamedBaseItem(BaseItem::TypePackage, p.parent()) {
-	setName(Model::global()->getActiveTypeName(this));
+	TypePath type = Model::global()->getActiveTypeName(this);
+	setName(type.leaf());
 }
 
 Package::~Package() {

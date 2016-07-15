@@ -30,6 +30,7 @@
 #include <vector>
 
 #include "classlib/BaseItem.h"
+#include "classlib/TypePath.h"
 
 namespace psi {
 
@@ -51,13 +52,15 @@ class Model : public BaseItem {
 
 		const std::vector<const Scope *> &get_scope() const;
 
-		std::string getActiveTypeName(BaseItem *it);
+		TypePath getActiveTypeName(BaseItem *it);
+
+		TypePath getSuperType(BaseItem *it);
 
 		BaseItem *getActiveScope();
 
 		bool in_field_decl() const { return m_in_field_decl; }
 
-		static std::string demangle(const Scope *s);
+		static TypePath demangle(const Scope *s);
 
 	private:
 		std::vector<const Scope *>		m_scope;

@@ -29,7 +29,6 @@
 namespace psi {
 
 MemoryStruct::MemoryStruct(const Scope &p) : Struct(Struct::Memory, p.parent()) {
-
 }
 
 MemoryStruct::~MemoryStruct() {

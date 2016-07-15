@@ -28,6 +28,7 @@
 #include <string>
 
 #include "classlib/NamedBaseItem.h"
+#include "classlib/TypePath.h"
 
 namespace psi {
 
@@ -55,7 +56,7 @@ public:
 
 		virtual ~Struct();
 
-		Struct *getSuperType() const { return m_super; }
+		const TypePath &getSuperType() const { return m_super_type; }
 
 		StructType getStructType() const { return m_structType; }
 
@@ -91,8 +92,7 @@ public:
 
 	private:
 		StructType						m_structType;
-		Struct							*m_super;
-
+		TypePath						m_super_type;
 };
 
 } /* namespace psi */

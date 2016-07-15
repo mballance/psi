@@ -23,14 +23,14 @@
  */
 
 #include "classlib/Component.h"
-
 #include "classlib/Model.h"
+#include "classlib/TypePath.h"
 
 namespace psi {
 
 Component::Component(const Scope &p) :
 		NamedBaseItem(BaseItem::TypeComponent, p.parent()) {
-	setName(Model::global()->getActiveTypeName(this));
+	setName(Model::global()->getActiveTypeName(this).leaf());
 }
 
 Component::~Component() {
