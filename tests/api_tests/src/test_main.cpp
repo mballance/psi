@@ -10,6 +10,7 @@
 #include "ModelImpl.h"
 #include "PSI2XML.h"
 #include "XML2PSI.h"
+#include "PSI2PSS.h"
 
 using namespace psi::apps;
 
@@ -31,6 +32,7 @@ int main(int argc, char **argv) {
 	ModelImpl  xml_model;
 	PSI2XML    psi2xml;
 	XML2PSI    xml2psi;
+	PSI2PSS    psi2pss;
 
 //	std::vector<IType *>::const_iterator it;
 
@@ -55,6 +57,12 @@ int main(int argc, char **argv) {
 	fprintf(stdout, "<-- psi2xml\n");
 
 	fprintf(stdout, "Result:\n%s\n", xml1.c_str());
+
+	fprintf(stdout, "--> psi2pss\n");
+	const std::string pss = psi2pss.process(&model);
+	fprintf(stdout, "<-- psi2pss\n");
+
+	fprintf(stdout, "PSS Result:\n%s\n", pss.c_str());
 
 	fprintf(stdout, "--> xml2psi\n");
 	xml2psi.process(xml1, &xml_model);

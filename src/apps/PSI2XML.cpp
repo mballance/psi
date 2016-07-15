@@ -215,9 +215,19 @@ void PSI2XML::process_comp_pkg_body(const std::vector<IBaseItem *> &items) {
 
 void PSI2XML::process_constraint(IConstraint *c) {
 	switch (c->getConstraintType()) {
-	case IConstraint::ConstraintType_Block:
-		fprintf(stdout, "  block\n");
-		break;
+	case IConstraint::ConstraintType_Block: {
+		IConstraintBlock *b = static_cast<IConstraintBlock *>(c);
+		println("<block>");
+		inc_indent();
+
+		for (std::vector<IConstraint *>::const_iterator it=b->getConstraints().begin();
+				it!=b->getConstraints().end(); it++) {
+			process_constraint(*it);
+		}
+
+		dec_indent();
+		println("</block>");
+	} break;
 
 	case IConstraint::ConstraintType_Expr:
 		process_expr(static_cast<IConstraintExpr *>(c)->getExpr());
@@ -533,8 +543,11 @@ void PSI2XML::process_graph_stmt(IGraphStmt *stmt) {
 		println(tag);
 
 		if (t->getWith()) {
+			IConstraint *c = static_cast<IConstraint *>(t->getWith());
 			println("<with>");
-			// TODO: elaborate with constraint
+			inc_indent();
+			process_constraint(c);
+			dec_indent();
 			println("</with>");
 
 			println("</traverse>");

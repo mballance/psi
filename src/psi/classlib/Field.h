@@ -30,6 +30,7 @@
 #include "classlib/BaseItem.h"
 #include "classlib/TypeDecl.h"
 #include "classlib/FieldItem.h"
+#include "classlib/With.h"
 
 namespace psi {
 
@@ -37,8 +38,6 @@ template <class T> class Field : public T {
 	public:
 
 		Field(BaseItem *p, const std::string &name) : T(Scope(true)), m_field(p, name) {
-			// Both FieldItem and T extend from BaseItem.
-			// Ensure we don't get confused...
 			T *t = static_cast<T *>(this);
 
 			// Get the 'authoratative' type declaration from
@@ -53,6 +52,12 @@ template <class T> class Field : public T {
 			}
 		}
 
+		virtual ~Field() { }
+
+		virtual const std::string  &getName() const {
+			return m_field.getName();
+		}
+
 		/*
 		 * Provide an explicit conversion function to tell the
 		 * compiler how to interpret the fact that both we and T extend
@@ -61,6 +66,8 @@ template <class T> class Field : public T {
 		operator Expr() const { return Expr(m_field); }
 
 		operator const FieldItem &() const { return m_field; }
+
+		With with(const ExprList &l) const { return With(m_field, l); }
 
 	private:
 		FieldItem						m_field;

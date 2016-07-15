@@ -19,7 +19,7 @@ public:
 
 	virtual ~NamedBaseItem();
 
-	inline const std::string &getName() const { return m_name; }
+	virtual const std::string &getName() const { return m_name; }
 
 	void setName(const std::string &name) { m_name = name; }
 

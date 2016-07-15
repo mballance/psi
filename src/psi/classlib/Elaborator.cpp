@@ -222,6 +222,7 @@ IConstraint *Elaborator::elaborate_constraint_stmt(ExprCore *s) {
 	} else if (s->getOp() == Expr::List) {
 		IConstraintBlock *block = m_model->mkConstraintBlock("");
 
+
 		ExprCoreList *l = static_cast<ExprCoreList *>(s);
 		std::vector<SharedPtr<ExprCore> >::const_iterator it = l->getExprList().begin();
 		for (; it!=l->getExprList().end(); it++) {
