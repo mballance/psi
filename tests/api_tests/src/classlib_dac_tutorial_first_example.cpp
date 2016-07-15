@@ -35,11 +35,13 @@ class static_structure : public Component {
 		Field<C::A>				psi_field(a2);
 
 		Graph g1 {this, {
-			Repeat {
-				a1, With { a2, {a2.field1 < 2}}
+			Repeat {5, {
+					a1, With { a2, {a2.field1 < 2} }
+				}
 			},
-			Repeat {
-				a1, a2.with(a2.field1 < 2)
+			Repeat {5, {
+					a1, a2.with(a2.field1 < 2)
+				}
 			}
 		}
 		};

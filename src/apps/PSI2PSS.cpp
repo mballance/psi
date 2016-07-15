@@ -233,14 +233,32 @@ void PSI2PSS::visit_graph_stmt(IGraphStmt *stmt) {
 
 	case IGraphStmt::GraphStmt_Repeat: {
 		IGraphRepeatStmt *r = static_cast<IGraphRepeatStmt *>(stmt);
-		std::string s = "repeat ";
 
-		// TODO: handle iteration limit
+		if (r->getCond()) {
+			print(get_indent());
+			print("repeat (");
+			visit_expr(r->getCond());
+			print(") {\n");
 
-		s += "{";
-		println(s);
+		} else {
+			// Forever loop
+			print(get_indent());
+			print("repeat {\n");
+		}
+
 		inc_indent();
-		post = "}";
+		if (r->getBody()->getStmtType() == IGraphStmt::GraphStmt_Block) {
+			// Expand inline
+			IGraphBlockStmt *b = static_cast<IGraphBlockStmt *>(r->getBody());
+			for (std::vector<IGraphStmt *>::const_iterator it=b->getStmts().begin();
+					it!=b->getStmts().end(); it++) {
+				visit_graph_stmt(*it);
+			}
+		} else {
+			visit_graph_stmt(r->getBody());
+		}
+		dec_indent();
+		println("}");
 	} break;
 
 	case IGraphStmt::GraphStmt_Schedule: {

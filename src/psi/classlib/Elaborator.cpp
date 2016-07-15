@@ -616,6 +616,10 @@ IGraphStmt *Elaborator::elaborate_graph_stmt(ExprCore *stmt) {
 		// TODO: must handle other types
 		IExpr *cond = 0;
 		IGraphStmt *body;
+
+		if (stmt->getLhsPtr()) {
+			cond = elaborate_expr(stmt->getLhsPtr());
+		}
 		body = elaborate_graph_stmt(stmt->getRhsPtr());
 
 		IGraphRepeatStmt *repeat_stmt = m_model->mkGraphRepeatStmt(

@@ -80,15 +80,15 @@ class Expr {
 			Stmt_IfElse,
 
 			GraphParallel,
-			GraphRepeat,
+			GraphRepeat, // 25
 			GraphSchedule,
 			GraphSelect,
 			GraphWith,
 
 			ImportCall,
 
-			List,
-			TypeRef // 30
+			List, // 30
+			TypeRef
 		};
 
 	public:
