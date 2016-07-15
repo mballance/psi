@@ -7,7 +7,6 @@
 #include "psi_tests.h"
 
 class data_s : public MemoryStruct {
-public:
 	psi_ctor(data_s, MemoryStruct);
 
 	Rand<Bit<7,0>>				psi_field(data);
@@ -19,7 +18,6 @@ public:
 psi_global_type(data_s);
 
 class data_s_ext : public data_s {
-public:
 	psi_ctor(data_s_ext, data_s);
 
 	Rand<Bit<3,0>>				psi_field(burst_len);
