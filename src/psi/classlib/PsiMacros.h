@@ -31,9 +31,6 @@
 #define psi_struct_ctor(_name) \
 		psi_ctor(_name, Struct)
 
-#define psi_state_ctor(_name) \
-		psi_ctor(_name, StateStruct)
-
 #endif /* End PSI_HAVE_CXX_11 */
 
 /**
