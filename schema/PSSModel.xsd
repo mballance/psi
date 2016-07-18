@@ -3,96 +3,507 @@
 	xmlns="http://www.w3.org/2001/XMLSchema" 
 	targetNamespace="http://accellera.org/PSS" 
 	xmlns:pss="http://accellera.org/PSS" 
-	elementFormDefault="qualified" xmlns:Q1="http://accellera.org/PSS">
+	elementFormDefault="qualified">
 
 
-	<complexType name="Action">
+	<complexType name="Model">
 		<choice maxOccurs="unbounded" minOccurs="0">
-			<element name="field" type="pss:ActionField"/>
-			<element name="constraint" type="pss:Constraint"/>
-			<element name="graph" type="pss:Graph"/>
+			<element name="package" type="pss:package_declaration" />
+			<element name="component" type="pss:component_declaration" />
+			
+			<!-- package_body_item -->
+			<element name="action" type="pss:abstract_action_declaration"/>
+			<element name="struct" type="pss:struct_declaration"/>
+			<element name="enum" type="pss:enum_declaration"/>
+			<!-- TODO:
+			<element name="coverspec" type="pss:coverspec_declaration"/>
+		  	-->
+			<element name="import_method" type="pss:import_method_decl"/>
+			<!-- TODO:
+			<element name="import_class" type="pss:import_class_decl"/>
+			<element name="import_method_qualifiers" type="pss:import_method_qualifiers"/>
+			<element name="export_action" type="pss:export_action"/>
+		  	-->
+			<element name="typedef" type="pss:typedef_declaration"/>
+			<!-- TODO:
+			<element name="bins" type="pss:bins_declaration"/>
+		  	-->
+			<element name="import_stmt" type="pss:import_stmt"/>
+			<element name="extend" type="pss:extend_stmt"/>			
 		</choice>
-    	<attribute name="name" type="string" use="required"/>
-    	<attribute name="super" type="string" use="optional"/>
-    	<attribute name="type" use="optional">
+	</complexType>
+    
+    <element name="model" type="pss:Model"/>
+    
+	<complexType name="package_declaration">
+		<choice minOccurs="0" maxOccurs="unbounded">
+			<element name="action" type="pss:abstract_action_declaration"/>
+			<element name="struct" type="pss:struct_declaration"/>
+			<element name="enum" type="pss:enum_declaration"/>
+			<!-- TODO:
+			<element name="coverspec" type="pss:coverspec_declaration"/>
+			-->
+			<element name="import_method" type="pss:import_method_decl"/>
+			<!-- TODO:
+			<element name="import_class" type="pss:import_class_decl"/>
+			<element name="import_method_qualifiers" type="pss:import_method_qualifiers"/>
+			<element name="export_action" type="pss:export_action"/>
+			-->
+			<element name="typedef" type="pss:typedef_declaration"/>
+			<!-- TODO:
+			<element name="bins" type="pss:bins_declaration"/>
+			-->
+			<element name="import_stmt" type="pss:import_stmt"/>
+			<element name="extend" type="pss:extend_stmt"/>
+		</choice>
+		<attribute name="name" type="ID"/>
+	</complexType>
+	
+	<complexType name="extend_stmt">
+		<choice minOccurs="1" maxOccurs="1">
+			<element name="action" type="pss:extend_action"/>
+			<element name="struct" type="pss:extend_struct"/>
+			<element name="enum" type="pss:extend_enum"/>
+			<element name="component" type="pss:extend_component"/>
+		</choice>
+		<attribute name="name" use="required"/>
+	</complexType>
+	
+	<complexType name="extend_action">
+		<choice minOccurs="0" maxOccurs="unbounded">
+		<!-- TODO: action_body_item -->
+		</choice>
+	</complexType>
+	
+	<complexType name="extend_struct">
+		<choice minOccurs="0" maxOccurs="unbounded">
+		<!-- TODO: action_body_item -->
+		</choice>
+	</complexType>
+	
+	<complexType name="extend_enum">
+		<choice minOccurs="0" maxOccurs="unbounded">
+		<!-- TODO: enum_item -->
+		</choice>
+	</complexType>
+	
+	<complexType name="extend_component">
+		<choice minOccurs="0" maxOccurs="unbounded">
+		<!-- TODO: component_body_item -->
+		</choice>
+	</complexType>
+
+	<complexType name="import_stmt">
+		<complexContent>
+			<extension base="pss:hierarchical_id">
+				<attribute name="wildcard" type="boolean" default="false"/>
+			</extension>
+		</complexContent>
+	</complexType>	
+	
+    <!-- ************************************************************
+    	 * Action Declarations
+         ************************************************************ -->
+    <complexType name="abstract_action_declaration">
+   		<complexContent>
+   			<extension base="pss:action_declaration"/>
+   		</complexContent> 
+    </complexType>
+
+    <complexType name="action_declaration">
+    	<choice maxOccurs="unbounded" minOccurs="0">
+    		<element name="super" type="pss:hierarchical_id"/>
+    		
+    		<element name="graph" type="pss:graph_declaration"/>
+    		<!-- TODO:
+    		<element name="overrides" type="pss:overrides_declaration"/>
+    		-->
+    		<element name="constraint" type="pss:constraint_declaration"/>
+    		<element name="field" type="pss:action_field_declaration"/>
+    		<!-- TODO: 
+    		<element name="bins" type="pss:bins_declaration"/>
+    		<element name="symbol" type="pss:symbol_declaration"/>
+    		<element name="coverspec" type="pss:coverspec_declaration"/>
+    		  -->
+    		<element name="exec" type="pss:exec_block_stmt"/>
+    	</choice>
+    	<attribute name="name" type="ID"></attribute>
+    	<attribute name="abstract" type="boolean"/>
+    </complexType>
+    
+    <complexType name="action_field_declaration">
+    	<sequence minOccurs="1" maxOccurs="1">
+	    	<element name="type" type="pss:data_type"/>
+    	</sequence>
+    	<attribute name="name" type="ID"/>
+    	<!-- 
+    	<attribute name="qualifier" use="optional">
     		<simpleType>
-    			<restriction base="string">
-    				<enumeration value="memory"/>
-    				<enumeration value="state"/>
-    				<enumeration value="stream"/>
+    			<restriction base="ID">
+    				<enumeration value="rand"/>
+    				<enumeration value="lock"/>
+    				<enumeration value="share"/>
+    				<enumeration value="input"/>
+    				<enumeration value="output"/>
     			</restriction>
     		</simpleType>
     	</attribute>
+    	-->
+    </complexType>
+    
+    <!-- ************************************************************
+    	 * Exec Blocks
+         ************************************************************ -->
+	<complexType name="exec_block_stmt">
+		<choice minOccurs="1" maxOccurs="1">
+			<element name="block" type="pss:exec_block"/>
+			<element name="code_block" type="pss:target_code_exec_block"/>
+			<element name="file_block" type="pss:target_file_exec_block"/>
+		</choice>
 	</complexType>
 	
-	<complexType name="ActionField">
-		<choice maxOccurs="1" minOccurs="1">
-			
+	<complexType name="exec_block">
+		<choice minOccurs="0" maxOccurs="unbounded">
+			<element name="stmt" type="pss:exec_body_stmt"/>
 		</choice>
-		<attribute name="name" type="string" use="required"/>
-		<attribute name="attr" use="optional">
+		<attribute name="kind">
 			<simpleType>
-				<restriction base="string">
-					<enumeration value="input"/>
-					<enumeration value="output"/>
-					<enumeration value="lock"/>
-					<enumeration value="share"/>
-					<enumeration value="rand"/>
+				<restriction base="ID">
+					<enumeration value="body"/>
+					<enumeration value="pre_solve"/>
+					<enumeration value="post_solve"/>
 				</restriction>
 			</simpleType>
 		</attribute>
 	</complexType>
 	
-	<complexType name="Component">
+	<complexType name="exec_body_stmt">
+		<sequence minOccurs="1" maxOccurs="1">
+			<element name="lhs" type="pss:expression"/>
+			<sequence minOccurs="0" maxOccurs="1">
+				<element name="rhs" type="pss:expression"/>
+			</sequence>
+		</sequence>
+		<attribute name="op">
+			<simpleType>
+				<restriction base="ID">
+					<enumeration value="Eq"/>
+					<enumeration value="PlusEq"/>
+					<enumeration value="MinusEq"/>
+					<enumeration value="LShiftEq"/>
+					<enumeration value="RShiftEq"/>
+					<enumeration value="OrEq"/>
+					<enumeration value="AndEq"/>
+				</restriction>
+			</simpleType>
+		</attribute>
 	</complexType>
-
-    <complexType name="Constraint">
-    	<attribute name="name" type="string" use="optional"></attribute>
-    </complexType>
-    
-    <complexType name="Graph">
-    </complexType>
-
-    <complexType name="Struct">
-		<choice maxOccurs="unbounded" minOccurs="0">
-			<element name="field"/>
-			<element name="constraint" type="pss:Constraint"/>
-		</choice>
-    	<attribute name="name" type="string" use="required"></attribute>
-    	<attribute name="super" type="string" use="optional"/>
-    	<attribute name="type" type="string"/>
-    </complexType>
-
-    <complexType name="Package">
-    	<choice maxOccurs="unbounded" minOccurs="0">
-    		<element name="action" type="pss:Action" />
-    		<element name="struct" type="pss:Package" />
-    	</choice>
-    	<attribute name="name" type="string" use="required"></attribute>
-    </complexType>
-    
-	<complexType name="ExtendAction">
-		<choice maxOccurs="unbounded" minOccurs="0">
-			<element name="field"/>
-			<element name="constraint" type="pss:Constraint"/>
-			<element name="graph" type="pss:Graph"/>
-		</choice>	
-	</complexType>    
 	
-    <complexType name="ExtendComponent">
+	<complexType name="target_code_exec_block">
+		<sequence>
+			<any/>
+		</sequence>
+		<attribute name="kind" use="required">
+			<simpleType>
+				<restriction base="ID">
+					<enumeration value="body"/>
+					<enumeration value="pre_solve"/>
+					<enumeration value="post_solve"/>
+					<enumeration value="declaration"/>
+					<!-- TODO: capture full list -->
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="language" use="required"/>
+	</complexType>
+	
+	<complexType name="target_file_exec_block">
+		<sequence>
+			<any/>
+		</sequence>
+		<attribute name="filename" use="required"/>
+		<attribute name="kind" use="required">
+			<simpleType>
+				<restriction base="ID">
+					<enumeration value="body"/>
+					<enumeration value="pre_solve"/>
+					<enumeration value="post_solve"/>
+					<enumeration value="declaration"/>
+					<!-- TODO: capture full list -->
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="language" use="required"/>
+	</complexType>	
+    
+    <!-- ************************************************************
+    	 * Struct Declarations
+         ************************************************************ -->
+	<complexType name="struct_declaration">
+		<choice minOccurs="0" maxOccurs="unbounded">
+			<element name="super" type="pss:hierarchical_id"/>
+			
+			<element name="constraint" type="pss:constraint_declaration"/>
+			<element name="field" type="pss:struct_field_declaration"/>
+			<element name="typedef" type="pss:typedef_declaration"/>
+			<!-- TODO:
+			<element name="bins" type="pss:bins_declaration"/>
+			<element name="coverspec" type="pss:coverspec_declaration"/>
+			  -->
+			<element name="exec" type="pss:exec_block_stmt"/>
+		</choice>
+		<attribute name="name" type="ID"/>
+		<!--  
+		<attribute name="qualifier">
+			<simpleType>
+				<restriction base="ID">
+					<enumeration value="memory"/>
+					<enumeration value="stream"/>
+					<enumeration value="state"/>
+					<enumeration value="resource"/>
+				</restriction>
+			</simpleType>
+		</attribute>
+		-->
+	</complexType>
+	
+	<complexType name="struct_field_declaration">
+		<choice minOccurs="1" maxOccurs="1">
+			<element name="type" type="pss:data_type"/>
+		</choice>
+		<attribute name="name" type="ID"/>
+		<!-- TODO: qualifier -->
+	</complexType>
+	
+    <!-- ************************************************************
+    	 * Procedural Interface
+         ************************************************************ -->
+	<complexType name="import_method_decl">
+		<!-- TODO: -->
+	</complexType>         
+	
+    <!-- ************************************************************
+    	 * Component Declaration
+         ************************************************************ -->
+	<complexType name="component_declaration">
+		<choice minOccurs="0" maxOccurs="unbounded">
+			<element name="super" type="pss:hierarchical_id"/>
+		
+			<!-- TODO:
+			<element name="overrides" type="pss:overrides_declaration"/>
+			-->
+			<element name="field" type="pss:component_field_declaration"/>
+			<element name="action" type="pss:action_declaration"/>
+			<element name="struct" type="pss:struct_declaration"/>
+			<element name="import" type="pss:import_stmt"/>
+			<!-- TODO:
+			<element name="bind" type="pss:object_bind_stmt"/>
+			-->
+			<element name="exec" type="pss:exec_block_stmt"/>
+		</choice>
+		<attribute name="name" type="ID" use="required"/>
+	</complexType>
+	
+	<complexType name="component_field_declaration">
+		<sequence minOccurs="1" maxOccurs="1">
+			<element name="type" type="pss:data_type"/>
+		</sequence>
+
+		<attribute name="pool" type="boolean" default="false"/>
+		<attribute name="name" type="ID" use="required"/>
+	</complexType>
+         
+    <!-- ************************************************************
+    	 * Graph Productions
+         ************************************************************ -->
+    <complexType name="graph_declaration">
+    <!-- TODO -->
     </complexType>
     
-    <complexType name="ExtendStruct">
-    </complexType>
-
-	<complexType name="Model">
-		<choice maxOccurs="unbounded" minOccurs="0">
-			<element name="struct" type="pss:Struct" />
-			<element name="package" type="pss:Package" />
+    <!-- ************************************************************
+    	 * Overrides
+         ************************************************************ -->
+         
+    <!-- ************************************************************
+    	 * Data Declarations
+         ************************************************************ -->
+         
+    <!-- ************************************************************
+    	 * Data Types
+         ************************************************************ -->
+	<complexType name="data_type">
+		<choice minOccurs="1" maxOccurs="1">
+			<element name="bool" type="pss:bool_type"/>
+			<element name="chandle" type="pss:chandle_type"/>
+			<element name="string" type="pss:string_type"/>
+			<element name="int" type="pss:integer_type"/>
+			<element name="bit" type="pss:bit_type"/>
+			<element name="user" type="pss:user_defined_type"/>
 		</choice>
 	</complexType>
+	
+	<complexType name="bool_type"/>
+	<complexType name="chandle_type"/>
+	<complexType name="string_type"/>
+	
+	<complexType name="integer_type">
+		<sequence>
+			<element name="msb" type="pss:expression"/>
+			<element name="lsb" type="pss:expression"/>
+		</sequence>
+	</complexType>
+	
+	<complexType name="bit_type">
+		<sequence>
+			<element name="msb" type="pss:expression"/>
+			<element name="lsb" type="pss:expression"/>
+		</sequence>
+	</complexType>
+
+	<!-- TODO: is this too verbose? -->
+	<complexType name="user_defined_type">
+		<complexContent>
+			<extension base="pss:hierarchical_id"/>
+		</complexContent>
+	</complexType>	
+	
+	<complexType name="typedef_declaration">
+		<complexContent>
+			<extension base="pss:hierarchical_id">
+				<attribute name="name" type="ID" use="required"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="enum_declaration">
+		<choice minOccurs="1" maxOccurs="unbounded">
+			<element name="enumerator" type="pss:enum_item"/>
+		</choice>
+		<attribute name="name" type="ID" use="required"/>
+	</complexType>
+	
+	<complexType name="enum_item">
+		<sequence minOccurs="0" maxOccurs="1">
+			<element name="value" type="pss:expression"/>
+		</sequence>
+		<attribute name="name" type="ID" use="required"/>
+	</complexType>
     
-    <element name="model" type="pss:Model"/>
+    <!-- ************************************************************
+    	 * Constraints
+         ************************************************************ -->
+    <complexType name="constraint_declaration">
+    	<complexContent>
+    		<extension base="pss:constraint_set">
+		    	<attribute name="name" type="string"/>
+    			<attribute name="dynamic" type="boolean" default="false"/>
+    		</extension>
+    	</complexContent>
+    </complexType>
+    
+    <complexType name="constraint_set">
+    	<choice minOccurs="0" maxOccurs="unbounded">
+    		<element name="stmt" type="pss:expression"/>
+    		<element name="block" type="pss:constraint_set"/>
+    		<element name="foreach" type="pss:foreach_constraint_item"/>
+    	</choice>
+    </complexType>
+    
+    <complexType name="foreach_constraint_item">
+    	<sequence>
+    		<element name="expr" type="pss:expression"/>
+    		<element name="body" type="pss:constraint_set"/>
+    	</sequence>
+    </complexType>
 
+    <!-- ************************************************************
+    	 * Expressions
+         ************************************************************ -->
+	<complexType name="expression">
+		<choice>
+			<element name="binexp" type="pss:binary_expression"/>
+			<element name="unexp" type="pss:unary_expression"/>
+			<!-- Primaries -->
+    		<element name="number" type="pss:number"/>
+    		<element name="paren" type="pss:paren_expr"/>
+    		<element name="ref" type="pss:variable_ref"/>			
+		</choice>
+	</complexType>    
+    
+    <complexType name="binary_expression">
+    	<sequence minOccurs="1" maxOccurs="1">
+	    	<element name="lhs" type="pss:expression"/>
+	    	<element name="rhs" type="pss:expression"/>
+    	</sequence>
+    	<attribute name="op" use="required">
+    		<simpleType>
+    			<restriction base="string">
+    				<!--  TODO:  -->	
+    				<enumeration value="Eq"/>
+    				<enumeration value="EqEq"/>
+    			</restriction>
+    		</simpleType>
+    	</attribute>
+    </complexType>
+    
+    <complexType name="unary_expression">
+    	<complexContent>
+    		<extension base="pss:expression">
+    			<attribute name="op" use="required"></attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
 
+    <complexType name="action_body_item"></complexType>
+    
+    <complexType name="primary">
+    	<choice>
+    		<element name="number" type="pss:number"/>
+    		<element name="paren" type="pss:paren_expr"/>
+    		<element name="ref" type="pss:variable_ref"/>
+    		<!--
+    		<element name="call" type="pss:method_function_call"/>
+    		  -->
+    	</choice>
+    </complexType>
+   
+	<complexType name="paren_expr">
+		<complexContent>
+			<extension base="pss:expression"/>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="variable_ref">
+		<complexContent>
+			<extension base="pss:hierarchical_id">
+				<sequence minOccurs="0" maxOccurs="1">
+					<choice minOccurs="1" maxOccurs="1">
+						<element name="lhs" type="pss:expression"/>
+					</choice>
+					<choice minOccurs="0" maxOccurs="1">
+						<element name="rhs" type="pss:expression"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="hierarchical_id">
+		<sequence minOccurs="1" maxOccurs="unbounded">
+			<element name="path" type="string"/>
+		</sequence>
+	</complexType>
+	
+	<simpleType name="bool_literal">
+		<restriction base="ID">
+			<enumeration value="true"/>
+			<enumeration value="false"/>
+		</restriction>
+	</simpleType>
+	
+	<simpleType name="number">
+		<restriction base="string"/>
+	</simpleType>
+	
 </schema>
+
