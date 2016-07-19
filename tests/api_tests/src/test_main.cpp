@@ -11,6 +11,7 @@
 #include "PSI2XML.h"
 #include "XML2PSI.h"
 #include "PSI2PSS.h"
+#include "PSSXmlValidator.h"
 
 using namespace psi::apps;
 
@@ -28,11 +29,12 @@ void build_model(IModel *model) {
 }
 
 int main(int argc, char **argv) {
-	ModelImpl  model;
-	ModelImpl  xml_model;
-	PSI2XML    psi2xml;
-	XML2PSI    xml2psi;
-	PSI2PSS    psi2pss;
+	ModelImpl  			model;
+	ModelImpl  			xml_model;
+	PSI2XML    			psi2xml;
+	XML2PSI    			xml2psi;
+	PSI2PSS    			psi2pss;
+	PSSXmlValidator		xml_validator;
 
 //	std::vector<IType *>::const_iterator it;
 
@@ -57,6 +59,15 @@ int main(int argc, char **argv) {
 	fprintf(stdout, "<-- psi2xml\n");
 
 	fprintf(stdout, "Result:\n%s\n", xml1.c_str());
+
+	fprintf(stdout, "--> pss_xml_validate\n");
+	if (xml_validator.validate(xml1)) {
+		fprintf(stdout, "XML validation succeeded\n");
+	} else {
+		fprintf(stdout, "XML validation failed\n");
+	}
+	fprintf(stdout, "<-- pss_xml_validate\n");
+
 
 	fprintf(stdout, "--> psi2pss\n");
 	const std::string pss = psi2pss.process(&model);

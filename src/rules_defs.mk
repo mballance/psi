@@ -17,6 +17,8 @@ LIBXML_VERSION:=2.9.3
 LIBXML_SRC:=$(PKGS_SRCDIR)/libxml2-sources-$(LIBXML_VERSION).tar.gz
 LIBXML_URL:=ftp://xmlsoft.org/libxml2/libxml2-sources-$(LIBXML_VERSION).tar.gz
 
+PSS_SCHEMA_O=PSSModelXsd.o
+
 # ifeq (Cygwin,$(UNAME_O))
 # PSI_SRC_DIR := $(shell cygpath -w $(PSI_SRC_DIR) | sed -e 's^\\^/^g')
 # endif
@@ -29,7 +31,8 @@ PSI_CL_HEADERS := $(notdir $(wildcard $(PSI_SRC_DIR)/psi/classlib/*.h))
 PSI_APPS_HEADERS := $(notdir $(wildcard $(PSI_SRC_DIR)/apps/*.h))
 
 PSI_CL_SRC := $(notdir $(wildcard $(PSI_SRC_DIR)/psi/classlib/*.cpp))
-PSI_APPS_SRC := $(notdir $(wildcard $(PSI_SRC_DIR)/apps/*.cpp))
+PSI_APPS_SRC += $(notdir $(wildcard $(PSI_SRC_DIR)/apps/*.cpp))
+PSI_APPS_SRC += PSSModel.cpp
 
 INST_TARGETS += $(foreach h,$(PSI_API_HEADERS),$(INCDIR)/api/$(h))
 INST_TARGETS += $(foreach h,$(PSI_APPS_HEADERS),$(INCDIR)/apps/$(h))
@@ -66,6 +69,13 @@ $(LIBDIR)/libpsi.a : $(foreach o,$(PSI_CL_SRC:.cpp=.o),$(PSI_BUILDDIR)/$(o))
 $(PSI_BUILDDIR)/%.o : $(PSI_SRC_DIR)/psi/classlib/%.cpp
 	$(Q)if test ! -d $(PSI_BUILDDIR); then mkdir -p $(PSI_BUILDDIR); fi
 	$(DO_CXX) -I$(PSI_SRC_DIR)/psi 
+	
+$(PSI_BUILDDIR)/%.o : $(PSI_BUILDDIR)/%.cpp
+	$(Q)if test ! -d $(PSI_BUILDDIR); then mkdir -p $(PSI_BUILDDIR); fi	
+	$(DO_CXX) -I$(PSI_SRC_DIR)/psi 
+	
+$(PSI_BUILDDIR)/%.cpp : $(PSI_SRC_DIR)/../schema/%.xsd
+	$(Q)cat $^ | perl $(PSI_SRC_DIR)/../scripts/stringify.pl $(basename $(notdir $^)) > $@
 	
 $(LIBDIR)/libpsi_apps.a : $(foreach o,$(PSI_APPS_SRC:.cpp=.o),$(PSI_BUILDDIR)/$(o))
 	$(MKDIRS)

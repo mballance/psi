@@ -56,7 +56,9 @@ private:
 
 	void process_bind(IBind *b);
 
-	void process_body(const std::vector<IBaseItem *> &items);
+	void process_body(
+			const std::vector<IBaseItem *>  &items,
+			const std::string				&ctxt);
 
 	void process_struct(IStruct *str);
 
@@ -79,6 +81,10 @@ private:
 	void process_graph_block_stmt(IGraphBlockStmt *block);
 
 	static std::string type2string(IBaseItem *it);
+
+	void type2hierarchical_id(IBaseItem *it, const std::string &tag="pss:type");
+
+	void type2data_type(IBaseItem *it, const std::string &tag="pss:type");
 
 	static std::string path2string(IFieldRef *f);
 

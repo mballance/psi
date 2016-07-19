@@ -41,7 +41,11 @@ PSI2XML::~PSI2XML() {
 const std::string &PSI2XML::traverse(IModel *model) {
 	m_content.clear();
 
-	println("<model>");
+	println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+	println("<pss:model \n"
+			"  xmlns:pss=\"http://accellera.org/PSS\"\n"
+			"  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+			"  xsi:schemaLocation=\"http://accellera.org/PSS PSSModel.xsd\">");
 	inc_indent();
 
 	IPackage *pkg = model->getGlobalPackage();
@@ -63,7 +67,7 @@ const std::string &PSI2XML::traverse(IModel *model) {
 	}
 
 	dec_indent();
-	println("</model>");
+	println("</pss:model>");
 
 
 	return m_content;
@@ -71,9 +75,9 @@ const std::string &PSI2XML::traverse(IModel *model) {
 
 void PSI2XML::process_pkg(IPackage *pkg) {
 	if (pkg->getName() == "") {
-		println("<package>");
+		println("<pss:package>");
 	} else {
-		println("<package name=\"" + pkg->getName() + "\">");
+		println("<pss:package name=\"" + pkg->getName() + "\">");
 	}
 
 	inc_indent();
@@ -95,56 +99,53 @@ void PSI2XML::process_pkg(IPackage *pkg) {
 
 	dec_indent();
 
-	println("</package>");
+	println("</pss:package>");
 }
 
 void PSI2XML::process_action(IAction *a) {
 	IAction *super_a = a->getSuperType();
 
-	std::string tag = "<action name=\"" + a->getName() + "\"";
+	println("<pss:action name=\"" + a->getName() + "\">");
+	inc_indent();
 
 	if (super_a) {
-		tag += " super=\"" + type2string(super_a) + "\"";
+		type2hierarchical_id(super_a, "pss:super");
 	}
 
-	tag += ">";
-	println(tag);
-
-	inc_indent();
-	process_body(a->getItems());
+	process_body(a->getItems(), "action");
 
 	if (a->getGraph()) {
 		process_graph(a->getGraph());
 	}
 	dec_indent();
 
-	println("</action>");
+	println("</pss:action>");
 }
 
 void PSI2XML::process_struct(IStruct *str) {
 	IStruct *super_s = 0; // TODO: super-type
-	std::string tag = "<struct name=\"" + str->getName() + "\"";
+	std::string tag = "<pss:struct name=\"" + str->getName() + "\"";
 
-	// TODO: handle super-type
-	if (str->getSuperType()) {
-		tag += " super=\"" + type2string(str->getSuperType()) + "\"";
-	}
 
 	switch (str->getStructType()) {
-	case IStruct::Memory: tag += " type=\"memory\""; break;
-	case IStruct::Resource: tag += " type=\"resource\""; break;
-	case IStruct::Stream: tag += " type=\"stream\""; break;
-	case IStruct::State: tag += " type=\"state\""; break;
+	case IStruct::Memory: tag += " qualifier=\"memory\""; break;
+	case IStruct::Resource: tag += " qualifier=\"resource\""; break;
+	case IStruct::Stream: tag += " qualifier=\"stream\""; break;
+	case IStruct::State: tag += " qualifier=\"state\""; break;
 	}
 
 	tag += ">";
 	println(tag);
 
 	inc_indent();
-	process_body(str->getItems());
+	if (str->getSuperType()) {
+		type2hierarchical_id(str->getSuperType(), "pss:super");
+	}
+
+	process_body(str->getItems(), "struct");
 	dec_indent();
 
-	println("</struct>");
+	println("</pss:struct>");
 }
 
 void PSI2XML::process_bind(IBind *b) {
@@ -160,8 +161,13 @@ void PSI2XML::process_bind(IBind *b) {
 	println("</bind>");
 }
 
-void PSI2XML::process_body(const std::vector<IBaseItem *> &items) {
+void PSI2XML::process_body(
+		const std::vector<IBaseItem *>  &items,
+		const std::string				&ctxt) {
 	std::vector<IBaseItem *>::const_iterator it = items.begin();
+	std::string field_tag = (ctxt == "struct")?"pss:struct_field_declaration":
+			(ctxt == "action")?"pss:action_field_declaration":
+			(ctxt == "component")?"pss:component_field_declaration":"pss:unknown_field_declaration";
 
 	for (; it!=items.end(); it++) {
 		IBaseItem *i = *it;
@@ -170,8 +176,13 @@ void PSI2XML::process_body(const std::vector<IBaseItem *> &items) {
 		case IBaseItem::TypeBind:
 			process_bind(static_cast<IBind *>(i));
 			break;
+
 		case IBaseItem::TypeConstraint:
 			process_constraint_block(static_cast<IConstraintBlock *>(i));
+			break;
+
+		case IBaseItem::TypeAction:
+			process_action(static_cast<IAction *>(i));
 			break;
 
 		case IBaseItem::TypeField:
@@ -182,18 +193,21 @@ void PSI2XML::process_body(const std::vector<IBaseItem *> &items) {
 			fprintf(stdout, "Error: Unknown body item %d\n", i->getType());
 		}
 	}
-
 }
 
 void PSI2XML::process_component(IComponent *c) {
 
-	println(std::string("<component name=\"") + c->getName() + "\">");
+	println(std::string("<pss:component name=\"") + c->getName() + "\">");
 	inc_indent();
 
-	process_comp_pkg_body(c->getItems());
+	// TODO: super type
+//	if (c->getSu)
+
+//	process_comp_pkg_body(c->getItems());
+	process_body(c->getItems(), "component");
 
 	dec_indent();
-	println("</component>");
+	println("</pss:component>");
 }
 
 void PSI2XML::process_comp_pkg_body(const std::vector<IBaseItem *> &items) {
@@ -381,26 +395,26 @@ void PSI2XML::process_expr(IExpr *e) {
 
 void PSI2XML::process_field(IField *f) {
 	char msb_s[64], lsb_s[64];
-	std::string tag = "<field name=\"" + f->getName() + "\"";
+	std::string tag = std::string("<pss:field name=\"") + f->getName() + "\"";
 
 	switch (f->getAttr()) {
 	case IField::FieldAttr_Rand:
-		tag += " type=\"rand\"";
+		tag += " qualifier=\"rand\"";
 		break;
 	case IField::FieldAttr_Input:
-		tag += " type=\"input\"";
+		tag += " qualifier=\"input\"";
 		break;
 	case IField::FieldAttr_Output:
-		tag += " type=\"output\"";
+		tag += " qualifier=\"output\"";
 		break;
 	case IField::FieldAttr_Lock:
-		tag += " type=\"lock\"";
+		tag += " qualifier=\"lock\"";
 		break;
 	case IField::FieldAttr_Share:
-		tag += " type=\"share\"";
+		tag += " qualifier=\"share\"";
 		break;
 	case IField::FieldAttr_Pool:
-		tag += " type=\"pool\"";
+		tag += " qualifier=\"pool\"";
 		break;
 	}
 
@@ -409,46 +423,11 @@ void PSI2XML::process_field(IField *f) {
 
 	inc_indent();
 
-	IBaseItem *dt_i = f->getDataType();
+	type2data_type(f->getDataType());
 
-	if (dt_i) {
-		if (dt_i->getType() == IBaseItem::TypeScalar) {
-			IScalarType *st = static_cast<IScalarType *>(dt_i);
-			std::string tname = "unknown-scalar";
-			sprintf(msb_s, "%d", st->getMSB());
-			sprintf(lsb_s, "%d", st->getLSB());
-			bool has_bitwidth = false;
-
-			if (st->getScalarType() == IScalarType::ScalarType_Bit) {
-				tname = "bit";
-				has_bitwidth = true;
-			} else if (st->getScalarType() == IScalarType::ScalarType_Int) {
-				tname = "int";
-				has_bitwidth = true;
-			} else if (st->getScalarType() == IScalarType::ScalarType_Bool) {
-				tname = "bool";
-				has_bitwidth = false;
-			}
-
-			if (has_bitwidth) {
-				println(std::string("<") + tname + " msb=\"" +
-						msb_s + "\" lsb=\"" + lsb_s + "\"/>");
-			} else {
-				println(std::string("<") + tname + "/>");
-			}
-		} else if (dt_i->getType() == IBaseItem::TypeAction) {
-			println(std::string("<action type=\"") + type2string(dt_i) + "\"/>");
-		} else if (dt_i->getType() == IBaseItem::TypeStruct) {
-			println(std::string("<struct type=\"") + type2string(dt_i) + "\"/>");
-		} else {
-			println("<unknown/>");
-		}
-	} else {
-		println("<null/>");
-	}
 	dec_indent();
 
-	println("</field>");
+	println("</pss:field>");
 }
 
 void PSI2XML::process_graph(IGraphStmt *graph) {
@@ -586,6 +565,97 @@ std::string PSI2XML::type2string(IBaseItem *it) {
 	}
 
 	return ret;
+}
+
+void PSI2XML::type2hierarchical_id(IBaseItem *it, const std::string &tag) {
+	std::vector<INamedItem *> p;
+
+	println("<" + tag + ">");
+
+	while (it) {
+		INamedItem *ni = toNamedItem(it);
+
+		if (ni) {
+			p.insert(p.begin(), ni);
+		} else {
+			break;
+		}
+
+		it = it->getParent();
+	}
+
+	inc_indent();
+	for (std::vector<INamedItem *>::const_iterator it=p.begin();
+			it!=p.end(); it++) {
+		println("<pss:path>" + (*it)->getName() + "</pss:path>");
+	}
+	dec_indent();
+
+	println("</" + tag + ">");
+}
+
+void PSI2XML::type2data_type(IBaseItem *dt_i, const std::string &tag) {
+	char msb_s[64], lsb_s[64];
+
+	println("<" + tag + ">");
+	inc_indent();
+
+	if (dt_i) {
+		if (dt_i->getType() == IBaseItem::TypeScalar) {
+			IScalarType *st = static_cast<IScalarType *>(dt_i);
+			std::string tname = "pss:unknown-scalar";
+			// TODO: this really should be a sub-expression
+			sprintf(msb_s, "%d", st->getMSB());
+			sprintf(lsb_s, "%d", st->getLSB());
+			bool has_bitwidth = false;
+
+			if (st->getScalarType() == IScalarType::ScalarType_Bit) {
+				tname = "pss:bit";
+				has_bitwidth = true;
+			} else if (st->getScalarType() == IScalarType::ScalarType_Int) {
+				tname = "pss:int";
+				has_bitwidth = true;
+			} else if (st->getScalarType() == IScalarType::ScalarType_Bool) {
+				tname = "pss:bool";
+				has_bitwidth = false;
+			} else if (st->getScalarType() == IScalarType::ScalarType_Chandle) {
+				tname = "pss:chandle";
+				has_bitwidth = false;
+			} else if (st->getScalarType() == IScalarType::ScalarType_String) {
+				tname = "pss:string";
+				has_bitwidth = "false";
+			}
+
+			if (has_bitwidth) {
+				println(std::string("<") + tname + ">");
+				println("<pss:msb>");
+				inc_indent();
+				println(std::string("<pss:number>") + msb_s + "</pss:number>");
+				dec_indent();
+				println("</pss:msb>");
+
+				println("<pss:lsb>");
+				inc_indent();
+				println(std::string("<pss:number>") + lsb_s + "</pss:number>");
+				dec_indent();
+				println("</pss:lsb>");
+
+				println(std::string("</") + tname + ">");
+			} else {
+				println(std::string("<") + tname + "/>");
+			}
+		} else if (dt_i->getType() == IBaseItem::TypeAction ||
+				dt_i->getType() == IBaseItem::TypeStruct) {
+			type2hierarchical_id(dt_i, "pss:user");
+		} else {
+			println("<pss:unknown-type/>");
+		}
+	} else {
+		println("<pss:null-type/>");
+	}
+
+	dec_indent();
+	println("</" + tag + ">");
 }
 
 std::string PSI2XML::path2string(IFieldRef *f) {
