@@ -5,6 +5,34 @@
 	xmlns:pss="http://accellera.org/PSS" 
 	elementFormDefault="qualified">
 
+    <element name="model">
+    	<complexType>
+		<choice maxOccurs="unbounded" minOccurs="0">
+			<element name="package" type="pss:package_declaration" />
+			<element name="component" type="pss:component_declaration" />
+			
+			<!-- package_body_item -->
+			<element name="action" type="pss:abstract_action_declaration"/>
+			<element name="struct" type="pss:struct_declaration"/>
+			<element name="enum" type="pss:enum_declaration"/>
+			<!-- TODO:
+			<element name="coverspec" type="pss:coverspec_declaration"/>
+		  	-->
+			<element name="import_method" type="pss:import_method_decl"/>
+			<!-- TODO:
+			<element name="import_class" type="pss:import_class_decl"/>
+			<element name="import_method_qualifiers" type="pss:import_method_qualifiers"/>
+			<element name="export_action" type="pss:export_action"/>
+		  	-->
+			<element name="typedef" type="pss:typedef_declaration"/>
+			<!-- TODO:
+			<element name="bins" type="pss:bins_declaration"/>
+		  	-->
+			<element name="import_stmt" type="pss:import_stmt"/>
+			<element name="extend" type="pss:extend_stmt"/>			
+		</choice>    	
+    	</complexType>
+    </element>
 
 	<complexType name="Model">
 		<choice maxOccurs="unbounded" minOccurs="0">
@@ -33,7 +61,6 @@
 		</choice>
 	</complexType>
     
-    <element name="model" type="pss:Model"/>
     
 	<complexType name="package_declaration">
 		<choice minOccurs="0" maxOccurs="unbounded">
@@ -56,7 +83,7 @@
 			<element name="import_stmt" type="pss:import_stmt"/>
 			<element name="extend" type="pss:extend_stmt"/>
 		</choice>
-		<attribute name="name" type="ID"/>
+		<attribute name="name" type="string"/>
 	</complexType>
 	
 	<complexType name="extend_stmt">
@@ -113,7 +140,7 @@
     <complexType name="action_declaration">
     	<complexContent>
     		<extension base="pss:action_body">
-		    	<attribute name="name" type="ID"></attribute>
+		    	<attribute name="name" type="string"></attribute>
     			<attribute name="abstract" type="boolean"/>
     		</extension>
     	</complexContent>
@@ -138,22 +165,43 @@
     	</choice>    
     </complexType>
     
-    <complexType name="action_field_declaration">
+    <complexType name="field_declaration">
     	<sequence minOccurs="1" maxOccurs="1">
 	    	<element name="type" type="pss:data_type"/>
+	    	<sequence minOccurs="0" maxOccurs="1">
+	    		<element name="dim" type="pss:array_dim"/>
+	    	</sequence>
     	</sequence>
     	<attribute name="name" type="string"/>
-    	<attribute name="qualifier" use="optional">
-    		<simpleType>
-    			<restriction base="ID">
-    				<enumeration value="rand"/>
-    				<enumeration value="lock"/>
-    				<enumeration value="share"/>
-    				<enumeration value="input"/>
-    				<enumeration value="output"/>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
+    </complexType>
+    
+    <complexType name="array_dim">
+    	<sequence minOccurs="0" maxOccurs="1">
+    		<element name="lhs" type="pss:expression"/>
+    		<sequence minOccurs="0" maxOccurs="1">
+    			<element name="rhs" type="pss:expression"/>
+    		</sequence>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="action_field_declaration">
+    	<complexContent>
+    		<extension base="pss:field_declaration">
+		    	<attribute name="qualifier" use="optional">
+    				<simpleType>
+    					<restriction base="string">
+    						<enumeration value="rand"/>
+    						<enumeration value="lock"/>
+    						<enumeration value="share"/>
+		    				<enumeration value="input"/>
+		    				<enumeration value="output"/>
+    					</restriction>
+    				</simpleType>
+    			</attribute>    		
+	    	</extension>
+    	</complexContent>
+
+
     </complexType>
     
     <!-- ************************************************************
@@ -173,7 +221,7 @@
 		</choice>
 		<attribute name="kind">
 			<simpleType>
-				<restriction base="ID">
+				<restriction base="string">
 					<enumeration value="body"/>
 					<enumeration value="pre_solve"/>
 					<enumeration value="post_solve"/>
@@ -191,7 +239,7 @@
 		</sequence>
 		<attribute name="op">
 			<simpleType>
-				<restriction base="ID">
+				<restriction base="string">
 					<enumeration value="Eq"/>
 					<enumeration value="PlusEq"/>
 					<enumeration value="MinusEq"/>
@@ -210,7 +258,7 @@
 		</sequence>
 		<attribute name="kind" use="required">
 			<simpleType>
-				<restriction base="ID">
+				<restriction base="string">
 					<enumeration value="body"/>
 					<enumeration value="pre_solve"/>
 					<enumeration value="post_solve"/>
@@ -229,7 +277,7 @@
 		<attribute name="filename" use="required"/>
 		<attribute name="kind" use="required">
 			<simpleType>
-				<restriction base="ID">
+				<restriction base="string">
 					<enumeration value="body"/>
 					<enumeration value="pre_solve"/>
 					<enumeration value="post_solve"/>
@@ -298,8 +346,46 @@
     	 * Procedural Interface
          ************************************************************ -->
 	<complexType name="import_method_decl">
-		<!-- TODO: -->
-	</complexType>         
+		<complexContent>
+			<extension base="pss:method_prototype"/>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="method_prototype">
+		<sequence>
+			<sequence minOccurs="0" maxOccurs="1">
+				<element name="return" type="pss:data_type"/>
+			</sequence>
+			<sequence minOccurs="0" maxOccurs="1">
+				<element name="parameters" type="pss:method_parameter_list"/>
+			</sequence>
+		</sequence>
+		<attribute name="name" use="required"/>
+	</complexType>
+	
+	<complexType name="method_parameter_list">
+		<sequence minOccurs="0" maxOccurs="unbounded">
+			<element name="parameter" type="pss:method_parameter"/>
+		</sequence>
+	</complexType>
+	
+	<complexType name="method_parameter">
+		<complexContent>
+			<extension base="pss:data_type">
+				<attribute name="name" type="string"/>
+				<attribute name="dir">
+					<simpleType>
+						<restriction base="string">
+							<enumeration value="input"/>
+							<enumeration value="output"/>
+							<enumeration value="inout"/>
+						</restriction>
+					</simpleType>
+				</attribute>
+			</extension>
+		</complexContent>
+		
+	</complexType>
 	
     <!-- ************************************************************
     	 * Component Declaration
@@ -307,7 +393,7 @@
 	<complexType name="component_declaration">
 		<complexContent>
 			<extension base="pss:component_body">
-				<attribute name="name" type="ID" use="required"/>
+				<attribute name="name" type="string" use="required"/>
 			</extension>
 		</complexContent>
 	</complexType>
@@ -322,10 +408,8 @@
 			<element name="field" type="pss:component_field_declaration"/>
 			<element name="action" type="pss:action_declaration"/>
 			<element name="struct" type="pss:struct_declaration"/>
-			<element name="import" type="pss:import_stmt"/>
-			<!-- TODO:
+			<element name="import_stmt" type="pss:import_stmt"/>
 			<element name="bind" type="pss:object_bind_stmt"/>
-			-->
 			<element name="exec" type="pss:exec_block_stmt"/>
 		</choice>	
 	</complexType>
@@ -344,6 +428,19 @@
 		</attribute>
 		<attribute name="name" type="string" use="required"/>
 	</complexType>
+	
+	<complexType name="object_bind_stmt">
+		<sequence>
+			<element name="lhs" type="pss:hierarchical_id"/>
+			<element name="rhs" type="pss:object_bind_item_list"/>
+		</sequence>
+	</complexType>
+	
+	<complexType name="object_bind_item_list">
+		<sequence minOccurs="1" maxOccurs="unbounded">
+			<element name="item" type="pss:hierarchical_id"/>
+		</sequence>
+	</complexType>
          
     <!-- ************************************************************
     	 * Graph Productions
@@ -357,6 +454,71 @@
     </complexType>
     
     <complexType name="graph_block">
+    	<choice minOccurs="0" maxOccurs="unbounded">
+    		<element name="repeat" type="pss:graph_repeat_stmt"/>
+    		<element name="parallel" type="pss:graph_parallel_stmt"/>
+    		<element name="select" type="pss:graph_select_stmt"/>
+    		<element name="sequential" type="pss:graph_sequential_stmt"/>
+    		<element name="schedule" type="pss:graph_schedule_stmt"/>
+    		<element name="traverse" type="pss:graph_traverse_stmt"/>
+    	</choice>
+    </complexType>
+    
+    <complexType name="graph_repeat_stmt">
+   		<sequence>
+   			<sequence minOccurs="0">
+    			<element name="expr" type="pss:expression"/>
+   			</sequence>
+   			<element name="body" type="pss:graph_block"/>
+		</sequence>
+		<attribute name="type">
+			<simpleType>
+				<restriction base="string">
+					<!-- TODO: -->
+					<enumeration value="count"/>
+					<enumeration value="forever"/>
+				</restriction>
+			</simpleType>
+		</attribute>
+    </complexType>
+    
+    <complexType name="graph_parallel_stmt">
+    	<sequence minOccurs="1" maxOccurs="unbounded">
+    		<element name="production" type="pss:graph_labeled_production"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="graph_schedule_stmt">
+    	<complexContent>
+    		<extension base="pss:graph_block"></extension>
+    	</complexContent>
+    </complexType>
+    
+    <complexType name="graph_sequential_stmt">
+    	<complexContent>
+    		<extension base="pss:graph_block"></extension>
+    	</complexContent>
+    </complexType>
+        
+    <complexType name="graph_select_stmt">
+    	<sequence minOccurs="2" maxOccurs="unbounded">
+    		<element name="choice" type="pss:graph_labeled_production"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="graph_traverse_stmt">
+    	<sequence minOccurs="0" maxOccurs="1">
+    		<element name="with" type="pss:constraint_set"/>
+    	</sequence>
+    	<attribute name="name"/>
+    </complexType>
+    
+    <complexType name="graph_labeled_production">
+    	<complexContent>
+    		<extension base="pss:graph_block">
+    			<attribute name="label"/>
+    		</extension>
+    	</complexContent>
     </complexType>
     
     <!-- ************************************************************
@@ -409,7 +571,7 @@
 	<complexType name="typedef_declaration">
 		<complexContent>
 			<extension base="pss:hierarchical_id">
-				<attribute name="name" type="ID" use="required"/>
+				<attribute name="name" type="string" use="required"/>
 			</extension>
 		</complexContent>
 	</complexType>
@@ -417,7 +579,7 @@
 	<complexType name="enum_declaration">
 		<complexContent>
 			<extension base="pss:enum_body">
-				<attribute name="name" type="ID" use="required"/>
+				<attribute name="name" type="string" use="required"/>
 			</extension>
 		</complexContent>
 	</complexType>
@@ -432,7 +594,7 @@
 		<sequence minOccurs="0" maxOccurs="1">
 			<element name="value" type="pss:expression"/>
 		</sequence>
-		<attribute name="name" type="ID" use="required"/>
+		<attribute name="name" type="string" use="required"/>
 	</complexType>
     
     <!-- ************************************************************
@@ -469,6 +631,7 @@
 		<choice>
 			<element name="binexp" type="pss:binary_expression"/>
 			<element name="unexp" type="pss:unary_expression"/>
+			<element name="inside" type="pss:inside_expression"/>
 			<!-- Primaries -->
     		<element name="number" type="pss:number"/>
     		<element name="paren" type="pss:paren_expr"/>
@@ -513,6 +676,27 @@
     		</extension>
     	</complexContent>
     </complexType>
+    
+    <complexType name="inside_expression">
+    	<sequence>
+    		<element name="lhs" type="pss:expression"/>
+    		<element name="rhs" type="pss:open_range_list"/>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="open_range_list">
+    	<choice minOccurs="1" maxOccurs="unbounded">
+    		<element name="value" type="pss:expression"/>
+    		<element name="range" type="pss:open_range_value"/>
+    	</choice>
+    </complexType>
+    
+    <complexType name="open_range_value">
+    	<sequence>
+    		<element name="lhs" type="pss:expression"/>
+    		<element name="rhs" type="pss:expression"/>
+    	</sequence>
+    </complexType>
 
     <complexType name="action_body_item"></complexType>
     
@@ -555,7 +739,7 @@
 	</complexType>
 	
 	<simpleType name="bool_literal">
-		<restriction base="ID">
+		<restriction base="string">
 			<enumeration value="true"/>
 			<enumeration value="false"/>
 		</restriction>
