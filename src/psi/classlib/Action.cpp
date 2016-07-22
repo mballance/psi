@@ -32,6 +32,7 @@ namespace psi {
 Action::Action(const Scope	&p) : NamedBaseItem(BaseItem::TypeAction, p.parent()) {
 	m_super_type = Model::global()->getSuperType(this);
 
+	// TODO: need to deal with named scopes
 	TypePath type = Model::global()->getActiveTypeName(this);
 	setName(type.leaf());
 

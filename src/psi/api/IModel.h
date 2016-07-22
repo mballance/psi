@@ -81,7 +81,9 @@ namespace psi_api {
 			/**
 			 * Creates a new bind statement
 			 */
-			virtual IBind *mkBind(const std::vector<IBaseItem *> &targets) = 0;
+			virtual IBind *mkBind(const std::vector<IBindPath *> &targets) = 0;
+
+			virtual IBindPath *mkBindPath(const std::vector<IBaseItem *> &elems) = 0;
 
 
 			/**

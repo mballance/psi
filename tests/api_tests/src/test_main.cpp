@@ -87,15 +87,15 @@ int main(int argc, char **argv) {
 	fprintf(stdout, "<-- pss_xml_validate\n");
 
 
-	fprintf(stdout, "--> psi2pss\n");
-	const std::string pss = psi2pss.process(&model);
-	fprintf(stdout, "<-- psi2pss\n");
+//	fprintf(stdout, "--> psi2pss\n");
+//	const std::string pss = psi2pss.process(&model);
+//	fprintf(stdout, "<-- psi2pss\n");
+//
+//	fprintf(stdout, "PSS Result:\n%s\n", pss.c_str());
 
-	fprintf(stdout, "PSS Result:\n%s\n", pss.c_str());
-
-	fprintf(stdout, "--> xml2psi\n");
-	xml2psi.process(xml1, &xml_model);
-	fprintf(stdout, "<-- xml2psi\n");
+//	fprintf(stdout, "--> xml2psi\n");
+//	xml2psi.process(xml1, &xml_model);
+//	fprintf(stdout, "<-- xml2psi\n");
 
 //	const std::string xml2 = psi2xml.traverse(&xml_model);
 //

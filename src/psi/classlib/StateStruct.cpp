@@ -15,6 +15,9 @@ StateStruct::StateStruct(const Scope &p) :
 		Struct(State, p.parent()), initial(this, "initial") {
 	TypePath path = Model::global()->getActiveTypeName(this);
 	setName(path.leaf());
+
+	// Initial is an implementation detail
+	initial.setInternal(true);
 }
 
 StateStruct::~StateStruct() {

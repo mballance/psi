@@ -68,23 +68,27 @@ private:
 
 	void process_constraint(IConstraint *c);
 
+	void process_constraint_set(IConstraint *c, const char *tag=0);
+
 	void process_constraint_block(IConstraintBlock *block);
 
-	void process_expr(IExpr *e);
+	void process_expr(IExpr *e, const char *tag=0);
 
 	void process_field(IField *f);
 
 	void process_graph(IGraphStmt *graph);
 
-	void process_graph_stmt(IGraphStmt *stmt);
+	void process_graph_stmt(IGraphStmt *stmt, const char *tag=0);
 
-	void process_graph_block_stmt(IGraphBlockStmt *block);
+	void process_graph_block_stmt(IGraphBlockStmt *block, const char *tag=0);
 
 	static std::string type2string(IBaseItem *it);
 
 	void type2hierarchical_id(IBaseItem *it, const std::string &tag="pss:type");
 
 	void type2data_type(IBaseItem *it, const std::string &tag="pss:type");
+
+	void to_hierarchical_id(const std::vector<IBaseItem *> &path, const char *tag=0);
 
 	static std::string path2string(IFieldRef *f);
 

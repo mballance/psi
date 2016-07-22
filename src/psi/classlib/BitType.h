@@ -28,11 +28,11 @@
 #include <stdint.h>
 #include <string>
 
-#include "classlib/BaseItem.h"
+#include "classlib/NamedBaseItem.h"
 
 namespace psi {
 
-class BitType : public BaseItem {
+class BitType : public NamedBaseItem {
 
 	public:
 		BitType(

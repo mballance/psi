@@ -27,14 +27,19 @@ fi
 #  echo "FAILED: $1 - differences in model.xml"
 #fi
 
+err_count=`grep 'Error: ' run.log | wc -l`
+if test $err_count -ne 0; then 
+  echo "FAILED: $1 - $err_count error messages"
+fi
+
 xml_validation_passed=`grep 'XML validation succeeded' run.log | wc -l`
 xml_validation_failed=`grep 'XML validation failed' run.log | wc -l`
 
-#if test $xml_validation_failed -ne 0; then
-#  echo "FAILED: $1 - XML validation failed"
-#elif test $xml_validation_passed -eq 0; then
-#  echo "FAILED: $1 - no XML validation success message"
-#fi
+if test $xml_validation_failed -ne 0; then
+  echo "FAILED: $1 - XML validation failed"
+elif test $xml_validation_passed -eq 0; then
+  echo "FAILED: $1 - no XML validation success message"
+fi
 
 # Check against the reference file
 if test -f ${SIM_DIR}/tests/${1}.xml; then

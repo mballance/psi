@@ -33,6 +33,7 @@ class IGraphRepeatStmt : public IGraphStmt {
 public:
 
 	enum RepeatType {
+		RepeatType_Count,
 		RepeatType_Forever,
 		RepeatType_While,
 		RepeatType_Until

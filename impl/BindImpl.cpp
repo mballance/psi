@@ -9,7 +9,7 @@
 
 namespace psi {
 
-BindImpl::BindImpl(const std::vector<IBaseItem *> &targets) :
+BindImpl::BindImpl(const std::vector<IBindPath *> &targets) :
 	m_targets(targets), m_parent(0) {
 
 }

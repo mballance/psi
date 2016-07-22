@@ -11,7 +11,7 @@ namespace psi {
 
 FieldItem::FieldItem(BaseItem *p, const std::string &name) :
 		NamedBaseItem(BaseItem::TypeField, p, name), m_data_type(0),
-		m_attr(AttrNone) {
+		m_attr(AttrNone), m_internal(false) {
 
 }
 

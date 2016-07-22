@@ -24,23 +24,19 @@
 
 #ifndef SRC_CLASSLIB_SHARE_H_
 #define SRC_CLASSLIB_SHARE_H_
-#include "classlib/FieldItem.h"
+#include "classlib/FieldBase.h"
 #include "classlib/TypeDecl.h"
 
 namespace psi {
 
-template <class T> class Share : public T {
+template <class T> class Share : public FieldBase<T> {
 	public:
 
-		Share(BaseItem *p, const std::string &name) : T(p), m_field(p, name) {
-			m_field.setAttr(FieldItem::AttrShare);
-			m_field.setDataType(TypeDecl<T>::id());
-		}
+		Share(BaseItem *p, const std::string &name) :
+			FieldBase<T>(FieldItem::AttrShare, p, name) { }
 
 		virtual ~Share();
 
-	private:
-		FieldItem				m_field;
 };
 
 } /* namespace psi */

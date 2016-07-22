@@ -33,6 +33,10 @@ public:
 
 	Scope(bool in_field_decl);
 
+	Scope(const char *name);
+
+	Scope(const std::string &name);
+
 	virtual ~Scope();
 
 	BaseItem *parent() const;
@@ -57,6 +61,7 @@ private:
 	bool					m_in_field_decl;
 	BaseItem				*m_ctxt;
 	const std::type_info	*m_type;
+	std::string				m_name;
 };
 
 } /* namespace psi */

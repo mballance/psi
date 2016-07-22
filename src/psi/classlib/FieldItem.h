@@ -38,9 +38,14 @@ public:
 
 	void setAttr(FieldAttr attr) { m_attr = attr; }
 
+	void setInternal(bool i) { m_internal = i; }
+
+	bool isInternal() const { return m_internal; }
+
 private:
 	BaseItem				*m_data_type;
 	FieldAttr				m_attr;
+	bool					m_internal;
 
 };
 

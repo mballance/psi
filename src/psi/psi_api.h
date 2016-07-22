@@ -29,6 +29,7 @@
 #include "api/IAction.h"
 #include "api/IBaseItem.h"
 #include "api/IBinaryExpr.h"
+#include "api/IBind.h"
 #include "api/IComponent.h"
 #include "api/IConstraint.h"
 #include "api/IConstraintBlock.h"

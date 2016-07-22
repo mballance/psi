@@ -430,9 +430,8 @@
 	</complexType>
 	
 	<complexType name="object_bind_stmt">
-		<sequence>
-			<element name="lhs" type="pss:hierarchical_id"/>
-			<element name="rhs" type="pss:object_bind_item_list"/>
+		<sequence minOccurs="1" maxOccurs="unbounded">
+			<element name="bindpath" type="pss:hierarchical_id"/>
 		</sequence>
 	</complexType>
 	
@@ -612,6 +611,7 @@
     <complexType name="constraint_set">
     	<choice minOccurs="0" maxOccurs="unbounded">
     		<element name="stmt" type="pss:expression"/>
+    		<element name="if" type="pss:if_constraint_item"/>
     		<element name="block" type="pss:constraint_set"/>
     		<element name="foreach" type="pss:foreach_constraint_item"/>
     	</choice>
@@ -621,6 +621,16 @@
     	<sequence>
     		<element name="expr" type="pss:expression"/>
     		<element name="body" type="pss:constraint_set"/>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="if_constraint_item">
+    	<sequence>
+    		<element name="cond" type="pss:expression"/>
+    		<element name="true" type="pss:constraint_set"/>
+    		<sequence minOccurs="0" maxOccurs="1">
+    			<element name="false" type="pss:constraint_set"/>
+    		</sequence>
     	</sequence>
     </complexType>
 

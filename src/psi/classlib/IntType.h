@@ -26,11 +26,11 @@
 #define INTTYPE_H_
 #include <string>
 
-#include "classlib/BaseItem.h"
+#include "classlib/NamedBaseItem.h"
 
 namespace psi {
 
-class IntType : public BaseItem {
+class IntType : public NamedBaseItem {
 
 	public:
 		IntType(

@@ -2,6 +2,7 @@
 #ifndef INCLUDED_FIELD_BASE_H
 #define INCLUDED_FIELD_BASE_H
 #include "classlib/FieldItem.h"
+#include "classlib/TypeDecl.h"
 
 namespace psi {
 
@@ -23,6 +24,8 @@ public:
 	operator Expr() const { return Expr(m_field); }
 
 	operator const FieldItem &() const { return m_field; }
+
+	void setInternal(bool i) { m_field.setInternal(i); }
 
 protected:
 

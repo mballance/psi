@@ -16,6 +16,16 @@ Scope::Scope(bool in_field_decl) : m_in_field_decl(in_field_decl) {
 	enter();
 }
 
+Scope::Scope(const char *name) :
+		m_in_field_decl(true), m_type(0), m_ctxt(0) {
+	m_name = name;
+}
+
+Scope::Scope(const std::string &name) :
+		m_in_field_decl(true), m_type(0), m_ctxt(0) {
+	m_name = name;
+}
+
 Scope::~Scope() {
 	leave();
 }

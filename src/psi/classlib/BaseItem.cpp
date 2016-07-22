@@ -88,6 +88,7 @@ const std::vector<BaseItem *> &BaseItem::getChildren() const {
 const char *BaseItem::toString(ObjectType t) {
 	switch (t) {
 		case TypeAction: return "TypeAction";
+		case TypeBind: return "TypeBind";
 		case TypeBit: return "TypeBit";
 		case TypeBool: return "TypeBool";
 		case TypeChandle: return "TypeChandle";
@@ -96,10 +97,12 @@ const char *BaseItem::toString(ObjectType t) {
 		case TypeImport: return "TypeImport";
 		case TypeInt: return "TypeInt";
 		case TypeExec: return "TypeExec";
+		case TypeExportItem: return "TypeExportItem";
 		case TypeExtendAction: return "TypeExtendAction";
 		case TypeExtendComponent: return "TypeExtendComponent";
 		case TypeExtendStruct: return "TypeExtendStruct";
 		case TypeField: return "TypeField";
+		case TypeGraph: return "TypeGraph";
 		case TypePackage: return "TypePackage";
 		case TypeString: return "TypeString";
 		case TypeStruct: return "TypeStruct";

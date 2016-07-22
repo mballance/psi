@@ -31,14 +31,14 @@ BitType::BitType(
 		BaseItem				*p,
 		uint32_t				msb,
 		uint32_t				lsb) :
-	BaseItem(BaseItem::TypeBit, p), m_msb(msb), m_lsb(lsb) { }
+	NamedBaseItem(BaseItem::TypeBit, p), m_msb(msb), m_lsb(lsb) { }
 
 BitType::BitType(
 		const std::string		&name,
 		uint32_t				msb,
 		uint32_t				lsb) :
-	BaseItem(BaseItem::TypeBit, 0), m_msb(msb), m_lsb(lsb) {
-	fprintf(stdout, "Error: support BitType::BitType(name)\n");
+	NamedBaseItem(BaseItem::TypeBit, 0), m_msb(msb), m_lsb(lsb) {
+	setName(name);
 }
 
 BitType::~BitType() {

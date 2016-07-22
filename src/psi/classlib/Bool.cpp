@@ -27,10 +27,12 @@
 
 namespace psi {
 
-Bool::Bool(const Scope &p) : BaseItem(BaseItem::TypeBool, p.parent()) { }
+Bool::Bool(const Scope &p) : NamedBaseItem(BaseItem::TypeBool, 0) { }
 
 Bool::Bool(const std::string &name) :
-		BaseItem(BaseItem::TypeBool, 0), m_name(name) { }
+		NamedBaseItem(BaseItem::TypeBool, 0), m_name(name) {
+	setName(name);
+}
 
 Bool::~Bool() {
 	// TODO Auto-generated destructor stub

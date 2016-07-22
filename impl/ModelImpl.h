@@ -78,7 +78,9 @@ class ModelImpl: public IModel {
 		 */
 		virtual IAction *mkAction(const std::string &name, IAction *super_type);
 
-		virtual IBind *mkBind(const std::vector<IBaseItem *> &targets);
+		virtual IBind *mkBind(const std::vector<IBindPath *> &targets);
+
+		virtual IBindPath *mkBindPath(const std::vector<IBaseItem *> &path);
 
 		virtual IComponent *mkComponent(const std::string &name);
 

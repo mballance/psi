@@ -27,39 +27,18 @@
 #define SRC_RAND_H_
 #include <string>
 
-#include "classlib/FieldItem.h"
+#include "classlib/FieldBase.h"
 #include "classlib/TypeDecl.h"
 
 namespace psi {
 
-template <class T> class Rand : public T {
+template <class T> class Rand : public FieldBase<T> {
 
 	public:
-		Rand(BaseItem *p, const std::string &name) : T(true), m_field(p, name) {
-			T *t = static_cast<T *>(this);
-
-			m_field.setAttr(FieldItem::AttrRand);
-
-			if (t->getObjectType() == BaseItem::TypeAction ||
-					t->getObjectType() == BaseItem::TypeStruct) {
-				m_field.setDataType(TypeDecl<T>::id());
-			} else {
-				m_field.setDataType(t);
-			}
-		}
+		Rand(BaseItem *p, const std::string &name) :
+			FieldBase<T>(FieldItem::AttrRand, p, name) { }
 
 		virtual ~Rand() { };
-
-		/*
-		 * Provide an explicit conversion function to tell the
-		 * compiler how to interpret the fact that both we and T extend
-		 * from BaseItem
-		 */
-		operator Expr() const { return Expr(static_cast<const FieldItem &>(m_field)); }
-
-	private:
-
-		FieldItem					m_field;
 
 };
 

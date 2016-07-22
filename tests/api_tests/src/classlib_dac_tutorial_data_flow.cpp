@@ -55,8 +55,11 @@ public:
 
 	// TODO:
 	Bind b2 { this,
-			ca1._A_t.out_s, ca2._A_t.out_s,
-			cb1._B_t.in_s, cb2._B_t.in_s };
+			// ca1.A.out_s
+			ca1._A_t.out_s,
+			ca2._A_t.out_s,
+			cb1._B_t.in_s,
+			cb2._B_t.in_s };
 
 	class entry_point : public Action {
 	public:

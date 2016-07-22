@@ -27,12 +27,12 @@
 
 #include <string>
 
-#include "classlib/BaseItem.h"
+#include "classlib/NamedBaseItem.h"
 #include "classlib/Scope.h"
 
 namespace psi {
 
-class Bool: public BaseItem {
+class Bool: public NamedBaseItem {
 
 	public:
 		Bool(const Scope &p);

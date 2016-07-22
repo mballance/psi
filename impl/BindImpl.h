@@ -16,7 +16,7 @@ namespace psi {
 
 class BindImpl: public IBind {
 public:
-	BindImpl(const std::vector<IBaseItem *> &targets);
+	BindImpl(const std::vector<IBindPath *> &targets);
 
 	virtual ~BindImpl();
 
@@ -28,10 +28,10 @@ public:
 
 	virtual void setParent(IBaseItem *parent) { m_parent = parent; }
 
-	virtual const std::vector<IBaseItem *> &getTargets() const { return m_targets; }
+	virtual const std::vector<IBindPath *> &getTargets() const { return m_targets; }
 
 private:
-	std::vector<IBaseItem *>				m_targets;
+	std::vector<IBindPath *>				m_targets;
 	IBaseItem								*m_parent;
 
 

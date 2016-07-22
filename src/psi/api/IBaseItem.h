@@ -42,12 +42,12 @@ namespace psi_api {
 			TypeComponent,
 			TypeConstraint,
 			TypeField,
-			TypeImport,
-			TypeExec, // 5
+			TypeImport, // 5
+			TypeExec,
 			TypeExtend,
 			TypeGraphStmt,
-			TypeModel, // 10
-			TypeObject,
+			TypeModel,
+			TypeObject, // 10
 			TypePackage,
 			TypeScalar,
 			TypeStruct,

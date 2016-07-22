@@ -134,16 +134,6 @@ IAction *Elaborator::elaborate_action(Action *c) {
 	return a;
 }
 
-IBind *Elaborator::elaborate_bind(Bind *b) {
-	const std::vector<BaseItem *> &items = b->getItems();
-	std::vector<IBaseItem *> items_psi;
-
-	// TODO: must map BaseItem references to PSI references
-	// What this really means is converting the BaseItem references to expressions
-
-	return m_model->mkBind(items_psi);
-}
-
 IComponent *Elaborator::elaborate_component(IScopeItem *scope, Component *c) {
 	IComponent *comp = m_model->mkComponent(c->getName());
 	if (scope) {
@@ -164,6 +154,15 @@ IComponent *Elaborator::elaborate_component(IScopeItem *scope, Component *c) {
 		} else if (t->getObjectType() == BaseItem::TypeStruct) {
 			IStruct *s = elaborate_struct(static_cast<Struct *>(t));
 			comp->add(s);
+		} else if (t->getObjectType() == BaseItem::TypeField) {
+			FieldItem *field = static_cast<FieldItem *>(t);
+			if (!field->isInternal()) {
+				IField *f = elaborate_field_item(field);
+				comp->add(f);
+			}
+		} else if (t->getObjectType() == BaseItem::TypeBind) {
+			IBind *b = elaborate_bind(static_cast<Bind *>(t));
+			comp->add(b);
 		} else {
 			// TODO:
 			fprintf(stdout, "Error: Unknown component body item %s\n",
@@ -172,6 +171,25 @@ IComponent *Elaborator::elaborate_component(IScopeItem *scope, Component *c) {
 	}
 
 	return comp;
+}
+
+IBind *Elaborator::elaborate_bind(Bind *b) {
+	IBind *ret = 0;
+	std::vector<IBindPath *> targets;
+
+	for (std::vector<BaseItem *>::const_iterator it=b->getItems().begin();
+			it!=b->getItems().end(); it++) {
+		IBindPath *path = elaborate_bind_path(*it);
+
+		if (path) {
+			fprintf(stdout, "Found ref: %p\n", path);
+			targets.push_back(path);
+		} else {
+			error("Failed to find bind reference");
+		}
+	}
+
+	return m_model->mkBind(targets);
 }
 
 // TODO: should return
@@ -411,6 +429,9 @@ IStruct *Elaborator::elaborate_struct(Struct *str) {
 
 		if (super_type) {
 			filter = should_filter(str->getChildren(), i, type_h);
+		} else if (t->getObjectType() == BaseItem::TypeField &&
+				static_cast<FieldItem *>(t)->isInternal()) {
+			filter = true;
 		}
 
 		if (!filter) {
@@ -445,50 +466,58 @@ IBaseItem *Elaborator::elaborate_struct_action_body_item(BaseItem *t) {
 	if (t->getObjectType() == BaseItem::TypeConstraint) {
 		ret = elaborate_constraint(static_cast<Constraint *>(t));
 	} else if (t->getObjectType() == BaseItem::TypeField) {
-		FieldItem *f = static_cast<FieldItem *>(t);
-		BaseItem *dt = f->getDataType();
-		IField::FieldAttr attr = getAttr(f);
-
-		if (dt->getObjectType() == BaseItem::TypeBit) {
-			// This is a bit-type field
-			BitType *bt = static_cast<BitType *>(dt);
-			IScalarType *field_t = m_model->mkScalarType(
-					IScalarType::ScalarType_Bit, bt->getMsb(), bt->getLsb());
-			ret = m_model->mkField(f->getName(), field_t, attr);
-		} else if (dt->getObjectType() == BaseItem::TypeInt) {
-			// This is an int-type field
-			IntType *it = static_cast<IntType *>(dt);
-			IScalarType *field_t = m_model->mkScalarType(
-					IScalarType::ScalarType_Int, it->getMsb(), it->getLsb());
-			ret = m_model->mkField(f->getName(), field_t, attr);
-		} else if (dt->getObjectType() == BaseItem::TypeBool) {
-			// Boolean field
-			Bool *it = static_cast<Bool *>(dt);
-
-			IScalarType *field_t = m_model->mkScalarType(
-					IScalarType::ScalarType_Bool, 0, 0);
-			ret = m_model->mkField(f->getName(), field_t, attr);
-		} else if (dt->getObjectType() == BaseItem::TypeChandle) {
-			Chandle *it = static_cast<Chandle *>(dt);
-			IScalarType *field_t = m_model->mkScalarType(
-					IScalarType::ScalarType_Chandle, 0, 0);
-			ret = m_model->mkField(f->getName(), field_t, attr);
-		} else if (dt->getObjectType() == BaseItem::TypeAction) {
-			// This is an action-type field
-			IBaseItem *action_t = find_type_decl(dt);
-			ret = m_model->mkField(f->getName(), action_t, attr);
-		} else if (dt->getObjectType() == BaseItem::TypeStruct) {
-			// This is an struct-type field
-			IBaseItem *struct_t = find_type_decl(dt);
-			ret = m_model->mkField(f->getName(), struct_t, attr);
-		} else {
-			// Error
-		}
+		ret = elaborate_field_item(static_cast<FieldItem *>(t));
 	} else if (t->getObjectType() == BaseItem::TypeExec) {
 		// TODO:
 	} else {
 		// TODO: See if this is a field
 
+	}
+
+	return ret;
+}
+
+IField *Elaborator::elaborate_field_item(FieldItem *f) {
+	IField *ret = 0;
+	BaseItem *dt = f->getDataType();
+	IField::FieldAttr attr = getAttr(f);
+	IBaseItem *ft = 0;
+
+	if (dt->getObjectType() == BaseItem::TypeBit) {
+		// This is a bit-type field
+		BitType *bt = static_cast<BitType *>(dt);
+		ft = m_model->mkScalarType(
+				IScalarType::ScalarType_Bit, bt->getMsb(), bt->getLsb());
+	} else if (dt->getObjectType() == BaseItem::TypeInt) {
+		// This is an int-type field
+		IntType *it = static_cast<IntType *>(dt);
+		ft = m_model->mkScalarType(
+				IScalarType::ScalarType_Int, it->getMsb(), it->getLsb());
+	} else if (dt->getObjectType() == BaseItem::TypeBool) {
+		// Boolean field
+		Bool *it = static_cast<Bool *>(dt);
+
+		ft = m_model->mkScalarType(
+				IScalarType::ScalarType_Bool, 0, 0);
+	} else if (dt->getObjectType() == BaseItem::TypeChandle) {
+		Chandle *it = static_cast<Chandle *>(dt);
+		ft = m_model->mkScalarType(
+				IScalarType::ScalarType_Chandle, 0, 0);
+	} else if (dt->getObjectType() == BaseItem::TypeAction) {
+		// This is an action-type field
+		ft = find_type_decl(dt);
+	} else if (dt->getObjectType() == BaseItem::TypeStruct) {
+		// This is an struct-type field
+		ft = find_type_decl(dt);
+	} else if (dt->getObjectType() == BaseItem::TypeComponent) {
+		// This is a component-type field
+		ft = find_type_decl(dt);
+	} else {
+		// Error
+	}
+
+	if (ft) {
+		ret = m_model->mkField(f->getName(), ft, attr);
 	}
 
 	return ret;
@@ -519,19 +548,32 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItem *t) {
 		t = t->getParent();
 	}
 
+	// This is the active scope
 	IScopeItem *scope = toScopeItem(m_model_expr_ctxt);
 	if (scope) {
+		// Traverse through the reference path built up above
 		for (int32_t i=types.size()-1; i>=0; i--) {
 			NamedBaseItem *t = types.at(i);
 			IBaseItem *t_it = 0;
 
-			for (std::vector<IBaseItem *>::const_iterator s_it=scope->getItems().begin();
-					s_it!=scope->getItems().end(); s_it++) {
-				if ((*s_it)->getType() == IBaseItem::TypeField &&
-						static_cast<IField *>(*s_it)->getName() == t->getName()) {
-					t_it = *s_it;
+			IScopeItem *search_s = scope;
+			while (search_s) {
+				debug_high("Searching for %s in scope %s\n",
+						t->getName().c_str(), getName(search_s));
+				for (std::vector<IBaseItem *>::const_iterator s_it=search_s->getItems().begin();
+						s_it!=search_s->getItems().end(); s_it++) {
+					if ((*s_it)->getType() == IBaseItem::TypeField &&
+							static_cast<IField *>(*s_it)->getName() == t->getName()) {
+						t_it = *s_it;
+						break;
+					}
+				}
+				if (t_it) {
 					break;
 				}
+
+				// Traverse the inheritance hierarchy
+				search_s = getSuperType(search_s);
 			}
 
 			if (t_it) {
@@ -569,6 +611,109 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItem *t) {
 
 	debug_high("<-- elaborate_field_ref");
 	return m_model->mkFieldRef(fields);
+}
+
+IBindPath *Elaborator::elaborate_bind_path(BaseItem *t) {
+	std::vector<NamedBaseItem *>	types;
+	std::vector<IBaseItem *> 		path;
+
+	debug_high("--> elaborate_field_ref: %p %d", t, (t)?t->getObjectType():0);
+
+	while (t) {
+		// Traverse up to the point where we find the
+		// declaration scope that contains this expression
+		if (t == m_class_expr_ctxt) {
+			// TODO: might need to do something different for extended types?
+			break;
+		} else {
+			NamedBaseItem *ni = toNamedItem(t);
+
+			if (ni) {
+				debug_high("  Add type %s", ni->getName().c_str());
+				types.push_back(ni);
+			} else {
+				debug_high("  Warn: element is not named");
+			}
+		}
+		t = t->getParent();
+	}
+
+	// This is the active scope
+	IScopeItem *scope = toScopeItem(m_model_expr_ctxt);
+	if (scope) {
+		// Traverse through the reference path built up above
+		for (int32_t i=types.size()-1; i>=0; i--) {
+			NamedBaseItem *t = types.at(i);
+			IBaseItem *t_it = 0;
+
+			IScopeItem *search_s = scope;
+			while (search_s) {
+				debug_high("Searching for %s in scope %s\n",
+						t->getName().c_str(), getName(search_s));
+				for (std::vector<IBaseItem *>::const_iterator s_it=search_s->getItems().begin();
+						s_it!=search_s->getItems().end(); s_it++) {
+					if ((*s_it)->getType() == IBaseItem::TypeField &&
+							static_cast<IField *>(*s_it)->getName() == t->getName()) {
+						t_it = *s_it;
+						break;
+					} else if ((*s_it)->getType() == IBaseItem::TypeAction &&
+							static_cast<IAction *>(*s_it)->getName() == t->getName()) {
+						t_it = *s_it;
+						break;
+					} else if ((*s_it)->getType() == IBaseItem::TypeComponent &&
+							static_cast<IComponent *>(*s_it)->getName() == t->getName()) {
+						t_it = *s_it;
+						break;
+					}
+				}
+
+				if (t_it) {
+					break;
+				}
+
+				// Traverse the inheritance hierarchy
+				search_s = getSuperType(search_s);
+			}
+
+			if (t_it) {
+				path.push_back(t_it);
+				if (t_it->getType() == IBaseItem::TypeField) {
+					IField *field = static_cast<IField *>(t_it);
+
+					if (i > 0) {
+						if (field->getDataType()) {
+							scope = toScopeItem(field->getDataType());
+
+							if (!scope) {
+								error(std::string("Field ") + t->getName() + " is not user-defined");
+								break;
+							}
+						} else {
+							error(std::string("Field ") + field->getName() + " doesn't have a type");
+							break;
+						}
+					}
+				} else if (t_it->getType() == IBaseItem::TypeAction) {
+					scope = static_cast<IAction *>(t_it);
+				} else if (t_it->getType() == IBaseItem::TypeComponent) {
+					scope = static_cast<IComponent *>(t_it);
+				}
+			} else {
+				INamedItem *named_it = toNamedItem(scope);
+				error("Failed to find field %s in scope %s",
+						t->getName().c_str(),
+						toNamedItem(scope)?toNamedItem(scope)->getName().c_str():"UNNAMED");
+				break;
+			}
+		}
+	} else {
+		NamedBaseItem *scope = toNamedItem(m_class_expr_ctxt);
+		std::string name = (scope)?scope->getName():"UNKNOWN";
+		error(std::string("Current context (") + name + ") is not a scope");
+	}
+
+	debug_high("<-- elaborate_field_ref");
+	return m_model->mkBindPath(path);
 }
 
 IGraphStmt *Elaborator::elaborate_graph(Graph *g) {
@@ -837,6 +982,12 @@ bool Elaborator::should_filter(
 	bool ret = false;
 
 	BaseItem *item = items.at(i);
+
+	if (item->getObjectType() == BaseItem::TypeField &&
+			static_cast<FieldItem *>(item)->isInternal()) {
+		// Always skip implementation fields
+		return true;
+	}
 	NamedBaseItem *ni = toNamedItem(item);
 
 	if (!ni || ni->getName() == "" || type_h.size() == 1) {
@@ -916,13 +1067,46 @@ INamedItem *Elaborator::toNamedItem(IBaseItem *it) {
 	case IBaseItem::TypeAction: return static_cast<IAction *>(it);
 	case IBaseItem::TypeStruct: return static_cast<IStruct *>(it);
 	case IBaseItem::TypeComponent: return static_cast<IComponent *>(it);
+	case IBaseItem::TypeField: return static_cast<IField *>(it);
+	case IBaseItem::TypePackage: return static_cast<IPackage *>(it);
 	}
 	return 0;
 }
 
 NamedBaseItem *Elaborator::toNamedItem(BaseItem *it) {
 	return NamedBaseItem::to(it);
+}
 
+const char *Elaborator::getName(IBaseItem *it) {
+	INamedItem *it_n = toNamedItem(it);
+
+	if (it_n) {
+		return it_n->getName().c_str();
+	} else {
+		return "UNNAMED";
+	}
+}
+
+IScopeItem *Elaborator::getSuperType(IScopeItem *it) {
+	switch (it->getType()) {
+	case IBaseItem::TypeAction: return static_cast<IAction *>(it)->getSuperType();
+	case IBaseItem::TypeStruct: return static_cast<IStruct *>(it)->getSuperType();
+//	case IBaseItem::TypeComponent: return static_cast<IComponent *>(it)->getSuperType();
+	}
+
+	return 0;
+}
+
+void Elaborator::error(const char *fmt, ...) {
+	va_list ap;
+
+	va_start(ap, fmt);
+
+	fputs("Error: ", stdout);
+	vfprintf(stdout, fmt, ap);
+	fputs("\n", stdout);
+
+	va_end(ap);
 }
 
 void Elaborator::error(const std::string &msg) {

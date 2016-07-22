@@ -25,6 +25,7 @@
 
 #include "PSI2XML.h"
 #include <stdio.h>
+#include <string.h>
 
 namespace psi {
 namespace apps {
@@ -42,11 +43,10 @@ const std::string &PSI2XML::traverse(IModel *model) {
 	m_content.clear();
 
 	println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-	println("<pss:model \n"
+	enter("model \n"
 			"  xmlns:pss=\"http://accellera.org/PSS\"\n"
 			"  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-			"  xsi:schemaLocation=\"http://accellera.org/PSS PSSModel.xsd\">");
-	inc_indent();
+			"  xsi:schemaLocation=\"http://accellera.org/PSS PSSModel.xsd\"");
 
 	IPackage *pkg = model->getGlobalPackage();
 	process_pkg(pkg);
@@ -66,21 +66,17 @@ const std::string &PSI2XML::traverse(IModel *model) {
 		}
 	}
 
-	dec_indent();
-	println("</pss:model>");
-
+	exit("model");
 
 	return m_content;
 }
 
 void PSI2XML::process_pkg(IPackage *pkg) {
 	if (pkg->getName() == "") {
-		println("<pss:package>");
+		enter("package");
 	} else {
-		println("<pss:package name=\"" + pkg->getName() + "\">");
+		enter("package name=\"" + pkg->getName() + "\"");
 	}
-
-	inc_indent();
 
 	std::vector<IBaseItem *>::const_iterator it=pkg->getItems().begin();
 
@@ -97,19 +93,16 @@ void PSI2XML::process_pkg(IPackage *pkg) {
 		}
 	}
 
-	dec_indent();
-
-	println("</pss:package>");
+	exit("package");
 }
 
 void PSI2XML::process_action(IAction *a) {
 	IAction *super_a = a->getSuperType();
 
-	println("<pss:action name=\"" + a->getName() + "\">");
-	inc_indent();
+	enter("action name=\"" + a->getName() + "\"");
 
 	if (super_a) {
-		type2hierarchical_id(super_a, "pss:super");
+		type2hierarchical_id(super_a, "super");
 	}
 
 	process_body(a->getItems(), "action");
@@ -117,14 +110,13 @@ void PSI2XML::process_action(IAction *a) {
 	if (a->getGraph()) {
 		process_graph(a->getGraph());
 	}
-	dec_indent();
 
-	println("</pss:action>");
+	exit("action");
 }
 
 void PSI2XML::process_struct(IStruct *str) {
 	IStruct *super_s = 0; // TODO: super-type
-	std::string tag = "<pss:struct name=\"" + str->getName() + "\"";
+	std::string tag = "struct name=\"" + str->getName() + "\"";
 
 
 	switch (str->getStructType()) {
@@ -134,31 +126,26 @@ void PSI2XML::process_struct(IStruct *str) {
 	case IStruct::State: tag += " qualifier=\"state\""; break;
 	}
 
-	tag += ">";
-	println(tag);
+	enter(tag);
 
-	inc_indent();
 	if (str->getSuperType()) {
-		type2hierarchical_id(str->getSuperType(), "pss:super");
+		type2hierarchical_id(str->getSuperType(), "super");
 	}
 
 	process_body(str->getItems(), "struct");
-	dec_indent();
 
-	println("</pss:struct>");
+	exit("struct");
 }
 
 void PSI2XML::process_bind(IBind *b) {
-	println("<bind>");
-	inc_indent();
+	enter("bind");
 
-	for (std::vector<IBaseItem *>::const_iterator it=b->getTargets().begin();
+	for (std::vector<IBindPath *>::const_iterator it=b->getTargets().begin();
 			it!=b->getTargets().end(); it++) {
-		// TODO:
+		to_hierarchical_id((*it)->getPath(), "bindpath");
 	}
 
-	dec_indent();
-	println("</bind>");
+	exit("bind");
 }
 
 void PSI2XML::process_body(
@@ -189,6 +176,10 @@ void PSI2XML::process_body(
 			process_field(static_cast<IField *>(i));
 			break;
 
+		case IBaseItem::TypeStruct:
+			process_struct(static_cast<IStruct *>(i));
+			break;
+
 		default:
 			fprintf(stdout, "Error: Unknown body item %d\n", i->getType());
 		}
@@ -197,8 +188,7 @@ void PSI2XML::process_body(
 
 void PSI2XML::process_component(IComponent *c) {
 
-	println(std::string("<pss:component name=\"") + c->getName() + "\">");
-	inc_indent();
+	enter(std::string("component name=\"") + c->getName() + "\"");
 
 	// TODO: super type
 //	if (c->getSu)
@@ -206,8 +196,7 @@ void PSI2XML::process_component(IComponent *c) {
 //	process_comp_pkg_body(c->getItems());
 	process_body(c->getItems(), "component");
 
-	dec_indent();
-	println("</pss:component>");
+	exit("component");
 }
 
 void PSI2XML::process_comp_pkg_body(const std::vector<IBaseItem *> &items) {
@@ -227,6 +216,26 @@ void PSI2XML::process_comp_pkg_body(const std::vector<IBaseItem *> &items) {
 
 }
 
+void PSI2XML::process_constraint_set(IConstraint *c, const char *tag) {
+	if (tag) {
+		enter(tag);
+	}
+
+	if (c->getConstraintType() == IConstraint::ConstraintType_Block) {
+		IConstraintBlock *b = static_cast<IConstraintBlock *>(c);
+		for (std::vector<IConstraint *>::const_iterator it=b->getConstraints().begin();
+				it!=b->getConstraints().end(); it++) {
+			process_constraint(*it);
+		}
+	} else {
+		process_constraint(c);
+	}
+
+	if (tag) {
+		exit(tag);
+	}
+}
+
 void PSI2XML::process_constraint(IConstraint *c) {
 	switch (c->getConstraintType()) {
 	case IConstraint::ConstraintType_Block: {
@@ -244,38 +253,24 @@ void PSI2XML::process_constraint(IConstraint *c) {
 	} break;
 
 	case IConstraint::ConstraintType_Expr:
-		process_expr(static_cast<IConstraintExpr *>(c)->getExpr());
+		process_expr(static_cast<IConstraintExpr *>(c)->getExpr(), "stmt");
 		break;
 
 	case IConstraint::ConstraintType_If: {
 		IConstraintIf *c_if = static_cast<IConstraintIf *>(c);
 
-		println("<if>");
-		inc_indent();
-		println("<cond>");
-		inc_indent();
+		enter("if");
+		enter("cond");
 		process_expr(c_if->getCond());
-		dec_indent();
-		println("</cond>");
+		exit("cond");
 
-		println("<isTrue>");
-		inc_indent();
-		process_constraint(c_if->getTrue());
-		dec_indent();
-		println("</isTrue>");
+		process_constraint_set(c_if->getTrue(), "true");
 
 		if (c_if->getFalse()) {
-			println("<isFalse>");
-			inc_indent();
-			process_constraint(c_if->getFalse());
-			dec_indent();
-			println("</isFalse>");
+			process_constraint_set(c_if->getFalse(), "false");
 		}
 
-		dec_indent();
-		println("</if>");
-
-		fprintf(stdout, "  if\n");
+		exit("if");
 		} break;
 	}
 }
@@ -284,27 +279,26 @@ void PSI2XML::process_constraint_block(IConstraintBlock *block) {
 	std::vector<IConstraint *>::const_iterator it = block->getConstraints().begin();
 
 	if (block->getName() == "") {
-		println("<constraint>");
+		enter("constraint");
 	} else {
-		println("<constraint name=\"" + block->getName() + "\">");
+		enter("constraint name=\"" + block->getName() + "\"");
 	}
-
-	inc_indent();
 
 	for (; it!=block->getConstraints().end(); it++) {
 		IConstraint *c = *it;
 		process_constraint(c);
 	}
 
-	dec_indent();
-
-	println("</constraint>");
+	exit("constraint");
 }
 
-void PSI2XML::process_expr(IExpr *e) {
+void PSI2XML::process_expr(IExpr *e, const char *tag) {
 	if (!e) {
 		fprintf(stdout, "Error: null expression\n");
 		return;
+	}
+	if (tag) {
+		enter(tag);
 	}
 	switch (e->getType()) {
 		case IExpr::ExprType_BinOp: {
@@ -328,12 +322,10 @@ void PSI2XML::process_expr(IExpr *e) {
 			case IBinaryExpr::BinOp_Mod: op = "Mod"; break;
 			case IBinaryExpr::BinOp_ArrayRef: op = "ArrRef"; break;
 			}
-			println("<binexp op=\"" + op + "\">");
-			inc_indent();
-			process_expr(be->getLHS());
-			process_expr(be->getRHS());
-			dec_indent();
-			println("</binexp>");
+			enter("binexp op=\"" + op + "\"");
+			process_expr(be->getLHS(), "lhs");
+			process_expr(be->getRHS(), "rhs");
+			exit("binexp");
 			} break;
 
 		case IExpr::ExprType_Literal: {
@@ -344,28 +336,24 @@ void PSI2XML::process_expr(IExpr *e) {
 			switch (l->getLiteralType()) {
 			case ILiteral::LiteralBit: {
 				sprintf(val, "0x%llx", (long long)l->getBit());
-				tag = "<literal type=\"bit\" value=\"";
-				tag += val;
-				tag += "\"/>";
 			} break;
 			case ILiteral::LiteralInt: {
 				sprintf(val, "0x%llx", (long long)l->getInt());
-				tag = "<literal type=\"int\" value=\"";
-				tag += val;
-				tag += "\"/>";
 			} break;
 			case ILiteral::LiteralBool: {
-				tag = "<literal type=\"bool\" value=\"";
 				if (l->getBool()) {
-					tag += "true";
+					strcpy(val, "true");
 				} else {
-					tag += "false";
+					strcpy(val, "false");
 				}
-				tag += "\"/>";
 			} break;
 			default:
-				tag = "<unknown/>";
+				strcpy(val, "UNKNOWN");
 			}
+
+			tag = "<pss:number>";
+			tag += val;
+			tag += "</pss:number>";
 
 			println(tag);
 
@@ -383,6 +371,9 @@ void PSI2XML::process_expr(IExpr *e) {
 			}
 			exit("ref");
 			} break;
+	}
+	if (tag) {
+		exit(tag);
 	}
 }
 
@@ -426,23 +417,22 @@ void PSI2XML::process_field(IField *f) {
 void PSI2XML::process_graph(IGraphStmt *graph) {
 	std::vector<IGraphStmt *>::const_iterator it;
 
-	println("<graph>");
-	inc_indent();
+	enter("graph");
 
 	process_graph_stmt(graph);
 
-	dec_indent();
-	println("</graph>");
+	exit("graph");
 }
 
-void PSI2XML::process_graph_stmt(IGraphStmt *stmt) {
+void PSI2XML::process_graph_stmt(IGraphStmt *stmt, const char *tag) {
+
+	if (tag) {
+		enter(tag);
+	}
+
 	switch (stmt->getStmtType()) {
 	case IGraphStmt::GraphStmt_Block: {
-		println("<block>");
-		inc_indent();
 		process_graph_block_stmt(static_cast<IGraphBlockStmt *>(stmt));
-		dec_indent();
-		println("</block>");
 	} break;
 
 	case IGraphStmt::GraphStmt_IfElse: {
@@ -450,92 +440,95 @@ void PSI2XML::process_graph_stmt(IGraphStmt *stmt) {
 	} break;
 
 	case IGraphStmt::GraphStmt_Parallel: {
-		println("<parallel>");
-		inc_indent();
+		IGraphBlockStmt *block = static_cast<IGraphBlockStmt *>(stmt);
+		enter("parallel");
 
-		process_graph_block_stmt(static_cast<IGraphBlockStmt *>(stmt));
+		for (std::vector<IGraphStmt *>::const_iterator it=block->getStmts().begin();
+				it!=block->getStmts().end(); it++) {
+			process_graph_stmt(*it, "production");
+		}
 
-		dec_indent();
-		println("</parallel>");
+		exit("parallel");
 	} break;
 
 	case IGraphStmt::GraphStmt_Schedule: {
-		println("<schedule>");
-		inc_indent();
-
-		process_graph_block_stmt(static_cast<IGraphBlockStmt *>(stmt));
-
-		dec_indent();
-		println("</schedule>");
+		process_graph_block_stmt(static_cast<IGraphBlockStmt *>(stmt), "schedule");
 	} break;
 
 	case IGraphStmt::GraphStmt_Select: {
-		println("<select>");
-		inc_indent();
+		IGraphBlockStmt *block = static_cast<IGraphBlockStmt *>(stmt);
+		enter("select");
 
-		process_graph_block_stmt(static_cast<IGraphBlockStmt *>(stmt));
+		for (std::vector<IGraphStmt *>::const_iterator it=block->getStmts().begin();
+				it!=block->getStmts().end(); it++) {
+			process_graph_stmt(*it, "choice");
+		}
 
-		dec_indent();
-		println("</select>");
+		exit("select");
 	} break;
 
 	case IGraphStmt::GraphStmt_Repeat: {
 		IGraphRepeatStmt *r = static_cast<IGraphRepeatStmt *>(stmt);
 
-		std::string tag = "<repeat type=\"";
+		std::string tag = "repeat type=\"";
 		switch (r->getRepeatType()) {
-			// TODO: counted
+			case IGraphRepeatStmt::RepeatType_Count: tag += "count"; break;
 			case IGraphRepeatStmt::RepeatType_Forever: tag += "forever"; break;
 			case IGraphRepeatStmt::RepeatType_While: tag += "while"; break;
 			case IGraphRepeatStmt::RepeatType_Until: tag += "until"; break;
 		}
-		tag += "\">";
-		println(tag);
-		inc_indent();
+		tag += "\"";
+		enter(tag);
 
-		// TODO: handle non-forever versions
-		process_graph_stmt(r->getBody());
+		if (r->getRepeatType() != IGraphRepeatStmt::RepeatType_Forever) {
+			process_expr(r->getCond(), "expr");
+		}
 
-		dec_indent();
-		println("</repeat>");
+		process_graph_stmt(r->getBody(), "body");
+
+		exit("repeat");
 	} break;
 
 	case IGraphStmt::GraphStmt_Traverse: {
 		IGraphTraverseStmt *t = static_cast<IGraphTraverseStmt *>(stmt);
 
-		std::string tag = "<traverse action=\"";
+		std::string tag = "traverse name=\"";
 		tag += path2string(t->getAction());
+		tag += "\"";
+
 
 		if (t->getWith()) {
-			tag += "\">";
+			enter(tag);
+			process_constraint_set(t->getWith(), "with");
+			exit("traverse");
 		} else {
-			tag += "\"/>";
+			println("<pss:" + tag + "/>");
 		}
 
-		println(tag);
-
-		if (t->getWith()) {
-			IConstraint *c = static_cast<IConstraint *>(t->getWith());
-			println("<with>");
-			inc_indent();
-			process_constraint(c);
-			dec_indent();
-			println("</with>");
-
-			println("</traverse>");
-		}
 	} break;
 
 	default: fprintf(stdout, "TODO: handle graph stmt %d\n", stmt->getStmtType());
 
 	}
+
+	if (tag) {
+		exit(tag);
+	}
 }
 
-void PSI2XML::process_graph_block_stmt(IGraphBlockStmt *block) {
+void PSI2XML::process_graph_block_stmt(IGraphBlockStmt *block, const char *tag) {
 	std::vector<IGraphStmt *>::const_iterator it;
+
+	if (tag) {
+		enter(tag);
+	}
 
 	for (it=block->getStmts().begin(); it!=block->getStmts().end(); it++) {
 		process_graph_stmt(*it);
+	}
+
+	if (tag) {
+		exit(tag);
 	}
 }
 
@@ -563,7 +556,7 @@ std::string PSI2XML::type2string(IBaseItem *it) {
 void PSI2XML::type2hierarchical_id(IBaseItem *it, const std::string &tag) {
 	std::vector<INamedItem *> p;
 
-	println("<" + tag + ">");
+	enter(tag);
 
 	while (it) {
 		INamedItem *ni = toNamedItem(it);
@@ -577,14 +570,12 @@ void PSI2XML::type2hierarchical_id(IBaseItem *it, const std::string &tag) {
 		it = it->getParent();
 	}
 
-	inc_indent();
 	for (std::vector<INamedItem *>::const_iterator it=p.begin();
 			it!=p.end(); it++) {
 		println("<pss:path>" + (*it)->getName() + "</pss:path>");
 	}
-	dec_indent();
 
-	println("</" + tag + ">");
+	exit(tag);
 }
 
 void PSI2XML::type2data_type(IBaseItem *dt_i, const std::string &tag) {
@@ -634,8 +625,9 @@ void PSI2XML::type2data_type(IBaseItem *dt_i, const std::string &tag) {
 				println(std::string("<pss:") + tname + "/>");
 			}
 		} else if (dt_i->getType() == IBaseItem::TypeAction ||
-				dt_i->getType() == IBaseItem::TypeStruct) {
-			type2hierarchical_id(dt_i, "pss:user");
+				dt_i->getType() == IBaseItem::TypeStruct ||
+				dt_i->getType() == IBaseItem::TypeComponent) {
+			type2hierarchical_id(dt_i, "user");
 		} else {
 			println("<pss:unknown-type/>");
 		}
@@ -645,6 +637,26 @@ void PSI2XML::type2data_type(IBaseItem *dt_i, const std::string &tag) {
 
 	dec_indent();
 	println("</" + tag + ">");
+}
+
+void PSI2XML::to_hierarchical_id(const std::vector<IBaseItem *> &path, const char *tag) {
+	if (tag) {
+		enter(tag);
+	}
+
+	for (std::vector<IBaseItem *>::const_iterator it=path.begin();
+			it!=path.end(); it++) {
+		INamedItem *named_it = toNamedItem(*it);
+		if (named_it) {
+			println(std::string("<pss:path>") + named_it->getName() + "</pss:path>");
+		} else {
+			println("<pss:path>UNNAMED</pss:path>");
+		}
+	}
+
+	if (tag) {
+		exit(tag);
+	}
 }
 
 std::string PSI2XML::path2string(IFieldRef *f) {

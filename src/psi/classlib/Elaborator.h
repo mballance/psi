@@ -75,9 +75,9 @@ protected:
 
 	IAction *elaborate_action(Action *a);
 
-	IBind *elaborate_bind(Bind *b);
-
 	IComponent *elaborate_component(IScopeItem *scope, Component *c);
+
+	IBind *elaborate_bind(Bind *b);
 
 	IConstraint *elaborate_constraint(Constraint *c);
 
@@ -94,7 +94,11 @@ protected:
 
 	IBaseItem *elaborate_struct_action_body_item(BaseItem *t);
 
+	IField *elaborate_field_item(FieldItem *f);
+
 	IFieldRef *elaborate_field_ref(BaseItem *ref);
+
+	IBindPath *elaborate_bind_path(BaseItem *it);
 
 	IGraphStmt *elaborate_graph(Graph *g);
 
@@ -131,7 +135,13 @@ private:
 	static IScopeItem *toScopeItem(IBaseItem *it);
 	static INamedItem *toNamedItem(IBaseItem *it);
 
+	static const char *getName(IBaseItem *it);
+
+	static IScopeItem *getSuperType(IScopeItem *it);
+
 	static NamedBaseItem *toNamedItem(BaseItem *it);
+
+	void error(const char *fmt, ...);
 
 	void error(const std::string &msg);
 
