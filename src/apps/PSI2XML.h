@@ -93,6 +93,10 @@ private:
 	void inc_indent();
 	void dec_indent();
 
+	void enter(const std::string &str);
+
+	void exit(const std::string &str);
+
 	static INamedItem *toNamedItem(IBaseItem *it);
 
 private:

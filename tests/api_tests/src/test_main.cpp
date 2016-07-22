@@ -6,6 +6,8 @@
  */
 #include <vector>
 #include <stdio.h>
+#include <string.h>
+#include <strings.h>
 #include "psi_tests.h"
 #include "ModelImpl.h"
 #include "PSI2XML.h"
@@ -23,8 +25,24 @@ void build_model(IModel *) __attribute__((weak));
  */
 void build_model(IModel *model) {
 	Elaborator elab;
+	const char *log_level_s = getenv("PSS_LOG_LEVEL");
+	Elaborator::LogLevel l = Elaborator::OFF;
+
+	if (log_level_s) {
+		if (!strcasecmp(log_level_s, "low")) {
+			l = Elaborator::LOW;
+		} else if (!strcasecmp(log_level_s, "med")) {
+			l = Elaborator::MED;
+		} else if (!strcasecmp(log_level_s, "high")) {
+			l = Elaborator::HIGH;
+		} else {
+			fprintf(stdout, "WARNING: Unknown log level \"%s\". low, med, high supported\n",
+					log_level_s);
+		}
+	}
 
 	BaseItem *global = Model::global();
+	elab.set_log_level(l);
 	elab.elaborate(Model::global(), model);
 }
 

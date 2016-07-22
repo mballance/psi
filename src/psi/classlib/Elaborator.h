@@ -26,6 +26,7 @@
 #ifndef SRC_ELABORATOR_ELABORATOR_H_
 #define SRC_ELABORATOR_ELABORATOR_H_
 #include <vector>
+#include <stdarg.h>
 
 #include "api/IAction.h"
 #include "api/IBind.h"
@@ -53,9 +54,20 @@ namespace psi {
 class Elaborator {
 public:
 
+	enum LogLevel {
+		OFF,
+		LOW,
+		MED,
+		HIGH
+	};
+
+public:
+
 	Elaborator();
 
 	virtual ~Elaborator();
+
+	void set_log_level(LogLevel l) { m_log_level = l; }
 
 	void elaborate(BaseItem *root, IModel *model);
 
@@ -91,6 +103,8 @@ protected:
 
 private:
 
+private:
+
 	void set_expr_ctxt(IBaseItem *model_ctxt, BaseItem *class_ctxt);
 
 	static IField::FieldAttr getAttr(FieldItem *t);
@@ -121,10 +135,22 @@ private:
 
 	void error(const std::string &msg);
 
+	void debug(LogLevel l, const char *fmt, ...);
+
+	void debug(LogLevel l, const char *fmt, va_list ap);
+
+	void debug_low(const char *fmt, ...);
+
+	void debug_med(const char *fmt, ...);
+
+	void debug_high(const char *fmt, ...);
+
 private:
 	IBaseItem				*m_model_expr_ctxt;
 	BaseItem				*m_class_expr_ctxt;
 	IModel					*m_model;
+
+	LogLevel				m_log_level;
 
 
 

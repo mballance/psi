@@ -20,6 +20,19 @@ NamedBaseItem::NamedBaseItem(
 		BaseItem::ObjectType 	t,
 		BaseItem 				*p,
 		const std::string 		&name) : BaseItem(t, p), m_name(name) {
+
+//	if (p) {
+//	fprintf(stdout, "NamedBaseItem: \"%s\" p=%s\n", name.c_str(),
+//			(!p)?"NULL":(to(p))?to(p)->getName().c_str():"UNNAMED");
+//
+//	BaseItem *tt = this;
+//
+//	while (tt) {
+//		fprintf(stdout, "  el: %s\n",
+//				(to(tt))?to(tt)->getName().c_str():"UNNAMED");
+//		tt = tt->getParent();
+//	}
+//	}
 }
 
 NamedBaseItem::~NamedBaseItem() {

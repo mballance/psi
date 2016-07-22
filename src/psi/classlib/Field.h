@@ -29,48 +29,20 @@
 
 #include "classlib/BaseItem.h"
 #include "classlib/TypeDecl.h"
-#include "classlib/FieldItem.h"
+#include "classlib/FieldBase.h"
 #include "classlib/With.h"
 
 namespace psi {
 
-template <class T> class Field : public T {
+template <class T> class Field : public FieldBase<T> {
 	public:
 
-		Field(BaseItem *p, const std::string &name) : T(Scope(true)), m_field(p, name) {
-			T *t = static_cast<T *>(this);
-
-			// Get the 'authoratative' type declaration from
-			// TypeDecl<> in the case of a user-defined type. Otherwise,
-			// just set the type handle
-			if (t->getObjectType() == BaseItem::TypeAction ||
-					t->getObjectType() == BaseItem::TypeStruct ||
-					t->getObjectType() == BaseItem::TypeComponent) {
-				m_field.setDataType(TypeDecl<T>::type_id());
-			} else {
-				m_field.setDataType(t);
-			}
-		}
+		Field(BaseItem *p, const std::string &name) :
+			FieldBase<T>(FieldItem::AttrNone, p, name) { }
 
 		virtual ~Field() { }
 
-		virtual const std::string  &getName() const {
-			return m_field.getName();
-		}
-
-		/*
-		 * Provide an explicit conversion function to tell the
-		 * compiler how to interpret the fact that both we and T extend
-		 * from BaseItem
-		 */
-		operator Expr() const { return Expr(m_field); }
-
-		operator const FieldItem &() const { return m_field; }
-
-		With with(const ExprList &l) const { return With(m_field, l); }
-
-	private:
-		FieldItem						m_field;
+		With with(const ExprList &l) const { return With(FieldBase<T>::m_field, l); }
 };
 
 }

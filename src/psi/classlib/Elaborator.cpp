@@ -35,13 +35,15 @@
 #include "classlib/Model.h"
 
 #include <stdio.h>
+#include <stdarg.h>
 
 namespace psi {
 
 using namespace std;
 
 Elaborator::Elaborator() : m_model(0),
-		m_model_expr_ctxt(0), m_class_expr_ctxt(0) {
+		m_model_expr_ctxt(0), m_class_expr_ctxt(0),
+		m_log_level(OFF) {
 	// TODO Auto-generated constructor stub
 
 }
@@ -174,6 +176,8 @@ IComponent *Elaborator::elaborate_component(IScopeItem *scope, Component *c) {
 
 // TODO: should return
 IConstraint *Elaborator::elaborate_constraint(Constraint *c) {
+	debug_low("--> elaborate_constraint %s",
+			(c->getName() == "")?"UNNAMED":c->getName().c_str());
 	IConstraintBlock *ret = m_model->mkConstraintBlock(c->getName());
 
 	Expr &e = c->getStmt();
@@ -192,6 +196,9 @@ IConstraint *Elaborator::elaborate_constraint(Constraint *c) {
 		IConstraint *c = elaborate_constraint_stmt(ec);
 		ret->add(c);
 	}
+
+	debug_low("<-- elaborate_constraint %s",
+			(c->getName() == "")?"UNNAMED":c->getName().c_str());
 
 	return ret;
 }
@@ -353,8 +360,6 @@ IExpr *Elaborator::elaborate_expr(ExprCore *e) {
 
 	case Expr::TypeRef: {
 		ret = elaborate_field_ref(e->getTypePtr());
-
-
 		} break;
 
 	default:
@@ -493,6 +498,8 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItem *t) {
 	std::vector<NamedBaseItem *>	types;
 	std::vector<IField *> 			fields;
 
+	debug_high("--> elaborate_field_ref: %p %d", t, (t)?t->getObjectType():0);
+
 	while (t) {
 		// Traverse up to the point where we find the
 		// declaration scope that contains this expression
@@ -503,7 +510,10 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItem *t) {
 			NamedBaseItem *ni = toNamedItem(t);
 
 			if (ni) {
+				debug_high("  Add type %s", ni->getName().c_str());
 				types.push_back(ni);
+			} else {
+				debug_high("  Warn: element is not named");
 			}
 		}
 		t = t->getParent();
@@ -557,6 +567,7 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItem *t) {
 		error(std::string("Current context (") + name + ") is not a scope");
 	}
 
+	debug_high("<-- elaborate_field_ref");
 	return m_model->mkFieldRef(fields);
 }
 
@@ -916,6 +927,56 @@ NamedBaseItem *Elaborator::toNamedItem(BaseItem *it) {
 
 void Elaborator::error(const std::string &msg) {
 	fprintf(stdout, "Error: %s\n", msg.c_str());
+}
+
+void Elaborator::debug(LogLevel l, const char *fmt, va_list ap) {
+
+	if (m_log_level >= l) {
+		fputs("DEBUG: ", stdout);
+		vfprintf(stdout, fmt, ap);
+		fputs("\n", stdout);
+	}
+
+}
+
+void Elaborator::debug(LogLevel l, const char *fmt, ...) {
+	va_list ap;
+
+	if (m_log_level >= l) {
+		va_start(ap, fmt);
+		debug(l, fmt, ap);
+		va_end(ap);
+	}
+}
+
+void Elaborator::debug_low(const char *fmt, ...) {
+	va_list ap;
+
+	if (m_log_level >= LOW) {
+		va_start(ap, fmt);
+		debug(LOW, fmt, ap);
+		va_end(ap);
+	}
+}
+
+void Elaborator::debug_med(const char *fmt, ...) {
+	va_list ap;
+
+	if (m_log_level >= MED) {
+		va_start(ap, fmt);
+		debug(MED, fmt, ap);
+		va_end(ap);
+	}
+}
+
+void Elaborator::debug_high(const char *fmt, ...) {
+	va_list ap;
+
+	if (m_log_level >= HIGH) {
+		va_start(ap, fmt);
+		debug(HIGH, fmt, ap);
+		va_end(ap);
+	}
 }
 
 } /* namespace psi */

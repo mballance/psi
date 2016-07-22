@@ -375,20 +375,13 @@ void PSI2XML::process_expr(IExpr *e) {
 			const std::vector<IField *> &fields =
 					static_cast<IFieldRef *>(e)->getFieldPath();
 
+			enter("ref");
+
 			for (uint32_t i=0; i<fields.size(); i++) {
 				IField *field = fields.at(i);
-
-				if (i+1<fields.size()) {
-					println(std::string("<fieldref name=\"" + field->getName() + "\">"));
-					inc_indent();
-				} else {
-					println(std::string("<fieldref name=\"" + field->getName() + "\"/>"));
-				}
+				println(std::string("<pss:path>") + field->getName() + "</pss:path>");
 			}
-			for (uint32_t i=0; fields.size()>0 && i<fields.size()-1; i++) {
-				dec_indent();
-				println("</fieldref>");
-			}
+			exit("ref");
 			} break;
 	}
 }
@@ -610,39 +603,35 @@ void PSI2XML::type2data_type(IBaseItem *dt_i, const std::string &tag) {
 			bool has_bitwidth = false;
 
 			if (st->getScalarType() == IScalarType::ScalarType_Bit) {
-				tname = "pss:bit";
+				tname = "bit";
 				has_bitwidth = true;
 			} else if (st->getScalarType() == IScalarType::ScalarType_Int) {
-				tname = "pss:int";
+				tname = "int";
 				has_bitwidth = true;
 			} else if (st->getScalarType() == IScalarType::ScalarType_Bool) {
-				tname = "pss:bool";
+				tname = "bool";
 				has_bitwidth = false;
 			} else if (st->getScalarType() == IScalarType::ScalarType_Chandle) {
-				tname = "pss:chandle";
+				tname = "chandle";
 				has_bitwidth = false;
 			} else if (st->getScalarType() == IScalarType::ScalarType_String) {
-				tname = "pss:string";
+				tname = "string";
 				has_bitwidth = "false";
 			}
 
 			if (has_bitwidth) {
-				println(std::string("<") + tname + ">");
-				println("<pss:msb>");
-				inc_indent();
+				enter(tname);
+				enter("msb");
 				println(std::string("<pss:number>") + msb_s + "</pss:number>");
-				dec_indent();
-				println("</pss:msb>");
+				exit("msb");
 
-				println("<pss:lsb>");
-				inc_indent();
+				enter("lsb");
 				println(std::string("<pss:number>") + lsb_s + "</pss:number>");
-				dec_indent();
-				println("</pss:lsb>");
+				exit("lsb");
 
-				println(std::string("</") + tname + ">");
+				exit(tname);
 			} else {
-				println(std::string("<") + tname + "/>");
+				println(std::string("<pss:") + tname + "/>");
 			}
 		} else if (dt_i->getType() == IBaseItem::TypeAction ||
 				dt_i->getType() == IBaseItem::TypeStruct) {
@@ -672,6 +661,16 @@ std::string PSI2XML::path2string(IFieldRef *f) {
 	}
 
 	return ret;
+}
+
+void PSI2XML::enter(const std::string &t) {
+	println(std::string("<pss:" + t + ">"));
+	inc_indent();
+}
+
+void PSI2XML::exit(const std::string &t) {
+	dec_indent();
+	println(std::string("</pss:" + t + ">"));
 }
 
 void PSI2XML::println(const std::string &str) {

@@ -74,7 +74,7 @@ public:
 			}
 		};
 
-		Constraint addr_c {this, rd1.in_data.address != rd2.in_data.address };
+		Constraint addr_c {this, "addr_c", rd1.in_data.address != rd2.in_data.address };
 
 	};
 	psi_type(my_test2);

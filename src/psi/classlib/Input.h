@@ -26,24 +26,19 @@
 #define INPUT_H_
 #include <string>
 
-#include "classlib/FieldItem.h"
+#include "classlib/FieldBase.h"
 #include "classlib/TypeDecl.h"
 
 namespace psi {
 
-template <class T> class Input : public T {
+template <class T> class Input : public FieldBase<T> {
 
 	public:
-		Input(BaseItem *p, const std::string &name) : T(Scope(true)), m_field(p, name) {
-			m_field.setAttr(FieldItem::AttrInput);
-			m_field.setDataType(TypeDecl<T>::type_id());
-		}
+		Input(BaseItem *p, const std::string &name) :
+			FieldBase<T>(FieldItem::AttrInput, p, name) { }
 
 		virtual ~Input() { }
 
-	private:
-
-		FieldItem					m_field;
 };
 
 } /* namespace psi */
