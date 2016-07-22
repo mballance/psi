@@ -93,6 +93,7 @@ namespace psi_api {
 
 			virtual IExec *mkTargetTemplateExec(
 					IExec::ExecKind 		kind,
+					const std::string		&language,
 					const std::string 		&text) = 0;
 
 			virtual IExec *mkInlineExec(

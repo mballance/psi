@@ -86,6 +86,7 @@ class ModelImpl: public IModel {
 
 		virtual IExec *mkTargetTemplateExec(
 				IExec::ExecKind			kind,
+				const std::string		&language,
 				const std::string		&text);
 
 		virtual IExec *mkInlineExec(

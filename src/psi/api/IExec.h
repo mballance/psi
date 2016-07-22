@@ -37,6 +37,8 @@ public:
 
 	virtual ExecType getExecType() = 0;
 
+	virtual const std::string &getLanguage() const = 0;
+
 	/**
 	 * Returns the target-template string for
 	 * exec type TargetTemplate

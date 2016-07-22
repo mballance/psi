@@ -115,6 +115,10 @@ class Exec : public BaseItem {
 			return m_execType;
 		}
 
+		const std::string &getLanguage() const { return m_language; }
+
+		const std::string &getTargetTemplate() const { return m_content; }
+
 	private:
 		ExecType							m_execType;
 		ExecKind							m_execKind;

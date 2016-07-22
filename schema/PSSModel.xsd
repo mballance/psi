@@ -212,6 +212,7 @@
 			<element name="block" type="pss:exec_block"/>
 			<element name="code_block" type="pss:target_code_exec_block"/>
 			<element name="file_block" type="pss:target_file_exec_block"/>
+			<element name="inline" type="pss:inline_exec_block"/>
 		</choice>
 	</complexType>
 	
@@ -288,6 +289,19 @@
 		</attribute>
 		<attribute name="language" use="required"/>
 	</complexType>	
+	
+	<complexType name="inline_exec_block">
+		<attribute name="address" use="required"/>
+		<attribute name="kind" use="required">
+			<simpleType>
+				<restriction base="string">
+					<enumeration value="body"/>
+					<enumeration value="pre_solve"/>
+					<enumeration value="post_solve"/>
+				</restriction>
+			</simpleType>
+		</attribute>
+	</complexType>
     
     <!-- ************************************************************
     	 * Struct Declarations

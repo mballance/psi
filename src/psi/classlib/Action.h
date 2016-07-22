@@ -30,11 +30,18 @@
 #include "classlib/Scope.h"
 #include "classlib/TypePath.h"
 
+namespace psi_api {
+	class IObject;
+}
+
+using namespace psi_api;
+
 namespace psi {
 
+class Elaborator;
 class Action : public NamedBaseItem {
-
-	public:
+friend Elaborator;
+public:
 
 		Action(const Scope &p);
 
@@ -63,6 +70,8 @@ class Action : public NamedBaseItem {
 		virtual void body();
 
 	private:
+
+		virtual void inline_exec_init(IObject *ctxt);
 
 
 	private:

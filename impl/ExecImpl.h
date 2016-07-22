@@ -17,7 +17,8 @@ class ExecImpl : public IExec {
 public:
 	ExecImpl(
 			ExecKind			kind,
-			const std::string	text);
+			const std::string	&language,
+			const std::string	&text);
 
 	ExecImpl(
 			ExecKind			kind,
@@ -31,9 +32,17 @@ public:
 
 	virtual ItemType getType() const { return TypeExec; }
 
+	virtual IBaseItem *clone();
+
+	virtual IBaseItem *getParent() const { return m_parent; }
+
+	virtual void setParent(IBaseItem *p) { m_parent = p; }
+
 	virtual ExecKind getExecKind() { return m_execKind; }
 
 	virtual ExecType getExecType() { return m_execType; }
+
+	virtual const std::string &getLanguage() const { return m_language; }
 
 	/**
 	 * Returns the target-template string for
@@ -54,8 +63,10 @@ public:
 	virtual IExpr *getStmts() { return m_stmts; }
 
 private:
+	IBaseItem					*m_parent;
 	ExecKind					m_execKind;
 	ExecType					m_execType;
+	std::string					m_language;
 	std::string					m_targetTemplate;
 	IInlineExec					*m_inlineExec;
 	IExpr						*m_stmts;

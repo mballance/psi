@@ -54,6 +54,9 @@ int main(int argc, char **argv) {
 	PSI2PSS    			psi2pss;
 	PSSXmlValidator		xml_validator;
 
+	// We're in test mode, so don't print actual addresses
+	psi2xml.setUseFixedInlineAddr();
+
 //	std::vector<IType *>::const_iterator it;
 
 //	fprintf(stdout, "Vector size: %d\n", global->getChildren().size());

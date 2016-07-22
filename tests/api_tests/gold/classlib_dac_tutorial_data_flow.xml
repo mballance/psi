@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pss:model 
+  xmlns:pss="http://accellera.org/PSS"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://accellera.org/PSS PSSModel.xsd">
+    <pss:package>
+        <pss:struct name="S">
+        </pss:struct>
+    </pss:package>
+    <pss:component name="CA">
+        <pss:action name="A">
+            <pss:field name="out_s" qualifier="output">
+                <pss:type>
+                    <pss:user>
+                        <pss:path>S</pss:path>
+                    </pss:user>
+                </pss:type>
+            </pss:field>
+        </pss:action>
+    </pss:component>
+    <pss:component name="CB">
+        <pss:action name="B">
+            <pss:field name="in_s" qualifier="input">
+                <pss:type>
+                    <pss:user>
+                        <pss:path>S</pss:path>
+                    </pss:user>
+                </pss:type>
+            </pss:field>
+        </pss:action>
+    </pss:component>
+    <pss:component name="static_structure">
+        <pss:field name="ca1">
+            <pss:type>
+                <pss:user>
+                    <pss:path>CA</pss:path>
+                </pss:user>
+            </pss:type>
+        </pss:field>
+        <pss:field name="ca2">
+            <pss:type>
+                <pss:user>
+                    <pss:path>CA</pss:path>
+                </pss:user>
+            </pss:type>
+        </pss:field>
+        <pss:field name="cb1">
+            <pss:type>
+                <pss:user>
+                    <pss:path>CB</pss:path>
+                </pss:user>
+            </pss:type>
+        </pss:field>
+        <pss:field name="cb2">
+            <pss:type>
+                <pss:user>
+                    <pss:path>CB</pss:path>
+                </pss:user>
+            </pss:type>
+        </pss:field>
+        <pss:bind>
+            <pss:bindpath>
+                <pss:path>ca1</pss:path>
+                <pss:path>A</pss:path>
+                <pss:path>out_s</pss:path>
+            </pss:bindpath>
+            <pss:bindpath>
+                <pss:path>ca2</pss:path>
+                <pss:path>A</pss:path>
+                <pss:path>out_s</pss:path>
+            </pss:bindpath>
+            <pss:bindpath>
+                <pss:path>cb1</pss:path>
+                <pss:path>B</pss:path>
+                <pss:path>in_s</pss:path>
+            </pss:bindpath>
+            <pss:bindpath>
+                <pss:path>cb2</pss:path>
+                <pss:path>B</pss:path>
+                <pss:path>in_s</pss:path>
+            </pss:bindpath>
+        </pss:bind>
+        <pss:action name="entry_point">
+        </pss:action>
+    </pss:component>
+</pss:model>

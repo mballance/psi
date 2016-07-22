@@ -30,6 +30,12 @@
 #include "classlib/NamedBaseItem.h"
 #include "classlib/TypePath.h"
 
+namespace psi_api {
+	class IObject;
+}
+
+using namespace psi_api;
+
 namespace psi {
 
 class ResourceStruct;
@@ -37,11 +43,13 @@ class StateStruct;
 class MemoryStruct;
 class StreamStruct;
 class Scope;
+class Elaborator;
 class Struct : public NamedBaseItem {
 	friend ResourceStruct;
 	friend StateStruct;
 	friend MemoryStruct;
 	friend StreamStruct;
+	friend Elaborator;
 
 public:
 	enum StructType {
@@ -85,6 +93,8 @@ public:
 		Struct(const Scope &p);
 
 	private:
+
+		virtual void inline_exec_init(IObject *ctxt);
 
 		Struct(
 				StructType			t,

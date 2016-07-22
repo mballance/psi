@@ -33,6 +33,7 @@
 #include "api/IConstraint.h"
 #include "api/IConstraintIf.h"
 #include "api/IExpr.h"
+#include "api/IExec.h"
 #include "api/IGraphStmt.h"
 #include "api/IModel.h"
 #include "api/IPackage.h"
@@ -46,6 +47,7 @@
 #include "classlib/BaseItem.h"
 #include "classlib/Struct.h"
 #include "classlib/ExprCoreIf.h"
+#include "classlib/Exec.h"
 
 using namespace psi_api;
 
@@ -83,7 +85,6 @@ protected:
 
 	IConstraintIf *elaborate_constraint_if(ExprCoreIf *if_c);
 
-
 	IExpr *elaborate_expr(ExprCore *e);
 
 	IConstraint *elaborate_constraint_stmt(ExprCore *s);
@@ -93,6 +94,8 @@ protected:
 	void elaborate_package(IModel *model, Package *pkg_cl);
 
 	IBaseItem *elaborate_struct_action_body_item(BaseItem *t);
+
+	IExec *elaborate_exec_item(Exec *e);
 
 	IField *elaborate_field_item(FieldItem *f);
 

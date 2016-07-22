@@ -36,10 +36,6 @@ class static_structure : public Component {
 
 		Graph g1 {this, {
 			Repeat {5, {
-					a1, With { a2, {a2.field1 < 2} }
-				}
-			},
-			Repeat {5, {
 					a1, a2.with(a2.field1 < 2)
 				}
 			}

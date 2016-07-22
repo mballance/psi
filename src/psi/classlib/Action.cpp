@@ -63,4 +63,8 @@ void Action::body() {
 
 }
 
+void Action::inline_exec_init(IObject *ctxt) {
+
+}
+
 } /* namespace psi */

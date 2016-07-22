@@ -26,11 +26,12 @@
 #include "PSI2XML.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
 
 namespace psi {
 namespace apps {
 
-PSI2XML::PSI2XML() : m_ind_incr(4) {
+PSI2XML::PSI2XML() : m_ind_incr(4), m_fixed_inline_addr(false) {
 	// TODO Auto-generated constructor stub
 
 }
@@ -63,6 +64,7 @@ const std::string &PSI2XML::traverse(IModel *model) {
 			process_component(static_cast<IComponent *>(i));
 		} else {
 			// Really shouldn't be anything else in the global scope
+			error("Unknown global-scope item: %d", i->getType());
 		}
 	}
 
@@ -83,12 +85,22 @@ void PSI2XML::process_pkg(IPackage *pkg) {
 	for (; it!=pkg->getItems().end(); it++) {
 		IBaseItem *i = *it;
 
+		fprintf(stdout, "pkg_item: %d\n", i->getType());
+
 		switch (i->getType()) {
 			case IBaseItem::TypeAction:
 				break;
 
 			case IBaseItem::TypeStruct:
 				process_struct(static_cast<IStruct *>(i));
+				break;
+
+			case IBaseItem::TypeExec:
+				process_exec(static_cast<IExec *>(i));
+				break;
+
+			default:
+				error("Unsupported package item: %d\n", i->getType());
 				break;
 		}
 	}
@@ -178,6 +190,10 @@ void PSI2XML::process_body(
 
 		case IBaseItem::TypeStruct:
 			process_struct(static_cast<IStruct *>(i));
+			break;
+
+		case IBaseItem::TypeExec:
+			process_exec(static_cast<IExec *>(i));
 			break;
 
 		default:
@@ -290,6 +306,43 @@ void PSI2XML::process_constraint_block(IConstraintBlock *block) {
 	}
 
 	exit("constraint");
+}
+
+void PSI2XML::process_exec(IExec *exec) {
+	std::string kind_s = "UNKNOWN";
+
+	enter("exec");
+
+	switch (exec->getExecKind()) {
+	case IExec::Declaration: kind_s = "declaration"; break;
+	case IExec::PreSolve: kind_s = "pre_solve"; break;
+	case IExec::PostSolve: kind_s = "post_solve"; break;
+	case IExec::Body: kind_s = "body"; break;
+	}
+
+	switch (exec->getExecType()) {
+	case IExec::Native: {
+	} break;
+
+	case IExec::TargetTemplate: {
+	} break;
+
+	case IExec::Inline: {
+		std::string addr_s;
+		char tmp[64];
+
+		if (m_fixed_inline_addr) {
+			addr_s = "0xDEADBEEFDEADBEEF";
+		} else {
+			sprintf(tmp, "%p", exec->getInlineExec());
+			addr_s = tmp;
+		}
+
+		println("<pss:inline kind=\"" + kind_s + "\" address=\"" + addr_s + "\"/>");
+	} break;
+	}
+
+	exit("exec");
 }
 
 void PSI2XML::process_expr(IExpr *e, const char *tag) {
@@ -683,6 +736,16 @@ void PSI2XML::enter(const std::string &t) {
 void PSI2XML::exit(const std::string &t) {
 	dec_indent();
 	println(std::string("</pss:" + t + ">"));
+}
+
+void PSI2XML::error(const char *fmt, ...) {
+	va_list ap;
+
+	va_start(ap, fmt);
+	fputs("Error: ", stdout);
+	vfprintf(stdout, fmt, ap);
+	fputs("\n", stdout);
+	va_end(ap);
 }
 
 void PSI2XML::println(const std::string &str) {

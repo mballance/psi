@@ -45,6 +45,8 @@ public:
 
 	virtual ~PSI2XML();
 
+	void setUseFixedInlineAddr() { m_fixed_inline_addr = true; }
+
 	virtual const std::string &traverse(IModel *model);
 
 
@@ -59,6 +61,8 @@ private:
 	void process_body(
 			const std::vector<IBaseItem *>  &items,
 			const std::string				&ctxt);
+
+	void process_exec(IExec *exec);
 
 	void process_struct(IStruct *str);
 
@@ -101,12 +105,15 @@ private:
 
 	void exit(const std::string &str);
 
+	void error(const char *fmt, ...);
+
 	static INamedItem *toNamedItem(IBaseItem *it);
 
 private:
 	std::string					m_ind;
 	uint32_t					m_ind_incr;
 	std::string					m_content;
+	bool						m_fixed_inline_addr;
 
 
 };

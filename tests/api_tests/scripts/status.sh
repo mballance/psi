@@ -42,8 +42,8 @@ elif test $xml_validation_passed -eq 0; then
 fi
 
 # Check against the reference file
-if test -f ${SIM_DIR}/tests/${1}.xml; then
-  diff ${SIM_DIR}/tests/${1}.xml model.xml > model_ref.diff
+if test -f ${SIM_DIR}/gold/${1}.xml; then
+  diff -w ${SIM_DIR}/gold/${1}.xml model.xml > model_ref.diff
   diff_l=`cat model_ref.diff | wc -l`
   
   if test $diff_l -eq 0; then

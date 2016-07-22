@@ -57,4 +57,8 @@ void Struct::body() {
 
 }
 
+void Struct::inline_exec_init(IObject *ctxt) {
+
+}
+
 } /* namespace psi */

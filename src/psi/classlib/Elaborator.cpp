@@ -25,6 +25,8 @@
 
 #include "classlib/Elaborator.h"
 #include "api/IComponent.h"
+#include "api/IObject.h"
+#include "api/IInlineExec.h"
 #include "classlib/ExprCoreList.h"
 #include "classlib/BitType.h"
 #include "classlib/Import.h"
@@ -33,6 +35,7 @@
 #include "classlib/Chandle.h"
 #include "classlib/Repeat.h"
 #include "classlib/Model.h"
+#include "classlib/InlineExecClosure.h"
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -112,7 +115,7 @@ IAction *Elaborator::elaborate_action(Action *c) {
 			if (c) {
 				a->add(c);
 			} else {
-				fprintf(stdout, "Error: failed to build action child item %s\n",
+				fprintf(stdout, "Error: failed to build bind item %s\n",
 						BaseItem::toString((*it)->getObjectType()));
 			}
 		} if ((*it)->getObjectType() == BaseItem::TypeGraph) {
@@ -155,11 +158,8 @@ IComponent *Elaborator::elaborate_component(IScopeItem *scope, Component *c) {
 			IStruct *s = elaborate_struct(static_cast<Struct *>(t));
 			comp->add(s);
 		} else if (t->getObjectType() == BaseItem::TypeField) {
-			FieldItem *field = static_cast<FieldItem *>(t);
-			if (!field->isInternal()) {
-				IField *f = elaborate_field_item(field);
-				comp->add(f);
-			}
+			IField *f = elaborate_field_item(static_cast<FieldItem *>(t));
+			comp->add(f);
 		} else if (t->getObjectType() == BaseItem::TypeBind) {
 			IBind *b = elaborate_bind(static_cast<Bind *>(t));
 			comp->add(b);
@@ -431,7 +431,7 @@ IStruct *Elaborator::elaborate_struct(Struct *str) {
 			filter = should_filter(str->getChildren(), i, type_h);
 		} else if (t->getObjectType() == BaseItem::TypeField &&
 				static_cast<FieldItem *>(t)->isInternal()) {
-			filter = true;
+//			filter = true;
 		}
 
 		if (!filter) {
@@ -458,6 +458,28 @@ void Elaborator::elaborate_package(IModel *model, Package *pkg_cl) {
 	}
 
 	pkg = model->findPackage(pkg_cl->getName(), true);
+
+	set_expr_ctxt(pkg, pkg_cl);
+
+	for (std::vector<BaseItem *>::const_iterator it=pkg_cl->getChildren().begin();
+			it!=pkg_cl->getChildren().end(); it++) {
+		BaseItem *t = *it;
+		IBaseItem *c = 0;
+
+		switch (t->getObjectType()) {
+			case BaseItem::TypeAction: c = elaborate_action(static_cast<Action *>(t)); break;
+			case BaseItem::TypeStruct: c = elaborate_struct(static_cast<Struct *>(t)); break;
+			case BaseItem::TypeExec:  c = elaborate_exec_item(static_cast<Exec *>(t)); break;
+//			case BaseItem::TypeImport: c = elaborate_import(static_cast<Import *>(t)); break;
+		}
+
+		if (c) {
+			pkg->add(c);
+		} else {
+			error("Unknown package body item %s",
+					BaseItem::toString(t->getObjectType()));
+		}
+	}
 }
 
 IBaseItem *Elaborator::elaborate_struct_action_body_item(BaseItem *t) {
@@ -468,10 +490,91 @@ IBaseItem *Elaborator::elaborate_struct_action_body_item(BaseItem *t) {
 	} else if (t->getObjectType() == BaseItem::TypeField) {
 		ret = elaborate_field_item(static_cast<FieldItem *>(t));
 	} else if (t->getObjectType() == BaseItem::TypeExec) {
-		// TODO:
+		ret = elaborate_exec_item(static_cast<Exec *>(t));
 	} else {
-		// TODO: See if this is a field
 
+	}
+
+	return ret;
+}
+
+IExec *Elaborator::elaborate_exec_item(Exec *e) {
+	IExec *ret = 0;
+
+	IExec::ExecKind kind = IExec::Body;
+	switch (e->getExecKind()) {
+	case Exec::Declaration: kind = IExec::Declaration; break;
+	case Exec::Body: kind = IExec::Body; break;
+	case Exec::PreSolve: kind = IExec::PreSolve; break;
+	case Exec::PostSolve: kind = IExec::PostSolve; break;
+	default:
+		error("unhandled exec-block kind %d", e->getExecKind());
+	}
+
+	BaseItem *t = e->getParent();
+
+	if (t->getObjectType() != BaseItem::TypeStruct &&
+			t->getObjectType() != BaseItem::TypeAction) {
+		error("Exec blocks can only be placed inside Action and Struct types. "
+				"Invalid type: %s", BaseItem::toString(t->getObjectType()));
+		return 0;
+	}
+
+	switch (e->getExecType()) {
+	case Exec::Native: {
+
+	} break;
+
+	case Exec::Inline: {
+		IInlineExec *inline_exec = 0;
+
+		if (kind == IExec::PreSolve) {
+			if (t->getObjectType() == BaseItem::TypeAction) {
+				inline_exec = new InlineExecClosure<Action>(
+						static_cast<Action *>(t),
+						&Action::inline_exec_init,
+						&Action::pre_solve);
+			} else if (t->getObjectType() == BaseItem::TypeStruct) {
+				inline_exec = new InlineExecClosure<Struct>(
+						static_cast<Struct *>(t),
+						&Struct::inline_exec_init,
+						&Struct::pre_solve);
+			}
+		} else if (kind == IExec::PostSolve) {
+			if (t->getObjectType() == BaseItem::TypeAction) {
+				inline_exec = new InlineExecClosure<Action>(
+						static_cast<Action *>(t),
+						&Action::inline_exec_init,
+						&Action::post_solve);
+			} else if (t->getObjectType() == BaseItem::TypeStruct) {
+				inline_exec = new InlineExecClosure<Struct>(
+						static_cast<Struct *>(t),
+						&Struct::inline_exec_init,
+						&Struct::post_solve);
+			}
+		} else if (kind == IExec::Body) {
+			if (t->getObjectType() == BaseItem::TypeAction) {
+				inline_exec = new InlineExecClosure<Action>(
+						static_cast<Action *>(t),
+						&Action::inline_exec_init,
+						&Action::body);
+			} else if (t->getObjectType() == BaseItem::TypeStruct) {
+				inline_exec = new InlineExecClosure<Struct>(
+						static_cast<Struct *>(t),
+						&Struct::inline_exec_init,
+						&Struct::body);
+			}
+		} else {
+			error("unsupported inline exec block kind: %d", kind);
+		}
+
+		ret = m_model->mkInlineExec(kind, inline_exec);
+	} break;
+
+	case Exec::TargetTemplate: {
+		fprintf(stdout, "Create TargetTemplate exec\n");
+		ret = m_model->mkTargetTemplateExec(kind, e->getLanguage(), e->getTargetTemplate());
+	} break;
 	}
 
 	return ret;
@@ -767,9 +870,9 @@ IGraphStmt *Elaborator::elaborate_graph_stmt(ExprCore *stmt) {
 	} break;
 
 	case Expr::GraphRepeat: {
-		IGraphRepeatStmt::RepeatType type = IGraphRepeatStmt::RepeatType_Forever;
-
 		// TODO: must handle other types
+		IGraphRepeatStmt::RepeatType type = IGraphRepeatStmt::RepeatType_Count;
+
 		IExpr *cond = 0;
 		IGraphStmt *body;
 
@@ -983,11 +1086,11 @@ bool Elaborator::should_filter(
 
 	BaseItem *item = items.at(i);
 
-	if (item->getObjectType() == BaseItem::TypeField &&
-			static_cast<FieldItem *>(item)->isInternal()) {
-		// Always skip implementation fields
-		return true;
-	}
+//	if (item->getObjectType() == BaseItem::TypeField &&
+//			static_cast<FieldItem *>(item)->isInternal()) {
+//		// Always skip implementation fields
+//		return true;
+//	}
 	NamedBaseItem *ni = toNamedItem(item);
 
 	if (!ni || ni->getName() == "" || type_h.size() == 1) {
