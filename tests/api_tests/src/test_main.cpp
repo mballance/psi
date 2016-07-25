@@ -19,6 +19,8 @@ using namespace psi::apps;
 
 void build_model(IModel *) __attribute__((weak));
 
+void exec_model(IModel *) __attribute__((weak));
+
 /**
  * Default version of the build_model function that uses
  * definitions made by the class library
@@ -44,6 +46,10 @@ void build_model(IModel *model) {
 	BaseItem *global = Model::global();
 	elab.set_log_level(l);
 	elab.elaborate(Model::global(), model);
+}
+
+void exec_model(IModel *model) {
+	// Do nothing
 }
 
 int main(int argc, char **argv) {
@@ -112,8 +118,10 @@ int main(int argc, char **argv) {
 //	fputs(xml2.c_str(), model2_xml);
 //	fclose(model2_xml);
 
-#ifdef UNDEFINED
-#endif
+	/****************************************************************
+	 * Execute model
+	 ****************************************************************/
+	exec_model(&model);
 
 	return 0;
 }

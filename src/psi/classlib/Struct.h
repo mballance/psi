@@ -31,7 +31,8 @@
 #include "classlib/TypePath.h"
 
 namespace psi_api {
-	class IObject;
+	class IObjectContext;
+	struct psshandle_t;
 }
 
 using namespace psi_api;
@@ -94,7 +95,9 @@ public:
 
 	private:
 
-		virtual void inline_exec_init(IObject *ctxt);
+		virtual void inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl);
+
+		virtual void inline_exec_post();
 
 		Struct(
 				StructType			t,
@@ -103,6 +106,8 @@ public:
 	private:
 		StructType						m_structType;
 		TypePath						m_super_type;
+		IObjectContext					*m_ctxt;
+		psshandle_t						*m_hndl;
 };
 
 } /* namespace psi */

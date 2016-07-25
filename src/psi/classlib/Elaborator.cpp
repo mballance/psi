@@ -25,7 +25,7 @@
 
 #include "classlib/Elaborator.h"
 #include "api/IComponent.h"
-#include "api/IObject.h"
+#include "api/IObjectContext.h"
 #include "api/IInlineExec.h"
 #include "classlib/ExprCoreList.h"
 #include "classlib/BitType.h"
@@ -532,37 +532,43 @@ IExec *Elaborator::elaborate_exec_item(Exec *e) {
 			if (t->getObjectType() == BaseItem::TypeAction) {
 				inline_exec = new InlineExecClosure<Action>(
 						static_cast<Action *>(t),
-						&Action::inline_exec_init,
-						&Action::pre_solve);
+						&Action::inline_exec_pre,
+						&Action::pre_solve,
+						&Action::inline_exec_post);
 			} else if (t->getObjectType() == BaseItem::TypeStruct) {
 				inline_exec = new InlineExecClosure<Struct>(
 						static_cast<Struct *>(t),
-						&Struct::inline_exec_init,
-						&Struct::pre_solve);
+						&Struct::inline_exec_pre,
+						&Struct::pre_solve,
+						&Struct::inline_exec_post);
 			}
 		} else if (kind == IExec::PostSolve) {
 			if (t->getObjectType() == BaseItem::TypeAction) {
 				inline_exec = new InlineExecClosure<Action>(
 						static_cast<Action *>(t),
-						&Action::inline_exec_init,
-						&Action::post_solve);
+						&Action::inline_exec_pre,
+						&Action::post_solve,
+						&Action::inline_exec_post);
 			} else if (t->getObjectType() == BaseItem::TypeStruct) {
 				inline_exec = new InlineExecClosure<Struct>(
 						static_cast<Struct *>(t),
-						&Struct::inline_exec_init,
-						&Struct::post_solve);
+						&Struct::inline_exec_pre,
+						&Struct::post_solve,
+						&Struct::inline_exec_post);
 			}
 		} else if (kind == IExec::Body) {
 			if (t->getObjectType() == BaseItem::TypeAction) {
 				inline_exec = new InlineExecClosure<Action>(
 						static_cast<Action *>(t),
-						&Action::inline_exec_init,
-						&Action::body);
+						&Action::inline_exec_pre,
+						&Action::body,
+						&Action::inline_exec_post);
 			} else if (t->getObjectType() == BaseItem::TypeStruct) {
 				inline_exec = new InlineExecClosure<Struct>(
 						static_cast<Struct *>(t),
-						&Struct::inline_exec_init,
-						&Struct::body);
+						&Struct::inline_exec_pre,
+						&Struct::body,
+						&Struct::inline_exec_post);
 			}
 		} else {
 			error("unsupported inline exec block kind: %d", kind);

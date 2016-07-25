@@ -31,6 +31,8 @@ namespace psi {
 
 Action::Action(const Scope	&p) : NamedBaseItem(BaseItem::TypeAction, p.parent()) {
 	m_super_type = Model::global()->getSuperType(this);
+	m_ctxt = 0;
+	m_hndl = 0;
 
 	// TODO: need to deal with named scopes
 	TypePath type = Model::global()->getActiveTypeName(this);
@@ -63,8 +65,14 @@ void Action::body() {
 
 }
 
-void Action::inline_exec_init(IObject *ctxt) {
+void Action::inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl) {
+	m_ctxt = ctxt;
+	m_hndl = hndl;
+}
 
+void Action::inline_exec_post() {
+	m_ctxt = 0;
+	m_hndl = 0;
 }
 
 } /* namespace psi */
