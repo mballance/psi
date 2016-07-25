@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pss:model 
+  xmlns:pss="http://accellera.org/PSS"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://accellera.org/PSS PSSModel.xsd">
+    <pss:package>
+        <pss:struct name="constraint_ifelse_test">
+            <pss:field name="control" qualifier="rand">
+                <pss:type>
+                    <pss:bit>
+                        <pss:msb>
+                            <pss:number>0</pss:number>
+                        </pss:msb>
+                        <pss:lsb>
+                            <pss:number>0</pss:number>
+                        </pss:lsb>
+                    </pss:bit>
+                </pss:type>
+            </pss:field>
+            <pss:field name="address" qualifier="rand">
+                <pss:type>
+                    <pss:bit>
+                        <pss:msb>
+                            <pss:number>31</pss:number>
+                        </pss:msb>
+                        <pss:lsb>
+                            <pss:number>1</pss:number>
+                        </pss:lsb>
+                    </pss:bit>
+                </pss:type>
+            </pss:field>
+            <pss:field name="data" qualifier="rand">
+                <pss:type>
+                    <pss:bit>
+                        <pss:msb>
+                            <pss:number>31</pss:number>
+                        </pss:msb>
+                        <pss:lsb>
+                            <pss:number>1</pss:number>
+                        </pss:lsb>
+                    </pss:bit>
+                </pss:type>
+            </pss:field>
+            <pss:constraint name="c1">
+                <pss:if>
+                    <pss:cond>
+                        <pss:binexp op="EqEq">
+                            <pss:lhs>
+                                <pss:ref>
+                                    <pss:path>control</pss:path>
+                                </pss:ref>
+                            </pss:lhs>
+                            <pss:rhs>
+                                <pss:number>0x1</pss:number>
+                            </pss:rhs>
+                        </pss:binexp>
+                    </pss:cond>
+                    <pss:true>
+                        <pss:stmt>
+                            <pss:binexp op="LT">
+                                <pss:lhs>
+                                    <pss:ref>
+                                        <pss:path>address</pss:path>
+                                    </pss:ref>
+                                </pss:lhs>
+                                <pss:rhs>
+                                    <pss:number>0xa</pss:number>
+                                </pss:rhs>
+                            </pss:binexp>
+                        </pss:stmt>
+                    </pss:true>
+                </pss:if>
+            </pss:constraint>
+            <pss:constraint>
+                <pss:if>
+                    <pss:cond>
+                        <pss:binexp op="EqEq">
+                            <pss:lhs>
+                                <pss:ref>
+                                    <pss:path>control</pss:path>
+                                </pss:ref>
+                            </pss:lhs>
+                            <pss:rhs>
+                                <pss:number>0x1</pss:number>
+                            </pss:rhs>
+                        </pss:binexp>
+                    </pss:cond>
+                    <pss:true>
+                        <pss:stmt>
+                            <pss:binexp op="LT">
+                                <pss:lhs>
+                                    <pss:ref>
+                                        <pss:path>address</pss:path>
+                                    </pss:ref>
+                                </pss:lhs>
+                                <pss:rhs>
+                                    <pss:number>0xa</pss:number>
+                                </pss:rhs>
+                            </pss:binexp>
+                        </pss:stmt>
+                        <pss:stmt>
+                            <pss:binexp op="AndAnd">
+                                <pss:lhs>
+                                    <pss:binexp op="GT">
+                                        <pss:lhs>
+                                            <pss:ref>
+                                                <pss:path>data</pss:path>
+                                            </pss:ref>
+                                        </pss:lhs>
+                                        <pss:rhs>
+                                            <pss:number>0x0</pss:number>
+                                        </pss:rhs>
+                                    </pss:binexp>
+                                </pss:lhs>
+                                <pss:rhs>
+                                    <pss:binexp op="LT">
+                                        <pss:lhs>
+                                            <pss:ref>
+                                                <pss:path>data</pss:path>
+                                            </pss:ref>
+                                        </pss:lhs>
+                                        <pss:rhs>
+                                            <pss:number>0x64</pss:number>
+                                        </pss:rhs>
+                                    </pss:binexp>
+                                </pss:rhs>
+                            </pss:binexp>
+                        </pss:stmt>
+                    </pss:true>
+                    <pss:false>
+                        <pss:stmt>
+                            <pss:binexp op="GT">
+                                <pss:lhs>
+                                    <pss:ref>
+                                        <pss:path>address</pss:path>
+                                    </pss:ref>
+                                </pss:lhs>
+                                <pss:rhs>
+                                    <pss:number>0xa</pss:number>
+                                </pss:rhs>
+                            </pss:binexp>
+                        </pss:stmt>
+                        <pss:stmt>
+                            <pss:binexp op="AndAnd">
+                                <pss:lhs>
+                                    <pss:binexp op="GT">
+                                        <pss:lhs>
+                                            <pss:ref>
+                                                <pss:path>data</pss:path>
+                                            </pss:ref>
+                                        </pss:lhs>
+                                        <pss:rhs>
+                                            <pss:number>0xa</pss:number>
+                                        </pss:rhs>
+                                    </pss:binexp>
+                                </pss:lhs>
+                                <pss:rhs>
+                                    <pss:binexp op="LT">
+                                        <pss:lhs>
+                                            <pss:ref>
+                                                <pss:path>data</pss:path>
+                                            </pss:ref>
+                                        </pss:lhs>
+                                        <pss:rhs>
+                                            <pss:number>0x3e8</pss:number>
+                                        </pss:rhs>
+                                    </pss:binexp>
+                                </pss:rhs>
+                            </pss:binexp>
+                        </pss:stmt>
+                    </pss:false>
+                </pss:if>
+            </pss:constraint>
+            <pss:constraint>
+                <pss:if>
+                    <pss:cond>
+                        <pss:binexp op="EqEq">
+                            <pss:lhs>
+                                <pss:ref>
+                                    <pss:path>control</pss:path>
+                                </pss:ref>
+                            </pss:lhs>
+                            <pss:rhs>
+                                <pss:number>0x1</pss:number>
+                            </pss:rhs>
+                        </pss:binexp>
+                    </pss:cond>
+                    <pss:true>
+                        <pss:stmt>
+                            <pss:binexp op="EqEq">
+                                <pss:lhs>
+                                    <pss:ref>
+                                        <pss:path>address</pss:path>
+                                    </pss:ref>
+                                </pss:lhs>
+                                <pss:rhs>
+                                    <pss:number>0x1</pss:number>
+                                </pss:rhs>
+                            </pss:binexp>
+                        </pss:stmt>
+                    </pss:true>
+                    <pss:false>
+                        <pss:if>
+                            <pss:cond>
+                                <pss:binexp op="EqEq">
+                                    <pss:lhs>
+                                        <pss:ref>
+                                            <pss:path>address</pss:path>
+                                        </pss:ref>
+                                    </pss:lhs>
+                                    <pss:rhs>
+                                        <pss:number>0x14</pss:number>
+                                    </pss:rhs>
+                                </pss:binexp>
+                            </pss:cond>
+                            <pss:true>
+                                <pss:stmt>
+                                    <pss:binexp op="EqEq">
+                                        <pss:lhs>
+                                            <pss:ref>
+                                                <pss:path>data</pss:path>
+                                            </pss:ref>
+                                        </pss:lhs>
+                                        <pss:rhs>
+                                            <pss:number>0xa</pss:number>
+                                        </pss:rhs>
+                                    </pss:binexp>
+                                </pss:stmt>
+                            </pss:true>
+                            <pss:false>
+                                <pss:stmt>
+                                    <pss:binexp op="EqEq">
+                                        <pss:lhs>
+                                            <pss:ref>
+                                                <pss:path>data</pss:path>
+                                            </pss:ref>
+                                        </pss:lhs>
+                                        <pss:rhs>
+                                            <pss:number>0x32</pss:number>
+                                        </pss:rhs>
+                                    </pss:binexp>
+                                </pss:stmt>
+                            </pss:false>
+                        </pss:if>
+                    </pss:false>
+                </pss:if>
+            </pss:constraint>
+        </pss:struct>
+    </pss:package>
+</pss:model>

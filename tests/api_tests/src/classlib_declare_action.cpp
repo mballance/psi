@@ -14,9 +14,8 @@ public:
 	Rand<Bit<7,0>>				psi_field(data);
 	Rand<Bit<31,0>>				psi_field(address);
 
-	Constraint address_c {this,
-		address >= 0x1000 && address <= 0x1FFF
-	};
+	psi_constraint(address_c,
+			{address >= 0x1000 && address <= 0x1FFF});
 };
 psi_global_type(data_s);
 
@@ -30,7 +29,7 @@ public:
 
 		psi_ctor(processor_s, ResourceStruct);
 
-		Constraint resource_c {this, instance_id == 1};
+		psi_constraint(resource_c, {instance_id == 1});
 
 	};
 	psi_type(processor_s);
@@ -49,13 +48,6 @@ public:
 		Lock<processor_s>		psi_field(proc);
 	};
 	psi_type(write_data);
-
-	class write_data2 : public write_data {
-	public:
-		psi_ctor(write_data2, write_data);
-
-	};
-	psi_type(write_data2);
 
 };
 psi_global_type(rw_comp);

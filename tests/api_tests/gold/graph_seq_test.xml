@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pss:model 
+  xmlns:pss="http://accellera.org/PSS"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://accellera.org/PSS PSSModel.xsd">
+    <pss:package>
+    </pss:package>
+    <pss:component name="graph_seq_comp">
+        <pss:action name="A1">
+        </pss:action>
+        <pss:action name="graph_seq_test">
+            <pss:field name="a1">
+                <pss:type>
+                    <pss:user>
+                        <pss:path>graph_seq_comp</pss:path>
+                        <pss:path>A1</pss:path>
+                    </pss:user>
+                </pss:type>
+            </pss:field>
+            <pss:field name="a2">
+                <pss:type>
+                    <pss:user>
+                        <pss:path>graph_seq_comp</pss:path>
+                        <pss:path>A1</pss:path>
+                    </pss:user>
+                </pss:type>
+            </pss:field>
+            <pss:field name="a3">
+                <pss:type>
+                    <pss:user>
+                        <pss:path>graph_seq_comp</pss:path>
+                        <pss:path>A1</pss:path>
+                    </pss:user>
+                </pss:type>
+            </pss:field>
+            <pss:graph>
+                <pss:traverse name="a1"/>
+                <pss:traverse name="a2"/>
+                <pss:traverse name="a3"/>
+            </pss:graph>
+        </pss:action>
+    </pss:component>
+</pss:model>

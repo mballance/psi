@@ -46,11 +46,11 @@ public:
 		Input<power_state_s>		psi_field(prev);
 		Output<power_state_s>		psi_field(next);
 
-		Constraint step_c {this, {step == -1 || step == 1}};
+		psi_constraint(step_c, {step == -1 || step == 1});
 
-		Constraint A_c {this, "A_c", { next.dmn_A == prev.dmn_A }};
-		Constraint B_c {this, "B_c", { next.dmn_B == prev.dmn_B }};
-		Constraint C_c {this, "C_c", { next.dmn_C == prev.dmn_C }};
+		psi_constraint(A_c, { next.dmn_A == prev.dmn_A });
+		psi_constraint(B_c, { next.dmn_B == prev.dmn_B });
+		psi_constraint(C_c, { next.dmn_C == prev.dmn_C });
 
 	};
 	psi_type(power_transition);
@@ -59,7 +59,7 @@ public:
 	public:
 		psi_ctor(A_transition, power_transition);
 
-		Constraint A_c {this, "A_c", {next.dmn_A == prev.dmn_A + step}};
+		psi_constraint(A_c, {next.dmn_A == prev.dmn_A + step});
 	};
 	psi_type(A_transition);
 
@@ -67,7 +67,7 @@ public:
 	public:
 		psi_ctor(B_transition, power_transition);
 
-		Constraint B_c {this, "B_c", {next.dmn_B == prev.dmn_B + step}};
+		psi_constraint(B_c, {next.dmn_B == prev.dmn_B + step});
 	};
 	psi_type(B_transition);
 
@@ -76,12 +76,13 @@ public:
 
 		psi_ctor(C_transition, power_transition);
 
-		Constraint C_c {this, "C_c", {next.dmn_C == prev.dmn_C + step}};
+		psi_constraint(C_c, {next.dmn_C == prev.dmn_C + step});
 	};
 	psi_type(C_transition);
 
 };
 psi_global_type(my_system_c);
+
 
 
 

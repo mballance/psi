@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pss:model 
+  xmlns:pss="http://accellera.org/PSS"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://accellera.org/PSS PSSModel.xsd">
+    <pss:package>
+        <pss:struct name="data_s" qualifier="memory">
+            <pss:field name="data" qualifier="rand">
+                <pss:type>
+                    <pss:bit>
+                        <pss:msb>
+                            <pss:number>7</pss:number>
+                        </pss:msb>
+                        <pss:lsb>
+                            <pss:number>0</pss:number>
+                        </pss:lsb>
+                    </pss:bit>
+                </pss:type>
+            </pss:field>
+            <pss:field name="address" qualifier="rand">
+                <pss:type>
+                    <pss:bit>
+                        <pss:msb>
+                            <pss:number>31</pss:number>
+                        </pss:msb>
+                        <pss:lsb>
+                            <pss:number>0</pss:number>
+                        </pss:lsb>
+                    </pss:bit>
+                </pss:type>
+            </pss:field>
+            <pss:constraint name="address_c">
+                <pss:stmt>
+                    <pss:binexp op="AndAnd">
+                        <pss:lhs>
+                            <pss:binexp op="GE">
+                                <pss:lhs>
+                                    <pss:ref>
+                                        <pss:path>address</pss:path>
+                                    </pss:ref>
+                                </pss:lhs>
+                                <pss:rhs>
+                                    <pss:number>0x1000</pss:number>
+                                </pss:rhs>
+                            </pss:binexp>
+                        </pss:lhs>
+                        <pss:rhs>
+                            <pss:binexp op="LE">
+                                <pss:lhs>
+                                    <pss:ref>
+                                        <pss:path>address</pss:path>
+                                    </pss:ref>
+                                </pss:lhs>
+                                <pss:rhs>
+                                    <pss:number>0x1fff</pss:number>
+                                </pss:rhs>
+                            </pss:binexp>
+                        </pss:rhs>
+                    </pss:binexp>
+                </pss:stmt>
+            </pss:constraint>
+        </pss:struct>
+        <pss:struct name="data_s_ext" qualifier="memory">
+            <pss:super>
+                <pss:path>data_s</pss:path>
+            </pss:super>
+            <pss:field name="burst_len" qualifier="rand">
+                <pss:type>
+                    <pss:bit>
+                        <pss:msb>
+                            <pss:number>3</pss:number>
+                        </pss:msb>
+                        <pss:lsb>
+                            <pss:number>0</pss:number>
+                        </pss:lsb>
+                    </pss:bit>
+                </pss:type>
+            </pss:field>
+        </pss:struct>
+    </pss:package>
+    <pss:component name="my_comp">
+        <pss:struct name="data_s2">
+        </pss:struct>
+        <pss:struct name="data_s2_ext">
+            <pss:super>
+                <pss:path>my_comp</pss:path>
+                <pss:path>data_s2</pss:path>
+            </pss:super>
+        </pss:struct>
+    </pss:component>
+</pss:model>

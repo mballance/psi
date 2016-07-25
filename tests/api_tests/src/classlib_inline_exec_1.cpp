@@ -10,19 +10,6 @@ int refmodel_get_next_value() {
 	return 27;
 }
 
-class methods_pkg : public Package {
-public:
-	psi_package_ctor(methods_pkg);
-
-	Import my_func {this, "my_func",
-		(Bit<7,0>("a"), Bit<31,0>("b"))};
-
-	Import my_func2 {this, "my_func2", Bit<7,0>(""),
-		(Bit<7,0>("a"), Bit<31,0>("b"))};
-
-};
-psi_global_type(methods_pkg);
-
 class top : public Component {
 public:
 	psi_component_ctor(top);

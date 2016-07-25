@@ -51,6 +51,8 @@ if test -f ${SIM_DIR}/gold/${1}.xml; then
   else
     echo "FAILED: $1 - differences against reference file"
   fi
+else
+  echo "FAILED: $1 - no reference file"
 fi
 
 if test -f status.log; then

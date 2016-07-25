@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pss:model 
+  xmlns:pss="http://accellera.org/PSS"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://accellera.org/PSS PSSModel.xsd">
+    <pss:package>
+        <pss:struct name="power_state_s" qualifier="state">
+            <pss:field name="initial" qualifier="rand">
+                <pss:type>
+                    <pss:bool/>
+                </pss:type>
+            </pss:field>
+            <pss:field name="dmn_A" qualifier="rand">
+                <pss:type>
+                    <pss:bit>
+                        <pss:msb>
+                            <pss:number>1</pss:number>
+                        </pss:msb>
+                        <pss:lsb>
+                            <pss:number>0</pss:number>
+                        </pss:lsb>
+                    </pss:bit>
+                </pss:type>
+            </pss:field>
+            <pss:field name="dmn_B" qualifier="rand">
+                <pss:type>
+                    <pss:bit>
+                        <pss:msb>
+                            <pss:number>1</pss:number>
+                        </pss:msb>
+                        <pss:lsb>
+                            <pss:number>0</pss:number>
+                        </pss:lsb>
+                    </pss:bit>
+                </pss:type>
+            </pss:field>
+            <pss:field name="dmn_C" qualifier="rand">
+                <pss:type>
+                    <pss:bit>
+                        <pss:msb>
+                            <pss:number>1</pss:number>
+                        </pss:msb>
+                        <pss:lsb>
+                            <pss:number>0</pss:number>
+                        </pss:lsb>
+                    </pss:bit>
+                </pss:type>
+            </pss:field>
+            <pss:constraint>
+                <pss:if>
+                    <pss:cond>
+                        <pss:binexp op="NotEq">
+                            <pss:lhs>
+                                <pss:ref>
+                                    <pss:path>dmn_C</pss:path>
+                                </pss:ref>
+                            </pss:lhs>
+                            <pss:rhs>
+                                <pss:number>0x0</pss:number>
+                            </pss:rhs>
+                        </pss:binexp>
+                    </pss:cond>
+                    <pss:true>
+                        <pss:stmt>
+                            <pss:binexp op="EqEq">
+                                <pss:lhs>
+                                    <pss:ref>
+                                        <pss:path>dmn_B</pss:path>
+                                    </pss:ref>
+                                </pss:lhs>
+                                <pss:rhs>
+                                    <pss:number>0x0</pss:number>
+                                </pss:rhs>
+                            </pss:binexp>
+                        </pss:stmt>
+                    </pss:true>
+                </pss:if>
+                <pss:if>
+                    <pss:cond>
+                        <pss:binexp op="EqEq">
+                            <pss:lhs>
+                                <pss:ref>
+                                    <pss:path>initial</pss:path>
+                                </pss:ref>
+                            </pss:lhs>
+                            <pss:rhs>
+                                <pss:number>0x1</pss:number>
+                            </pss:rhs>
+                        </pss:binexp>
+                    </pss:cond>
+                    <pss:true>
+                        <pss:stmt>
+                            <pss:binexp op="EqEq">
+                                <pss:lhs>
+                                    <pss:ref>
+                                        <pss:path>dmn_A</pss:path>
+                                    </pss:ref>
+                                </pss:lhs>
+                                <pss:rhs>
+                                    <pss:number>0x0</pss:number>
+                                </pss:rhs>
+                            </pss:binexp>
+                        </pss:stmt>
+                        <pss:stmt>
+                            <pss:binexp op="EqEq">
+                                <pss:lhs>
+                                    <pss:ref>
+                                        <pss:path>dmn_B</pss:path>
+                                    </pss:ref>
+                                </pss:lhs>
+                                <pss:rhs>
+                                    <pss:number>0x0</pss:number>
+                                </pss:rhs>
+                            </pss:binexp>
+                        </pss:stmt>
+                        <pss:stmt>
+                            <pss:binexp op="EqEq">
+                                <pss:lhs>
+                                    <pss:ref>
+                                        <pss:path>dmn_C</pss:path>
+                                    </pss:ref>
+                                </pss:lhs>
+                                <pss:rhs>
+                                    <pss:number>0x0</pss:number>
+                                </pss:rhs>
+                            </pss:binexp>
+                        </pss:stmt>
+                    </pss:true>
+                </pss:if>
+            </pss:constraint>
+        </pss:struct>
+    </pss:package>
+    <pss:component name="my_system_c">
+        <pss:field name="ps">
+            <pss:type>
+                <pss:user>
+                    <pss:path>power_state_s</pss:path>
+                </pss:user>
+            </pss:type>
+        </pss:field>
+    </pss:component>
+</pss:model>

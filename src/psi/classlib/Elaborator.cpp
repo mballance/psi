@@ -88,47 +88,57 @@ void Elaborator::elaborate(BaseItem *root, IModel *model) {
 	}
 }
 
-IAction *Elaborator::elaborate_action(Action *c) {
-	IAction *super_a = 0; // TODO:
+IAction *Elaborator::elaborate_action(Action *action) {
+	IAction 					*super_a = 0; // TODO:
+	std::vector<BaseItem *>		type_h;
 
-	if (!c->getSuperType().isNull()) {
+	if (!action->getSuperType().isNull()) {
 		// Locate the type
-		IBaseItem *t = find_type_decl(c->getSuperType());
+		IBaseItem *it_b = find_type_decl(action->getSuperType());
 
-		if (t->getType() == IBaseItem::TypeAction) {
-			super_a = static_cast<IAction *>(t);
+		build_type_hierarchy(type_h, action);
+
+		if (it_b->getType() == IBaseItem::TypeAction) {
+			super_a = static_cast<IAction *>(it_b);
 		}
 
 		// TODO: error handling
 	}
-	IAction *a = m_model->mkAction(c->getName(), super_a);
+	IAction *a = m_model->mkAction(action->getName(), super_a);
 
-	set_expr_ctxt(a, c);
+	set_expr_ctxt(a, action);
 
-	std::vector<BaseItem *>::const_iterator it=c->getChildren().begin();
-
-	for (; it!=c->getChildren().end(); it++) {
+	for (uint32_t i=0; i<action->getChildren().size(); i++) {
 		IBaseItem *c = 0;
-		if ((*it)->getObjectType() == BaseItem::TypeBind) {
-			c = elaborate_bind(static_cast<Bind *>(*it));
+		BaseItem *t = action->getChildren().at(i);
+		bool filter = false;
+
+		if (t->getObjectType() == BaseItem::TypeBind) {
+			c = elaborate_bind(static_cast<Bind *>(t));
 
 			if (c) {
 				a->add(c);
 			} else {
 				fprintf(stdout, "Error: failed to build bind item %s\n",
-						BaseItem::toString((*it)->getObjectType()));
+						BaseItem::toString(t->getObjectType()));
 			}
-		} if ((*it)->getObjectType() == BaseItem::TypeGraph) {
-			IGraphStmt *g = elaborate_graph(static_cast<Graph *>((*it)));
+		} if (t->getObjectType() == BaseItem::TypeGraph) {
+			IGraphStmt *g = elaborate_graph(static_cast<Graph *>(t));
 			a->setGraph(g);
 		} else {
-			c = elaborate_struct_action_body_item(*it);
+			if (super_a) {
+				filter = should_filter(action->getChildren(), i, type_h);
+			}
 
-			if (c) {
-				a->add(c);
-			} else {
-				fprintf(stdout, "Error: failed to build action child item %s\n",
-						BaseItem::toString((*it)->getObjectType()));
+			if (!filter) {
+				c = elaborate_struct_action_body_item(t);
+
+				if (c) {
+					a->add(c);
+				} else {
+					fprintf(stdout, "Error: failed to build action child item %s\n",
+							BaseItem::toString(t->getObjectType()));
+				}
 			}
 		}
 	}
@@ -1100,6 +1110,10 @@ bool Elaborator::should_filter(
 	NamedBaseItem *ni = toNamedItem(item);
 
 	if (!ni || ni->getName() == "" || type_h.size() == 1) {
+		debug_high("should_filter (false): name=\"%s\" type_h.size=%d\n",
+				(ni)?ni->getName().c_str():"NULL",
+				type_h.size());
+
 		// Always preserve unnamed items
 		return false;
 	}
@@ -1142,6 +1156,10 @@ bool Elaborator::should_filter(
 			ret = true;
 		}
 	}
+	debug_high("should_filter (%s): name=\"%s\" type_h.size=%d\n",
+			(ret)?"true":"false",
+			(ni)?ni->getName().c_str():"NULL",
+			type_h.size());
 
 	return ret;
 }

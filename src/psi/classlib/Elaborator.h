@@ -126,7 +126,7 @@ private:
 			const std::vector<IBaseItem *> 	&list,
 			const std::string 				&name);
 
-	static bool should_filter(
+	bool should_filter(
 			const std::vector<BaseItem *>		&items,
 			uint32_t						i,
 			const std::vector<BaseItem *>		&type_h);

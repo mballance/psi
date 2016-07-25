@@ -32,6 +32,22 @@ public:
 		}
 	};
 
+	Constraint c3 {this,
+		If {
+			(control == 1), {
+						address == 1
+			}, /* else */ {
+					If {
+						(address == 20), {
+							data == 10
+						}, /* else */ {
+							data == 50
+						}
+					}
+			}
+		}
+	};
+
 };
 psi_global_type(constraint_ifelse_test);
 

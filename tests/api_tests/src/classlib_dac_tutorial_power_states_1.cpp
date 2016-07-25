@@ -14,17 +14,17 @@ public:
 	Rand<Bit<1,0>>		psi_field(dmn_B);
 	Rand<Bit<1,0>>		psi_field(dmn_C);
 
-//	Constraint c {this, {
-//			If {dmn_C != 0, dmn_B == 0},
-//
-//			If {initial == 1, (
-//				dmn_A == 0,
-//				dmn_B == 0,
-//				dmn_C == 0
-//				)
-//			}
-//		}
-//	};
+	Constraint c {this, {
+			If {dmn_C != 0, dmn_B == 0},
+
+			If {initial == 1, {
+				dmn_A == 0,
+				dmn_B == 0,
+				dmn_C == 0
+				}
+			}
+		}
+	};
 };
 psi_global_type(power_state_s);
 
