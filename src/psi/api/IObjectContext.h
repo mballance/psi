@@ -24,9 +24,15 @@ public:
 
 	virtual ~IObjectContext() { }
 
+	/**
+	 * Returns a handle to the type-specification object corresponding
+	 * to the specified handle
+	 */
 	virtual IBaseItem *getTypeDeclaration(psshandle_t *hndl) = 0;
 
 	/**
+	 * Sets the value of the specified primitive field
+	 *
 	 * hndl - Handle to action/struct object
 	 * field - Handle to a type field within that object
 	 * v - value to set
