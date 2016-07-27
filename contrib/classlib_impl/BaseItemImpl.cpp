@@ -24,7 +24,8 @@
  */
 
 #include "classlib/BaseItem.h"
-#include "classlib/NamedBaseItem.h"
+#include "BaseItemImpl.h"
+#include "NamedBaseItemImpl.h"
 #include "classlib/Model.h"
 
 #include <stdio.h>
@@ -32,28 +33,23 @@
 
 namespace psi {
 
-BaseItem::BaseItem(BaseItem::ObjectType t, BaseItem *p) :
-		m_type(t), m_parent(p) {
-//	if (t != Model) {
-//		BaseItem *scope = Model::global()->getActiveScope();
-////		fprintf(stdout, "BaseItem::BaseItem    p=%s scope=%s\n",
-////				NamedBaseItem::getName(p).c_str(), NamedBaseItem::getName(scope).c_str());
-//
-//		if (p != scope) {
-//			fprintf(stdout, "Error: p=%p scope=%p\n", p, scope);
-//		}
-//	}
+BaseItem::BaseItem(BaseItemImpl *impl) {
+	m_impl = impl;
+}
+
+BaseItemImpl::BaseItemImpl(BaseItem *master, ObjectType t, BaseItemImpl *p) :
+		m_master(master), m_type(t), m_parent(p) {
 
 	if (p) {
 		p->add(this);
 	}
 }
 
-// Constructor used by Model()
-BaseItem::BaseItem(BaseItem::ObjectType t) :
-		m_type(t), m_parent(0) { }
-
 BaseItem::~BaseItem() {
+	delete m_impl;
+}
+
+BaseItemImpl::~BaseItemImpl() {
 	// TODO Auto-generated destructor stub
 }
 
@@ -65,7 +61,7 @@ ExprListBuilder BaseItem::operator,(const BaseItem &rhs) {
 	return ExprListBuilder(*this, rhs);
 }
 
-void BaseItem::add(BaseItem *item) {
+void BaseItemImpl::add(BaseItemImpl *item) {
 //	NamedBaseItem *ni_t = NamedBaseItem::to(this);
 //	NamedBaseItem *ni_it = NamedBaseItem::to(item);
 //
@@ -77,15 +73,15 @@ void BaseItem::add(BaseItem *item) {
 	m_children.push_back(item);
 }
 
-void BaseItem::setObjectType(BaseItem::ObjectType t) {
+void BaseItemImpl::setObjectType(ObjectType t) {
 	m_type = t;
 }
 
-const std::vector<BaseItem *> &BaseItem::getChildren() const {
+const std::vector<BaseItemImpl *> &BaseItemImpl::getChildren() const {
 	return m_children;
 }
 
-const char *BaseItem::toString(ObjectType t) {
+const char *BaseItemImpl::toString(ObjectType t) {
 	switch (t) {
 		case TypeAction: return "TypeAction";
 		case TypeBind: return "TypeBind";
@@ -112,12 +108,5 @@ const char *BaseItem::toString(ObjectType t) {
 
 	return "Unknown";
 }
-
-bool BaseItem::insideInstance() {
-	bool ret = false;
-
-	return ret;
-}
-
 
 } /* namespace psi */

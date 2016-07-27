@@ -1,6 +1,5 @@
 /*
- * Bool.cpp
- *
+ * Constraint.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,32 +18,32 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 28, 2016
+ *  Created on: Apr 23, 2016
  *      Author: ballance
  */
 
-#include "classlib/Bool.h"
+#include "ConstraintImpl.h"
 
 namespace psi {
 
-Bool::Bool(const Scope &p) : NamedBaseItem(BaseItem::TypeBool, 0) { }
+Constraint::Constraint(BaseItem *p, const ExprList &stmt) :
+		BaseItem(new ConstraintImpl(this, p, stmt)) { }
 
-Bool::Bool(const std::string &name) :
-		NamedBaseItem(BaseItem::TypeBool, 0), m_name(name) {
-	setName(name);
-}
+ConstraintImpl::ConstraintImpl(Constraint *master, BaseItem *p, const ExprList &stmt) :
+		NamedBaseItemImpl(master, BaseItemImpl::TypeConstraint, p), m_stmt(stmt) { }
 
-Bool::~Bool() {
+Constraint::Constraint(BaseItem *p, const std::string &name, const ExprList &stmt) :
+		BaseItem(new ConstraintImpl(this, BaseItemImpl::TypeConstraint, p, name)) { }
+
+ConstraintImpl::ConstraintImpl(Constraint *master, BaseItem *p, const std::string &name, const ExprList &stmt) :
+		NamedBaseItemImpl(master, BaseItemImpl::TypeConstraint, p, name), m_stmt(stmt) { }
+
+Constraint::~Constraint() {
 	// TODO Auto-generated destructor stub
 }
 
-bool Bool::get() {
-	// TODO:
-	return false;
-}
-
-void Bool::set(bool v) {
-	// TODO:
+ConstraintImpl::~ConstraintImpl() {
+	// TODO Auto-generated destructor stub
 }
 
 } /* namespace psi */

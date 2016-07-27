@@ -1,5 +1,5 @@
 /*
- * BaseItem.h
+ * ModelImpl.h
  *
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,47 +19,60 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *
- *  Created on: Apr 24, 2016
+ *  Created on: Apr 25, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_BASE_ITEM_H
-#define INCLUDED_BASE_ITEM_H
+#ifndef INCLUDED_MODEL_IMPL_H
+#define INCLUDED_MODEL_IMPL_H
+
 #include <string>
 #include <vector>
 
-#include "classlib/Expr.h"
-#include "classlib/ExprList.h"
-#include "classlib/ExprListBuilder.h"
+#include "BaseItemImpl.h"
+#include "TypePathImpl.h"
 
 namespace psi {
 
-class BaseItemImpl;
-class BaseItem {
-public:
+class PackageImpl;
+class ScopeImpl;
+class ModelImpl : public BaseItemImpl {
+	friend class PackageImpl;
 
-	BaseItem *operator ()();
+	public:
+		ModelImpl();
 
-	Expr operator [] (const Expr &rhs);
+		virtual ~ModelImpl();
 
-	ExprListBuilder operator,(const BaseItem &rhs);
+		static ModelImpl *global();
 
-	Expr operator = (const Expr &rhs);
+		void push_scope(const ScopeImpl *p);
 
-	virtual ~BaseItem();
+		void pop_scope(const ScopeImpl *p);
 
-	BaseItemImpl *impl() const;
+		const std::vector<const ScopeImpl *> &get_scope() const;
 
-protected:
+		TypePathImpl getActiveTypeName(BaseItemImpl *it);
 
-		BaseItem(BaseItemImpl *impl);
+		TypePathImpl getSuperType(BaseItemImpl *it);
 
-protected:
-		BaseItemImpl				*m_impl;
+		BaseItemImpl *getActiveScope();
+
+		bool in_field_decl() const { return m_in_field_decl; }
+
+		static TypePathImpl demangle(const ScopeImpl *s);
+
+	private:
+		std::vector<const ScopeImpl *>		m_scope;
+		BaseItemImpl						*m_last_scope;
+		bool								m_in_field_decl;
+
+		static ModelImpl					*m_global;
 
 };
 
+
 } /* namespace psi */
 
-#endif /* INCLUDED_BASE_ITEM_H */
+
+#endif /* SRC_TYPEREGISTRY_H_ */

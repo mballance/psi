@@ -1,5 +1,5 @@
 /*
- * Action.h
+ * ActionImpl.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,13 +22,14 @@
  *      Author: ballance
  */
 
-#ifndef INCLUDED_ACTION_H
-#define INCLUDED_ACTION_H
+#ifndef INCLUDED_ACTION_IMPL_H
+#define INCLUDED_ACTION_IMPL_H
 #include <string>
 
-#include "classlib/NamedBaseItem.h"
-#include "classlib/Scope.h"
-#include "classlib/TypePath.h"
+#include "classlib/Action.h"
+#include "NamedBaseItemImpl.h"
+#include "classlib/ScopeImpl.h"
+#include "TypePathImpl.h"
 
 namespace psi_api {
 	class IObjectContext;
@@ -40,38 +41,16 @@ using namespace psi_api;
 
 namespace psi {
 
-class Elaborator;
-class Action : public NamedBaseItem {
-friend Elaborator;
+class ElaboratorImpl;
+class ActionImpl : public NamedBaseItemImpl {
+friend ElaboratorImpl;
 public:
 
-//<psi:api>
-		Action(const Scope &p);
+		ActionImpl(Action *master, const Scope &p);
 
-		virtual ~Action();
+		virtual ~ActionImpl();
 
-		const TypePath &getSuperType() const { return m_super_type; }
-
-	protected:
-
-		/**
-		 * Solver hook method. Enabled by instantiating an inline Exec block
-		 * for ExecKind::PreSolve
-		 */
-		virtual void pre_solve();
-
-		/**
-		 * Solver hook method. Enabled by instantiating an inline Exec block
-		 * for ExecKind::PostSolve
-		 */
-		virtual void post_solve();
-
-		/**
-		 * Solver hook method. Enabled by instantiating an inline Exec block
-		 * for ExecKind::Body
-		 */
-		virtual void body();
-//</psi:api>
+		const TypePathImpl &getSuperType() const { return m_super_type; }
 
 	private:
 
@@ -81,7 +60,7 @@ public:
 
 
 	private:
-		TypePath							m_super_type;
+		TypePathImpl						m_super_type;
 		IObjectContext						*m_ctxt;
 		psshandle_t							*m_hndl;
 

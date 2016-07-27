@@ -22,8 +22,8 @@
  *      Author: ballance
  */
 
-#ifndef SRC_CLASSLIB_CHANDLE_H_
-#define SRC_CLASSLIB_CHANDLE_H_
+#ifndef INCLUDED_CHANDLE_H
+#define INCLUDED_CHANDLE_H
 #include "classlib/BaseItem.h"
 
 namespace psi {
@@ -34,7 +34,7 @@ class Chandle : public BaseItem {
 
 		Chandle(BaseItem *p);
 
-		Chandle(const std::string 	&name);
+		Chandle(const std::string &name);
 
 		virtual ~Chandle();
 

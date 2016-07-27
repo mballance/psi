@@ -26,42 +26,38 @@
 #define INCLUDED_ACTION_H
 #include <string>
 
-#include "classlib/NamedBaseItem.h"
+#include "classlib/BaseItem.h"
 #include "classlib/Scope.h"
-#include "classlib/TypePath.h"
 
 namespace psi {
 
-class Action : public NamedBaseItem {
+class Action : public BaseItem {
 public:
+	friend ActionImpl;
 
-//<psi:api>
 		Action(const Scope &p);
 
 		virtual ~Action();
 
-		const TypePath &getSuperType() const;
+protected:
 
-	protected:
+	/**
+	 * Solver hook method. Enabled by instantiating an inline Exec block
+	 * for ExecKind::PreSolve
+	 */
+	virtual void pre_solve();
 
-		/**
-		 * Solver hook method. Enabled by instantiating an inline Exec block
-		 * for ExecKind::PreSolve
-		 */
-		virtual void pre_solve();
+	/**
+	 * Solver hook method. Enabled by instantiating an inline Exec block
+	 * for ExecKind::PostSolve
+	 */
+	virtual void post_solve();
 
-		/**
-		 * Solver hook method. Enabled by instantiating an inline Exec block
-		 * for ExecKind::PostSolve
-		 */
-		virtual void post_solve();
-
-		/**
-		 * Solver hook method. Enabled by instantiating an inline Exec block
-		 * for ExecKind::Body
-		 */
-		virtual void body();
-//</psi:api>
+	/**
+	 * Solver hook method. Enabled by instantiating an inline Exec block
+	 * for ExecKind::Body
+	 */
+	virtual void body();
 
 };
 

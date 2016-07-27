@@ -1,5 +1,5 @@
 /*
- * Component.cpp
+ * Component.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,19 +22,29 @@
  *      Author: ballance
  */
 
+#ifndef INCLUDED_COMPONENT_H
+#define INCLUDED_COMPONENT_H
+#include <string>
+
+#include "NamedBaseItemImpl.h"
 #include "classlib/Component.h"
-#include "classlib/Model.h"
-#include "classlib/TypePath.h"
 
 namespace psi {
 
-Component::Component(const Scope &p) :
-		NamedBaseItem(BaseItem::TypeComponent, p.parent()) {
-	setName(Model::global()->getActiveTypeName(this).leaf());
-}
+class ComponentImpl : public NamedBaseItemImpl {
 
-Component::~Component() {
-	// TODO Auto-generated destructor stub
-}
+	public:
+		ComponentImpl(Component *master, ScopeImpl *p);
+
+		virtual ~ComponentImpl();
+
+		const TypePathImpl &getSuperType() const { return m_super_type; }
+
+	private:
+		TypePathImpl				m_super_type;
+
+};
 
 } /* namespace psi */
+
+#endif /* COMPONENT_H_ */

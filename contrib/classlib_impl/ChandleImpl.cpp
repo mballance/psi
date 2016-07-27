@@ -1,6 +1,5 @@
 /*
- * BaseItem.h
- *
+ * Chandle.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,47 +18,50 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *
- *  Created on: Apr 24, 2016
+ *  Created on: Apr 29, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_BASE_ITEM_H
-#define INCLUDED_BASE_ITEM_H
-#include <string>
-#include <vector>
-
-#include "classlib/Expr.h"
-#include "classlib/ExprList.h"
-#include "classlib/ExprListBuilder.h"
+#include "ChandleImpl.h"
 
 namespace psi {
 
-class BaseItemImpl;
-class BaseItem {
-public:
+Chandle::Chandle(BaseItem *p) :
+		BaseItem(new ChandleImpl(this, p)) { }
 
-	BaseItem *operator ()();
+ChandleImpl::ChandleImpl(Chandle *master, BaseItem *p) :
+		NamedBaseItemImpl(master, BaseItemImpl::TypeChandle, p) { }
 
-	Expr operator [] (const Expr &rhs);
+Chandle::Chandle(const std::string &name) :
+		BaseItem(new ChandleImpl(this, name)) { }
 
-	ExprListBuilder operator,(const BaseItem &rhs);
+ChandleImpl::ChandleImpl(Chandle *master, const std::string &name) :
+		NamedBaseItemImpl(master, BaseItemImpl::TypeChandle, 0, name) { }
 
-	Expr operator = (const Expr &rhs);
 
-	virtual ~BaseItem();
+Chandle::~Chandle() {
+	// TODO Auto-generated destructor stub
+}
 
-	BaseItemImpl *impl() const;
+ChandleImpl::~ChandleImpl() {
+	// TODO Auto-generated destructor stub
+}
 
-protected:
+void *Chandle::get() {
+	return static_cast<ChandleImpl *>(impl())->get();
+}
 
-		BaseItem(BaseItemImpl *impl);
+void *ChandleImpl::get() {
+	// TODO:
+	return 0;
+}
 
-protected:
-		BaseItemImpl				*m_impl;
+void ChandleImpl::set(void *v) {
+	// TODO:
+}
 
-};
+void Chandle::set(void *v) {
+	static_cast<ChandleImpl *>(impl())->set(v);
+}
 
 } /* namespace psi */
-
-#endif /* INCLUDED_BASE_ITEM_H */

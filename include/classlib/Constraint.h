@@ -22,31 +22,25 @@
  *      Author: ballance
  */
 
-#ifndef CONSTRAINT_H_
-#define CONSTRAINT_H_
+#ifndef INCLUDED_CONSTRAINT_H
+#define INCLUDED_CONSTRAINT_H
 #include <string>
 
-#include "classlib/NamedBaseItem.h"
+#include "classlib/BaseItem.h"
 
 namespace psi {
 
-class Constraint : public NamedBaseItem {
+class Constraint : public BaseItem {
 public:
 	Constraint(BaseItem *p, const ExprList &stmt);
 
 	Constraint(
-			BaseItem 					*p,
+			BaseItem 				*p,
 			const std::string 		&name,
 			const ExprList 			&stmt);
 
 	virtual ~Constraint();
 
-	ExprList &getStmt() {
-		return m_stmt;
-	}
-
-private:
-	ExprList				m_stmt;
 };
 
 } /* namespace psi */

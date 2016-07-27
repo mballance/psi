@@ -26,24 +26,17 @@
 #define COMPONENT_H_
 #include <string>
 
-#include "classlib/NamedBaseItem.h"
+#include "classlib/BaseItem.h"
 #include "classlib/Scope.h"
 
 namespace psi {
 
-class Component : public NamedBaseItem {
+class Component : public BaseItem {
 
 	public:
 		Component(const Scope &p);
 
 		virtual ~Component();
-
-		Component *getSuperType() const { return m_super; }
-
-	private:
-
-	private:
-		Component					*m_super;
 
 };
 

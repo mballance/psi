@@ -1,27 +1,27 @@
 /*
- * TypePath.h
+ * TypePathImpl.h
  *
  *  Created on: Jul 13, 2016
  *      Author: ballance
  */
 
-#ifndef SRC_PSI_CLASSLIB_TYPEPATH_H_
-#define SRC_PSI_CLASSLIB_TYPEPATH_H_
+#ifndef INCLUDED_TYPE_PATH_IMPL_H
+#define INCLUDED_TYPE_PATH_IMPL_H
 #include <string>
 #include <vector>
 
 namespace psi {
 
-class TypePath {
+class TypePathImpl {
 public:
 
-	TypePath();
+	TypePathImpl();
 
-	TypePath(const std::string &path);
+	TypePathImpl(const std::string &path);
 
-	TypePath(const std::vector<std::string> &path);
+	TypePathImpl(const std::vector<std::string> &path);
 
-	virtual ~TypePath();
+	virtual ~TypePathImpl();
 
 	bool isNull() const { return m_path.size() == 0; }
 

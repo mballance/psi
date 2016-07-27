@@ -35,10 +35,9 @@
 #include "classlib/Chandle.h"
 #include "classlib/Repeat.h"
 #include "classlib/Model.h"
-#include "classlib/InlineExecClosure.h"
-
 #include <stdio.h>
 #include <stdarg.h>
+#include "InlineExecClosure.h"
 
 namespace psi {
 

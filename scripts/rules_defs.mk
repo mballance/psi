@@ -1,14 +1,18 @@
 
 ifneq (1,$(RULES))
 
-PSI_SRC_DIR := $(shell cd $(dir $(lastword $(MAKEFILE_LIST))); pwd)
+PSI_SCRIPTS_DIR := $(shell cd $(dir $(lastword $(MAKEFILE_LIST))); pwd)
+PSI_ROOT_DIR    := $(shell dirname $(PSI_SCRIPTS_DIR))
+PSI_CONTRIB_DIR := $(PSI_ROOT_DIR)/contrib
+PSI_INCLUDE_DIR := $(PSI_ROOT_DIR)/include
+PSI_SCHEMA_DIR  := $(PSI_ROOT_DIR)/schema
 
 ifeq (,$(BUILDDIR))
-BUILDDIR := $(PSI_SRC_DIR)/../build
+BUILDDIR := $(PSI_CONTRIB_DIR)/../build
 endif
 
 ifeq (,$(PKGS_SRCDIR))
-PKGS_SRCDIR := $(PSI_SRC_DIR)/../pkgs_src
+PKGS_SRCDIR := $(PSI_CONTRIB_DIR)/../pkgs_src
 endif
 
 PSI_BUILDDIR := $(BUILDDIR)/psi
@@ -26,15 +30,16 @@ PSS_SCHEMA_O=PSSModelXsd.o
 LIB_TARGETS += $(LIBDIR)/libpsi.a $(LIBDIR)/libpsi_apps.a 
 # $(BUILDDIR)/libxml2.build
 
-PSI_API_HEADERS := $(notdir $(wildcard $(PSI_SRC_DIR)/psi/api/*.h))
-PSI_CL_HEADERS := $(notdir $(wildcard $(PSI_SRC_DIR)/psi/classlib/*.h))
-PSI_APPS_HEADERS := $(notdir $(wildcard $(PSI_SRC_DIR)/apps/*.h))
+PSI_API_HEADERS := $(notdir $(wildcard $(PSI_INCLUDE_DIR)/api/*.h))
+PSI_CL_HEADERS := $(notdir $(wildcard $(PSI_INCLUDE_DIR)/classlib/*.h))
+PSI_APPS_HEADERS := $(notdir $(wildcard $(PSI_CONTRIB_DIR)/apps/*.h))
 
-PSI_CL_SRC := $(notdir $(wildcard $(PSI_SRC_DIR)/psi/classlib/*.cpp))
-PSI_APPS_SRC += $(notdir $(wildcard $(PSI_SRC_DIR)/apps/*.cpp))
+PSI_CL_SRC := $(notdir $(wildcard $(PSI_CONTRIB_DIR)/classlib_impl/*.cpp))
+PSI_APPS_SRC += $(notdir $(wildcard $(PSI_CONTRIB_DIR)/apps/*.cpp))
 PSI_APPS_SRC += PSSModel.cpp
 
 INST_TARGETS += $(foreach h,$(PSI_API_HEADERS),$(INCDIR)/api/$(h))
+INST_TARGETS += $(foreach h,$(PSI_CL_HEADERS),$(INCDIR)/classlib/$(h))
 INST_TARGETS += $(foreach h,$(PSI_APPS_HEADERS),$(INCDIR)/apps/$(h))
 INST_TARGETS += $(INCDIR)/psi.h $(INCDIR)/psi_api.h
 
@@ -53,7 +58,10 @@ $(LIBXML_SRC) :
 	$(Q)if test ! -d `dirname $@`; then mkdir -p `dirname $@`; fi
 	$(Q)cd `dirname $@`; wget --no-check-certificate $(LIBXML_URL)
 
-$(INCDIR)/api/%.h : $(PSI_SRC_DIR)/psi/api/%.h
+$(INCDIR)/api/%.h : $(PSI_INCLUDE_DIR)/classlib/api/%.h
+	$(DO_INST)
+	
+$(INCDIR)/classlib/%.h : $(PSI_INCLUDE_DIR)/classlib/api/%.h
 	$(DO_INST)
 	
 $(INCDIR)/apps/%.h : $(PSI_SRC_DIR)/apps/%.h
@@ -65,16 +73,18 @@ $(INCDIR)/%.h : $(PSI_SRC_DIR)/psi/%.h
 $(LIBDIR)/libpsi.a : $(foreach o,$(PSI_CL_SRC:.cpp=.o),$(PSI_BUILDDIR)/$(o))
 	$(MKDIRS)
 	$(MK_AR)
+	
+vpath %.cpp $(PSI_CONTRIB_DIR)/apps $(PSI_CONTRIB_DIR)/classlib_impl $(PSI_CONTRIB_DIR)/api_impl
 
-$(PSI_BUILDDIR)/%.o : $(PSI_SRC_DIR)/psi/classlib/%.cpp
+$(PSI_BUILDDIR)/%.o : %.cpp
 	$(Q)if test ! -d $(PSI_BUILDDIR); then mkdir -p $(PSI_BUILDDIR); fi
-	$(DO_CXX) -I$(PSI_SRC_DIR)/psi 
+	$(DO_CXX) -I$(PSI_INCLUDE_DIR)
 	
 $(PSI_BUILDDIR)/%.o : $(PSI_BUILDDIR)/%.cpp
 	$(Q)if test ! -d $(PSI_BUILDDIR); then mkdir -p $(PSI_BUILDDIR); fi	
 	$(DO_CXX) -I$(PSI_SRC_DIR)/psi 
 	
-$(PSI_BUILDDIR)/%.cpp : $(PSI_SRC_DIR)/../schema/%.xsd
+$(PSI_BUILDDIR)/%.cpp : $(PSI_SCHEMA_DIR)/%.xsd
 	$(Q)cat $^ | perl $(PSI_SRC_DIR)/../scripts/stringify.pl $(basename $(notdir $^)) > $@
 	
 $(LIBDIR)/libpsi_apps.a : $(foreach o,$(PSI_APPS_SRC:.cpp=.o),$(PSI_BUILDDIR)/$(o))

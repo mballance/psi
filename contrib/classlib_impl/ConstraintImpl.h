@@ -1,6 +1,5 @@
 /*
- * Model.h
- *
+ * ConstraintImpl.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,60 +18,39 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 25, 2016
+ *  Created on: Apr 23, 2016
  *      Author: ballance
  */
 
-#ifndef SRC_TYPEREGISTRY_H_
-#define SRC_TYPEREGISTRY_H_
-
+#ifndef INCLUDED_CONSTRAINT_IMPL_H
+#define INCLUDED_CONSTRAINT_IMPL_H
 #include <string>
-#include <vector>
 
-#include "classlib/BaseItem.h"
-#include "classlib/TypePath.h"
+#include "classlib/Constraint.h"
+#include "NamedBaseItemImpl.h"
 
 namespace psi {
 
-class Package;
-class Scope;
-class Model : public BaseItem {
-	friend class Package;
+class ConstraintImpl : public NamedBaseItemImpl {
+public:
+	ConstraintImpl(Constraint *master, BaseItem *p, const ExprList &stmt);
 
-	public:
-		Model();
+	ConstraintImpl(
+			Constraint				*master,
+			BaseItem 				*p,
+			const std::string 		&name,
+			const ExprList 			&stmt);
 
-		virtual ~Model();
+	virtual ~ConstraintImpl();
 
-		static Model *global();
+	ExprList &getStmt() {
+		return m_stmt;
+	}
 
-		void push_scope(const Scope *p);
-
-		void pop_scope(const Scope *p);
-
-		const std::vector<const Scope *> &get_scope() const;
-
-		TypePath getActiveTypeName(BaseItem *it);
-
-		TypePath getSuperType(BaseItem *it);
-
-		BaseItem *getActiveScope();
-
-		bool in_field_decl() const { return m_in_field_decl; }
-
-		static TypePath demangle(const Scope *s);
-
-	private:
-		std::vector<const Scope *>		m_scope;
-		BaseItem						*m_last_scope;
-		bool							m_in_field_decl;
-
-		static Model			*m_global;
-
+private:
+	ExprList				m_stmt;
 };
-
 
 } /* namespace psi */
 
-
-#endif /* SRC_TYPEREGISTRY_H_ */
+#endif /* CONSTRAINT_H_ */

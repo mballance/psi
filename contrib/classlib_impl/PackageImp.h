@@ -1,5 +1,5 @@
 /*
- * Package.cpp
+ * Package.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,22 +22,27 @@
  *      Author: ballance
  */
 
-#include "classlib/Package.h"
+#ifndef INCLUDED_PACKAGE_IMP_H
+#define INCLUDED_PACKAGE_IMP_H
 
-#include <stdio.h>
-#include "classlib/Model.h"
-#include "classlib/TypePath.h"
+#include <string>
+
+#include "NamedBaseItemImpl.h"
+#include "ScopeImpl.h"
+#include "classlib/Package.h"
 
 namespace psi {
 
-Package::Package(const Scope &p) :
-		NamedBaseItem(BaseItem::TypePackage, p.parent()) {
-	TypePath type = Model::global()->getActiveTypeName(this);
-	setName(type.leaf());
-}
+class PackageImp : public NamedBaseItemImpl {
 
-Package::~Package() {
-	// TODO Auto-generated destructor stub
-}
+	public:
+
+		PackageImp(Package *master, ScopeImpl *p);
+
+		virtual ~PackageImp();
+
+};
 
 } /* namespace psi */
+
+#endif /* PACKAGE_H_ */

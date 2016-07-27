@@ -1,5 +1,6 @@
 /*
- * Bool.h
+ * BitTypeImpl.h
+ *
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,38 +19,49 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 28, 2016
+ *  Created on: Apr 23, 2016
  *      Author: ballance
  */
 
-#ifndef SRC_CLASSLIB_BOOL_H_
-#define SRC_CLASSLIB_BOOL_H_
-
+#ifndef INCLUDED_BIT_TYPE_IMPL_H
+#define INCLUDED_BIT_TYPE_IMPL_H
+#include <stdint.h>
 #include <string>
 
-#include "classlib/BaseItem.h"
+#include "classlib/BitType.h"
+#include "NamedBaseItemImpl.h"
+
 
 namespace psi {
 
-class Bool: public BaseItem {
+class BitTypeImpl : public NamedBaseItemImpl {
 
 	public:
-		Bool(BaseItem *p);
+		BitTypeImpl(
+				BitType				*master,
+				BaseItem 			*p,
+				uint32_t			msb,
+				uint32_t			lsb);
 
-		/**
-		 * This constructor is used for composing parameter lists.
-		 * The name is that of the parameter
-		 */
-		Bool(const std::string &name);
+		BitTypeImpl(
+				BitType				*master,
+				const std::string	&name,
+				uint32_t			msb,
+				uint32_t			lsb);
 
-		virtual ~Bool();
+		virtual ~BitTypeImpl();
+
+		uint32_t getMsb() const { return m_msb; }
+
+		uint32_t getLsb() const { return m_lsb; }
 
 		/**
 		 * The get method returns the solve-time value of this
-		 * data field. Calling this method is only valid on
-		 * fields of this type, and from within an inline-exec callback
+		 * data field. Calling this method is only valid
+		 * on fields of this type, and only from within an
+		 * inline-exec callback.
 		 */
-		bool get();
+		uint64_t get();
 
 		/**
 		 * The set method sets the value of this data field.
@@ -57,10 +69,16 @@ class Bool: public BaseItem {
 		 * of this type, and only from within an
 		 * inline-exec callback.
 		 */
-		void set(bool v);
+		void set(uint64_t v);
+
+	private:
+
+		uint32_t				m_msb;
+		uint32_t				m_lsb;
 
 };
 
+
 } /* namespace psi */
 
-#endif /* SRC_CLASSLIB_BOOL_H_ */
+#endif /* INCLUDED_BIT_TYPE_IMPL_H */

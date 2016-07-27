@@ -23,16 +23,16 @@
  *      Author: ballance
  */
 
-#ifndef BITTYPE_H_
-#define BITTYPE_H_
+#ifndef INCLUDED_BIT_TYPE_H
+#define INCLUDED_BIT_TYPE_H
 #include <stdint.h>
 #include <string>
 
-#include "classlib/NamedBaseItem.h"
+#include "classlib/BaseItem.h"
 
 namespace psi {
 
-class BitType : public NamedBaseItem {
+class BitType : public BaseItem {
 
 	public:
 		BitType(
@@ -46,10 +46,6 @@ class BitType : public NamedBaseItem {
 				uint32_t			lsb);
 
 		virtual ~BitType();
-
-		uint32_t getMsb() const { return m_msb; }
-
-		uint32_t getLsb() const { return m_lsb; }
 
 		/**
 		 * The get method returns the solve-time value of this
@@ -67,18 +63,10 @@ class BitType : public NamedBaseItem {
 		 */
 		void set(uint64_t v);
 
-//		ExprListBuilder operator,(const BitType &rhs);
-
-	private:
-
-		uint32_t				m_msb;
-		uint32_t				m_lsb;
-
-
-
 };
 
 
 } /* namespace psi */
 
-#endif /* BITTYPE_H_ */
+#endif /* INCLUDED_BIT_TYPE_H */
+

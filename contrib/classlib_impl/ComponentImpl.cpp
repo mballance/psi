@@ -1,5 +1,5 @@
 /*
- * Package.h
+ * Component.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,30 +18,27 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 23, 2016
+ *  Created on: Apr 24, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_PACKAGE_H
-#define INCLUDED_PACKAGE_H
-
-#include <string>
-
-#include "classlib/BaseItem.h"
-#include "classlib/Scope.h"
+#include "ComponentImpl.h"
+#include "ScopeImpl.h"
 
 namespace psi {
 
-class Package : public BaseItem {
+Component::Component(const Scope &p) : BaseItem(new ComponentImpl(this, p.impl())) {
 
-	public:
+}
 
-		Package(const Scope &p);
+ComponentImpl::ComponentImpl(Component *master, ScopeImpl *p) :
+		NamedBaseItem(master, BaseItemImpl::TypeComponent, p->parent()) {
+	setName(ModelImpl::global()->getActiveTypeName(this).leaf());
+	m_super_type = ModelImpl::global()->getSuperType(this);
+}
 
-		virtual ~Package();
-
-};
+Component::~Component() {
+	// TODO Auto-generated destructor stub
+}
 
 } /* namespace psi */
-
-#endif /* PACKAGE_H_ */

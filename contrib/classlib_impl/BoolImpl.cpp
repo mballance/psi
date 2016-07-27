@@ -1,5 +1,6 @@
 /*
- * Chandle.cpp
+ * BoolImpl.cpp
+ *
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,31 +19,46 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 29, 2016
+ *  Created on: Apr 28, 2016
  *      Author: ballance
  */
 
-#include "classlib/Chandle.h"
+#include "BoolImpl.h"
 
 namespace psi {
 
-Chandle::Chandle(BaseItem *p) :
-		BaseItem(BaseItem::TypeChandle, p) { }
+Bool::Bool(const BaseItem *p) : BaseItem(new BoolImpl(this, p)) { }
 
-Chandle::Chandle(const std::string &name) :
-		BaseItem(BaseItem::TypeChandle, 0) { }
+BoolImpl::BoolImpl(Bool *master, BaseItem *p) :
+		NamedBaseItemImpl(master, BaseItemImpl::TypeBool, p) { }
 
+Bool::Bool(const std::string &name) : BaseItem(new BoolImpl(this, name)) { }
 
-Chandle::~Chandle() {
+BoolImpl::BoolImpl(Bool *master, const std::string &name) :
+		NamedBaseItemImpl(master, BaseItem::TypeBool, 0, name) { }
+
+Bool::~Bool() {
+
+}
+
+BoolImpl::~BoolImpl() {
 	// TODO Auto-generated destructor stub
 }
 
-void *Chandle::get() {
-	// TODO:
-	return 0;
+bool Bool::get() {
+	return static_cast<BoolImpl *>(impl())->get();
 }
 
-void Chandle::set(void *v) {
+bool BoolImpl::get() {
+	// TODO:
+	return false;
+}
+
+void Bool::set(bool v) {
+	static_cast<BoolImpl *>(impl())->set();
+}
+
+void BoolImpl::set(bool v) {
 	// TODO:
 }
 

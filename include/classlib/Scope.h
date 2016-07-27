@@ -13,21 +13,18 @@
 
 namespace psi {
 
-class BaseItem;
+class BaseItemImpl;
+class ScopeImpl;
 class Scope {
 public:
 	template <class T> Scope(T *p) {
 		// Save the type of the super-class
 		init(&typeid(T), p);
-
-		enter();
 	}
 
 	template <class T> Scope(T *t, BaseItem *p) {
 		// Save the type of the super-class
 		init(&typeid(T), p);
-
-		enter();
 	}
 
 	Scope(bool in_field_decl);
@@ -38,29 +35,14 @@ public:
 
 	virtual ~Scope();
 
-	BaseItem *parent() const;
-
-	BaseItem *ctxt() const { return m_ctxt; }
-
-	const std::type_info *get_typeinfo() const { return m_type; }
-
-	const char *name() const;
-
-	bool in_field_decl() const { return m_in_field_decl; }
+	ScopeImpl *impl() const;
 
 private:
 
 	void init(const std::type_info *type, BaseItem *ctxt);
 
-	void enter();
-
-	void leave();
-
 private:
-	bool					m_in_field_decl;
-	BaseItem				*m_ctxt;
-	const std::type_info	*m_type;
-	std::string				m_name;
+	ScopeImpl				*m_impl;
 };
 
 } /* namespace psi */

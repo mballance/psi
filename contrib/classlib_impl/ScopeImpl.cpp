@@ -5,33 +5,31 @@
  *      Author: ballance
  */
 
-#include "classlib/Scope.h"
 #include "classlib/Model.h"
+#include "ScopeImpl.h"
 
 namespace psi {
 
-Scope::Scope(bool in_field_decl) : m_in_field_decl(in_field_decl) {
-	m_type = &typeid(this);
-	m_ctxt = 0;
-	enter();
+Scope::Scope(bool in_field_decl) {
+	m_impl = new ScopeImpl(this, &typeid(this), 0, in_field_decl, "");
+
+	m_impl->enter();
 }
 
-Scope::Scope(const char *name) :
-		m_in_field_decl(true), m_type(0), m_ctxt(0) {
-	m_name = name;
+Scope::Scope(const char *name) {
+	m_impl = new ScopeImpl(this, 0, 0, true, name);
 }
 
-Scope::Scope(const std::string &name) :
-		m_in_field_decl(true), m_type(0), m_ctxt(0) {
-	m_name = name;
+Scope::Scope(const std::string &name) {
+	m_impl = new ScopeImpl(this, 0, 0, true, name);
 }
 
 Scope::~Scope() {
-	leave();
+	delete m_impl;
 }
 
-BaseItem *Scope::parent() const {
-	const std::vector<const Scope *> &scope = Model::global()->get_scope();
+BaseItemImpl *Scope::parent() const {
+	const std::vector<const ScopeImpl *> &scope = Model::global()->get_scope();
 
 	// Return the first case where m_parent != this
 	for (int i=scope.size()-1; i>=0; i--) {
@@ -53,6 +51,8 @@ void Scope::init(const std::type_info *type, BaseItem *ctxt) {
 
 	// Propagate current state
 	m_in_field_decl = Model::global()->in_field_decl();
+
+	enter();
 //	fprintf(stdout, "Scope::init: %s m_ctxt=%p m_in_field_decl=%s\n",
 //			(m_type)?m_type->name():"NULL",
 //			m_ctxt, (m_in_field_decl)?"true":"false");

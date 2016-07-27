@@ -5,12 +5,12 @@
  *      Author: ballance
  */
 
-#ifndef SRC_PSI_CLASSLIB_BIND_H_
-#define SRC_PSI_CLASSLIB_BIND_H_
+#ifndef INCLUDED_BIND_H
+#define INCLUDED_BIND_H
 #include <vector>
 #include <functional>
 #include "classlib/BaseItem.h"
-#include "classlib/FieldItem.h"
+#include "classlib/Types.h"
 
 namespace psi {
 
@@ -28,12 +28,11 @@ public:
 
 	virtual ~Bind();
 
-	const std::vector<BaseItem *> &getItems() const { return m_items; }
+protected:
 
-private:
-	std::vector<BaseItem *>					m_items;
+
 };
 
 } /* namespace psi */
 
-#endif /* SRC_PSI_CLASSLIB_BIND_H_ */
+#endif /* INCLUDED_BIND_H */

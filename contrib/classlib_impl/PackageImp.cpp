@@ -1,5 +1,5 @@
 /*
- * Action.cpp
+ * Package.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,57 +22,29 @@
  *      Author: ballance
  */
 
-#include "classlib/Action.h"
-
 #include <stdio.h>
-#include "classlib/Model.h"
+#include "PackageImp.h"
+
+#include "ModelImpl.h"
+#include "TypePathImpl.h"
 
 namespace psi {
 
-Action::Action(const Scope	&p) : NamedBaseItem(BaseItem::TypeAction, p.parent()) {
-	m_super_type = Model::global()->getSuperType(this);
-	m_ctxt = 0;
-	m_hndl = 0;
+Package::Package(const Scope &p) :
+		BaseItem(new PackageImp(this, p.impl())) { }
 
-	// TODO: need to deal with named scopes
-	TypePath type = Model::global()->getActiveTypeName(this);
+PackageImp::PackageImp(Package *master, ScopeImpl *p) :
+		NamedBaseItemImpl(master, BaseItemImpl::TypePackage, p->parent()) {
+	TypePathImpl type = ModelImpl::global()->getActiveTypeName(this);
 	setName(type.leaf());
-
-//	const std::vector<const Scope *> &scope = Model::global()->get_scope();
-//	fprintf(stdout, "--> scope %s\n", name.c_str());
-//	for (int i=scope.size()-2; i>=0; i--) {
-//		if (scope.at(i)->ctxt() != this) {
-//			break;
-//		}
-//		fprintf(stdout, "  extends from %s\n", scope.at(i)->name());
-//	}
-//	fprintf(stdout, "<-- scope %s\n", name.c_str());
 }
 
-Action::~Action() {
+Package::~Package() {
 	// TODO Auto-generated destructor stub
 }
 
-void Action::pre_solve() {
-
-}
-
-void Action::post_solve() {
-
-}
-
-void Action::body() {
-
-}
-
-void Action::inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl) {
-	m_ctxt = ctxt;
-	m_hndl = hndl;
-}
-
-void Action::inline_exec_post() {
-	m_ctxt = 0;
-	m_hndl = 0;
+PackageImp::~PackageImp() {
+	// TODO Auto-generated destructor stub
 }
 
 } /* namespace psi */

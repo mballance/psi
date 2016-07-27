@@ -1,5 +1,5 @@
 /*
- * Package.h
+ * BoolImpl.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,30 +18,51 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 23, 2016
+ *  Created on: Apr 28, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_PACKAGE_H
-#define INCLUDED_PACKAGE_H
+#ifndef INCLUDED_BOOL_IMPL_H
+#define INCLUDED_BOOL_IMPL_H
 
 #include <string>
 
-#include "classlib/BaseItem.h"
-#include "classlib/Scope.h"
+#include "NamedBaseItemImpl.h"
+#include "classlib/Bool.h"
 
 namespace psi {
 
-class Package : public BaseItem {
+class BoolImpl: public NamedBaseItemImpl {
 
 	public:
+		BoolImpl(Bool *master, BaseItem *p);
 
-		Package(const Scope &p);
+		/**
+		 * This constructor is used for composing parameter lists.
+		 * The name is that of the parameter
+		 */
+		BoolImpl(const std::string &name);
 
-		virtual ~Package();
+		virtual ~BoolImpl();
+
+		/**
+		 * The get method returns the solve-time value of this
+		 * data field. Calling this method is only valid on
+		 * fields of this type, and from within an inline-exec callback
+		 */
+		bool get();
+
+		/**
+		 * The set method sets the value of this data field.
+		 * Calling this method is only valid on fields
+		 * of this type, and only from within an
+		 * inline-exec callback.
+		 */
+		void set(bool v);
 
 };
 
 } /* namespace psi */
 
-#endif /* PACKAGE_H_ */
+#endif /* INCLUDED_BOOL_IMPL_H */
+
