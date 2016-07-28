@@ -23,21 +23,22 @@
  *      Author: ballance
  */
 
-#include "classlib/Elaborator.h"
+#include "Elaborator.h"
 #include "api/IComponent.h"
 #include "api/IObjectContext.h"
 #include "api/IInlineExec.h"
-#include "classlib/BitType.h"
-#include "classlib/Import.h"
-#include "classlib/IntType.h"
-#include "classlib/Bool.h"
-#include "classlib/Chandle.h"
-#include "classlib/Repeat.h"
-#include "classlib/Model.h"
+#include "BitTypeImp.h"
+#include "ImportImp.h"
+#include "IntTypeImp.h"
+#include "BoolImp.h"
+//#include "ChandleImp.h"
+//#include "RepeatImp.h"
+#include "ModelImp.h"
 #include <stdio.h>
 #include <stdarg.h>
 
-#include "ExprListImp.h"
+#include "ExprCoreList.h"
+#include "ExprImp.h"
 #include "InlineExecClosure.h"
 
 namespace psi {
@@ -55,42 +56,42 @@ Elaborator::~Elaborator() {
 	// TODO Auto-generated destructor stub
 }
 
-void Elaborator::elaborate(BaseItem *root, IModel *model) {
-	vector<BaseItem *>::const_iterator it;
+void Elaborator::elaborate(BaseItemImp *root, IModel *model) {
+	vector<BaseItemImp *>::const_iterator it;
 
 	m_model = model;
 
 	// First, go through and declare global data types
 	for (it=root->getChildren().begin(); it!=root->getChildren().end(); it++) {
-		BaseItem *t = (*it);
+		BaseItemImp *t = (*it);
 
-		if (t->getObjectType() == BaseItem::TypeStruct) {
-			IStruct *s = elaborate_struct(static_cast<Struct *>(t));
+		if (t->getObjectType() == BaseItemImp::TypeStruct) {
+			IStruct *s = elaborate_struct(static_cast<StructImp *>(t));
 			m_model->getGlobalPackage()->add(s);
 		}
 	}
 
 	// Next, go through and declare global scopes
 	for (it=root->getChildren().begin(); it!=root->getChildren().end(); it++) {
-		BaseItem *t = (*it);
+		BaseItemImp *t = (*it);
 
-		if (t->getObjectType() == BaseItem::TypePackage) {
-			elaborate_package(model, static_cast<Package *>(t));
-		} else if (t->getObjectType() == BaseItem::TypeComponent) {
-			IComponent *c = elaborate_component(m_model, static_cast<Component *>(t));
+		if (t->getObjectType() == BaseItemImp::TypePackage) {
+			elaborate_package(model, static_cast<PackageImp *>(t));
+		} else if (t->getObjectType() == BaseItemImp::TypeComponent) {
+			IComponent *c = elaborate_component(m_model, static_cast<ComponentImp *>(t));
 			fprintf(stdout, "elaborate component: %s\n", c->getName().c_str());
 //			m_model->add(c);
-		} else if (t->getObjectType() != BaseItem::TypeStruct) {
+		} else if (t->getObjectType() != BaseItemImp::TypeStruct) {
 			// Error:
 			error(std::string("Unsupported root element: ") +
-					BaseItem::toString(t->getObjectType()));
+					BaseItemImp::toString(t->getObjectType()));
 		}
 	}
 }
 
-IAction *Elaborator::elaborate_action(Action *action) {
+IAction *Elaborator::elaborate_action(ActionImp *action) {
 	IAction 					*super_a = 0; // TODO:
-	std::vector<BaseItem *>		type_h;
+	std::vector<BaseItemImp *>	type_h;
 
 	if (!action->getSuperType().isNull()) {
 		// Locate the type
@@ -110,20 +111,20 @@ IAction *Elaborator::elaborate_action(Action *action) {
 
 	for (uint32_t i=0; i<action->getChildren().size(); i++) {
 		IBaseItem *c = 0;
-		BaseItem *t = action->getChildren().at(i);
+		BaseItemImp *t = action->getChildren().at(i);
 		bool filter = false;
 
-		if (t->getObjectType() == BaseItem::TypeBind) {
-			c = elaborate_bind(static_cast<Bind *>(t));
+		if (t->getObjectType() == BaseItemImp::TypeBind) {
+			c = elaborate_bind(static_cast<BindImp *>(t));
 
 			if (c) {
 				a->add(c);
 			} else {
 				fprintf(stdout, "Error: failed to build bind item %s\n",
-						BaseItem::toString(t->getObjectType()));
+						BaseItemImp::toString(t->getObjectType()));
 			}
-		} if (t->getObjectType() == BaseItem::TypeGraph) {
-			IGraphStmt *g = elaborate_graph(static_cast<Graph *>(t));
+		} if (t->getObjectType() == BaseItemImp::TypeGraph) {
+			IGraphStmt *g = elaborate_graph(static_cast<GraphImp *>(t));
 			a->setGraph(g);
 		} else {
 			if (super_a) {
@@ -137,7 +138,7 @@ IAction *Elaborator::elaborate_action(Action *action) {
 					a->add(c);
 				} else {
 					fprintf(stdout, "Error: failed to build action child item %s\n",
-							BaseItem::toString(t->getObjectType()));
+							BaseItemImp::toString(t->getObjectType()));
 				}
 			}
 		}
@@ -147,48 +148,48 @@ IAction *Elaborator::elaborate_action(Action *action) {
 	return a;
 }
 
-IComponent *Elaborator::elaborate_component(IScopeItem *scope, Component *c) {
+IComponent *Elaborator::elaborate_component(IScopeItem *scope, ComponentImp *c) {
 	IComponent *comp = m_model->mkComponent(c->getName());
 	if (scope) {
 		scope->add(comp);
 	}
 
 
-	std::vector<BaseItem *>::const_iterator it = c->getChildren().begin();
+	std::vector<BaseItemImp *>::const_iterator it = c->getChildren().begin();
 
 	for (; it!=c->getChildren().end(); it++) {
-		BaseItem *t = *it;
+		BaseItemImp *t = *it;
 
 		set_expr_ctxt(comp, c);
 
-		if (t->getObjectType() == BaseItem::TypeAction) {
-			IAction *a = elaborate_action(static_cast<Action *>(t));
+		if (t->getObjectType() == BaseItemImp::TypeAction) {
+			IAction *a = elaborate_action(static_cast<ActionImp *>(t));
 			comp->add(a);
-		} else if (t->getObjectType() == BaseItem::TypeStruct) {
-			IStruct *s = elaborate_struct(static_cast<Struct *>(t));
+		} else if (t->getObjectType() == BaseItemImp::TypeStruct) {
+			IStruct *s = elaborate_struct(static_cast<StructImp *>(t));
 			comp->add(s);
-		} else if (t->getObjectType() == BaseItem::TypeField) {
-			IField *f = elaborate_field_item(static_cast<FieldItem *>(t));
+		} else if (t->getObjectType() == BaseItemImp::TypeField) {
+			IField *f = elaborate_field_item(static_cast<FieldItemImp *>(t));
 			comp->add(f);
-		} else if (t->getObjectType() == BaseItem::TypeBind) {
-			IBind *b = elaborate_bind(static_cast<Bind *>(t));
+		} else if (t->getObjectType() == BaseItemImp::TypeBind) {
+			IBind *b = elaborate_bind(static_cast<BindImp *>(t));
 			comp->add(b);
 		} else {
 			// TODO:
 			fprintf(stdout, "Error: Unknown component body item %s\n",
-					BaseItem::toString(t->getObjectType()));
+					BaseItemImp::toString(t->getObjectType()));
 		}
 	}
 
 	return comp;
 }
 
-IBind *Elaborator::elaborate_bind(Bind *b) {
+IBind *Elaborator::elaborate_bind(BindImp *b) {
 	IBind *ret = 0;
 	std::vector<IBindPath *> targets;
 
-	for (std::vector<BaseItem *>::const_iterator it=b->getItems().begin();
-			it!=b->getItems().end(); it++) {
+	for (std::vector<BaseItemImp *>::const_iterator it=b->getChildren().begin();
+			it!=b->getChildren().end(); it++) {
 		IBindPath *path = elaborate_bind_path(*it);
 
 		if (path) {
@@ -203,23 +204,23 @@ IBind *Elaborator::elaborate_bind(Bind *b) {
 }
 
 // TODO: should return
-IConstraint *Elaborator::elaborate_constraint(Constraint *c) {
+IConstraint *Elaborator::elaborate_constraint(ConstraintImp *c) {
 	debug_low("--> elaborate_constraint %s",
 			(c->getName() == "")?"UNNAMED":c->getName().c_str());
 	IConstraintBlock *ret = m_model->mkConstraintBlock(c->getName());
 
 	Expr &e = c->getStmt();
 
-	if (e.getOp() != Expr::List) {
+	if (e.imp().getOp() != ExprImp::List) {
 		// Something is wrong here
 		fprintf(stdout, "Internal Error: Expecting ExprList\n");
 	}
 
-	ExprCoreList *l = static_cast<ExprCoreList *>(e.getCore().ptr());
-	std::vector<SharedPtr<ExprCore> >::const_iterator it = l->getExprList().begin();
+	ExprCoreList *l = static_cast<ExprCoreList *>(e.imp().ptr());
+	std::vector<ExprImp >::const_iterator it = l->getExprList().begin();
 
 	for (; it!=l->getExprList().end(); it++) {
-		ExprCore *ec = it->ptr();
+		ExprCore *ec = (*it).ptr();
 
 		IConstraint *c = elaborate_constraint_stmt(ec);
 		ret->add(c);
@@ -232,16 +233,16 @@ IConstraint *Elaborator::elaborate_constraint(Constraint *c) {
 }
 
 IConstraintIf *Elaborator::elaborate_constraint_if(ExprCoreIf *if_c) {
-	IExpr *cond = elaborate_expr(if_c->getCond().getCorePtr());
+	IExpr *cond = elaborate_expr(if_c->getCond().ptr());
 
 	IConstraint *true_c = elaborate_constraint_stmt(
-			if_c->getTrue().getCorePtr());
+			if_c->getTrue().ptr());
 
 	IConstraint *false_c = 0;
 
-	if (if_c->getFalse().getCorePtr()) {
+	if (if_c->getFalse().ptr()) {
 		false_c = elaborate_constraint_stmt(
-				if_c->getFalse().getCorePtr());
+				if_c->getFalse().ptr());
 	}
 
 	return m_model->mkConstraintIf(cond, true_c, false_c);
@@ -250,25 +251,25 @@ IConstraintIf *Elaborator::elaborate_constraint_if(ExprCoreIf *if_c) {
 IConstraint *Elaborator::elaborate_constraint_stmt(ExprCore *s) {
 	IConstraint *ret = 0;
 
-	if (s->getOp() == Expr::Stmt_If || s->getOp() == Expr::Stmt_IfElse) {
+	if (s->getOp() == ExprImp::Stmt_If || s->getOp() == ExprImp::Stmt_IfElse) {
 		ret = elaborate_constraint_if(static_cast<ExprCoreIf *>(s));
-	} else if (Expr::isBinOp(s->getOp())) {
+	} else if (ExprImp::isBinOp(s->getOp())) {
 		ret = m_model->mkConstraintExpr(elaborate_expr(s));
-	} else if (s->getOp() == Expr::List) {
+	} else if (s->getOp() == ExprImp::List) {
 		IConstraintBlock *block = m_model->mkConstraintBlock("");
 
 
 		ExprCoreList *l = static_cast<ExprCoreList *>(s);
-		std::vector<SharedPtr<ExprCore> >::const_iterator it = l->getExprList().begin();
+		std::vector<ExprImp >::const_iterator it = l->getExprList().begin();
 		for (; it!=l->getExprList().end(); it++) {
-			block->add(elaborate_constraint_stmt(it->ptr()));
+			block->add(elaborate_constraint_stmt((*it).ptr()));
 		}
 
 		ret = block;
 	} else {
 		// Don't really know what's going on
 		fprintf(stdout, "Error: unknown constraint statement %s\n",
-				Expr::toString(s->getOp()));
+				ExprImp::toString(s->getOp()));
 	}
 
 	return ret;
@@ -278,130 +279,130 @@ IExpr *Elaborator::elaborate_expr(ExprCore *e) {
 	IExpr *ret = 0;
 
 	switch (e->getOp()) {
-	case Expr::LiteralUint:
-	case Expr::LiteralBit:
+	case ExprImp::LiteralUint:
+	case ExprImp::LiteralBit:
 		ret = m_model->mkBitLiteral(e->getValUI());
 		break;
-	case Expr::LiteralInt:
+	case ExprImp::LiteralInt:
 		ret = m_model->mkIntLiteral(e->getValI());
 		break;
-	case Expr::LiteralBool:
+	case ExprImp::LiteralBool:
 		ret = m_model->mkBoolLiteral(e->getValUI()?true:false);
 		break;
-	case Expr::LiteralString:
+	case ExprImp::LiteralString:
 		fprintf(stdout, "Unsupported expression LiteralString\n");
 		break;
 
-	case Expr::BinOp_EqEq:
+	case ExprImp::BinOp_EqEq:
 		ret = m_model->mkBinExpr(
 				elaborate_expr(e->getLhsPtr()),
 				IBinaryExpr::BinOp_EqEq,
 				elaborate_expr(e->getRhsPtr()));
 		break;
-	case Expr::BinOp_NotEq:
+	case ExprImp::BinOp_NotEq:
 		ret = m_model->mkBinExpr(
 				elaborate_expr(e->getLhsPtr()),
 				IBinaryExpr::BinOp_NotEq,
 				elaborate_expr(e->getRhsPtr()));
 		break;
-	case Expr::BinOp_GE:
+	case ExprImp::BinOp_GE:
 		ret = m_model->mkBinExpr(
 				elaborate_expr(e->getLhsPtr()),
 				IBinaryExpr::BinOp_GE,
 				elaborate_expr(e->getRhsPtr()));
 		break;
-	case Expr::BinOp_GT:
+	case ExprImp::BinOp_GT:
 		ret = m_model->mkBinExpr(
 				elaborate_expr(e->getLhsPtr()),
 				IBinaryExpr::BinOp_GT,
 				elaborate_expr(e->getRhsPtr()));
 		break;
-	case Expr::BinOp_LE:
+	case ExprImp::BinOp_LE:
 		ret = m_model->mkBinExpr(
 				elaborate_expr(e->getLhsPtr()),
 				IBinaryExpr::BinOp_LE,
 				elaborate_expr(e->getRhsPtr()));
 		break;
-	case Expr::BinOp_LT:
+	case ExprImp::BinOp_LT:
 		ret = m_model->mkBinExpr(
 				elaborate_expr(e->getLhsPtr()),
 				IBinaryExpr::BinOp_LT,
 				elaborate_expr(e->getRhsPtr()));
 		break;
-	case Expr::BinOp_And:
+	case ExprImp::BinOp_And:
 		ret = m_model->mkBinExpr(
 				elaborate_expr(e->getLhsPtr()),
 				IBinaryExpr::BinOp_And,
 				elaborate_expr(e->getRhsPtr()));
 		break;
-	case Expr::BinOp_AndAnd:
+	case ExprImp::BinOp_AndAnd:
 		ret = m_model->mkBinExpr(
 				elaborate_expr(e->getLhsPtr()),
 				IBinaryExpr::BinOp_AndAnd,
 				elaborate_expr(e->getRhsPtr()));
 		break;
-	case Expr::BinOp_Or:
+	case ExprImp::BinOp_Or:
 		ret = m_model->mkBinExpr(
 				elaborate_expr(e->getLhsPtr()),
 				IBinaryExpr::BinOp_Or,
 				elaborate_expr(e->getRhsPtr()));
 		break;
-	case Expr::BinOp_OrOr:
+	case ExprImp::BinOp_OrOr:
 		ret = m_model->mkBinExpr(
 				elaborate_expr(e->getLhsPtr()),
 				IBinaryExpr::BinOp_OrOr,
 				elaborate_expr(e->getRhsPtr()));
 		break;
-	case Expr::BinOp_Minus:
+	case ExprImp::BinOp_Minus:
 		ret = m_model->mkBinExpr(
 				elaborate_expr(e->getLhsPtr()),
 				IBinaryExpr::BinOp_Minus,
 				elaborate_expr(e->getRhsPtr()));
 		break;
-	case Expr::BinOp_Plus:
+	case ExprImp::BinOp_Plus:
 		ret = m_model->mkBinExpr(
 				elaborate_expr(e->getLhsPtr()),
 				IBinaryExpr::BinOp_Plus,
 				elaborate_expr(e->getRhsPtr()));
 		break;
-	case Expr::BinOp_Multiply:
+	case ExprImp::BinOp_Multiply:
 		ret = m_model->mkBinExpr(
 				elaborate_expr(e->getLhsPtr()),
 				IBinaryExpr::BinOp_Multiply,
 				elaborate_expr(e->getRhsPtr()));
 		break;
-	case Expr::BinOp_Divide:
+	case ExprImp::BinOp_Divide:
 		ret = m_model->mkBinExpr(
 				elaborate_expr(e->getLhsPtr()),
 				IBinaryExpr::BinOp_Divide,
 				elaborate_expr(e->getRhsPtr()));
 		break;
-	case Expr::BinOp_Mod:
+	case ExprImp::BinOp_Mod:
 		ret = m_model->mkBinExpr(
 				elaborate_expr(e->getLhsPtr()),
 				IBinaryExpr::BinOp_Mod,
 				elaborate_expr(e->getRhsPtr()));
 		break;
-	case Expr::BinOp_ArrayRef:
+	case ExprImp::BinOp_ArrayRef:
 		fprintf(stdout, "TODO: ArrayRef\n");
 		break;
 
-	case Expr::TypeRef: {
+	case ExprImp::TypeRef: {
 		ret = elaborate_field_ref(e->getTypePtr());
 		} break;
 
 	default:
 		fprintf(stdout, "Error: unkown expression %s\n",
-				Expr::toString(e->getOp()));
+				ExprImp::toString(e->getOp()));
 	}
 
 	return ret;
 }
 
-IStruct *Elaborator::elaborate_struct(Struct *str) {
+IStruct *Elaborator::elaborate_struct(StructImp *str) {
 	IStruct::StructType t = IStruct::Base; // TODO:
 	IStruct *super_type = 0;
-	std::vector<BaseItem *>		type_h;
+	std::vector<BaseItemImp *>		type_h;
 
 	if (!str->getSuperType().isNull()) {
 		// Look for the actual type
@@ -423,10 +424,10 @@ IStruct *Elaborator::elaborate_struct(Struct *str) {
 	}
 
 	switch (str->getStructType()) {
-		case Struct::Memory: t = IStruct::Memory; break;
-		case Struct::State: t = IStruct::State; break;
-		case Struct::Stream: t = IStruct::Stream; break;
-		case Struct::Resource: t = IStruct::Resource; break;
+		case StructImp::Memory: t = IStruct::Memory; break;
+		case StructImp::State: t = IStruct::State; break;
+		case StructImp::Stream: t = IStruct::Stream; break;
+		case StructImp::Resource: t = IStruct::Resource; break;
 	}
 
 	IStruct *s = m_model->mkStruct(str->getName(), t, super_type);
@@ -434,15 +435,16 @@ IStruct *Elaborator::elaborate_struct(Struct *str) {
 	set_expr_ctxt(s, str);
 
 	for (uint32_t i=0; i<str->getChildren().size(); i++) {
-		BaseItem *t = str->getChildren().at(i);
+		BaseItemImp *t = str->getChildren().at(i);
 		bool filter = false;
 
 		if (super_type) {
 			filter = should_filter(str->getChildren(), i, type_h);
-		} else if (t->getObjectType() == BaseItem::TypeField &&
-				static_cast<FieldItem *>(t)->isInternal()) {
-//			filter = true;
 		}
+//		else if (t->getObjectType() == BaseItemImp::TypeField &&
+//				static_cast<FieldItem *>(t)->isInternal()) {
+//			filter = true;
+//		}
 
 		if (!filter) {
 			IBaseItem *api_it = elaborate_struct_action_body_item(t);
@@ -451,7 +453,7 @@ IStruct *Elaborator::elaborate_struct(Struct *str) {
 				s->add(api_it);
 			} else {
 				fprintf(stdout, "Error: failed to elaborate struct item: %s\n",
-						BaseItem::toString(t->getObjectType()));
+						BaseItemImp::toString(t->getObjectType()));
 			}
 		}
 	}
@@ -459,7 +461,7 @@ IStruct *Elaborator::elaborate_struct(Struct *str) {
 	return s;
 }
 
-void Elaborator::elaborate_package(IModel *model, Package *pkg_cl) {
+void Elaborator::elaborate_package(IModel *model, PackageImp *pkg_cl) {
 	IPackage *pkg = model->findPackage(pkg_cl->getName());
 
 	if (pkg) {
@@ -471,36 +473,36 @@ void Elaborator::elaborate_package(IModel *model, Package *pkg_cl) {
 
 	set_expr_ctxt(pkg, pkg_cl);
 
-	for (std::vector<BaseItem *>::const_iterator it=pkg_cl->getChildren().begin();
+	for (std::vector<BaseItemImp *>::const_iterator it=pkg_cl->getChildren().begin();
 			it!=pkg_cl->getChildren().end(); it++) {
-		BaseItem *t = *it;
+		BaseItemImp *t = *it;
 		IBaseItem *c = 0;
 
 		switch (t->getObjectType()) {
-			case BaseItem::TypeAction: c = elaborate_action(static_cast<Action *>(t)); break;
-			case BaseItem::TypeStruct: c = elaborate_struct(static_cast<Struct *>(t)); break;
-			case BaseItem::TypeExec:  c = elaborate_exec_item(static_cast<Exec *>(t)); break;
-//			case BaseItem::TypeImport: c = elaborate_import(static_cast<Import *>(t)); break;
+			case BaseItemImp::TypeAction: c = elaborate_action(static_cast<ActionImp *>(t)); break;
+			case BaseItemImp::TypeStruct: c = elaborate_struct(static_cast<StructImp *>(t)); break;
+			case BaseItemImp::TypeExec:  c = elaborate_exec_item(static_cast<ExecImp *>(t)); break;
+//			case BaseItemImp::TypeImport: c = elaborate_import(static_cast<Import *>(t)); break;
 		}
 
 		if (c) {
 			pkg->add(c);
 		} else {
 			error("Unknown package body item %s",
-					BaseItem::toString(t->getObjectType()));
+					BaseItemImp::toString(t->getObjectType()));
 		}
 	}
 }
 
-IBaseItem *Elaborator::elaborate_struct_action_body_item(BaseItem *t) {
+IBaseItem *Elaborator::elaborate_struct_action_body_item(BaseItemImp *t) {
 	IBaseItem *ret = 0;
 
-	if (t->getObjectType() == BaseItem::TypeConstraint) {
-		ret = elaborate_constraint(static_cast<Constraint *>(t));
-	} else if (t->getObjectType() == BaseItem::TypeField) {
-		ret = elaborate_field_item(static_cast<FieldItem *>(t));
-	} else if (t->getObjectType() == BaseItem::TypeExec) {
-		ret = elaborate_exec_item(static_cast<Exec *>(t));
+	if (t->getObjectType() == BaseItemImp::TypeConstraint) {
+		ret = elaborate_constraint(static_cast<ConstraintImp *>(t));
+	} else if (t->getObjectType() == BaseItemImp::TypeField) {
+		ret = elaborate_field_item(static_cast<FieldItemImp *>(t));
+	} else if (t->getObjectType() == BaseItemImp::TypeExec) {
+		ret = elaborate_exec_item(static_cast<ExecImp *>(t));
 	} else {
 
 	}
@@ -508,7 +510,7 @@ IBaseItem *Elaborator::elaborate_struct_action_body_item(BaseItem *t) {
 	return ret;
 }
 
-IExec *Elaborator::elaborate_exec_item(Exec *e) {
+IExec *Elaborator::elaborate_exec_item(ExecImp *e) {
 	IExec *ret = 0;
 
 	IExec::ExecKind kind = IExec::Body;
@@ -521,64 +523,64 @@ IExec *Elaborator::elaborate_exec_item(Exec *e) {
 		error("unhandled exec-block kind %d", e->getExecKind());
 	}
 
-	BaseItem *t = e->getParent();
+	BaseItemImp *t = e->getParent();
 
-	if (t->getObjectType() != BaseItem::TypeStruct &&
-			t->getObjectType() != BaseItem::TypeAction) {
+	if (t->getObjectType() != BaseItemImp::TypeStruct &&
+			t->getObjectType() != BaseItemImp::TypeAction) {
 		error("Exec blocks can only be placed inside Action and Struct types. "
-				"Invalid type: %s", BaseItem::toString(t->getObjectType()));
+				"Invalid type: %s", BaseItemImp::toString(t->getObjectType()));
 		return 0;
 	}
 
 	switch (e->getExecType()) {
-	case Exec::Native: {
+	case ExecImp::Native: {
 
 	} break;
 
-	case Exec::Inline: {
+	case ExecImp::Inline: {
 		IInlineExec *inline_exec = 0;
 
 		if (kind == IExec::PreSolve) {
-			if (t->getObjectType() == BaseItem::TypeAction) {
-				inline_exec = new InlineExecClosure<Action>(
-						static_cast<Action *>(t),
-						&Action::inline_exec_pre,
-						&Action::pre_solve,
-						&Action::inline_exec_post);
-			} else if (t->getObjectType() == BaseItem::TypeStruct) {
-				inline_exec = new InlineExecClosure<Struct>(
-						static_cast<Struct *>(t),
-						&Struct::inline_exec_pre,
-						&Struct::pre_solve,
-						&Struct::inline_exec_post);
+			if (t->getObjectType() == BaseItemImp::TypeAction) {
+				inline_exec = new InlineExecClosure<ActionImp>(
+						static_cast<ActionImp *>(t),
+						&ActionImp::inline_exec_pre,
+						&ActionImp::pre_solve,
+						&ActionImp::inline_exec_post);
+			} else if (t->getObjectType() == BaseItemImp::TypeStruct) {
+				inline_exec = new InlineExecClosure<StructImp>(
+						static_cast<StructImp *>(t),
+						&StructImp::inline_exec_pre,
+						&StructImp::pre_solve,
+						&StructImp::inline_exec_post);
 			}
 		} else if (kind == IExec::PostSolve) {
-			if (t->getObjectType() == BaseItem::TypeAction) {
-				inline_exec = new InlineExecClosure<Action>(
-						static_cast<Action *>(t),
-						&Action::inline_exec_pre,
-						&Action::post_solve,
-						&Action::inline_exec_post);
-			} else if (t->getObjectType() == BaseItem::TypeStruct) {
-				inline_exec = new InlineExecClosure<Struct>(
-						static_cast<Struct *>(t),
-						&Struct::inline_exec_pre,
-						&Struct::post_solve,
-						&Struct::inline_exec_post);
+			if (t->getObjectType() == BaseItemImp::TypeAction) {
+				inline_exec = new InlineExecClosure<ActionImp>(
+						static_cast<ActionImp *>(t),
+						&ActionImp::inline_exec_pre,
+						&ActionImp::post_solve,
+						&ActionImp::inline_exec_post);
+			} else if (t->getObjectType() == BaseItemImp::TypeStruct) {
+				inline_exec = new InlineExecClosure<StructImp>(
+						static_cast<StructImp *>(t),
+						&StructImp::inline_exec_pre,
+						&StructImp::post_solve,
+						&StructImp::inline_exec_post);
 			}
 		} else if (kind == IExec::Body) {
-			if (t->getObjectType() == BaseItem::TypeAction) {
-				inline_exec = new InlineExecClosure<Action>(
-						static_cast<Action *>(t),
-						&Action::inline_exec_pre,
-						&Action::body,
-						&Action::inline_exec_post);
-			} else if (t->getObjectType() == BaseItem::TypeStruct) {
-				inline_exec = new InlineExecClosure<Struct>(
-						static_cast<Struct *>(t),
-						&Struct::inline_exec_pre,
-						&Struct::body,
-						&Struct::inline_exec_post);
+			if (t->getObjectType() == BaseItemImp::TypeAction) {
+				inline_exec = new InlineExecClosure<ActionImp>(
+						static_cast<ActionImp *>(t),
+						&ActionImp::inline_exec_pre,
+						&ActionImp::body,
+						&ActionImp::inline_exec_post);
+			} else if (t->getObjectType() == BaseItemImp::TypeStruct) {
+				inline_exec = new InlineExecClosure<StructImp>(
+						static_cast<StructImp *>(t),
+						&StructImp::inline_exec_pre,
+						&StructImp::body,
+						&StructImp::inline_exec_post);
 			}
 		} else {
 			error("unsupported inline exec block kind: %d", kind);
@@ -587,7 +589,7 @@ IExec *Elaborator::elaborate_exec_item(Exec *e) {
 		ret = m_model->mkInlineExec(kind, inline_exec);
 	} break;
 
-	case Exec::TargetTemplate: {
+	case ExecImp::TargetTemplate: {
 		fprintf(stdout, "Create TargetTemplate exec\n");
 		ret = m_model->mkTargetTemplateExec(kind, e->getLanguage(), e->getTargetTemplate());
 	} break;
@@ -596,39 +598,38 @@ IExec *Elaborator::elaborate_exec_item(Exec *e) {
 	return ret;
 }
 
-IField *Elaborator::elaborate_field_item(FieldItem *f) {
+IField *Elaborator::elaborate_field_item(FieldItemImp *f) {
 	IField *ret = 0;
-	BaseItem *dt = f->getDataType();
+	BaseItemImp *dt = f->getDataType();
 	IField::FieldAttr attr = getAttr(f);
 	IBaseItem *ft = 0;
 
-	if (dt->getObjectType() == BaseItem::TypeBit) {
+	if (dt->getObjectType() == BaseItemImp::TypeBit) {
 		// This is a bit-type field
-		BitType *bt = static_cast<BitType *>(dt);
+		BitTypeImp *bt = static_cast<BitTypeImp *>(dt);
 		ft = m_model->mkScalarType(
 				IScalarType::ScalarType_Bit, bt->getMsb(), bt->getLsb());
-	} else if (dt->getObjectType() == BaseItem::TypeInt) {
+	} else if (dt->getObjectType() == BaseItemImp::TypeInt) {
 		// This is an int-type field
-		IntType *it = static_cast<IntType *>(dt);
+		IntTypeImp *it = static_cast<IntTypeImp *>(dt);
 		ft = m_model->mkScalarType(
 				IScalarType::ScalarType_Int, it->getMsb(), it->getLsb());
-	} else if (dt->getObjectType() == BaseItem::TypeBool) {
+	} else if (dt->getObjectType() == BaseItemImp::TypeBool) {
 		// Boolean field
-		Bool *it = static_cast<Bool *>(dt);
+		BoolImp *it = static_cast<BoolImp *>(dt);
 
 		ft = m_model->mkScalarType(
 				IScalarType::ScalarType_Bool, 0, 0);
-	} else if (dt->getObjectType() == BaseItem::TypeChandle) {
-		Chandle *it = static_cast<Chandle *>(dt);
+	} else if (dt->getObjectType() == BaseItemImp::TypeChandle) {
 		ft = m_model->mkScalarType(
 				IScalarType::ScalarType_Chandle, 0, 0);
-	} else if (dt->getObjectType() == BaseItem::TypeAction) {
+	} else if (dt->getObjectType() == BaseItemImp::TypeAction) {
 		// This is an action-type field
 		ft = find_type_decl(dt);
-	} else if (dt->getObjectType() == BaseItem::TypeStruct) {
+	} else if (dt->getObjectType() == BaseItemImp::TypeStruct) {
 		// This is an struct-type field
 		ft = find_type_decl(dt);
-	} else if (dt->getObjectType() == BaseItem::TypeComponent) {
+	} else if (dt->getObjectType() == BaseItemImp::TypeComponent) {
 		// This is a component-type field
 		ft = find_type_decl(dt);
 	} else {
@@ -642,8 +643,8 @@ IField *Elaborator::elaborate_field_item(FieldItem *f) {
 	return ret;
 }
 
-IFieldRef *Elaborator::elaborate_field_ref(BaseItem *t) {
-	std::vector<NamedBaseItem *>	types;
+IFieldRef *Elaborator::elaborate_field_ref(BaseItemImp *t) {
+	std::vector<NamedBaseItemImp *>	types;
 	std::vector<IField *> 			fields;
 
 	debug_high("--> elaborate_field_ref: %p %d", t, (t)?t->getObjectType():0);
@@ -655,7 +656,7 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItem *t) {
 			// TODO: might need to do something different for extended types?
 			break;
 		} else {
-			NamedBaseItem *ni = toNamedItem(t);
+			NamedBaseItemImp *ni = toNamedItem(t);
 
 			if (ni) {
 				debug_high("  Add type %s", ni->getName().c_str());
@@ -672,7 +673,7 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItem *t) {
 	if (scope) {
 		// Traverse through the reference path built up above
 		for (int32_t i=types.size()-1; i>=0; i--) {
-			NamedBaseItem *t = types.at(i);
+			NamedBaseItemImp *t = types.at(i);
 			IBaseItem *t_it = 0;
 
 			IScopeItem *search_s = scope;
@@ -723,7 +724,7 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItem *t) {
 			}
 		}
 	} else {
-		NamedBaseItem *scope = toNamedItem(m_class_expr_ctxt);
+		NamedBaseItemImp *scope = toNamedItem(m_class_expr_ctxt);
 		std::string name = (scope)?scope->getName():"UNKNOWN";
 		error(std::string("Current context (") + name + ") is not a scope");
 	}
@@ -732,8 +733,8 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItem *t) {
 	return m_model->mkFieldRef(fields);
 }
 
-IBindPath *Elaborator::elaborate_bind_path(BaseItem *t) {
-	std::vector<NamedBaseItem *>	types;
+IBindPath *Elaborator::elaborate_bind_path(BaseItemImp *t) {
+	std::vector<NamedBaseItemImp *>	types;
 	std::vector<IBaseItem *> 		path;
 
 	debug_high("--> elaborate_field_ref: %p %d", t, (t)?t->getObjectType():0);
@@ -745,7 +746,7 @@ IBindPath *Elaborator::elaborate_bind_path(BaseItem *t) {
 			// TODO: might need to do something different for extended types?
 			break;
 		} else {
-			NamedBaseItem *ni = toNamedItem(t);
+			NamedBaseItemImp *ni = toNamedItem(t);
 
 			if (ni) {
 				debug_high("  Add type %s", ni->getName().c_str());
@@ -762,7 +763,7 @@ IBindPath *Elaborator::elaborate_bind_path(BaseItem *t) {
 	if (scope) {
 		// Traverse through the reference path built up above
 		for (int32_t i=types.size()-1; i>=0; i--) {
-			NamedBaseItem *t = types.at(i);
+			NamedBaseItemImp *t = types.at(i);
 			IBaseItem *t_it = 0;
 
 			IScopeItem *search_s = scope;
@@ -826,7 +827,7 @@ IBindPath *Elaborator::elaborate_bind_path(BaseItem *t) {
 			}
 		}
 	} else {
-		NamedBaseItem *scope = toNamedItem(m_class_expr_ctxt);
+		NamedBaseItemImp *scope = toNamedItem(m_class_expr_ctxt);
 		std::string name = (scope)?scope->getName():"UNKNOWN";
 		error(std::string("Current context (") + name + ") is not a scope");
 	}
@@ -835,13 +836,15 @@ IBindPath *Elaborator::elaborate_bind_path(BaseItem *t) {
 	return m_model->mkBindPath(path);
 }
 
-IGraphStmt *Elaborator::elaborate_graph(Graph *g) {
+IGraphStmt *Elaborator::elaborate_graph(GraphImp *g) {
 	ExprList stmts = g->getSequence();
-	if (stmts.getExprList().size() > 1) {
-		std::vector<SharedPtr<ExprCore> >::const_iterator it;
+	ExprCoreList *stmts_c = static_cast<ExprCoreList *>(stmts.imp().ptr());
+	if (stmts_c->getExprList().size() > 1) {
+		std::vector<ExprImp >::const_iterator it;
 		IGraphBlockStmt *block = m_model->mkGraphBlockStmt(IGraphStmt::GraphStmt_Block);
 
-		for (it=stmts.getExprList().begin(); it!=stmts.getExprList().end(); it++) {
+		for (it=stmts_c->getExprList().begin();
+				it!=stmts_c->getExprList().end(); it++) {
 			IGraphStmt *stmt = elaborate_graph_stmt((*it).ptr());
 			if (stmt) {
 				block->add(stmt);
@@ -852,7 +855,7 @@ IGraphStmt *Elaborator::elaborate_graph(Graph *g) {
 
 		return block;
 	} else {
-		return elaborate_graph_stmt(stmts.getExprList().at(0).ptr());
+		return elaborate_graph_stmt(stmts_c->getExprList().at(0).ptr());
 	}
 }
 
@@ -860,18 +863,18 @@ IGraphStmt *Elaborator::elaborate_graph_stmt(ExprCore *stmt) {
 	IGraphStmt *ret = 0;
 
 	switch (stmt->getOp()) {
-	case Expr::GraphParallel:
-	case Expr::GraphSelect:
-	case Expr::GraphSchedule:
-	case Expr::List: {
+	case ExprImp::GraphParallel:
+	case ExprImp::GraphSelect:
+	case ExprImp::GraphSchedule:
+	case ExprImp::List: {
 		// All are block statements
 		IGraphBlockStmt *block = m_model->mkGraphBlockStmt(
-				(stmt->getOp() == Expr::GraphParallel)?IGraphStmt::GraphStmt_Parallel:
-						(stmt->getOp() == Expr::GraphSelect)?IGraphStmt::GraphStmt_Select:
-						(stmt->getOp() == Expr::GraphSchedule)?IGraphStmt::GraphStmt_Schedule:
+				(stmt->getOp() == ExprImp::GraphParallel)?IGraphStmt::GraphStmt_Parallel:
+						(stmt->getOp() == ExprImp::GraphSelect)?IGraphStmt::GraphStmt_Select:
+						(stmt->getOp() == ExprImp::GraphSchedule)?IGraphStmt::GraphStmt_Schedule:
 								IGraphStmt::GraphStmt_Block);
 		ExprCoreList *stmt_l = static_cast<ExprCoreList *>(stmt);
-		std::vector<SharedPtr<ExprCore> >::const_iterator it;
+		std::vector<ExprImp >::const_iterator it;
 		for (it=stmt_l->getExprList().begin();
 				it!=stmt_l->getExprList().end(); it++) {
 			IGraphStmt *s = elaborate_graph_stmt((*it).ptr());
@@ -885,7 +888,7 @@ IGraphStmt *Elaborator::elaborate_graph_stmt(ExprCore *stmt) {
 		ret = block;
 	} break;
 
-	case Expr::GraphRepeat: {
+	case ExprImp::GraphRepeat: {
 		// TODO: must handle other types
 		IGraphRepeatStmt::RepeatType type = IGraphRepeatStmt::RepeatType_Count;
 
@@ -902,7 +905,7 @@ IGraphStmt *Elaborator::elaborate_graph_stmt(ExprCore *stmt) {
 		ret = repeat_stmt;
 	} break;
 
-	case Expr::TypeRef: {
+	case ExprImp::TypeRef: {
 		IFieldRef *ref = elaborate_field_ref(stmt->getTypePtr());
 
 		if (ref) {
@@ -912,8 +915,8 @@ IGraphStmt *Elaborator::elaborate_graph_stmt(ExprCore *stmt) {
 		}
 	} break;
 
-	case Expr::GraphWith: {
-		BaseItem *lhs = stmt->getLhsPtr()->getTypePtr();
+	case ExprImp::GraphWith: {
+		BaseItemImp *lhs = stmt->getLhsPtr()->getTypePtr();
 		IFieldRef *ref = elaborate_field_ref(lhs); // stmt->getTypePtr());
 		IConstraint *c = elaborate_constraint_stmt(stmt->getRhsPtr());
 
@@ -933,12 +936,12 @@ IGraphStmt *Elaborator::elaborate_graph_stmt(ExprCore *stmt) {
 	return ret;
 }
 
-void Elaborator::set_expr_ctxt(IBaseItem *model_ctxt, BaseItem *class_ctxt) {
+void Elaborator::set_expr_ctxt(IBaseItem *model_ctxt, BaseItemImp *class_ctxt) {
 	m_model_expr_ctxt = model_ctxt;
 	m_class_expr_ctxt = class_ctxt;
 }
 
-IField::FieldAttr Elaborator::getAttr(FieldItem *t) {
+IField::FieldAttr Elaborator::getAttr(FieldItemImp *t) {
 	IField::FieldAttr attr = IField::FieldAttr_None;
 
 	switch (t->getAttr()) {
@@ -953,20 +956,20 @@ IField::FieldAttr Elaborator::getAttr(FieldItem *t) {
 	return attr;
 }
 
-BaseItem *Elaborator::find_cl_type_decl(const TypePath &path) {
-	BaseItem *ret = 0;
-	BaseItem *scope = Model::global();
+BaseItemImp *Elaborator::find_cl_type_decl(const TypePathImp &path) {
+	BaseItemImp *ret = 0;
+	BaseItemImp *scope = ModelImp::global();
 
 	for (std::vector<std::string>::const_iterator it=path.get().begin();
 			it!=path.get().end(); it++) {
 		const std::string &it_s = (*it);
-		const std::vector<BaseItem *> &item_v = scope->getChildren();
+		const std::vector<BaseItemImp *> &item_v = scope->getChildren();
 		fprintf(stdout, "  Path Elem: %s\n", (*it).c_str());
 
-		BaseItem *o = 0;
-		for (std::vector<BaseItem *>::const_iterator o_it=item_v.begin();
+		BaseItemImp *o = 0;
+		for (std::vector<BaseItemImp *>::const_iterator o_it=item_v.begin();
 				o_it!=item_v.end(); o_it++) {
-			NamedBaseItem *named_it = NamedBaseItem::to((*o_it));
+			NamedBaseItemImp *named_it = NamedBaseItemImp::to((*o_it));
 
 			if (named_it && named_it->getName() == it_s) {
 				o = *o_it;
@@ -978,7 +981,7 @@ BaseItem *Elaborator::find_cl_type_decl(const TypePath &path) {
 			ret = o;
 			scope = o;
 		} else {
-			NamedBaseItem *scope_n = NamedBaseItem::to(scope);
+			NamedBaseItemImp *scope_n = NamedBaseItemImp::to(scope);
 			fprintf(stdout, "Error: Failed to find %s in scope %s\n",
 					it_s.c_str(), (scope_n)?scope_n->getName().c_str():"UNNAMED");
 			ret = 0;
@@ -990,7 +993,7 @@ BaseItem *Elaborator::find_cl_type_decl(const TypePath &path) {
 	return ret;
 }
 
-IBaseItem *Elaborator::find_type_decl(const TypePath &path) {
+IBaseItem *Elaborator::find_type_decl(const TypePathImp &path) {
 	IScopeItem *s = 0;
 	IBaseItem *ret;
 	for (std::vector<std::string>::const_iterator it=path.get().begin();
@@ -1025,11 +1028,11 @@ IBaseItem *Elaborator::find_type_decl(const TypePath &path) {
 	return ret;
 }
 
-IBaseItem *Elaborator::find_type_decl(BaseItem *t) {
+IBaseItem *Elaborator::find_type_decl(BaseItemImp *t) {
 	IBaseItem *ret = 0;
-	std::vector<NamedBaseItem *> type_p;
+	std::vector<NamedBaseItemImp *> type_p;
 
-	NamedBaseItem *ti = toNamedItem(t);
+	NamedBaseItemImp *ti = toNamedItem(t);
 	while (ti) {
 		type_p.push_back(ti);
 		ti = toNamedItem(ti->getParent());
@@ -1041,7 +1044,7 @@ IBaseItem *Elaborator::find_type_decl(BaseItem *t) {
 
 		if (s) {
 			ret = find_named_scope(s->getItems(), ti->getName());
-		} else if (ti->getObjectType() != BaseItem::Model) { // Skip global-scope references
+		} else if (ti->getObjectType() != BaseItemImp::Model) { // Skip global-scope references
 			// global search
 			// First, do a global lookup for package and component items
 			ret = find_named_scope(m_model->getItems(), ti->getName());
@@ -1053,7 +1056,7 @@ IBaseItem *Elaborator::find_type_decl(BaseItem *t) {
 			}
 		}
 
-		if (!ret && ti->getObjectType() != BaseItem::Model) {
+		if (!ret && ti->getObjectType() != BaseItemImp::Model) {
 			error(std::string("Failed to find type ") + ti->getName());
 			break;
 		}
@@ -1087,9 +1090,9 @@ IBaseItem *Elaborator::find_named_scope(
 }
 
 bool Elaborator::should_filter(
-		const std::vector<BaseItem *>	&items,
+		const std::vector<BaseItemImp *>	&items,
 		uint32_t						i,
-		const std::vector<BaseItem *>	&type_h) {
+		const std::vector<BaseItemImp *>	&type_h) {
 	// Base types are evaluated first
 	// - Must preserve 'override' elements
 	// - Must filter out re-declarations
@@ -1100,14 +1103,14 @@ bool Elaborator::should_filter(
 	// -> Preserve if
 	bool ret = false;
 
-	BaseItem *item = items.at(i);
+	BaseItemImp *item = items.at(i);
 
-//	if (item->getObjectType() == BaseItem::TypeField &&
+//	if (item->getObjectType() == BaseItemImp::TypeField &&
 //			static_cast<FieldItem *>(item)->isInternal()) {
 //		// Always skip implementation fields
 //		return true;
 //	}
-	NamedBaseItem *ni = toNamedItem(item);
+	NamedBaseItemImp *ni = toNamedItem(item);
 
 	if (!ni || ni->getName() == "" || type_h.size() == 1) {
 		debug_high("should_filter (false): name=\"%s\" type_h.size=%d\n",
@@ -1121,11 +1124,11 @@ bool Elaborator::should_filter(
 	// Count the occurrences of this item in the parent
 	uint32_t parent_c = 0;
 
-	BaseItem *p = type_h.at(1);
-	for (std::vector<BaseItem *>::const_iterator it=p->getChildren().begin();
+	BaseItemImp *p = type_h.at(1);
+	for (std::vector<BaseItemImp *>::const_iterator it=p->getChildren().begin();
 			it != p->getChildren().end(); it++) {
-		BaseItem *t = *it;
-		NamedBaseItem *ni_t = toNamedItem(t);
+		BaseItemImp *t = *it;
+		NamedBaseItemImp *ni_t = toNamedItem(t);
 
 		if (t->getObjectType() == item->getObjectType() &&
 				ni && ni_t && ni->getName() == ni_t->getName()) {
@@ -1142,8 +1145,8 @@ bool Elaborator::should_filter(
 		uint32_t last_i = 0;
 
 		for (uint32_t ii=0; ii<items.size(); ii++) {
-			BaseItem *t = items.at(ii);
-			NamedBaseItem *ni_t = toNamedItem(t);
+			BaseItemImp *t = items.at(ii);
+			NamedBaseItemImp *ni_t = toNamedItem(t);
 
 			if (t->getObjectType() == item->getObjectType() &&
 					ni && ni_t && ni->getName() == ni_t->getName()) {
@@ -1165,15 +1168,15 @@ bool Elaborator::should_filter(
 }
 
 void Elaborator::build_type_hierarchy(
-		std::vector<BaseItem *>			&items,
-		BaseItem						*t) {
+		std::vector<BaseItemImp *>			&items,
+		BaseItemImp						*t) {
 	while (t) {
 		items.push_back(t);
 
-		if (t->getObjectType() == BaseItem::TypeAction) {
-			t = find_cl_type_decl(static_cast<Action *>(t)->getSuperType());
-		} else if (t->getObjectType() == BaseItem::TypeStruct) {
-			t = find_cl_type_decl(static_cast<Struct *>(t)->getSuperType());
+		if (t->getObjectType() == BaseItemImp::TypeAction) {
+			t = find_cl_type_decl(static_cast<ActionImp *>(t)->getSuperType());
+		} else if (t->getObjectType() == BaseItemImp::TypeStruct) {
+			t = find_cl_type_decl(static_cast<StructImp *>(t)->getSuperType());
 		} else {
 			t = 0;
 		}
@@ -1200,8 +1203,8 @@ INamedItem *Elaborator::toNamedItem(IBaseItem *it) {
 	return 0;
 }
 
-NamedBaseItem *Elaborator::toNamedItem(BaseItem *it) {
-	return NamedBaseItem::to(it);
+NamedBaseItemImp *Elaborator::toNamedItem(BaseItemImp *it) {
+	return NamedBaseItemImp::to(it);
 }
 
 const char *Elaborator::getName(IBaseItem *it) {

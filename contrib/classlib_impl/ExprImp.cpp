@@ -22,47 +22,61 @@
  *      Author: ballance
  */
 
-#include "classlib/Expr.h"
+#include "ExprImp.h"
+#include "ExprCore.h"
 
 #include <stdio.h>
-#include "classlib/BaseItem.h"
-#include "classlib/ExprListBuilder.h"
-#include "ExprCore.h"
 
 namespace psi {
 
-Expr::Expr() : m_core(0) {
+ExprImp::ExprImp() : SharedPtr<ExprCore>(0) {
 
 }
 
-Expr::Expr(uint32_t v) : m_core(new ExprCore(v)) { }
+ExprImp::ExprImp(ExprCore *p) : SharedPtr<ExprCore>(p)  {
 
-Expr::Expr(int32_t v) : m_core(new ExprCore(v)) { }
-
-Expr::Expr(const BaseItem &t) : m_core(new ExprCore(t)) { }
-
-Expr::Expr(const SharedPtr<ExprCore> &ptr) : m_core(ptr) { }
-
-Expr::Expr(const Expr &rhs) : m_core(rhs.m_core) { }
-
-Expr::Expr(ExprCore *rhs) : m_core(rhs) { }
-
-Expr::~Expr() { }
-
-ExprImp::Operator ExprImp::getOp() const {
-	return m_core->m_op;
 }
 
-void ExprImp::setOp(Operator op) {
-	m_core->m_op = op;
+ExprImp::ExprImp(const ExprImp &p) : SharedPtr<ExprCore>(p)  {
+
 }
 
-bool ExprImp::isBinOp() const {
-	if (m_core.ptr()) {
-		return isBinOp(m_core->m_op);
+ExprImp::ExprImp(const Expr &p) : SharedPtr<ExprCore>(p.imp())  {
+
+}
+
+ExprImp::~ExprImp() {
+
+}
+
+Expr::Expr() : m_core(new ExprImp(0)) {
+
+}
+
+Expr::Expr(uint32_t v) : m_core(new ExprImp(new ExprCore(v))) { }
+
+Expr::Expr(int32_t v) : m_core(new ExprImp(new ExprCore(v))) { }
+
+Expr::Expr(const BaseItem &t) : m_core(new ExprImp(new ExprCore(t))) { }
+
+Expr::Expr(const ExprImp &ptr) : m_core(new ExprImp(ptr)) { }
+
+Expr::Expr(const Expr &rhs) : m_core(new ExprImp(rhs.imp())) { }
+
+// Expr::Expr(ExprCore *rhs) : m_core(rhs) { }
+
+Expr::~Expr() {
+	if (m_core) {
+		delete m_core;
 	}
-	return false;
 }
+
+//bool ExprImp::isBinOp() const {
+//	if (m_core.ptr()) {
+//		return isBinOp(m_core->m_op);
+//	}
+//	return false;
+//}
 
 ExprListBuilder Expr::operator,(const Expr &rhs) {
 	return ExprListBuilder(*this, rhs);
@@ -70,6 +84,10 @@ ExprListBuilder Expr::operator,(const Expr &rhs) {
 
 bool ExprImp::isBinOp(Operator op) {
 	return (op >= BinOp_EqEq && op <= BinOp_ArrayRef);
+}
+
+ExprImp::Operator ExprImp::getOp() const {
+	return ptr()->getOp();
 }
 
 Expr Expr::operator [] (const Expr &rhs) {
@@ -84,12 +102,12 @@ Expr Expr::operator [] (uint32_t rhs) {
 	return Expr(new ExprCore(ExprImp::BinOp_ArrayRef, *this, rhs));
 }
 
-void ExprImp::build() {
-	if (m_core.ptr()) {
-		m_core->m_lhs.build();
-		m_core->m_rhs.build();
-	}
-}
+//void ExprImp::build() {
+//	if (m_core.ptr()) {
+//		m_core->m_lhs.build();
+//		m_core->m_rhs.build();
+//	}
+//}
 
 const char *ExprImp::toString(Operator op) {
 	switch (op) {

@@ -22,8 +22,7 @@
  *      Author: ballance
  */
 
-#include "classlib/Import.h"
-
+#include "ImportImp.h"
 #include "classlib/ExprList.h"
 
 
@@ -39,7 +38,7 @@ ImportImp::ImportImp(
 		BaseItem 			*p,
 		const std::string 	&name,
 		const ExprList 		&plist) :
-	NamedBaseItemImp(master, BaseItemImp::TypeImport, p, name) {
+	NamedBaseItemImp(master, BaseItemImp::TypeImport, toImp(p), name) {
 
 }
 
@@ -55,7 +54,7 @@ ImportImp::ImportImp(
 		const std::string 	&name,
 		const BaseItem 		&ret,
 		const ExprList 		&plist) :
-	NamedBaseItemImp(master, BaseItemImp::TypeImport, p, name) {
+	NamedBaseItemImp(master, BaseItemImp::TypeImport, toImp(p), name) {
 	// TODO: save ret, plist
 }
 

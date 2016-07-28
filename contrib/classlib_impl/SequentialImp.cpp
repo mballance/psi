@@ -5,7 +5,7 @@
  *      Author: ballance
  */
 
-#include "Sequential.h"
+#include "classlib/Sequential.h"
 
 namespace psi {
 

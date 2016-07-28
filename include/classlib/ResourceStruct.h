@@ -22,8 +22,8 @@
  *      Author: ballance
  */
 
-#ifndef RESOURCESTRUCT_H_
-#define RESOURCESTRUCT_H_
+#ifndef INCLUDED_RESOURCE_STRUCT_H
+#define INCLUDED_RESOURCE_STRUCT_H
 #include <string>
 
 #include "classlib/Bit.h"
@@ -46,4 +46,4 @@ class ResourceStruct : public Struct {
 
 } /* namespace psi */
 
-#endif /* RESOURCESTRUCT_H_ */
+#endif /* INCLUDED_RESOURCE_STRUCT_H */

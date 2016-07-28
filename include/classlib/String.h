@@ -22,8 +22,8 @@
  *      Author: ballance
  */
 
-#ifndef SRC_CLASSLIB_STRING_H_
-#define SRC_CLASSLIB_STRING_H_
+#ifndef INCLUDED_STRING_H
+#define INCLUDED_STRING_H
 #include "classlib/BaseItem.h"
 #include <string>
 
@@ -55,11 +55,8 @@ class String : public BaseItem {
 		 */
 		void set(const std::string &v);
 
-	private:
-		std::string					m_val;
-
 };
 
 } /* namespace psi */
 
-#endif /* SRC_CLASSLIB_STRING_H_ */
+#endif /* INCLUDED_STRING_H */

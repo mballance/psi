@@ -31,7 +31,15 @@
 #include "NamedBaseItemImp.h"
 #include "TypePathImp.h"
 
+namespace psi_api {
+	class IObjectContext;
+	struct psshandle_t;
+}
+
+using namespace psi_api;
+
 namespace psi {
+
 
 class StructImp : public NamedBaseItemImp {
 public:
@@ -46,18 +54,23 @@ public:
 
 public:
 
+	StructImp(Struct *master, ScopeImp *p, StructType t=Base);
+
 	virtual ~StructImp();
 
 	const TypePathImp &getSuperType() const;
 
 	StructType getStructType() const;
 
-protected:
+	virtual void inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl);
 
-	StructImp(Struct *master, ScopeImp *p, StructType t=Base);
+	virtual void pre_solve();
+	virtual void body();
+	virtual void post_solve();
+
+	virtual void inline_exec_post();
 
 private:
-
 	StructType				m_struct_type;
 	TypePathImp			m_super_type;
 

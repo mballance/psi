@@ -30,12 +30,11 @@
 
 namespace psi {
 
-Action::Action(const Scope	&p) {
-	m_impl = new ActionImp(this, p);
-}
+Action::Action(const Scope	&p) :
+			BaseItem(new ActionImp(this, p.impl())) { }
 
-ActionImp::ActionImp(Action *master, const Scope &p) : NamedBaseItemImp(
-		master, BaseItemImp::TypeAction, p.impl()->parent()), m_master(master) {
+ActionImp::ActionImp(Action *master, ScopeImp *p) :
+		NamedBaseItemImp(master, BaseItemImp::TypeAction, p->parent()) {
 	m_super_type = ModelImp::global()->getSuperType(this);
 	m_ctxt = 0;
 	m_hndl = 0;
@@ -46,7 +45,6 @@ ActionImp::ActionImp(Action *master, const Scope &p) : NamedBaseItemImp(
 }
 
 Action::~Action() {
-	delete m_impl;
 }
 
 ActionImp::~ActionImp() {

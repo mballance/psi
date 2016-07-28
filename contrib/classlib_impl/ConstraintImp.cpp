@@ -1,5 +1,5 @@
 /*
- * String.cpp
+ * Constraint.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,29 +18,32 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 28, 2016
+ *  Created on: Apr 23, 2016
  *      Author: ballance
  */
 
-#include "classlib/String.h"
+#include "ConstraintImp.h"
 
 namespace psi {
 
-String::String(BaseItem *p) : BaseItem(BaseItem::TypeString, p) { }
+Constraint::Constraint(BaseItem *p, const ExprList &stmt) :
+		BaseItem(new ConstraintImp(this, p, "", stmt)) { }
 
-String::String(const std::string &name) : BaseItem(BaseItem::TypeString, 0) { }
+ConstraintImp::ConstraintImp(Constraint *master, BaseItem *p, const ExprList &stmt) :
+		NamedBaseItemImp(master, BaseItemImp::TypeConstraint, toImp(p)), m_stmt(stmt) { }
 
-String::~String() {
+Constraint::Constraint(BaseItem *p, const std::string &name, const ExprList &stmt) :
+		BaseItem(new ConstraintImp(this, p, name, stmt)) { }
+
+ConstraintImp::ConstraintImp(Constraint *master, BaseItem *p, const std::string &name, const ExprList &stmt) :
+		NamedBaseItemImp(master, BaseItemImp::TypeConstraint, toImp(p), name), m_stmt(stmt) { }
+
+Constraint::~Constraint() {
 	// TODO Auto-generated destructor stub
 }
 
-const std::string &String::get() {
-	// TODO:
-	return m_val;
-}
-
-void String::set(const std::string &v) {
-
+ConstraintImp::~ConstraintImp() {
+	// TODO Auto-generated destructor stub
 }
 
 } /* namespace psi */

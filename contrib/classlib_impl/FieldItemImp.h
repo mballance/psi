@@ -23,9 +23,9 @@ public:
 
 	virtual ~FieldItemImp();
 
-	BaseItem *getDataType() const { return m_data_type; }
+	BaseItemImp *getDataType() const { return m_data_type; }
 
-	void setDataType(BaseItem *dt) { m_data_type = dt; }
+	void setDataType(BaseItemImp *dt) { m_data_type = dt; }
 
 	FieldItem::FieldAttr getAttr() const { return m_attr; }
 
@@ -36,7 +36,7 @@ public:
 	bool isInternal() const { return m_internal; }
 
 private:
-	BaseItem				*m_data_type;
+	BaseItemImp				*m_data_type;
 	FieldItem::FieldAttr	m_attr;
 	bool					m_internal;
 

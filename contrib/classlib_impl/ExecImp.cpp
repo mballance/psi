@@ -23,12 +23,13 @@
  */
 
 #include "ExecImp.h"
+#include "classlib/ExtendItem.h"
 
 namespace psi {
 
 Exec::Exec(
 		BaseItem				*p,
-		ExecKind 				kind,
+		Exec::ExecKind			kind,
 		const std::string 		&language,
 		const std::string 		&content) :
 	BaseItem(new ExecImp(this, p, kind, language, content)) { }
@@ -36,10 +37,10 @@ Exec::Exec(
 ExecImp::ExecImp(
 		Exec					*master,
 		BaseItem				*p,
-		ExecKind 				kind,
+		Exec::ExecKind 			kind,
 		const std::string 		&language,
 		const std::string		&content) :
-			BaseItemImp(master, BaseItemImp::TypeExec, p),
+			BaseItemImp(master, BaseItemImp::TypeExec, toImp(p)),
 			m_execType(TargetTemplate),
 			m_execKind(kind),
 			m_language(language),
@@ -55,10 +56,10 @@ Exec::Exec(
 ExecImp::ExecImp(
 		Exec					*master,
 		ExtendItem				*p,
-		ExecKind 				kind,
+		Exec::ExecKind 			kind,
 		const std::string 		&language,
 		const std::string 		&content) :
-			BaseItemImp(master, BaseItemImp::TypeExec, p),
+			BaseItemImp(master, BaseItemImp::TypeExec, toImp(p)),
 			m_execType(TargetTemplate),
 			m_execKind(kind),
 			m_language(language),
@@ -73,9 +74,9 @@ Exec::Exec(
 ExecImp::ExecImp(
 		Exec					*master,
 		ExtendItem				*p,
-		ExecKind 				kind,
+		Exec::ExecKind 			kind,
 		const ExprList			&stmts) :
-			BaseItemImp(master, BaseItemImp::TypeExec, p),
+			BaseItemImp(master, BaseItemImp::TypeExec, toImp(p)),
 			m_execType(Native),
 			m_execKind(kind),
 			m_stmts(stmts) {
@@ -91,9 +92,9 @@ Exec::Exec(
 ExecImp::ExecImp(
 		Exec									*master,
 		BaseItem								*p,
-		ExecKind								kind,
+		Exec::ExecKind							kind,
 		const std::vector<BaseItem *>			&write_vars) :
-				BaseItemImp(master, BaseItemImp::TypeExec, p),
+				BaseItemImp(master, BaseItemImp::TypeExec, toImp(p)),
 				m_execType(Inline),
 				m_execKind(kind) {
 	// TODO: save write vars

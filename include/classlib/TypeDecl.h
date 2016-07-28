@@ -6,6 +6,7 @@
 #ifndef INCLUDED_TYPE_DECL_H
 #define INCLUDED_TYPE_DECL_H
 #include <string>
+#include <stdio.h>
 
 namespace psi {
 

@@ -37,7 +37,7 @@ BitTypeImp::BitTypeImp(
 		BaseItem				*p,
 		uint32_t				msb,
 		uint32_t				lsb) :
-	NamedBaseItemImp(master, BaseItemImp::TypeBit, p), m_msb(msb), m_lsb(lsb) { }
+	NamedBaseItemImp(master, BaseItemImp::TypeBit, toImp(p)), m_msb(msb), m_lsb(lsb) { }
 
 BitType::BitType(
 		const std::string		&name,
@@ -70,7 +70,7 @@ void BitTypeImp::set(uint64_t v) {
 }
 
 void BitType::set(uint64_t v) {
-	static_cast<BitTypeImp *>(impl())->set();
+	static_cast<BitTypeImp *>(impl())->set(v);
 }
 
 } /* namespace psi */

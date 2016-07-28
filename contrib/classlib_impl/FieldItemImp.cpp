@@ -19,7 +19,7 @@ FieldItemImp::FieldItemImp(
 		BaseItem 				*p,
 		const std::string 		&name,
 		FieldItem::FieldAttr	attr) :
-	NamedBaseItemImp(master, BaseItemImp::TypeField, p, name),
+	NamedBaseItemImp(master, BaseItemImp::TypeField, toImp(p), name),
 		m_data_type(0), m_attr(attr), m_internal(false) {
 
 }

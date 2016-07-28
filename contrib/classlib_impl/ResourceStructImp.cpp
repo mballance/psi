@@ -1,5 +1,6 @@
 /*
- * Component.h
+ * ResourceStruct.cpp
+ *
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,33 +19,28 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 24, 2016
+ *  Created on: Apr 23, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_COMPONENT_H
-#define INCLUDED_COMPONENT_H
-#include <string>
-
-#include "NamedBaseItemImp.h"
-#include "classlib/Component.h"
+#include "ResourceStructImp.h"
+#include "ScopeImp.h"
 
 namespace psi {
 
-class ComponentImpl : public NamedBaseItemImp {
+ResourceStruct::ResourceStruct(const Scope &p) :
+		Struct(new ResourceStructImp(this, p.impl())), instance_id(this, "instance_id") { }
 
-	public:
-		ComponentImpl(Component *master, ScopeImp *p);
+ResourceStructImp::ResourceStructImp(ResourceStruct *master, ScopeImp *p) :
+		StructImp(master, p, StructImp::Resource) { }
 
-		virtual ~ComponentImpl();
+ResourceStruct::~ResourceStruct() {
+	// TODO Auto-generated destructor stub
+}
 
-		const TypePathImp &getSuperType() const { return m_super_type; }
+ResourceStructImp::~ResourceStructImp() {
+	// TODO Auto-generated destructor stub
+}
 
-	private:
-		TypePathImp				m_super_type;
-
-};
 
 } /* namespace psi */
-
-#endif /* COMPONENT_H_ */

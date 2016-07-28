@@ -1,5 +1,5 @@
 /*
- * Repeat.cpp
+ * String.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,32 +18,49 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: May 10, 2016
+ *  Created on: Apr 28, 2016
  *      Author: ballance
  */
 
-#include "classlib/Repeat.h"
-
-#include "ExprCore.h"
+#ifndef INCLUDED_STRING_IMP_H
+#define INCLUDED_STRING_IMP_H
+#include "classlib/String.h"
+#include "NamedBaseItemImp.h"
+#include <string>
 
 namespace psi {
 
-//Repeat::Repeat(const Expr &expr, const ExprListBuilder &body) :
-//		Expr(new ExprCore(Expr::GraphRepeat, expr, ExprList(body))) {
-//}
+class StringImp : public NamedBaseItemImp {
 
-Repeat::Repeat(const Expr &cond, const Expr &body) :
-		Expr(new ExprCore(Expr::GraphRepeat, cond, body)) {
-}
+	public:
 
-Repeat::~Repeat() { }
+		StringImp(String *master, BaseItem *p);
 
-ExprListBuilder Repeat::operator,(const Expr &rhs) {
-	return ExprListBuilder(*this, rhs);
-}
+		StringImp(String *master, const std::string &name);
 
-ExprListBuilder Repeat::operator,(const ExprListBuilder &rhs) {
-	return ExprListBuilder(*this, rhs);
-}
+		virtual ~StringImp();
+
+		/**
+		 * The get method returns the solve-time value of this
+		 * data field. Calling this method is only valid
+		 * on fields of this type, and only from within an
+		 * inline-exec callback.
+		 */
+		const std::string &get();
+
+		/**
+		 * The set method sets the value of this data field.
+		 * Calling this method is only valid on fields
+		 * of this type, and only from within an
+		 * inline-exec callback.
+		 */
+		void set(const std::string &v);
+
+	private:
+		std::string					m_val;
+
+};
 
 } /* namespace psi */
+
+#endif /* SRC_CLASSLIB_STRING_H_ */

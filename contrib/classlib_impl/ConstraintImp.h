@@ -1,5 +1,5 @@
 /*
- * If.cpp
+ * ConstraintImp.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,25 +18,39 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: May 4, 2016
+ *  Created on: Apr 23, 2016
  *      Author: ballance
  */
 
-#include "If.h"
+#ifndef INCLUDED_CONSTRAINT_IMP_H
+#define INCLUDED_CONSTRAINT_IMP_H
+#include <string>
 
-#include "ExprIfImp.h"
+#include "classlib/Constraint.h"
+#include "NamedBaseItemImp.h"
 
 namespace psi {
 
-If::If(const Expr &cond, const ExprList &true_expr) :
-	Expr(new ExprCoreIf(cond, true_expr)) { }
+class ConstraintImp : public NamedBaseItemImp {
+public:
+	ConstraintImp(Constraint *master, BaseItem *p, const ExprList &stmt);
 
-If::If(const Expr &cond, const ExprList &true_expr, const ExprList &false_expr) :
-	Expr(new ExprCoreIf(cond, true_expr, false_expr)) { }
+	ConstraintImp(
+			Constraint				*master,
+			BaseItem 				*p,
+			const std::string 		&name,
+			const ExprList 			&stmt);
 
-If::~If() {
-	// TODO Auto-generated destructor stub
-}
+	virtual ~ConstraintImp();
 
+	ExprList &getStmt() {
+		return m_stmt;
+	}
+
+private:
+	ExprList				m_stmt;
+};
 
 } /* namespace psi */
+
+#endif /* CONSTRAINT_H_ */

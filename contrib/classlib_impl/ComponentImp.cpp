@@ -1,5 +1,5 @@
 /*
- * ConstraintImpl.h
+ * Component.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,39 +18,32 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 23, 2016
+ *  Created on: Apr 24, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_CONSTRAINT_IMPL_H
-#define INCLUDED_CONSTRAINT_IMPL_H
-#include <string>
-
-#include "classlib/Constraint.h"
-#include "NamedBaseItemImp.h"
+#include "ComponentImp.h"
+#include "ScopeImp.h"
+#include "ModelImp.h"
 
 namespace psi {
 
-class ConstraintImpl : public NamedBaseItemImp {
-public:
-	ConstraintImpl(Constraint *master, BaseItem *p, const ExprList &stmt);
+Component::Component(const Scope &p) : BaseItem(new ComponentImp(this, p.impl())) {
 
-	ConstraintImpl(
-			Constraint				*master,
-			BaseItem 				*p,
-			const std::string 		&name,
-			const ExprList 			&stmt);
+}
 
-	virtual ~ConstraintImpl();
+ComponentImp::ComponentImp(Component *master, ScopeImp *p) :
+		NamedBaseItemImp(master, BaseItemImp::TypeComponent, p->parent()) {
+	setName(ModelImp::global()->getActiveTypeName(this).leaf());
+	m_super_type = ModelImp::global()->getSuperType(this);
+}
 
-	ExprList &getStmt() {
-		return m_stmt;
-	}
+Component::~Component() {
+	// TODO Auto-generated destructor stub
+}
 
-private:
-	ExprList				m_stmt;
-};
+ComponentImp::~ComponentImp() {
+	// TODO Auto-generated destructor stub
+}
 
 } /* namespace psi */
-
-#endif /* CONSTRAINT_H_ */

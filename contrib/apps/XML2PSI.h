@@ -12,7 +12,8 @@
 #include <expat.h>
 #include <stack>
 #include <map>
-#include "psi_api.h"
+
+#include "../../include/psi_api.h"
 
 using namespace psi_api;
 

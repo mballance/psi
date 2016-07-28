@@ -57,11 +57,22 @@ public:
 	};
 
 public:
-	ExprImp(ExprCore *p) : SharedPtr<ExprCore>(p)  { }
 
-	ExprImp(const ExprImp &p) : SharedPtr<ExprCore>(p)  { }
+	ExprImp();
 
-	virtual ~ExprImp() { }
+	ExprImp(ExprCore *p);
+
+	ExprImp(const ExprImp &p);
+
+	ExprImp(const Expr &p);
+
+	virtual ~ExprImp();
+
+	static const char *toString(Operator op);
+
+	static bool isBinOp(Operator op);
+
+	Operator getOp() const;
 
 };
 

@@ -62,7 +62,7 @@ class ExprCore {
 
 		int64_t getValI() { return m_val.i; }
 
-		BaseItem *getTypePtr() const { return m_val.ref; }
+		BaseItemImp *getTypePtr() const { return m_val.ref; }
 
 		protected:
 
@@ -71,7 +71,7 @@ class ExprCore {
 				int64_t				ll;
 				uint32_t			ui;
 				int32_t				i;
-				BaseItem			*ref;
+				BaseItemImp			*ref;
 			} 						m_val;
 
 			ExprImp::Operator		m_op;

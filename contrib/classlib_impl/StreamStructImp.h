@@ -26,6 +26,7 @@
 
 #ifndef INCLUDED_STREAM_STRUCT_IMP_H
 #define INCLUDED_STREAM_STRUCT_IMP_H
+#include "classlib/StreamStruct.h"
 #include "StructImp.h"
 
 namespace psi {

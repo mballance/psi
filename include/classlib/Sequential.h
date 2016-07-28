@@ -5,8 +5,8 @@
  *      Author: ballance
  */
 
-#ifndef SRC_PSI_CLASSLIB_SEQUENTIAL_H_
-#define SRC_PSI_CLASSLIB_SEQUENTIAL_H_
+#ifndef INCLUDED_SEQUENTIAL_H
+#define INCLUDED_SEQUENTIAL_H
 #include "classlib/Types.h"
 #include "classlib/ExprList.h"
 #include "classlib/ExprListBuilder.h"
@@ -32,4 +32,4 @@ public:
 
 } /* namespace psi */
 
-#endif /* SRC_PSI_CLASSLIB_SEQUENTIAL_H_ */
+#endif /* INCLUDED_SEQUENTIAL_H */

@@ -1,5 +1,5 @@
 /*
- * Constraint.cpp
+ * ExprCoreIf.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,31 +18,21 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 23, 2016
+ *  Created on: May 4, 2016
  *      Author: ballance
  */
 
-#include "ConstraintImpl.h"
+#include "ExprCoreIf.h"
 
 namespace psi {
 
-Constraint::Constraint(BaseItem *p, const ExprList &stmt) :
-		BaseItem(new ConstraintImpl(this, p, stmt)) { }
+ExprCoreIf::ExprCoreIf(const Expr &cond, const Expr &true_expr) :
+	ExprCore(ExprImp::Stmt_If, cond, true_expr) { }
 
-ConstraintImpl::ConstraintImpl(Constraint *master, BaseItem *p, const ExprList &stmt) :
-		NamedBaseItemImp(master, BaseItemImp::TypeConstraint, p), m_stmt(stmt) { }
+ExprCoreIf::ExprCoreIf(const Expr &cond, const Expr &true_expr, const Expr &false_expr) :
+	ExprCore(ExprImp::Stmt_IfElse, cond, true_expr), m_false_stmt(false_expr) { }
 
-Constraint::Constraint(BaseItem *p, const std::string &name, const ExprList &stmt) :
-		BaseItem(new ConstraintImpl(this, BaseItemImp::TypeConstraint, p, name)) { }
-
-ConstraintImpl::ConstraintImpl(Constraint *master, BaseItem *p, const std::string &name, const ExprList &stmt) :
-		NamedBaseItemImp(master, BaseItemImp::TypeConstraint, p, name), m_stmt(stmt) { }
-
-Constraint::~Constraint() {
-	// TODO Auto-generated destructor stub
-}
-
-ConstraintImpl::~ConstraintImpl() {
+ExprCoreIf::~ExprCoreIf() {
 	// TODO Auto-generated destructor stub
 }
 

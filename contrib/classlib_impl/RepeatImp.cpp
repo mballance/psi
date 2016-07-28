@@ -1,6 +1,5 @@
 /*
- * ResourceStruct.cpp
- *
+ * Repeat.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,22 +18,32 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 23, 2016
+ *  Created on: May 10, 2016
  *      Author: ballance
  */
 
-#include "classlib/ResourceStruct.h"
-
-#include "classlib/Model.h"
+#include "classlib/Repeat.h"
+#include "ExprCore.h"
+#include "ExprImp.h"
 
 namespace psi {
 
-ResourceStruct::ResourceStruct(const Scope &p) : Struct(Struct::Resource, p.parent()),
-				instance_id(this, "instance_id") { }
+//Repeat::Repeat(const Expr &expr, const ExprListBuilder &body) :
+//		Expr(new ExprCore(Expr::GraphRepeat, expr, ExprList(body))) {
+//}
 
-ResourceStruct::~ResourceStruct() {
-	// TODO Auto-generated destructor stub
+Repeat::Repeat(const Expr &cond, const Expr &body) :
+		Expr(ExprImp(new ExprCore(ExprImp::GraphRepeat, cond, body))) {
 }
 
+Repeat::~Repeat() { }
+
+ExprListBuilder Repeat::operator,(const Expr &rhs) {
+	return ExprListBuilder(*this, rhs);
+}
+
+ExprListBuilder Repeat::operator,(const ExprListBuilder &rhs) {
+	return ExprListBuilder(*this, rhs);
+}
 
 } /* namespace psi */

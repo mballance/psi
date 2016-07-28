@@ -8,7 +8,8 @@
 #ifndef IMPL_BINDIMPL_H_
 #define IMPL_BINDIMPL_H_
 #include <vector>
-#include "psi_api.h"
+
+#include "../../include/psi_api.h"
 
 using namespace psi_api;
 

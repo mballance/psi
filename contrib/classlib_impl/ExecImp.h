@@ -35,12 +35,6 @@ namespace psi {
 class ExecImp : public BaseItemImp {
 
 	public:
-		enum ExecKind {
-			Declaration,
-			Body,
-			PreSolve,
-			PostSolve
-		};
 		enum ExecType {
 			Null,
 			TargetTemplate,
@@ -53,27 +47,27 @@ class ExecImp : public BaseItemImp {
 		ExecImp(
 			Exec						*master,
 			BaseItem					*p,
-			ExecKind 					kind,
+			Exec::ExecKind 				kind,
 			const std::string 			&language,
 			const std::string 			&content);
 
 		ExecImp(
 			Exec						*master,
 			ExtendItem					*p,
-			ExecKind 					kind,
+			Exec::ExecKind 				kind,
 			const std::string 			&language,
 			const std::string 			&content);
 
 		ExecImp(
 			Exec						*master,
 			BaseItem					*p,
-			ExecKind 					kind,
+			Exec::ExecKind 				kind,
 			const ExprList				&stmts);
 
 		ExecImp(
 			Exec						*master,
 			ExtendItem					*p,
-			ExecKind 					kind,
+			Exec::ExecKind				kind,
 			const ExprList				&stmts);
 
 		/**
@@ -83,13 +77,13 @@ class ExecImp : public BaseItemImp {
 		ExecImp(
 			Exec							*master,
 			BaseItem						*p,
-			ExecKind						kind,
+			Exec::ExecKind					kind,
 			const std::vector<BaseItem *>	&write_vars);
 
 #ifdef PSI_HAVE_CXX_11
 		ExecImp(
 			BaseItem								*p,
-			ExecKind								kind,
+			Exec::ExecKind							kind,
 			std::initializer_list<BaseItem>			write_vars) :
 				BaseItem(BaseItem::TypeExec, p),
 				m_execType(Inline),
@@ -108,7 +102,7 @@ class ExecImp : public BaseItemImp {
 		virtual ~ExecImp();
 
 
-		inline ExecKind getExecKind() const {
+		inline Exec::ExecKind getExecKind() const {
 			return m_execKind;
 		}
 
@@ -122,7 +116,7 @@ class ExecImp : public BaseItemImp {
 
 	private:
 		ExecType							m_execType;
-		ExecKind							m_execKind;
+		Exec::ExecKind						m_execKind;
 
 		std::string							m_language;
 		std::string							m_content;

@@ -25,6 +25,7 @@
 #ifndef INCLUDED_PSI_H
 #define INCLUDED_PSI_H
 
+#include "../psi_api.h"
 #include "classlib/Action.h"
 #include "classlib/Bind.h"
 #include "classlib/Bit.h"
@@ -70,8 +71,6 @@
 #include "classlib/PsiMacros.h"
 
 
-
-#include "psi_api.h"
 
 #include "classlib/Elaborator.h"
 

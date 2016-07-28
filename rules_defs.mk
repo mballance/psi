@@ -2,7 +2,7 @@
 ifneq (1,$(RULES))
 
 PSI_DIR  := $(shell cd $(dir $(lastword $(MAKEFILE_LIST))); pwd)
-include $(PSI_DIR)/src/rules_defs.mk
+include $(PSI_DIR)/scripts/rules_defs.mk
 
 LIB_TARGETS += $(LIBDIR)/libpsi_impl.a
 

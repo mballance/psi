@@ -26,6 +26,7 @@
 #include "classlib/BaseItem.h"
 #include "BaseItemImp.h"
 #include "NamedBaseItemImp.h"
+#include "ExprCore.h"
 
 #include <stdio.h>
 
@@ -58,7 +59,7 @@ BaseItemImp *BaseItemImp::toImp(BaseItem *i) {
 }
 
 Expr BaseItem::operator [] (const Expr &rhs) {
-	return Expr(ExprImp(0, new ExprCore(ExprImp::BinOp_ArrayRef, *this, rhs)));
+	return Expr(ExprImp(new ExprCore(ExprImp::BinOp_ArrayRef, *this, rhs)));
 }
 
 ExprListBuilder BaseItem::operator,(const BaseItem &rhs) {

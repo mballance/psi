@@ -24,11 +24,12 @@
 
 #include "classlib/Schedule.h"
 #include "ExprImp.h"
+#include "ExprCore.h"
 
 namespace psi {
 
 Schedule::Schedule(const ExprList &body) : Expr(body) {
-	m_core.ptr()->setOp(ExprImp::GraphSchedule);
+	m_core->ptr()->setOp(ExprImp::GraphSchedule);
 }
 
 Schedule::~Schedule() {

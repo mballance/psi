@@ -40,14 +40,14 @@ ExprList::~ExprList() {
 }
 
 ExprList::ExprList(const Expr &rhs) : Expr(ExprImp(new ExprCoreList())) {
-	ExprCoreList *c_t = static_cast<ExprCoreList *>(m_core.ptr());
+	ExprCoreList *c_t = static_cast<ExprCoreList *>(m_core->ptr());
 	c_t->m_exprList.push_back(rhs.imp());
 }
 
 ExprList::ExprList(const ExprImp &rhs) : Expr(rhs) { }
 
 ExprList::ExprList(const ExprListBuilder &el) : Expr(ExprImp(new ExprCoreList())) {
-	ExprCoreList *c_t = static_cast<ExprCoreList *>(m_core.ptr());
+	ExprCoreList *c_t = static_cast<ExprCoreList *>(m_core->ptr());
 	traverse_expr_builder(c_t, el.imp());
 }
 

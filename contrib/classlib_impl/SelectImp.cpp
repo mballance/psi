@@ -1,5 +1,5 @@
 /*
- * Repeat.h
+ * Select.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,36 +18,22 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: May 10, 2016
+ *  Created on: May 5, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_REPEAT_H
-#define INCLUDED_REPEAT_H
-#include "classlib/Types.h"
-#include "classlib/Expr.h"
-#include "classlib/ExprListBuilder.h"
+#include "classlib/Select.h"
+#include "ExprImp.h"
+#include "ExprCore.h"
 
 namespace psi {
 
-class Repeat: public Expr {
-public:
+Select::Select(const ExprList &list) : Expr(list) {
+	imp().ptr()->setOp(ExprImp::GraphSelect);
+}
 
-#ifdef PSI_HAVE_CXX_11
-	Repeat(const Expr &cond, std::initializer_list<Expr> l) :
-		Repeat(cond, ExprList(l)) { }
-#endif
-
-	Repeat(const Expr &cond, const Expr &body);
-
-	virtual ~Repeat();
-
-	ExprListBuilder operator,(const Expr &rhs);
-
-	ExprListBuilder operator,(const ExprListBuilder &rhs);
-
-};
+Select::~Select() {
+	// TODO Auto-generated destructor stub
+}
 
 } /* namespace psi */
-
-#endif /* SRC_PSI_CLASSLIB_REPEAT_H_ */

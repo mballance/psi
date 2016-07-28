@@ -43,6 +43,8 @@ INST_TARGETS += $(foreach h,$(PSI_CL_HEADERS),$(INCDIR)/classlib/$(h))
 INST_TARGETS += $(foreach h,$(PSI_APPS_HEADERS),$(INCDIR)/apps/$(h))
 INST_TARGETS += $(INCDIR)/psi.h $(INCDIR)/psi_api.h
 
+CXXFLAGS += -I/usr/include/libxml2
+
 else
 
 $(BUILDDIR)/libxml2.build : $(LIBXML_SRC)
@@ -58,16 +60,16 @@ $(LIBXML_SRC) :
 	$(Q)if test ! -d `dirname $@`; then mkdir -p `dirname $@`; fi
 	$(Q)cd `dirname $@`; wget --no-check-certificate $(LIBXML_URL)
 
-$(INCDIR)/api/%.h : $(PSI_INCLUDE_DIR)/classlib/api/%.h
+$(INCDIR)/api/%.h : $(PSI_INCLUDE_DIR)/api/%.h
 	$(DO_INST)
 	
-$(INCDIR)/classlib/%.h : $(PSI_INCLUDE_DIR)/classlib/api/%.h
+$(INCDIR)/classlib/%.h : $(PSI_INCLUDE_DIR)/classlib/%.h
 	$(DO_INST)
 	
-$(INCDIR)/apps/%.h : $(PSI_SRC_DIR)/apps/%.h
+$(INCDIR)/apps/%.h : $(PSI_CONTRIB_DIR)/apps/%.h
 	$(DO_INST)
 
-$(INCDIR)/%.h : $(PSI_SRC_DIR)/psi/%.h
+$(INCDIR)/%.h : $(PSI_INCLUDE_DIR)/%.h
 	$(DO_INST)
 
 $(LIBDIR)/libpsi.a : $(foreach o,$(PSI_CL_SRC:.cpp=.o),$(PSI_BUILDDIR)/$(o))
@@ -85,7 +87,7 @@ $(PSI_BUILDDIR)/%.o : $(PSI_BUILDDIR)/%.cpp
 	$(DO_CXX) -I$(PSI_SRC_DIR)/psi 
 	
 $(PSI_BUILDDIR)/%.cpp : $(PSI_SCHEMA_DIR)/%.xsd
-	$(Q)cat $^ | perl $(PSI_SRC_DIR)/../scripts/stringify.pl $(basename $(notdir $^)) > $@
+	$(Q)cat $^ | perl $(PSI_SCRIPTS_DIR)/stringify.pl $(basename $(notdir $^)) > $@
 	
 $(LIBDIR)/libpsi_apps.a : $(foreach o,$(PSI_APPS_SRC:.cpp=.o),$(PSI_BUILDDIR)/$(o))
 	$(MKDIRS)

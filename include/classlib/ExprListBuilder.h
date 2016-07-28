@@ -40,10 +40,10 @@ public:
 
 	ExprListBuilder &operator,(const ExprListBuilder &rhs);
 
-	ExprListBuilderImp &imp() const { return m_imp; }
+	ExprListBuilderImp &imp() const { return *m_imp; }
 
 private:
-	ExprListBuilderImp							&m_imp;
+	ExprListBuilderImp							*m_imp;
 
 };
 

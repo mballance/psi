@@ -37,17 +37,19 @@
 #include "api/IGraphStmt.h"
 #include "api/IModel.h"
 #include "api/IPackage.h"
-#include "classlib/Action.h"
-#include "classlib/Bind.h"
-#include "classlib/Component.h"
-#include "classlib/Constraint.h"
-#include "classlib/Graph.h"
-#include "classlib/FieldItem.h"
-#include "classlib/Package.h"
-#include "classlib/BaseItem.h"
-#include "classlib/Struct.h"
-#include "classlib/Exec.h"
-#include "ExprIfImp.h"
+#include "ActionImp.h"
+#include "BindImp.h"
+#include "ComponentImp.h"
+#include "ConstraintImp.h"
+#include "GraphImp.h"
+#include "FieldItemImp.h"
+#include "PackageImp.h"
+#include "BaseItemImp.h"
+#include "StructImp.h"
+#include "ExecImp.h"
+#include "ExprCoreIf.h"
+#include "TypePathImp.h"
+#include "NamedBaseItemImp.h"
 
 using namespace psi_api;
 
@@ -71,17 +73,17 @@ public:
 
 	void set_log_level(LogLevel l) { m_log_level = l; }
 
-	void elaborate(BaseItem *root, IModel *model);
+	void elaborate(BaseItemImp *root, IModel *model);
 
 protected:
 
-	IAction *elaborate_action(Action *a);
+	IAction *elaborate_action(ActionImp *a);
 
-	IComponent *elaborate_component(IScopeItem *scope, Component *c);
+	IComponent *elaborate_component(IScopeItem *scope, ComponentImp *c);
 
-	IBind *elaborate_bind(Bind *b);
+	IBind *elaborate_bind(BindImp *b);
 
-	IConstraint *elaborate_constraint(Constraint *c);
+	IConstraint *elaborate_constraint(ConstraintImp *c);
 
 	IConstraintIf *elaborate_constraint_if(ExprCoreIf *if_c);
 
@@ -89,21 +91,21 @@ protected:
 
 	IConstraint *elaborate_constraint_stmt(ExprCore *s);
 
-	IStruct *elaborate_struct(Struct *str);
+	IStruct *elaborate_struct(StructImp *str);
 
-	void elaborate_package(IModel *model, Package *pkg_cl);
+	void elaborate_package(IModel *model, PackageImp *pkg_cl);
 
-	IBaseItem *elaborate_struct_action_body_item(BaseItem *t);
+	IBaseItem *elaborate_struct_action_body_item(BaseItemImp *t);
 
-	IExec *elaborate_exec_item(Exec *e);
+	IExec *elaborate_exec_item(ExecImp *e);
 
-	IField *elaborate_field_item(FieldItem *f);
+	IField *elaborate_field_item(FieldItemImp *f);
 
-	IFieldRef *elaborate_field_ref(BaseItem *ref);
+	IFieldRef *elaborate_field_ref(BaseItemImp *ref);
 
-	IBindPath *elaborate_bind_path(BaseItem *it);
+	IBindPath *elaborate_bind_path(BaseItemImp *it);
 
-	IGraphStmt *elaborate_graph(Graph *g);
+	IGraphStmt *elaborate_graph(GraphImp *g);
 
 	IGraphStmt *elaborate_graph_stmt(ExprCore *stmt);
 
@@ -112,28 +114,28 @@ private:
 
 private:
 
-	void set_expr_ctxt(IBaseItem *model_ctxt, BaseItem *class_ctxt);
+	void set_expr_ctxt(IBaseItem *model_ctxt, BaseItemImp *class_ctxt);
 
-	static IField::FieldAttr getAttr(FieldItem *t);
+	static IField::FieldAttr getAttr(FieldItemImp *t);
 
-	BaseItem *find_cl_type_decl(const TypePath &t);
+	BaseItemImp *find_cl_type_decl(const TypePathImp &t);
 
-	IBaseItem *find_type_decl(const TypePath &t);
+	IBaseItem *find_type_decl(const TypePathImp &t);
 
-	IBaseItem *find_type_decl(BaseItem *t);
+	IBaseItem *find_type_decl(BaseItemImp *t);
 
 	static IBaseItem *find_named_scope(
 			const std::vector<IBaseItem *> 	&list,
 			const std::string 				&name);
 
 	bool should_filter(
-			const std::vector<BaseItem *>		&items,
-			uint32_t						i,
-			const std::vector<BaseItem *>		&type_h);
+			const std::vector<BaseItemImp *>	&items,
+			uint32_t							i,
+			const std::vector<BaseItemImp *>	&type_h);
 
 	void build_type_hierarchy(
-			std::vector<BaseItem *>				&type_h,
-			BaseItem							*t);
+			std::vector<BaseItemImp *>			&type_h,
+			BaseItemImp							*t);
 
 	static IScopeItem *toScopeItem(IBaseItem *it);
 	static INamedItem *toNamedItem(IBaseItem *it);
@@ -142,7 +144,7 @@ private:
 
 	static IScopeItem *getSuperType(IScopeItem *it);
 
-	static NamedBaseItem *toNamedItem(BaseItem *it);
+	static NamedBaseItemImp *toNamedItem(BaseItemImp *it);
 
 	void error(const char *fmt, ...);
 
@@ -160,7 +162,7 @@ private:
 
 private:
 	IBaseItem				*m_model_expr_ctxt;
-	BaseItem				*m_class_expr_ctxt;
+	BaseItemImp				*m_class_expr_ctxt;
 	IModel					*m_model;
 
 	LogLevel				m_log_level;

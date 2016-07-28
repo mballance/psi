@@ -6,13 +6,13 @@
  */
 
 #include "NamedBaseItemImp.h"
-#include "classlib/Action.h"
-#include "classlib/Component.h"
-#include "classlib/Constraint.h"
-#include "classlib/Import.h"
-#include "classlib/Field.h"
-#include "classlib/Package.h"
-#include "classlib/Struct.h"
+#include "ActionImp.h"
+#include "ComponentImp.h"
+#include "ConstraintImp.h"
+#include "ImportImp.h"
+#include "FieldItemImp.h"
+#include "PackageImp.h"
+#include "StructImp.h"
 
 namespace psi {
 
@@ -42,13 +42,13 @@ NamedBaseItemImp::~NamedBaseItemImp() {
 
 NamedBaseItemImp *NamedBaseItemImp::to(BaseItemImp *it) {
 	switch (it->getObjectType()) {
-	case BaseItemImp::TypeAction: return static_cast<Action *>(it);
-	case BaseItemImp::TypeComponent: return static_cast<Component *>(it);
-	case BaseItemImp::TypeConstraint: return static_cast<Constraint *>(it);
-	case BaseItemImp::TypeImport: return static_cast<Import *>(it);
-	case BaseItemImp::TypeField: return static_cast<FieldItem *>(it);
-	case BaseItemImp::TypePackage: return static_cast<Package *>(it);
-	case BaseItemImp::TypeStruct: return static_cast<Struct *>(it);
+	case BaseItemImp::TypeAction: return static_cast<ActionImp *>(it);
+	case BaseItemImp::TypeComponent: return static_cast<ComponentImp *>(it);
+	case BaseItemImp::TypeConstraint: return static_cast<ConstraintImp *>(it);
+	case BaseItemImp::TypeImport: return static_cast<ImportImp *>(it);
+	case BaseItemImp::TypeField: return static_cast<FieldItemImp *>(it);
+	case BaseItemImp::TypePackage: return static_cast<PackageImp *>(it);
+	case BaseItemImp::TypeStruct: return static_cast<StructImp *>(it);
 	}
 
 	return 0;

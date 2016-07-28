@@ -22,7 +22,7 @@
  *      Author: ballance
  */
 
-#include "classlib/IntType.h"
+#include "IntTypeImp.h"
 
 namespace psi {
 
@@ -37,7 +37,7 @@ IntTypeImp::IntTypeImp(
 		BaseItem 			*p,
 		uint32_t			msb,
 		uint32_t			lsb) :
-	NamedBaseItemImp(master, BaseItemImp::TypeInt, p), m_msb(msb), m_lsb(lsb) { }
+	NamedBaseItemImp(master, BaseItemImp::TypeInt, toImp(p)), m_msb(msb), m_lsb(lsb) { }
 
 IntType::IntType(
 		const std::string	&name,

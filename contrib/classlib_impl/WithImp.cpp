@@ -8,11 +8,12 @@
 #include "classlib/With.h"
 #include "classlib/FieldItem.h"
 #include "ExprCore.h"
+#include "ExprImp.h"
 
 namespace psi {
 
 With::With(const FieldItem &lhs, const ExprList &stmt) :
-	Expr(new ExprCore(Expr::GraphWith, lhs, stmt)) {
+	Expr(ExprImp(new ExprCore(ExprImp::GraphWith, lhs, stmt))) {
 
 }
 

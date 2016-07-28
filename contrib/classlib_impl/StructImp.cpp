@@ -23,6 +23,8 @@
  */
 
 #include "StructImp.h"
+#include "ModelImp.h"
+#include "ScopeImp.h"
 
 namespace psi {
 

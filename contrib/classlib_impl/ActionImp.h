@@ -46,15 +46,17 @@ class ActionImp : public NamedBaseItemImp {
 friend ElaboratorImpl;
 public:
 
-		ActionImp(Action *master, const Scope &p);
+		ActionImp(Action *master, ScopeImp *p);
 
 		virtual ~ActionImp();
 
 		const TypePathImp &getSuperType() const { return m_super_type; }
 
-	private:
-
 		virtual void inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl);
+
+		virtual void pre_solve();
+		virtual void body();
+		virtual void post_solve();
 
 		virtual void inline_exec_post();
 

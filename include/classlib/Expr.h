@@ -92,7 +92,7 @@ public:
 	const ExprImp &imp() const;
 
 protected:
-	ExprImp					&m_core;
+	ExprImp					*m_core;
 
 };
 
