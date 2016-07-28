@@ -1,5 +1,5 @@
 /*
- * MemoryStruct.cpp
+ * Import.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,22 +18,44 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 23, 2016
+ *  Created on: Apr 29, 2016
  *      Author: ballance
  */
 
-#include "classlib/MemoryStruct.h"
-#include "classlib/Model.h"
-#include "classlib/Scope.h"
+#ifndef INCLUDED_IMPORT_IMP_H
+#define INCLUDED_IMPORT_IMP_H
+#include <string>
+
+#include "classlib/Import.h"
+#include "NamedBaseItemImp.h"
 
 namespace psi {
 
-MemoryStruct::MemoryStruct(const Scope &p) : Struct(Struct::Memory, p.parent()) {
-}
+class ImportImp : public NamedBaseItemImp {
 
-MemoryStruct::~MemoryStruct() {
-	// TODO Auto-generated destructor stub
-}
+	public:
+
+		ImportImp(
+				Import				*master,
+				BaseItem 			*p,
+				const std::string 	&name,
+				const ExprList 		&plist);
+
+		ImportImp(
+				Import				*master,
+				BaseItem 			*p,
+				const std::string 	&name,
+				const BaseItem 		&ret,
+				const ExprList 		&plist);
+
+		virtual ~ImportImp();
+
+		ExprImportCall operator()(const ExprList &plist);
+
+		ExprImportCall operator()();
+};
 
 
 } /* namespace psi */
+
+#endif /* SRC_CLASSLIB_IMPORT_H_ */

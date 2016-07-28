@@ -22,19 +22,16 @@
  *      Author: ballance
  */
 
-#ifndef SRC_CLASSLIB_EXTENDSTRUCT_H_
-#define SRC_CLASSLIB_EXTENDSTRUCT_H_
-#include "classlib/ExtendItem.h"
-#include "classlib/TypeDecl.h"
+#ifndef INCLUDED_EXTEND_STRUCT_H
+#define INCLUDED_EXTEND_STRUCT_H
+#include "classlib/ExtendBase.h"
 
 namespace psi {
 
-template <class T> class ExtendStruct : public ExtendItem, public T {
+template <class T> class ExtendStruct : public ExtendBase<T> {
 
 	public:
-		ExtendStruct(const Scope &p) : ExtendItem(this, BaseItem::TypeExtendStruct), T(this) {
-			setDataType(TypeDecl<T>::type_id());
-		}
+		ExtendStruct(BaseItem *p) : ExtendBase<T>(p) { }
 
 		virtual ~ExtendStruct() { }
 

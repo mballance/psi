@@ -30,13 +30,13 @@ Constraint::Constraint(BaseItem *p, const ExprList &stmt) :
 		BaseItem(new ConstraintImpl(this, p, stmt)) { }
 
 ConstraintImpl::ConstraintImpl(Constraint *master, BaseItem *p, const ExprList &stmt) :
-		NamedBaseItemImpl(master, BaseItemImpl::TypeConstraint, p), m_stmt(stmt) { }
+		NamedBaseItemImp(master, BaseItemImp::TypeConstraint, p), m_stmt(stmt) { }
 
 Constraint::Constraint(BaseItem *p, const std::string &name, const ExprList &stmt) :
-		BaseItem(new ConstraintImpl(this, BaseItemImpl::TypeConstraint, p, name)) { }
+		BaseItem(new ConstraintImpl(this, BaseItemImp::TypeConstraint, p, name)) { }
 
 ConstraintImpl::ConstraintImpl(Constraint *master, BaseItem *p, const std::string &name, const ExprList &stmt) :
-		NamedBaseItemImpl(master, BaseItemImpl::TypeConstraint, p, name), m_stmt(stmt) { }
+		NamedBaseItemImp(master, BaseItemImp::TypeConstraint, p, name), m_stmt(stmt) { }
 
 Constraint::~Constraint() {
 	// TODO Auto-generated destructor stub

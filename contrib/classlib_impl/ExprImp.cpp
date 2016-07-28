@@ -25,9 +25,9 @@
 #include "classlib/Expr.h"
 
 #include <stdio.h>
-#include "classlib/ExprCore.h"
 #include "classlib/BaseItem.h"
 #include "classlib/ExprListBuilder.h"
+#include "ExprCore.h"
 
 namespace psi {
 

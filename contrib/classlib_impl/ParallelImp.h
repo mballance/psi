@@ -1,5 +1,6 @@
 /*
- * ActionImpl.h
+ * Parallel.h
+ *
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,54 +19,36 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 23, 2016
+ *  Created on: May 5, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_ACTION_IMPL_H
-#define INCLUDED_ACTION_IMPL_H
-#include <string>
+#ifndef INCLUDED_PARALLEL_H
+#define INCLUDED_PARALLEL_H
 
-#include "classlib/Action.h"
-#include "NamedBaseItemImpl.h"
-#include "classlib/ScopeImpl.h"
-#include "TypePathImpl.h"
-
-namespace psi_api {
-	class IObjectContext;
-	class IBaseItem;
-	struct psshandle_t;
-}
-
-using namespace psi_api;
+#include "classlib/Types.h"
+#include "classlib/Expr.h"
+#include "classlib/ExprListBuilder.h"
 
 namespace psi {
 
-class ElaboratorImpl;
-class ActionImpl : public NamedBaseItemImpl {
-friend ElaboratorImpl;
+class ExprList;
+class Parallel: public Expr {
 public:
+	Parallel(const ExprList &body);
 
-		ActionImpl(Action *master, const Scope &p);
+#ifdef PSI_HAVE_CXX_11
+	Parallel(std::initializer_list<Expr> l) : Parallel(ExprList(l)) { };
+#endif
 
-		virtual ~ActionImpl();
+	virtual ~Parallel();
 
-		const TypePathImpl &getSuperType() const { return m_super_type; }
+	ExprListBuilder operator,(const Expr &rhs);
 
-	private:
-
-		virtual void inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl);
-
-		virtual void inline_exec_post();
-
-
-	private:
-		TypePathImpl						m_super_type;
-		IObjectContext						*m_ctxt;
-		psshandle_t							*m_hndl;
+	ExprListBuilder operator,(const ExprListBuilder &rhs);
 
 };
 
 } /* namespace psi */
 
-#endif /* INCLUDED_ACTION_H */
+#endif /* SRC_PSI_CLASSLIB_PARALLEL_H_ */

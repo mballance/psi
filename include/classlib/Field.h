@@ -22,13 +22,11 @@
  *      Author: ballance
  */
 
-#ifndef SRC_CLASSLIB_FIELD_H_
-#define SRC_CLASSLIB_FIELD_H_
+#ifndef INCLUDED_FIELD_H
+#define INCLUDED_FIELD_H
 
 #include <string>
 
-#include "classlib/BaseItem.h"
-#include "classlib/TypeDecl.h"
 #include "classlib/FieldBase.h"
 #include "classlib/With.h"
 

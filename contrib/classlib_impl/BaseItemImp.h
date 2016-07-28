@@ -24,8 +24,8 @@
  *      Author: ballance
  */
 
-#ifndef INCLUDED_BASE_ITEM_IMPL_H
-#define INCLUDED_BASE_ITEM_IMPL_H
+#ifndef INCLUDED_BASE_ITEM_IMP_H
+#define INCLUDED_BASE_ITEM_IMP_H
 #include <string>
 #include <vector>
 
@@ -36,7 +36,7 @@
 
 namespace psi {
 
-class BaseItemImpl {
+class BaseItemImp {
 public:
 
 	enum ObjectType {
@@ -65,9 +65,9 @@ public:
 
 public:
 
-	virtual void setParent(BaseItemImpl *p) { m_parent = p; }
+	virtual void setParent(BaseItemImp *p) { m_parent = p; }
 
-	virtual BaseItemImpl *getParent() const {
+	virtual BaseItemImp *getParent() const {
 		return m_parent;
 	}
 
@@ -76,26 +76,28 @@ public:
 	}
 
 	// Effectively private.
-	virtual void add(BaseItemImpl *item);
+	virtual void add(BaseItemImp *item);
 
 	void setObjectType(ObjectType t);
 
-	virtual const std::vector<BaseItemImpl *> &getChildren() const;
+	virtual const std::vector<BaseItemImp *> &getChildren() const;
 
 	static const char *toString(ObjectType t);
 
-	virtual ~BaseItemImpl();
+	virtual ~BaseItemImp();
 
 protected:
 
-	BaseItemImpl(BaseItem *master, ObjectType t, BaseItemImpl *p);
+	BaseItemImp(BaseItem *master, ObjectType t, BaseItemImp *p);
+
+	static BaseItemImp *toImp(BaseItem *i);
 
 private:
 	BaseItem					*m_master;
 	ObjectType					m_type;
-	BaseItemImpl				*m_parent;
+	BaseItemImp				*m_parent;
 
-	std::vector<BaseItemImpl *>	m_children;
+	std::vector<BaseItemImp *>	m_children;
 };
 
 } /* namespace psi */

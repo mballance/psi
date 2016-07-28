@@ -1,5 +1,5 @@
 /*
- * IntType.cpp
+ * Graph.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,28 +18,30 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 24, 2016
+ *  Created on: Apr 23, 2016
  *      Author: ballance
  */
 
-#include "classlib/IntType.h"
+#ifndef INCLUDED_GRAPH_IMP_H
+#define INCLUDED_GRAPH_IMP_H
+#include "classlib/Graph.h"
+#include "BaseItemImp.h"
 
 namespace psi {
 
-IntType::IntType(
-		BaseItem 			*p,
-		uint32_t			msb,
-		uint32_t			lsb) :
-	NamedBaseItem(BaseItem::TypeInt, p), m_msb(msb), m_lsb(lsb) { }
+class GraphImp : public BaseItemImp {
 
-IntType::IntType(
-		const std::string	&name,
-		uint32_t			msb,
-		uint32_t			lsb) :
-	NamedBaseItem(BaseItem::TypeInt, 0), m_msb(msb), m_lsb(lsb) {
-	setName(name);
-}
+	public:
+		GraphImp(Graph *master, BaseItem *p, const ExprList &seq);
 
-IntType::~IntType() { }
+		virtual ~GraphImp();
+
+		ExprList &getSequence() { return m_seq; }
+
+	private:
+		ExprList				m_seq;
+};
 
 } /* namespace psi */
+
+#endif /* GRAPH_H_ */

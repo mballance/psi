@@ -1,5 +1,5 @@
 /*
- * ExportItem.cpp
+ * IntType.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,27 +18,46 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: May 10, 2016
+ *  Created on: Apr 24, 2016
  *      Author: ballance
  */
 
-#include "ExportItem.h"
+#ifndef INCLUDED_INT_TYPE_IMP_H
+#define INCLUDED_INT_TYPE_IMP_H
+#include <string>
+
+#include "classlib/IntType.h"
+#include "NamedBaseItemImp.h"
 
 namespace psi {
 
-ExportItem::ExportItem(BaseItem	*p) : BaseItem(BaseItem::TypeExportItem, p),
-		m_data_type(0) {
-}
+class IntTypeImp : public NamedBaseItemImp {
 
-ExportItem::ExportItem(
-		BaseItem 			*p,
-		const ExprList		&exp_params) :
-	BaseItem(BaseItem::TypeExportItem, p), m_exp_params(exp_params), m_data_type(0) {
-//	setTypeData(t_ref);
-}
+	public:
+		IntTypeImp(
+				IntType				*master,
+				BaseItem 			*p,
+				uint32_t			msb,
+				uint32_t			lsb);
 
-ExportItem::~ExportItem() {
-	// TODO Auto-generated destructor stub
-}
+		IntTypeImp(
+				IntType				*master,
+				const std::string	&name,
+				uint32_t			msb,
+				uint32_t			lsb);
 
-}
+		virtual ~IntTypeImp();
+
+		uint32_t getMsb() const { return m_msb; }
+
+		uint32_t getLsb() const { return m_lsb; }
+
+	private:
+
+		uint32_t					m_msb;
+		uint32_t					m_lsb;
+};
+
+} /* namespace psi */
+
+#endif /* INCLUDED_INT_TYPE_H */

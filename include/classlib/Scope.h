@@ -13,7 +13,7 @@
 
 namespace psi {
 
-class BaseItemImpl;
+class BaseItemImp;
 class ScopeImpl;
 class Scope {
 public:

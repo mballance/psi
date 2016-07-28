@@ -1,5 +1,5 @@
 /*
- * BitTypeImpl.cpp
+ * BitTypeImp.cpp
  *
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -23,54 +23,54 @@
  *      Author: ballance
  */
 
-#include "BitTypeImpl.h"
+#include "BitTypeImp.h"
 
 namespace psi {
 
 BitType::BitType(
 		BaseItem				*p,
 		uint32_t				msb,
-		uint32_t				lsb) : BaseItem(new BitTypeImpl(this, p, msb, lsb)) { }
+		uint32_t				lsb) : BaseItem(new BitTypeImp(this, p, msb, lsb)) { }
 
-BitTypeImpl::BitTypeImpl(
+BitTypeImp::BitTypeImp(
 		BitType					*master,
 		BaseItem				*p,
 		uint32_t				msb,
 		uint32_t				lsb) :
-	NamedBaseItemImpl(master, BaseItemImpl::TypeBit, p), m_msb(msb), m_lsb(lsb) { }
+	NamedBaseItemImp(master, BaseItemImp::TypeBit, p), m_msb(msb), m_lsb(lsb) { }
 
 BitType::BitType(
 		const std::string		&name,
 		uint32_t				msb,
-		uint32_t				lsb) : BaseItem(new BitTypeImpl(this, name, msb, lsb)) { }
+		uint32_t				lsb) : BaseItem(new BitTypeImp(this, name, msb, lsb)) { }
 
-BitTypeImpl::BitTypeImpl(
+BitTypeImp::BitTypeImp(
 		BitType					*master,
 		const std::string		&name,
 		uint32_t				msb,
-		uint32_t				lsb) : NamedBaseItemImpl(
-				master, BaseItemImpl::TypeBit, 0, name), m_msb(msb), m_lsb(lsb) {
+		uint32_t				lsb) : NamedBaseItemImp(
+				master, BaseItemImp::TypeBit, 0, name), m_msb(msb), m_lsb(lsb) {
 }
 
-BitTypeImpl::~BitTypeImpl() {
+BitTypeImp::~BitTypeImp() {
 	// TODO Auto-generated destructor stub
 }
 
-uint64_t BitTypeImpl::get() {
+uint64_t BitTypeImp::get() {
 	// TODO:
 	return 0;
 }
 
 uint64_t BitType::get() {
-	return static_cast<BitTypeImpl *>(impl())->get();
+	return static_cast<BitTypeImp *>(impl())->get();
 }
 
-void BitTypeImpl::set(uint64_t v) {
+void BitTypeImp::set(uint64_t v) {
 	// TODO:
 }
 
 void BitType::set(uint64_t v) {
-	static_cast<BitTypeImpl *>(impl())->set();
+	static_cast<BitTypeImp *>(impl())->set();
 }
 
 } /* namespace psi */

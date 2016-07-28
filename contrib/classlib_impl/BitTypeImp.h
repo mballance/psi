@@ -1,5 +1,6 @@
 /*
- * ChandleImpl.h
+ * BitTypeImp.h
+ *
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,26 +19,41 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 29, 2016
+ *  Created on: Apr 23, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_CHANDLE_IMPL_H
-#define INCLUDED_CHANDLE_IMPL_H
-#include "classlib/Chandle.h"
+#ifndef INCLUDED_BIT_TYPE_IMP_H
+#define INCLUDED_BIT_TYPE_IMP_H
+#include <stdint.h>
+#include <string>
+
+#include "classlib/BitType.h"
 #include "NamedBaseItemImp.h"
+
 
 namespace psi {
 
-class ChandleImpl : public NamedBaseItemImp {
+class BitTypeImp : public NamedBaseItemImp {
 
 	public:
+		BitTypeImp(
+				BitType				*master,
+				BaseItem 			*p,
+				uint32_t			msb,
+				uint32_t			lsb);
 
-		ChandleImpl(Chandle *master, BaseItem *p);
+		BitTypeImp(
+				BitType				*master,
+				const std::string	&name,
+				uint32_t			msb,
+				uint32_t			lsb);
 
-		ChandleImpl(Chandle *master, const std::string &name);
+		virtual ~BitTypeImp();
 
-		virtual ~ChandleImpl();
+		uint32_t getMsb() const { return m_msb; }
+
+		uint32_t getLsb() const { return m_lsb; }
 
 		/**
 		 * The get method returns the solve-time value of this
@@ -45,7 +61,7 @@ class ChandleImpl : public NamedBaseItemImp {
 		 * on fields of this type, and only from within an
 		 * inline-exec callback.
 		 */
-		void *get();
+		uint64_t get();
 
 		/**
 		 * The set method sets the value of this data field.
@@ -53,9 +69,16 @@ class ChandleImpl : public NamedBaseItemImp {
 		 * of this type, and only from within an
 		 * inline-exec callback.
 		 */
-		void set(void *v);
+		void set(uint64_t v);
+
+	private:
+
+		uint32_t				m_msb;
+		uint32_t				m_lsb;
+
 };
+
 
 } /* namespace psi */
 
-#endif /* SRC_CLASSLIB_CHANDLE_H_ */
+#endif /* INCLUDED_BIT_TYPE_IMPL_H */

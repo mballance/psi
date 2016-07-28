@@ -22,15 +22,15 @@
  *      Author: ballance
  */
 
-#ifndef INTTYPE_H_
-#define INTTYPE_H_
+#ifndef INCLUDED_INT_TYPE_H
+#define INCLUDED_INT_TYPE_H
 #include <string>
 
-#include "classlib/NamedBaseItem.h"
+#include "classlib/BaseItem.h"
 
 namespace psi {
 
-class IntType : public NamedBaseItem {
+class IntType : public BaseItem {
 
 	public:
 		IntType(
@@ -45,16 +45,8 @@ class IntType : public NamedBaseItem {
 
 		virtual ~IntType();
 
-		uint32_t getMsb() const { return m_msb; }
-
-		uint32_t getLsb() const { return m_lsb; }
-
-	private:
-
-		uint32_t					m_msb;
-		uint32_t					m_lsb;
 };
 
 } /* namespace psi */
 
-#endif /* INTTYPE_H_ */
+#endif /* INCLUDED_INT_TYPE_H */

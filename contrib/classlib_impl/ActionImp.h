@@ -1,6 +1,5 @@
 /*
- * BoolImpl.cpp
- *
+ * ActionImp.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,47 +18,54 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 28, 2016
+ *  Created on: Apr 23, 2016
  *      Author: ballance
  */
 
-#include "BoolImpl.h"
+#ifndef INCLUDED_ACTION_IMP_H
+#define INCLUDED_ACTION_IMP_H
+#include <string>
+
+#include "classlib/Action.h"
+#include "NamedBaseItemImp.h"
+#include "ScopeImpl.h"
+#include "TypePathImpl.h"
+
+namespace psi_api {
+	class IObjectContext;
+	class IBaseItem;
+	struct psshandle_t;
+}
+
+using namespace psi_api;
 
 namespace psi {
 
-Bool::Bool(const BaseItem *p) : BaseItem(new BoolImpl(this, p)) { }
+class ElaboratorImpl;
+class ActionImp : public NamedBaseItemImp {
+friend ElaboratorImpl;
+public:
 
-BoolImpl::BoolImpl(Bool *master, BaseItem *p) :
-		NamedBaseItemImpl(master, BaseItemImpl::TypeBool, p) { }
+		ActionImp(Action *master, const Scope &p);
 
-Bool::Bool(const std::string &name) : BaseItem(new BoolImpl(this, name)) { }
+		virtual ~ActionImp();
 
-BoolImpl::BoolImpl(Bool *master, const std::string &name) :
-		NamedBaseItemImpl(master, BaseItem::TypeBool, 0, name) { }
+		const TypePathImpl &getSuperType() const { return m_super_type; }
 
-Bool::~Bool() {
+	private:
 
-}
+		virtual void inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl);
 
-BoolImpl::~BoolImpl() {
-	// TODO Auto-generated destructor stub
-}
+		virtual void inline_exec_post();
 
-bool Bool::get() {
-	return static_cast<BoolImpl *>(impl())->get();
-}
 
-bool BoolImpl::get() {
-	// TODO:
-	return false;
-}
+	private:
+		TypePathImpl						m_super_type;
+		IObjectContext						*m_ctxt;
+		psshandle_t							*m_hndl;
 
-void Bool::set(bool v) {
-	static_cast<BoolImpl *>(impl())->set();
-}
-
-void BoolImpl::set(bool v) {
-	// TODO:
-}
+};
 
 } /* namespace psi */
+
+#endif /* INCLUDED_ACTION_H */

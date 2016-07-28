@@ -22,9 +22,9 @@
  *      Author: ballance
  */
 
-#ifndef SRC_CLASSLIB_EXPRCORE_H_
-#define SRC_CLASSLIB_EXPRCORE_H_
-#include "classlib/Expr.h"
+#ifndef INCLUDED_EXPR_CORE_H
+#define INCLUDED_EXPR_CORE_H
+#include "ExprImp.h"
 #include "classlib/BaseItem.h"
 
 namespace psi {
@@ -42,15 +42,15 @@ class ExprCore {
 
 		ExprCore(const BaseItem &t);
 
-		ExprCore(Expr::Operator op, const Expr &lhs, const Expr &rhs);
+		ExprCore(ExprImp::Operator op, const Expr &lhs, const Expr &rhs);
 
 		ExprCore(Import &import, const Expr &params);
 
-		ExprCore(Expr::Operator op);
+		ExprCore(ExprImp::Operator op);
 
 		virtual ~ExprCore();
 
-		Expr::Operator getOp() const { return m_op; }
+		ExprImp::Operator getOp() const { return m_op; }
 
 		ExprCore *getLhsPtr() const { return m_lhs.getCorePtr(); }
 
@@ -69,13 +69,13 @@ class ExprCore {
 				int64_t				ll;
 				uint32_t			ui;
 				int32_t				i;
-				BaseItem				*ref;
+				BaseItem			*ref;
 			} 						m_val;
 
-			Expr::Operator			m_op;
+			ExprImp::Operator		m_op;
 
-			Expr					m_lhs;
-			Expr					m_rhs;
+			ExprImp					m_lhs;
+			ExprImp					m_rhs;
 
 };
 

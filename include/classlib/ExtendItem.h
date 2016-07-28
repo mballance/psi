@@ -15,17 +15,12 @@ namespace psi {
 
 class ExtendItem: public BaseItem {
 public:
-	ExtendItem(const Scope &p, BaseItem::ObjectType t);
+	ExtendItem(BaseItem *p);
 
 	virtual ~ExtendItem();
 
-	void setDataType(BaseItem *dt) { m_data_type = dt; }
+	void setDataType(BaseItem *dt);
 
-	BaseItem *getDataType() const { return m_data_type; }
-
-private:
-
-	BaseItem				*m_data_type;
 };
 
 } /* namespace psi */

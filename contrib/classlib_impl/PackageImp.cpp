@@ -34,7 +34,7 @@ Package::Package(const Scope &p) :
 		BaseItem(new PackageImp(this, p.impl())) { }
 
 PackageImp::PackageImp(Package *master, ScopeImpl *p) :
-		NamedBaseItemImpl(master, BaseItemImpl::TypePackage, p->parent()) {
+		NamedBaseItemImp(master, BaseItemImp::TypePackage, p->parent()) {
 	TypePathImpl type = ModelImpl::global()->getActiveTypeName(this);
 	setName(type.leaf());
 }

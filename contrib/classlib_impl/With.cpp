@@ -7,7 +7,7 @@
 
 #include "classlib/With.h"
 #include "classlib/FieldItem.h"
-#include "classlib/ExprCore.h"
+#include "ExprCore.h"
 
 namespace psi {
 

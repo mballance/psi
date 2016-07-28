@@ -33,7 +33,6 @@ namespace psi {
 
 class Action : public BaseItem {
 public:
-	friend ActionImpl;
 
 		Action(const Scope &p);
 

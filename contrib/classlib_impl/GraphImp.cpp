@@ -1,5 +1,5 @@
 /*
- * ActionImpl.cpp
+ * Graph.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,56 +22,24 @@
  *      Author: ballance
  */
 
-#include <stdio.h>
-
-#include "classlib/Action.h"
-#include "ActionImpl.h"
-#include "ModelImpl.h"
+#include "GraphImp.h"
 
 namespace psi {
 
-Action::Action(const Scope	&p) {
-	m_impl = new ActionImpl(this, p);
-}
-
-ActionImpl::ActionImpl(Action *master, const Scope &p) : NamedBaseItemImpl(
-		master, BaseItemImpl::TypeAction, p.impl()->parent()), m_master(master) {
-	m_super_type = ModelImpl::global()->getSuperType(this);
-	m_ctxt = 0;
-	m_hndl = 0;
-
-	// TODO: need to deal with named scopes
-	TypePathImpl type = ModelImpl::global()->getActiveTypeName(this);
-	setName(type.leaf());
-}
-
-Action::~Action() {
-	delete m_impl;
-}
-
-ActionImpl::~ActionImpl() {
-}
-
-void Action::pre_solve() {
+Graph::Graph(BaseItem *p, const ExprList &seq) :
+		BaseItem(new GraphImp(this, p, seq)) {
 
 }
 
-void Action::post_solve() {
+GraphImp::GraphImp(Graph *master, BaseItem *p, const ExprList &seq) :
+		BaseItemImp(master, BaseItemImp::TypeGraph, (p)?p->impl():0), m_seq(seq) { }
 
+Graph::~Graph() {
+	// TODO Auto-generated destructor stub
 }
 
-void Action::body() {
-
-}
-
-void ActionImpl::inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl) {
-	m_ctxt = ctxt;
-	m_hndl = hndl;
-}
-
-void ActionImpl::inline_exec_post() {
-	m_ctxt = 0;
-	m_hndl = 0;
+GraphImp::~GraphImp() {
+	// TODO Auto-generated destructor stub
 }
 
 } /* namespace psi */

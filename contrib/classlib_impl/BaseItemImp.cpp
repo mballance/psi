@@ -24,20 +24,21 @@
  */
 
 #include "classlib/BaseItem.h"
-#include "BaseItemImpl.h"
-#include "NamedBaseItemImpl.h"
+#include "BaseItemImp.h"
+#include "NamedBaseItemImp.h"
 #include "classlib/Model.h"
 
 #include <stdio.h>
-#include "classlib/ExprCore.h"
+
+#include "ExprCore.h"
 
 namespace psi {
 
-BaseItem::BaseItem(BaseItemImpl *impl) {
+BaseItem::BaseItem(BaseItemImp *impl) {
 	m_impl = impl;
 }
 
-BaseItemImpl::BaseItemImpl(BaseItem *master, ObjectType t, BaseItemImpl *p) :
+BaseItemImp::BaseItemImp(BaseItem *master, ObjectType t, BaseItemImp *p) :
 		m_master(master), m_type(t), m_parent(p) {
 
 	if (p) {
@@ -49,8 +50,12 @@ BaseItem::~BaseItem() {
 	delete m_impl;
 }
 
-BaseItemImpl::~BaseItemImpl() {
+BaseItemImp::~BaseItemImp() {
 	// TODO Auto-generated destructor stub
+}
+
+BaseItemImp *BaseItemImp::toImp(BaseItem *i) {
+	return (i)?i->impl():0;
 }
 
 Expr BaseItem::operator [] (const Expr &rhs) {
@@ -61,7 +66,7 @@ ExprListBuilder BaseItem::operator,(const BaseItem &rhs) {
 	return ExprListBuilder(*this, rhs);
 }
 
-void BaseItemImpl::add(BaseItemImpl *item) {
+void BaseItemImp::add(BaseItemImp *item) {
 //	NamedBaseItem *ni_t = NamedBaseItem::to(this);
 //	NamedBaseItem *ni_it = NamedBaseItem::to(item);
 //
@@ -73,15 +78,15 @@ void BaseItemImpl::add(BaseItemImpl *item) {
 	m_children.push_back(item);
 }
 
-void BaseItemImpl::setObjectType(ObjectType t) {
+void BaseItemImp::setObjectType(ObjectType t) {
 	m_type = t;
 }
 
-const std::vector<BaseItemImpl *> &BaseItemImpl::getChildren() const {
+const std::vector<BaseItemImp *> &BaseItemImp::getChildren() const {
 	return m_children;
 }
 
-const char *BaseItemImpl::toString(ObjectType t) {
+const char *BaseItemImp::toString(ObjectType t) {
 	switch (t) {
 		case TypeAction: return "TypeAction";
 		case TypeBind: return "TypeBind";

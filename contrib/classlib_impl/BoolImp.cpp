@@ -1,5 +1,6 @@
 /*
- * ChandleImpl.h
+ * BoolImp.cpp
+ *
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,44 +19,47 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 29, 2016
+ *  Created on: Apr 28, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_CHANDLE_IMPL_H
-#define INCLUDED_CHANDLE_IMPL_H
-#include "classlib/Chandle.h"
-#include "NamedBaseItemImp.h"
+#include "BoolImp.h"
 
 namespace psi {
 
-class ChandleImpl : public NamedBaseItemImp {
+Bool::Bool(const BaseItem *p) : BaseItem(new BoolImp(this, p)) { }
 
-	public:
+BoolImp::BoolImp(Bool *master, BaseItem *p) :
+		NamedBaseItemImp(master, BaseItemImp::TypeBool, p) { }
 
-		ChandleImpl(Chandle *master, BaseItem *p);
+Bool::Bool(const std::string &name) : BaseItem(new BoolImp(this, name)) { }
 
-		ChandleImpl(Chandle *master, const std::string &name);
+BoolImp::BoolImp(Bool *master, const std::string &name) :
+		NamedBaseItemImp(master, BaseItem::TypeBool, 0, name) { }
 
-		virtual ~ChandleImpl();
+Bool::~Bool() {
 
-		/**
-		 * The get method returns the solve-time value of this
-		 * data field. Calling this method is only valid
-		 * on fields of this type, and only from within an
-		 * inline-exec callback.
-		 */
-		void *get();
+}
 
-		/**
-		 * The set method sets the value of this data field.
-		 * Calling this method is only valid on fields
-		 * of this type, and only from within an
-		 * inline-exec callback.
-		 */
-		void set(void *v);
-};
+BoolImp::~BoolImp() {
+	// TODO Auto-generated destructor stub
+}
+
+bool Bool::get() {
+	return static_cast<BoolImp *>(impl())->get();
+}
+
+bool BoolImp::get() {
+	// TODO:
+	return false;
+}
+
+void Bool::set(bool v) {
+	static_cast<BoolImp *>(impl())->set();
+}
+
+void BoolImp::set(bool v) {
+	// TODO:
+}
 
 } /* namespace psi */
-
-#endif /* SRC_CLASSLIB_CHANDLE_H_ */

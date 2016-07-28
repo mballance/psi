@@ -5,15 +5,14 @@
  *      Author: ballance
  */
 
-#ifndef SRC_PSI_CLASSLIB_FIELDITEM_H_
-#define SRC_PSI_CLASSLIB_FIELDITEM_H_
+#ifndef INCLUDED_FIELD_ITEM_H
+#define INCLUDED_FIELD_ITEM_H
 #include <string>
-#include "classlib/NamedBaseItem.h"
-#include "classlib/Scope.h"
+#include "classlib/BaseItem.h"
 
 namespace psi {
 
-class FieldItem: public NamedBaseItem {
+class FieldItem: public BaseItem {
 public:
 	enum FieldAttr {
 		AttrNone = 0,
@@ -26,29 +25,16 @@ public:
 	};
 
 public:
-	FieldItem(BaseItem *p, const std::string &name);
+	FieldItem(BaseItem *p, const std::string &name, FieldAttr attr);
 
 	virtual ~FieldItem();
 
-	BaseItem *getDataType() const { return m_data_type; }
+	void setDataType(BaseItem *dt);
 
-	void setDataType(BaseItem *dt) { m_data_type = dt; }
-
-	FieldAttr getAttr() const { return m_attr; }
-
-	void setAttr(FieldAttr attr) { m_attr = attr; }
-
-	void setInternal(bool i) { m_internal = i; }
-
-	bool isInternal() const { return m_internal; }
-
-private:
-	BaseItem				*m_data_type;
-	FieldAttr				m_attr;
-	bool					m_internal;
+	void setInternal(bool i);
 
 };
 
 } /* namespace psi */
 
-#endif /* SRC_PSI_CLASSLIB_FIELDITEM_H_ */
+#endif /* INCLUDED_FIELD_ITEM_H */

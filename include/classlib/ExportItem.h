@@ -22,8 +22,8 @@
  *      Author: ballance
  */
 
-#ifndef SRC_PSI_CLASSLIB_EXPORTACTION_H_
-#define SRC_PSI_CLASSLIB_EXPORTACTION_H_
+#ifndef INCLUDED_EXPORT_ITEM_H
+#define INCLUDED_EXPORT_ITEM_H
 
 #include "classlib/BaseItem.h"
 #include "classlib/Types.h"
@@ -40,16 +40,8 @@ public:
 
 	virtual ~ExportItem();
 
-	void setDataType(BaseItem *t) { m_data_type = t; }
+	void setDataType(BaseItem *t);
 
-	BaseItem *getDataType() const { return m_data_type; }
-
-protected:
-
-
-private:
-	BaseItem				*m_data_type;
-	ExprList				m_exp_params;
 };
 
 }

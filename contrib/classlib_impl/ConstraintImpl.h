@@ -27,11 +27,11 @@
 #include <string>
 
 #include "classlib/Constraint.h"
-#include "NamedBaseItemImpl.h"
+#include "NamedBaseItemImp.h"
 
 namespace psi {
 
-class ConstraintImpl : public NamedBaseItemImpl {
+class ConstraintImpl : public NamedBaseItemImp {
 public:
 	ConstraintImpl(Constraint *master, BaseItem *p, const ExprList &stmt);
 

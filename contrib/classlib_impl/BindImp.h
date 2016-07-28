@@ -1,25 +1,25 @@
 /*
- * BindImpl.h
+ * BindImp.h
  *
  *  Created on: May 10, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_BIND_IMPL_H
-#define INCLUDED_BIND_IMPL_H
+#ifndef INCLUDED_BIND_IMP_H
+#define INCLUDED_BIND_IMP_H
 #include <vector>
 #include <functional>
-#include "BaseItemImpl.h"
+#include "BaseItemImp.h"
 #include "classlib/Bind.h"
 
 namespace psi {
 
-class BindImpl: public BaseItemImpl {
+class BindImp: public BaseItemImp {
 public:
 
-	BindImpl(Bind *master, BaseItemImpl *p);
+	BindImp(Bind *master, BaseItemImp *p);
 
-	virtual ~BindImpl();
+	virtual ~BindImp();
 
 protected:
 

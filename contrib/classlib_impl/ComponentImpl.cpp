@@ -32,7 +32,7 @@ Component::Component(const Scope &p) : BaseItem(new ComponentImpl(this, p.impl()
 }
 
 ComponentImpl::ComponentImpl(Component *master, ScopeImpl *p) :
-		NamedBaseItem(master, BaseItemImpl::TypeComponent, p->parent()) {
+		NamedBaseItem(master, BaseItemImp::TypeComponent, p->parent()) {
 	setName(ModelImpl::global()->getActiveTypeName(this).leaf());
 	m_super_type = ModelImpl::global()->getSuperType(this);
 }

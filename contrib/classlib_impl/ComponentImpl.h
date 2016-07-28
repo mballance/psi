@@ -26,12 +26,12 @@
 #define INCLUDED_COMPONENT_H
 #include <string>
 
-#include "NamedBaseItemImpl.h"
+#include "NamedBaseItemImp.h"
 #include "classlib/Component.h"
 
 namespace psi {
 
-class ComponentImpl : public NamedBaseItemImpl {
+class ComponentImpl : public NamedBaseItemImp {
 
 	public:
 		ComponentImpl(Component *master, ScopeImpl *p);

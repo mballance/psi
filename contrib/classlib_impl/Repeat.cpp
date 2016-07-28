@@ -23,7 +23,8 @@
  */
 
 #include "classlib/Repeat.h"
-#include "classlib/ExprCore.h"
+
+#include "ExprCore.h"
 
 namespace psi {
 

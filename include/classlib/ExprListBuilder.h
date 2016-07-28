@@ -8,9 +8,10 @@
 #ifndef SRC_PSI_CLASSLIB_EXPRLISTBUILDER_H_
 #define SRC_PSI_CLASSLIB_EXPRLISTBUILDER_H_
 #include <vector>
+
+#include "../../contrib/classlib_impl/ExprCore.h"
 #include "classlib/Types.h"
 #include "classlib/SharedPtr.h"
-#include "classlib/ExprCore.h"
 
 namespace psi {
 

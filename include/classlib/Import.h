@@ -22,17 +22,17 @@
  *      Author: ballance
  */
 
-#ifndef SRC_CLASSLIB_IMPORT_H_
-#define SRC_CLASSLIB_IMPORT_H_
+#ifndef INCLUDED_IMPORT_H
+#define INCLUDED_IMPORT_H
 #include <string>
 
 #include "classlib/Expr.h"
-#include "classlib/NamedBaseItem.h"
+#include "classlib/BaseItem.h"
 #include "classlib/ExprImportCall.h"
 
 namespace psi {
 
-class Import : public NamedBaseItem {
+class Import : public BaseItem {
 
 	public:
 

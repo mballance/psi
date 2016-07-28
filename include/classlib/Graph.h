@@ -22,8 +22,8 @@
  *      Author: ballance
  */
 
-#ifndef GRAPH_H_
-#define GRAPH_H_
+#ifndef INCLUDED_GRAPH_H
+#define INCLUDED_GRAPH_H
 #include "classlib/BaseItem.h"
 #include "classlib/ExprList.h"
 
@@ -36,10 +36,6 @@ class Graph : public BaseItem {
 
 		virtual ~Graph();
 
-		ExprList &getSequence() { return m_seq; }
-
-	private:
-		ExprList				m_seq;
 };
 
 } /* namespace psi */

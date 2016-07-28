@@ -23,12 +23,11 @@
  *      Author: ballance
  */
 
-#ifndef SRC_RAND_H_
-#define SRC_RAND_H_
+#ifndef INCLUDED_RAND_H
+#define INCLUDED_RAND_H
 #include <string>
 
 #include "classlib/FieldBase.h"
-#include "classlib/TypeDecl.h"
 
 namespace psi {
 
@@ -44,4 +43,4 @@ template <class T> class Rand : public FieldBase<T> {
 
 } /* namespace psi */
 
-#endif /* SRC_RAND_H_ */
+#endif /* INCLUDED_RAND_H */

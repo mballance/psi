@@ -29,14 +29,14 @@
 #include <string>
 #include <vector>
 
-#include "BaseItemImpl.h"
+#include "BaseItemImp.h"
 #include "TypePathImpl.h"
 
 namespace psi {
 
 class PackageImpl;
 class ScopeImpl;
-class ModelImpl : public BaseItemImpl {
+class ModelImpl : public BaseItemImp {
 	friend class PackageImpl;
 
 	public:
@@ -52,11 +52,11 @@ class ModelImpl : public BaseItemImpl {
 
 		const std::vector<const ScopeImpl *> &get_scope() const;
 
-		TypePathImpl getActiveTypeName(BaseItemImpl *it);
+		TypePathImpl getActiveTypeName(BaseItemImp *it);
 
-		TypePathImpl getSuperType(BaseItemImpl *it);
+		TypePathImpl getSuperType(BaseItemImp *it);
 
-		BaseItemImpl *getActiveScope();
+		BaseItemImp *getActiveScope();
 
 		bool in_field_decl() const { return m_in_field_decl; }
 
@@ -64,7 +64,7 @@ class ModelImpl : public BaseItemImpl {
 
 	private:
 		std::vector<const ScopeImpl *>		m_scope;
-		BaseItemImpl						*m_last_scope;
+		BaseItemImp						*m_last_scope;
 		bool								m_in_field_decl;
 
 		static ModelImpl					*m_global;

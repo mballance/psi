@@ -1,5 +1,5 @@
 /*
- * Import.cpp
+ * IntType.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,35 +18,43 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 29, 2016
+ *  Created on: Apr 24, 2016
  *      Author: ballance
  */
 
-#include "classlib/Import.h"
-
-#include "classlib/ExprList.h"
-
+#include "classlib/IntType.h"
 
 namespace psi {
 
-Import::Import(BaseItem *p, const std::string &name, const ExprList &plist) :
-	NamedBaseItem(BaseItem::TypeImport, p, name){
+IntType::IntType(
+		BaseItem 			*p,
+		uint32_t			msb,
+		uint32_t			lsb) :
+	BaseItem(new IntTypeImp(this, p, msb, lsb)) { }
+
+IntTypeImp::IntTypeImp(
+		IntType				*master,
+		BaseItem 			*p,
+		uint32_t			msb,
+		uint32_t			lsb) :
+	NamedBaseItemImp(master, BaseItemImp::TypeInt, p), m_msb(msb), m_lsb(lsb) { }
+
+IntType::IntType(
+		const std::string	&name,
+		uint32_t			msb,
+		uint32_t			lsb) :
+	BaseItem(new IntTypeImp(this, name, msb, lsb)) { }
+
+IntTypeImp::IntTypeImp(
+		IntType				*master,
+		const std::string	&name,
+		uint32_t			msb,
+		uint32_t			lsb) :
+	NamedBaseItemImp(master, BaseItemImp::TypeInt, 0, name), m_msb(msb), m_lsb(lsb) {
 }
 
-Import::Import(BaseItem *p, const std::string &name,
-		const BaseItem &ret, const ExprList &plist) :
-	NamedBaseItem(BaseItem::TypeImport, p, name) { }
+IntType::~IntType() { }
 
-Import::~Import() {
-	// TODO Auto-generated destructor stub
-}
-
-ExprImportCall Import::operator()(const ExprList &plist) {
-	return ExprImportCall(*this, plist);
-}
-
-ExprImportCall Import::operator()() {
-	return ExprImportCall(*this, ExprList());
-}
+IntTypeImp::~IntTypeImp() { }
 
 } /* namespace psi */

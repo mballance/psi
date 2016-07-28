@@ -1,5 +1,5 @@
 /*
- * ChandleImpl.h
+ * MemoryStruct.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,44 +18,32 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 29, 2016
+ *  Created on: Apr 23, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_CHANDLE_IMPL_H
-#define INCLUDED_CHANDLE_IMPL_H
-#include "classlib/Chandle.h"
-#include "NamedBaseItemImp.h"
+#ifndef INCLUDED_MEMORY_STRUCT_IMP_H
+#define INCLUDED_MEMORY_STRUCT_IMP_H
+
+#include "classlib/MemoryStruct.h"
+#include "StructImp.h"
 
 namespace psi {
 
-class ChandleImpl : public NamedBaseItemImp {
+
+class MemoryStructImp: public StructImp {
 
 	public:
+		MemoryStructImp(
+				MemoryStruct		*master,
+				ScopeImpl			*p);
 
-		ChandleImpl(Chandle *master, BaseItem *p);
+		virtual ~MemoryStructImp();
 
-		ChandleImpl(Chandle *master, const std::string &name);
+	private:
 
-		virtual ~ChandleImpl();
-
-		/**
-		 * The get method returns the solve-time value of this
-		 * data field. Calling this method is only valid
-		 * on fields of this type, and only from within an
-		 * inline-exec callback.
-		 */
-		void *get();
-
-		/**
-		 * The set method sets the value of this data field.
-		 * Calling this method is only valid on fields
-		 * of this type, and only from within an
-		 * inline-exec callback.
-		 */
-		void set(void *v);
 };
 
 } /* namespace psi */
 
-#endif /* SRC_CLASSLIB_CHANDLE_H_ */
+#endif /* MEMORYSTRUCT_H_ */

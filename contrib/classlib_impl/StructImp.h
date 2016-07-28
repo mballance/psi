@@ -1,5 +1,6 @@
 /*
- * BoolImpl.h
+ * Struct.h
+ *
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,51 +19,50 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 28, 2016
+ *  Created on: Apr 23, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_BOOL_IMPL_H
-#define INCLUDED_BOOL_IMPL_H
-
+#ifndef INCLUDED_STRUCT_IMP_H
+#define INCLUDED_STRUCT_IMP_H
 #include <string>
 
-#include "NamedBaseItemImpl.h"
-#include "classlib/Bool.h"
+#include "classlib/Struct.h"
+#include "NamedBaseItemImp.h"
+#include "TypePathImpl.h"
 
 namespace psi {
 
-class BoolImpl: public NamedBaseItemImpl {
+class StructImp : public NamedBaseItemImp {
+public:
 
-	public:
-		BoolImpl(Bool *master, BaseItem *p);
+	enum StructType {
+		Base,
+		Memory,
+		State,
+		Stream,
+		Resource
+	};
 
-		/**
-		 * This constructor is used for composing parameter lists.
-		 * The name is that of the parameter
-		 */
-		BoolImpl(const std::string &name);
+public:
 
-		virtual ~BoolImpl();
+	virtual ~StructImp();
 
-		/**
-		 * The get method returns the solve-time value of this
-		 * data field. Calling this method is only valid on
-		 * fields of this type, and from within an inline-exec callback
-		 */
-		bool get();
+	const TypePathImpl &getSuperType() const;
 
-		/**
-		 * The set method sets the value of this data field.
-		 * Calling this method is only valid on fields
-		 * of this type, and only from within an
-		 * inline-exec callback.
-		 */
-		void set(bool v);
+	StructType getStructType() const;
+
+protected:
+
+	StructImp(Struct *master, ScopeImpl *p, StructType t=Base);
+
+private:
+
+	StructType				m_struct_type;
+	TypePathImpl			m_super_type;
 
 };
 
 } /* namespace psi */
 
-#endif /* INCLUDED_BOOL_IMPL_H */
-
+#endif /* INCLUDED_STRUCT_IMP_H */

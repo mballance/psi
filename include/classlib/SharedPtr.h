@@ -53,7 +53,7 @@ public:
 		}
 	}
 
-	~SharedPtr() {
+	virtual ~SharedPtr() {
 		if (m_ptr) {
 			(*m_count)--;
 			if (*m_count == 0) {

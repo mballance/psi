@@ -22,8 +22,8 @@
  *      Author: ballance
  */
 
-#ifndef MEMORYSTRUCT_H_
-#define MEMORYSTRUCT_H_
+#ifndef INCLUDED_MEMORY_STRUCT_H
+#define INCLUDED_MEMORY_STRUCT_H
 
 #include "classlib/Struct.h"
 

@@ -35,7 +35,7 @@
 
 namespace psi {
 
-class BaseItemImpl;
+class BaseItemImp;
 class BaseItem {
 public:
 
@@ -49,14 +49,16 @@ public:
 
 	virtual ~BaseItem();
 
-	BaseItemImpl *impl() const;
+	BaseItemImp *impl() const;
 
 protected:
 
-		BaseItem(BaseItemImpl *impl);
+		BaseItem(BaseItemImp *impl);
+
+		void setParent(BaseItem *p);
 
 protected:
-		BaseItemImpl				*m_impl;
+		BaseItemImp				*m_impl;
 
 };
 

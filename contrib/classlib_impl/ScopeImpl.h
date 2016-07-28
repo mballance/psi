@@ -15,22 +15,22 @@
 
 namespace psi {
 
-class BaseItemImpl;
+class BaseItemImp;
 class Scope;
 class ScopeImpl {
 public:
 	ScopeImpl(
 			Scope 				*master,
 			std::type_info 		*type,
-			BaseItemImpl 		*ctxt,
+			BaseItemImp 		*ctxt,
 			bool				in_field_decl,
 			const std::string	&name);
 
 	virtual ~ScopeImpl();
 
-	BaseItemImpl *parent() const;
+	BaseItemImp *parent() const;
 
-	BaseItemImpl *ctxt() const { return m_ctxt; }
+	BaseItemImp *ctxt() const { return m_ctxt; }
 
 	const std::type_info *get_typeinfo() const { return m_type; }
 
@@ -47,7 +47,7 @@ private:
 private:
 	Scope					*m_master;
 	bool					m_in_field_decl;
-	BaseItemImpl			*m_ctxt;
+	BaseItemImp			*m_ctxt;
 	const std::type_info	*m_type;
 	std::string				m_name;
 };

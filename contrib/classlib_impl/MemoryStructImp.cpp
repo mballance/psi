@@ -1,5 +1,5 @@
 /*
- * ChandleImpl.h
+ * MemoryStruct.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,44 +18,28 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 29, 2016
+ *  Created on: Apr 23, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_CHANDLE_IMPL_H
-#define INCLUDED_CHANDLE_IMPL_H
-#include "classlib/Chandle.h"
-#include "NamedBaseItemImp.h"
+#include "MemoryStructImp.h"
 
 namespace psi {
 
-class ChandleImpl : public NamedBaseItemImp {
+MemoryStruct::MemoryStruct(const Scope &p) :
+		Struct(new MemoryStructImp(this, p.impl())) { }
 
-	public:
+MemoryStructImp::MemoryStructImp(
+		MemoryStruct		*master,
+		ScopeImpl			*p) : StructImp(master, p, StructImp::Memory) { }
 
-		ChandleImpl(Chandle *master, BaseItem *p);
+MemoryStruct::~MemoryStruct() {
+	// TODO Auto-generated destructor stub
+}
 
-		ChandleImpl(Chandle *master, const std::string &name);
+MemoryStructImp::~MemoryStructImp() {
+	// TODO Auto-generated destructor stub
+}
 
-		virtual ~ChandleImpl();
-
-		/**
-		 * The get method returns the solve-time value of this
-		 * data field. Calling this method is only valid
-		 * on fields of this type, and only from within an
-		 * inline-exec callback.
-		 */
-		void *get();
-
-		/**
-		 * The set method sets the value of this data field.
-		 * Calling this method is only valid on fields
-		 * of this type, and only from within an
-		 * inline-exec callback.
-		 */
-		void set(void *v);
-};
 
 } /* namespace psi */
-
-#endif /* SRC_CLASSLIB_CHANDLE_H_ */

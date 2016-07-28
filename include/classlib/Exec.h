@@ -44,12 +44,6 @@ class Exec : public BaseItem {
 			PreSolve,
 			PostSolve
 		};
-		enum ExecType {
-			Null,
-			TargetTemplate,
-			Native,
-			Inline
-		};
 
 	public:
 
@@ -85,46 +79,26 @@ class Exec : public BaseItem {
 			const std::vector<BaseItem *>			&write_vars);
 
 #ifdef PSI_HAVE_CXX_11
-		Exec(
-			BaseItem								*p,
-			ExecKind								kind,
-			std::initializer_list<BaseItem>			write_vars) :
-				BaseItem(BaseItem::TypeExec, p),
-				m_execType(Inline),
-				m_execKind(kind) {
-			// TODO: save write variables
-//			std::vector<BaseItem *> ptr_v;
-//
-//			for (std::initializer_list<BaseItem>::const_iterator it=write_vars.begin();
-//					it!=write_vars.end(); it++) {
-//				ptr_v.
-//
-//			}
-		}
+//		Exec(
+//			BaseItem								*p,
+//			ExecKind								kind,
+//			std::initializer_list<BaseItem>			write_vars) :
+//				BaseItem(BaseItem::TypeExec, p),
+//				m_execType(Inline),
+//				m_execKind(kind) {
+//			// TODO: save write variables
+////			std::vector<BaseItem *> ptr_v;
+////
+////			for (std::initializer_list<BaseItem>::const_iterator it=write_vars.begin();
+////					it!=write_vars.end(); it++) {
+////				ptr_v.
+////
+////			}
+//		}
 #endif
 
 		virtual ~Exec();
 
-
-		inline ExecKind getExecKind() const {
-			return m_execKind;
-		}
-
-		inline ExecType getExecType() const {
-			return m_execType;
-		}
-
-		const std::string &getLanguage() const { return m_language; }
-
-		const std::string &getTargetTemplate() const { return m_content; }
-
-	private:
-		ExecType							m_execType;
-		ExecKind							m_execKind;
-
-		std::string							m_language;
-		std::string							m_content;
-		ExprList							m_stmts;
 
 };
 

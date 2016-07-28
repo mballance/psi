@@ -30,13 +30,13 @@ Chandle::Chandle(BaseItem *p) :
 		BaseItem(new ChandleImpl(this, p)) { }
 
 ChandleImpl::ChandleImpl(Chandle *master, BaseItem *p) :
-		NamedBaseItemImpl(master, BaseItemImpl::TypeChandle, p) { }
+		NamedBaseItemImp(master, BaseItemImp::TypeChandle, p) { }
 
 Chandle::Chandle(const std::string &name) :
 		BaseItem(new ChandleImpl(this, name)) { }
 
 ChandleImpl::ChandleImpl(Chandle *master, const std::string &name) :
-		NamedBaseItemImpl(master, BaseItemImpl::TypeChandle, 0, name) { }
+		NamedBaseItemImp(master, BaseItemImp::TypeChandle, 0, name) { }
 
 
 Chandle::~Chandle() {

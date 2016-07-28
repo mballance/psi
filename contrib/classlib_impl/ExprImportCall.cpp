@@ -6,8 +6,8 @@
  */
 
 #include "classlib/ExprImportCall.h"
-#include "classlib/ExprCore.h"
 #include "classlib/Import.h"
+#include "ExprCore.h"
 
 namespace psi {
 

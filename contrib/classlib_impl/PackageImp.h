@@ -27,13 +27,13 @@
 
 #include <string>
 
-#include "NamedBaseItemImpl.h"
+#include "NamedBaseItemImp.h"
 #include "ScopeImpl.h"
 #include "classlib/Package.h"
 
 namespace psi {
 
-class PackageImp : public NamedBaseItemImpl {
+class PackageImp : public NamedBaseItemImp {
 
 	public:
 

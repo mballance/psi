@@ -28,7 +28,7 @@ Scope::~Scope() {
 	delete m_impl;
 }
 
-BaseItemImpl *Scope::parent() const {
+BaseItemImp *Scope::parent() const {
 	const std::vector<const ScopeImpl *> &scope = Model::global()->get_scope();
 
 	// Return the first case where m_parent != this

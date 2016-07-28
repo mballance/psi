@@ -26,7 +26,8 @@
 #define SRC_PSI_CLASSLIB_EXPRCORELIST_H_
 
 #include <vector>
-#include "ExprCore.h"
+
+#include "../../contrib/classlib_impl/ExprCore.h"
 #include "SharedPtr.h"
 
 namespace psi {

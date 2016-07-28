@@ -22,7 +22,8 @@
  *      Author: ballance
  */
 
-#include "classlib/ExprCore.h"
+#include "ExprCore.h"
+
 #include "classlib/Expr.h"
 #include "classlib/Import.h"
 

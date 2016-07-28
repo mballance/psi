@@ -1,6 +1,5 @@
 /*
- * Struct.h
- *
+ * ActionImp.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -23,47 +22,56 @@
  *      Author: ballance
  */
 
-#ifndef INCLUDED_STRUCT_H
-#define INCLUDED_STRUCT_H
-#include <string>
+#include <stdio.h>
 
-#include "classlib/BaseItem.h"
-#include "classlib/Scope.h"
+#include "classlib/Action.h"
+#include "ActionImp.h"
+#include "ModelImpl.h"
 
 namespace psi {
 
-class Struct : public BaseItem {
+Action::Action(const Scope	&p) {
+	m_impl = new ActionImp(this, p);
+}
 
-public:
+ActionImp::ActionImp(Action *master, const Scope &p) : NamedBaseItemImp(
+		master, BaseItemImp::TypeAction, p.impl()->parent()), m_master(master) {
+	m_super_type = ModelImpl::global()->getSuperType(this);
+	m_ctxt = 0;
+	m_hndl = 0;
 
-		virtual ~Struct();
+	// TODO: need to deal with named scopes
+	TypePathImpl type = ModelImpl::global()->getActiveTypeName(this);
+	setName(type.leaf());
+}
 
-	protected:
+Action::~Action() {
+	delete m_impl;
+}
 
-		Struct(const Scope &p);
+ActionImp::~ActionImp() {
+}
 
-		Struct(BaseItemImp *imp);
+void Action::pre_solve() {
 
-		/**
-		 * Solver hook method. Enabled by instantiating an inline Exec block
-		 * for ExecKind::PreSolve
-		 */
-		virtual void pre_solve();
+}
 
-		/**
-		 * Solver hook method. Enabled by instantiating an inline Exec block
-		 * for ExecKind::PostSolve
-		 */
-		virtual void post_solve();
+void Action::post_solve() {
 
-		/**
-		 * Solver hook method. Enabled by instantiating an inline Exec block
-		 * for ExecKind::Body
-		 */
-		virtual void body();
+}
 
-};
+void Action::body() {
+
+}
+
+void ActionImp::inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl) {
+	m_ctxt = ctxt;
+	m_hndl = hndl;
+}
+
+void ActionImp::inline_exec_post() {
+	m_ctxt = 0;
+	m_hndl = 0;
+}
 
 } /* namespace psi */
-
-#endif /* STRUCT_H_ */

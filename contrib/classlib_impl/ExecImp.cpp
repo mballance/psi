@@ -22,53 +22,60 @@
  *      Author: ballance
  */
 
-#include "classlib/Exec.h"
-#include "classlib/ExtendItem.h"
+#include "ExecImp.h"
 
 namespace psi {
-
-//Exec::Exec() : m_execType(Null) { }
 
 Exec::Exec(
 		BaseItem				*p,
 		ExecKind 				kind,
 		const std::string 		&language,
 		const std::string 		&content) :
-			BaseItem(BaseItem::TypeExec, p),
+	BaseItem(new ExecImp(this, p, kind, language, content)) { }
+
+ExecImp::ExecImp(
+		Exec					*master,
+		BaseItem				*p,
+		ExecKind 				kind,
+		const std::string 		&language,
+		const std::string		&content) :
+			BaseItemImp(master, BaseItemImp::TypeExec, p),
 			m_execType(TargetTemplate),
 			m_execKind(kind),
 			m_language(language),
-			m_content(content) {
-}
+			m_content(content) { }
 
 Exec::Exec(
 		ExtendItem				*p,
 		ExecKind 				kind,
 		const std::string 		&language,
 		const std::string 		&content) :
-			BaseItem(BaseItem::TypeExec, p),
+	BaseItem(new ExecImp(this, p, kind, language, content)) { }
+
+ExecImp::ExecImp(
+		Exec					*master,
+		ExtendItem				*p,
+		ExecKind 				kind,
+		const std::string 		&language,
+		const std::string 		&content) :
+			BaseItemImp(master, BaseItemImp::TypeExec, p),
 			m_execType(TargetTemplate),
 			m_execKind(kind),
 			m_language(language),
-			m_content(content) {
-}
+			m_content(content) { }
 
 Exec::Exec(
-		BaseItem					*p,
+		BaseItem				*p,
 		ExecKind 				kind,
 		const ExprList			&stmts) :
-			BaseItem(BaseItem::TypeExec, p),
-			m_execType(Native),
-			m_execKind(kind),
-			m_stmts(stmts) {
-	// TODO: save call information
-}
+			BaseItem(new ExecImp(this, p, kind, stmts)) { }
 
-Exec::Exec(
+ExecImp::ExecImp(
+		Exec					*master,
 		ExtendItem				*p,
 		ExecKind 				kind,
 		const ExprList			&stmts) :
-			BaseItem(BaseItem::TypeExec, p),
+			BaseItemImp(master, BaseItemImp::TypeExec, p),
 			m_execType(Native),
 			m_execKind(kind),
 			m_stmts(stmts) {
@@ -76,16 +83,27 @@ Exec::Exec(
 }
 
 Exec::Exec(
-		BaseItem									*p,
+		BaseItem								*p,
 		ExecKind								kind,
-		const std::vector<BaseItem *>				&write_vars) :
-				BaseItem(BaseItem::TypeExec, p),
+		const std::vector<BaseItem *>			&write_vars) :
+	BaseItem(new ExecImp(this, p, kind, write_vars)) { }
+
+ExecImp::ExecImp(
+		Exec									*master,
+		BaseItem								*p,
+		ExecKind								kind,
+		const std::vector<BaseItem *>			&write_vars) :
+				BaseItemImp(master, BaseItemImp::TypeExec, p),
 				m_execType(Inline),
 				m_execKind(kind) {
-
+	// TODO: save write vars
 }
 
 Exec::~Exec() {
+	// TODO Auto-generated destructor stub
+}
+
+ExecImp::~ExecImp() {
 	// TODO Auto-generated destructor stub
 }
 

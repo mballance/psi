@@ -22,30 +22,35 @@
  *      Author: ballance
  */
 
-#include "classlib/Struct.h"
-#include "classlib/Model.h"
-#include "classlib/Scope.h"
+#include "StructImp.h"
 
 namespace psi {
 
-Struct::Struct(const Scope &p) : NamedBaseItem(BaseItem::TypeStruct, p.parent()),
-				m_structType(Struct::Base) {
-	m_super_type = Model::global()->getSuperType(this);
-	setName(Model::global()->getActiveTypeName(this).leaf());
-	m_ctxt = 0;
-	m_hndl = 0;
-}
+Struct::Struct(const Scope &p) :
+	BaseItem(new StructImp(this, p.impl())) { }
 
-Struct::Struct(Struct::StructType t, BaseItem *p) :
-				NamedBaseItem(BaseItem::TypeStruct, p),
-				m_structType(t) {
-	m_super_type = Model::global()->getSuperType(this);
-	setName(Model::global()->getActiveTypeName(this).leaf());
-	m_ctxt = 0;
-	m_hndl = 0;
+//				m_structType(Struct::Base) {
+//	m_super_type = Model::global()->getSuperType(this);
+//	setName(Model::global()->getActiveTypeName(this).leaf());
+//	m_ctxt = 0;
+//	m_hndl = 0;
+//}
+
+StructImp::StructImp(
+		Struct		*master,
+		ScopeImpl	*p,
+		StructType	t) :
+	NamedBaseItemImp(master, BaseItemImp::TypeStruct, p->parent(), ""),
+	m_struct_type(t) {
+	m_super_type = ModelImpl::global()->getSuperType(this);
+	setName(ModelImpl::global()->getActiveTypeName(this).leaf());
 }
 
 Struct::~Struct() {
+	// TODO Auto-generated destructor stub
+}
+
+StructImp::~StructImp() {
 	// TODO Auto-generated destructor stub
 }
 
@@ -61,15 +66,15 @@ void Struct::body() {
 
 }
 
-void Struct::inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl) {
-	m_ctxt = ctxt;
-	m_hndl = hndl;
-}
-
-void Struct::inline_exec_post() {
-	m_ctxt = 0;
-	m_hndl = 0;
-
-}
+//void Struct::inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl) {
+//	m_ctxt = ctxt;
+//	m_hndl = hndl;
+//}
+//
+//void Struct::inline_exec_post() {
+//	m_ctxt = 0;
+//	m_hndl = 0;
+//
+//}
 
 } /* namespace psi */

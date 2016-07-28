@@ -35,7 +35,7 @@
 
 namespace psi {
 
-ModelImpl::ModelImpl() : BaseItemImpl(0, BaseItemImpl::Model, 0),
+ModelImpl::ModelImpl() : BaseItemImp(0, BaseItemImp::Model, 0),
 		m_last_scope(this), m_in_field_decl(false) { }
 
 ModelImpl::~ModelImpl() {
@@ -85,7 +85,7 @@ const std::vector<const ScopeImpl *> &ModelImpl::get_scope() const {
 	return m_scope;
 }
 
-TypePathImpl ModelImpl::getActiveTypeName(BaseItemImpl *it) {
+TypePathImpl ModelImpl::getActiveTypeName(BaseItemImp *it) {
 	const ScopeImpl *scope = 0;
 //	fprintf(stdout, "--> getActiveTypeName\n");
 	for (int i=m_scope.size()-1; i>=0; i--) {
@@ -112,7 +112,7 @@ TypePathImpl ModelImpl::getActiveTypeName(BaseItemImpl *it) {
 	return TypePathImpl();
 }
 
-TypePathImpl ModelImpl::getSuperType(BaseItemImpl *it) {
+TypePathImpl ModelImpl::getSuperType(BaseItemImp *it) {
 	// Looking for <last+1>
 //	fprintf(stdout, "--> getSuperType\n");
 	int i=0;
@@ -147,7 +147,7 @@ TypePathImpl ModelImpl::getSuperType(BaseItemImpl *it) {
 	return TypePathImpl();
 }
 
-BaseItemImpl *ModelImpl::getActiveScope() {
+BaseItemImp *ModelImpl::getActiveScope() {
 //	fprintf(stdout, "ModelImpl::getActiveScope scope=%d\n",
 //			(m_last_scope)?m_last_scope->getObjectType():-1);
 
@@ -155,7 +155,7 @@ BaseItemImpl *ModelImpl::getActiveScope() {
 		return 0;
 	} else {
 		// Search back until we find something different than 'us'
-		BaseItemImpl *curr = (m_scope.size())?m_scope.at(m_scope.size()-1)->ctxt():0;
+		BaseItemImp *curr = (m_scope.size())?m_scope.at(m_scope.size()-1)->ctxt():0;
 
 		for (int i=m_scope.size()-1; i>=0; i--) {
 			if (m_scope.at(i)->ctxt() != curr) {

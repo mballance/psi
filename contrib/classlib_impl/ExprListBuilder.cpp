@@ -7,8 +7,8 @@
 
 #include "classlib/ExprListBuilder.h"
 #include "classlib/Expr.h"
-#include "classlib/ExprCore.h"
 #include <stdio.h>
+#include "ExprCore.h"
 
 namespace psi {
 

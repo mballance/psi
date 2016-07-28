@@ -24,18 +24,14 @@
 
 #ifndef SRC_CLASSLIB_EXTENDCOMPONENT_H_
 #define SRC_CLASSLIB_EXTENDCOMPONENT_H_
-#include "classlib/BaseItem.h"
-#include "classlib/ExtendItem.h"
-#include "classlib/TypeDecl.h"
+#include "classlib/ExtendBase.h"
 
 namespace psi {
 
-template <class T> class ExtendComponent : public ExtendItem, public T {
+template <class T> class ExtendComponent : public ExtendBase<T> {
 
 	public:
-		ExtendComponent(const Scope &p) : ExtendItem(this, BaseItem::TypeExtendComponent), T(this) {
-			setDataType(TypeDecl<T>::type_id());
-		}
+		ExtendComponent(BaseItem *p) : ExtendBase<T>(p) { }
 
 		virtual ~ExtendComponent() { }
 

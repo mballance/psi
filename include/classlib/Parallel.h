@@ -23,8 +23,8 @@
  *      Author: ballance
  */
 
-#ifndef SRC_PSI_CLASSLIB_PARALLEL_H_
-#define SRC_PSI_CLASSLIB_PARALLEL_H_
+#ifndef INCLUDED_PARALLEL_H
+#define INCLUDED_PARALLEL_H
 
 #include "classlib/Types.h"
 #include "classlib/Expr.h"

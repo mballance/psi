@@ -24,7 +24,7 @@
 
 #ifndef SRC_PSI_CLASSLIB_EXPRCOREIF_H_
 #define SRC_PSI_CLASSLIB_EXPRCOREIF_H_
-#include "classlib/ExprCore.h"
+#include "../../contrib/classlib_impl/ExprCore.h"
 
 namespace psi {
 

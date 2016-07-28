@@ -1,5 +1,5 @@
 /*
- * Exec.h
+ * ExecImp.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,20 +22,17 @@
  *      Author: ballance
  */
 
-#ifndef INCLUDED_EXEC_H
-#define INCLUDED_EXEC_H
+#ifndef INCLUDED_EXEC_IMP_H
+#define INCLUDED_EXEC_IMP_H
 
 #include <string>
 
-#include "classlib/BaseItem.h"
-#include "classlib/Types.h"
+#include "classlib/Exec.h"
+#include "BaseItemImp.h"
 
 namespace psi {
 
-class ImportCall;
-class ExtendItem;
-
-class Exec : public BaseItem {
+class ExecImp : public BaseItemImp {
 
 	public:
 		enum ExecKind {
@@ -53,39 +50,44 @@ class Exec : public BaseItem {
 
 	public:
 
-		Exec(
-			BaseItem								*p,
-			ExecKind 								kind,
-			const std::string 						&language,
-			const std::string 						&content);
+		ExecImp(
+			Exec						*master,
+			BaseItem					*p,
+			ExecKind 					kind,
+			const std::string 			&language,
+			const std::string 			&content);
 
-		Exec(
-			ExtendItem								*p,
-			ExecKind 								kind,
-			const std::string 						&language,
-			const std::string 						&content);
+		ExecImp(
+			Exec						*master,
+			ExtendItem					*p,
+			ExecKind 					kind,
+			const std::string 			&language,
+			const std::string 			&content);
 
-		Exec(
-			BaseItem								*p,
-			ExecKind 								kind,
-			const ExprList							&stmts);
+		ExecImp(
+			Exec						*master,
+			BaseItem					*p,
+			ExecKind 					kind,
+			const ExprList				&stmts);
 
-		Exec(
-			ExtendItem								*p,
-			ExecKind 								kind,
-			const ExprList							&stmts);
+		ExecImp(
+			Exec						*master,
+			ExtendItem					*p,
+			ExecKind 					kind,
+			const ExprList				&stmts);
 
 		/**
 		 * Inline exec block that activates the appropriate
-		 * hook method
+		 * hook method in the containing declaration
 		 */
-		Exec(
-			BaseItem								*p,
-			ExecKind								kind,
-			const std::vector<BaseItem *>			&write_vars);
+		ExecImp(
+			Exec							*master,
+			BaseItem						*p,
+			ExecKind						kind,
+			const std::vector<BaseItem *>	&write_vars);
 
 #ifdef PSI_HAVE_CXX_11
-		Exec(
+		ExecImp(
 			BaseItem								*p,
 			ExecKind								kind,
 			std::initializer_list<BaseItem>			write_vars) :
@@ -103,7 +105,7 @@ class Exec : public BaseItem {
 		}
 #endif
 
-		virtual ~Exec();
+		virtual ~ExecImp();
 
 
 		inline ExecKind getExecKind() const {

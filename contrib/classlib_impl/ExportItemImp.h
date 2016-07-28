@@ -1,5 +1,5 @@
 /*
- * Graph.cpp
+ * ExportItem.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,19 +18,35 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 23, 2016
+ *  Created on: May 10, 2016
  *      Author: ballance
  */
 
-#include "classlib/Graph.h"
+#ifndef INCLUDED_EXPORT_ITEM_IMP_H
+#define INCLUDED_EXPORT_ITEM_IMP_H
+
+#include "classlib/ExportItem.h"
+#include "BaseItemImp.h"
 
 namespace psi {
 
-Graph::Graph(BaseItem *p, const ExprList &seq) :
-		BaseItem(BaseItem::TypeGraph, p), m_seq(seq) { }
+class ExportItemImp : public BaseItemImp {
+public:
+	ExportItemImp(ExportItem *master, BaseItem *p);
 
-Graph::~Graph() {
-	// TODO Auto-generated destructor stub
+	ExportItemImp(ExportItem *master, BaseItem *p, const ExprList &exp_params);
+
+	virtual ~ExportItemImp();
+
+	void setDataType(BaseItem *t);
+
+	BaseItemImp *getDataType() const;
+
+private:
+	BaseItemImp				*m_data_type;
+	ExprList				m_exp_params;
+};
+
 }
 
-} /* namespace psi */
+#endif /* SRC_PSI_CLASSLIB_EXPORTACTION_H_ */

@@ -22,10 +22,9 @@
  *      Author: ballance
  */
 
-#ifndef SRC_CLASSLIB_SHARE_H_
-#define SRC_CLASSLIB_SHARE_H_
+#ifndef INCLUDED_SHARE_H
+#define INCLUDED_SHARE_H
 #include "classlib/FieldBase.h"
-#include "classlib/TypeDecl.h"
 
 namespace psi {
 
@@ -41,4 +40,4 @@ template <class T> class Share : public FieldBase<T> {
 
 } /* namespace psi */
 
-#endif /* SRC_CLASSLIB_SHARE_H_ */
+#endif /* INCLUDED_SHARE_H */

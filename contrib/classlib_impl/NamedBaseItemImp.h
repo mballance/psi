@@ -5,31 +5,31 @@
  *      Author: ballance
  */
 
-#ifndef INCLUDED_NAMED_BASE_ITEM_IMPL_H
-#define INCLUDED_NAMED_BASE_ITEM_IMPL_H
+#ifndef INCLUDED_NAMED_BASE_ITEM_IMP_H
+#define INCLUDED_NAMED_BASE_ITEM_IMP_H
 
 #include <string>
-#include "BaseItemImpl.h"
+#include "BaseItemImp.h"
 
 namespace psi {
 
-class NamedBaseItemImpl : public BaseItemImpl {
+class NamedBaseItemImp : public BaseItemImp {
 public:
-	NamedBaseItemImpl(
+	NamedBaseItemImp(
 			BaseItem 					*master,
-			BaseItemImpl::ObjectType 	t,
-			BaseItemImpl 				*p,
+			BaseItemImp::ObjectType 	t,
+			BaseItemImp 				*p,
 			const std::string 			&name="");
 
-	virtual ~NamedBaseItemImpl();
+	virtual ~NamedBaseItemImp();
 
 	virtual const std::string &getName() const { return m_name; }
 
 	void setName(const std::string &name) { m_name = name; }
 
-	static NamedBaseItemImpl *to(BaseItemImpl *it);
+	static NamedBaseItemImp *to(BaseItemImp *it);
 
-	static std::string getName(BaseItemImpl *it);
+	static std::string getName(BaseItemImp *it);
 
 private:
 	std::string					m_name;
