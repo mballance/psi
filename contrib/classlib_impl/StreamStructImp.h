@@ -1,5 +1,6 @@
 /*
- * Package.h
+ * StreamStruct.h
+ *
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,31 +19,28 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 23, 2016
+ *
+ *  Created on: Apr 28, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_PACKAGE_IMP_H
-#define INCLUDED_PACKAGE_IMP_H
-
-#include <string>
-
-#include "NamedBaseItemImp.h"
-#include "ScopeImp.h"
-#include "classlib/Package.h"
+#ifndef INCLUDED_STREAM_STRUCT_IMP_H
+#define INCLUDED_STREAM_STRUCT_IMP_H
+#include "StructImp.h"
 
 namespace psi {
 
-class PackageImp : public NamedBaseItemImp {
+class ScopeImp;
+class StreamStructImp : public StructImp {
 
 	public:
 
-		PackageImp(Package *master, ScopeImp *p);
+		StreamStructImp(StreamStruct *master, ScopeImp *p);
 
-		virtual ~PackageImp();
+		virtual ~StreamStructImp();
 
 };
 
 } /* namespace psi */
 
-#endif /* PACKAGE_H_ */
+#endif /* SRC_CLASSLIB_STREAMSTRUCT_H_ */

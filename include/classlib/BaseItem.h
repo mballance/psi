@@ -51,11 +51,13 @@ public:
 
 	BaseItemImp *impl() const;
 
+public:
+		void setParent(BaseItem *p);
+
 protected:
 
 		BaseItem(BaseItemImp *impl);
 
-		void setParent(BaseItem *p);
 
 protected:
 		BaseItemImp				*m_impl;

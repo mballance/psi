@@ -28,8 +28,8 @@
 
 #include "classlib/Action.h"
 #include "NamedBaseItemImp.h"
-#include "ScopeImpl.h"
-#include "TypePathImpl.h"
+#include "ScopeImp.h"
+#include "TypePathImp.h"
 
 namespace psi_api {
 	class IObjectContext;
@@ -50,7 +50,7 @@ public:
 
 		virtual ~ActionImp();
 
-		const TypePathImpl &getSuperType() const { return m_super_type; }
+		const TypePathImp &getSuperType() const { return m_super_type; }
 
 	private:
 
@@ -60,7 +60,7 @@ public:
 
 
 	private:
-		TypePathImpl						m_super_type;
+		TypePathImp						m_super_type;
 		IObjectContext						*m_ctxt;
 		psshandle_t							*m_hndl;
 

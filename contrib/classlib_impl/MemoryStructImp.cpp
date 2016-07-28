@@ -31,7 +31,7 @@ MemoryStruct::MemoryStruct(const Scope &p) :
 
 MemoryStructImp::MemoryStructImp(
 		MemoryStruct		*master,
-		ScopeImpl			*p) : StructImp(master, p, StructImp::Memory) { }
+		ScopeImp			*p) : StructImp(master, p, StructImp::Memory) { }
 
 MemoryStruct::~MemoryStruct() {
 	// TODO Auto-generated destructor stub

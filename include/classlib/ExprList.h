@@ -22,17 +22,16 @@
  *      Author: ballance
  */
 
-#ifndef SRC_PSI_CLASSLIB_EXPRLIST_H_
-#define SRC_PSI_CLASSLIB_EXPRLIST_H_
+#ifndef INCLUDED_EXPR_LIST_H
+#define INCLUDED_EXPR_LIST_H
 #include <vector>
 #include "classlib/Types.h"
 #include "classlib/Expr.h"
-#include "classlib/ExprImportCall.h"
 #include "classlib/ExprListBuilder.h"
 
 namespace psi {
 
-class ExprCoreList;
+class ExprImp;
 class ExprList : public Expr {
 	public:
 
@@ -48,27 +47,16 @@ class ExprList : public Expr {
 		}
 #endif
 
-		ExprList(const SharedPtr<ExprCore> &ptr);
+		ExprList(const Expr &rhs);
+
+		ExprList(const ExprImp &ptr);
 
 		ExprList(const ExprListBuilder &el);
 
-		ExprList(const Expr &rhs);
-
-//		ExprList(BaseItem &t);
-
-//		ExprList(int v);
 
 		virtual ~ExprList();
 
 		ExprListBuilder operator,(const Expr &rhs);
-
-		const std::vector<SharedPtr<ExprCore> > &getExprList() const;
-
-	private:
-
-		void append(const Expr &e);
-
-		void traverse_expr_builder(ExprCoreList *c_t, const ExprListBuilder &el);
 
 };
 

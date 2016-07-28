@@ -36,7 +36,7 @@ class MemoryStructImp: public StructImp {
 	public:
 		MemoryStructImp(
 				MemoryStruct		*master,
-				ScopeImpl			*p);
+				ScopeImp			*p);
 
 		virtual ~MemoryStructImp();
 

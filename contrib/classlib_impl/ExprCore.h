@@ -52,9 +52,11 @@ class ExprCore {
 
 		ExprImp::Operator getOp() const { return m_op; }
 
-		ExprCore *getLhsPtr() const { return m_lhs.getCorePtr(); }
+		void setOp(ExprImp::Operator op) { m_op = op; }
 
-		ExprCore *getRhsPtr() const { return m_rhs.getCorePtr(); }
+		ExprCore *getLhsPtr() const { return m_lhs.ptr(); }
+
+		ExprCore *getRhsPtr() const { return m_rhs.ptr(); }
 
 		uint64_t getValUI() { return m_val.ull; }
 

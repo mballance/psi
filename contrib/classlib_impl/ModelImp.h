@@ -1,5 +1,6 @@
 /*
- * ExprCoreList.h
+ * ModelImp.h
+ *
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,46 +19,60 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: May 4, 2016
+ *  Created on: Apr 25, 2016
  *      Author: ballance
  */
 
-#ifndef SRC_PSI_CLASSLIB_EXPRCORELIST_H_
-#define SRC_PSI_CLASSLIB_EXPRCORELIST_H_
+#ifndef INCLUDED_MODEL_IMPL_H
+#define INCLUDED_MODEL_IMPL_H
 
+#include <string>
 #include <vector>
 
-#include "../../contrib/classlib_impl/ExprCore.h"
-#include "SharedPtr.h"
+#include "BaseItemImp.h"
+#include "TypePathImp.h"
 
 namespace psi {
 
-class ExprList;
-class ExprCoreList: public ExprCore {
-	friend class ExprList;
+class PackageImpl;
+class ScopeImp;
+class ModelImp : public BaseItemImp {
+	friend class PackageImpl;
 
-public:
+	public:
+		ModelImp();
 
-	ExprCoreList();
+		virtual ~ModelImp();
 
-	ExprCoreList(const Expr &e);
+		static ModelImp *global();
 
-	ExprCoreList(const Expr &e1, const Expr &e2);
+		void push_scope(const ScopeImp *p);
 
-	virtual ~ExprCoreList();
+		void pop_scope(const ScopeImp *p);
 
-	void add(const Expr &e);
+		const std::vector<const ScopeImp *> &get_scope() const;
 
-	const std::vector<SharedPtr<ExprCore> > &getExprList() const {
-		return m_exprList;
-	}
+		TypePathImp getActiveTypeName(BaseItemImp *it);
 
-private:
+		TypePathImp getSuperType(BaseItemImp *it);
 
-	std::vector<SharedPtr<ExprCore> >		m_exprList;
+		BaseItemImp *getActiveScope();
+
+		bool in_field_decl() const { return m_in_field_decl; }
+
+		static TypePathImp demangle(const ScopeImp *s);
+
+	private:
+		std::vector<const ScopeImp *>		m_scope;
+		BaseItemImp						*m_last_scope;
+		bool								m_in_field_decl;
+
+		static ModelImp					*m_global;
 
 };
 
+
 } /* namespace psi */
 
-#endif /* SRC_PSI_CLASSLIB_EXPRCORELIST_H_ */
+
+#endif /* SRC_TYPEREGISTRY_H_ */

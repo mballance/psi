@@ -31,10 +31,11 @@
 
 namespace psi {
 
+class Scope;
 class Bool: public BaseItem {
 
 	public:
-		Bool(BaseItem *p);
+		Bool(const Scope &p);
 
 		/**
 		 * This constructor is used for composing parameter lists.

@@ -22,20 +22,22 @@
  *      Author: ballance
  */
 
-#ifndef SRC_PSI_CLASSLIB_SCHEDULE_H_
-#define SRC_PSI_CLASSLIB_SCHEDULE_H_
+#ifndef INCLUDED_SCHEDULE_H
+#define INCLUDED_SCHEDULE_H
 
-#include "Expr.h"
-#include "ExprList.h"
+#include "classlib/Expr.h"
+#include "classlib/ExprList.h"
 
 namespace psi {
 
 class Schedule: public Expr {
 public:
 	Schedule(const ExprList &body);
+
 	virtual ~Schedule();
+
 };
 
 } /* namespace psi */
 
-#endif /* SRC_PSI_CLASSLIB_SCHEDULE_H_ */
+#endif /* INCLUDED_SCHEDULE_H */

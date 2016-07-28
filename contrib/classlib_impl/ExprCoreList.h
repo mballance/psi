@@ -1,6 +1,5 @@
 /*
- * Parallel.h
- *
+ * ExprCoreList.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,36 +18,46 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: May 5, 2016
+ *  Created on: May 4, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_PARALLEL_H
-#define INCLUDED_PARALLEL_H
+#ifndef INCLUDED_EXPR_CORE_LIST_H
+#define INCLUDED_EXPR_CORE_LIST_H
 
-#include "classlib/Types.h"
-#include "classlib/Expr.h"
-#include "classlib/ExprListBuilder.h"
+#include <vector>
+#include "ExprCore.h"
 
 namespace psi {
 
 class ExprList;
-class Parallel: public Expr {
+class ExprCoreList: public ExprCore {
+	friend class ExprList;
+
 public:
-	Parallel(const ExprList &body);
 
-#ifdef PSI_HAVE_CXX_11
-	Parallel(std::initializer_list<Expr> l) : Parallel(ExprList(l)) { };
-#endif
+	ExprCoreList();
 
-	virtual ~Parallel();
+	ExprCoreList(const Expr &e);
 
-	ExprListBuilder operator,(const Expr &rhs);
+	ExprCoreList(const Expr &e1, const Expr &e2);
 
-	ExprListBuilder operator,(const ExprListBuilder &rhs);
+	virtual ~ExprCoreList();
+
+	void add(const Expr &e);
+
+	void add(const ExprImp &e);
+
+	const std::vector<ExprImp> &getExprList() const {
+		return m_exprList;
+	}
+
+private:
+
+	std::vector<ExprImp>			m_exprList;
 
 };
 
 } /* namespace psi */
 
-#endif /* SRC_PSI_CLASSLIB_PARALLEL_H_ */
+#endif /* SRC_PSI_CLASSLIB_EXPRCORELIST_H_ */

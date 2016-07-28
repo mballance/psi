@@ -1,5 +1,5 @@
 /*
- * TypePathImpl.h
+ * TypePathImp.h
  *
  *  Created on: Jul 13, 2016
  *      Author: ballance
@@ -12,16 +12,16 @@
 
 namespace psi {
 
-class TypePathImpl {
+class TypePathImp {
 public:
 
-	TypePathImpl();
+	TypePathImp();
 
-	TypePathImpl(const std::string &path);
+	TypePathImp(const std::string &path);
 
-	TypePathImpl(const std::vector<std::string> &path);
+	TypePathImp(const std::vector<std::string> &path);
 
-	virtual ~TypePathImpl();
+	virtual ~TypePathImp();
 
 	bool isNull() const { return m_path.size() == 0; }
 

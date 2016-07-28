@@ -11,11 +11,6 @@ public:
 
 	virtual ~FieldBase() { }
 
-	virtual const std::string  &getName() const {
-		return m_field.getName();
-	}
-
-
 	/*
 	 * Provide an explicit conversion function to tell the
 	 * compiler how to interpret the fact that both we and T extend
@@ -24,8 +19,6 @@ public:
 	operator Expr() const { return Expr(m_field); }
 
 	operator const FieldItem &() const { return m_field; }
-
-	void setInternal(bool i) { m_field.setInternal(i); }
 
 protected:
 

@@ -27,7 +27,6 @@
 #include "api/IComponent.h"
 #include "api/IObjectContext.h"
 #include "api/IInlineExec.h"
-#include "classlib/ExprCoreList.h"
 #include "classlib/BitType.h"
 #include "classlib/Import.h"
 #include "classlib/IntType.h"
@@ -37,6 +36,8 @@
 #include "classlib/Model.h"
 #include <stdio.h>
 #include <stdarg.h>
+
+#include "ExprListImp.h"
 #include "InlineExecClosure.h"
 
 namespace psi {

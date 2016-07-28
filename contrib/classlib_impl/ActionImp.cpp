@@ -26,7 +26,7 @@
 
 #include "classlib/Action.h"
 #include "ActionImp.h"
-#include "ModelImpl.h"
+#include "ModelImp.h"
 
 namespace psi {
 
@@ -36,12 +36,12 @@ Action::Action(const Scope	&p) {
 
 ActionImp::ActionImp(Action *master, const Scope &p) : NamedBaseItemImp(
 		master, BaseItemImp::TypeAction, p.impl()->parent()), m_master(master) {
-	m_super_type = ModelImpl::global()->getSuperType(this);
+	m_super_type = ModelImp::global()->getSuperType(this);
 	m_ctxt = 0;
 	m_hndl = 0;
 
 	// TODO: need to deal with named scopes
-	TypePathImpl type = ModelImpl::global()->getActiveTypeName(this);
+	TypePathImp type = ModelImp::global()->getActiveTypeName(this);
 	setName(type.leaf());
 }
 

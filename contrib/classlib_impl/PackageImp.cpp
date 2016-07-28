@@ -25,17 +25,17 @@
 #include <stdio.h>
 #include "PackageImp.h"
 
-#include "ModelImpl.h"
-#include "TypePathImpl.h"
+#include "ModelImp.h"
+#include "TypePathImp.h"
 
 namespace psi {
 
 Package::Package(const Scope &p) :
 		BaseItem(new PackageImp(this, p.impl())) { }
 
-PackageImp::PackageImp(Package *master, ScopeImpl *p) :
+PackageImp::PackageImp(Package *master, ScopeImp *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypePackage, p->parent()) {
-	TypePathImpl type = ModelImpl::global()->getActiveTypeName(this);
+	TypePathImp type = ModelImp::global()->getActiveTypeName(this);
 	setName(type.leaf());
 }
 

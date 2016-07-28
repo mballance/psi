@@ -3,22 +3,19 @@
  *
  */
 
-#ifndef SRC_PSI_CLASSLIB_TYPEDECL_H_
-#define SRC_PSI_CLASSLIB_TYPEDECL_H_
+#ifndef INCLUDED_TYPE_DECL_H
+#define INCLUDED_TYPE_DECL_H
 #include <string>
-
-#include "classlib/Model.h"
 
 namespace psi {
 
 template <class T> class TypeDecl : public T {
 public:
 
-	TypeDecl(BaseItem *namespace_p=Model::global()) : T(Scope(this, namespace_p)) {
+	TypeDecl(BaseItem *namespace_p=0) : T(Scope(this, namespace_p)) {
 		if (!m_type_id) {
 			m_valid = true;
 			m_type_id = this;
-			// TODO: set name based on current scope
 		}
 	}
 
@@ -57,6 +54,5 @@ template <class T> bool TypeDecl<T>::m_valid = false;
 
 }
 
+#endif /* INCLUDED_TYPE_DECL_H */
 
-
-#endif /* SRC_PSI_CLASSLIB_TYPEDECL_H_ */

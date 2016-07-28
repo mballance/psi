@@ -23,7 +23,8 @@
  */
 
 #include "If.h"
-#include "ExprCoreIf.h"
+
+#include "ExprIfImp.h"
 
 namespace psi {
 

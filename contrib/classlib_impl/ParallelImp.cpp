@@ -22,13 +22,15 @@
  *      Author: ballance
  */
 
-#include "Parallel.h"
-#include "ExprList.h"
+#include "classlib/Parallel.h"
+#include "classlib/ExprList.h"
+#include "ExprImp.h"
+#include "ExprCore.h"
 
 namespace psi {
 
-Parallel::Parallel(const ExprList &body) : Expr(body) {
-	setOp(GraphParallel);
+Parallel::Parallel(const ExprList &body) : Expr(body.imp()) {
+	imp().ptr()->setOp(ExprImp::GraphParallel);
 }
 
 Parallel::~Parallel() {

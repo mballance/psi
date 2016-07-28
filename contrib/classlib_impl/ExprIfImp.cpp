@@ -1,5 +1,5 @@
 /*
- * Schedule.cpp
+ * ExprIfImp.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,19 +18,21 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: May 5, 2016
+ *  Created on: May 4, 2016
  *      Author: ballance
  */
 
-#include "Schedule.h"
+#include "ExprIfImp.h"
 
 namespace psi {
 
-Schedule::Schedule(const ExprList &body) : Expr(body) {
-	setOp(GraphSchedule);
-}
+ExprIfImp::ExprIfImp(const Expr &cond, const Expr &true_expr) :
+	ExprCore(ExprImp::Stmt_If, cond, true_expr) { }
 
-Schedule::~Schedule() {
+ExprIfImp::ExprIfImp(const Expr &cond, const Expr &true_expr, const Expr &false_expr) :
+	ExprCore(ExprImp::Stmt_IfElse, cond, true_expr), m_false_stmt(false_expr) { }
+
+ExprIfImp::~ExprIfImp() {
 	// TODO Auto-generated destructor stub
 }
 

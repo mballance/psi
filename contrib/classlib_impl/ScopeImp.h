@@ -5,8 +5,8 @@
  *      Author: ballance
  */
 
-#ifndef INCLUDED_SCOPE_IMPL_H
-#define INCLUDED_SCOPE_IMPL_H
+#ifndef INCLUDED_SCOPE_IMP_H
+#define INCLUDED_SCOPE_IMP_H
 #include <string>
 #include <vector>
 #include <typeinfo>
@@ -17,16 +17,17 @@ namespace psi {
 
 class BaseItemImp;
 class Scope;
-class ScopeImpl {
+class ScopeImp {
 public:
-	ScopeImpl(
-			Scope 				*master,
-			std::type_info 		*type,
-			BaseItemImp 		*ctxt,
-			bool				in_field_decl,
-			const std::string	&name);
+	friend Scope;
+	ScopeImp(
+			Scope 					*master,
+			const std::type_info	*type,
+			BaseItemImp 			*ctxt,
+			bool					in_field_decl,
+			const std::string		&name);
 
-	virtual ~ScopeImpl();
+	virtual ~ScopeImp();
 
 	BaseItemImp *parent() const;
 
@@ -47,7 +48,7 @@ private:
 private:
 	Scope					*m_master;
 	bool					m_in_field_decl;
-	BaseItemImp			*m_ctxt;
+	BaseItemImp				*m_ctxt;
 	const std::type_info	*m_type;
 	std::string				m_name;
 };

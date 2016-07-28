@@ -35,13 +35,13 @@ namespace psi {
 class BoolImp: public NamedBaseItemImp {
 
 	public:
-		BoolImp(Bool *master, BaseItem *p);
+		BoolImp(Bool *master, BaseItemImp *p);
 
 		/**
 		 * This constructor is used for composing parameter lists.
 		 * The name is that of the parameter
 		 */
-		BoolImp(const std::string &name);
+		BoolImp(Bool *master, const std::string &name);
 
 		virtual ~BoolImp();
 

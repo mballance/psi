@@ -5,8 +5,9 @@
  *      Author: ballance
  */
 
-#ifndef SRC_PSI_CLASSLIB_SCOPE_H_
-#define SRC_PSI_CLASSLIB_SCOPE_H_
+#ifndef INCLUDED_SCOPE_H
+#define INCLUDED_SCOPE_H
+
 #include <string>
 #include <vector>
 #include <typeinfo>
@@ -14,7 +15,7 @@
 namespace psi {
 
 class BaseItemImp;
-class ScopeImpl;
+class ScopeImp;
 class Scope {
 public:
 	template <class T> Scope(T *p) {
@@ -35,14 +36,14 @@ public:
 
 	virtual ~Scope();
 
-	ScopeImpl *impl() const;
+	ScopeImp *impl() const;
 
 private:
 
 	void init(const std::type_info *type, BaseItem *ctxt);
 
 private:
-	ScopeImpl				*m_impl;
+	ScopeImp				*m_impl;
 };
 
 } /* namespace psi */

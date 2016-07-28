@@ -1,24 +1,24 @@
 /*
- * TypePathImpl.cpp
+ * TypePathImp.cpp
  *
  *  Created on: Jul 13, 2016
  *      Author: ballance
  */
 
-#include "TypePathImpl.h"
+#include "TypePathImp.h"
 
 namespace psi {
 
-TypePathImpl::TypePathImpl() { }
+TypePathImp::TypePathImp() { }
 
-TypePathImpl::TypePathImpl(const std::vector<std::string> &path) :
+TypePathImp::TypePathImp(const std::vector<std::string> &path) :
 	m_path(path) { }
 
-TypePathImpl::TypePathImpl(const std::string &path) {
+TypePathImp::TypePathImp(const std::string &path) {
 	m_path.push_back(path);
 }
 
-void TypePathImpl::set(const std::vector<std::string> &path) {
+void TypePathImp::set(const std::vector<std::string> &path) {
 	m_path.clear();
 
 	for (std::vector<std::string>::const_iterator it=path.begin();
@@ -28,15 +28,15 @@ void TypePathImpl::set(const std::vector<std::string> &path) {
 	}
 }
 
-const std::string &TypePathImpl::leaf() const {
+const std::string &TypePathImp::leaf() const {
 	return (m_path.size()>0)?m_path.at(m_path.size()-1):m_null;
 }
 
-TypePathImpl::~TypePathImpl() {
+TypePathImp::~TypePathImp() {
 	// TODO Auto-generated destructor stub
 }
 
-std::string TypePathImpl::toString() const {
+std::string TypePathImp::toString() const {
 	std::string ret;
 
 	if (isNull()) {

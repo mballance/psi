@@ -25,7 +25,6 @@
 #ifndef INCLUDED_EXPR_H
 #define INCLUDED_EXPR_H
 
-#include "classlib/SharedPtr.h"
 #include "classlib/Types.h"
 
 namespace psi {
@@ -41,58 +40,59 @@ class BaseItem;
 
 class ExprImp;
 class Expr {
+public:
 	friend ExprImp;
 
-public:
+	Expr();
 
-		Expr();
+	Expr(uint32_t v);
 
-		Expr(uint32_t v);
+	Expr(int32_t v);
 
-		Expr(int32_t v);
+	Expr(const BaseItem &t);
 
-		Expr(const BaseItem &t);
+	Expr(const Expr &rhs);
 
-		Expr(const Expr &rhs);
+//	Expr(ExprCore *rhs);
 
-//		Expr(ExprCore *rhs);
+	Expr(const ExprImp &ptr);
 
-		Expr(const ExprImp &ptr);
-
-		virtual ~Expr();
+	virtual ~Expr();
 
 //		const ExprImp &getCore() const { return m_core; }
 //
 //		ExprImp &getCore() { return m_core; }
 
-		// ExprCore *getCorePtr() const { return m_core.ptr(); }
+	// ExprCore *getCorePtr() const { return m_core.ptr(); }
 
-		ExprListBuilder operator,(const Expr &rhs);
+	ExprListBuilder operator,(const Expr &rhs);
 
-		Expr operator [] (const Expr &rhs);
+	Expr operator [] (const Expr &rhs);
 
-		Expr operator [] (int32_t rhs);
+	Expr operator [] (int32_t rhs);
 
-		Expr operator [] (uint32_t rhs);
+	Expr operator [] (uint32_t rhs);
 
-		DECLARE_OP_FUNCTIONS(friend, ==)
-		DECLARE_OP_FUNCTIONS(friend, !=)
-		DECLARE_OP_FUNCTIONS(friend, <=)
-		DECLARE_OP_FUNCTIONS(friend, <)
-		DECLARE_OP_FUNCTIONS(friend, >=)
-		DECLARE_OP_FUNCTIONS(friend, >)
-		DECLARE_OP_FUNCTIONS(friend, &)
-		DECLARE_OP_FUNCTIONS(friend, &&)
-		DECLARE_OP_FUNCTIONS(friend, |)
-		DECLARE_OP_FUNCTIONS(friend, ||)
-		DECLARE_OP_FUNCTIONS(friend, -)
-		DECLARE_OP_FUNCTIONS(friend, +)
-		DECLARE_OP_FUNCTIONS(friend, *)
-		DECLARE_OP_FUNCTIONS(friend, /)
-		DECLARE_OP_FUNCTIONS(friend, %)
+	DECLARE_OP_FUNCTIONS(friend, ==)
+	DECLARE_OP_FUNCTIONS(friend, !=)
+	DECLARE_OP_FUNCTIONS(friend, <=)
+	DECLARE_OP_FUNCTIONS(friend, <)
+	DECLARE_OP_FUNCTIONS(friend, >=)
+	DECLARE_OP_FUNCTIONS(friend, >)
+	DECLARE_OP_FUNCTIONS(friend, &)
+	DECLARE_OP_FUNCTIONS(friend, &&)
+	DECLARE_OP_FUNCTIONS(friend, |)
+	DECLARE_OP_FUNCTIONS(friend, ||)
+	DECLARE_OP_FUNCTIONS(friend, -)
+	DECLARE_OP_FUNCTIONS(friend, +)
+	DECLARE_OP_FUNCTIONS(friend, *)
+	DECLARE_OP_FUNCTIONS(friend, /)
+	DECLARE_OP_FUNCTIONS(friend, %)
 
-	protected:
-		ExprImp					&m_core;
+	const ExprImp &imp() const;
+
+protected:
+	ExprImp					&m_core;
 
 };
 

@@ -9,7 +9,7 @@
 #include <string.h>
 #include <strings.h>
 #include "psi_tests.h"
-#include "ModelImpl.h"
+#include "ModelImp.h"
 #include "PSI2XML.h"
 #include "XML2PSI.h"
 #include "PSI2PSS.h"
@@ -53,8 +53,8 @@ void exec_model(IModel *model) {
 }
 
 int main(int argc, char **argv) {
-	ModelImpl  			model;
-	ModelImpl  			xml_model;
+	ModelImp  			model;
+	ModelImp  			xml_model;
 	PSI2XML    			psi2xml;
 	XML2PSI    			xml2psi;
 	PSI2PSS    			psi2pss;

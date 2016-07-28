@@ -26,11 +26,10 @@
 #include "classlib/BaseItem.h"
 #include "BaseItemImp.h"
 #include "NamedBaseItemImp.h"
-#include "classlib/Model.h"
 
 #include <stdio.h>
 
-#include "ExprCore.h"
+#include "ExprImp.h"
 
 namespace psi {
 
@@ -59,7 +58,7 @@ BaseItemImp *BaseItemImp::toImp(BaseItem *i) {
 }
 
 Expr BaseItem::operator [] (const Expr &rhs) {
-	return Expr(new ExprCore(Expr::BinOp_ArrayRef, *this, rhs));
+	return Expr(ExprImp(0, new ExprCore(ExprImp::BinOp_ArrayRef, *this, rhs)));
 }
 
 ExprListBuilder BaseItem::operator,(const BaseItem &rhs) {

@@ -1,5 +1,5 @@
 /*
- * ModelImpl.cpp
+ * ModelImp.cpp
  *
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -24,8 +24,8 @@
  *      Author: ballance
  */
 
-#include "ModelImpl.h"
-#include "ScopeImpl.h"
+#include "ModelImp.h"
+#include "ScopeImp.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -35,21 +35,21 @@
 
 namespace psi {
 
-ModelImpl::ModelImpl() : BaseItemImp(0, BaseItemImp::Model, 0),
+ModelImp::ModelImp() : BaseItemImp(0, BaseItemImp::Model, 0),
 		m_last_scope(this), m_in_field_decl(false) { }
 
-ModelImpl::~ModelImpl() {
+ModelImp::~ModelImp() {
 	// TODO Auto-generated destructor stub
 }
 
-ModelImpl *ModelImpl::global() {
+ModelImp *ModelImp::global() {
 	if (!m_global) {
-		m_global = new ModelImpl();
+		m_global = new ModelImp();
 	}
 	return m_global;
 }
 
-void ModelImpl::push_scope(const ScopeImpl *p) {
+void ModelImp::push_scope(const ScopeImp *p) {
 	m_scope.push_back(p);
 
 	if (p->ctxt()) {
@@ -58,7 +58,7 @@ void ModelImpl::push_scope(const ScopeImpl *p) {
 	m_in_field_decl = p->in_field_decl();
 }
 
-void ModelImpl::pop_scope(const ScopeImpl *p) {
+void ModelImp::pop_scope(const ScopeImp *p) {
 //	const Scope *p_c = m_scope.back();
 
 	// If the last element is 'p', then pop until
@@ -68,7 +68,7 @@ void ModelImpl::pop_scope(const ScopeImpl *p) {
 
 		while (m_scope.size() > 0 &&
 				m_scope.back()->ctxt() == p->ctxt()) {
-			const ScopeImpl *pp = m_scope.back();
+			const ScopeImp *pp = m_scope.back();
 //			fprintf(stdout, "  pop-back %p\n", pp->ctxt());
 			m_scope.pop_back();
 		}
@@ -81,12 +81,12 @@ void ModelImpl::pop_scope(const ScopeImpl *p) {
 
 }
 
-const std::vector<const ScopeImpl *> &ModelImpl::get_scope() const {
+const std::vector<const ScopeImp *> &ModelImp::get_scope() const {
 	return m_scope;
 }
 
-TypePathImpl ModelImpl::getActiveTypeName(BaseItemImp *it) {
-	const ScopeImpl *scope = 0;
+TypePathImp ModelImp::getActiveTypeName(BaseItemImp *it) {
+	const ScopeImp *scope = 0;
 //	fprintf(stdout, "--> getActiveTypeName\n");
 	for (int i=m_scope.size()-1; i>=0; i--) {
 //		fprintf(stdout, "m_scope[%d]=%p it=%p\n",
@@ -99,7 +99,7 @@ TypePathImpl ModelImpl::getActiveTypeName(BaseItemImp *it) {
 	}
 
 	if (scope) {
-		TypePathImpl ret = ModelImpl::demangle(scope);
+		TypePathImp ret = ModelImp::demangle(scope);
 
 //		for (std::vector<std::string>::const_iterator it=ret.get().begin();
 //				it!=ret.get().end(); it++) {
@@ -109,10 +109,10 @@ TypePathImpl ModelImpl::getActiveTypeName(BaseItemImp *it) {
 		return ret;
 	}
 
-	return TypePathImpl();
+	return TypePathImp();
 }
 
-TypePathImpl ModelImpl::getSuperType(BaseItemImp *it) {
+TypePathImp ModelImp::getSuperType(BaseItemImp *it) {
 	// Looking for <last+1>
 //	fprintf(stdout, "--> getSuperType\n");
 	int i=0;
@@ -132,7 +132,7 @@ TypePathImpl ModelImpl::getSuperType(BaseItemImp *it) {
 //				m_scope.at(i+1)->get_typeinfo()->name(),
 //				m_scope.at(i)->get_typeinfo()->name());
 		if (m_scope.at(i+1)->get_typeinfo() != m_scope.at(i)->get_typeinfo()) {
-			TypePathImpl super = ModelImpl::demangle(m_scope.at(i+1));
+			TypePathImp super = ModelImp::demangle(m_scope.at(i+1));
 
 			for (std::vector<std::string>::const_iterator it=super.get().begin();
 					it!=super.get().end(); it++) {
@@ -144,11 +144,11 @@ TypePathImpl ModelImpl::getSuperType(BaseItemImp *it) {
 	}
 //	fprintf(stdout, "<-- getSuperType\n");
 
-	return TypePathImpl();
+	return TypePathImp();
 }
 
-BaseItemImp *ModelImpl::getActiveScope() {
-//	fprintf(stdout, "ModelImpl::getActiveScope scope=%d\n",
+BaseItemImp *ModelImp::getActiveScope() {
+//	fprintf(stdout, "ModelImp::getActiveScope scope=%d\n",
 //			(m_last_scope)?m_last_scope->getObjectType():-1);
 
 	if (m_in_field_decl) {
@@ -171,7 +171,7 @@ BaseItemImp *ModelImpl::getActiveScope() {
 		}
 	}
 
-//	fprintf(stdout, "ModelImpl::getActiveScope size=%d\n", m_scope.size());
+//	fprintf(stdout, "ModelImp::getActiveScope size=%d\n", m_scope.size());
 //
 //	for (int i=m_scope.size()-1; i>=0; i--) {
 //		fprintf(stdout, "  %d %p it=%p\n", i, m_scope.at(i)->ctxt(), it);
@@ -184,8 +184,8 @@ BaseItemImp *ModelImpl::getActiveScope() {
 //	return 0;
 }
 
-TypePathImpl ModelImpl::demangle(const ScopeImpl *s) {
-	TypePathImpl name;
+TypePathImp ModelImp::demangle(const ScopeImp *s) {
+	TypePathImp name;
 	const std::type_info *info = s->get_typeinfo();
 
     char *n = abi::__cxa_demangle(info->name(), 0, 0, 0);
@@ -233,6 +233,6 @@ TypePathImpl ModelImpl::demangle(const ScopeImpl *s) {
     return name;
 }
 
-ModelImpl *ModelImpl::m_global = 0;
+ModelImp *ModelImp::m_global = 0;
 
 } /* namespace psi */

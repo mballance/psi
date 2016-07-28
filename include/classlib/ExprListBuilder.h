@@ -5,19 +5,16 @@
  *      Author: ballance
  */
 
-#ifndef SRC_PSI_CLASSLIB_EXPRLISTBUILDER_H_
-#define SRC_PSI_CLASSLIB_EXPRLISTBUILDER_H_
+#ifndef INCLUDED_EXPR_LIST_BUILDER_H
+#define INCLUDED_EXPR_LIST_BUILDER_H
 #include <vector>
 
-#include "../../contrib/classlib_impl/ExprCore.h"
 #include "classlib/Types.h"
-#include "classlib/SharedPtr.h"
 
 namespace psi {
 
 class Expr;
-class ExprCore;
-
+class ExprListBuilderImp;
 class ExprListBuilder {
 public:
 
@@ -43,12 +40,10 @@ public:
 
 	ExprListBuilder &operator,(const ExprListBuilder &rhs);
 
-	const std::vector<SharedPtr<ExprCore> > &getList() const { return m_list; }
-	const std::vector<ExprListBuilder> &getBuilderList() const { return m_builders; }
+	ExprListBuilderImp &imp() const { return m_imp; }
 
 private:
-	std::vector<SharedPtr<ExprCore> >			m_list;
-	std::vector<ExprListBuilder>				m_builders;
+	ExprListBuilderImp							&m_imp;
 
 };
 

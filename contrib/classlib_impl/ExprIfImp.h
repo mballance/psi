@@ -1,5 +1,5 @@
 /*
- * ExprCoreIf.cpp
+ * ExprIfImp.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,18 +22,32 @@
  *      Author: ballance
  */
 
-#include "ExprCoreIf.h"
+#ifndef SRC_PSI_CLASSLIB_EXPRCOREIF_H_
+#define SRC_PSI_CLASSLIB_EXPRCOREIF_H_
+#include "ExprCore.h"
 
 namespace psi {
 
-ExprCoreIf::ExprCoreIf(const Expr &cond, const Expr &true_expr) :
-	ExprCore(Expr::Stmt_If, cond, true_expr) { }
+class ExprIfImp : public ExprCore {
+public:
 
-ExprCoreIf::ExprCoreIf(const Expr &cond, const Expr &true_expr, const Expr &false_expr) :
-	ExprCore(Expr::Stmt_IfElse, cond, true_expr), m_false_stmt(false_expr) { }
+	ExprIfImp(const Expr &cond, const Expr &true_expr);
 
-ExprCoreIf::~ExprCoreIf() {
-	// TODO Auto-generated destructor stub
-}
+	ExprIfImp(const Expr &cond, const Expr &true_expr, const Expr &false_expr);
+
+	virtual ~ExprIfImp();
+
+	const ExprImp &getCond() const { return m_lhs; }
+
+	const ExprImp &getTrue() const { return m_rhs; }
+
+	const Expr &getFalse() const { return m_false_stmt; }
+
+protected:
+
+	Expr					m_false_stmt;
+};
 
 } /* namespace psi */
+
+#endif /* SRC_PSI_CLASSLIB_EXPRCOREIF_H_ */

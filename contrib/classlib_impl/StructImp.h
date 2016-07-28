@@ -29,7 +29,7 @@
 
 #include "classlib/Struct.h"
 #include "NamedBaseItemImp.h"
-#include "TypePathImpl.h"
+#include "TypePathImp.h"
 
 namespace psi {
 
@@ -48,18 +48,18 @@ public:
 
 	virtual ~StructImp();
 
-	const TypePathImpl &getSuperType() const;
+	const TypePathImp &getSuperType() const;
 
 	StructType getStructType() const;
 
 protected:
 
-	StructImp(Struct *master, ScopeImpl *p, StructType t=Base);
+	StructImp(Struct *master, ScopeImp *p, StructType t=Base);
 
 private:
 
 	StructType				m_struct_type;
-	TypePathImpl			m_super_type;
+	TypePathImp			m_super_type;
 
 };
 

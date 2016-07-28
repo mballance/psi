@@ -24,18 +24,19 @@
  */
 
 #include "BoolImp.h"
+#include "ScopeImp.h"
 
 namespace psi {
 
-Bool::Bool(const BaseItem *p) : BaseItem(new BoolImp(this, p)) { }
+Bool::Bool(const Scope &p) : BaseItem(new BoolImp(this, p.impl()->parent())) { }
 
-BoolImp::BoolImp(Bool *master, BaseItem *p) :
+BoolImp::BoolImp(Bool *master, BaseItemImp *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypeBool, p) { }
 
 Bool::Bool(const std::string &name) : BaseItem(new BoolImp(this, name)) { }
 
 BoolImp::BoolImp(Bool *master, const std::string &name) :
-		NamedBaseItemImp(master, BaseItem::TypeBool, 0, name) { }
+		NamedBaseItemImp(master, BaseItemImp::TypeBool, 0, name) { }
 
 Bool::~Bool() {
 
@@ -55,7 +56,7 @@ bool BoolImp::get() {
 }
 
 void Bool::set(bool v) {
-	static_cast<BoolImp *>(impl())->set();
+	static_cast<BoolImp *>(impl())->set(v);
 }
 
 void BoolImp::set(bool v) {

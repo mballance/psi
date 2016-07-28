@@ -8,11 +8,12 @@
 #ifndef INCLUDED_EXPR_IMP_H
 #define INCLUDED_EXPR_IMP_H
 
-#include "ExprCore.h"
+#include "classlib/Expr.h"
 #include "SharedPtr.h"
 
 namespace psi {
 
+class ExprCore;
 class ExprImp : public SharedPtr<ExprCore> {
 public:
 	enum Operator {

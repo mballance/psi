@@ -38,12 +38,12 @@ Struct::Struct(const Scope &p) :
 
 StructImp::StructImp(
 		Struct		*master,
-		ScopeImpl	*p,
+		ScopeImp	*p,
 		StructType	t) :
 	NamedBaseItemImp(master, BaseItemImp::TypeStruct, p->parent(), ""),
 	m_struct_type(t) {
-	m_super_type = ModelImpl::global()->getSuperType(this);
-	setName(ModelImpl::global()->getActiveTypeName(this).leaf());
+	m_super_type = ModelImp::global()->getSuperType(this);
+	setName(ModelImp::global()->getActiveTypeName(this).leaf());
 }
 
 Struct::~Struct() {

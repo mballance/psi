@@ -24,8 +24,8 @@
  *      Author: ballance
  */
 
-#ifndef SRC_CLASSLIB_STREAMSTRUCT_H_
-#define SRC_CLASSLIB_STREAMSTRUCT_H_
+#ifndef INCLUDED_STREAM_STRUCT_H
+#define INCLUDED_STREAM_STRUCT_H
 #include "classlib/Struct.h"
 
 namespace psi {

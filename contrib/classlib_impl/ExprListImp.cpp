@@ -1,5 +1,5 @@
 /*
- * ExprList.cpp
+ * ExprListImp.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,66 +22,57 @@
  *      Author: ballance
  */
 
-#include <vector>
-#include "ExprList.h"
-#include <stdio.h>
-
-#include "ExprListImp.h"
+#include "classlib/ExprList.h"
+#include "ExprCoreList.h"
+#include "ExprImp.h"
+#include "ExprListBuilderImp.h"
 
 namespace psi {
 
-ExprList::ExprList() : Expr(new ExprCoreList()) { }
+void traverse_expr_builder(ExprCoreList *c_t, const ExprListBuilderImp &el);
 
-ExprList::ExprList(const Expr &e) : Expr(new ExprCoreList()) {
+ExprList::ExprList() : Expr(ExprImp(new ExprCoreList())) {
+
+}
+
+ExprList::~ExprList() {
+
+}
+
+ExprList::ExprList(const Expr &rhs) : Expr(ExprImp(new ExprCoreList())) {
 	ExprCoreList *c_t = static_cast<ExprCoreList *>(m_core.ptr());
-	c_t->m_exprList.push_back(e.getCore());
+	c_t->m_exprList.push_back(rhs.imp());
 }
 
-ExprList::ExprList(const SharedPtr<ExprCore> &ptr) : Expr(ptr) { }
+ExprList::ExprList(const ExprImp &rhs) : Expr(rhs) { }
 
-ExprList::ExprList(const ExprListBuilder &el) : Expr(new ExprCoreList()) {
+ExprList::ExprList(const ExprListBuilder &el) : Expr(ExprImp(new ExprCoreList())) {
 	ExprCoreList *c_t = static_cast<ExprCoreList *>(m_core.ptr());
-	traverse_expr_builder(c_t, el);
+	traverse_expr_builder(c_t, el.imp());
 }
 
-//ExprList::ExprList(BaseItem &t) : Expr(new ExprCoreList(Expr(t))) { }
+void traverse_expr_builder(ExprCoreList *c_t, const ExprListBuilderImp &el) {
 
-ExprList::~ExprList() { }
-
-ExprListBuilder ExprList::operator,(const Expr &rhs) {
-	return ExprListBuilder(*this, rhs);
-}
-
-const std::vector<SharedPtr<ExprCore> > &ExprList::getExprList() const {
-	return static_cast<ExprCoreList *>(m_core.ptr())->m_exprList;
-}
-
-void ExprList::append(const Expr &e) {
-	std::vector<SharedPtr<ExprCore> > &l = static_cast<ExprCoreList *>(m_core.ptr())->m_exprList;
-	l.push_back(e.getCore());
-}
-
-void ExprList::traverse_expr_builder(ExprCoreList *c_t, const ExprListBuilder &el) {
 	if (el.getBuilderList().size() > 0) {
 		// List of builders. Must convert each to an ExprCoreList
 		// and add it to the list we're building
-		std::vector<ExprListBuilder>::const_iterator it;
+		std::vector<ExprListBuilderImp>::const_iterator it;
 
 		for (it=el.getBuilderList().begin(); it!=el.getBuilderList().end(); it++) {
 			ExprCoreList *c_tp = new ExprCoreList();
 
 			traverse_expr_builder(c_tp, *it);
 
-			c_t->m_exprList.push_back(SharedPtr<ExprCore>(c_tp));
+			c_t->add(ExprImp(c_tp));
 		}
 	} else {
 		// List of CoreExpr. Add to the current list
-		std::vector<SharedPtr<ExprCore> >::const_iterator it;
+		std::vector<ExprImp>::const_iterator it;
 		for (it=el.getList().begin(); it!=el.getList().end(); it++) {
-			c_t->m_exprList.push_back(*it);
+			c_t->add((*it));
 		}
 	}
-
 }
+
 
 } /* namespace psi */

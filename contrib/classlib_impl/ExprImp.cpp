@@ -49,15 +49,15 @@ Expr::Expr(ExprCore *rhs) : m_core(rhs) { }
 
 Expr::~Expr() { }
 
-Expr::Operator Expr::getOp() const {
+ExprImp::Operator ExprImp::getOp() const {
 	return m_core->m_op;
 }
 
-void Expr::setOp(Operator op) {
+void ExprImp::setOp(Operator op) {
 	m_core->m_op = op;
 }
 
-bool Expr::isBinOp() const {
+bool ExprImp::isBinOp() const {
 	if (m_core.ptr()) {
 		return isBinOp(m_core->m_op);
 	}
@@ -68,30 +68,30 @@ ExprListBuilder Expr::operator,(const Expr &rhs) {
 	return ExprListBuilder(*this, rhs);
 }
 
-bool Expr::isBinOp(Operator op) {
+bool ExprImp::isBinOp(Operator op) {
 	return (op >= BinOp_EqEq && op <= BinOp_ArrayRef);
 }
 
 Expr Expr::operator [] (const Expr &rhs) {
-	return Expr(new ExprCore(BinOp_ArrayRef, *this, rhs));
+	return Expr(new ExprCore(ExprImp::BinOp_ArrayRef, *this, rhs));
 }
 
 Expr Expr::operator [] (int32_t rhs) {
-	return Expr(new ExprCore(BinOp_ArrayRef, *this, rhs));
+	return Expr(new ExprCore(ExprImp::BinOp_ArrayRef, *this, rhs));
 }
 
 Expr Expr::operator [] (uint32_t rhs) {
-	return Expr(new ExprCore(BinOp_ArrayRef, *this, rhs));
+	return Expr(new ExprCore(ExprImp::BinOp_ArrayRef, *this, rhs));
 }
 
-void Expr::build() {
+void ExprImp::build() {
 	if (m_core.ptr()) {
 		m_core->m_lhs.build();
 		m_core->m_rhs.build();
 	}
 }
 
-const char *Expr::toString(Operator op) {
+const char *ExprImp::toString(Operator op) {
 	switch (op) {
 		case LiteralUint: return "uint32_t";
 		case LiteralInt: return "int32_t";
@@ -139,21 +139,21 @@ const char *Expr::toString(Operator op) {
 	}
 
 
-//DEFINE_OP_FUNCTIONS(=, Expr::BinOp_Eq)
-DEFINE_OP_FUNCTIONS(==, Expr::BinOp_EqEq)
-DEFINE_OP_FUNCTIONS(!=, Expr::BinOp_NotEq)
-DEFINE_OP_FUNCTIONS(>=, Expr::BinOp_GE)
-DEFINE_OP_FUNCTIONS(>, Expr::BinOp_GT)
-DEFINE_OP_FUNCTIONS(<=, Expr::BinOp_LE)
-DEFINE_OP_FUNCTIONS(<, Expr::BinOp_LT)
-DEFINE_OP_FUNCTIONS(&, Expr::BinOp_And)
-DEFINE_OP_FUNCTIONS(&&, Expr::BinOp_AndAnd)
-DEFINE_OP_FUNCTIONS(|, Expr::BinOp_Or)
-DEFINE_OP_FUNCTIONS(||, Expr::BinOp_OrOr)
-DEFINE_OP_FUNCTIONS(-, Expr::BinOp_Minus)
-DEFINE_OP_FUNCTIONS(+, Expr::BinOp_Plus)
-DEFINE_OP_FUNCTIONS(*, Expr::BinOp_Multiply)
-DEFINE_OP_FUNCTIONS(/, Expr::BinOp_Divide)
-DEFINE_OP_FUNCTIONS(%, Expr::BinOp_Mod)
+//DEFINE_OP_FUNCTIONS(=, ExprImp::BinOp_Eq)
+DEFINE_OP_FUNCTIONS(==, ExprImp::BinOp_EqEq)
+DEFINE_OP_FUNCTIONS(!=, ExprImp::BinOp_NotEq)
+DEFINE_OP_FUNCTIONS(>=, ExprImp::BinOp_GE)
+DEFINE_OP_FUNCTIONS(>, ExprImp::BinOp_GT)
+DEFINE_OP_FUNCTIONS(<=, ExprImp::BinOp_LE)
+DEFINE_OP_FUNCTIONS(<, ExprImp::BinOp_LT)
+DEFINE_OP_FUNCTIONS(&, ExprImp::BinOp_And)
+DEFINE_OP_FUNCTIONS(&&, ExprImp::BinOp_AndAnd)
+DEFINE_OP_FUNCTIONS(|, ExprImp::BinOp_Or)
+DEFINE_OP_FUNCTIONS(||, ExprImp::BinOp_OrOr)
+DEFINE_OP_FUNCTIONS(-, ExprImp::BinOp_Minus)
+DEFINE_OP_FUNCTIONS(+, ExprImp::BinOp_Plus)
+DEFINE_OP_FUNCTIONS(*, ExprImp::BinOp_Multiply)
+DEFINE_OP_FUNCTIONS(/, ExprImp::BinOp_Divide)
+DEFINE_OP_FUNCTIONS(%, ExprImp::BinOp_Mod)
 
 } /* namespace psi */

@@ -46,8 +46,8 @@
 #include "classlib/Package.h"
 #include "classlib/BaseItem.h"
 #include "classlib/Struct.h"
-#include "classlib/ExprCoreIf.h"
 #include "classlib/Exec.h"
+#include "ExprIfImp.h"
 
 using namespace psi_api;
 

@@ -34,14 +34,14 @@ namespace psi {
 class ComponentImpl : public NamedBaseItemImp {
 
 	public:
-		ComponentImpl(Component *master, ScopeImpl *p);
+		ComponentImpl(Component *master, ScopeImp *p);
 
 		virtual ~ComponentImpl();
 
-		const TypePathImpl &getSuperType() const { return m_super_type; }
+		const TypePathImp &getSuperType() const { return m_super_type; }
 
 	private:
-		TypePathImpl				m_super_type;
+		TypePathImp				m_super_type;
 
 };
 

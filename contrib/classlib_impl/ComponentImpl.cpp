@@ -23,7 +23,7 @@
  */
 
 #include "ComponentImpl.h"
-#include "ScopeImpl.h"
+#include "ScopeImp.h"
 
 namespace psi {
 
@@ -31,10 +31,10 @@ Component::Component(const Scope &p) : BaseItem(new ComponentImpl(this, p.impl()
 
 }
 
-ComponentImpl::ComponentImpl(Component *master, ScopeImpl *p) :
+ComponentImpl::ComponentImpl(Component *master, ScopeImp *p) :
 		NamedBaseItem(master, BaseItemImp::TypeComponent, p->parent()) {
-	setName(ModelImpl::global()->getActiveTypeName(this).leaf());
-	m_super_type = ModelImpl::global()->getSuperType(this);
+	setName(ModelImp::global()->getActiveTypeName(this).leaf());
+	m_super_type = ModelImp::global()->getSuperType(this);
 }
 
 Component::~Component() {

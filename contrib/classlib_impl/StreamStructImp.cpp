@@ -22,15 +22,22 @@
  *      Author: ballance
  */
 
-#include "classlib/StreamStruct.h"
-#include "classlib/Scope.h"
+#include "StreamStructImp.h"
+#include "ScopeImp.h"
 
 namespace psi {
 
 StreamStruct::StreamStruct(const Scope &p) :
-		Struct(Struct::Stream, p.parent()) { }
+		Struct(new StreamStructImp(this, p.impl())) { }
+
+StreamStructImp::StreamStructImp(StreamStruct *master, ScopeImp *p) :
+		StructImp(master, p, StructImp::Stream) { }
 
 StreamStruct::~StreamStruct() {
+	// TODO Auto-generated destructor stub
+}
+
+StreamStructImp::~StreamStructImp() {
 	// TODO Auto-generated destructor stub
 }
 

@@ -5,8 +5,8 @@
  *      Author: ballance
  */
 
-#ifndef SRC_PSI_CLASSLIB_STATESTRUCT_H_
-#define SRC_PSI_CLASSLIB_STATESTRUCT_H_
+#ifndef INCLUDED_STATE_STRUCT_H
+#define INCLUDED_STATE_STRUCT_H
 
 #include <string>
 #include <vector>
@@ -30,4 +30,4 @@ public:
 
 } /* namespace psi */
 
-#endif /* SRC_PSI_CLASSLIB_STATESTRUCT_H_ */
+#endif /* INCLUDED_STATE_STRUCT_H */

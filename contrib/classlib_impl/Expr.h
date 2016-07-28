@@ -25,8 +25,8 @@
 #ifndef INCLUDED_EXPR_H
 #define INCLUDED_EXPR_H
 
-#include "classlib/SharedPtr.h"
 #include "classlib/Types.h"
+#include "SharedPtr.h"
 
 namespace psi {
 
@@ -41,7 +41,7 @@ class BaseItem;
 
 class ExprCore;
 class ExprCoreList;
-class ExprImp {
+class Expr {
 
 	friend class ExprCoreList;
 

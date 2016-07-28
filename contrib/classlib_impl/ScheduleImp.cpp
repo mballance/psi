@@ -1,5 +1,5 @@
 /*
- * ExprCoreIf.h
+ * Schedule.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,36 +18,21 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: May 4, 2016
+ *  Created on: May 5, 2016
  *      Author: ballance
  */
 
-#ifndef SRC_PSI_CLASSLIB_EXPRCOREIF_H_
-#define SRC_PSI_CLASSLIB_EXPRCOREIF_H_
-#include "../../contrib/classlib_impl/ExprCore.h"
+#include "classlib/Schedule.h"
+#include "ExprImp.h"
 
 namespace psi {
 
-class ExprCoreIf : public ExprCore {
-public:
+Schedule::Schedule(const ExprList &body) : Expr(body) {
+	m_core.ptr()->setOp(ExprImp::GraphSchedule);
+}
 
-	ExprCoreIf(const Expr &cond, const Expr &true_expr);
-
-	ExprCoreIf(const Expr &cond, const Expr &true_expr, const Expr &false_expr);
-
-	virtual ~ExprCoreIf();
-
-	const Expr &getCond() const { return m_lhs; }
-
-	const Expr &getTrue() const { return m_rhs; }
-
-	const Expr &getFalse() const { return m_false_stmt; }
-
-protected:
-
-	Expr					m_false_stmt;
-};
+Schedule::~Schedule() {
+	// TODO Auto-generated destructor stub
+}
 
 } /* namespace psi */
-
-#endif /* SRC_PSI_CLASSLIB_EXPRCOREIF_H_ */
