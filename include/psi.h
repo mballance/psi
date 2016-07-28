@@ -25,7 +25,7 @@
 #ifndef INCLUDED_PSI_H
 #define INCLUDED_PSI_H
 
-#include "../psi_api.h"
+#include "psi_api.h"
 #include "classlib/Action.h"
 #include "classlib/Bind.h"
 #include "classlib/Bit.h"
@@ -65,14 +65,10 @@
 #include "classlib/StreamStruct.h"
 #include "classlib/Struct.h"
 #include "classlib/TypeDecl.h"
-#include "classlib/Model.h"
 #include "classlib/Types.h"
 #include "classlib/With.h"
 #include "classlib/PsiMacros.h"
 
-
-
-#include "classlib/Elaborator.h"
 
 typedef const std::string & psi_name;
 

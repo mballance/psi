@@ -15,7 +15,7 @@ namespace psi {
 
 class ExtendItem: public BaseItem {
 public:
-	ExtendItem(BaseItem *p);
+	ExtendItem(const Scope &p);
 
 	virtual ~ExtendItem();
 

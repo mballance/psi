@@ -22,15 +22,7 @@ public:
 
 	ExprListBuilderImp();
 
-#ifdef PSI_HAVE_CXX_11
-	ExprListBuilder(std::initializer_list<Expr> l) : ExprListBuilder() {
-		std::initializer_list<Expr>::const_iterator it;
-
-		for (it=l.begin(); it!=l.end(); it++) {
-			m_list.push_back((*it).getCore());
-		}
-	}
-#endif
+	ExprListBuilderImp(const std::vector<Expr> &l);
 
 	ExprListBuilderImp(const Expr &e1, const Expr &e2);
 

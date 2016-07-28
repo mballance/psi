@@ -20,6 +20,17 @@ ExprListBuilderImp::ExprListBuilderImp() {
 
 }
 
+ExprListBuilder::ExprListBuilder(const std::vector<Expr> &l) :
+		m_imp(new ExprListBuilderImp(l)) {
+
+}
+
+ExprListBuilderImp::ExprListBuilderImp(const std::vector<Expr> &l) {
+	for (std::vector<Expr>::const_iterator it=l.begin(); it!=l.end(); it++) {
+		m_list.push_back((*it).imp());
+	}
+}
+
 ExprListBuilder::ExprListBuilder(const Expr &e1, const Expr &e2) :
 	m_imp(new ExprListBuilderImp(e1, e2)) {
 }

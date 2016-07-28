@@ -31,7 +31,7 @@ namespace psi {
 template <class T> class ExtendComponent : public ExtendBase<T> {
 
 	public:
-		ExtendComponent(BaseItem *p) : ExtendBase<T>(p) { }
+		ExtendComponent(const Scope &p) : ExtendBase<T>(p) { }
 
 		virtual ~ExtendComponent() { }
 

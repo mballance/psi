@@ -21,6 +21,6 @@ $(LIBDIR)/libpsi_impl.a : $(foreach o,$(PSI_IMPL_SRC:.cpp=.o),$(PSI_BUILDDIR)/$(
 	$(Q)if test ! -d $(LIBDIR); then mkdir -p $(LIBDIR); fi
 	$(MK_AR)
 
-include $(PSI_DIR)/src/rules_defs.mk
+include $(PSI_DIR)/scripts/rules_defs.mk
 
 endif

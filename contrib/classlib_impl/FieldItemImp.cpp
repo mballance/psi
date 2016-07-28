@@ -32,5 +32,13 @@ FieldItemImp::~FieldItemImp() {
 	// TODO Auto-generated destructor stub
 }
 
+void FieldItem::setDataType(BaseItem *dt) {
+	static_cast<FieldItemImp *>(impl())->setDataType(dt);
+}
+
+void FieldItemImp::setDataType(BaseItem *dt) {
+	m_data_type = toImp(dt);
+}
+
 
 } /* namespace psi */

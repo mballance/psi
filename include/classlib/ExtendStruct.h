@@ -31,7 +31,7 @@ namespace psi {
 template <class T> class ExtendStruct : public ExtendBase<T> {
 
 	public:
-		ExtendStruct(BaseItem *p) : ExtendBase<T>(p) { }
+		ExtendStruct(const Scope &p) : ExtendBase<T>(p) { }
 
 		virtual ~ExtendStruct() { }
 

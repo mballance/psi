@@ -31,8 +31,6 @@ public:
 
 	void setDataType(BaseItem *dt);
 
-	void setInternal(bool i);
-
 };
 
 } /* namespace psi */

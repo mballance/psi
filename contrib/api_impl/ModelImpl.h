@@ -1,5 +1,5 @@
 /*
- * ModelImp.h
+ * ModelImpl.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -33,12 +33,12 @@ using namespace psi_api;
 
 namespace psi {
 
-class ModelImp: public IModel {
+class ModelImpl: public IModel {
 
 	public:
-		ModelImp();
+		ModelImpl();
 
-		virtual ~ModelImp();
+		virtual ~ModelImpl();
 
 //		virtual const std::vector<IPackage*> &getPackages();
 

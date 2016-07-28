@@ -52,6 +52,10 @@ BitTypeImp::BitTypeImp(
 				master, BaseItemImp::TypeBit, 0, name), m_msb(msb), m_lsb(lsb) {
 }
 
+BitType::~BitType() {
+	// TODO Auto-generated destructor stub
+}
+
 BitTypeImp::~BitTypeImp() {
 	// TODO Auto-generated destructor stub
 }

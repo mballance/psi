@@ -80,27 +80,7 @@ class ExecImp : public BaseItemImp {
 			Exec::ExecKind					kind,
 			const std::vector<BaseItem *>	&write_vars);
 
-#ifdef PSI_HAVE_CXX_11
-		ExecImp(
-			BaseItem								*p,
-			Exec::ExecKind							kind,
-			std::initializer_list<BaseItem>			write_vars) :
-				BaseItem(BaseItem::TypeExec, p),
-				m_execType(Inline),
-				m_execKind(kind) {
-			// TODO: save write variables
-//			std::vector<BaseItem *> ptr_v;
-//
-//			for (std::initializer_list<BaseItem>::const_iterator it=write_vars.begin();
-//					it!=write_vars.end(); it++) {
-//				ptr_v.
-//
-//			}
-		}
-#endif
-
 		virtual ~ExecImp();
-
 
 		inline Exec::ExecKind getExecKind() const {
 			return m_execKind;

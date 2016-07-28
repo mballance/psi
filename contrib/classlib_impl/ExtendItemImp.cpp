@@ -6,16 +6,17 @@
  */
 
 #include "ExtendItemImp.h"
+#include "ScopeImp.h"
 
 namespace psi {
 
-ExtendItem::ExtendItem(BaseItem *p) :
-		BaseItem(new ExtendItemImp(this, p, BaseItemImp::TypeExtendAction)) {
+ExtendItem::ExtendItem(const Scope &p) :
+		BaseItem(new ExtendItemImp(this, p.impl()->parent(), BaseItemImp::TypeExtendAction)) {
 	// TODO: need to pass through an extension type
 }
 
-ExtendItemImp::ExtendItemImp(ExtendItem *master, BaseItem *p, BaseItemImp::ObjectType t) :
-		BaseItemImp(master, t, toImp(p)), m_data_type(0) {
+ExtendItemImp::ExtendItemImp(ExtendItem *master, BaseItemImp *p, BaseItemImp::ObjectType t) :
+		BaseItemImp(master, t, p), m_data_type(0) {
 
 }
 

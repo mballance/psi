@@ -38,13 +38,7 @@ class ExprList : public Expr {
 		ExprList();
 
 #ifdef PSI_HAVE_CXX_11
-		ExprList(std::initializer_list<Expr> l) : ExprList() {
-			std::initializer_list<Expr>::const_iterator it;
-
-			for (it=l.begin(); it!=l.end(); it++) {
-				append(*it);
-			}
-		}
+		ExprList(std::initializer_list<Expr> l) : ExprList(ExprListBuilder(l)) { }
 #endif
 
 		ExprList(const Expr &rhs);
@@ -52,7 +46,6 @@ class ExprList : public Expr {
 		ExprList(const ExprImp &ptr);
 
 		ExprList(const ExprListBuilder &el);
-
 
 		virtual ~ExprList();
 

@@ -65,7 +65,7 @@ public:
 
 public:
 
-	virtual void setParent(BaseItemImp *p) { m_parent = p; }
+	virtual void setParent(BaseItem *p);
 
 	virtual BaseItemImp *getParent() const {
 		return m_parent;

@@ -21,14 +21,16 @@ public:
 	ExprListBuilder();
 
 #ifdef PSI_HAVE_CXX_11
-	ExprListBuilder(std::initializer_list<Expr> l) : ExprListBuilder() {
-		std::initializer_list<Expr>::const_iterator it;
-
-		for (it=l.begin(); it!=l.end(); it++) {
-			m_list.push_back((*it).getCore());
-		}
-	}
+	ExprListBuilder(std::initializer_list<Expr> l) : ExprListBuilder(std::vector<Expr>(l)) { }
+//		std::initializer_list<Expr>::const_iterator it;
+//
+//		for (it=l.begin(); it!=l.end(); it++) {
+//			m_list.push_back((*it).getCore());
+//		}
+//	}
 #endif
+
+	ExprListBuilder(const std::vector<Expr> &l);
 
 	ExprListBuilder(const Expr &e1, const Expr &e2);
 

@@ -25,7 +25,7 @@ public:
 
 	BaseItemImp *getDataType() const { return m_data_type; }
 
-	void setDataType(BaseItemImp *dt) { m_data_type = dt; }
+	void setDataType(BaseItem *dt);
 
 	FieldItem::FieldAttr getAttr() const { return m_attr; }
 

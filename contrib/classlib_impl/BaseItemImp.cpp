@@ -54,8 +54,20 @@ BaseItemImp::~BaseItemImp() {
 	// TODO Auto-generated destructor stub
 }
 
+BaseItemImp *BaseItem::impl() const {
+	return m_impl;
+}
+
 BaseItemImp *BaseItemImp::toImp(BaseItem *i) {
 	return (i)?i->impl():0;
+}
+
+void BaseItem::setParent(BaseItem *p) {
+	static_cast<BaseItemImp *>(impl())->setParent(p);
+}
+
+void BaseItemImp::setParent(BaseItem *p) {
+	m_parent = toImp(p);
 }
 
 Expr BaseItem::operator [] (const Expr &rhs) {

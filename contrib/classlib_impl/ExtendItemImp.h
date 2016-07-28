@@ -15,7 +15,7 @@ namespace psi {
 
 class ExtendItemImp: public BaseItemImp {
 public:
-	ExtendItemImp(ExtendItem *master, BaseItem *p, BaseItemImp::ObjectType t);
+	ExtendItemImp(ExtendItem *master, BaseItemImp *p, BaseItemImp::ObjectType t);
 
 	virtual ~ExtendItemImp();
 

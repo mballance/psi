@@ -44,6 +44,10 @@ INST_TARGETS += $(foreach h,$(PSI_APPS_HEADERS),$(INCDIR)/apps/$(h))
 INST_TARGETS += $(INCDIR)/psi.h $(INCDIR)/psi_api.h
 
 CXXFLAGS += -I/usr/include/libxml2
+CXXFLAGS += -I$(PSI_INCLUDE_DIR)
+CXXFLAGS += -I$(PSI_CONTRIB_DIR)/apps
+CXXFLAGS += -I$(PSI_CONTRIB_DIR)/classlib_impl
+CXXFLAGS += -I$(PSI_CONTRIB_DIR)/api_impl
 
 else
 

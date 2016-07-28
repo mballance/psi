@@ -9,13 +9,14 @@
 #define INCLUDED_EXTEND_BASE_H
 
 #include "classlib/ExtendItem.h"
+#include "classlib/Scope.h"
 
 namespace psi {
 
 template <class T> class ExtendBase : public T {
 public:
 
-	ExtendBase(BaseItem *p) : m_item(p) {
+	ExtendBase(const Scope &p) : T(p), m_item(p) {
 		m_item.setDataType(TypeDecl<T>::type_id());
 	}
 

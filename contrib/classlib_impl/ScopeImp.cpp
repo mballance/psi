@@ -43,6 +43,10 @@ ScopeImp::~ScopeImp() {
 
 }
 
+ScopeImp *Scope::impl() const {
+	return m_impl;
+}
+
 BaseItemImp *ScopeImp::parent() const {
 	const std::vector<const ScopeImp *> &scope = ModelImp::global()->get_scope();
 
