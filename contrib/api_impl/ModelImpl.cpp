@@ -1,5 +1,5 @@
 /*
- * ModelImp.cpp
+ * ModelImpl.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,61 +22,61 @@
  *      Author: ballance
  */
 
-#include "../api_impl/ModelImp.h"
+#include "ModelImpl.h"
 
 #include <stdio.h>
 #include <iterator>
 #include <string>
 #include <vector>
 
-#include "../api_impl/ActionImpl.h"
-#include "../api_impl/BinaryExprImpl.h"
-#include "../api_impl/BindImpl.h"
-#include "../api_impl/BindPathImpl.h"
-#include "../api_impl/ComponentImpl.h"
-#include "../api_impl/ConstraintBlockImpl.h"
-#include "../api_impl/ConstraintExprImpl.h"
-#include "../api_impl/ConstraintIfImpl.h"
-#include "../api_impl/ExecImpl.h"
-#include "../api_impl/ExtendImpl.h"
-#include "../api_impl/FieldImpl.h"
-#include "../api_impl/FieldRefImpl.h"
-#include "../api_impl/GraphBlockStmtImpl.h"
-#include "../api_impl/GraphRepeatStmtImpl.h"
-#include "../api_impl/GraphTraverseStmtImpl.h"
-#include "../api_impl/LiteralImpl.h"
-#include "../api_impl/ScalarTypeImpl.h"
-#include "../api_impl/StructImpl.h"
+#include "ActionImpl.h"
+#include "BinaryExprImpl.h"
+#include "BindImpl.h"
+#include "BindPathImpl.h"
+#include "ComponentImpl.h"
+#include "ConstraintBlockImpl.h"
+#include "ConstraintExprImpl.h"
+#include "ConstraintIfImpl.h"
+#include "ExecImpl.h"
+#include "ExtendImpl.h"
+#include "FieldImpl.h"
+#include "FieldRefImpl.h"
+#include "GraphBlockStmtImpl.h"
+#include "GraphRepeatStmtImpl.h"
+#include "GraphTraverseStmtImpl.h"
+#include "LiteralImpl.h"
+#include "ScalarTypeImpl.h"
+#include "StructImpl.h"
 #include "api/IBaseItem.h"
 
 namespace psi {
 
-ModelImp::ModelImp() : m_global_pkg("") {
+ModelImpl::ModelImpl() : m_global_pkg("") {
 	// TODO Auto-generated constructor stub
 
 }
 
-ModelImp::~ModelImp() {
+ModelImpl::~ModelImpl() {
 	// TODO Auto-generated destructor stub
 }
 
-//const std::vector<IPackage*> &ModelImp::getPackages() {
+//const std::vector<IPackage*> &ModelImpl::getPackages() {
 //	return m_packages;
 //}
 
-const std::vector<IBaseItem *> &ModelImp::getItems() const {
+const std::vector<IBaseItem *> &ModelImpl::getItems() const {
 	return m_children;
 }
 
-void ModelImp::add(IBaseItem *it) {
+void ModelImpl::add(IBaseItem *it) {
 	m_children.push_back(it);
 }
 
-IPackage *ModelImp::getGlobalPackage() {
+IPackage *ModelImpl::getGlobalPackage() {
 	return &m_global_pkg;
 }
 
-IPackage *ModelImp::findPackage(const std::string &name, bool create) {
+IPackage *ModelImpl::findPackage(const std::string &name, bool create) {
 	std::vector<IBaseItem *>::iterator it;
 
 	for (it=m_children.begin(); it!=m_children.end(); it++) {
@@ -108,7 +108,7 @@ IPackage *ModelImp::findPackage(const std::string &name, bool create) {
  * Creates a scalar type. The msb and lsb parameters are ignored for types
  * other than Int and Bit
  */
-IScalarType *ModelImp::mkScalarType(
+IScalarType *ModelImpl::mkScalarType(
 		IScalarType::ScalarType t,
 		uint32_t				msb,
 		uint32_t				lsb) {
@@ -119,52 +119,52 @@ IScalarType *ModelImp::mkScalarType(
 	return new ScalarTypeImpl(t, msb, lsb);
 }
 
-IBind *ModelImp::mkBind(const std::vector<IBindPath *> &targets) {
+IBind *ModelImpl::mkBind(const std::vector<IBindPath *> &targets) {
 	return new BindImpl(targets);
 }
 
-IBindPath *ModelImp::mkBindPath(const std::vector<IBaseItem *> &path) {
+IBindPath *ModelImpl::mkBindPath(const std::vector<IBaseItem *> &path) {
 	return new BindPathImpl(path);
 }
 
 /**
  * Action
  */
-IAction *ModelImp::mkAction(const std::string &name, IAction *super_type) {
+IAction *ModelImpl::mkAction(const std::string &name, IAction *super_type) {
 	return new ActionImpl(name, super_type);
 }
 
-IComponent *ModelImp::mkComponent(const std::string &name) {
+IComponent *ModelImpl::mkComponent(const std::string &name) {
 	return new ComponentImpl(name);
 }
 
-IExec *ModelImp::mkTargetTemplateExec(
+IExec *ModelImpl::mkTargetTemplateExec(
 		IExec::ExecKind			kind,
 		const std::string		&language,
 		const std::string		&text) {
 	return new ExecImpl(kind, language, text);
 }
 
-IExec *ModelImp::mkInlineExec(
+IExec *ModelImpl::mkInlineExec(
 		IExec::ExecKind			kind,
 		IInlineExec				*exec) {
 	return new ExecImpl(kind, exec);
 }
 
-IExec *ModelImp::mkNativeExec(
+IExec *ModelImpl::mkNativeExec(
 		IExec::ExecKind			kind,
 		IExpr					*stmts) {
 	return new ExecImpl(kind, stmts);
 }
 
-IStruct *ModelImp::mkStruct(
+IStruct *ModelImpl::mkStruct(
 		const std::string 		&name,
 		IStruct::StructType		t,
 		IStruct 				*super_type) {
 	return new StructImpl(name, t, super_type);
 }
 
-IExtend *ModelImp::mkExtend(IBaseItem *target) {
+IExtend *ModelImpl::mkExtend(IBaseItem *target) {
 	return new ExtendImpl(target);
 }
 
@@ -172,57 +172,57 @@ IExtend *ModelImp::mkExtend(IBaseItem *target) {
  * Create a field for use in declaring the contents of an
  * action or struct data type
  */
-IField *ModelImp::mkField(
+IField *ModelImpl::mkField(
 		const std::string		&name,
 		IBaseItem				*field_type,
 		IField::FieldAttr		attr) {
 	return new FieldImpl(name, field_type, attr);
 }
 
-IGraphBlockStmt *ModelImp::mkGraphBlockStmt(IGraphStmt::GraphStmtType type) {
+IGraphBlockStmt *ModelImpl::mkGraphBlockStmt(IGraphStmt::GraphStmtType type) {
 	return new GraphBlockStmtImpl(type);
 }
 
-IGraphRepeatStmt *ModelImp::mkGraphRepeatStmt(
+IGraphRepeatStmt *ModelImpl::mkGraphRepeatStmt(
 		IGraphRepeatStmt::RepeatType type,
 		IExpr *expr, IGraphStmt *body) {
 	return new GraphRepeatStmtImpl(type, expr, body);
 }
 
-IGraphTraverseStmt *ModelImp::mkGraphTraverseStmt(
+IGraphTraverseStmt *ModelImpl::mkGraphTraverseStmt(
 		IFieldRef *action, IConstraint *with_c) {
 	return new GraphTraverseStmtImpl(action, with_c);
 }
 
-IBinaryExpr *ModelImp::mkBinExpr(
+IBinaryExpr *ModelImpl::mkBinExpr(
 		IExpr 					*lhs,
 		IBinaryExpr::BinOpType	op,
 		IExpr 					*rhs) {
 	return new BinaryExprImpl(lhs, op, rhs);
 }
 
-IFieldRef *ModelImp::mkFieldRef(
+IFieldRef *ModelImpl::mkFieldRef(
 		const std::vector<IField *>		&field_path) {
 	return new FieldRefImpl(field_path);
 }
 
-ILiteral *ModelImp::mkIntLiteral(int64_t v) {
+ILiteral *ModelImpl::mkIntLiteral(int64_t v) {
 	return new LiteralImpl(v);
 }
 
-ILiteral *ModelImp::mkBitLiteral(uint64_t v) {
+ILiteral *ModelImpl::mkBitLiteral(uint64_t v) {
 	return new LiteralImpl(v);
 }
 
-ILiteral *ModelImp::mkBoolLiteral(bool v) {
+ILiteral *ModelImpl::mkBoolLiteral(bool v) {
 	return new LiteralImpl(v);
 }
 
-ILiteral *ModelImp::mkStringLiteral(const std::string &v) {
+ILiteral *ModelImpl::mkStringLiteral(const std::string &v) {
 	return new LiteralImpl(v);
 }
 
-IConstraintBlock *ModelImp::mkConstraintBlock(
+IConstraintBlock *ModelImpl::mkConstraintBlock(
 		const std::string 		&name,
 		IConstraint				*c) {
 	IConstraintBlock *ret = new ConstraintBlockImpl(name);
@@ -234,7 +234,7 @@ IConstraintBlock *ModelImp::mkConstraintBlock(
 	return ret;
 }
 
-IConstraintBlock *ModelImp::mkConstraintBlock(
+IConstraintBlock *ModelImpl::mkConstraintBlock(
 		const std::string 					&name,
 		const std::vector<IConstraint *>	&cl) {
 	IConstraintBlock *ret = new ConstraintBlockImpl(name);
@@ -244,12 +244,12 @@ IConstraintBlock *ModelImp::mkConstraintBlock(
 	return ret;
 }
 
-IConstraintExpr *ModelImp::mkConstraintExpr(IExpr *expr) {
+IConstraintExpr *ModelImpl::mkConstraintExpr(IExpr *expr) {
 	return new ConstraintExprImpl(expr);
 }
 
 
-IConstraintIf *ModelImp::mkConstraintIf(
+IConstraintIf *ModelImpl::mkConstraintIf(
 		IExpr 			*cond,
 		IConstraint 	*true_c,
 		IConstraint 	*false_c) {

@@ -174,4 +174,8 @@ DEFINE_OP_FUNCTIONS(*, ExprImp::BinOp_Multiply)
 DEFINE_OP_FUNCTIONS(/, ExprImp::BinOp_Divide)
 DEFINE_OP_FUNCTIONS(%, ExprImp::BinOp_Mod)
 
+const ExprImp &Expr::imp() const {
+	return *m_core;
+}
+
 } /* namespace psi */

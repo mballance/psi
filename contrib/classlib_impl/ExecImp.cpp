@@ -83,6 +83,18 @@ ExecImp::ExecImp(
 	// TODO: save call information
 }
 
+ExecImp::ExecImp(
+		Exec					*master,
+		BaseItem				*p,
+		Exec::ExecKind 			kind,
+		const ExprList			&stmts) :
+			BaseItemImp(master, BaseItemImp::TypeExec, toImp(p)),
+			m_execType(Native),
+			m_execKind(kind),
+			m_stmts(stmts) {
+	// TODO: save call information
+}
+
 Exec::Exec(
 		BaseItem								*p,
 		ExecKind								kind,

@@ -62,6 +62,18 @@ void Action::body() {
 
 }
 
+void ActionImp::pre_solve() {
+
+}
+
+void ActionImp::post_solve() {
+
+}
+
+void ActionImp::body() {
+
+}
+
 void ActionImp::inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl) {
 	m_ctxt = ctxt;
 	m_hndl = hndl;

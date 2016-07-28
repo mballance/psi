@@ -44,4 +44,12 @@ ExprCoreList::~ExprCoreList() {
 	// TODO Auto-generated destructor stub
 }
 
+void ExprCoreList::add(const Expr &e) {
+	m_exprList.push_back(e.imp());
+}
+
+void ExprCoreList::add(const ExprImp &e) {
+	m_exprList.push_back(e);
+}
+
 } /* namespace psi */

@@ -31,6 +31,8 @@ namespace psi {
 Struct::Struct(const Scope &p) :
 	BaseItem(new StructImp(this, p.impl())) { }
 
+Struct::Struct(BaseItemImp *imp) : BaseItem(imp) { }
+
 //				m_structType(Struct::Base) {
 //	m_super_type = Model::global()->getSuperType(this);
 //	setName(Model::global()->getActiveTypeName(this).leaf());
@@ -56,6 +58,14 @@ StructImp::~StructImp() {
 	// TODO Auto-generated destructor stub
 }
 
+const TypePathImp &StructImp::getSuperType() const {
+	return m_super_type;
+}
+
+StructImp::StructType StructImp::getStructType() const {
+	return m_struct_type;
+}
+
 void Struct::pre_solve() {
 
 }
@@ -65,6 +75,26 @@ void Struct::post_solve() {
 }
 
 void Struct::body() {
+
+}
+
+void StructImp::inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl) {
+
+}
+
+void StructImp::pre_solve() {
+
+}
+
+void StructImp::post_solve() {
+
+}
+
+void StructImp::body() {
+
+}
+
+void StructImp::inline_exec_post() {
 
 }
 

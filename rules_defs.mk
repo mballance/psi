@@ -6,7 +6,7 @@ include $(PSI_DIR)/scripts/rules_defs.mk
 
 LIB_TARGETS += $(LIBDIR)/libpsi_impl.a
 
-PSI_IMPL_SRC := $(notdir $(wildcard $(PSI_DIR)/impl/*.cpp))
+PSI_IMPL_SRC := $(notdir $(wildcard $(PSI_DIR)/contrib/api_impl/*.cpp))
 
 
 else
