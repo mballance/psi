@@ -1,5 +1,5 @@
 /*
- * Constraint.cpp
+ * ConstraintImp.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -30,13 +30,13 @@ Constraint::Constraint(BaseItem *p, const ExprList &stmt) :
 		BaseItem(new ConstraintImp(this, p, "", stmt)) { }
 
 ConstraintImp::ConstraintImp(Constraint *master, BaseItem *p, const ExprList &stmt) :
-		NamedBaseItemImp(master, BaseItemImp::TypeConstraint, toImp(p)), m_stmt(stmt) { }
+		NamedBaseItemImp(master, BaseItemImp::TypeConstraint, p), m_stmt(stmt) { }
 
 Constraint::Constraint(BaseItem *p, const std::string &name, const ExprList &stmt) :
 		BaseItem(new ConstraintImp(this, p, name, stmt)) { }
 
 ConstraintImp::ConstraintImp(Constraint *master, BaseItem *p, const std::string &name, const ExprList &stmt) :
-		NamedBaseItemImp(master, BaseItemImp::TypeConstraint, toImp(p), name), m_stmt(stmt) { }
+		NamedBaseItemImp(master, BaseItemImp::TypeConstraint, p, name), m_stmt(stmt) { }
 
 Constraint::~Constraint() {
 	// TODO Auto-generated destructor stub

@@ -1,4 +1,5 @@
 /*
+ *
  * Package.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -35,7 +36,7 @@ Package::Package(const Scope &p) :
 
 PackageImp::PackageImp(Package *master, ScopeImp *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypePackage, p->parent()) {
-	TypePathImp type = ModelImp::global()->getActiveTypeName(this);
+	TypePathImp type = ModelImp::global()->getActiveTypeName(master);
 	setName(type.leaf());
 }
 

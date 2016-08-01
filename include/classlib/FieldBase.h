@@ -1,4 +1,24 @@
-
+/*
+ * FieldBase.h
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ *
+ */
 #ifndef INCLUDED_FIELD_BASE_H
 #define INCLUDED_FIELD_BASE_H
 #include "classlib/FieldItem.h"
@@ -22,21 +42,8 @@ public:
 
 protected:
 
-	FieldBase(FieldItem::FieldAttr attr, BaseItem *p, const std::string &name) :
-		T(Scope(true)), m_field(p, name, attr) {
-		T *t = static_cast<T *>(this);
-
-		// Get the 'authoratative' type declaration from
-		// TypeDecl<> in the case of a user-defined type. Otherwise,
-		// just set the type handle
-		if (TypeDecl<T>::valid()) {
-			m_field.setDataType(TypeDecl<T>::id());
-		} else {
-			m_field.setDataType(t);
-		}
-
-		// Propagate parent/child relationships to the 'type' object
-		t->setParent(p);
+	FieldBase(FieldItem::FieldAttr attr, BaseItem *p, const std::string &name) : T(Scope(true)),
+		m_field(p, name, attr, this, (TypeDecl<T>::valid())?TypeDecl<T>::id():0) {
 	}
 
 

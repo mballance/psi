@@ -56,12 +56,6 @@ public:
 		 */
 		virtual void post_solve();
 
-		/**
-		 * Solver hook method. Enabled by instantiating an inline Exec block
-		 * for ExecKind::Body
-		 */
-		virtual void body();
-
 };
 
 } /* namespace psi */

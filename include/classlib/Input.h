@@ -22,8 +22,8 @@
  *      Author: ballance
  */
 
-#ifndef INPUT_H_
-#define INPUT_H_
+#ifndef INCLUDED_INPUT_H
+#define INCLUDED_INPUT_H
 #include <string>
 
 #include "classlib/FieldBase.h"
@@ -43,4 +43,4 @@ template <class T> class Input : public FieldBase<T> {
 
 } /* namespace psi */
 
-#endif /* INPUT_H_ */
+#endif /* INCLUDED_INPUT_H */

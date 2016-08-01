@@ -66,6 +66,7 @@ public:
 public:
 
 	virtual void setParent(BaseItem *p);
+	virtual void setParent(BaseItemImp *p);
 
 	virtual BaseItemImp *getParent() const {
 		return m_parent;
@@ -76,7 +77,7 @@ public:
 	}
 
 	// Effectively private.
-	virtual void add(BaseItemImp *item);
+	virtual void add(BaseItemImp *item, bool reparent=true);
 
 	void setObjectType(ObjectType t);
 
@@ -86,16 +87,23 @@ public:
 
 	virtual ~BaseItemImp();
 
+	static BaseItemImp *toImp(BaseItem *i);
+
+	BaseItem *master() const { return m_master; }
+
+	void setMaster(BaseItem *m) { m_master = m; }
+
+	static BaseItem *pOrGlobal(BaseItem *p);
+
 protected:
 
-	BaseItemImp(BaseItem *master, ObjectType t, BaseItemImp *p);
+	BaseItemImp(BaseItem *master, ObjectType t, BaseItem *p);
 
-	static BaseItemImp *toImp(BaseItem *i);
 
 private:
 	BaseItem					*m_master;
 	ObjectType					m_type;
-	BaseItemImp				*m_parent;
+	BaseItemImp					*m_parent;
 
 	std::vector<BaseItemImp *>	m_children;
 };

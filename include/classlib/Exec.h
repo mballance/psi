@@ -75,8 +75,7 @@ class Exec : public BaseItem {
 		 */
 		Exec(
 			BaseItem								*p,
-			ExecKind								kind,
-			const std::vector<BaseItem *>			&write_vars);
+			ExecKind								kind);
 
 #ifdef PSI_HAVE_CXX_11
 //		Exec(

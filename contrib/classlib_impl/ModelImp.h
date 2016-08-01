@@ -34,6 +34,14 @@
 
 namespace psi {
 
+class ModelImp;
+class Model : public BaseItem {
+public:
+
+	Model(ModelImp *imp);
+
+};
+
 class PackageImpl;
 class ScopeImp;
 class ModelImp : public BaseItemImp {
@@ -52,19 +60,20 @@ class ModelImp : public BaseItemImp {
 
 		const std::vector<const ScopeImp *> &get_scope() const;
 
-		TypePathImp getActiveTypeName(BaseItemImp *it);
+		TypePathImp getActiveTypeName(BaseItem *it);
 
-		TypePathImp getSuperType(BaseItemImp *it);
+		TypePathImp getSuperType(BaseItem *it);
 
-		BaseItemImp *getActiveScope();
+		BaseItem *getActiveScope();
 
 		bool in_field_decl() const { return m_in_field_decl; }
 
 		static TypePathImp demangle(const ScopeImp *s);
 
+		static BaseItem *pOrGlobal(BaseItem *p);
+
 	private:
 		std::vector<const ScopeImp *>		m_scope;
-		BaseItemImp						*m_last_scope;
 		bool								m_in_field_decl;
 
 		static ModelImp					*m_global;

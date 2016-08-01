@@ -534,7 +534,7 @@ IExec *Elaborator::elaborate_exec_item(ExecImp *e) {
 
 	switch (e->getExecType()) {
 	case ExecImp::Native: {
-
+		fprintf(stdout, "TODO: native exec\n");
 	} break;
 
 	case ExecImp::Inline: {
@@ -576,11 +576,7 @@ IExec *Elaborator::elaborate_exec_item(ExecImp *e) {
 						&ActionImp::body,
 						&ActionImp::inline_exec_post);
 			} else if (t->getObjectType() == BaseItemImp::TypeStruct) {
-				inline_exec = new InlineExecClosure<StructImp>(
-						static_cast<StructImp *>(t),
-						&StructImp::inline_exec_pre,
-						&StructImp::body,
-						&StructImp::inline_exec_post);
+				error("struct types do not support body() exec blocks");
 			}
 		} else {
 			error("unsupported inline exec block kind: %d", kind);
@@ -654,18 +650,24 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItemImp *t) {
 		// declaration scope that contains this expression
 		if (t == m_class_expr_ctxt) {
 			// TODO: might need to do something different for extended types?
+			debug_high("Reached t==m_class_expr_ctxt");
 			break;
 		} else {
-			NamedBaseItemImp *ni = toNamedItem(t);
+			NamedBaseItemImp *ni;
+
+			ni = toNamedItem(t);
 
 			if (ni) {
-				debug_high("  Add type %s", ni->getName().c_str());
+				debug_high("  Add type %s (%p)", ni->getName().c_str(), t);
 				types.push_back(ni);
 			} else {
-				debug_high("  Warn: element is not named");
+				debug_high("  Warn: element is not named (%d)", t->getObjectType());
 			}
 		}
 		t = t->getParent();
+		if (!t) {
+			debug_high("  parent==null");
+		}
 	}
 
 	// This is the active scope
@@ -718,8 +720,9 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItemImp *t) {
 				}
 			} else {
 				INamedItem *named_it = toNamedItem(scope);
-				error(std::string("Failed to find field ") + t->getName() +
-						std::string(" in scope ") + ((named_it)?named_it->getName():"UNNAMED"));
+				error("Failed to find field %p name=%s in scope %p %s",
+						t, t->getName().c_str(), named_it,
+						((named_it)?named_it->getName().c_str():"UNNAMED"));
 				break;
 			}
 		}
@@ -752,7 +755,7 @@ IBindPath *Elaborator::elaborate_bind_path(BaseItemImp *t) {
 				debug_high("  Add type %s", ni->getName().c_str());
 				types.push_back(ni);
 			} else {
-				debug_high("  Warn: element is not named");
+				debug_high("  Warn: element is not named (%d)", t->getObjectType());
 			}
 		}
 		t = t->getParent();

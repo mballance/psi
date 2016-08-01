@@ -35,12 +35,12 @@ Action::Action(const Scope	&p) :
 
 ActionImp::ActionImp(Action *master, ScopeImp *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypeAction, p->parent()) {
-	m_super_type = ModelImp::global()->getSuperType(this);
+	m_super_type = ModelImp::global()->getSuperType(master);
 	m_ctxt = 0;
 	m_hndl = 0;
 
 	// TODO: need to deal with named scopes
-	TypePathImp type = ModelImp::global()->getActiveTypeName(this);
+	TypePathImp type = ModelImp::global()->getActiveTypeName(master);
 	setName(type.leaf());
 }
 

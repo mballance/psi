@@ -22,8 +22,8 @@
  *      Author: ballance
  */
 
-#ifndef OUTPUT_H_
-#define OUTPUT_H_
+#ifndef INCLUDED_OUTPUT_H
+#define INCLUDED_OUTPUT_H
 #include <string>
 #include <stdio.h>
 
@@ -44,4 +44,4 @@ template <class T> class Output : public FieldBase<T> {
 
 } /* namespace psi */
 
-#endif /* OUTPUT_H_ */
+#endif /* INCLUDED_OUTPUT_H */

@@ -38,7 +38,7 @@ ImportImp::ImportImp(
 		BaseItem 			*p,
 		const std::string 	&name,
 		const ExprList 		&plist) :
-	NamedBaseItemImp(master, BaseItemImp::TypeImport, toImp(p), name) {
+	NamedBaseItemImp(master, BaseItemImp::TypeImport, p, name) {
 
 }
 
@@ -54,7 +54,7 @@ ImportImp::ImportImp(
 		const std::string 	&name,
 		const BaseItem 		&ret,
 		const ExprList 		&plist) :
-	NamedBaseItemImp(master, BaseItemImp::TypeImport, toImp(p), name) {
+	NamedBaseItemImp(master, BaseItemImp::TypeImport, p, name) {
 	// TODO: save ret, plist
 }
 

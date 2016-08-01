@@ -65,7 +65,6 @@ public:
 	virtual void inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl);
 
 	virtual void pre_solve();
-	virtual void body();
 	virtual void post_solve();
 
 	virtual void inline_exec_post();

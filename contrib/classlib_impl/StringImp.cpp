@@ -30,7 +30,7 @@ String::String(BaseItem *p) :
 		BaseItem(new StringImp(this, p)) { }
 
 StringImp::StringImp(String *master, BaseItem *p) :
-		NamedBaseItemImp(master, BaseItemImp::TypeString, toImp(p)) { }
+		NamedBaseItemImp(master, BaseItemImp::TypeString, p) { }
 
 String::String(const std::string &name) :
 		BaseItem(new StringImp(this, name)) { }

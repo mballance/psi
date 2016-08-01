@@ -77,8 +77,7 @@ class ExecImp : public BaseItemImp {
 		ExecImp(
 			Exec							*master,
 			BaseItem						*p,
-			Exec::ExecKind					kind,
-			const std::vector<BaseItem *>	&write_vars);
+			Exec::ExecKind					kind);
 
 		virtual ~ExecImp();
 

@@ -35,7 +35,7 @@ namespace psi {
 class BoolImp: public NamedBaseItemImp {
 
 	public:
-		BoolImp(Bool *master, BaseItemImp *p);
+		BoolImp(Bool *master, BaseItem *p);
 
 		/**
 		 * This constructor is used for composing parameter lists.

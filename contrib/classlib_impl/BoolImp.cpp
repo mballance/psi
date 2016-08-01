@@ -30,7 +30,7 @@ namespace psi {
 
 Bool::Bool(const Scope &p) : BaseItem(new BoolImp(this, p.impl()->parent())) { }
 
-BoolImp::BoolImp(Bool *master, BaseItemImp *p) :
+BoolImp::BoolImp(Bool *master, BaseItem *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypeBool, p) { }
 
 Bool::Bool(const std::string &name) : BaseItem(new BoolImp(this, name)) { }

@@ -46,8 +46,8 @@ StructImp::StructImp(
 		StructType	t) :
 	NamedBaseItemImp(master, BaseItemImp::TypeStruct, p->parent(), ""),
 	m_struct_type(t) {
-	m_super_type = ModelImp::global()->getSuperType(this);
-	setName(ModelImp::global()->getActiveTypeName(this).leaf());
+	m_super_type = ModelImp::global()->getSuperType(master);
+	setName(ModelImp::global()->getActiveTypeName(master).leaf());
 }
 
 Struct::~Struct() {
@@ -74,10 +74,6 @@ void Struct::post_solve() {
 
 }
 
-void Struct::body() {
-
-}
-
 void StructImp::inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl) {
 
 }
@@ -87,10 +83,6 @@ void StructImp::pre_solve() {
 }
 
 void StructImp::post_solve() {
-
-}
-
-void StructImp::body() {
 
 }
 

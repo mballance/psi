@@ -27,22 +27,24 @@
 #include "BaseItemImp.h"
 #include "NamedBaseItemImp.h"
 #include "ExprCore.h"
+#include "ModelImp.h"
 
 #include <stdio.h>
 
-#include "ExprImp.h"
+#include "ExprListBuilderImp.h"
 
 namespace psi {
 
 BaseItem::BaseItem(BaseItemImp *impl) {
 	m_impl = impl;
+	m_impl->setMaster(this);
 }
 
-BaseItemImp::BaseItemImp(BaseItem *master, ObjectType t, BaseItemImp *p) :
-		m_master(master), m_type(t), m_parent(p) {
+BaseItemImp::BaseItemImp(BaseItem *master, ObjectType t, BaseItem *p) :
+		m_master(master), m_type(t), m_parent(toImp(p)) {
 
-	if (p) {
-		p->add(this);
+	if (m_parent) {
+		m_parent->add(this);
 	}
 }
 
@@ -62,12 +64,20 @@ BaseItemImp *BaseItemImp::toImp(BaseItem *i) {
 	return (i)?i->impl():0;
 }
 
-void BaseItem::setParent(BaseItem *p) {
-	static_cast<BaseItemImp *>(impl())->setParent(p);
-}
-
+//void BaseItem::setParent(BaseItem *p) {
+//	static_cast<BaseItemImp *>(impl())->setParent(p);
+//}
+//
 void BaseItemImp::setParent(BaseItem *p) {
 	m_parent = toImp(p);
+}
+
+void BaseItemImp::setParent(BaseItemImp *p) {
+	m_parent = p;
+}
+
+BaseItem *BaseItemImp::pOrGlobal(BaseItem *p) {
+	return (p)?p:ModelImp::global()->master();
 }
 
 Expr BaseItem::operator [] (const Expr &rhs) {
@@ -78,7 +88,7 @@ ExprListBuilder BaseItem::operator,(const BaseItem &rhs) {
 	return ExprListBuilder(*this, rhs);
 }
 
-void BaseItemImp::add(BaseItemImp *item) {
+void BaseItemImp::add(BaseItemImp *item, bool reparent) {
 //	NamedBaseItem *ni_t = NamedBaseItem::to(this);
 //	NamedBaseItem *ni_it = NamedBaseItem::to(item);
 //
@@ -87,6 +97,9 @@ void BaseItemImp::add(BaseItemImp *item) {
 //			(ni_it)?ni_it->getName().c_str():"NULL",
 //			getObjectType(),
 //			(ni_t)?ni_t->getName().c_str():"NULL");
+	if (reparent) {
+		item->setParent(this);
+	}
 	m_children.push_back(item);
 }
 

@@ -53,17 +53,9 @@ public:
 
 	Expr(const Expr &rhs);
 
-//	Expr(ExprCore *rhs);
-
 	Expr(const ExprImp &ptr);
 
 	virtual ~Expr();
-
-//		const ExprImp &getCore() const { return m_core; }
-//
-//		ExprImp &getCore() { return m_core; }
-
-	// ExprCore *getCorePtr() const { return m_core.ptr(); }
 
 	ExprListBuilder operator,(const Expr &rhs);
 

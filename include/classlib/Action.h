@@ -31,6 +31,9 @@
 
 namespace psi {
 
+/**
+ * User-defined Action classes extend from the Action base class.
+ */
 class Action : public BaseItem {
 public:
 

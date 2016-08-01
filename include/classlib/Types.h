@@ -22,8 +22,8 @@
  *      Author: ballance
  */
 
-#ifndef SRC_CLASSLIB_TYPES_H_
-#define SRC_CLASSLIB_TYPES_H_
+#ifndef INCLUDED_TYPES_H
+#define INCLUDED_TYPES_H
 
 #ifndef PSI_HAVE_CXX_11
 #if __cplusplus >= 201103L
@@ -39,4 +39,4 @@
 
 
 
-#endif /* SRC_CLASSLIB_TYPES_H_ */
+#endif /* INCLUDED_TYPES_H */

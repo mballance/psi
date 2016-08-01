@@ -35,8 +35,13 @@
 
 namespace psi {
 
-ModelImp::ModelImp() : BaseItemImp(0, BaseItemImp::Model, 0),
-		m_last_scope(this), m_in_field_decl(false) { }
+Model::Model(ModelImp *imp) : BaseItem(imp) {
+
+}
+
+ModelImp::ModelImp() : BaseItemImp(new psi::Model(this), BaseItemImp::Model, 0),
+		m_in_field_decl(false) {
+}
 
 ModelImp::~ModelImp() {
 	// TODO Auto-generated destructor stub
@@ -52,9 +57,6 @@ ModelImp *ModelImp::global() {
 void ModelImp::push_scope(const ScopeImp *p) {
 	m_scope.push_back(p);
 
-	if (p->ctxt()) {
-		m_last_scope = p->ctxt();
-	}
 	m_in_field_decl = p->in_field_decl();
 }
 
@@ -63,29 +65,33 @@ void ModelImp::pop_scope(const ScopeImp *p) {
 
 	// If the last element is 'p', then pop until
 	// we exit that hierarchy
-	if (m_scope.back()->ctxt() == p->ctxt()) {
-		m_last_scope = m_scope.back()->ctxt();
-
-		while (m_scope.size() > 0 &&
-				m_scope.back()->ctxt() == p->ctxt()) {
-			const ScopeImp *pp = m_scope.back();
-//			fprintf(stdout, "  pop-back %p\n", pp->ctxt());
-			m_scope.pop_back();
-		}
-
-		// Update 'm_in_field_decl' state
-		if (m_scope.size() > 0) {
-			m_in_field_decl = m_scope.at(m_scope.size()-1)->in_field_decl();
-		}
+	if (m_scope.size() > 0) {
+		m_scope.pop_back();
+//		if (m_scope.back()->ctxt() == p->ctxt()) {
+//			m_last_scope = m_scope.back()->ctxt();
+//
+//			while (m_scope.size() > 0 &&
+//					m_scope.back()->ctxt() == p->ctxt()) {
+//				const ScopeImp *pp = m_scope.back();
+//				//			fprintf(stdout, "  pop-back %p\n", pp->ctxt());
+//				m_scope.pop_back();
+//			}
+//
+//			// Update 'm_in_field_decl' state
+//			if (m_scope.size() > 0) {
+//				m_in_field_decl = m_scope.at(m_scope.size()-1)->in_field_decl();
+//			}
+//		}
+	} else {
+		fprintf(stdout, "Error: attempting to pop scope from empty stack\n");
 	}
-
 }
 
 const std::vector<const ScopeImp *> &ModelImp::get_scope() const {
 	return m_scope;
 }
 
-TypePathImp ModelImp::getActiveTypeName(BaseItemImp *it) {
+TypePathImp ModelImp::getActiveTypeName(BaseItem *it) {
 	const ScopeImp *scope = 0;
 //	fprintf(stdout, "--> getActiveTypeName\n");
 	for (int i=m_scope.size()-1; i>=0; i--) {
@@ -107,12 +113,16 @@ TypePathImp ModelImp::getActiveTypeName(BaseItemImp *it) {
 //		}
 
 		return ret;
+	} else {
+		fprintf(stdout, "getActiveTypeName: failed to find scope %p\n", it);
+		for (uint32_t i=0; i<m_scope.size(); i++) {
+			fprintf(stdout, "    scope[%d]=%p\n", i, m_scope.at(i)->ctxt());
+		}
+		return TypePathImp();
 	}
-
-	return TypePathImp();
 }
 
-TypePathImp ModelImp::getSuperType(BaseItemImp *it) {
+TypePathImp ModelImp::getSuperType(BaseItem *it) {
 	// Looking for <last+1>
 //	fprintf(stdout, "--> getSuperType\n");
 	int i=0;
@@ -147,7 +157,7 @@ TypePathImp ModelImp::getSuperType(BaseItemImp *it) {
 	return TypePathImp();
 }
 
-BaseItemImp *ModelImp::getActiveScope() {
+BaseItem *ModelImp::getActiveScope() {
 //	fprintf(stdout, "ModelImp::getActiveScope scope=%d\n",
 //			(m_last_scope)?m_last_scope->getObjectType():-1);
 
@@ -155,7 +165,7 @@ BaseItemImp *ModelImp::getActiveScope() {
 		return 0;
 	} else {
 		// Search back until we find something different than 'us'
-		BaseItemImp *curr = (m_scope.size())?m_scope.at(m_scope.size()-1)->ctxt():0;
+		BaseItem *curr = (m_scope.size())?m_scope.at(m_scope.size()-1)->ctxt():0;
 
 		for (int i=m_scope.size()-1; i>=0; i--) {
 			if (m_scope.at(i)->ctxt() != curr) {
@@ -165,7 +175,7 @@ BaseItemImp *ModelImp::getActiveScope() {
 		}
 
 		if (!curr) {
-			return this;
+			return ModelImp::global()->master();
 		} else {
 			return curr;
 		}
@@ -231,6 +241,10 @@ TypePathImp ModelImp::demangle(const ScopeImp *s) {
     free(n);
 
     return name;
+}
+
+BaseItem *ModelImp::pOrGlobal(BaseItem *p) {
+	return (p)?p:ModelImp::global()->master();
 }
 
 ModelImp *ModelImp::m_global = 0;

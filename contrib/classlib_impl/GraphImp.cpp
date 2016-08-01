@@ -32,7 +32,7 @@ Graph::Graph(BaseItem *p, const ExprList &seq) :
 }
 
 GraphImp::GraphImp(Graph *master, BaseItem *p, const ExprList &seq) :
-		BaseItemImp(master, BaseItemImp::TypeGraph, (p)?p->impl():0), m_seq(seq) { }
+		BaseItemImp(master, BaseItemImp::TypeGraph, p), m_seq(seq) { }
 
 Graph::~Graph() {
 	// TODO Auto-generated destructor stub

@@ -33,7 +33,7 @@ ExportItem::ExportItem(BaseItem	*p) : BaseItem(new ExportItemImp(this, p)) {
 ExportItemImp::ExportItemImp(
 		ExportItem		*master,
 		BaseItem		*p) :
-	BaseItemImp(master, BaseItemImp::TypeExportItem, toImp(p)), m_data_type(0) {
+	BaseItemImp(master, BaseItemImp::TypeExportItem, p), m_data_type(0) {
 }
 
 ExportItem::ExportItem(
@@ -47,7 +47,7 @@ ExportItemImp::ExportItemImp(
 		ExportItem			*master,
 		BaseItem 			*p,
 		const ExprList		&exp_params) :
-	BaseItemImp(master, BaseItemImp::TypeExportItem, (p)?p->impl():0),
+	BaseItemImp(master, BaseItemImp::TypeExportItem, p),
 	m_exp_params(exp_params), m_data_type(0) {
 //	setTypeData(t_ref);
 }

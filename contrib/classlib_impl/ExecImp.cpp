@@ -22,6 +22,8 @@
  *      Author: ballance
  */
 
+#include <stdio.h>
+
 #include "ExecImp.h"
 #include "classlib/ExtendItem.h"
 
@@ -40,7 +42,7 @@ ExecImp::ExecImp(
 		Exec::ExecKind 			kind,
 		const std::string 		&language,
 		const std::string		&content) :
-			BaseItemImp(master, BaseItemImp::TypeExec, toImp(p)),
+			BaseItemImp(master, BaseItemImp::TypeExec, p),
 			m_execType(TargetTemplate),
 			m_execKind(kind),
 			m_language(language),
@@ -59,7 +61,7 @@ ExecImp::ExecImp(
 		Exec::ExecKind 			kind,
 		const std::string 		&language,
 		const std::string 		&content) :
-			BaseItemImp(master, BaseItemImp::TypeExec, toImp(p)),
+			BaseItemImp(master, BaseItemImp::TypeExec, p),
 			m_execType(TargetTemplate),
 			m_execKind(kind),
 			m_language(language),
@@ -76,11 +78,12 @@ ExecImp::ExecImp(
 		ExtendItem				*p,
 		Exec::ExecKind 			kind,
 		const ExprList			&stmts) :
-			BaseItemImp(master, BaseItemImp::TypeExec, toImp(p)),
+			BaseItemImp(master, BaseItemImp::TypeExec, p),
 			m_execType(Native),
 			m_execKind(kind),
 			m_stmts(stmts) {
 	// TODO: save call information
+	fprintf(stdout, "ExecImp::ExecImp Native\n");
 }
 
 ExecImp::ExecImp(
@@ -88,28 +91,28 @@ ExecImp::ExecImp(
 		BaseItem				*p,
 		Exec::ExecKind 			kind,
 		const ExprList			&stmts) :
-			BaseItemImp(master, BaseItemImp::TypeExec, toImp(p)),
+			BaseItemImp(master, BaseItemImp::TypeExec, p),
 			m_execType(Native),
 			m_execKind(kind),
 			m_stmts(stmts) {
 	// TODO: save call information
+	fprintf(stdout, "ExecImp::ExecImp Native\n");
 }
 
 Exec::Exec(
 		BaseItem								*p,
-		ExecKind								kind,
-		const std::vector<BaseItem *>			&write_vars) :
-	BaseItem(new ExecImp(this, p, kind, write_vars)) { }
+		ExecKind								kind) :
+	BaseItem(new ExecImp(this, p, kind)) { }
 
 ExecImp::ExecImp(
 		Exec									*master,
 		BaseItem								*p,
-		Exec::ExecKind							kind,
-		const std::vector<BaseItem *>			&write_vars) :
-				BaseItemImp(master, BaseItemImp::TypeExec, toImp(p)),
+		Exec::ExecKind							kind) :
+				BaseItemImp(master, BaseItemImp::TypeExec, p),
 				m_execType(Inline),
 				m_execKind(kind) {
 	// TODO: save write vars
+	fprintf(stdout, "ExecImp::ExecImp Inline\n");
 }
 
 Exec::~Exec() {

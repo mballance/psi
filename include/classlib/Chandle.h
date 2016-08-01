@@ -55,6 +55,22 @@ class Chandle : public BaseItem {
 		void set(void *v);
 };
 
+template <class T> class ChandleW {
+public:
+
+	ChandleW(BaseItem *p) : m_chandle(p) { }
+
+	ChandleW(const std::string &name) : m_chandle(name) { }
+
+	T *get() { return static_cast<T *>(m_chandle.get()); }
+
+	void set(T *v) { m_chandle.set(v); }
+
+private:
+	Chandle				m_chandle;
+
+};
+
 } /* namespace psi */
 
 #endif /* SRC_CLASSLIB_CHANDLE_H_ */

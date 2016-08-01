@@ -1,7 +1,6 @@
 /*
  * BitTypeImp.cpp
  *
- *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -37,7 +36,7 @@ BitTypeImp::BitTypeImp(
 		BaseItem				*p,
 		uint32_t				msb,
 		uint32_t				lsb) :
-	NamedBaseItemImp(master, BaseItemImp::TypeBit, toImp(p)), m_msb(msb), m_lsb(lsb) { }
+	NamedBaseItemImp(master, BaseItemImp::TypeBit, p), m_msb(msb), m_lsb(lsb) { }
 
 BitType::BitType(
 		const std::string		&name,

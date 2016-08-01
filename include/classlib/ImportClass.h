@@ -22,8 +22,9 @@
  *      Author: ballance
  */
 
-#ifndef SRC_CLASSLIB_IMPORTCLASS_H_
-#define SRC_CLASSLIB_IMPORTCLASS_H_
+#ifndef INCLUDED_IMPORT_CLASS_H
+#define INCLUDED_IMPORT_CLASS_H
+
 
 namespace psi {
 
@@ -38,4 +39,4 @@ class ImportClass {
 
 } /* namespace psi */
 
-#endif /* SRC_CLASSLIB_IMPORTCLASS_H_ */
+#endif /* INCLUDED_IMPORT_CLASS_H */

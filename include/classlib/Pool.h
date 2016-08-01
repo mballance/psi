@@ -22,8 +22,8 @@
  *      Author: ballance
  */
 
-#ifndef SRC_CLASSLIB_POOL_H_
-#define SRC_CLASSLIB_POOL_H_
+#ifndef INCLUDED_POOL_H
+#define INCLUDED_POOL_H
 #include "classlib/FieldBase.h"
 #include "classlib/TypeDecl.h"
 
@@ -41,4 +41,4 @@ template <class T> class Pool : public FieldBase<T> {
 
 } /* namespace psi */
 
-#endif /* SRC_CLASSLIB_POOL_H_ */
+#endif /* INCLUDED_POOL_H */
