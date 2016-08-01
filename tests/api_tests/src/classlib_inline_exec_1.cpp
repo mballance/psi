@@ -24,9 +24,9 @@ public:
 		Field<Bit<31,0>>	psi_field(p4);
 		Field<Bit<31,0>>	psi_field(p5);
 
-		Exec pre_solve_e {this, Exec::PreSolve, { p4 } };
+		Exec pre_solve_e {this, Exec::PreSolve};
 
-		Exec post_solve_e {this, Exec::PostSolve, { p5 } };
+		Exec post_solve_e {this, Exec::PostSolve};
 
 		void pre_solve() {
 			// Set p4 based on calling a generation-time method

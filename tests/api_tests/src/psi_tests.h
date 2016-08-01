@@ -7,9 +7,9 @@
 
 #ifndef TESTS_API_TESTS_SRC_PSI_TESTS_H_
 #define TESTS_API_TESTS_SRC_PSI_TESTS_H_
+#include <stdio.h>
 #include "psi.h"
 #include "psi_api.h"
-#include <stdio.h>
 
 using namespace psi;
 using namespace psi_api;

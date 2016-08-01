@@ -2,11 +2,11 @@
 ifneq (1,$(RULES))
 
 PSI_DIR  := $(shell cd $(dir $(lastword $(MAKEFILE_LIST))); pwd)
-include $(PSI_DIR)/src/rules_defs.mk
+include $(PSI_DIR)/scripts/rules_defs.mk
 
 LIB_TARGETS += $(LIBDIR)/libpsi_impl.a
 
-PSI_IMPL_SRC := $(notdir $(wildcard $(PSI_DIR)/impl/*.cpp))
+PSI_IMPL_SRC := $(notdir $(wildcard $(PSI_DIR)/contrib/api_impl/*.cpp))
 
 
 else
@@ -21,6 +21,6 @@ $(LIBDIR)/libpsi_impl.a : $(foreach o,$(PSI_IMPL_SRC:.cpp=.o),$(PSI_BUILDDIR)/$(
 	$(Q)if test ! -d $(LIBDIR); then mkdir -p $(LIBDIR); fi
 	$(MK_AR)
 
-include $(PSI_DIR)/src/rules_defs.mk
+include $(PSI_DIR)/scripts/rules_defs.mk
 
 endif

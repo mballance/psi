@@ -9,11 +9,13 @@
 #include <string.h>
 #include <strings.h>
 #include "psi_tests.h"
+#include "ModelImp.h"
 #include "ModelImpl.h"
 #include "PSI2XML.h"
 #include "XML2PSI.h"
 #include "PSI2PSS.h"
 #include "PSSXmlValidator.h"
+#include "Elaborator.h"
 
 using namespace psi::apps;
 
@@ -43,9 +45,9 @@ void build_model(IModel *model) {
 		}
 	}
 
-	BaseItem *global = Model::global();
+	BaseItemImp *global = ModelImp::global();
 	elab.set_log_level(l);
-	elab.elaborate(Model::global(), model);
+	elab.elaborate(ModelImp::global(), model);
 }
 
 void exec_model(IModel *model) {

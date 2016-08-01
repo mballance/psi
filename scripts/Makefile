@@ -1,6 +1,6 @@
 
 include ../etc/defs_rules.mk
-include ../src/rules_defs.mk
+include ./rules_defs.mk
 
 
 RULES:=1
@@ -27,7 +27,7 @@ clean:
 	$(Q)rm -rf tmp Debug
 	$(Q)$(MAKE) -C doc clean
 
-include ../src/rules_defs.mk
+include ./rules_defs.mk
 include ../etc/defs_rules.mk
 
 	

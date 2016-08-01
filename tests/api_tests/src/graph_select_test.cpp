@@ -5,7 +5,7 @@
  *      Author: ballance
  */
 
-#include "psi.h"
+#include "../../../include/psi.h"
 
 using namespace psi;
 

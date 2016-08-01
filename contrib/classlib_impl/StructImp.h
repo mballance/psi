@@ -1,0 +1,80 @@
+/*
+ * Struct.h
+ *
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ *
+ *  Created on: Apr 23, 2016
+ *      Author: ballance
+ */
+
+#ifndef INCLUDED_STRUCT_IMP_H
+#define INCLUDED_STRUCT_IMP_H
+#include <string>
+
+#include "classlib/Struct.h"
+#include "NamedBaseItemImp.h"
+#include "TypePathImp.h"
+
+namespace psi_api {
+	class IObjectContext;
+	struct psshandle_t;
+}
+
+using namespace psi_api;
+
+namespace psi {
+
+
+class StructImp : public NamedBaseItemImp {
+public:
+
+	enum StructType {
+		Base,
+		Memory,
+		State,
+		Stream,
+		Resource
+	};
+
+public:
+
+	StructImp(Struct *master, ScopeImp *p, StructType t=Base);
+
+	virtual ~StructImp();
+
+	const TypePathImp &getSuperType() const;
+
+	StructType getStructType() const;
+
+	virtual void inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl);
+
+	virtual void pre_solve();
+	virtual void post_solve();
+
+	virtual void inline_exec_post();
+
+private:
+	StructType				m_struct_type;
+	TypePathImp			m_super_type;
+
+};
+
+} /* namespace psi */
+
+#endif /* INCLUDED_STRUCT_IMP_H */
