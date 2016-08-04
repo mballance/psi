@@ -5,15 +5,15 @@
  *      Author: ballance
  */
 
-#include "psi_tests.h"
+#include "pss_tests.h"
 
 class constraint_ifelse_test : public Struct {
 public:
-	psi_struct_ctor(constraint_ifelse_test);
+	pss_struct_ctor(constraint_ifelse_test);
 
-	Rand<Bit<>>			psi_field(control);
-	Rand<Bit<31,1>>		psi_field(address);
-	Rand<Bit<31,1>>		psi_field(data);
+	Rand<Bit<>>			pss_field(control);
+	Rand<Bit<31,1>>		pss_field(address);
+	Rand<Bit<31,1>>		pss_field(data);
 
 	Constraint c1 {this, "c1",
 		If {(control == 1), address < 10}
@@ -49,6 +49,6 @@ public:
 	};
 
 };
-psi_global_type(constraint_ifelse_test);
+pss_global_type(constraint_ifelse_test);
 
 

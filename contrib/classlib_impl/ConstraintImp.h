@@ -29,7 +29,7 @@
 #include "classlib/Constraint.h"
 #include "NamedBaseItemImp.h"
 
-namespace psi {
+namespace pss {
 
 class ConstraintImp : public NamedBaseItemImp {
 public:
@@ -51,6 +51,6 @@ private:
 	ExprList				m_stmt;
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* CONSTRAINT_H_ */

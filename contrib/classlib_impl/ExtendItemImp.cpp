@@ -25,7 +25,7 @@
 #include "ExtendItemImp.h"
 #include "ScopeImp.h"
 
-namespace psi {
+namespace pss {
 
 ExtendItem::ExtendItem(const Scope &p, BaseItem *type_hndl) :
 		BaseItem(new ExtendItemImp(this, p.impl()->parent(), BaseItemImp::TypeExtendAction, type_hndl)) {
@@ -53,4 +53,4 @@ ExtendItemImp::~ExtendItemImp() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace psi */
+} /* namespace pss */

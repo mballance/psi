@@ -39,7 +39,7 @@ namespace psi_api {
 
 using namespace psi_api;
 
-namespace psi {
+namespace pss {
 
 class ElaboratorImpl;
 class ActionImp : public NamedBaseItemImp {
@@ -68,6 +68,6 @@ public:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_ACTION_H */

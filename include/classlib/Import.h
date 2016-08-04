@@ -30,7 +30,7 @@
 #include "classlib/BaseItem.h"
 #include "classlib/ExprImportCall.h"
 
-namespace psi {
+namespace pss {
 
 class Import : public BaseItem {
 
@@ -49,6 +49,6 @@ class Import : public BaseItem {
 };
 
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_CLASSLIB_IMPORT_H_ */

@@ -25,7 +25,7 @@
 #include "StreamStructImp.h"
 #include "ScopeImp.h"
 
-namespace psi {
+namespace pss {
 
 StreamStruct::StreamStruct(const Scope &p) :
 		Struct(new StreamStructImp(this, p.impl())) { }
@@ -41,4 +41,4 @@ StreamStructImp::~StreamStructImp() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace psi */
+} /* namespace pss */

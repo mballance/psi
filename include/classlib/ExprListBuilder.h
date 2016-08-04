@@ -28,7 +28,7 @@
 
 #include "classlib/Types.h"
 
-namespace psi {
+namespace pss {
 
 class Expr;
 class ExprListBuilderImp;
@@ -37,7 +37,7 @@ public:
 
 	ExprListBuilder();
 
-#ifdef PSI_HAVE_CXX_11
+#ifdef PSS_HAVE_CXX_11
 	ExprListBuilder(std::initializer_list<Expr> l) : ExprListBuilder(std::vector<Expr>(l)) { }
 //		std::initializer_list<Expr>::const_iterator it;
 //
@@ -66,6 +66,6 @@ private:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_PSI_CLASSLIB_EXPRLISTBUILDER_H_ */

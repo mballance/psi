@@ -31,7 +31,7 @@
 #include "classlib/Rand.h"
 #include "classlib/Bool.h"
 
-namespace psi {
+namespace pss {
 
 class Scope;
 class StateStruct: public Struct {
@@ -45,6 +45,6 @@ public:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_STATE_STRUCT_H */

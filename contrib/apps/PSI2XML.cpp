@@ -432,7 +432,7 @@ void PSI2XML::process_expr(IExpr *e, const char *tag) {
 
 void PSI2XML::process_field(IField *f) {
 	char msb_s[64], lsb_s[64];
-	std::string tag = std::string("<pss:field name=\"") + f->getName() + "\"";
+	std::string tag = std::string("field name=\"") + f->getName() + "\"";
 
 	switch (f->getAttr()) {
 	case IField::FieldAttr_Rand:
@@ -455,16 +455,15 @@ void PSI2XML::process_field(IField *f) {
 		break;
 	}
 
-	tag += ">";
-	println(tag);
-
-	inc_indent();
+	enter(tag);
 
 	type2data_type(f->getDataType());
 
-	dec_indent();
+	if (f->getArrayDim()) {
+		process_expr(f->getArrayDim(), "dim");
+	}
 
-	println("</pss:field>");
+	exit("field");
 }
 
 void PSI2XML::process_graph(IGraphStmt *graph) {

@@ -27,7 +27,7 @@
 
 #include "classlib/Types.h"
 
-namespace psi {
+namespace pss {
 
 class ExprListBuilder;
 class BaseItem;
@@ -107,6 +107,6 @@ DECLARE_OP_FUNCTIONS( , %)
 #undef DECLARE_OP_FUNCTIONS
 
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_EXPR_H */

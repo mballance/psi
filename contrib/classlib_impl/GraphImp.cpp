@@ -24,7 +24,7 @@
 
 #include "GraphImp.h"
 
-namespace psi {
+namespace pss {
 
 Graph::Graph(BaseItem *p, const ExprList &seq) :
 		BaseItem(new GraphImp(this, p, seq)) {
@@ -42,4 +42,4 @@ GraphImp::~GraphImp() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace psi */
+} /* namespace pss */

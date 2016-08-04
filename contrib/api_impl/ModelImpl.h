@@ -111,7 +111,8 @@ class ModelImpl: public IModel {
 		virtual IField *mkField(
 				const std::string		&name,
 				IBaseItem				*field_type,
-				IField::FieldAttr		attr);
+				IField::FieldAttr		attr,
+				IExpr					*array_dim);
 
 		virtual IGraphBlockStmt *mkGraphBlockStmt(
 				IGraphStmt::GraphStmtType type=IGraphStmt::GraphStmt_Block);

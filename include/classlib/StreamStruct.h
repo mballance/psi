@@ -28,7 +28,7 @@
 #define INCLUDED_STREAM_STRUCT_H
 #include "classlib/Struct.h"
 
-namespace psi {
+namespace pss {
 
 class StreamStruct : public Struct {
 
@@ -40,6 +40,6 @@ class StreamStruct : public Struct {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_CLASSLIB_STREAMSTRUCT_H_ */

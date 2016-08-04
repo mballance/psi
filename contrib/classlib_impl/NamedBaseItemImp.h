@@ -29,7 +29,7 @@
 #include <stdio.h>
 #include "BaseItemImp.h"
 
-namespace psi {
+namespace pss {
 
 class NamedBaseItemImp : public BaseItemImp {
 public:
@@ -55,6 +55,6 @@ private:
 	std::string					m_name;
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_PSI_CLASSLIB_NAMEDBASEITEM_H_ */

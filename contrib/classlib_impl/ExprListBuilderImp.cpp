@@ -28,7 +28,7 @@
 #include <stdio.h>
 #include "ExprCore.h"
 
-namespace psi {
+namespace pss {
 
 ExprListBuilder::ExprListBuilder() : m_imp(new ExprListBuilderImp()) {
 }
@@ -103,4 +103,4 @@ ExprListBuilderImp::~ExprListBuilderImp() {
 }
 
 
-} /* namespace psi */
+} /* namespace pss */

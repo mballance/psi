@@ -25,13 +25,13 @@
 #ifndef INCLUDED_TYPES_H
 #define INCLUDED_TYPES_H
 
-#ifndef PSI_HAVE_CXX_11
+#ifndef PSS_HAVE_CXX_11
 #if __cplusplus >= 201103L
-#define PSI_HAVE_CXX_11
+#define PSS_HAVE_CXX_11
 #endif
 #endif
 
-#ifdef PSI_HAVE_CXX_11
+#ifdef PSS_HAVE_CXX_11
 #include <initializer_list>
 #endif
 

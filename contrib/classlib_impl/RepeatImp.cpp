@@ -26,7 +26,7 @@
 #include "ExprCore.h"
 #include "ExprImp.h"
 
-namespace psi {
+namespace pss {
 
 //Repeat::Repeat(const Expr &expr, const ExprListBuilder &body) :
 //		Expr(new ExprCore(Expr::GraphRepeat, expr, ExprList(body))) {
@@ -46,4 +46,4 @@ ExprListBuilder Repeat::operator,(const ExprListBuilder &rhs) {
 	return ExprListBuilder(*this, rhs);
 }
 
-} /* namespace psi */
+} /* namespace pss */

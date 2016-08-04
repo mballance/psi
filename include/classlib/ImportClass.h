@@ -26,7 +26,7 @@
 #define INCLUDED_IMPORT_CLASS_H
 
 
-namespace psi {
+namespace pss {
 
 class ImportClass {
 
@@ -37,6 +37,6 @@ class ImportClass {
 		virtual ~ImportClass();
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_IMPORT_CLASS_H */

@@ -28,7 +28,7 @@
 #include "classlib/Scope.h"
 #include "classlib/Types.h"
 
-namespace psi {
+namespace pss {
 
 template <uint32_t MSB=0, uint32_t LSB=0> class Bit : public BitType {
 
@@ -47,6 +47,6 @@ typedef Bit<15,0> pss_uint16_t;
 typedef Bit<31,0> pss_uint32_t;
 typedef Bit<63,0> pss_uint64_t;
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_BIT_H_ */

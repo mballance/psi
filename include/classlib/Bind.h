@@ -29,7 +29,7 @@
 #include "classlib/BaseItem.h"
 #include "classlib/Types.h"
 
-namespace psi {
+namespace pss {
 
 class Bind: public BaseItem {
 public:
@@ -50,6 +50,6 @@ protected:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_BIND_H */

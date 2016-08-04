@@ -30,7 +30,7 @@
 #include "classlib/Exec.h"
 #include "BaseItemImp.h"
 
-namespace psi {
+namespace pss {
 
 class ExecImp : public BaseItemImp {
 
@@ -103,6 +103,6 @@ class ExecImp : public BaseItemImp {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_CLASSLIB_EXEC_H_ */

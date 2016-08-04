@@ -26,9 +26,10 @@
 #define INCLUDED_FIELD_ITEM_IMP_H
 #include <string>
 #include "classlib/FieldItem.h"
+#include "ExprImp.h"
 #include "NamedBaseItemImp.h"
 
-namespace psi {
+namespace pss {
 
 class FieldItemImp: public NamedBaseItemImp {
 public:
@@ -36,6 +37,7 @@ public:
 			FieldItem 				*master,
 			BaseItem 				*p,
 			const std::string 		&name,
+			const Expr				*array_dim,
 			FieldItem::FieldAttr	attr,
 			BaseItem				*wrapper,
 			BaseItem				*type_hndl);
@@ -54,13 +56,20 @@ public:
 
 	bool isInternal() const { return m_internal; }
 
+	bool hasArrayDim() const { return m_has_array_dim; }
+
+	const ExprImp &arrayDim() const { return m_array_dim; }
+
 private:
 	BaseItemImp				*m_data_type;
 	FieldItem::FieldAttr	m_attr;
 	bool					m_internal;
 
+	bool					m_has_array_dim;
+	ExprImp					m_array_dim;
+
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_FIELD_ITEM_H */

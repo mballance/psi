@@ -26,7 +26,7 @@
 #include "ScopeImp.h"
 #include "ModelImp.h"
 
-namespace psi {
+namespace pss {
 
 Component::Component(const Scope &p) : BaseItem(new ComponentImp(this, p.impl())) {
 
@@ -46,4 +46,4 @@ ComponentImp::~ComponentImp() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace psi */
+} /* namespace pss */

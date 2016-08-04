@@ -24,7 +24,7 @@
 
 #include "ExprCoreIf.h"
 
-namespace psi {
+namespace pss {
 
 ExprCoreIf::ExprCoreIf(const Expr &cond, const Expr &true_expr) :
 	ExprCore(ExprImp::Stmt_If, cond, true_expr) { }
@@ -36,4 +36,4 @@ ExprCoreIf::~ExprCoreIf() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace psi */
+} /* namespace pss */

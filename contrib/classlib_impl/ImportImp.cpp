@@ -26,7 +26,7 @@
 #include "classlib/ExprList.h"
 
 
-namespace psi {
+namespace pss {
 
 Import::Import(BaseItem *p, const std::string &name, const ExprList &plist) :
 	BaseItem(new ImportImp(this, p, name, plist)) {
@@ -74,4 +74,4 @@ ExprImportCall Import::operator()() {
 	return ExprImportCall(*this, ExprList());
 }
 
-} /* namespace psi */
+} /* namespace pss */

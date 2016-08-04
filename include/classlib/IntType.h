@@ -28,7 +28,7 @@
 
 #include "classlib/BaseItem.h"
 
-namespace psi {
+namespace pss {
 
 class IntType : public BaseItem {
 
@@ -47,6 +47,6 @@ class IntType : public BaseItem {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_INT_TYPE_H */

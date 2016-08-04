@@ -28,7 +28,7 @@
 #include "classlib/MemoryStruct.h"
 #include "StructImp.h"
 
-namespace psi {
+namespace pss {
 
 
 class MemoryStructImp: public StructImp {
@@ -44,6 +44,6 @@ class MemoryStructImp: public StructImp {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* MEMORYSTRUCT_H_ */

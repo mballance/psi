@@ -26,7 +26,7 @@
 #define SRC_CLASSLIB_EXTENDCOMPONENT_H_
 #include "classlib/ExtendBase.h"
 
-namespace psi {
+namespace pss {
 
 template <class T> class ExtendComponent : public ExtendBase<T> {
 
@@ -37,6 +37,6 @@ template <class T> class ExtendComponent : public ExtendBase<T> {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_CLASSLIB_EXTENDCOMPONENT_H_ */

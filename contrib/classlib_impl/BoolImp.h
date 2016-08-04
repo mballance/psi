@@ -30,7 +30,7 @@
 #include "NamedBaseItemImp.h"
 #include "classlib/Bool.h"
 
-namespace psi {
+namespace pss {
 
 class BoolImp: public NamedBaseItemImp {
 
@@ -62,7 +62,7 @@ class BoolImp: public NamedBaseItemImp {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_BOOL_IMPL_H */
 

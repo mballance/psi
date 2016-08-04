@@ -24,7 +24,7 @@
 
 #include "ExportItemImp.h"
 
-namespace psi {
+namespace pss {
 
 ExportItem::ExportItem(BaseItem	*p) : BaseItem(new ExportItemImp(this, p)) {
 

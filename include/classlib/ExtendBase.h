@@ -28,7 +28,7 @@
 #include "classlib/ExtendItem.h"
 #include "classlib/Scope.h"
 
-namespace psi {
+namespace pss {
 
 template <class T> class ExtendBase : public T {
 public:

@@ -24,7 +24,7 @@
 
 #include "BitTypeImp.h"
 
-namespace psi {
+namespace pss {
 
 BitType::BitType(
 		BaseItem				*p,
@@ -76,4 +76,4 @@ void BitType::set(uint64_t v) {
 	static_cast<BitTypeImp *>(impl())->set(v);
 }
 
-} /* namespace psi */
+} /* namespace pss */

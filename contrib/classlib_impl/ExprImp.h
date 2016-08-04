@@ -28,7 +28,7 @@
 #include "classlib/Expr.h"
 #include "SharedPtr.h"
 
-namespace psi {
+namespace pss {
 
 class ExprCore;
 class ExprImp : public SharedPtr<ExprCore> {

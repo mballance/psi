@@ -24,7 +24,7 @@
 
 #include "MemoryStructImp.h"
 
-namespace psi {
+namespace pss {
 
 MemoryStruct::MemoryStruct(const Scope &p) :
 		Struct(new MemoryStructImp(this, p.impl())) { }
@@ -42,4 +42,4 @@ MemoryStructImp::~MemoryStructImp() {
 }
 
 
-} /* namespace psi */
+} /* namespace pss */

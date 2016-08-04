@@ -30,13 +30,16 @@
 #include "classlib/FieldBase.h"
 #include "classlib/With.h"
 
-namespace psi {
+namespace pss {
 
 template <class T> class Field : public FieldBase<T> {
 	public:
 
 		Field(BaseItem *p, const std::string &name) :
 			FieldBase<T>(FieldItem::AttrNone, p, name) { }
+
+		Field(BaseItem *p, const std::string &name, const Expr &array_dim) :
+			FieldBase<T>(FieldItem::AttrNone, p, name, array_dim) { }
 
 		virtual ~Field() { }
 

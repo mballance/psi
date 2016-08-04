@@ -28,7 +28,7 @@
 #include "classlib/BaseItem.h"
 #include "classlib/Scope.h"
 
-namespace psi {
+namespace pss {
 
 class ExtendItem: public BaseItem {
 public:
@@ -40,6 +40,6 @@ public:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_PSI_CLASSLIB_EXTENDITEM_H_ */

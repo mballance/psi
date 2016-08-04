@@ -28,7 +28,7 @@
 #include "ActionImp.h"
 #include "ModelImp.h"
 
-namespace psi {
+namespace pss {
 
 Action::Action(const Scope	&p) :
 			BaseItem(new ActionImp(this, p.impl())) { }
@@ -84,4 +84,4 @@ void ActionImp::inline_exec_post() {
 	m_hndl = 0;
 }
 
-} /* namespace psi */
+} /* namespace pss */

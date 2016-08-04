@@ -4,35 +4,35 @@
  *  Created on: May 10, 2016
  *      Author: ballance
  */
-#include "psi_tests.h"
+#include "pss_tests.h"
 
 class C : public Component {
 public:
-	psi_ctor(C, Component);
+	pss_ctor(C, Component);
 
 	class A : public Action {
 	public:
-		psi_ctor(A, Action);
+		pss_ctor(A, Action);
 
-		Rand<Bit<3,0>>		psi_field(field1);
+		Rand<Bit<3,0>>		pss_field(field1);
 	};
-	psi_type(A);
+	pss_type(A);
 
 };
-psi_global_type(C);
+pss_global_type(C);
 
 
 class static_structure : public Component {
-	psi_ctor(static_structure, Component);
+	pss_ctor(static_structure, Component);
 
-	Field<C>		psi_field(c1);
-	Field<C>		psi_field(c2);
+	Field<C>		pss_field(c1);
+	Field<C>		pss_field(c2);
 
 	class entry : public Action {
-		psi_ctor(entry, Action);
+		pss_ctor(entry, Action);
 
-		Field<C::A>				psi_field(a1);
-		Field<C::A>				psi_field(a2);
+		Field<C::A>				pss_field(a1);
+		Field<C::A>				pss_field(a2);
 
 		Graph g1 {this, {
 			Repeat {5, {
@@ -42,9 +42,9 @@ class static_structure : public Component {
 		}
 		};
 	};
-	psi_type(entry);
+	pss_type(entry);
 };
-psi_global_type(static_structure);
+pss_global_type(static_structure);
 
 
 

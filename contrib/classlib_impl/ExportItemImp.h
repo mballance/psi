@@ -28,7 +28,7 @@
 #include "classlib/ExportItem.h"
 #include "BaseItemImp.h"
 
-namespace psi {
+namespace pss {
 
 class ExportItemImp : public BaseItemImp {
 public:

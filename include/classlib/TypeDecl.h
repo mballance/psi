@@ -25,7 +25,7 @@
 #include <string>
 #include <stdio.h>
 
-namespace psi {
+namespace pss {
 
 template <class T> class TypeDecl : public T {
 public:

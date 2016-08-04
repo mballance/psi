@@ -24,7 +24,7 @@
 #include "ExprCore.h"
 #include "classlib/Import.h"
 
-namespace psi {
+namespace pss {
 
 ExprCore::ExprCore(uint32_t v) {
 	m_val.ui = v;

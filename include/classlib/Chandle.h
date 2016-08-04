@@ -26,7 +26,7 @@
 #define INCLUDED_CHANDLE_H
 #include "classlib/BaseItem.h"
 
-namespace psi {
+namespace pss {
 
 class Chandle : public BaseItem {
 
@@ -71,6 +71,6 @@ private:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_CLASSLIB_CHANDLE_H_ */

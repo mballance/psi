@@ -30,14 +30,14 @@
 #include "classlib/Expr.h"
 #include "classlib/ExprListBuilder.h"
 
-namespace psi {
+namespace pss {
 
 class ExprList;
 class Parallel: public Expr {
 public:
 	Parallel(const ExprList &body);
 
-#ifdef PSI_HAVE_CXX_11
+#ifdef PSS_HAVE_CXX_11
 	Parallel(std::initializer_list<Expr> l) : Parallel(ExprList(l)) { };
 #endif
 
@@ -49,6 +49,6 @@ public:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_PSI_CLASSLIB_PARALLEL_H_ */

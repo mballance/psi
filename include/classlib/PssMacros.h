@@ -1,5 +1,5 @@
 /*
- * PsiMacros.h
+ * PssMacros.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,57 +19,62 @@
  * under the License.
  *
  */
-#ifndef INCLUDED_PSI_MACROS_H
-#define INCLUDED_PSI_MACROS_H
+#ifndef INCLUDED_PSS_MACROS_H
+#define INCLUDED_PSS_MACROS_H
 
-#ifdef PSI_HAVE_CXX_11
+#ifdef PSS_HAVE_CXX_11
 
 /**
  * Helper macro for declaring fields.
  */
-#define psi_field(name) name { this, #name }
+#define pss_field(name) name { this, #name }
+
+/**
+ * Helper macro for declaring array fields
+ */
+#define pss_array_field(name, array_dim) name { this, #name , array_dim }
 
 /**
  * Helper macro for declaring the constructor
  * and type registration for PSI-derived classes
  */
-#define psi_ctor(_name, _super) \
+#define pss_ctor(_name, _super) \
 	public: \
 	_name (const Scope &p) : _super(this) { }
 
-#define psi_constraint(_name, _body) \
+#define pss_constraint(_name, _body) \
 		Constraint _name {this, #_name, _body};
 
-#define psi_action_ctor(_name) \
-		psi_ctor(_name, Action)
+#define pss_action_ctor(_name) \
+		pss_ctor(_name, Action)
 
-#define psi_component_ctor(_name) \
-		psi_ctor(_name, Component)
+#define pss_component_ctor(_name) \
+		pss_ctor(_name, Component)
 
-#define psi_package_ctor(_name) \
-		psi_ctor(_name, Package)
+#define pss_package_ctor(_name) \
+		pss_ctor(_name, Package)
 
-#define psi_struct_ctor(_name) \
-		psi_ctor(_name, Struct)
+#define pss_struct_ctor(_name) \
+		pss_ctor(_name, Struct)
 
-#endif /* End PSI_HAVE_CXX_11 */
+#endif /* End PSS_HAVE_CXX_11 */
 
 /**
  * Helper macro to register a global namespace type
  */
-#define psi_global_type(_name) \
+#define pss_global_type(_name) \
 		TypeDecl<_name>		_##_name##_t
 
-#ifdef PSI_HAVE_CXX_11
+#ifdef PSS_HAVE_CXX_11
 /**
  * Helper macro to register a non-global namespace type
  */
-#define psi_type(_name) \
+#define pss_type(_name) \
 		TypeDecl<_name>		_##_name##_t {this}
 
-#endif /* End PSI_HAVE_CXX_11 */
+#endif /* End PSS_HAVE_CXX_11 */
 
-#define psi_typeid(T) \
+#define pss_typeid(T) \
 	(*TypeDecl<T>::type_id())
 
-#endif /* INCLUDED_PSI_MACROS_H */
+#endif /* INCLUDED_PSS_MACROS_H */

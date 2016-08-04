@@ -27,7 +27,7 @@
 #include <string>
 #include "classlib/BaseItem.h"
 
-namespace psi {
+namespace pss {
 
 class FieldItem: public BaseItem {
 public:
@@ -49,6 +49,8 @@ public:
 			BaseItem 			*p,
 			// Name of the field
 			const std::string 	&name,
+			// Array dimension
+			const Expr			*array_dim,
 			// Attribute of the field
 			FieldAttr 			attr,
 			// Handle to the instantiating object
@@ -56,11 +58,8 @@ public:
 			// Handle to the type object, if this is a user-defined type
 			BaseItem			*type_hndl);
 
-
-//	void setDataType(BaseItem *dt);
-
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_FIELD_ITEM_H */

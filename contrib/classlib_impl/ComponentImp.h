@@ -30,7 +30,7 @@
 #include "TypePathImp.h"
 #include "classlib/Component.h"
 
-namespace psi {
+namespace pss {
 
 class ComponentImp : public NamedBaseItemImp {
 
@@ -46,6 +46,6 @@ class ComponentImp : public NamedBaseItemImp {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* COMPONENT_H_ */

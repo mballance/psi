@@ -27,7 +27,7 @@
 #include "ExprImp.h"
 #include "ExprListBuilderImp.h"
 
-namespace psi {
+namespace pss {
 
 void traverse_expr_builder(ExprCoreList *c_t, const ExprListBuilderImp &el);
 
@@ -75,4 +75,4 @@ void traverse_expr_builder(ExprCoreList *c_t, const ExprListBuilderImp &el) {
 }
 
 
-} /* namespace psi */
+} /* namespace pss */

@@ -4,38 +4,38 @@
  *  Created on: May 11, 2016
  *      Author: ballance
  */
-#include "psi_tests.h"
+#include "pss_tests.h"
 
 
 class R : public ResourceStruct {
 public:
-	psi_ctor(R, ResourceStruct);
+	pss_ctor(R, ResourceStruct);
 
 };
-psi_global_type(R);
+pss_global_type(R);
 
 class C : public Component {
 public:
-	psi_ctor(C, Component);
+	pss_ctor(C, Component);
 
 	class A : public Action {
 	public:
-		psi_ctor(A, Action);
+		pss_ctor(A, Action);
 
-		Lock<R>			psi_field(rc);
+		Lock<R>			pss_field(rc);
 	};
-	psi_type(A);
+	pss_type(A);
 };
-psi_global_type(C);
+pss_global_type(C);
 
 class static_structure : public Component {
 public:
-	psi_ctor(static_structure, Component);
+	pss_ctor(static_structure, Component);
 
-	Field<C>			psi_field(c1);
-	Field<C>			psi_field(c2);
+	Field<C>			pss_field(c1);
+	Field<C>			pss_field(c2);
 
-	Pool<R>				psi_field(rp);
+	Pool<R>				pss_field(rp);
 
 	Bind b1 {this, rp, c1};
 	Bind b2 {this, rp, c2};
@@ -43,18 +43,18 @@ public:
 	Bind b {this, rp, c1, c2};
 
 };
-psi_global_type(static_structure);
+pss_global_type(static_structure);
 
 class top : public Component {
 public:
-	psi_ctor(top, Component);
+	pss_ctor(top, Component);
 
 	class entry_point : public Action {
 	public:
-		psi_ctor(entry_point, Action);
+		pss_ctor(entry_point, Action);
 
-		Field<C::A>			psi_field(a1);
-		Field<C::A>			psi_field(a2);
+		Field<C::A>			pss_field(a1);
+		Field<C::A>			pss_field(a2);
 
 		Graph graph {this,
 			Parallel {
@@ -62,10 +62,10 @@ public:
 			}
 		};
 	};
-	psi_type(entry_point);
+	pss_type(entry_point);
 
 };
-psi_global_type(top);
+pss_global_type(top);
 
 
 

@@ -29,7 +29,7 @@
 #include "classlib/StreamStruct.h"
 #include "StructImp.h"
 
-namespace psi {
+namespace pss {
 
 class ScopeImp;
 class StreamStructImp : public StructImp {
@@ -42,6 +42,6 @@ class StreamStructImp : public StructImp {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_CLASSLIB_STREAMSTRUCT_H_ */

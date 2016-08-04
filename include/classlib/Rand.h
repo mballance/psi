@@ -29,7 +29,7 @@
 
 #include "classlib/FieldBase.h"
 
-namespace psi {
+namespace pss {
 
 template <class T> class Rand : public FieldBase<T> {
 
@@ -37,10 +37,13 @@ template <class T> class Rand : public FieldBase<T> {
 		Rand(BaseItem *p, const std::string &name) :
 			FieldBase<T>(FieldItem::AttrRand, p, name) { }
 
+		Rand(BaseItem *p, const std::string &name, const Expr &array_dim) :
+			FieldBase<T>(FieldItem::AttrRand, p, name, array_dim) { }
+
 		virtual ~Rand() { };
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_RAND_H */

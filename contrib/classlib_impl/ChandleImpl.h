@@ -27,7 +27,7 @@
 #include "classlib/Chandle.h"
 #include "NamedBaseItemImp.h"
 
-namespace psi {
+namespace pss {
 
 class ChandleImpl : public NamedBaseItemImp {
 
@@ -56,6 +56,6 @@ class ChandleImpl : public NamedBaseItemImp {
 		void set(void *v);
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_CLASSLIB_CHANDLE_H_ */

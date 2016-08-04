@@ -25,7 +25,7 @@
 #include "ExprCoreList.h"
 #include "ExprImp.h"
 
-namespace psi {
+namespace pss {
 
 ExprCoreList::ExprCoreList() : ExprCore(ExprImp::List) {
 
@@ -52,4 +52,4 @@ void ExprCoreList::add(const ExprImp &e) {
 	m_exprList.push_back(e);
 }
 
-} /* namespace psi */
+} /* namespace pss */

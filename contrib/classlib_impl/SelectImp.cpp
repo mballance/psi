@@ -26,7 +26,7 @@
 #include "ExprImp.h"
 #include "ExprCore.h"
 
-namespace psi {
+namespace pss {
 
 Select::Select(const ExprList &list) : Expr(list) {
 	imp().ptr()->setOp(ExprImp::GraphSelect);
@@ -36,4 +36,4 @@ Select::~Select() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace psi */
+} /* namespace pss */

@@ -26,7 +26,7 @@
 #include "classlib/Import.h"
 #include "ExprCore.h"
 
-namespace psi {
+namespace pss {
 
 ExprImportCall::ExprImportCall(Import &import, const ExprList &plist) :
 	Expr(new ExprCore(import, plist)) { }
@@ -35,4 +35,4 @@ ExprImportCall::~ExprImportCall() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace psi */
+} /* namespace pss */

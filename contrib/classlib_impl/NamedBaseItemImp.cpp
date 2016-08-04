@@ -31,7 +31,7 @@
 #include "PackageImp.h"
 #include "StructImp.h"
 
-namespace psi {
+namespace pss {
 
 NamedBaseItemImp::NamedBaseItemImp(
 		BaseItem					*master,
@@ -83,4 +83,4 @@ std::string NamedBaseItemImp::getName(BaseItemImp *it) {
 	}
 }
 
-} /* namespace psi */
+} /* namespace pss */

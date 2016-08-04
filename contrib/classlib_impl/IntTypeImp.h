@@ -29,7 +29,7 @@
 #include "classlib/IntType.h"
 #include "NamedBaseItemImp.h"
 
-namespace psi {
+namespace pss {
 
 class IntTypeImp : public NamedBaseItemImp {
 
@@ -58,6 +58,6 @@ class IntTypeImp : public NamedBaseItemImp {
 		uint32_t					m_lsb;
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_INT_TYPE_H */

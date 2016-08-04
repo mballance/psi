@@ -29,7 +29,7 @@
 #include "ModelImp.h"
 #include "TypePathImp.h"
 
-namespace psi {
+namespace pss {
 
 Package::Package(const Scope &p) :
 		BaseItem(new PackageImp(this, p.impl())) { }
@@ -48,4 +48,4 @@ PackageImp::~PackageImp() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace psi */
+} /* namespace pss */

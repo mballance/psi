@@ -26,7 +26,7 @@
 #include "BoolImp.h"
 #include "ScopeImp.h"
 
-namespace psi {
+namespace pss {
 
 Bool::Bool(const Scope &p) : BaseItem(new BoolImp(this, p.impl()->parent())) { }
 
@@ -63,4 +63,4 @@ void BoolImp::set(bool v) {
 	// TODO:
 }
 
-} /* namespace psi */
+} /* namespace pss */

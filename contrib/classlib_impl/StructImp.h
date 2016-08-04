@@ -38,7 +38,7 @@ namespace psi_api {
 
 using namespace psi_api;
 
-namespace psi {
+namespace pss {
 
 
 class StructImp : public NamedBaseItemImp {
@@ -75,6 +75,6 @@ private:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_STRUCT_IMP_H */

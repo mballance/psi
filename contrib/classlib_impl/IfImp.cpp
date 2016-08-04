@@ -27,7 +27,7 @@
 #include "ExprCoreIf.h"
 #include "ExprCoreIf.h"
 
-namespace psi {
+namespace pss {
 
 If::If(const Expr &cond, const ExprList &true_expr) :
 	Expr(new ExprCoreIf(cond, true_expr)) { }
@@ -40,4 +40,4 @@ If::~If() {
 }
 
 
-} /* namespace psi */
+} /* namespace pss */

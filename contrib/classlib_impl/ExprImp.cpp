@@ -27,7 +27,7 @@
 
 #include <stdio.h>
 
-namespace psi {
+namespace pss {
 
 ExprImp::ExprImp() : SharedPtr<ExprCore>(0) {
 
@@ -178,4 +178,4 @@ const ExprImp &Expr::imp() const {
 	return *m_core;
 }
 
-} /* namespace psi */
+} /* namespace pss */

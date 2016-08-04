@@ -28,7 +28,7 @@
 #include "ModelImp.h"
 #include "ScopeImp.h"
 
-namespace psi {
+namespace pss {
 
 StateStruct::StateStruct(const Scope &p) :
 		Struct(new StateStructImp(this, p.impl())), initial(this, "initial") {
@@ -51,4 +51,4 @@ StateStructImp::~StateStructImp() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace psi */
+} /* namespace pss */

@@ -30,7 +30,7 @@
 
 #include "classlib/Scope.h"
 
-namespace psi {
+namespace pss {
 
 class BaseItemImp;
 class Scope;
@@ -70,6 +70,6 @@ private:
 	std::string				m_name;
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_PSI_CLASSLIB_SCOPE_H_ */

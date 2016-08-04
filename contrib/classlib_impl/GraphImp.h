@@ -27,7 +27,7 @@
 #include "classlib/Graph.h"
 #include "BaseItemImp.h"
 
-namespace psi {
+namespace pss {
 
 class GraphImp : public BaseItemImp {
 
@@ -42,6 +42,6 @@ class GraphImp : public BaseItemImp {
 		ExprList				m_seq;
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* GRAPH_H_ */

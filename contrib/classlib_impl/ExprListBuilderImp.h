@@ -29,7 +29,7 @@
 #include "classlib/ExprListBuilder.h"
 #include "ExprImp.h"
 
-namespace psi {
+namespace pss {
 
 class Expr;
 class ExprImp;
@@ -56,6 +56,6 @@ private:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_PSI_CLASSLIB_EXPRLISTBUILDER_H_ */

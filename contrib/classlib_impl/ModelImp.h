@@ -32,7 +32,7 @@
 #include "BaseItemImp.h"
 #include "TypePathImp.h"
 
-namespace psi {
+namespace pss {
 
 class ModelImp;
 class Model : public BaseItem {
@@ -81,7 +81,7 @@ class ModelImp : public BaseItemImp {
 };
 
 
-} /* namespace psi */
+} /* namespace pss */
 
 
 #endif /* SRC_TYPEREGISTRY_H_ */
