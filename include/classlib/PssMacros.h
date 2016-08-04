@@ -30,6 +30,11 @@
 #define pss_field(name) name { this, #name }
 
 /**
+ * Helper macro for declaring array fields
+ */
+#define pss_array_field(name, array_dim) name { this, #name , array_dim }
+
+/**
  * Helper macro for declaring the constructor
  * and type registration for PSI-derived classes
  */

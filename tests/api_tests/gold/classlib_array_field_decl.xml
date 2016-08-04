@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pss:model 
+  xmlns:pss="http://accellera.org/PSS"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://accellera.org/PSS PSSModel.xsd">
+    <pss:package>
+        <pss:struct name="my_struct">
+            <pss:field name="a">
+                <pss:type>
+                    <pss:bit>
+                        <pss:msb>
+                            <pss:number>3</pss:number>
+                        </pss:msb>
+                        <pss:lsb>
+                            <pss:number>0</pss:number>
+                        </pss:lsb>
+                    </pss:bit>
+                </pss:type>
+                <pss:dim>
+                    <pss:number>0x5</pss:number>
+                </pss:dim>
+            </pss:field>
+            <pss:field name="b" qualifier="rand">
+                <pss:type>
+                    <pss:bit>
+                        <pss:msb>
+                            <pss:number>3</pss:number>
+                        </pss:msb>
+                        <pss:lsb>
+                            <pss:number>0</pss:number>
+                        </pss:lsb>
+                    </pss:bit>
+                </pss:type>
+                <pss:dim>
+                    <pss:number>0xc</pss:number>
+                </pss:dim>
+            </pss:field>
+        </pss:struct>
+    </pss:package>
+</pss:model>

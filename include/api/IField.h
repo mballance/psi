@@ -58,6 +58,8 @@ public:
 
 	virtual FieldAttr getAttr() const = 0;
 
+	virtual IExpr *getArrayDim() const = 0;
+
 };
 
 

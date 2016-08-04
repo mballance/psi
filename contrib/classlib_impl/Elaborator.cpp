@@ -31,8 +31,6 @@
 #include "ImportImp.h"
 #include "IntTypeImp.h"
 #include "BoolImp.h"
-//#include "ChandleImp.h"
-//#include "RepeatImp.h"
 #include "ModelImp.h"
 #include <stdio.h>
 #include <stdarg.h>
@@ -599,6 +597,11 @@ IField *Elaborator::elaborate_field_item(FieldItemImp *f) {
 	BaseItemImp *dt = f->getDataType();
 	IField::FieldAttr attr = getAttr(f);
 	IBaseItem *ft = 0;
+	IExpr *array_dim = 0;
+
+	if (f->hasArrayDim()) {
+		array_dim = elaborate_expr(f->arrayDim().ptr());
+	}
 
 	if (dt->getObjectType() == BaseItemImp::TypeBit) {
 		// This is a bit-type field
@@ -636,7 +639,7 @@ IField *Elaborator::elaborate_field_item(FieldItemImp *f) {
 	}
 
 	if (ft) {
-		ret = m_model->mkField(f->getName(), ft, attr);
+		ret = m_model->mkField(f->getName(), ft, attr, array_dim);
 	}
 
 	return ret;

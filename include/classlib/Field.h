@@ -38,6 +38,9 @@ template <class T> class Field : public FieldBase<T> {
 		Field(BaseItem *p, const std::string &name) :
 			FieldBase<T>(FieldItem::AttrNone, p, name) { }
 
+		Field(BaseItem *p, const std::string &name, const Expr &array_dim) :
+			FieldBase<T>(FieldItem::AttrNone, p, name, array_dim) { }
+
 		virtual ~Field() { }
 
 		With with(const ExprList &l) const { return With(FieldBase<T>::m_field, l); }

@@ -175,8 +175,9 @@ IExtend *ModelImpl::mkExtend(IBaseItem *target) {
 IField *ModelImpl::mkField(
 		const std::string		&name,
 		IBaseItem				*field_type,
-		IField::FieldAttr		attr) {
-	return new FieldImpl(name, field_type, attr);
+		IField::FieldAttr		attr,
+		IExpr					*array_dim) {
+	return new FieldImpl(name, field_type, attr, array_dim);
 }
 
 IGraphBlockStmt *ModelImpl::mkGraphBlockStmt(IGraphStmt::GraphStmtType type) {

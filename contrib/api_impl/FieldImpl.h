@@ -37,7 +37,8 @@ public:
 	FieldImpl(
 			const std::string 	&name,
 			IBaseItem 			*field_type,
-			IField::FieldAttr 	attr);
+			IField::FieldAttr 	attr,
+			IExpr				*array_dim);
 
 	virtual ~FieldImpl();
 
@@ -57,6 +58,8 @@ public:
 
 	virtual FieldAttr getAttr() const { return m_attr; }
 
+	virtual IExpr *getArrayDim() const { return m_array_dim; }
+
 
 
 private:
@@ -64,6 +67,7 @@ private:
 	std::string					m_name;
 	IBaseItem					*m_field_type;
 	FieldAttr					m_attr;
+	IExpr						*m_array_dim;
 
 };
 

@@ -49,15 +49,14 @@ public:
 			BaseItem 			*p,
 			// Name of the field
 			const std::string 	&name,
+			// Array dimension
+			const Expr			*array_dim,
 			// Attribute of the field
 			FieldAttr 			attr,
 			// Handle to the instantiating object
 			BaseItem			*wrapper,
 			// Handle to the type object, if this is a user-defined type
 			BaseItem			*type_hndl);
-
-
-//	void setDataType(BaseItem *dt);
 
 };
 

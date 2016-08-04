@@ -169,19 +169,10 @@
     	<sequence minOccurs="1" maxOccurs="1">
 	    	<element name="type" type="pss:data_type"/>
 	    	<sequence minOccurs="0" maxOccurs="1">
-	    		<element name="dim" type="pss:array_dim"/>
+	    		<element name="dim" type="pss:expression"/>
 	    	</sequence>
     	</sequence>
     	<attribute name="name" type="string"/>
-    </complexType>
-    
-    <complexType name="array_dim">
-    	<sequence minOccurs="0" maxOccurs="1">
-    		<element name="lhs" type="pss:expression"/>
-    		<sequence minOccurs="0" maxOccurs="1">
-    			<element name="rhs" type="pss:expression"/>
-    		</sequence>
-    	</sequence>
     </complexType>
     
     <complexType name="action_field_declaration">
@@ -343,17 +334,17 @@
 	</complexType>
 	
 	<complexType name="struct_field_declaration">
-		<choice minOccurs="1" maxOccurs="1">
-			<element name="type" type="pss:data_type"/>
-		</choice>
-		<attribute name="name" type="string"/>
-		<attribute name="qualifier">
-			<simpleType>
-				<restriction base="string">
-					<enumeration value="rand"/>
-				</restriction>
-			</simpleType>
-		</attribute>
+		<complexContent>
+			<extension base="pss:field_declaration">
+				<attribute name="qualifier">
+					<simpleType>
+						<restriction base="string">
+							<enumeration value="rand"/>
+						</restriction>
+					</simpleType>
+				</attribute>			
+			</extension>
+		</complexContent>
 	</complexType>
 	
     <!-- ************************************************************

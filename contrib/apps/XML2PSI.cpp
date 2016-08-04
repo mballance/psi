@@ -190,7 +190,8 @@ IField *XML2PSI::elaborate_field(xmlNode *p, const strmap &attr) {
 		}
 	}
 
-	field = m_model->mkField(attr.at("name"), field_t, field_attr);
+	// TODO: handle array dim
+	field = m_model->mkField(attr.at("name"), field_t, field_attr, 0);
 
 	return field;
 }
@@ -296,7 +297,8 @@ void XML2PSI::enter_field(const strmap &attr) {
 		}
 	}
 
-	IField *field = m_model->mkField(attr.at("name"), 0, field_attr);
+	// TODO: handle array_dim
+	IField *field = m_model->mkField(attr.at("name"), 0, field_attr, 0);
 
 	PSIUtil::toScopeItem(top())->add(field);
 	push(field);

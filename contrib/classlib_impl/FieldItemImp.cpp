@@ -29,10 +29,11 @@ namespace pss {
 FieldItem::FieldItem(
 		BaseItem 				*p,
 		const std::string 		&name,
+		const Expr				*array_dim,
 		FieldItem::FieldAttr 	attr,
 		BaseItem				*wrapper,
 		BaseItem				*type_hndl) :
-		BaseItem(new FieldItemImp(this, p, name, attr, wrapper, type_hndl)) {
+		BaseItem(new FieldItemImp(this, p, name, array_dim, attr, wrapper, type_hndl)) {
 
 }
 
@@ -40,11 +41,14 @@ FieldItemImp::FieldItemImp(
 		FieldItem 				*master,
 		BaseItem 				*p,
 		const std::string 		&name,
+		const Expr				*array_dim,
 		FieldItem::FieldAttr	attr,
 		BaseItem				*wrapper,
 		BaseItem				*type_hndl) :
 	NamedBaseItemImp(master, BaseItemImp::TypeField, p, name),
-		m_data_type(0), m_attr(attr), m_internal(false) {
+		m_data_type(0), m_attr(attr), m_internal(false),
+		m_has_array_dim(array_dim!=0),
+		m_array_dim((array_dim)?array_dim->imp():ExprImp(0)) {
 
 	setDataType((type_hndl)?type_hndl:wrapper);
 	NamedBaseItemImp *wrapper_ni = NamedBaseItemImp::to(wrapper->impl());
@@ -65,10 +69,6 @@ FieldItem::~FieldItem() {
 FieldItemImp::~FieldItemImp() {
 	// TODO Auto-generated destructor stub
 }
-
-//void FieldItem::setDataType(BaseItem *dt) {
-//	static_cast<FieldItemImp *>(impl())->setDataType(dt);
-//}
 
 void FieldItemImp::setDataType(BaseItem *dt) {
 	m_data_type = toImp(dt);

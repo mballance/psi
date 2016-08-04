@@ -121,7 +121,8 @@ namespace psi_api {
 			virtual IField *mkField(
 					const std::string		&name,
 					IBaseItem				*field_type,
-					IField::FieldAttr		attr=IField::FieldAttr_None) = 0;
+					IField::FieldAttr		attr,
+					IExpr					*array_dim) = 0;
 
 			virtual IBinaryExpr *mkBinExpr(
 					IExpr 					*lhs,
