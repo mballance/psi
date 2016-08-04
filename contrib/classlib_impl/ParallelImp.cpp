@@ -27,7 +27,7 @@
 #include "ExprImp.h"
 #include "ExprCore.h"
 
-namespace psi {
+namespace pss {
 
 Parallel::Parallel(const ExprList &body) : Expr(body.imp()) {
 	imp().ptr()->setOp(ExprImp::GraphParallel);
@@ -45,4 +45,4 @@ ExprListBuilder Parallel::operator,(const ExprListBuilder &rhs) {
 	return ExprListBuilder(*this, rhs);
 }
 
-} /* namespace psi */
+} /* namespace pss */

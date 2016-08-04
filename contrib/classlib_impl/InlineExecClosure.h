@@ -29,7 +29,7 @@
 
 using namespace psi_api;
 
-namespace psi {
+namespace pss {
 
 template <class T> class InlineExecClosure : public psi_api::IInlineExec {
 public:

@@ -27,7 +27,7 @@
 
 #include "classlib/Struct.h"
 
-namespace psi {
+namespace pss {
 
 
 class MemoryStruct: public Struct {
@@ -41,6 +41,6 @@ class MemoryStruct: public Struct {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* MEMORYSTRUCT_H_ */

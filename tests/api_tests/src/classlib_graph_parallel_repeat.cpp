@@ -1,24 +1,24 @@
-#include "psi_tests.h"
+#include "pss_tests.h"
 
 class top_comp : public Component {
 public:
-	psi_ctor(top_comp, Component);
+	pss_ctor(top_comp, Component);
 
 	class at : public Action {
 	public:
-		psi_ctor(at, Action);
+		pss_ctor(at, Action);
 
-		Rand<Bit<3,0>>		psi_field(field);
+		Rand<Bit<3,0>>		pss_field(field);
 	};
-	psi_type(at);
+	pss_type(at);
 
 	class top_action : public Action {
 	public:
-		psi_ctor(top_action, Action);
+		pss_ctor(top_action, Action);
 
-		Field<at>		psi_field(a);
-		Field<at>		psi_field(b);
-		Field<at>		psi_field(c);
+		Field<at>		pss_field(a);
+		Field<at>		pss_field(b);
+		Field<at>		pss_field(c);
 
 		Graph g {this, {
 			a,
@@ -36,7 +36,7 @@ public:
 		};
 
 	};
-	psi_type(top_action);
+	pss_type(top_action);
 
 };
-psi_global_type(top_comp);
+pss_global_type(top_comp);

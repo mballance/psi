@@ -28,7 +28,7 @@
 #include "NamedBaseItemImp.h"
 #include <string>
 
-namespace psi {
+namespace pss {
 
 class StringImp : public NamedBaseItemImp {
 
@@ -61,6 +61,6 @@ class StringImp : public NamedBaseItemImp {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_CLASSLIB_STRING_H_ */

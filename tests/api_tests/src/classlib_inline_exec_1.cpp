@@ -4,7 +4,7 @@
  *  Created on: May 11, 2016
  *      Author: ballance
  */
-#include "psi_tests.h"
+#include "pss_tests.h"
 
 int refmodel_get_next_value() {
 	return 27;
@@ -12,17 +12,17 @@ int refmodel_get_next_value() {
 
 class top : public Component {
 public:
-	psi_component_ctor(top);
+	pss_component_ctor(top);
 
 	class entry_point : public Action {
 	public:
-		psi_action_ctor(entry_point);
+		pss_action_ctor(entry_point);
 
-		Rand<Bit<7,0>>		psi_field(p1);
-		Rand<Bit<31,0>>		psi_field(p2);
-		Rand<Bit<31,0>>		psi_field(p3);
-		Field<Bit<31,0>>	psi_field(p4);
-		Field<Bit<31,0>>	psi_field(p5);
+		Rand<Bit<7,0>>		pss_field(p1);
+		Rand<Bit<31,0>>		pss_field(p2);
+		Rand<Bit<31,0>>		pss_field(p3);
+		Field<Bit<31,0>>	pss_field(p4);
+		Field<Bit<31,0>>	pss_field(p5);
 
 		Exec pre_solve_e {this, Exec::PreSolve};
 
@@ -38,9 +38,9 @@ public:
 			p5.set(p1.get() + p2.get());
 		}
 	};
-	psi_type(entry_point);
+	pss_type(entry_point);
 
 };
-psi_global_type(top);
+pss_global_type(top);
 
 

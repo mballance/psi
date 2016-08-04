@@ -27,7 +27,7 @@
 #include "classlib/ExportItem.h"
 #include "classlib/TypeDecl.h"
 
-namespace psi {
+namespace pss {
 
 template <class T> class Export : public T {
 public:

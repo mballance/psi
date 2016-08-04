@@ -27,7 +27,7 @@
 
 #include "Expr.h"
 
-namespace psi {
+namespace pss {
 
 class Import;
 class ExprList;
@@ -39,6 +39,6 @@ public:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_EXPR_IMPORT_CALL_H */

@@ -29,7 +29,7 @@
 #include "classlib/ResourceStruct.h"
 #include "StructImp.h"
 
-namespace psi {
+namespace pss {
 
 class ResourceStructImp : public StructImp {
 	public:
@@ -40,6 +40,6 @@ class ResourceStructImp : public StructImp {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_RESOURCE_STRUCT_H */

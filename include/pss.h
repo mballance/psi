@@ -1,5 +1,5 @@
 /*
- * psi.h
+ * pss.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,10 +22,9 @@
  *      Author: ballance
  */
 
-#ifndef INCLUDED_PSI_H
-#define INCLUDED_PSI_H
+#ifndef INCLUDED_PSS_H
+#define INCLUDED_PSS_H
 
-#include "psi_api.h"
 #include "classlib/Action.h"
 #include "classlib/Bind.h"
 #include "classlib/Bit.h"
@@ -53,7 +52,6 @@
 #include "classlib/Package.h"
 #include "classlib/Parallel.h"
 #include "classlib/Pool.h"
-#include "classlib/PsiMacros.h"
 #include "classlib/Rand.h"
 #include "classlib/Repeat.h"
 #include "classlib/ResourceStruct.h"
@@ -67,10 +65,8 @@
 #include "classlib/TypeDecl.h"
 #include "classlib/Types.h"
 #include "classlib/With.h"
-#include "classlib/PsiMacros.h"
+#include "classlib/PssMacros.h"
 
 
-typedef const std::string & psi_name;
-
-#endif /* INCLUDED_PSI_H */
+#endif /* INCLUDED_PSS_H */
 

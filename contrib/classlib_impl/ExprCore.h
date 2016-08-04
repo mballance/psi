@@ -27,7 +27,7 @@
 #include "ExprImp.h"
 #include "classlib/BaseItem.h"
 
-namespace psi {
+namespace pss {
 
 class Import;
 class Expr;
@@ -81,6 +81,6 @@ class ExprCore {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_CLASSLIB_EXPRCORE_H_ */

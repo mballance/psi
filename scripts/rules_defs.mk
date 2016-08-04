@@ -45,9 +45,7 @@ INST_TARGETS += $(INCDIR)/psi.h $(INCDIR)/psi_api.h
 
 CXXFLAGS += -I/usr/include/libxml2
 CXXFLAGS += -I$(PSI_INCLUDE_DIR)
-CXXFLAGS += -I$(PSI_CONTRIB_DIR)/apps
-CXXFLAGS += -I$(PSI_CONTRIB_DIR)/classlib_impl
-CXXFLAGS += -I$(PSI_CONTRIB_DIR)/api_impl
+CXXFLAGS += -I$(PSI_CONTRIB_DIR)
 
 else
 
@@ -84,7 +82,7 @@ vpath %.cpp $(PSI_CONTRIB_DIR)/apps $(PSI_CONTRIB_DIR)/classlib_impl $(PSI_CONTR
 
 $(PSI_BUILDDIR)/%.o : %.cpp
 	$(Q)if test ! -d $(PSI_BUILDDIR); then mkdir -p $(PSI_BUILDDIR); fi
-	$(DO_CXX) -I$(PSI_INCLUDE_DIR)
+	$(DO_CXX) -I$(PSI_INCLUDE_DIR) -I`dirname $^`
 	
 $(PSI_BUILDDIR)/%.o : $(PSI_BUILDDIR)/%.cpp
 	$(Q)if test ! -d $(PSI_BUILDDIR); then mkdir -p $(PSI_BUILDDIR); fi	

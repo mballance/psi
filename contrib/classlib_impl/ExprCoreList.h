@@ -28,7 +28,7 @@
 #include <vector>
 #include "ExprCore.h"
 
-namespace psi {
+namespace pss {
 
 class ExprList;
 class ExprCoreList: public ExprCore {
@@ -58,6 +58,6 @@ private:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_PSI_CLASSLIB_EXPRCORELIST_H_ */

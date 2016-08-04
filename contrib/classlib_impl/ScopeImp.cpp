@@ -26,7 +26,7 @@
 #include "ScopeImp.h"
 #include <stdio.h>
 
-namespace psi {
+namespace pss {
 
 Scope::Scope(bool in_field_decl) {
 	m_impl = new ScopeImp(this, &typeid(this), 0, in_field_decl, "");
@@ -109,4 +109,4 @@ void ScopeImp::leave() {
 	ModelImp::global()->pop_scope(this);
 }
 
-} /* namespace psi */
+} /* namespace pss */

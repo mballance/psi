@@ -5,53 +5,53 @@
  *      Author: ballance
  */
 
-#include "psi_tests.h"
+#include "pss_tests.h"
 
 class S : public Struct {
 public:
-	psi_ctor(S, Struct);
+	pss_ctor(S, Struct);
 
 };
-psi_global_type(S);
+pss_global_type(S);
 
 class CA : public Component {
 public:
-	psi_ctor(CA, Component);
+	pss_ctor(CA, Component);
 
 	class A : public Action {
 	public:
-		psi_ctor(A, Action);
+		pss_ctor(A, Action);
 
-		Output<S>			psi_field(out_s);
+		Output<S>			pss_field(out_s);
 	};
-	psi_type(A);
+	pss_type(A);
 
 };
-psi_global_type(CA);
+pss_global_type(CA);
 
 class CB : public Component {
 public:
-	psi_ctor(CB, Component);
+	pss_ctor(CB, Component);
 
 	class B : public Action {
 	public:
-		psi_ctor(B, Action);
+		pss_ctor(B, Action);
 
-		Input<S>			psi_field(in_s);
+		Input<S>			pss_field(in_s);
 	};
-	psi_type(B);
+	pss_type(B);
 };
-psi_global_type(CB);
+pss_global_type(CB);
 
 class static_structure : public Component {
 public:
 
-	Field<CA>			psi_field(ca1);
-	Field<CA>			psi_field(ca2);
-	Field<CB>			psi_field(cb1);
-	Field<CB>			psi_field(cb2);
+	Field<CA>			pss_field(ca1);
+	Field<CA>			pss_field(ca2);
+	Field<CB>			pss_field(cb1);
+	Field<CB>			pss_field(cb2);
 
-	psi_ctor(static_structure, Component);
+	pss_ctor(static_structure, Component);
 
 	// TODO:
 	Bind b2 { this,
@@ -63,13 +63,13 @@ public:
 
 	class entry_point : public Action {
 	public:
-		psi_ctor(entry_point, Action);
+		pss_ctor(entry_point, Action);
 
 	};
-	psi_type(entry_point);
+	pss_type(entry_point);
 
 };
-psi_global_type(static_structure);
+pss_global_type(static_structure);
 
 
 

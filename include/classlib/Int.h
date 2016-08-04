@@ -26,7 +26,7 @@
 #define INT_H_
 #include "classlib/IntType.h"
 
-namespace psi {
+namespace pss {
 
 template <int MSB=31, int LSB=0> class Int : public IntType {
 

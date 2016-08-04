@@ -24,7 +24,7 @@
 
 #include "ConstraintImp.h"
 
-namespace psi {
+namespace pss {
 
 Constraint::Constraint(BaseItem *p, const ExprList &stmt) :
 		BaseItem(new ConstraintImp(this, p, "", stmt)) { }
@@ -46,4 +46,4 @@ ConstraintImp::~ConstraintImp() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace psi */
+} /* namespace pss */

@@ -27,7 +27,7 @@
 #include "ExprCore.h"
 #include "ExprImp.h"
 
-namespace psi {
+namespace pss {
 
 With::With(const FieldItem &lhs, const ExprList &stmt) :
 	Expr(ExprImp(new ExprCore(ExprImp::GraphWith, lhs, stmt))) {
@@ -38,4 +38,4 @@ With::~With() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace psi */
+} /* namespace pss */

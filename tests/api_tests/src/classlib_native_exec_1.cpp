@@ -4,11 +4,11 @@
  *  Created on: May 11, 2016
  *      Author: ballance
  */
-#include "psi_tests.h"
+#include "pss_tests.h"
 
 class methods_pkg : public Package {
 public:
-	psi_ctor(methods_pkg, Package);
+	pss_ctor(methods_pkg, Package);
 
 	Import my_func { this, "my_func",
 		(Bit<7,0>("a"), Bit<31,0>("b"))};
@@ -17,24 +17,24 @@ public:
 		(Bit<7,0>("a"), Bit<31,0>("b"))};
 
 };
-psi_global_type(methods_pkg);
+pss_global_type(methods_pkg);
 
 class top : public Component {
 public:
-	psi_ctor(top, Component);
+	pss_ctor(top, Component);
 
 	class entry_point : public Action {
 	public:
-		psi_ctor(entry_point, Action);
+		pss_ctor(entry_point, Action);
 
-		Rand<Bit<7,0>>		psi_field(p1);
-		Rand<Bit<7,0>>		psi_field(p2);
-		Rand<Bit<7,0>>		psi_field(p3);
+		Rand<Bit<7,0>>		pss_field(p1);
+		Rand<Bit<7,0>>		pss_field(p2);
+		Rand<Bit<7,0>>		pss_field(p3);
 
 		Exec pre_solve {this, Exec::PreSolve,
 			{
-					psi_typeid(methods_pkg).my_func((p1, p2)),
-					psi_typeid(methods_pkg).my_func((p1+1, p2+4)) /*,
+					pss_typeid(methods_pkg).my_func((p1, p2)),
+					pss_typeid(methods_pkg).my_func((p1+1, p2+4)) /*,
 					p3 = methods_pkgT.my_func((p1+1, p2+4)),
 					p2 != 5
 					 */
@@ -50,9 +50,9 @@ public:
 
 
 	};
-	psi_type(entry_point);
+	pss_type(entry_point);
 
 };
-psi_global_type(top);
+pss_global_type(top);
 
 

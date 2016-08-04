@@ -561,14 +561,14 @@
 	<complexType name="string_type"/>
 	
 	<complexType name="integer_type">
-		<sequence>
+		<sequence minOccurs="0" maxOccurs="1">
 			<element name="msb" type="pss:expression"/>
 			<element name="lsb" type="pss:expression"/>
 		</sequence>
 	</complexType>
 	
 	<complexType name="bit_type">
-		<sequence>
+		<sequence minOccurs="0" maxOccurs="1">
 			<element name="msb" type="pss:expression"/>
 			<element name="lsb" type="pss:expression"/>
 		</sequence>

@@ -30,7 +30,7 @@
 #include "classlib/BaseItem.h"
 #include "classlib/Scope.h"
 
-namespace psi {
+namespace pss {
 
 class Package : public BaseItem {
 
@@ -42,6 +42,6 @@ class Package : public BaseItem {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* PACKAGE_H_ */

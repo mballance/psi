@@ -29,7 +29,7 @@
 #include <vector>
 #include <typeinfo>
 
-namespace psi {
+namespace pss {
 
 class BaseItemImp;
 class ScopeImp;
@@ -67,6 +67,6 @@ private:
 	ScopeImp				*m_impl;
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_PSI_CLASSLIB_SCOPE_H_ */

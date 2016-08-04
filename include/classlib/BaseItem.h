@@ -33,7 +33,7 @@
 #include "classlib/ExprList.h"
 #include "classlib/ExprListBuilder.h"
 
-namespace psi {
+namespace pss {
 
 class BaseItemImp;
 class BaseItem {
@@ -61,6 +61,6 @@ protected:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_BASE_ITEM_H */

@@ -34,7 +34,7 @@
 								<option id="gnu.cpp.compiler.option.dialect.std.672636245" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" value="gnu.cpp.compiler.dialect.c++1y" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.213583307" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__=1"/>
-									<listOptionValue builtIn="false" value="PSI_HAVE_CXX_11=true"/>
+									<listOptionValue builtIn="false" value="PSS_HAVE_CXX_11=true"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.cygwin.37705541" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input.cygwin"/>
 							</tool>

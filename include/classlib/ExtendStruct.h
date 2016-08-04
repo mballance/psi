@@ -26,7 +26,7 @@
 #define INCLUDED_EXTEND_STRUCT_H
 #include "classlib/ExtendBase.h"
 
-namespace psi {
+namespace pss {
 
 template <class T> class ExtendStruct : public ExtendBase<T> {
 
@@ -37,6 +37,6 @@ template <class T> class ExtendStruct : public ExtendBase<T> {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_CLASSLIB_EXTENDSTRUCT_H_ */

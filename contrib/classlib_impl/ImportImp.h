@@ -29,7 +29,7 @@
 #include "classlib/Import.h"
 #include "NamedBaseItemImp.h"
 
-namespace psi {
+namespace pss {
 
 class ImportImp : public NamedBaseItemImp {
 
@@ -56,6 +56,6 @@ class ImportImp : public NamedBaseItemImp {
 };
 
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_CLASSLIB_IMPORT_H_ */

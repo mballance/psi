@@ -30,7 +30,7 @@
 #include "classlib/Action.h"
 #include "classlib/ExprList.h"
 
-namespace psi {
+namespace pss {
 
 class ExportItem: public BaseItem {
 public:

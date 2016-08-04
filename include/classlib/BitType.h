@@ -30,7 +30,7 @@
 
 #include "classlib/BaseItem.h"
 
-namespace psi {
+namespace pss {
 
 class BitType : public BaseItem {
 
@@ -66,7 +66,7 @@ class BitType : public BaseItem {
 };
 
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_BIT_TYPE_H */
 

@@ -5,14 +5,14 @@
  *      Author: ballance
  */
 
-#include "psi_tests.h"
+#include "pss_tests.h"
 
 class Base : public Struct {
 public:
-	psi_ctor(Base, Struct);
+	pss_ctor(Base, Struct);
 
-	Rand<Bit<7,0>>		psi_field(a);
-	Rand<Bit<7,0>>		psi_field(b);
+	Rand<Bit<7,0>>		pss_field(a);
+	Rand<Bit<7,0>>		pss_field(b);
 
 	Constraint c {this, "c", {
 			a == 5,
@@ -20,17 +20,17 @@ public:
 	}};
 
 };
-psi_global_type(Base);
+pss_global_type(Base);
 
 class Ext : public Base {
 public:
-	psi_ctor(Ext, Base);
+	pss_ctor(Ext, Base);
 
 	Constraint c {this, "c", {
 			a == 7,
 			b == 8
 	}};
 };
-psi_global_type(Ext);
+pss_global_type(Ext);
 
 

@@ -27,7 +27,7 @@
 #include "ExecImp.h"
 #include "classlib/ExtendItem.h"
 
-namespace psi {
+namespace pss {
 
 Exec::Exec(
 		BaseItem				*p,
@@ -123,4 +123,4 @@ ExecImp::~ExecImp() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace psi */
+} /* namespace pss */

@@ -5,7 +5,7 @@
  *      Author: ballance
  */
 
-#include "psi_tests.h"
+#include "pss_tests.h"
 
 void build(IModel *model) {
 

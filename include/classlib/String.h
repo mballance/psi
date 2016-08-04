@@ -27,7 +27,7 @@
 #include "classlib/BaseItem.h"
 #include <string>
 
-namespace psi {
+namespace pss {
 
 class String : public BaseItem {
 
@@ -57,6 +57,6 @@ class String : public BaseItem {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_STRING_H */

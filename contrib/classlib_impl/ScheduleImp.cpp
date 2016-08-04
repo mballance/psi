@@ -26,7 +26,7 @@
 #include "ExprImp.h"
 #include "ExprCore.h"
 
-namespace psi {
+namespace pss {
 
 Schedule::Schedule(const ExprList &body) : Expr(body) {
 	m_core->ptr()->setOp(ExprImp::GraphSchedule);
@@ -36,4 +36,4 @@ Schedule::~Schedule() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace psi */
+} /* namespace pss */

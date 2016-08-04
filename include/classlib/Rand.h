@@ -29,7 +29,7 @@
 
 #include "classlib/FieldBase.h"
 
-namespace psi {
+namespace pss {
 
 template <class T> class Rand : public FieldBase<T> {
 
@@ -41,6 +41,6 @@ template <class T> class Rand : public FieldBase<T> {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_RAND_H */

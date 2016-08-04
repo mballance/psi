@@ -29,7 +29,7 @@
 #include "classlib/BaseItem.h"
 #include "classlib/Scope.h"
 
-namespace psi {
+namespace pss {
 
 /**
  * User-defined Action classes extend from the Action base class.
@@ -63,6 +63,6 @@ protected:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_ACTION_H */

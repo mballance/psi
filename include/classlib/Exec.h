@@ -30,7 +30,7 @@
 #include "classlib/BaseItem.h"
 #include "classlib/Types.h"
 
-namespace psi {
+namespace pss {
 
 class ImportCall;
 class ExtendItem;
@@ -77,7 +77,7 @@ class Exec : public BaseItem {
 			BaseItem								*p,
 			ExecKind								kind);
 
-#ifdef PSI_HAVE_CXX_11
+#ifdef PSS_HAVE_CXX_11
 //		Exec(
 //			BaseItem								*p,
 //			ExecKind								kind,
@@ -101,6 +101,6 @@ class Exec : public BaseItem {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_CLASSLIB_EXEC_H_ */

@@ -24,7 +24,7 @@
 
 #include "FieldItemImp.h"
 
-namespace psi {
+namespace pss {
 
 FieldItem::FieldItem(
 		BaseItem 				*p,
@@ -75,4 +75,4 @@ void FieldItemImp::setDataType(BaseItem *dt) {
 }
 
 
-} /* namespace psi */
+} /* namespace pss */

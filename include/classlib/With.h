@@ -27,7 +27,7 @@
 
 #include "classlib/Expr.h"
 
-namespace psi {
+namespace pss {
 
 class FieldItem;
 class ExprList;
@@ -38,7 +38,7 @@ public:
 	virtual ~With();
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_WITH_H */
 

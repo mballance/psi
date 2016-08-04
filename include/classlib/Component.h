@@ -29,7 +29,7 @@
 #include "classlib/BaseItem.h"
 #include "classlib/Scope.h"
 
-namespace psi {
+namespace pss {
 
 class Component : public BaseItem {
 
@@ -40,6 +40,6 @@ class Component : public BaseItem {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* COMPONENT_H_ */

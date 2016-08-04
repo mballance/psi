@@ -24,7 +24,7 @@
 
 #include "classlib/Sequential.h"
 
-namespace psi {
+namespace pss {
 
 Sequential::Sequential(const ExprListBuilder &body) : ExprList(body) { }
 
@@ -40,4 +40,4 @@ ExprListBuilder Sequential::operator,(const ExprListBuilder &rhs) {
 	return ExprListBuilder(*this, rhs);
 }
 
-} /* namespace psi */
+} /* namespace pss */

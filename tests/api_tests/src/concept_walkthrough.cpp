@@ -4,68 +4,68 @@
  *  Created on: Apr 23, 2016
  *      Author: ballance
  */
-#include "psi_tests.h"
+#include "pss_tests.h"
 
 class data_s : public MemoryStruct {
 public:
-	Rand<Bit<7,0>>		psi_field(data);
-	Rand<Bit<31,0>>		psi_field(address);
+	Rand<Bit<7,0>>		pss_field(data);
+	Rand<Bit<31,0>>		pss_field(address);
 
-	psi_ctor(data_s, MemoryStruct);
+	pss_ctor(data_s, MemoryStruct);
 
 	Constraint address_c {this, address >= 0x1000 && address <= 0x1FFF};
 };
-psi_global_type(data_s);
+pss_global_type(data_s);
 
 class rw_comp : public Component {
 public:
 
-	psi_ctor(rw_comp, Component);
+	pss_ctor(rw_comp, Component);
 
 	class processor_s : public ResourceStruct {
 	public:
-		psi_ctor(processor_s, ResourceStruct);
+		pss_ctor(processor_s, ResourceStruct);
 
 		Constraint resource_c {this, instance_id == 1};
 
 	};
-	psi_type(processor_s);
+	pss_type(processor_s);
 
 	class write_data : public Action {
 	public:
-		psi_ctor(write_data, Action);
+		pss_ctor(write_data, Action);
 
-		Output<data_s>			psi_field(out_data);
-		Lock<processor_s>		psi_field(proc);
+		Output<data_s>			pss_field(out_data);
+		Lock<processor_s>		pss_field(proc);
 	};
-	psi_type(write_data);
+	pss_type(write_data);
 
 	class read_data : public Action {
 	public:
-		psi_ctor(read_data, Action);
+		pss_ctor(read_data, Action);
 
-		Input<data_s>			psi_field(in_data);
-		Lock<processor_s>		psi_field(proc);
+		Input<data_s>			pss_field(in_data);
+		Lock<processor_s>		pss_field(proc);
 	};
-	psi_type(read_data);
+	pss_type(read_data);
 
 };
-psi_global_type(rw_comp);
+pss_global_type(rw_comp);
 
 class top_comp : public Component {
 public:
-	psi_ctor(top_comp, Component);
+	pss_ctor(top_comp, Component);
 
 	class my_test2 : public Action {
 	public:
-		psi_ctor(my_test2, Action);
+		pss_ctor(my_test2, Action);
 
 		// Action instance needs to know the details of its type. This is
 		// provided via a type-definition reference (eg _rw_comp._write_data)
-		Field<rw_comp::write_data>		psi_field(wd1);
-		Field<rw_comp::read_data>		psi_field(rd1);
-		Field<rw_comp::write_data>		psi_field(wd2);
-		Field<rw_comp::read_data>		psi_field(rd2);
+		Field<rw_comp::write_data>		pss_field(wd1);
+		Field<rw_comp::read_data>		pss_field(rd1);
+		Field<rw_comp::write_data>		pss_field(wd2);
+		Field<rw_comp::read_data>		pss_field(rd2);
 
 		// Only a single graph is permitted per action
 		Graph graph {this,
@@ -77,14 +77,14 @@ public:
 		Constraint addr_c {this, "addr_c", rd1.in_data.address != rd2.in_data.address };
 
 	};
-	psi_type(my_test2);
+	pss_type(my_test2);
 
 };
-psi_global_type(top_comp);
+pss_global_type(top_comp);
 
 class c_methods : public Package {
 public:
-	psi_package_ctor(c_methods);
+	pss_package_ctor(c_methods);
 
 	// Prototypes for import functions
 	Import do_write {this, "do_write",
@@ -96,11 +96,11 @@ public:
 	};
 
 };
-psi_global_type(c_methods);
+pss_global_type(c_methods);
 
 class c_code : public Package {
 public:
-	psi_ctor(c_code, Package);
+	pss_ctor(c_code, Package);
 
 	// Declares an extension of 'write_data' to layer in the implementation
 	class write_data_ext : public ExtendAction<rw_comp::write_data> {
@@ -129,5 +129,5 @@ public:
 	} read_data_extT {this};
 
 };
-psi_global_type(c_code);
+pss_global_type(c_code);
 

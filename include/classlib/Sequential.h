@@ -28,14 +28,14 @@
 #include "classlib/ExprList.h"
 #include "classlib/ExprListBuilder.h"
 
-namespace psi {
+namespace pss {
 
 class Sequential : public ExprList {
 public:
 
 	Sequential(const ExprListBuilder &body);
 
-#ifdef PSI_HAVE_CXX_11
+#ifdef PSS_HAVE_CXX_11
 	Sequential(std::initializer_list<Expr> l) : Sequential(ExprListBuilder(l)) { }
 #endif
 
@@ -47,6 +47,6 @@ public:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_SEQUENTIAL_H */

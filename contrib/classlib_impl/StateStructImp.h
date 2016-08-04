@@ -30,7 +30,7 @@
 #include "classlib/StateStruct.h"
 #include "StructImp.h"
 
-namespace psi {
+namespace pss {
 
 class ScopeImp;
 class StateStructImp : public StructImp {
@@ -42,6 +42,6 @@ public:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_STATE_STRUCT_H */

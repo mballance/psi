@@ -28,7 +28,7 @@
 #include "classlib/ExtendItem.h"
 #include "BaseItemImp.h"
 
-namespace psi {
+namespace pss {
 
 class ExtendItemImp: public BaseItemImp {
 public:
@@ -50,6 +50,6 @@ private:
 	BaseItemImp				*m_data_type;
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_PSI_CLASSLIB_EXTENDITEM_H_ */

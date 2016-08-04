@@ -27,7 +27,7 @@
 #include <string>
 #include <vector>
 
-namespace psi {
+namespace pss {
 
 class TypePathImp {
 public:
@@ -60,6 +60,6 @@ private:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_PSI_CLASSLIB_TYPEPATH_H_ */

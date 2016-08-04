@@ -30,11 +30,11 @@
 #include "classlib/Rand.h"
 #include "classlib/Struct.h"
 
-namespace psi {
+namespace pss {
 
 class ResourceStruct : public Struct {
 	public:
-		Rand<psi::Bit<31,0> >			instance_id;
+		Rand<pss::Bit<31,0> >			instance_id;
 
 	public:
 
@@ -44,6 +44,6 @@ class ResourceStruct : public Struct {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_RESOURCE_STRUCT_H */

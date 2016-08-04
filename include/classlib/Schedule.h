@@ -28,7 +28,7 @@
 #include "classlib/Expr.h"
 #include "classlib/ExprList.h"
 
-namespace psi {
+namespace pss {
 
 class Schedule: public Expr {
 public:
@@ -38,6 +38,6 @@ public:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_SCHEDULE_H */

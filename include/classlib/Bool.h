@@ -29,7 +29,7 @@
 
 #include "classlib/BaseItem.h"
 
-namespace psi {
+namespace pss {
 
 class Scope;
 class Bool: public BaseItem {
@@ -62,6 +62,6 @@ class Bool: public BaseItem {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_CLASSLIB_BOOL_H_ */

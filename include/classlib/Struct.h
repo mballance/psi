@@ -30,7 +30,7 @@
 #include "classlib/BaseItem.h"
 #include "classlib/Scope.h"
 
-namespace psi {
+namespace pss {
 
 class Struct : public BaseItem {
 
@@ -58,6 +58,6 @@ public:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* STRUCT_H_ */

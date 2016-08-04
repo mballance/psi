@@ -8,16 +8,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>
-#include "psi_tests.h"
-#include "ModelImp.h"
-#include "ModelImpl.h"
-#include "PSI2XML.h"
-#include "XML2PSI.h"
-#include "PSI2PSS.h"
-#include "PSSXmlValidator.h"
-#include "Elaborator.h"
+#include "pss_tests.h"
+#include "classlib_impl/ModelImp.h"
+#include "api_impl/ModelImpl.h"
+#include "apps/PSI2XML.h"
+#include "apps/XML2PSI.h"
+#include "apps/PSI2PSS.h"
+#include "apps/PSSXmlValidator.h"
+#include "classlib_impl/Elaborator.h"
 
 using namespace psi::apps;
+using namespace psi;
 
 void build_model(IModel *) __attribute__((weak));
 

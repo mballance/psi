@@ -33,13 +33,13 @@
 // TODO: header file is GCC-specific
 #include <cxxabi.h>
 
-namespace psi {
+namespace pss {
 
 Model::Model(ModelImp *imp) : BaseItem(imp) {
 
 }
 
-ModelImp::ModelImp() : BaseItemImp(new psi::Model(this), BaseItemImp::Model, 0),
+ModelImp::ModelImp() : BaseItemImp(new pss::Model(this), BaseItemImp::Model, 0),
 		m_in_field_decl(false) {
 }
 
@@ -249,4 +249,4 @@ BaseItem *ModelImp::pOrGlobal(BaseItem *p) {
 
 ModelImp *ModelImp::m_global = 0;
 
-} /* namespace psi */
+} /* namespace pss */

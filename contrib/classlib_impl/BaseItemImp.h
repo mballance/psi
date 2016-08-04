@@ -34,7 +34,7 @@
 #include "classlib/ExprList.h"
 #include "classlib/ExprListBuilder.h"
 
-namespace psi {
+namespace pss {
 
 class BaseItemImp {
 public:
@@ -108,6 +108,6 @@ private:
 	std::vector<BaseItemImp *>	m_children;
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* TYPE_H_ */

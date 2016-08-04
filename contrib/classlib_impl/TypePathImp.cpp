@@ -24,7 +24,7 @@
 
 #include "TypePathImp.h"
 
-namespace psi {
+namespace pss {
 
 TypePathImp::TypePathImp() { }
 
@@ -71,4 +71,4 @@ std::string TypePathImp::toString() const {
 	return ret;
 }
 
-} /* namespace psi */
+} /* namespace pss */

@@ -26,7 +26,7 @@
 #define INCLUDED_EXTEND_ACTION_H
 #include "classlib/ExtendBase.h"
 
-namespace psi {
+namespace pss {
 
 template <class T> class ExtendAction : public ExtendBase<T> {
 
@@ -37,6 +37,6 @@ template <class T> class ExtendAction : public ExtendBase<T> {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_CLASSLIB_EXTENDACTION_H_ */

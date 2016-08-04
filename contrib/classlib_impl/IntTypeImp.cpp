@@ -24,7 +24,7 @@
 
 #include "IntTypeImp.h"
 
-namespace psi {
+namespace pss {
 
 IntType::IntType(
 		BaseItem 			*p,
@@ -57,4 +57,4 @@ IntType::~IntType() { }
 
 IntTypeImp::~IntTypeImp() { }
 
-} /* namespace psi */
+} /* namespace pss */

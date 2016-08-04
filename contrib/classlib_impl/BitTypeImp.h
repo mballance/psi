@@ -32,7 +32,7 @@
 #include "NamedBaseItemImp.h"
 
 
-namespace psi {
+namespace pss {
 
 class BitTypeImp : public NamedBaseItemImp {
 
@@ -79,6 +79,6 @@ class BitTypeImp : public NamedBaseItemImp {
 };
 
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_BIT_TYPE_IMPL_H */

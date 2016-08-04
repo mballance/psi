@@ -29,14 +29,14 @@
 #include "classlib/Expr.h"
 #include "classlib/ExprList.h"
 
-namespace psi {
+namespace pss {
 
 class Select: public Expr {
 public:
 
 	Select(const ExprList &list);
 
-#ifdef PSI_HAVE_CXX_11
+#ifdef PSS_HAVE_CXX_11
 	Select(std::initializer_list<Expr> l) : Select(ExprList(l)) { };
 #endif
 
@@ -44,6 +44,6 @@ public:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_PSI_CLASSLIB_SELECT_H_ */

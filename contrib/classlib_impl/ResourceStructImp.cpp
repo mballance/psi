@@ -26,7 +26,7 @@
 #include "ResourceStructImp.h"
 #include "ScopeImp.h"
 
-namespace psi {
+namespace pss {
 
 ResourceStruct::ResourceStruct(const Scope &p) :
 		Struct(new ResourceStructImp(this, p.impl())), instance_id(this, "instance_id") { }
@@ -43,4 +43,4 @@ ResourceStructImp::~ResourceStructImp() {
 }
 
 
-} /* namespace psi */
+} /* namespace pss */

@@ -27,7 +27,7 @@
 #include "classlib/FieldBase.h"
 #include "classlib/TypeDecl.h"
 
-namespace psi {
+namespace pss {
 
 template <class T> class Pool : public FieldBase<T> {
 
@@ -39,6 +39,6 @@ template <class T> class Pool : public FieldBase<T> {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_POOL_H */

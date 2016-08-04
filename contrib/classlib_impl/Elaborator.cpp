@@ -41,7 +41,7 @@
 #include "ExprImp.h"
 #include "InlineExecClosure.h"
 
-namespace psi {
+namespace pss {
 
 using namespace std;
 
@@ -619,6 +619,9 @@ IField *Elaborator::elaborate_field_item(FieldItemImp *f) {
 	} else if (dt->getObjectType() == BaseItemImp::TypeChandle) {
 		ft = m_model->mkScalarType(
 				IScalarType::ScalarType_Chandle, 0, 0);
+	} else if (dt->getObjectType() == BaseItemImp::TypeString) {
+		ft = m_model->mkScalarType(
+				IScalarType::ScalarType_String, 0, 0);
 	} else if (dt->getObjectType() == BaseItemImp::TypeAction) {
 		// This is an action-type field
 		ft = find_type_decl(dt);
@@ -1296,4 +1299,4 @@ void Elaborator::debug_high(const char *fmt, ...) {
 	}
 }
 
-} /* namespace psi */
+} /* namespace pss */

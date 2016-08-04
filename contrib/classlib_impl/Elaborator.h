@@ -53,7 +53,7 @@
 
 using namespace psi_api;
 
-namespace psi {
+namespace pss {
 
 class Elaborator {
 public:
@@ -171,6 +171,6 @@ private:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_ELABORATOR_ELABORATOR_H_ */

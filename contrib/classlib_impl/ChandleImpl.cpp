@@ -24,7 +24,7 @@
 
 #include "ChandleImpl.h"
 
-namespace psi {
+namespace pss {
 
 Chandle::Chandle(BaseItem *p) :
 		BaseItem(new ChandleImpl(this, p)) { }
@@ -64,4 +64,4 @@ void Chandle::set(void *v) {
 	static_cast<ChandleImpl *>(impl())->set(v);
 }
 
-} /* namespace psi */
+} /* namespace pss */

@@ -30,7 +30,7 @@
 #include "classlib/FieldBase.h"
 #include "classlib/With.h"
 
-namespace psi {
+namespace pss {
 
 template <class T> class Field : public FieldBase<T> {
 	public:

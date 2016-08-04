@@ -29,7 +29,7 @@
 #include "classlib/Expr.h"
 #include "classlib/ExprListBuilder.h"
 
-namespace psi {
+namespace pss {
 
 class ExprImp;
 class ExprList : public Expr {
@@ -37,7 +37,7 @@ class ExprList : public Expr {
 
 		ExprList();
 
-#ifdef PSI_HAVE_CXX_11
+#ifdef PSS_HAVE_CXX_11
 		ExprList(std::initializer_list<Expr> l) : ExprList(ExprListBuilder(l)) { }
 #endif
 
@@ -53,6 +53,6 @@ class ExprList : public Expr {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_PSI_CLASSLIB_EXPRLIST_H_ */

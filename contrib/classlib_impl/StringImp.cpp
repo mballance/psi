@@ -24,7 +24,7 @@
 
 #include "StringImp.h"
 
-namespace psi {
+namespace pss {
 
 String::String(BaseItem *p) :
 		BaseItem(new StringImp(this, p)) { }
@@ -64,4 +64,4 @@ void StringImp::set(const std::string &v) {
 
 }
 
-} /* namespace psi */
+} /* namespace pss */

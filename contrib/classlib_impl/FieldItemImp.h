@@ -28,7 +28,7 @@
 #include "classlib/FieldItem.h"
 #include "NamedBaseItemImp.h"
 
-namespace psi {
+namespace pss {
 
 class FieldItemImp: public NamedBaseItemImp {
 public:
@@ -61,6 +61,6 @@ private:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_FIELD_ITEM_H */

@@ -28,7 +28,7 @@
 
 #include "classlib/BaseItem.h"
 
-namespace psi {
+namespace pss {
 
 class Constraint : public BaseItem {
 public:
@@ -43,6 +43,6 @@ public:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* CONSTRAINT_H_ */

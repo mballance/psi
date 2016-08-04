@@ -29,7 +29,7 @@
 #include "classlib/FieldBase.h"
 #include "classlib/TypeDecl.h"
 
-namespace psi {
+namespace pss {
 
 template <class T> class Input : public FieldBase<T> {
 
@@ -41,6 +41,6 @@ template <class T> class Input : public FieldBase<T> {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_INPUT_H */

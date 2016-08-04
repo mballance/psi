@@ -5,13 +5,13 @@
  *      Author: ballance
  */
 
-#include "psi_tests.h"
+#include "pss_tests.h"
 
 class constraint_basics_test : public Struct {
 public:
-	psi_struct_ctor(constraint_basics_test);
+	pss_struct_ctor(constraint_basics_test);
 
-	Rand<Bit<31,0>>			psi_field(address);
+	Rand<Bit<31,0>>			pss_field(address);
 
 	Constraint c0 {this, address >= 0x1000 }; // named constraint
 
@@ -24,5 +24,5 @@ public:
 			} };
 
 };
-psi_global_type(constraint_basics_test);
+pss_global_type(constraint_basics_test);
 

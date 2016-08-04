@@ -26,7 +26,7 @@
 #define INCLUDED_EXPR_CORE_IF_H
 #include "ExprCore.h"
 
-namespace psi {
+namespace pss {
 
 class ExprCoreIf : public ExprCore {
 public:
@@ -48,6 +48,6 @@ protected:
 	ExprImp					m_false_stmt;
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_PSI_CLASSLIB_EXPRCOREIF_H_ */

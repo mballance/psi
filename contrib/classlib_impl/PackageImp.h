@@ -31,7 +31,7 @@
 #include "ScopeImp.h"
 #include "classlib/Package.h"
 
-namespace psi {
+namespace pss {
 
 class PackageImp : public NamedBaseItemImp {
 
@@ -43,6 +43,6 @@ class PackageImp : public NamedBaseItemImp {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* PACKAGE_H_ */

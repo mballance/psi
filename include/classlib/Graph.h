@@ -27,7 +27,7 @@
 #include "classlib/BaseItem.h"
 #include "classlib/ExprList.h"
 
-namespace psi {
+namespace pss {
 
 class Graph : public BaseItem {
 
@@ -38,6 +38,6 @@ class Graph : public BaseItem {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* GRAPH_H_ */

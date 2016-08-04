@@ -24,7 +24,7 @@
 
 #include "BindImp.h"
 
-namespace psi {
+namespace pss {
 
 Bind::Bind(BaseItem *p, BaseItem &i1, BaseItem &i2) :
 		BaseItem(new BindImp(this, p)) {
@@ -89,4 +89,4 @@ BindImp::~BindImp() {
 
 }
 
-} /* namespace psi */
+} /* namespace pss */

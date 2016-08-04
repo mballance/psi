@@ -26,7 +26,7 @@
 #define INCLUDED_SHARE_H
 #include "classlib/FieldBase.h"
 
-namespace psi {
+namespace pss {
 
 template <class T> class Share : public FieldBase<T> {
 	public:
@@ -38,6 +38,6 @@ template <class T> class Share : public FieldBase<T> {
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_SHARE_H */

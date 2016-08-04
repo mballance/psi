@@ -33,7 +33,7 @@
 
 #include "ExprListBuilderImp.h"
 
-namespace psi {
+namespace pss {
 
 BaseItem::BaseItem(BaseItemImp *impl) {
 	m_impl = impl;
@@ -139,4 +139,4 @@ const char *BaseItemImp::toString(ObjectType t) {
 	return "Unknown";
 }
 
-} /* namespace psi */
+} /* namespace pss */

@@ -29,7 +29,7 @@
 #include "BaseItemImp.h"
 #include "classlib/Bind.h"
 
-namespace psi {
+namespace pss {
 
 class BindImp: public BaseItemImp {
 public:
@@ -42,6 +42,6 @@ protected:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* INCLUDED_BIND_IMPL_H */

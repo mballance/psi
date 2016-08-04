@@ -26,7 +26,7 @@
 #include "ModelImp.h"
 #include "ScopeImp.h"
 
-namespace psi {
+namespace pss {
 
 Struct::Struct(const Scope &p) :
 	BaseItem(new StructImp(this, p.impl())) { }
@@ -101,4 +101,4 @@ void StructImp::inline_exec_post() {
 //
 //}
 
-} /* namespace psi */
+} /* namespace pss */

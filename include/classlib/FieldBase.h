@@ -24,7 +24,7 @@
 #include "classlib/FieldItem.h"
 #include "classlib/TypeDecl.h"
 
-namespace psi {
+namespace pss {
 
 template <class T> class FieldBase : public T {
 public:

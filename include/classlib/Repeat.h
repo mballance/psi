@@ -28,12 +28,12 @@
 #include "classlib/Expr.h"
 #include "classlib/ExprListBuilder.h"
 
-namespace psi {
+namespace pss {
 
 class Repeat: public Expr {
 public:
 
-#ifdef PSI_HAVE_CXX_11
+#ifdef PSS_HAVE_CXX_11
 	Repeat(const Expr &cond, std::initializer_list<Expr> l) :
 		Repeat(cond, ExprList(l)) { }
 #endif
@@ -48,6 +48,6 @@ public:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_PSI_CLASSLIB_REPEAT_H_ */

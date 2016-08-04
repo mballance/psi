@@ -28,7 +28,7 @@
 #include "classlib/Expr.h"
 #include "classlib/ExprList.h"
 
-namespace psi {
+namespace pss {
 
 class If : public Expr {
 public:
@@ -40,6 +40,6 @@ public:
 
 };
 
-} /* namespace psi */
+} /* namespace pss */
 
 #endif /* SRC_PSI_CLASSLIB_IF_H_ */
