@@ -18,11 +18,11 @@ public:
 	Constraint c {this, {
 			If {dmn_C != 0, dmn_B == 0},
 
-			If {initial == 1, (
+			If {initial == 1, {
 				dmn_A == 0,
 				dmn_B == 0,
 				dmn_C == 0
-				)
+				}
 			}
 		}
 

@@ -88,11 +88,11 @@ public:
 
 	// Prototypes for import functions
 	Import do_write {this, "do_write",
-		(Bit<31,0>("addr"), Bit<31,0>("data"))
+		{Bit<31,0>("addr"), Bit<31,0>("data")}
 	};
 
 	Import do_check {this, "do_check",
-		(Bit<31,0>("addr"), Bit<31,0>("data"))
+		{Bit<31,0>("addr"), Bit<31,0>("data")}
 	};
 
 };

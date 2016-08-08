@@ -26,9 +26,7 @@ public:
 			Parallel {
 				a,
 				Repeat {5,
-					{
 						c
-					}
 				},
 				a
 			}
