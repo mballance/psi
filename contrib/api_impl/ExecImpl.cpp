@@ -19,7 +19,7 @@ ExecImpl::ExecImpl(
 
 ExecImpl::ExecImpl(
 		ExecKind			kind,
-		IInlineExec			*exec) :
+		IExecCallback			*exec) :
 				m_parent(0), m_execKind(kind), m_execType(IExec::Inline),
 				m_inlineExec(exec), m_stmts(0) { }
 

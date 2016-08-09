@@ -34,6 +34,11 @@ class Graph : public BaseItem {
 	public:
 		Graph(BaseItem *p, const ExprList &seq);
 
+#ifdef PSS_HAVE_CXX_11
+		template<typename... I> Graph(BaseItem *p, const I&... items) :
+				Graph(p, ExprList::mklist(items...)) { }
+#endif
+
 		virtual ~Graph();
 
 };

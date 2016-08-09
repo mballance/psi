@@ -9,7 +9,6 @@
 #define SRC_APPS_XML2PSI_H_
 #include <libxml2/libxml/parser.h>
 #include <libxml2/libxml/tree.h>
-#include <expat.h>
 #include <stack>
 #include <map>
 

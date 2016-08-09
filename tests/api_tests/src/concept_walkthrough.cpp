@@ -114,7 +114,7 @@ public:
 		};
 
 		Exec do_write_body_native {this, Exec::Body,
-			_c_methods_t.do_write((out_data.address, out_data.data))
+			_c_methods_t.do_write(out_data.address, out_data.data)
 		};
 	} write_data_extT {this};
 
@@ -124,7 +124,7 @@ public:
 		read_data_ext(const Scope &p) : ExtendAction(p) {}
 
 		Exec do_check_body_native {this, Exec::Body,
-			_c_methods_t.do_check((in_data.address, in_data.data))
+			_c_methods_t.do_check(in_data.address, in_data.data)
 		};
 	} read_data_extT {this};
 

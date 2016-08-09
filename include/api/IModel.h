@@ -48,6 +48,7 @@
 #include "api/IScalarType.h"
 #include "api/IScopeItem.h"
 #include "api/IStruct.h"
+#include "api/ICallbackContext.h"
 
 namespace psi_api {
 
@@ -98,7 +99,7 @@ namespace psi_api {
 
 			virtual IExec *mkInlineExec(
 					IExec::ExecKind 		kind,
-					IInlineExec				*exec) = 0;
+					IExecCallback				*exec) = 0;
 
 			virtual IExec *mkNativeExec(
 					IExec::ExecKind			kind,
@@ -178,6 +179,9 @@ namespace psi_api {
 					IExpr 			*cond,
 					IConstraint 	*true_c,
 					IConstraint 	*false_c) = 0;
+
+			virtual ICallbackContext *getCallbackContext() = 0;
+
 
 	};
 

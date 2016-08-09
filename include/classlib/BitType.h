@@ -29,9 +29,11 @@
 #include <string>
 
 #include "classlib/BaseItem.h"
+#include "classlib/Types.h"
 
 namespace pss {
 
+class ExprList;
 class BitType : public BaseItem {
 
 	public:
@@ -62,6 +64,12 @@ class BitType : public BaseItem {
 		 * inline-exec callback.
 		 */
 		void set(uint64_t v);
+
+		Expr inside(const ExprList &inside_l);
+
+#ifdef PSS_HAVE_CXX_11
+		Expr inside(std::initializer_list<Expr> l) { return inside(ExprList(l)); }
+#endif
 
 };
 

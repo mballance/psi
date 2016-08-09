@@ -25,8 +25,7 @@
 
 #include "Elaborator.h"
 #include "api/IComponent.h"
-#include "api/IObjectContext.h"
-#include "api/IInlineExec.h"
+#include "api/IExecCallback.h"
 #include "BitTypeImp.h"
 #include "ImportImp.h"
 #include "IntTypeImp.h"
@@ -536,7 +535,7 @@ IExec *Elaborator::elaborate_exec_item(ExecImp *e) {
 	} break;
 
 	case ExecImp::Inline: {
-		IInlineExec *inline_exec = 0;
+		IExecCallback *inline_exec = 0;
 
 		if (kind == IExec::PreSolve) {
 			if (t->getObjectType() == BaseItemImp::TypeAction) {

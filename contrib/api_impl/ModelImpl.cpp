@@ -52,7 +52,7 @@
 namespace psi {
 
 ModelImpl::ModelImpl() : m_global_pkg("") {
-	// TODO Auto-generated constructor stub
+	m_callback_ctxt = 0;
 
 }
 
@@ -147,7 +147,7 @@ IExec *ModelImpl::mkTargetTemplateExec(
 
 IExec *ModelImpl::mkInlineExec(
 		IExec::ExecKind			kind,
-		IInlineExec				*exec) {
+		IExecCallback				*exec) {
 	return new ExecImpl(kind, exec);
 }
 
@@ -255,6 +255,18 @@ IConstraintIf *ModelImpl::mkConstraintIf(
 		IConstraint 	*true_c,
 		IConstraint 	*false_c) {
 	return new ConstraintIfImpl(cond, true_c, false_c);
+}
+
+ICallbackContext *ModelImpl::getCallbackContext() {
+	if (!m_callback_ctxt) {
+		fprintf(stdout, "Error: getCallbackContext returning null handle\n");
+		fflush(stdout);
+	}
+	return m_callback_ctxt;
+}
+
+void ModelImpl::setCallbackContext(ICallbackContext *ctxt) {
+	m_callback_ctxt = ctxt;
 }
 
 } /* namespace psi */

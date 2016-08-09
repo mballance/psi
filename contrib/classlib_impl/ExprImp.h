@@ -57,6 +57,7 @@ public:
 		BinOp_Divide,
 		BinOp_Mod, // 20
 		BinOp_ArrayRef,
+		BinOp_Inside,
 
 		Stmt_If,
 		Stmt_IfElse,

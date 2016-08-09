@@ -8,8 +8,9 @@
 #ifndef SRC_PSI_API_IEXEC_H_
 #define SRC_PSI_API_IEXEC_H_
 #include <string>
-#include "api/IInlineExec.h"
+#include "api/IExecCallback.h"
 #include "api/IExpr.h"
+#include "api/IBaseItem.h"
 
 namespace psi_api {
 
@@ -48,7 +49,7 @@ public:
 	/**
 	 * Returns the inline-exec closure for exec type Inline
 	 */
-	virtual IInlineExec *getInlineExec() = 0;
+	virtual IExecCallback *getInlineExec() = 0;
 
 	/**
 	 * Returns the native-exec statement list

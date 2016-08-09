@@ -31,6 +31,8 @@ namespace pss {
 
 class ExprListBuilder;
 class BaseItem;
+class ExprList;
+class ConstraintExpr;
 
 #define DECLARE_OP_FUNCTIONS(_prefix, _op) \
 	_prefix Expr operator _op (const Expr &lhs, const Expr &rhs); \
@@ -64,6 +66,8 @@ public:
 	Expr operator [] (int32_t rhs);
 
 	Expr operator [] (uint32_t rhs);
+
+	Expr inside(const ExprList &inside_l);
 
 	DECLARE_OP_FUNCTIONS(friend, ==)
 	DECLARE_OP_FUNCTIONS(friend, !=)

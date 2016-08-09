@@ -20,7 +20,7 @@ public:
 		Field<at>		pss_field(b);
 		Field<at>		pss_field(c);
 
-		Graph g {this, {
+		Graph g {this, 
 			a,
 			b,
 			Parallel {
@@ -30,7 +30,6 @@ public:
 				},
 				a
 			}
-		}
 		};
 
 	};

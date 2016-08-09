@@ -36,7 +36,7 @@ Action::Action(const Scope	&p) :
 ActionImp::ActionImp(Action *master, ScopeImp *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypeAction, p->parent()) {
 	m_super_type = ModelImp::global()->getSuperType(master);
-	m_ctxt = 0;
+	m_model = 0;
 	m_hndl = 0;
 
 	// TODO: need to deal with named scopes
@@ -74,13 +74,13 @@ void ActionImp::body() {
 
 }
 
-void ActionImp::inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl) {
-	m_ctxt = ctxt;
+void ActionImp::inline_exec_pre(IModel *model, psshandle_t hndl) {
+	m_model = model;
 	m_hndl = hndl;
 }
 
 void ActionImp::inline_exec_post() {
-	m_ctxt = 0;
+	m_model = 0;
 	m_hndl = 0;
 }
 

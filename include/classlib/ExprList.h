@@ -39,6 +39,14 @@ class ExprList : public Expr {
 
 #ifdef PSS_HAVE_CXX_11
 		ExprList(std::initializer_list<Expr> l) : ExprList(ExprListBuilder(l)) { }
+
+		template<typename T, typename... R> static ExprList mklist(
+				const T 			&item,
+				const R&... 		rest) {
+			ExprListBuilder expr_l;
+			_mklist(expr_l, item, rest...);
+			return ExprList(expr_l);
+		}
 #endif
 
 		ExprList(const Expr &rhs);
@@ -50,6 +58,21 @@ class ExprList : public Expr {
 		virtual ~ExprList();
 
 		ExprListBuilder operator,(const Expr &rhs);
+
+	private:
+
+#ifdef PSS_HAVE_CXX_11
+		template <typename T, typename... R> static void _mklist(
+				ExprListBuilder			&expr_l,
+				const T					&item,
+				const R&...				rest) {
+			expr_l.add(item);
+			_mklist(expr_l, rest...);
+		}
+
+		static void _mklist(ExprListBuilder	&expr_l) { }
+#endif
+
 
 };
 

@@ -33,13 +33,6 @@ Struct::Struct(const Scope &p) :
 
 Struct::Struct(BaseItemImp *imp) : BaseItem(imp) { }
 
-//				m_structType(Struct::Base) {
-//	m_super_type = Model::global()->getSuperType(this);
-//	setName(Model::global()->getActiveTypeName(this).leaf());
-//	m_ctxt = 0;
-//	m_hndl = 0;
-//}
-
 StructImp::StructImp(
 		Struct		*master,
 		ScopeImp	*p,
@@ -48,6 +41,8 @@ StructImp::StructImp(
 	m_struct_type(t) {
 	m_super_type = ModelImp::global()->getSuperType(master);
 	setName(ModelImp::global()->getActiveTypeName(master).leaf());
+	m_model = 0;
+	m_hndl = 0;
 }
 
 Struct::~Struct() {
@@ -74,8 +69,9 @@ void Struct::post_solve() {
 
 }
 
-void StructImp::inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl) {
-
+void StructImp::inline_exec_pre(IModel *model, psshandle_t hndl) {
+	m_model = model;
+	m_hndl  = hndl;
 }
 
 void StructImp::pre_solve() {
@@ -87,18 +83,8 @@ void StructImp::post_solve() {
 }
 
 void StructImp::inline_exec_post() {
-
+	m_model = 0;
+	m_hndl = 0;
 }
-
-//void Struct::inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl) {
-//	m_ctxt = ctxt;
-//	m_hndl = hndl;
-//}
-//
-//void Struct::inline_exec_post() {
-//	m_ctxt = 0;
-//	m_hndl = 0;
-//
-//}
 
 } /* namespace pss */

@@ -102,6 +102,10 @@ Expr Expr::operator [] (uint32_t rhs) {
 	return Expr(new ExprCore(ExprImp::BinOp_ArrayRef, *this, rhs));
 }
 
+Expr Expr::inside(const ExprList &rhs) {
+	return Expr(new ExprCore(ExprImp::BinOp_Inside, *this, rhs));
+}
+
 //void ExprImp::build() {
 //	if (m_core.ptr()) {
 //		m_core->m_lhs.build();

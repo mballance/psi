@@ -30,12 +30,7 @@
 #include "NamedBaseItemImp.h"
 #include "ScopeImp.h"
 #include "TypePathImp.h"
-
-namespace psi_api {
-	class IObjectContext;
-	class IBaseItem;
-	struct psshandle_t;
-}
+#include "api/IExecCallback.h"
 
 using namespace psi_api;
 
@@ -52,7 +47,7 @@ public:
 
 		const TypePathImp &getSuperType() const { return m_super_type; }
 
-		virtual void inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl);
+		virtual void inline_exec_pre(IModel *ctxt, psshandle_t hndl);
 
 		virtual void pre_solve();
 		virtual void body();
@@ -63,8 +58,8 @@ public:
 
 	private:
 		TypePathImp						m_super_type;
-		IObjectContext						*m_ctxt;
-		psshandle_t							*m_hndl;
+		IModel							*m_model;
+		psshandle_t						m_hndl;
 
 };
 

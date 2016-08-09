@@ -27,9 +27,11 @@
 #include <string>
 
 #include "classlib/BaseItem.h"
+#include "classlib/Types.h"
 
 namespace pss {
 
+class ExprList;
 class IntType : public BaseItem {
 
 	public:
@@ -44,6 +46,12 @@ class IntType : public BaseItem {
 				uint32_t			lsb);
 
 		virtual ~IntType();
+
+		Expr inside(const ExprList &l);
+
+#ifdef PSS_HAVE_CXX_11
+		Expr inside(std::initializer_list<Expr> l) { return inside(ExprList(l)); }
+#endif
 
 };
 

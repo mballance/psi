@@ -25,26 +25,26 @@
 #ifndef IMPL_INLINEEXECIMPL_H_
 #define IMPL_INLINEEXECIMPL_H_
 #include "api/IBaseItem.h"
-#include "api/IInlineExec.h"
+#include "api/IExecCallback.h"
 
 using namespace psi_api;
 
 namespace pss {
 
-template <class T> class InlineExecClosure : public psi_api::IInlineExec {
+template <class T> class InlineExecClosure : public psi_api::IExecCallback {
 public:
 
 	InlineExecClosure(
 			T 				*t,
-			void (T::*pre)(psi_api::IObjectContext *ctxt, psshandle_t *hndl),
+			void (T::*pre)(psi_api::IModel *model, psshandle_t hndl),
 			void (T::*exec)(),
 			void (T::*post)()) : m_target(t), m_pre(pre), m_exec(exec), m_post(post) { }
 
 	virtual ~InlineExecClosure() { }
 
-	virtual void exec(psi_api::IObjectContext *ctxt, psshandle_t *hndl) {
+	virtual void exec(psi_api::IModel *model, psshandle_t hndl) {
 		// Pass the context object on
-		((*m_target).*m_pre)(ctxt, hndl);
+		((*m_target).*m_pre)(model, hndl);
 		// Call the actual exec method
 		((*m_target).*m_exec)();
 		// Call 'post' to cleanup
@@ -53,7 +53,7 @@ public:
 
 private:
 	T				*m_target;
-	void (T::*m_pre)(psi_api::IObjectContext *, psshandle_t *);
+	void (T::*m_pre)(psi_api::IModel *, psshandle_t);
 	void (T::*m_exec)();
 	void (T::*m_post)();
 };

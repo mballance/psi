@@ -91,7 +91,7 @@ class ModelImpl: public IModel {
 
 		virtual IExec *mkInlineExec(
 				IExec::ExecKind			kind,
-				IInlineExec				*exec);
+				IExecCallback				*exec);
 
 		virtual IExec *mkNativeExec(
 				IExec::ExecKind			kind,
@@ -156,6 +156,10 @@ class ModelImpl: public IModel {
 				IConstraint 	*true_c,
 				IConstraint 	*false_c);
 
+		virtual ICallbackContext *getCallbackContext();
+
+		virtual void setCallbackContext(ICallbackContext *ctxt);
+
 		/**
 		 * Null implementation
 		 */
@@ -164,6 +168,8 @@ class ModelImpl: public IModel {
 	private:
 		std::vector<IBaseItem *>	m_children;
 		PackageImpl					m_global_pkg;
+		ICallbackContext			*m_callback_ctxt;
+
 
 };
 

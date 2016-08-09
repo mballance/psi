@@ -38,13 +38,8 @@ public:
 	ExprListBuilder();
 
 #ifdef PSS_HAVE_CXX_11
-	ExprListBuilder(std::initializer_list<Expr> l) : ExprListBuilder(std::vector<Expr>(l)) { }
-//		std::initializer_list<Expr>::const_iterator it;
-//
-//		for (it=l.begin(); it!=l.end(); it++) {
-//			m_list.push_back((*it).getCore());
-//		}
-//	}
+	ExprListBuilder(std::initializer_list<Expr> l) : 
+		ExprListBuilder(std::vector<Expr>(l)) { }
 #endif
 
 	ExprListBuilder(const std::vector<Expr> &l);
@@ -58,6 +53,10 @@ public:
 	ExprListBuilder &operator,(const Expr &rhs);
 
 	ExprListBuilder &operator,(const ExprListBuilder &rhs);
+
+	void add(const Expr &e);
+
+	void add(const ExprListBuilder &l);
 
 	ExprListBuilderImp &imp() const { return *m_imp; }
 

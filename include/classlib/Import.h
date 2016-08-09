@@ -45,6 +45,14 @@ class Import : public BaseItem {
 
 		ExprImportCall operator()(const ExprList &plist);
 
+#ifdef PSS_HAVE_CXX_11
+
+		template<typename... I> ExprImportCall operator()(const I&... items) {
+			return ExprImportCall(*this, ExprList::mklist(items...));
+		}
+
+#endif
+
 		ExprImportCall operator()();
 };
 

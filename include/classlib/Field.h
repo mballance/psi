@@ -43,7 +43,7 @@ template <class T> class Field : public FieldBase<T> {
 
 		virtual ~Field() { }
 
-		With with(const ExprList &l) const { return With(FieldBase<T>::m_field, l); }
+		Expr with(const ExprList &l) const { return With(FieldBase<T>::m_field, l); }
 };
 
 }

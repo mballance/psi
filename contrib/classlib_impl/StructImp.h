@@ -30,11 +30,8 @@
 #include "classlib/Struct.h"
 #include "NamedBaseItemImp.h"
 #include "TypePathImp.h"
-
-namespace psi_api {
-	class IObjectContext;
-	struct psshandle_t;
-}
+#include "api/IExecCallback.h"
+#include "api/IModel.h"
 
 using namespace psi_api;
 
@@ -62,7 +59,7 @@ public:
 
 	StructType getStructType() const;
 
-	virtual void inline_exec_pre(IObjectContext *ctxt, psshandle_t *hndl);
+	virtual void inline_exec_pre(IModel *model, psshandle_t hndl);
 
 	virtual void pre_solve();
 	virtual void post_solve();
@@ -71,7 +68,9 @@ public:
 
 private:
 	StructType				m_struct_type;
-	TypePathImp			m_super_type;
+	TypePathImp				m_super_type;
+	IModel					*m_model;
+	psshandle_t				m_hndl;
 
 };
 

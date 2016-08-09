@@ -22,7 +22,7 @@ public:
 
 	ExecImpl(
 			ExecKind			kind,
-			IInlineExec			*exec);
+			IExecCallback			*exec);
 
 	ExecImpl(
 			ExecKind			kind,
@@ -55,7 +55,7 @@ public:
 	/**
 	 * Returns the inline-exec closure for exec type Inline
 	 */
-	virtual IInlineExec *getInlineExec() { return m_inlineExec; }
+	virtual IExecCallback *getInlineExec() { return m_inlineExec; }
 
 	/**
 	 * Returns the native-exec statement list
@@ -68,7 +68,7 @@ private:
 	ExecType					m_execType;
 	std::string					m_language;
 	std::string					m_targetTemplate;
-	IInlineExec					*m_inlineExec;
+	IExecCallback					*m_inlineExec;
 	IExpr						*m_stmts;
 
 };
