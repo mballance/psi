@@ -16,6 +16,7 @@
 #include "apps/PSI2PSS.h"
 #include "apps/PSSXmlValidator.h"
 #include "classlib_impl/Elaborator.h"
+#include "TestCallbackContextImpl.h"
 
 using namespace psi::apps;
 using namespace psi;
@@ -56,12 +57,13 @@ void exec_model(IModel *model) {
 }
 
 int main(int argc, char **argv) {
-	ModelImpl  			model;
-	ModelImpl  			xml_model;
-	PSI2XML    			psi2xml;
-	XML2PSI    			xml2psi;
-	PSI2PSS    			psi2pss;
-	PSSXmlValidator		xml_validator;
+	ModelImpl  					model;
+	TestCallbackContextImpl		callback_ctxt;
+	ModelImpl  					xml_model;
+	PSI2XML    					psi2xml;
+	XML2PSI    					xml2psi;
+	PSI2PSS    					psi2pss;
+	PSSXmlValidator				xml_validator;
 
 	// We're in test mode, so don't print actual addresses
 	psi2xml.setUseFixedInlineAddr();
@@ -124,6 +126,7 @@ int main(int argc, char **argv) {
 	/****************************************************************
 	 * Execute model
 	 ****************************************************************/
+	model.setCallbackContext(&callback_ctxt);
 	exec_model(&model);
 
 	return 0;

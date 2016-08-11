@@ -23,6 +23,13 @@
  */
 
 #include "BitTypeImp.h"
+#include "ActionImp.h"
+#include "StructImp.h"
+#include "ComponentImp.h"
+#include "api/IModel.h"
+#include "InlineExecUtil.h"
+
+using namespace psi_api;
 
 namespace pss {
 
@@ -36,7 +43,8 @@ BitTypeImp::BitTypeImp(
 		BaseItem				*p,
 		uint32_t				msb,
 		uint32_t				lsb) :
-	NamedBaseItemImp(master, BaseItemImp::TypeBit, p), m_msb(msb), m_lsb(lsb) { }
+	NamedBaseItemImp(master, BaseItemImp::TypeBit, p), m_msb(msb), m_lsb(lsb),
+	m_utils(this) { }
 
 BitType::BitType(
 		const std::string		&name,
@@ -48,7 +56,8 @@ BitTypeImp::BitTypeImp(
 		const std::string		&name,
 		uint32_t				msb,
 		uint32_t				lsb) : NamedBaseItemImp(
-				master, BaseItemImp::TypeBit, 0, name), m_msb(msb), m_lsb(lsb) {
+				master, BaseItemImp::TypeBit, 0, name), m_msb(msb), m_lsb(lsb),
+				m_utils(this) {
 }
 
 BitType::~BitType() {
@@ -60,8 +69,7 @@ BitTypeImp::~BitTypeImp() {
 }
 
 uint64_t BitTypeImp::get() {
-	// TODO:
-	return 0;
+	return m_utils.getBitValue();
 }
 
 uint64_t BitType::get() {
@@ -69,7 +77,7 @@ uint64_t BitType::get() {
 }
 
 void BitTypeImp::set(uint64_t v) {
-	// TODO:
+	m_utils.setBitValue(v);
 }
 
 void BitType::set(uint64_t v) {

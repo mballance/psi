@@ -11,6 +11,9 @@
 
 #include "pss.h"
 #include "psi_api.h"
+#include "TestCallbackContextImpl.h"
+#include "InlineExecIterator.h"
+#include "InlineExecInitialValueTestFixture.h"
 
 using namespace pss;
 using namespace psi_api;

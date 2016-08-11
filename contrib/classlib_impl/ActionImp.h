@@ -55,6 +55,10 @@ public:
 
 		virtual void inline_exec_post();
 
+		IModel *getModel() const { return m_model; }
+
+		psshandle_t getHandle() const { return m_hndl; }
+
 
 	private:
 		TypePathImp						m_super_type;

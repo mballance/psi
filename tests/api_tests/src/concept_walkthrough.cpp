@@ -105,7 +105,8 @@ public:
 	// Declares an extension of 'write_data' to layer in the implementation
 	class write_data_ext : public ExtendAction<rw_comp::write_data> {
 	public:
-		write_data_ext(const Scope &p) : ExtendAction(p) { }
+		// write_data_ext(const Scope &p) : ExtendAction(p) { }
+		pss_ctor(write_data_ext,ExtendAction);
 
 		// Example of a target-template exec block
 		Exec do_write_body {this, Exec::Body, "C", R"(

@@ -36,10 +36,11 @@ namespace pss {
  */
 class Action : public BaseItem {
 public:
+	friend class ActionImp;
 
-		Action(const Scope &p);
+	Action(const Scope &p);
 
-		virtual ~Action();
+	virtual ~Action();
 
 protected:
 

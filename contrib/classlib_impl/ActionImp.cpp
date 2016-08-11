@@ -63,15 +63,15 @@ void Action::body() {
 }
 
 void ActionImp::pre_solve() {
-
+	static_cast<Action *>(master())->pre_solve();
 }
 
 void ActionImp::post_solve() {
-
+	static_cast<Action *>(master())->post_solve();
 }
 
 void ActionImp::body() {
-
+	static_cast<Action *>(master())->body();
 }
 
 void ActionImp::inline_exec_pre(IModel *model, psshandle_t hndl) {

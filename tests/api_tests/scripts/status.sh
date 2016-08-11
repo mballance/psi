@@ -41,7 +41,9 @@ elif test $xml_validation_passed -eq 0; then
   echo "FAILED: $1 - no XML validation success message"
 fi
 
+#********************************************************************
 # Check against the reference file
+#********************************************************************
 if test -f ${SIM_DIR}/gold/${1}.xml; then
   diff -w ${SIM_DIR}/gold/${1}.xml model.xml > model_ref.diff
   diff_l=`cat model_ref.diff | wc -l`
@@ -53,6 +55,26 @@ if test -f ${SIM_DIR}/gold/${1}.xml; then
   fi
 else
   echo "FAILED: $1 - no reference file"
+fi
+
+#********************************************************************
+# Check to see if a values file exist
+#********************************************************************
+if test -f "${SIM_DIR}/gold/${1}_values.xml"; then
+  if test ! -f values.xml; then
+    echo "FAILED: $1 - missing values.xml file"
+  else
+    diff -w "${SIM_DIR}/gold/${1}_values.xml" values.xml > values_ref.diff
+    diff_l=`cat values_ref.diff | wc -l`
+    
+    if test $diff_l -eq 0; then
+      rm -f values_ref.diff
+    else
+      echo "FAILED: $1 - differences against values reference file"
+    fi
+  fi
+elif test -f values.xml; then
+  echo "FAILED: $1 - no values reference file"
 fi
 
 if test -f status.log; then

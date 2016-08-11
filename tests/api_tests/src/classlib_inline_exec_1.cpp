@@ -36,6 +36,7 @@ public:
 		void post_solve() {
 			// Set p5 based on a calculated value
 			p5.set(p1.get() + p2.get());
+			p5.set(p1.get() + p2.get()+1);
 		}
 	};
 	pss_type(entry_point);
@@ -43,4 +44,24 @@ public:
 };
 pss_global_type(top);
 
+/**
+ * Test code
+ */
+void exec_model(IModel *model) {
+	const char *initial =
+R"(
+		<values>
+			<bit path="top.entry_point.p1">0x01</bit>
+			<bit path="top.entry_point.p2">0x20</bit>
+			<bit path="top.entry_point.p3">0x30</bit>
+			<bit path="top.entry_point.p4">0x00</bit>
+			<bit path="top.entry_point.p5">0x00</bit>
+		</values>
+)";
 
+	InlineExecInitialValueTestFixture::run(
+			model,
+			"top",
+			"entry_point",
+			initial);
+}

@@ -30,7 +30,10 @@
 
 #include "classlib/BitType.h"
 #include "NamedBaseItemImp.h"
+#include "api/IField.h"
+#include "InlineExecUtil.h"
 
+using namespace psi_api;
 
 namespace pss {
 
@@ -75,6 +78,8 @@ class BitTypeImp : public NamedBaseItemImp {
 
 		uint32_t				m_msb;
 		uint32_t				m_lsb;
+		std::vector<IField *>	m_field_path;
+		InlineExecUtil			m_utils;
 
 };
 

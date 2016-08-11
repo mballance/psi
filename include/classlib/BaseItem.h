@@ -38,6 +38,7 @@ namespace pss {
 class BaseItemImp;
 class BaseItem {
 public:
+	friend BaseItemImp;
 
 	BaseItem *operator ()();
 

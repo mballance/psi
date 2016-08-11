@@ -51,7 +51,7 @@ FieldItemImp::FieldItemImp(
 		m_array_dim((array_dim)?array_dim->imp():ExprImp(0)) {
 
 	setDataType((type_hndl)?type_hndl:wrapper);
-	NamedBaseItemImp *wrapper_ni = NamedBaseItemImp::to(wrapper->impl());
+	NamedBaseItemImp *wrapper_ni = dynamic_cast<NamedBaseItemImp *>(wrapper->impl());
 
 	// Change the name of the field base-class object to match the field name
 	if (wrapper_ni) {
