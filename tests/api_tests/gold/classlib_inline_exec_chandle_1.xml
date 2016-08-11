@@ -24,6 +24,11 @@
                     </pss:bit>
                 </pss:type>
             </pss:field>
+            <pss:field name="p3">
+                <pss:type>
+                    <pss:chandle/>
+                </pss:type>
+            </pss:field>
             <pss:exec>
                 <pss:inline kind="pre_solve" address="0xDEADBEEFDEADBEEF"/>
             </pss:exec>

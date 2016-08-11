@@ -1,5 +1,5 @@
 /*
- * ChandleImpl.h
+ * ChandleTypeImpl.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -24,21 +24,21 @@
 
 #ifndef INCLUDED_CHANDLE_IMPL_H
 #define INCLUDED_CHANDLE_IMPL_H
-#include "classlib/Chandle.h"
+#include "classlib/ChandleType.h"
 #include "NamedBaseItemImp.h"
 #include "InlineExecUtil.h"
 
 namespace pss {
 
-class ChandleImpl : public NamedBaseItemImp {
+class ChandleTypeImpl : public NamedBaseItemImp {
 
 	public:
 
-		ChandleImpl(Chandle *master, BaseItem *p);
+		ChandleTypeImpl(ChandleType *master, BaseItem *p);
 
-		ChandleImpl(Chandle *master, const std::string &name);
+		ChandleTypeImpl(ChandleType *master, const std::string &name);
 
-		virtual ~ChandleImpl();
+		virtual ~ChandleTypeImpl();
 
 		/**
 		 * The get method returns the solve-time value of this

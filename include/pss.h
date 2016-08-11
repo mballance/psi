@@ -30,6 +30,7 @@
 #include "classlib/Bit.h"
 #include "classlib/BitType.h"
 #include "classlib/Bool.h"
+#include "classlib/ChandleType.h"
 #include "classlib/Chandle.h"
 #include "classlib/Component.h"
 #include "classlib/Constraint.h"

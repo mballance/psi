@@ -48,8 +48,15 @@ const std::vector<IBaseItem *> &ActionImpl::getItems() const {
 }
 
 IBaseItem *ActionImpl::clone() {
-	// TODO: implement clone
-	return 0;
+	ActionImpl *ret = new ActionImpl(getName(), getSuperType());
+
+	for (std::vector<IBaseItem *>::const_iterator it=getItems().begin();
+			it!=getItems().end(); it++) {
+		IBaseItem *i = (*it)->clone();
+		ret->add(i);
+	}
+
+	return ret;
 }
 
 void ActionImpl::add(IBaseItem *it) {

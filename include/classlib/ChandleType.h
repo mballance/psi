@@ -22,25 +22,38 @@
  *      Author: ballance
  */
 
-#ifndef INCLUDED_CHANDLE_H
-#define INCLUDED_CHANDLE_H
+#ifndef INCLUDED_CHANDLE_TYPE_H
+#define INCLUDED_CHANDLE_TYPE_H
 #include "classlib/BaseItem.h"
 #include "classlib/Scope.h"
-#include "classlib/ChandleType.h"
 
 namespace pss {
 
-template <class T=void> class Chandle : public ChandleType {
-public:
+class ChandleType : public BaseItem {
 
-	Chandle(const Scope &p) : ChandleType(p) { }
+	public:
 
-	Chandle(const std::string &name) : ChandleType(name) { }
+		ChandleType(const Scope &p);
 
-	T *get() { return static_cast<T *>(ChandleType::get()); }
+		ChandleType(const std::string &name);
 
-	void set(T *v) { ChandleType::set(v); }
+		virtual ~ChandleType();
 
+		/**
+		 * The get method returns the solve-time value of this
+		 * data field. Calling this method is only valid
+		 * on fields of this type, and only from within an
+		 * inline-exec callback.
+		 */
+		void *get();
+
+		/**
+		 * The set method sets the value of this data field.
+		 * Calling this method is only valid on fields
+		 * of this type, and only from within an
+		 * inline-exec callback.
+		 */
+		void set(void *v);
 };
 
 } /* namespace pss */

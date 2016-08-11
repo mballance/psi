@@ -69,6 +69,8 @@ public:
 
 	Expr inside(const ExprList &inside_l);
 
+//	Expr operator -> (const Expr &rhs);
+
 	DECLARE_OP_FUNCTIONS(friend, ==)
 	DECLARE_OP_FUNCTIONS(friend, !=)
 	DECLARE_OP_FUNCTIONS(friend, <=)

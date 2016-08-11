@@ -44,6 +44,10 @@ public:
 
 	Expr operator [] (const Expr &rhs);
 
+	Expr operator [] (const std::string &idx);
+
+//	Expr operator -> (const Expr &rhs);
+
 	ExprListBuilder operator,(const BaseItem &rhs);
 
 	Expr operator = (const Expr &rhs);

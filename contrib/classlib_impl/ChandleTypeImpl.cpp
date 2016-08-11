@@ -1,5 +1,5 @@
 /*
- * Chandle.cpp
+ * ChandleType.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,47 +22,47 @@
  *      Author: ballance
  */
 
-#include "ChandleImpl.h"
+#include "ChandleTypeImpl.h"
 
 namespace pss {
 
-Chandle::Chandle(const Scope &p) :
-		BaseItem(new ChandleImpl(this, 0)) { }
+ChandleType::ChandleType(const Scope &p) :
+		BaseItem(new ChandleTypeImpl(this, 0)) { }
 
-ChandleImpl::ChandleImpl(Chandle *master, BaseItem *p) :
+ChandleTypeImpl::ChandleTypeImpl(ChandleType *master, BaseItem *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypeChandle, p),
 		m_utils(this) { }
 
-Chandle::Chandle(const std::string &name) :
-		BaseItem(new ChandleImpl(this, name)) { }
+ChandleType::ChandleType(const std::string &name) :
+		BaseItem(new ChandleTypeImpl(this, name)) { }
 
-ChandleImpl::ChandleImpl(Chandle *master, const std::string &name) :
+ChandleTypeImpl::ChandleTypeImpl(ChandleType *master, const std::string &name) :
 		NamedBaseItemImp(master, BaseItemImp::TypeChandle, 0, name),
 		m_utils(this) { }
 
 
-Chandle::~Chandle() {
+ChandleType::~ChandleType() {
 	// TODO Auto-generated destructor stub
 }
 
-ChandleImpl::~ChandleImpl() {
+ChandleTypeImpl::~ChandleTypeImpl() {
 	// TODO Auto-generated destructor stub
 }
 
-void *Chandle::get() {
-	return static_cast<ChandleImpl *>(impl())->get();
+void *ChandleType::get() {
+	return static_cast<ChandleTypeImpl *>(impl())->get();
 }
 
-void *ChandleImpl::get() {
+void *ChandleTypeImpl::get() {
 	return m_utils.getChandleValue();
 }
 
-void ChandleImpl::set(void *v) {
+void ChandleTypeImpl::set(void *v) {
 	m_utils.setChandleValue(v);
 }
 
-void Chandle::set(void *v) {
-	static_cast<ChandleImpl *>(impl())->set(v);
+void ChandleType::set(void *v) {
+	static_cast<ChandleTypeImpl *>(impl())->set(v);
 }
 
 } /* namespace pss */

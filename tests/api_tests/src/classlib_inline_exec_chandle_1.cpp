@@ -20,8 +20,9 @@ public:
 	public:
 		pss_action_ctor(entry_point);
 
-		Field<ChandleW<my_class>>		pss_field(p1);
+		Field<Chandle<my_class>>		pss_field(p1);
 		Field<Bit<31,0>>				pss_field(p2);
+		Field<Chandle<>>				pss_field(p3);
 
 		Exec pre_solve_e {this, Exec::PreSolve};
 
@@ -33,6 +34,7 @@ public:
 
 		void post_solve() {
 			p2.set(p1.get()->get_value());
+			p3.set(0);
 		}
 	};
 	pss_type(entry_point);
@@ -49,6 +51,7 @@ R"(
 		<values>
 			<chandle path="top.entry_point.p1">0</chandle>
 			<bit path="top.entry_point.p2">0</bit>
+			<chandle path="top.entry_point.p3">0x10001000</chandle>
 		</values>
 )";
 
