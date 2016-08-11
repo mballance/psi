@@ -39,6 +39,15 @@ public:
 			IField 			*field,
 			uint64_t 		v) = 0;
 
+	virtual bool getBoolField(
+			psshandle_t		hndl,
+			IField			*field) = 0;
+
+	virtual void setBoolField(
+			psshandle_t		hndl,
+			IField			*field,
+			bool			v) = 0;
+
 	virtual void *getChandleField(
 			psshandle_t 	hndl,
 			IField 			*field) = 0;

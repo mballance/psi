@@ -37,7 +37,8 @@ IntTypeImp::IntTypeImp(
 		BaseItem 			*p,
 		uint32_t			msb,
 		uint32_t			lsb) :
-	NamedBaseItemImp(master, BaseItemImp::TypeInt, p), m_msb(msb), m_lsb(lsb) { }
+	NamedBaseItemImp(master, BaseItemImp::TypeInt, p),
+	m_msb(msb), m_lsb(lsb), m_utils(this) { }
 
 IntType::IntType(
 		const std::string	&name,
@@ -50,11 +51,28 @@ IntTypeImp::IntTypeImp(
 		const std::string	&name,
 		uint32_t			msb,
 		uint32_t			lsb) :
-	NamedBaseItemImp(master, BaseItemImp::TypeInt, 0, name), m_msb(msb), m_lsb(lsb) {
+	NamedBaseItemImp(master, BaseItemImp::TypeInt, 0, name),
+	m_msb(msb), m_lsb(lsb), m_utils(this) {
 }
 
 IntType::~IntType() { }
 
 IntTypeImp::~IntTypeImp() { }
+
+int64_t IntType::get() {
+	return static_cast<IntTypeImp *>(impl())->get();
+}
+
+int64_t IntTypeImp::get() {
+	return m_utils.getIntValue();
+}
+
+void IntType::set(int64_t v) {
+	static_cast<IntTypeImp *>(impl())->set(v);
+}
+
+void IntTypeImp::set(int64_t v) {
+	m_utils.setIntValue(v);
+}
 
 } /* namespace pss */

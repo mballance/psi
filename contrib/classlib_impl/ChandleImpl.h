@@ -26,6 +26,7 @@
 #define INCLUDED_CHANDLE_IMPL_H
 #include "classlib/Chandle.h"
 #include "NamedBaseItemImp.h"
+#include "InlineExecUtil.h"
 
 namespace pss {
 
@@ -54,6 +55,9 @@ class ChandleImpl : public NamedBaseItemImp {
 		 * inline-exec callback.
 		 */
 		void set(void *v);
+
+	private:
+		InlineExecUtil					m_utils;
 };
 
 } /* namespace pss */

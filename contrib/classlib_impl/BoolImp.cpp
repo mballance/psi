@@ -31,12 +31,14 @@ namespace pss {
 Bool::Bool(const Scope &p) : BaseItem(new BoolImp(this, p.impl()->parent())) { }
 
 BoolImp::BoolImp(Bool *master, BaseItem *p) :
-		NamedBaseItemImp(master, BaseItemImp::TypeBool, p) { }
+		NamedBaseItemImp(master, BaseItemImp::TypeBool, p),
+		m_utils(this) { }
 
 Bool::Bool(const std::string &name) : BaseItem(new BoolImp(this, name)) { }
 
 BoolImp::BoolImp(Bool *master, const std::string &name) :
-		NamedBaseItemImp(master, BaseItemImp::TypeBool, 0, name) { }
+		NamedBaseItemImp(master, BaseItemImp::TypeBool, 0, name),
+		m_utils(this) { }
 
 Bool::~Bool() {
 
@@ -51,8 +53,7 @@ bool Bool::get() {
 }
 
 bool BoolImp::get() {
-	// TODO:
-	return false;
+	return m_utils.getBoolValue();
 }
 
 void Bool::set(bool v) {
@@ -60,7 +61,7 @@ void Bool::set(bool v) {
 }
 
 void BoolImp::set(bool v) {
-	// TODO:
+	m_utils.setBoolValue(v);
 }
 
 } /* namespace pss */

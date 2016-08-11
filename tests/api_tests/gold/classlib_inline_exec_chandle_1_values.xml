@@ -1,0 +1,4 @@
+<values>
+    <chandle path="top.entry_point.p1">1</chandle>
+    <bit path="top.entry_point.p2">0x0000000000000027</bit>
+</values>

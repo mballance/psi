@@ -17,6 +17,7 @@ TestCallbackContextImpl::TestCallbackContextImpl() {
 	m_model = 0;
 	m_comp = 0;
 	m_debug_en = 0;
+	m_chandle_testmode = false;
 }
 
 TestCallbackContextImpl::~TestCallbackContextImpl() {
@@ -93,8 +94,12 @@ void TestCallbackContextImpl::init(
 					add_bit_node(path_l, toBitValue(value));
 				} else if (name == "int") {
 					add_int_node(path_l, toIntValue(value));
+				} else if (name == "bool") {
+					add_bool_node(path_l, (value == "true"));
 				} else if (name == "string") {
+					add_string_node(path_l, value);
 				} else if (name == "chandle") {
+					add_chandle_node(path_l, toChandleValue(value));
 				} else {
 					error("Expect value elements int|bit|string|chandle ; Receive %s", name.c_str());
 				}
@@ -158,6 +163,29 @@ void TestCallbackContextImpl::toString(
 			ret.append("</int>\n");
 		}
 		break;
+
+		case ValueNode::ValueNode_Bool: {
+			ret.append("    <bool path=\"" + name + "." + n->m_name + "\">");
+			ret.append((n->m_val.ui64)?"true":"false");
+			ret.append("</bool>\n");
+		} break;
+
+		case ValueNode::ValueNode_Chandle: {
+			ret.append("    <chandle path=\"" + name + "." + n->m_name + "\">");
+			if (m_chandle_testmode) {
+				ret.append((n->m_val.chandle)?"1":"0");
+			} else {
+				sprintf(tmp, "%p", n->m_val.chandle);
+				ret.append(tmp);
+			}
+			ret.append("</chandle>\n");
+		} break;
+
+		case ValueNode::ValueNode_String: {
+			ret.append("    <string path=\"" + name + "." + n->m_name + "\">");
+			ret.append((*n->m_val.str));
+			ret.append("</string>\n");
+		} break;
 
 		default:
 			ret.append("    <unknown path=\"" + name + "." + n->m_name + "\"/>");
@@ -262,30 +290,148 @@ void TestCallbackContextImpl::setBitField(
 	}
 }
 
+void TestCallbackContextImpl::setBoolField(
+		psshandle_t 	hndl,
+		IField 			*field,
+		bool 			v) {
+	ValueNode *n = reinterpret_cast<ValueNode *>(hndl);
+	ValueNode *field_n = 0;
+
+	for (std::vector<ValueNode *>::const_iterator it=n->m_children.begin();
+			it!=n->m_children.end(); it++) {
+		if ((*it)->m_type_h == field) {
+			field_n = *it;
+			break;
+		}
+	}
+
+	if (!field_n) {
+		error("Failed to obtain field %s from scope %s",
+				field->getName().c_str(),
+				n->m_name.c_str());
+	} else {
+		field_n->m_val.ui64 = v;
+	}
+}
+
+bool TestCallbackContextImpl::getBoolField(
+		psshandle_t 	hndl,
+		IField 			*field) {
+	ValueNode *n = reinterpret_cast<ValueNode *>(hndl);
+	ValueNode *field_n = 0;
+
+	for (std::vector<ValueNode *>::const_iterator it=n->m_children.begin();
+			it!=n->m_children.end(); it++) {
+		if ((*it)->m_type_h == field) {
+			field_n = *it;
+			break;
+		}
+	}
+
+	if (!field_n) {
+		error("Failed to obtain field %s from scope %s",
+				field->getName().c_str(),
+				n->m_name.c_str());
+		return 0;
+	} else {
+		return (field_n->m_val.ui64)?true:false;
+	}
+}
+
 void *TestCallbackContextImpl::getChandleField(
 		psshandle_t 	hndl,
 		IField 			*field) {
-	return 0;
+	ValueNode *n = reinterpret_cast<ValueNode *>(hndl);
+	ValueNode *field_n = 0;
+
+	for (std::vector<ValueNode *>::const_iterator it=n->m_children.begin();
+			it!=n->m_children.end(); it++) {
+		if ((*it)->m_type_h == field) {
+			field_n = *it;
+			break;
+		}
+	}
+
+	if (!field_n) {
+		error("Failed to obtain field %s from scope %s",
+				field->getName().c_str(),
+				n->m_name.c_str());
+		return 0;
+	} else {
+		return field_n->m_val.chandle;
+	}
 }
 
 void TestCallbackContextImpl::setChandleField(
 		psshandle_t 	hndl,
 		IField 			*field,
 		void 			*v) {
+	ValueNode *n = reinterpret_cast<ValueNode *>(hndl);
+	ValueNode *field_n = 0;
 
+	for (std::vector<ValueNode *>::const_iterator it=n->m_children.begin();
+			it!=n->m_children.end(); it++) {
+		if ((*it)->m_type_h == field) {
+			field_n = *it;
+			break;
+		}
+	}
+
+	if (!field_n) {
+		error("Failed to obtain field %s from scope %s",
+				field->getName().c_str(),
+				n->m_name.c_str());
+	} else {
+		field_n->m_val.chandle = v;
+	}
 }
 
 std::string TestCallbackContextImpl::getStringField(
 		psshandle_t 	hndl,
 		IField 			*field) {
-	return "";
+	ValueNode *n = reinterpret_cast<ValueNode *>(hndl);
+	ValueNode *field_n = 0;
+
+	for (std::vector<ValueNode *>::const_iterator it=n->m_children.begin();
+			it!=n->m_children.end(); it++) {
+		if ((*it)->m_type_h == field) {
+			field_n = *it;
+			break;
+		}
+	}
+
+	if (!field_n) {
+		error("Failed to obtain field %s from scope %s",
+				field->getName().c_str(),
+				n->m_name.c_str());
+		return "";
+	} else {
+		return (*field_n->m_val.str);
+	}
 }
 
 void TestCallbackContextImpl::setStringField(
 		psshandle_t 		hndl,
 		IField 				*field,
 		const std::string 	&v) {
+	ValueNode *n = reinterpret_cast<ValueNode *>(hndl);
+	ValueNode *field_n = 0;
 
+	for (std::vector<ValueNode *>::const_iterator it=n->m_children.begin();
+			it!=n->m_children.end(); it++) {
+		if ((*it)->m_type_h == field) {
+			field_n = *it;
+			break;
+		}
+	}
+
+	if (!field_n) {
+		error("Failed to obtain field %s from scope %s",
+				field->getName().c_str(),
+				n->m_name.c_str());
+	} else {
+		(*field_n->m_val.str) = v;
+	}
 }
 
 /**
@@ -578,12 +724,136 @@ void TestCallbackContextImpl::add_int_node(
 	debug("<-- add_int_node");
 }
 
+void TestCallbackContextImpl::add_bool_node(
+		const std::vector<std::string>	&path,
+		bool							val) {
+	debug("--> add_int_node");
+	ValueNode *n = get_insert_point(path);
+
+	IScopeItem *s = 0;
+	if (n->m_type_h->getType() == IBaseItem::TypeField) {
+		// Parent is a composite field
+		s = dynamic_cast<IScopeItem *>(
+				static_cast<IField *>(n->m_type_h)->getDataType());
+	} else {
+		// Parent is an action/struct
+		s = dynamic_cast<IScopeItem *>(n->m_type_h);
+	}
+
+	IField *f = 0;
+
+	const std::string &field_name = path.at(path.size()-1);
+	for (std::vector<IBaseItem *>::const_iterator it=s->getItems().begin();
+			it!=s->getItems().end(); it++) {
+		IBaseItem *t = *it;
+
+		if (t->getType() == IBaseItem::TypeField &&
+				static_cast<IField *>(t)->getName() == field_name) {
+			f = static_cast<IField *>(t);
+			break;
+		}
+	}
+
+	if (!f) {
+		error("Failed to find field %s", field_name.c_str());
+		return;
+	}
+
+	n->m_children.push_back(new ValueNode(f, val));
+
+	debug("<-- add_int_node");
+}
+
+void TestCallbackContextImpl::add_string_node(
+		const std::vector<std::string>	&path,
+		const std::string 				&val) {
+	debug("--> add_int_node");
+	ValueNode *n = get_insert_point(path);
+
+	IScopeItem *s = 0;
+	if (n->m_type_h->getType() == IBaseItem::TypeField) {
+		// Parent is a composite field
+		s = dynamic_cast<IScopeItem *>(
+				static_cast<IField *>(n->m_type_h)->getDataType());
+	} else {
+		// Parent is an action/struct
+		s = dynamic_cast<IScopeItem *>(n->m_type_h);
+	}
+
+	IField *f = 0;
+
+	const std::string &field_name = path.at(path.size()-1);
+	for (std::vector<IBaseItem *>::const_iterator it=s->getItems().begin();
+			it!=s->getItems().end(); it++) {
+		IBaseItem *t = *it;
+
+		if (t->getType() == IBaseItem::TypeField &&
+				static_cast<IField *>(t)->getName() == field_name) {
+			f = static_cast<IField *>(t);
+			break;
+		}
+	}
+
+	if (!f) {
+		error("Failed to find field %s", field_name.c_str());
+		return;
+	}
+
+	n->m_children.push_back(new ValueNode(f, val));
+
+	debug("<-- add_int_node");
+}
+
+void TestCallbackContextImpl::add_chandle_node(
+		const std::vector<std::string>	&path,
+		void							*val) {
+	debug("--> add_int_node");
+	ValueNode *n = get_insert_point(path);
+
+	IScopeItem *s = 0;
+	if (n->m_type_h->getType() == IBaseItem::TypeField) {
+		// Parent is a composite field
+		s = dynamic_cast<IScopeItem *>(
+				static_cast<IField *>(n->m_type_h)->getDataType());
+	} else {
+		// Parent is an action/struct
+		s = dynamic_cast<IScopeItem *>(n->m_type_h);
+	}
+
+	IField *f = 0;
+
+	const std::string &field_name = path.at(path.size()-1);
+	for (std::vector<IBaseItem *>::const_iterator it=s->getItems().begin();
+			it!=s->getItems().end(); it++) {
+		IBaseItem *t = *it;
+
+		if (t->getType() == IBaseItem::TypeField &&
+				static_cast<IField *>(t)->getName() == field_name) {
+			f = static_cast<IField *>(t);
+			break;
+		}
+	}
+
+	if (!f) {
+		error("Failed to find field %s", field_name.c_str());
+		return;
+	}
+
+	n->m_children.push_back(new ValueNode(f, val));
+
+	debug("<-- add_int_node");
+}
+
 uint64_t TestCallbackContextImpl::toBitValue(const std::string &v) {
 	return strtoull(v.c_str(), 0, 0);
 }
 
 int64_t TestCallbackContextImpl::toIntValue(const std::string &v) {
 	return strtoll(v.c_str(), 0, 0);
+}
+
+void *TestCallbackContextImpl::toChandleValue(const std::string &v) {
+	return reinterpret_cast<void *>(strtoull(v.c_str(), 0, 0));
 }
 
 TestCallbackContextImpl::ValueNode::ValueNode(IScopeItem *scope) {
@@ -612,6 +882,28 @@ TestCallbackContextImpl::ValueNode::ValueNode(IField *field, int64_t v) {
 	m_type_h   = field;
 	m_name     = field->getName();
 	m_val.i64  = v;
+}
+
+TestCallbackContextImpl::ValueNode::ValueNode(IField *field, const std::string &v) {
+	m_type     = ValueNode_String;
+	m_type_h   = field;
+	m_name     = field->getName();
+	m_val.str  = new std::string();
+	(*m_val.str) = v;
+}
+
+TestCallbackContextImpl::ValueNode::ValueNode(IField *field, bool v) {
+	m_type     = ValueNode_Bool;
+	m_type_h   = field;
+	m_name     = field->getName();
+	m_val.ui64 = (v)?1:0;
+}
+
+TestCallbackContextImpl::ValueNode::ValueNode(IField *field, void *v) {
+	m_type     = ValueNode_Chandle;
+	m_type_h   = field;
+	m_name     = field->getName();
+	m_val.chandle = v;
 }
 
 TestCallbackContextImpl::ValueNode::~ValueNode() {

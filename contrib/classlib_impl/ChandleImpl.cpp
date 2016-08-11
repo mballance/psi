@@ -26,17 +26,19 @@
 
 namespace pss {
 
-Chandle::Chandle(BaseItem *p) :
-		BaseItem(new ChandleImpl(this, p)) { }
+Chandle::Chandle(const Scope &p) :
+		BaseItem(new ChandleImpl(this, 0)) { }
 
 ChandleImpl::ChandleImpl(Chandle *master, BaseItem *p) :
-		NamedBaseItemImp(master, BaseItemImp::TypeChandle, p) { }
+		NamedBaseItemImp(master, BaseItemImp::TypeChandle, p),
+		m_utils(this) { }
 
 Chandle::Chandle(const std::string &name) :
 		BaseItem(new ChandleImpl(this, name)) { }
 
 ChandleImpl::ChandleImpl(Chandle *master, const std::string &name) :
-		NamedBaseItemImp(master, BaseItemImp::TypeChandle, 0, name) { }
+		NamedBaseItemImp(master, BaseItemImp::TypeChandle, 0, name),
+		m_utils(this) { }
 
 
 Chandle::~Chandle() {
@@ -52,12 +54,11 @@ void *Chandle::get() {
 }
 
 void *ChandleImpl::get() {
-	// TODO:
-	return 0;
+	return m_utils.getChandleValue();
 }
 
 void ChandleImpl::set(void *v) {
-	// TODO:
+	m_utils.setChandleValue(v);
 }
 
 void Chandle::set(void *v) {

@@ -10,6 +10,7 @@ tests/classlib_declare_struct.f
 // tests/classlib_export_action.f
 tests/classlib_graph_parallel_repeat.f
 tests/classlib_inline_exec_1.f
+tests/classlib_inline_exec_chandle_1.f
 // Import not currently properly elaborated
 // tests/classlib_native_exec_1.f
 tests/classlib_type_hierarchy_1.f

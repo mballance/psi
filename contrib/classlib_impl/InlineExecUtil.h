@@ -22,6 +22,28 @@ public:
 
 	virtual ~InlineExecUtil();
 
+
+	uint64_t getBitValue();
+
+	void setBitValue(uint64_t val);
+
+	int64_t getIntValue();
+
+	void setIntValue(int64_t val);
+
+	bool getBoolValue();
+
+	void setBoolValue(bool val);
+
+	void *getChandleValue();
+
+	void setChandleValue(void *val);
+
+	std::string getStringValue();
+
+	void setStringValue(const std::string &val);
+
+private:
 	/**
 	 * Traverses back the stack from a field reference to
 	 * locate the model, object handle, and how deep we are
@@ -35,9 +57,11 @@ public:
 
 	bool update_lookup_path();
 
-	uint64_t getBitValue();
-
-	void setBitValue(uint64_t val);
+	void get_hndl_ctxt_field(
+			ICallbackContext		*&ctxt,
+			psshandle_t				&hndl,
+			IField					*&field
+			);
 
 private:
 	BaseItemImp						*m_field;

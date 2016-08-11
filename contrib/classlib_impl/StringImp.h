@@ -26,6 +26,7 @@
 #define INCLUDED_STRING_IMP_H
 #include "classlib/String.h"
 #include "NamedBaseItemImp.h"
+#include "InlineExecUtil.h"
 #include <string>
 
 namespace pss {
@@ -46,7 +47,7 @@ class StringImp : public NamedBaseItemImp {
 		 * on fields of this type, and only from within an
 		 * inline-exec callback.
 		 */
-		const std::string &get();
+		std::string get();
 
 		/**
 		 * The set method sets the value of this data field.
@@ -57,7 +58,7 @@ class StringImp : public NamedBaseItemImp {
 		void set(const std::string &v);
 
 	private:
-		std::string					m_val;
+		InlineExecUtil				m_utils;
 
 };
 

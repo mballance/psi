@@ -50,6 +50,15 @@ public:
 			IField 			*field,
 			uint64_t 		v);
 
+	virtual bool getBoolField(
+			psshandle_t 	hndl,
+			IField 			*field);
+
+	virtual void setBoolField(
+			psshandle_t 	hndl,
+			IField 			*field,
+			bool 			v);
+
 	virtual void *getChandleField(
 			psshandle_t 	hndl,
 			IField 			*field);
@@ -75,6 +84,8 @@ public:
 			psshandle_t 		hndl,
 			IField 				*field);
 
+	void setChandleTestMode(bool tm) { m_chandle_testmode = tm; }
+
 private:
 	class ValueNode {
 	public:
@@ -84,6 +95,7 @@ private:
 			ValueNode_String,
 			ValueNode_Bit,
 			ValueNode_Int,
+			ValueNode_Bool,
 			ValueNode_Chandle
 		};
 
@@ -92,6 +104,12 @@ private:
 		ValueNode(IField *field, uint64_t v);
 
 		ValueNode(IField *field, int64_t v);
+
+		ValueNode(IField *field, bool v);
+
+		ValueNode(IField *field, void *v);
+
+		ValueNode(IField *field, const std::string &v);
 
 		ValueNode(IField *field);
 
@@ -141,15 +159,24 @@ private:
 
 	void add_int_node(const std::vector<std::string> &path, int64_t init_val);
 
+	void add_bool_node(const std::vector<std::string> &path, bool init_val);
+
+	void add_string_node(const std::vector<std::string> &path, const std::string &init_val);
+
+	void add_chandle_node(const std::vector<std::string> &path, void *init_val);
+
 	static uint64_t toBitValue(const std::string &str_v);
 
 	static int64_t toIntValue(const std::string &str_v);
+
+	static void *toChandleValue(const std::string &str_v);
 
 private:
 	IModel								*m_model;
 	IComponent							*m_comp;
 	ValueNode							*m_root;
 	bool								m_debug_en;
+	bool								m_chandle_testmode;
 
 };
 

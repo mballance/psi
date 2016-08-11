@@ -175,39 +175,111 @@ bool InlineExecUtil::update_lookup_path() {
 }
 
 uint64_t InlineExecUtil::getBitValue() {
-	uint64_t ret = 0;
-	uint32_t level = 0;
-	IModel *model = 0;
-	BaseItemImp *lookup_scope = 0;
+	ICallbackContext *ctxt;
 	psshandle_t hndl = 0;
+	IField *field = 0;
 
-	// First, find the model and object handle
-	find_model_hndl_level(m_field, model, hndl, level);
+	get_hndl_ctxt_field(ctxt, hndl, field);
 
-	if (level != m_field_path.size()) {
-		update_lookup_path();
-	}
-
-	ICallbackContext *ctxt = model->getCallbackContext();
-	for (uint32_t i=0; i<m_field_path.size(); i++) {
-		if (i+1 < m_field_path.size()) {
-			// lookup the new hndl
-			hndl = ctxt->getHandleField(hndl, m_field_path.at(i));
-		} else {
-			// This is the target
-			ret = ctxt->getBitField(hndl, m_field_path.at(i));
-		}
-	}
-
-	return ret;
+	return ctxt->getBitField(hndl, field);
 }
 
 void InlineExecUtil::setBitValue(uint64_t v) {
-	uint64_t ret = 0;
+	ICallbackContext *ctxt;
+	psshandle_t hndl = 0;
+	IField *field = 0;
+
+	get_hndl_ctxt_field(ctxt, hndl, field);
+
+	ctxt->setBitField(hndl, field, v);
+}
+
+int64_t InlineExecUtil::getIntValue() {
+	ICallbackContext *ctxt;
+	psshandle_t hndl = 0;
+	IField *field = 0;
+
+	get_hndl_ctxt_field(ctxt, hndl, field);
+
+	return ctxt->getIntField(hndl, field);
+}
+
+void InlineExecUtil::setIntValue(int64_t v) {
+	ICallbackContext *ctxt;
+	psshandle_t hndl = 0;
+	IField *field = 0;
+
+	get_hndl_ctxt_field(ctxt, hndl, field);
+
+	ctxt->setIntField(hndl, field, v);
+}
+
+bool InlineExecUtil::getBoolValue() {
+	ICallbackContext *ctxt;
+	psshandle_t hndl = 0;
+	IField *field = 0;
+
+	get_hndl_ctxt_field(ctxt, hndl, field);
+
+	return ctxt->getBoolField(hndl, field);
+}
+
+void InlineExecUtil::setBoolValue(bool v) {
+	ICallbackContext *ctxt;
+	psshandle_t hndl = 0;
+	IField *field = 0;
+
+	get_hndl_ctxt_field(ctxt, hndl, field);
+
+	ctxt->setBoolField(hndl, field, v);
+}
+
+void *InlineExecUtil::getChandleValue() {
+	ICallbackContext *ctxt;
+	psshandle_t hndl = 0;
+	IField *field = 0;
+
+	get_hndl_ctxt_field(ctxt, hndl, field);
+
+	return ctxt->getChandleField(hndl, field);
+}
+
+void InlineExecUtil::setChandleValue(void *v) {
+	ICallbackContext *ctxt;
+	psshandle_t hndl = 0;
+	IField *field = 0;
+
+	get_hndl_ctxt_field(ctxt, hndl, field);
+
+	ctxt->setChandleField(hndl, field, v);
+}
+
+std::string InlineExecUtil::getStringValue() {
+	ICallbackContext *ctxt;
+	psshandle_t hndl = 0;
+	IField *field = 0;
+
+	get_hndl_ctxt_field(ctxt, hndl, field);
+
+	return ctxt->getStringField(hndl, field);
+}
+
+void InlineExecUtil::setStringValue(const std::string &v) {
+	ICallbackContext *ctxt;
+	psshandle_t hndl = 0;
+	IField *field = 0;
+
+	get_hndl_ctxt_field(ctxt, hndl, field);
+
+	ctxt->setStringField(hndl, field, v);
+}
+
+void InlineExecUtil::get_hndl_ctxt_field(
+		ICallbackContext		*&ctxt,
+		psshandle_t				&hndl,
+		IField					*&field) {
 	uint32_t level = 0;
 	IModel *model = 0;
-	BaseItemImp *lookup_scope = 0;
-	psshandle_t hndl = 0;
 
 	// First, find the model and object handle
 	find_model_hndl_level(m_field, model, hndl, level);
@@ -216,14 +288,14 @@ void InlineExecUtil::setBitValue(uint64_t v) {
 		update_lookup_path();
 	}
 
-	ICallbackContext *ctxt = model->getCallbackContext();
+	ctxt = model->getCallbackContext();
 	for (uint32_t i=0; i<m_field_path.size(); i++) {
 		if (i+1 < m_field_path.size()) {
 			// lookup the new hndl
 			hndl = ctxt->getHandleField(hndl, m_field_path.at(i));
 		} else {
 			// This is the target
-			ctxt->setBitField(hndl, m_field_path.at(i), v);
+			field = m_field_path.at(i);
 		}
 	}
 }

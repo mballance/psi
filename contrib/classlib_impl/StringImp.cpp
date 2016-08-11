@@ -30,13 +30,15 @@ String::String(BaseItem *p) :
 		BaseItem(new StringImp(this, p)) { }
 
 StringImp::StringImp(String *master, BaseItem *p) :
-		NamedBaseItemImp(master, BaseItemImp::TypeString, p) { }
+		NamedBaseItemImp(master, BaseItemImp::TypeString, p),
+		m_utils(this) { }
 
 String::String(const std::string &name) :
 		BaseItem(new StringImp(this, name)) { }
 
 StringImp::StringImp(String *master, const std::string &name) :
-		NamedBaseItemImp(master, BaseItemImp::TypeString, 0, name) { }
+		NamedBaseItemImp(master, BaseItemImp::TypeString, 0, name),
+		m_utils(this) { }
 
 String::~String() {
 	delete m_impl;
@@ -46,14 +48,13 @@ StringImp::~StringImp() {
 	// TODO Auto-generated destructor stub
 }
 
-const std::string &String::get() {
+std::string String::get() {
 	// TODO:
 	return static_cast<StringImp *>(impl())->get();
 }
 
-const std::string &StringImp::get() {
-	// TODO:
-	return m_val;
+std::string StringImp::get() {
+	return m_utils.getStringValue();
 }
 
 void String::set(const std::string &v) {
@@ -61,7 +62,7 @@ void String::set(const std::string &v) {
 }
 
 void StringImp::set(const std::string &v) {
-
+	m_utils.setStringValue(v);
 }
 
 } /* namespace pss */

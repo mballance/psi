@@ -25,6 +25,7 @@
 #ifndef INCLUDED_CHANDLE_H
 #define INCLUDED_CHANDLE_H
 #include "classlib/BaseItem.h"
+#include "classlib/Scope.h"
 
 namespace pss {
 
@@ -32,7 +33,7 @@ class Chandle : public BaseItem {
 
 	public:
 
-		Chandle(BaseItem *p);
+		Chandle(const Scope &p);
 
 		Chandle(const std::string &name);
 
@@ -55,19 +56,16 @@ class Chandle : public BaseItem {
 		void set(void *v);
 };
 
-template <class T> class ChandleW {
+template <class T> class ChandleW : public Chandle {
 public:
 
-	ChandleW(BaseItem *p) : m_chandle(p) { }
+	ChandleW(const Scope &p) : Chandle(p) { }
 
-	ChandleW(const std::string &name) : m_chandle(name) { }
+	ChandleW(const std::string &name) : Chandle(name) { }
 
-	T *get() { return static_cast<T *>(m_chandle.get()); }
+	T *get() { return static_cast<T *>(Chandle::get()); }
 
-	void set(T *v) { m_chandle.set(v); }
-
-private:
-	Chandle				m_chandle;
+	void set(T *v) { Chandle::set(v); }
 
 };
 

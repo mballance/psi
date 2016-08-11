@@ -28,6 +28,7 @@
 
 #include "classlib/IntType.h"
 #include "NamedBaseItemImp.h"
+#include "InlineExecUtil.h"
 
 namespace pss {
 
@@ -52,10 +53,15 @@ class IntTypeImp : public NamedBaseItemImp {
 
 		uint32_t getLsb() const { return m_lsb; }
 
+		int64_t get();
+
+		void set(int64_t v);
+
 	private:
 
 		uint32_t					m_msb;
 		uint32_t					m_lsb;
+		InlineExecUtil				m_utils;
 };
 
 } /* namespace pss */

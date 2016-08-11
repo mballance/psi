@@ -47,6 +47,23 @@ class IntType : public BaseItem {
 
 		virtual ~IntType();
 
+		/**
+		 * The get method returns the solve-time value of this
+		 * data field. Calling this method is only valid
+		 * on fields of this type, and only from within an
+		 * inline-exec callback.
+		 */
+		int64_t get();
+
+		/**
+		 * The set method sets the value of this data field.
+		 * Calling this method is only valid on fields
+		 * of this type, and only from within an
+		 * inline-exec callback.
+		 */
+		void set(int64_t v);
+
+
 		Expr inside(const ExprList &l);
 
 #ifdef PSS_HAVE_CXX_11

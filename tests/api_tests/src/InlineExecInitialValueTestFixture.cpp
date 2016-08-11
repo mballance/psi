@@ -35,6 +35,7 @@ void InlineExecInitialValueTestFixture::run(
 			ctxt->toString().c_str());
 
 	FILE *values = fopen("values.xml", "w");
+	ctxt->setChandleTestMode(true);
 	fputs(ctxt->toString().c_str(), values);
 	fclose(values);
 

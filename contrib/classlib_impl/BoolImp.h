@@ -29,6 +29,7 @@
 
 #include "NamedBaseItemImp.h"
 #include "classlib/Bool.h"
+#include "InlineExecUtil.h"
 
 namespace pss {
 
@@ -59,6 +60,9 @@ class BoolImp: public NamedBaseItemImp {
 		 * inline-exec callback.
 		 */
 		void set(bool v);
+
+	private:
+		InlineExecUtil				m_utils;
 
 };
 

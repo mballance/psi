@@ -45,7 +45,7 @@ class String : public BaseItem {
 		 * on fields of this type, and only from within an
 		 * inline-exec callback.
 		 */
-		const std::string &get();
+		std::string get();
 
 		/**
 		 * The set method sets the value of this data field.
