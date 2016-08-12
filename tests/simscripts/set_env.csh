@@ -1,3 +1,5 @@
+#!/bin/csh
+
 #****************************************************************************
 #* simscripts set_env.csh
 #****************************************************************************
@@ -5,49 +7,46 @@
 # Small modification
 set rootdir=`pwd`
 
-while test "x$rootdir" != "x"; do
-  runtest=`find $rootdir -maxdepth 4 -name runtest.pl` 
-  if test "x$runtest" != "x"; then
+while ("x$rootdir" != "x")
+  set runtest=`find $rootdir -maxdepth 4 -name runtest.pl` 
+  if ("x$runtest" != "x") then
     break;
-  fi
-  rootdir=`dirname $rootdir`
-done
+  endif
+  set rootdir=`dirname $rootdir`
+end
 
 
-if test "x$runtest" = "x"; then
+if ("x$runtest" == "x") then
   echo "Error: Failed to find root directory"
 else
-  n_runtest=`echo $runtest | wc -w`
-  if test $n_runtest -gt 1; then
+  set n_runtest=`echo $runtest | wc -w`
+if ($n_runtest > 1) then
     echo "Note: found multiple runtest.pl scripts: $runtest"
-    for rt in $runtest; do
-      rt_dir=`dirname $rt`
-      rt_dir=`dirname $rt_dir`
-      if test -d $rt_dir/mkfiles; then
-        echo "Note: selecting $rt"
-        real_rt=$rt
-        break
-      fi
-    done
-    runtest=$real_rt
-  fi
+    foreach rt ($runtest)
+      set rt_dir=`dirname $rt`
+      set rt_dir=`dirname $rt_dir`
+if (-d $rt_dir/mkfiles) then
+       echo "Note: selecting $rt"
+       set real_rt=$rt
+       break
+     endif
+    end
+    set runtest=$real_rt
+ endif
    
-  if test "x$runtest" = "x"; then
+  if ("x$runtest" == "x") then
     echo "Error: Failed to disambiguate runtest.pl"
   else
-    SIMSCRIPTS_DIR=`dirname $runtest`
-    SIMSCRIPTS_DIR=`dirname $SIMSCRIPTS_DIR`
+    set SIMSCRIPTS_DIR=`dirname $runtest`
+    setenv SIMSCRIPTS_DIR `dirname $SIMSCRIPTS_DIR`
     echo "SIMSCRIPTS_DIR=$SIMSCRIPTS_DIR"
     # TODO: check whether the PATH already contains the in directory
-    PATH=${SIMSCRIPTS_DIR}/bin:$PATH
+    setenv PATH ${SIMSCRIPTS_DIR}:$PATH
 
     # Environment-specific variables
-    if test -f $SIMSCRIPTS_DIR/../env/env.sh; then
-        . $SIMSCRIPTS_DIR/../env/env.sh
-    fi
-  fi
-fi
-
-
-
+if (-f $SIMSCRIPTS_DIR/../env/env.sh) then
+       . $SIMSCRIPTS_DIR/../env/env.sh
+   endif
+  endif
+endif
 
