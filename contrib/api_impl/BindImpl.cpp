@@ -5,7 +5,7 @@
  *      Author: ballance
  */
 
-#include "../api_impl/BindImpl.h"
+#include "BindImpl.h"
 
 namespace psi {
 

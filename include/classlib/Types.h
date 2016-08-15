@@ -33,6 +33,7 @@
 
 #ifdef PSS_HAVE_CXX_11
 #include <initializer_list>
+#include <type_traits>
 #endif
 
 #include <stdint.h>

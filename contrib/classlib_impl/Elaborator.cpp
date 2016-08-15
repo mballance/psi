@@ -479,7 +479,7 @@ void Elaborator::elaborate_package(IModel *model, PackageImp *pkg_cl) {
 			case BaseItemImp::TypeAction: c = elaborate_action(static_cast<ActionImp *>(t)); break;
 			case BaseItemImp::TypeStruct: c = elaborate_struct(static_cast<StructImp *>(t)); break;
 			case BaseItemImp::TypeExec:  c = elaborate_exec_item(static_cast<ExecImp *>(t)); break;
-//			case BaseItemImp::TypeImport: c = elaborate_import(static_cast<Import *>(t)); break;
+			case BaseItemImp::TypeImport: c = elaborate_import_func(static_cast<ImportImp *>(t)); break;
 		}
 
 		if (c) {
@@ -532,6 +532,8 @@ IExec *Elaborator::elaborate_exec_item(ExecImp *e) {
 	switch (e->getExecType()) {
 	case ExecImp::Native: {
 		fprintf(stdout, "TODO: native exec\n");
+		std::vector<IExpr *> stmts;
+//		ret = m_model->mkNativeExec(kind, stmts);
 	} break;
 
 	case ExecImp::Inline: {
@@ -583,7 +585,6 @@ IExec *Elaborator::elaborate_exec_item(ExecImp *e) {
 	} break;
 
 	case ExecImp::TargetTemplate: {
-		fprintf(stdout, "Create TargetTemplate exec\n");
 		ret = m_model->mkTargetTemplateExec(kind, e->getLanguage(), e->getTargetTemplate());
 	} break;
 	}
@@ -739,6 +740,30 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItemImp *t) {
 
 	debug_high("<-- elaborate_field_ref");
 	return m_model->mkFieldRef(fields);
+}
+
+IImportFunc *Elaborator::elaborate_import_func(ImportImp *imp) {
+	std::vector<IField *> parameters;
+	IBaseItem *ret = 0;
+
+	if (imp->getReturnType()) {
+		BaseItemImp *ret = imp->getReturnType();
+	}
+
+	ExprCoreList *param_imp = static_cast<ExprCoreList *>(
+			imp->getParameters().imp().ptr());
+
+	for (std::vector<ExprImp>::const_iterator it=param_imp->getExprList().begin();
+			it!=param_imp->getExprList().end(); it++) {
+		const ExprImp &expr = *it;
+		ExprCore *p = expr.ptr();
+		fprintf(stdout, "p=%p\n", p);
+	}
+
+	return m_model->mkImportFunc(
+			imp->getName(),
+			ret,
+			parameters);
 }
 
 IBindPath *Elaborator::elaborate_bind_path(BaseItemImp *t) {

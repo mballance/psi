@@ -24,7 +24,11 @@
 
 #ifndef IMPL_BASEITEMIMPL_H_
 #define IMPL_BASEITEMIMPL_H_
+#include <map>
+#include <string>
 #include "api/IBaseItem.h"
+//#include "AttributeImpl.h"
+
 
 using namespace psi_api;
 
@@ -40,7 +44,8 @@ namespace psi {
 			virtual IBaseItem::ItemType getType() const;
 
 		private:
-			IBaseItem::ItemType				m_type;
+			IBaseItem::ItemType					m_type;
+//			std::map<std::string,AttributeImpl>	m_
 };
 
 } /* namespace psi */

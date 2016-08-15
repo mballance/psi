@@ -22,9 +22,8 @@
  *      Author: ballance
  */
 
-#include "../api_impl/ComponentImpl.h"
-
-#include "../api_impl/FieldImpl.h"
+#include "ComponentImpl.h"
+#include "FieldImpl.h"
 
 namespace psi {
 

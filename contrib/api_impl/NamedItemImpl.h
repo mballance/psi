@@ -26,7 +26,7 @@
 #define IMPL_NAMEDITEMIMPL_H_
 #include <string>
 
-#include "../api_impl/BaseItemImpl.h"
+#include "BaseItemImpl.h"
 #include "api/INamedItem.h"
 
 using namespace psi_api;
@@ -42,6 +42,7 @@ class NamedItemImpl : public virtual INamedItem, public BaseItemImpl {
 
 		virtual const std::string &getName();
 
+		virtual const std::string &getName() const;
 
 	private:
 

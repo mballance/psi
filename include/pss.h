@@ -43,6 +43,7 @@
 #include "classlib/ExtendStruct.h"
 #include "classlib/Field.h"
 #include "classlib/Graph.h"
+#include "classlib/GraphNode.h"
 #include "classlib/If.h"
 #include "classlib/Import.h"
 #include "classlib/Input.h"

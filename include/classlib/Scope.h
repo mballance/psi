@@ -28,6 +28,8 @@
 #include <string>
 #include <vector>
 #include <typeinfo>
+#include "classlib/BaseItem.h"
+#include "classlib/Types.h"
 
 namespace pss {
 

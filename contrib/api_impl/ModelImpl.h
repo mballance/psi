@@ -48,6 +48,8 @@ class ModelImpl: public IModel {
 
 		virtual IBaseItem *clone() { return 0; }
 
+		virtual IBaseItem *clone(IBaseItem *item);
+
 		virtual IBaseItem *getParent() const { return 0; }
 
 		void setParent(IBaseItem *p) { }
@@ -94,8 +96,8 @@ class ModelImpl: public IModel {
 				IExecCallback				*exec);
 
 		virtual IExec *mkNativeExec(
-				IExec::ExecKind			kind,
-				IExpr					*stmts);
+				IExec::ExecKind					kind,
+				const std::vector<IExecStmt *>	&stmts);
 
 		virtual IStruct *mkStruct(
 				const std::string 		&name,
@@ -155,6 +157,17 @@ class ModelImpl: public IModel {
 				IExpr 			*cond,
 				IConstraint 	*true_c,
 				IConstraint 	*false_c);
+
+		virtual IConstraintImplies *mkConstraintImplies(
+				IExpr			*cond,
+				IConstraint		*imp);
+
+		virtual IImportFunc *mkImportFunc(
+				const std::string				&name,
+				IBaseItem						*ret_type,
+				const std::vector<IField *>		&parameters);
+
+		virtual IItemFactory *getItemFactory() { return this; }
 
 		virtual ICallbackContext *getCallbackContext();
 

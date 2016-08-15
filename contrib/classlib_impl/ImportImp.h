@@ -53,6 +53,19 @@ class ImportImp : public NamedBaseItemImp {
 		ExprImportCall operator()(const ExprList &plist);
 
 		ExprImportCall operator()();
+
+		BaseItemImp *getReturnType() {
+			return (m_have_ret)?&m_ret:0;
+		}
+
+		const ExprList &getParameters() const { return m_parameters; }
+
+	private:
+
+		bool						m_have_ret;
+		BaseItemImp					m_ret;
+		ExprList					m_parameters;
+
 };
 
 

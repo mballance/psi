@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pss:model 
+  xmlns:pss="http://accellera.org/PSS"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://accellera.org/PSS PSSModel.xsd">
+    <pss:package>
+    </pss:package>
+    <pss:component name="top_comp">
+        <pss:action name="do_something">
+        </pss:action>
+        <pss:action name="top_action">
+            <pss:field name="a">
+                <pss:type>
+                    <pss:user>
+                        <pss:path>top_comp</pss:path>
+                        <pss:path>do_something</pss:path>
+                    </pss:user>
+                </pss:type>
+            </pss:field>
+            <pss:field name="b">
+                <pss:type>
+                    <pss:user>
+                        <pss:path>top_comp</pss:path>
+                        <pss:path>do_something</pss:path>
+                    </pss:user>
+                </pss:type>
+            </pss:field>
+            <pss:field name="c">
+                <pss:type>
+                    <pss:user>
+                        <pss:path>top_comp</pss:path>
+                        <pss:path>do_something</pss:path>
+                    </pss:user>
+                </pss:type>
+            </pss:field>
+            <pss:graph>
+                <pss:traverse name="a"/>
+                <pss:traverse name="b"/>
+                <pss:parallel>
+                    <pss:production>
+                        <pss:traverse name="a"/>
+                    </pss:production>
+                    <pss:production>
+                        <pss:repeat type="count">
+                            <pss:expr>
+                                <pss:number>0x5</pss:number>
+                            </pss:expr>
+                            <pss:body>
+                                <pss:traverse name="b"/>
+                                <pss:traverse name="c"/>
+                            </pss:body>
+                        </pss:repeat>
+                    </pss:production>
+                </pss:parallel>
+            </pss:graph>
+        </pss:action>
+    </pss:component>
+</pss:model>

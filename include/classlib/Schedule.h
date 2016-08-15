@@ -34,6 +34,11 @@ class Schedule: public Expr {
 public:
 	Schedule(const ExprList &body);
 
+#ifdef PSS_HAVE_CXX_11
+	template <typename... I> Schedule(const I&... items) :
+			Schedule(ExprList::mklist(items...)) { }
+#endif
+
 	virtual ~Schedule();
 
 };

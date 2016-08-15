@@ -22,7 +22,7 @@
  *      Author: ballance
  */
 
-#include "../api_impl/NamedItemImpl.h"
+#include "NamedItemImpl.h"
 
 namespace psi {
 
@@ -36,6 +36,10 @@ NamedItemImpl::~NamedItemImpl() {
 }
 
 const std::string &NamedItemImpl::getName() {
+	return m_name;
+}
+
+const std::string &NamedItemImpl::getName() const {
 	return m_name;
 }
 

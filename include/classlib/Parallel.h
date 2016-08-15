@@ -38,7 +38,8 @@ public:
 	Parallel(const ExprList &body);
 
 #ifdef PSS_HAVE_CXX_11
-	Parallel(std::initializer_list<Expr> l) : Parallel(ExprList(l)) { };
+	template <typename... I> Parallel(const I&... items) :
+			Parallel(ExprList::mklist(items...)) { }
 #endif
 
 	virtual ~Parallel();

@@ -40,6 +40,17 @@ BaseItem::BaseItem(BaseItemImp *impl) {
 	m_impl->setMaster(this);
 }
 
+BaseItemImp::BaseItemImp() : m_master(0), m_type(Model), m_parent(0) {
+
+}
+
+BaseItemImp::BaseItemImp(const BaseItem &rhs) {
+	m_master = 0;
+	m_type = rhs.impl()->m_type;
+	m_parent = rhs.impl()->m_parent;
+	m_children = rhs.impl()->m_children;
+}
+
 BaseItemImp::BaseItemImp(BaseItem *master, ObjectType t, BaseItem *p) :
 		m_master(master), m_type(t), m_parent(toImp(p)) {
 

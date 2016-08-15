@@ -22,9 +22,8 @@
  *      Author: ballance
  */
 
-#include "../api_impl/ActionImpl.h"
-
-#include "../api_impl/FieldImpl.h"
+#include "ActionImpl.h"
+#include "FieldImpl.h"
 
 namespace psi {
 
@@ -83,6 +82,19 @@ IField *ActionImpl::getField(const std::string &name) {
 			break;
 		}
 
+	}
+
+	return ret;
+}
+
+IBaseItem *ActionImpl::clone(IItemFactory *f, IAction *action) {
+	ActionImpl *ret = new ActionImpl(
+			action->getName(),
+			action->getSuperType());
+
+	for (std::vector<IBaseItem *>::const_iterator it=action->getItems().begin();
+			it!=action->getItems().end(); it++) {
+		ret->add(f->clone(*it));
 	}
 
 	return ret;

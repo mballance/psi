@@ -22,7 +22,7 @@
  *      Author: ballance
  */
 
-#include "../api_impl/BinaryExprImpl.h"
+#include "BinaryExprImpl.h"
 
 namespace psi {
 

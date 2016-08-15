@@ -22,7 +22,7 @@
  *      Author: ballance
  */
 
-#include "../api_impl/BaseItemImpl.h"
+#include "BaseItemImpl.h"
 
 namespace psi {
 

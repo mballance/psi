@@ -43,6 +43,7 @@
 #include "ConstraintImp.h"
 #include "GraphImp.h"
 #include "FieldItemImp.h"
+#include "ImportImp.h"
 #include "PackageImp.h"
 #include "BaseItemImp.h"
 #include "StructImp.h"
@@ -102,6 +103,8 @@ protected:
 	IField *elaborate_field_item(FieldItemImp *f);
 
 	IFieldRef *elaborate_field_ref(BaseItemImp *ref);
+
+	IImportFunc *elaborate_import_func(ImportImp *imp);
 
 	IBindPath *elaborate_bind_path(BaseItemImp *it);
 

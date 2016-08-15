@@ -33,10 +33,11 @@ namespace pss {
 class Sequential : public ExprList {
 public:
 
-	Sequential(const ExprListBuilder &body);
+	Sequential(const ExprList &body);
 
 #ifdef PSS_HAVE_CXX_11
-	Sequential(std::initializer_list<Expr> l) : Sequential(ExprListBuilder(l)) { }
+	template <typename... I> Sequential(const I&... items) :
+			Sequential(ExprList::mklist(items...)) { }
 #endif
 
 	virtual ~Sequential();

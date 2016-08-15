@@ -37,6 +37,7 @@
 #include "ConstraintBlockImpl.h"
 #include "ConstraintExprImpl.h"
 #include "ConstraintIfImpl.h"
+#include "ConstraintImpliesImpl.h"
 #include "ExecImpl.h"
 #include "ExtendImpl.h"
 #include "FieldImpl.h"
@@ -44,6 +45,7 @@
 #include "GraphBlockStmtImpl.h"
 #include "GraphRepeatStmtImpl.h"
 #include "GraphTraverseStmtImpl.h"
+#include "ImportFuncImpl.h"
 #include "LiteralImpl.h"
 #include "ScalarTypeImpl.h"
 #include "StructImpl.h"
@@ -152,8 +154,8 @@ IExec *ModelImpl::mkInlineExec(
 }
 
 IExec *ModelImpl::mkNativeExec(
-		IExec::ExecKind			kind,
-		IExpr					*stmts) {
+		IExec::ExecKind					kind,
+		const std::vector<IExecStmt *>	&stmts) {
 	return new ExecImpl(kind, stmts);
 }
 
@@ -257,6 +259,19 @@ IConstraintIf *ModelImpl::mkConstraintIf(
 	return new ConstraintIfImpl(cond, true_c, false_c);
 }
 
+IConstraintImplies *ModelImpl::mkConstraintImplies(
+				IExpr			*cond,
+				IConstraint		*imp) {
+	return new ConstraintImpliesImpl(cond, imp);
+}
+
+IImportFunc *ModelImpl::mkImportFunc(
+		const std::string				&name,
+		IBaseItem						*ret_type,
+		const std::vector<IField *>		&parameters) {
+	return new ImportFuncImpl(name, ret_type, parameters);
+}
+
 ICallbackContext *ModelImpl::getCallbackContext() {
 	if (!m_callback_ctxt) {
 		fprintf(stdout, "Error: getCallbackContext returning null handle\n");
@@ -267,6 +282,32 @@ ICallbackContext *ModelImpl::getCallbackContext() {
 
 void ModelImpl::setCallbackContext(ICallbackContext *ctxt) {
 	m_callback_ctxt = ctxt;
+}
+
+IBaseItem *ModelImpl::clone(IBaseItem *item) {
+	switch (item->getType()) {
+	case TypeAction:
+		return ActionImpl::clone(this, static_cast<IAction *>(item));
+	case TypeBind:
+	case TypeComponent:
+	case TypeConstraint:
+	case TypeField:
+	case TypeImport:
+	case TypeExec:
+	case TypeExtend:
+	case TypeGraphStmt:
+	case TypeImportFunc:
+	case TypeModel:
+	case TypeObject:
+	case TypePackage:
+	case TypeScalar:
+	case TypeStruct:
+	case TypeSymbol:
+	default:
+		break;
+	}
+
+	return 0;
 }
 
 } /* namespace psi */

@@ -42,8 +42,6 @@ template <class T> class Field : public FieldBase<T> {
 			FieldBase<T>(FieldItem::AttrNone, p, name, array_dim) { }
 
 		virtual ~Field() { }
-
-		Expr with(const ExprList &l) const { return With(FieldBase<T>::m_field, l); }
 };
 
 }

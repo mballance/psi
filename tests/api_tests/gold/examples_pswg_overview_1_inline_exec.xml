@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pss:model 
+  xmlns:pss="http://accellera.org/PSS"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://accellera.org/PSS PSSModel.xsd">
+    <pss:package>
+    </pss:package>
+    <pss:component name="top">
+        <pss:action name="entry_point">
+            <pss:field name="p1" qualifier="rand">
+                <pss:type>
+                    <pss:bit>
+                        <pss:msb>
+                            <pss:number>7</pss:number>
+                        </pss:msb>
+                        <pss:lsb>
+                            <pss:number>0</pss:number>
+                        </pss:lsb>
+                    </pss:bit>
+                </pss:type>
+            </pss:field>
+            <pss:field name="p2" qualifier="rand">
+                <pss:type>
+                    <pss:bit>
+                        <pss:msb>
+                            <pss:number>31</pss:number>
+                        </pss:msb>
+                        <pss:lsb>
+                            <pss:number>0</pss:number>
+                        </pss:lsb>
+                    </pss:bit>
+                </pss:type>
+            </pss:field>
+            <pss:field name="p3" qualifier="rand">
+                <pss:type>
+                    <pss:bit>
+                        <pss:msb>
+                            <pss:number>31</pss:number>
+                        </pss:msb>
+                        <pss:lsb>
+                            <pss:number>0</pss:number>
+                        </pss:lsb>
+                    </pss:bit>
+                </pss:type>
+            </pss:field>
+            <pss:field name="p4">
+                <pss:type>
+                    <pss:bit>
+                        <pss:msb>
+                            <pss:number>31</pss:number>
+                        </pss:msb>
+                        <pss:lsb>
+                            <pss:number>0</pss:number>
+                        </pss:lsb>
+                    </pss:bit>
+                </pss:type>
+            </pss:field>
+            <pss:field name="p5">
+                <pss:type>
+                    <pss:bit>
+                        <pss:msb>
+                            <pss:number>31</pss:number>
+                        </pss:msb>
+                        <pss:lsb>
+                            <pss:number>0</pss:number>
+                        </pss:lsb>
+                    </pss:bit>
+                </pss:type>
+            </pss:field>
+            <pss:exec>
+                <pss:inline kind="pre_solve" address="0xDEADBEEFDEADBEEF"/>
+            </pss:exec>
+            <pss:exec>
+                <pss:inline kind="post_solve" address="0xDEADBEEFDEADBEEF"/>
+            </pss:exec>
+        </pss:action>
+    </pss:component>
+</pss:model>

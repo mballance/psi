@@ -27,9 +27,10 @@
 
 #include <string>
 
-#include "../api_impl/NamedItemImpl.h"
+#include "NamedItemImpl.h"
 #include "api/IAction.h"
 #include "api/IField.h"
+#include "api/IItemFactory.h"
 
 using namespace psi_api;
 
@@ -72,6 +73,8 @@ namespace psi {
 			 * the named field does not exist
 			 */
 			virtual IField *getField(const std::string &name);
+
+			static IBaseItem *clone(IItemFactory *f, IAction *action);
 
 		private:
 			std::string					m_name;

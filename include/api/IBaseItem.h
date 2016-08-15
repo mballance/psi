@@ -46,6 +46,7 @@ namespace psi_api {
 			TypeExec,
 			TypeExtend,
 			TypeGraphStmt,
+			TypeImportFunc,
 			TypeModel,
 			TypeObject, // 10
 			TypePackage,

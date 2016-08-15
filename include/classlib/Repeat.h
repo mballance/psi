@@ -34,11 +34,11 @@ class Repeat: public Expr {
 public:
 
 #ifdef PSS_HAVE_CXX_11
-	Repeat(const Expr &cond, std::initializer_list<Expr> l) :
-		Repeat(cond, ExprList(l)) { }
+	template<typename... I> Repeat(const Expr &cond, const I&... items) :
+		Repeat(cond, ExprList::mklist(items...)) { }
 #endif
 
-	Repeat(const Expr &cond, const Expr &body);
+	Repeat(const Expr &cond, const ExprList &body);
 
 	virtual ~Repeat();
 

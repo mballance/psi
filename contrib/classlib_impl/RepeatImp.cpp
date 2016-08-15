@@ -32,7 +32,7 @@ namespace pss {
 //		Expr(new ExprCore(Expr::GraphRepeat, expr, ExprList(body))) {
 //}
 
-Repeat::Repeat(const Expr &cond, const Expr &body) :
+Repeat::Repeat(const Expr &cond, const ExprList &body) :
 		Expr(ExprImp(new ExprCore(ExprImp::GraphRepeat, cond, body))) {
 }
 

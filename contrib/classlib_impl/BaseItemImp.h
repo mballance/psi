@@ -65,6 +65,10 @@ public:
 
 public:
 
+	BaseItemImp();
+
+	BaseItemImp(const BaseItem &rhs);
+
 	virtual void setParent(BaseItem *p);
 	virtual void setParent(BaseItemImp *p);
 
@@ -101,11 +105,11 @@ protected:
 
 
 private:
-	BaseItem					*m_master;
-	ObjectType					m_type;
-	BaseItemImp					*m_parent;
+	BaseItem								*m_master;
+	ObjectType								m_type;
+	BaseItemImp								*m_parent;
 
-	std::vector<BaseItemImp *>	m_children;
+	std::vector<BaseItemImp *>				m_children;
 };
 
 } /* namespace pss */

@@ -10,6 +10,7 @@
 #include <string>
 #include "api/IExecCallback.h"
 #include "api/IExpr.h"
+#include "api/IExecStmt.h"
 #include "api/IBaseItem.h"
 
 namespace psi_api {
@@ -54,7 +55,7 @@ public:
 	/**
 	 * Returns the native-exec statement list
 	 */
-	virtual IExpr *getStmts() = 0;
+	virtual const std::vector<IExecStmt *> &getStmts() = 0;
 
 };
 }

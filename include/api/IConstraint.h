@@ -34,7 +34,8 @@ public:
 	enum ConstraintType {
 		ConstraintType_Block,
 		ConstraintType_Expr,
-		ConstraintType_If
+		ConstraintType_If,
+		ConstraintType_Implies
 	};
 
 public:

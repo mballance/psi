@@ -26,7 +26,7 @@
 
 namespace pss {
 
-Sequential::Sequential(const ExprListBuilder &body) : ExprList(body) { }
+Sequential::Sequential(const ExprList &body) : ExprList(body) { }
 
 Sequential::~Sequential() {
 	// TODO Auto-generated destructor stub

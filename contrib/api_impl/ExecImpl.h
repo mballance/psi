@@ -22,11 +22,11 @@ public:
 
 	ExecImpl(
 			ExecKind			kind,
-			IExecCallback			*exec);
+			IExecCallback		*exec);
 
 	ExecImpl(
-			ExecKind			kind,
-			IExpr				*stmts);
+			ExecKind						kind,
+			const std::vector<IExecStmt *>	&stmts);
 
 	virtual ~ExecImpl();
 
@@ -60,7 +60,7 @@ public:
 	/**
 	 * Returns the native-exec statement list
 	 */
-	virtual IExpr *getStmts() { return m_stmts; }
+	virtual const std::vector<IExecStmt *> &getStmts() { return m_stmts; }
 
 private:
 	IBaseItem					*m_parent;
@@ -68,8 +68,8 @@ private:
 	ExecType					m_execType;
 	std::string					m_language;
 	std::string					m_targetTemplate;
-	IExecCallback					*m_inlineExec;
-	IExpr						*m_stmts;
+	IExecCallback				*m_inlineExec;
+	std::vector<IExecStmt *>	m_stmts;
 
 };
 

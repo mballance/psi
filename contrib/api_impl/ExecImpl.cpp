@@ -19,13 +19,13 @@ ExecImpl::ExecImpl(
 
 ExecImpl::ExecImpl(
 		ExecKind			kind,
-		IExecCallback			*exec) :
+		IExecCallback		*exec) :
 				m_parent(0), m_execKind(kind), m_execType(IExec::Inline),
 				m_inlineExec(exec), m_stmts(0) { }
 
 ExecImpl::ExecImpl(
-		ExecKind			kind,
-		IExpr				*stmts) :
+		ExecKind						kind,
+		const std::vector<IExecStmt *>	&stmts) :
 				m_parent(0), m_execKind(kind), m_execType(IExec::Native),
 				m_inlineExec(0), m_stmts(stmts) { }
 
