@@ -33,7 +33,9 @@ using namespace psi_api;
 
 namespace psi {
 
-class ModelImpl: public IModel {
+class ModelImpl:
+		public virtual IModel,
+		public virtual BaseItemImpl {
 
 	public:
 		ModelImpl();
@@ -178,10 +180,22 @@ class ModelImpl: public IModel {
 		 */
 		virtual IField *getField(const std::string &name) { return 0; }
 
+		virtual const std::string &getAttribute(const std::string &key);
+
+		virtual void getAttributes(std::vector<std::string> &keys);
+
+		virtual bool hasAttribute(const std::string &key);
+
+		virtual void setAttribute(const std::string &key, const std::string &val);
+
+		virtual void clearAttribute(const std::string &key);
+
+
 	private:
 		std::vector<IBaseItem *>	m_children;
 		PackageImpl					m_global_pkg;
 		ICallbackContext			*m_callback_ctxt;
+		std::string					m_null_attr;
 
 
 };

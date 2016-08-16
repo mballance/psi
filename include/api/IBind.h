@@ -12,7 +12,7 @@
 
 namespace psi_api {
 
-class IBind : public IBaseItem {
+class IBind : public virtual IBaseItem {
 public:
 
 	virtual ~IBind() { }

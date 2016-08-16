@@ -145,6 +145,8 @@ private:
 
 	static const char *getName(IBaseItem *it);
 
+	static const char *getName(IScopeItem *it);
+
 	static IScopeItem *getSuperType(IScopeItem *it);
 
 	static NamedBaseItemImp *toNamedItem(BaseItemImp *it);

@@ -31,15 +31,14 @@ class static_structure : public Component {
 	class entry : public Action {
 		pss_ctor(entry, Action);
 
-		Field<C::A>				pss_field(a1);
-		Field<C::A>				pss_field(a2);
+		GraphNode<C::A>			pss_field(a1);
+		GraphNode<C::A>			pss_field(a2);
 
-		Graph g1 {this, {
+		Graph g1 {this,
 			Repeat {5, {
 					a1, a2.with(a2.field1 < 2)
 				}
 			}
-		}
 		};
 	};
 	pss_type(entry);

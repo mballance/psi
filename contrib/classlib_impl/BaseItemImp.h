@@ -55,7 +55,7 @@ public:
 		TypeExtendComponent,
 		TypeExtendStruct,
 		TypeField,
-		TypeGraph,
+		TypeGraph, // 15
 		TypePackage,
 		TypeString,
 		TypeStruct, // 18

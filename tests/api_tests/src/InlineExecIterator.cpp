@@ -37,8 +37,8 @@ bool InlineExecIterator::traverse() {
 	for (std::vector<IBaseItem *>::const_iterator it=m_model->getItems().begin();
 			it!=m_model->getItems().end(); it++) {
 		if ((*it)->getType() == IBaseItem::TypeComponent &&
-				static_cast<IComponent *>(*it)->getName() == m_comp_name) {
-			c = static_cast<IComponent *>(*it);
+				dynamic_cast<IComponent *>(*it)->getName() == m_comp_name) {
+			c = dynamic_cast<IComponent *>(*it);
 			break;
 		}
 	}
@@ -52,8 +52,8 @@ bool InlineExecIterator::traverse() {
 	for (std::vector<IBaseItem *>::const_iterator it=c->getItems().begin();
 			it!=c->getItems().end(); it++) {
 		if ((*it)->getType() == IBaseItem::TypeAction &&
-				static_cast<IAction *>(*it)->getName() == m_action_name) {
-			a = static_cast<IAction *>(*it);
+				dynamic_cast<IAction *>(*it)->getName() == m_action_name) {
+			a = dynamic_cast<IAction *>(*it);
 			break;
 		}
 	}
@@ -84,7 +84,7 @@ void InlineExecIterator::traverse(IScopeItem *scope, psshandle_t hndl, cb_t cb) 
 	for (std::vector<IBaseItem *>::const_iterator it=scope->getItems().begin();
 			it!=scope->getItems().end(); it++) {
 		if ((*it)->getType() == IBaseItem::TypeExec) {
-			IExec *exec = static_cast<IExec *>(*it);
+			IExec *exec = dynamic_cast<IExec *>(*it);
 			switch (cb) {
 			case PreSolve: {
 				if (exec->getExecKind() == IExec::PreSolve) {

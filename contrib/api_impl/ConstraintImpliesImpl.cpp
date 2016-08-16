@@ -12,7 +12,7 @@ namespace psi {
 ConstraintImpliesImpl::ConstraintImpliesImpl(
 		IExpr			*cond,
 		IConstraint		*imp
-		) : m_cond(cond), m_imp(imp) {
+		) : BaseItemImpl(IBaseItem::TypeConstraint), m_cond(cond), m_imp(imp) {
 	// TODO Auto-generated constructor stub
 
 }

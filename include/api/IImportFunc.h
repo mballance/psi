@@ -14,7 +14,7 @@
 
 namespace psi_api {
 
-class IImportFunc : public IBaseItem, public virtual INamedItem {
+class IImportFunc : public virtual IBaseItem, public virtual INamedItem {
 public:
 
 	virtual ~IImportFunc() { }

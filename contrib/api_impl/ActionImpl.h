@@ -27,7 +27,9 @@
 
 #include <string>
 
+#include "BaseItemImpl.h"
 #include "NamedItemImpl.h"
+#include "ScopeItemImpl.h"
 #include "api/IAction.h"
 #include "api/IField.h"
 #include "api/IItemFactory.h"
@@ -36,7 +38,11 @@ using namespace psi_api;
 
 namespace psi {
 
-	class ActionImpl: public IAction {
+	class ActionImpl:
+		public virtual IAction,
+		public virtual BaseItemImpl,
+		public virtual NamedItemImpl,
+		public virtual ScopeItemImpl {
 
 		public:
 
@@ -48,41 +54,15 @@ namespace psi {
 
 			virtual IAction *getSuperType() const { return m_super_type; }
 
-			virtual IBaseItem::ItemType getType() const {
-				return IBaseItem::TypeAction;
-			}
-
-			virtual IBaseItem *clone();
-
-			virtual IBaseItem *getParent() const { return m_parent; }
-
-			void setParent(IBaseItem *p) { m_parent = p; }
-
-			virtual const std::string &getName() const;
-
-			virtual const std::vector<IBaseItem *> &getItems() const;
-
-			virtual void add(IBaseItem *);
-
 			virtual IGraphStmt *getGraph() const { return m_graph; }
 
 			virtual void setGraph(IGraphStmt *graph);
 
-			/**
-			 * Locates and returns the named field. Returns 0 if
-			 * the named field does not exist
-			 */
-			virtual IField *getField(const std::string &name);
-
 			static IBaseItem *clone(IItemFactory *f, IAction *action);
 
 		private:
-			std::string					m_name;
-			IBaseItem					*m_parent;
 			IAction						*m_super_type;
-			std::vector<IBaseItem *>	m_children;
 			IGraphStmt					*m_graph;
-
 
 };
 

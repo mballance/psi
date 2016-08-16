@@ -26,8 +26,7 @@
 
 namespace psi {
 
-NamedItemImpl::NamedItemImpl(const std::string &name, IBaseItem::ItemType t) :
-	BaseItemImpl(t), m_name(name) {
+NamedItemImpl::NamedItemImpl(const std::string &name) : m_name(name) {
 
 }
 
@@ -41,6 +40,10 @@ const std::string &NamedItemImpl::getName() {
 
 const std::string &NamedItemImpl::getName() const {
 	return m_name;
+}
+
+void NamedItemImpl::setName(const std::string &name) {
+	m_name = name;
 }
 
 } /* namespace psi */

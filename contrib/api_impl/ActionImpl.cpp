@@ -30,7 +30,8 @@ namespace psi {
 ActionImpl::ActionImpl(
 		const std::string 	&name,
 		IAction 			*super_type) :
-		m_parent(0), m_name(name), m_super_type(super_type), m_graph(0) {
+				BaseItemImpl(IBaseItem::TypeAction),
+				NamedItemImpl(name), m_super_type(super_type), m_graph(0) {
 
 }
 
@@ -38,53 +39,8 @@ ActionImpl::~ActionImpl() {
 	// TODO Auto-generated destructor stub
 }
 
-const std::string &ActionImpl::getName() const {
-	return m_name;
-}
-
-const std::vector<IBaseItem *> &ActionImpl::getItems() const {
-	return m_children;
-}
-
-IBaseItem *ActionImpl::clone() {
-	ActionImpl *ret = new ActionImpl(getName(), getSuperType());
-
-	for (std::vector<IBaseItem *>::const_iterator it=getItems().begin();
-			it!=getItems().end(); it++) {
-		IBaseItem *i = (*it)->clone();
-		ret->add(i);
-	}
-
-	return ret;
-}
-
-void ActionImpl::add(IBaseItem *it) {
-	it->setParent(this);
-	m_children.push_back(it);
-}
-
 void ActionImpl::setGraph(IGraphStmt *graph) {
 	m_graph = graph;
-}
-
-/**
- * Locates and returns the named field. Returns 0 if
- * the named field does not exist
- */
-IField *ActionImpl::getField(const std::string &name) {
-	IField *ret = 0;
-	std::vector<IBaseItem *>::const_iterator it;
-
-	for (it=m_children.begin(); it!=m_children.end(); it++) {
-		if ((*it)->getType() == IBaseItem::TypeField &&
-				static_cast<FieldImpl *>(*it)->getName() == name) {
-			ret = static_cast<FieldImpl *>(*it);
-			break;
-		}
-
-	}
-
-	return ret;
 }
 
 IBaseItem *ActionImpl::clone(IItemFactory *f, IAction *action) {

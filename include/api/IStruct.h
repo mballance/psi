@@ -33,7 +33,10 @@
 
 namespace psi_api {
 
-	class IStruct : public IScopeItem, public virtual INamedItem {
+	class IStruct :
+			public virtual IBaseItem,
+			public virtual IScopeItem,
+			public virtual INamedItem {
 	public:
 
 		enum StructType {
@@ -49,12 +52,6 @@ namespace psi_api {
 			virtual ~IStruct() { }
 
 			virtual IStruct *getSuperType() const = 0;
-
-			virtual const std::string &getName() const = 0;
-
-			virtual const std::vector<IBaseItem *> &getItems() const = 0;
-
-			virtual void add(IBaseItem *it) = 0;
 
 			virtual StructType getStructType() const = 0;
 

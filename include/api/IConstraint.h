@@ -28,7 +28,8 @@
 
 namespace psi_api {
 
-class IConstraint : public IBaseItem {
+class IConstraint :
+		public virtual IBaseItem {
 public:
 
 	enum ConstraintType {

@@ -53,7 +53,10 @@
 
 namespace psi_api {
 
-	class IModel : public IScopeItem, public virtual IItemFactory {
+	class IModel :
+			public virtual IBaseItem,
+			public virtual IScopeItem,
+			public virtual IItemFactory /* temporary */ {
 		public:
 
 			virtual ~IModel() { }

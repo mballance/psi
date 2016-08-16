@@ -26,26 +26,21 @@
 #ifndef IMPL_CONSTRAINTIFIMPL_H_
 #define IMPL_CONSTRAINTIFIMPL_H_
 #include "api/IConstraintIf.h"
+#include "BaseItemImpl.h"
 
 using namespace psi_api;
 
 namespace psi {
 
-class ConstraintIfImpl : public IConstraintIf {
+class ConstraintIfImpl :
+		public virtual IConstraintIf,
+		public virtual BaseItemImpl {
 public:
 	ConstraintIfImpl(IExpr *cond, IConstraint *true_c, IConstraint *false_c);
 
 	virtual ~ConstraintIfImpl();
 
-	virtual ItemType getType() const { return IBaseItem::TypeConstraint; }
-
 	virtual ConstraintType getConstraintType() const { return IConstraint::ConstraintType_If; }
-
-	virtual IBaseItem *clone();
-
-	virtual IBaseItem *getParent() const { return 0; }
-
-	void setParent(IBaseItem *p) { }
 
 	virtual IExpr *getCond() const { return m_cond; }
 

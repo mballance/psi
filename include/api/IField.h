@@ -32,7 +32,9 @@
 
 namespace psi_api {
 
-class IField : public IBaseItem, public virtual INamedItem {
+class IField :
+		public virtual IBaseItem,
+		public virtual INamedItem {
 public:
 
 	enum FieldAttr {
@@ -49,8 +51,6 @@ public:
 
 
 	virtual ~IField() { }
-
-	virtual const std::string &getName() const = 0;
 
 	virtual IBaseItem *getDataType() const = 0;
 

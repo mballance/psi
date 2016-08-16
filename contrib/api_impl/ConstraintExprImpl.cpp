@@ -27,15 +27,12 @@
 
 namespace psi {
 
-ConstraintExprImpl::ConstraintExprImpl(IExpr *expr) : m_expr(expr) { }
+ConstraintExprImpl::ConstraintExprImpl(IExpr *expr) :
+		BaseItemImpl(IBaseItem::TypeConstraint), m_expr(expr) { }
 
 ConstraintExprImpl::~ConstraintExprImpl() {
 	// TODO Auto-generated destructor stub
 }
 
-IBaseItem *ConstraintExprImpl::clone() {
-	// TODO:
-	return 0;
-}
 
 } /* namespace psi */

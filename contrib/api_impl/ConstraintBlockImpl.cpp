@@ -23,23 +23,17 @@
  *      Author: ballance
  */
 
-#include "../api_impl/ConstraintBlockImpl.h"
+#include "ConstraintBlockImpl.h"
 
 namespace psi {
 
 ConstraintBlockImpl::ConstraintBlockImpl(const std::string &name) :
-		m_parent(0), m_name(name) {
-	// TODO Auto-generated constructor stub
+		BaseItemImpl(IBaseItem::TypeConstraint), NamedItemImpl(name) {
 
 }
 
 ConstraintBlockImpl::~ConstraintBlockImpl() {
 	// TODO Auto-generated destructor stub
-}
-
-IBaseItem *ConstraintBlockImpl::clone() {
-	// TODO: implement clone
-	return 0;
 }
 
 void ConstraintBlockImpl::add(IConstraint *c) {

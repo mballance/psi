@@ -53,6 +53,8 @@ TEST_LIBS += $(BUILD_DIR)/libpsi.a
 TEST_LIBS += $(BUILD_DIR)/libpsi_impl.a
 #endif
 
+LIB_TARGETS += $(BUILD_DIR)/libpsi_tests.a
+
 LIBPSI_TESTS_SRC = \
 	TestCallbackContextImpl.cpp \
 	InlineExecIterator.cpp \

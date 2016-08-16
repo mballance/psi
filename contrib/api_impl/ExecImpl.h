@@ -8,12 +8,15 @@
 #ifndef IMPL_EXECIMPL_H_
 #define IMPL_EXECIMPL_H_
 #include "api/IExec.h"
+#include "BaseItemImpl.h"
 
 using namespace psi_api;
 
 namespace psi {
 
-class ExecImpl : public IExec {
+class ExecImpl :
+		public virtual IExec,
+		public virtual BaseItemImpl {
 public:
 	ExecImpl(
 			ExecKind			kind,
@@ -29,14 +32,6 @@ public:
 			const std::vector<IExecStmt *>	&stmts);
 
 	virtual ~ExecImpl();
-
-	virtual ItemType getType() const { return TypeExec; }
-
-	virtual IBaseItem *clone();
-
-	virtual IBaseItem *getParent() const { return m_parent; }
-
-	virtual void setParent(IBaseItem *p) { m_parent = p; }
 
 	virtual ExecKind getExecKind() { return m_execKind; }
 
@@ -63,7 +58,6 @@ public:
 	virtual const std::vector<IExecStmt *> &getStmts() { return m_stmts; }
 
 private:
-	IBaseItem					*m_parent;
 	ExecKind					m_execKind;
 	ExecType					m_execType;
 	std::string					m_language;

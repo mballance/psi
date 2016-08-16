@@ -28,28 +28,23 @@
 #include <vector>
 
 #include "api/IConstraintBlock.h"
+#include "BaseItemImpl.h"
+#include "NamedItemImpl.h"
 
 using namespace psi_api;
 
 namespace psi {
 
-class ConstraintBlockImpl: public IConstraintBlock {
+class ConstraintBlockImpl:
+		public virtual IConstraintBlock,
+		public virtual BaseItemImpl,
+		public virtual NamedItemImpl {
 public:
 	ConstraintBlockImpl(const std::string &name);
 
 	virtual ~ConstraintBlockImpl();
 
-	virtual ItemType getType() const { return IBaseItem::TypeConstraint; }
-
 	virtual ConstraintType getConstraintType() const { return IConstraint::ConstraintType_Block; }
-
-	virtual IBaseItem *clone();
-
-	virtual IBaseItem *getParent() const { return m_parent; }
-
-	void setParent(IBaseItem *p) { m_parent = p; }
-
-	virtual const std::string &getName() const { return m_name; }
 
 	virtual void add(IConstraint *c);
 
@@ -58,8 +53,6 @@ public:
 	virtual const std::vector<IConstraint *> &getConstraints() const { return m_constraints; }
 
 private:
-	IBaseItem								*m_parent;
-	std::string								m_name;
 	std::vector<IConstraint *>				m_constraints;
 
 };

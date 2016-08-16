@@ -58,10 +58,10 @@ const std::string &PSI2XML::traverse(IModel *model) {
 		IBaseItem *i = *it;
 
 		if (i->getType() == IBaseItem::TypePackage) {
-			IPackage *pkg = static_cast<IPackage *>(i);
+			IPackage *pkg = dynamic_cast<IPackage *>(i);
 			process_pkg(pkg);
 		} else if (i->getType() == IBaseItem::TypeComponent) {
-			process_component(static_cast<IComponent *>(i));
+			process_component(dynamic_cast<IComponent *>(i));
 		} else {
 			// Really shouldn't be anything else in the global scope
 			error("Unknown global-scope item: %d", i->getType());
@@ -92,11 +92,11 @@ void PSI2XML::process_pkg(IPackage *pkg) {
 				break;
 
 			case IBaseItem::TypeStruct:
-				process_struct(static_cast<IStruct *>(i));
+				process_struct(dynamic_cast<IStruct *>(i));
 				break;
 
 			case IBaseItem::TypeExec:
-				process_exec(static_cast<IExec *>(i));
+				process_exec(dynamic_cast<IExec *>(i));
 				break;
 
 			default:
@@ -173,27 +173,27 @@ void PSI2XML::process_body(
 
 		switch (i->getType()) {
 		case IBaseItem::TypeBind:
-			process_bind(static_cast<IBind *>(i));
+			process_bind(dynamic_cast<IBind *>(i));
 			break;
 
 		case IBaseItem::TypeConstraint:
-			process_constraint_block(static_cast<IConstraintBlock *>(i));
+			process_constraint_block(dynamic_cast<IConstraintBlock *>(i));
 			break;
 
 		case IBaseItem::TypeAction:
-			process_action(static_cast<IAction *>(i));
+			process_action(dynamic_cast<IAction *>(i));
 			break;
 
 		case IBaseItem::TypeField:
-			process_field(static_cast<IField *>(i));
+			process_field(dynamic_cast<IField *>(i));
 			break;
 
 		case IBaseItem::TypeStruct:
-			process_struct(static_cast<IStruct *>(i));
+			process_struct(dynamic_cast<IStruct *>(i));
 			break;
 
 		case IBaseItem::TypeExec:
-			process_exec(static_cast<IExec *>(i));
+			process_exec(dynamic_cast<IExec *>(i));
 			break;
 
 		default:
@@ -221,11 +221,11 @@ void PSI2XML::process_comp_pkg_body(const std::vector<IBaseItem *> &items) {
 	for (; it!=items.end(); it++) {
 		switch ((*it)->getType()) {
 			case IBaseItem::TypeAction:
-				process_action(static_cast<IAction *>(*it));
+				process_action(dynamic_cast<IAction *>(*it));
 				break;
 
 			case IBaseItem::TypeStruct:
-				process_struct(static_cast<IStruct *>(*it));
+				process_struct(dynamic_cast<IStruct *>(*it));
 				break;
 		}
 	}
@@ -238,7 +238,7 @@ void PSI2XML::process_constraint_set(IConstraint *c, const char *tag) {
 	}
 
 	if (c->getConstraintType() == IConstraint::ConstraintType_Block) {
-		IConstraintBlock *b = static_cast<IConstraintBlock *>(c);
+		IConstraintBlock *b = dynamic_cast<IConstraintBlock *>(c);
 		for (std::vector<IConstraint *>::const_iterator it=b->getConstraints().begin();
 				it!=b->getConstraints().end(); it++) {
 			process_constraint(*it);
@@ -255,7 +255,7 @@ void PSI2XML::process_constraint_set(IConstraint *c, const char *tag) {
 void PSI2XML::process_constraint(IConstraint *c) {
 	switch (c->getConstraintType()) {
 	case IConstraint::ConstraintType_Block: {
-		IConstraintBlock *b = static_cast<IConstraintBlock *>(c);
+		IConstraintBlock *b = dynamic_cast<IConstraintBlock *>(c);
 		println("<block>");
 		inc_indent();
 
@@ -269,11 +269,11 @@ void PSI2XML::process_constraint(IConstraint *c) {
 	} break;
 
 	case IConstraint::ConstraintType_Expr:
-		process_expr(static_cast<IConstraintExpr *>(c)->getExpr(), "stmt");
+		process_expr(dynamic_cast<IConstraintExpr *>(c)->getExpr(), "stmt");
 		break;
 
 	case IConstraint::ConstraintType_If: {
-		IConstraintIf *c_if = static_cast<IConstraintIf *>(c);
+		IConstraintIf *c_if = dynamic_cast<IConstraintIf *>(c);
 
 		enter("if");
 		enter("cond");
@@ -355,7 +355,7 @@ void PSI2XML::process_expr(IExpr *e, const char *tag) {
 	}
 	switch (e->getType()) {
 		case IExpr::ExprType_BinOp: {
-			IBinaryExpr *be = static_cast<IBinaryExpr *>(e);
+			IBinaryExpr *be = dynamic_cast<IBinaryExpr *>(e);
 			std::string op = "<unknown>";
 			switch (be->getBinOpType()) {
 			case IBinaryExpr::BinOp_EqEq: op = "EqEq"; break;
@@ -382,7 +382,7 @@ void PSI2XML::process_expr(IExpr *e, const char *tag) {
 			} break;
 
 		case IExpr::ExprType_Literal: {
-			ILiteral *l = static_cast<ILiteral *>(e);
+			ILiteral *l = dynamic_cast<ILiteral *>(e);
 			std::string tag;
 			char val[64];
 
@@ -414,7 +414,7 @@ void PSI2XML::process_expr(IExpr *e, const char *tag) {
 
 		case IExpr::ExprType_FieldRef: {
 			const std::vector<IField *> &fields =
-					static_cast<IFieldRef *>(e)->getFieldPath();
+					dynamic_cast<IFieldRef *>(e)->getFieldPath();
 
 			enter("ref");
 
@@ -484,7 +484,7 @@ void PSI2XML::process_graph_stmt(IGraphStmt *stmt, const char *tag) {
 
 	switch (stmt->getStmtType()) {
 	case IGraphStmt::GraphStmt_Block: {
-		process_graph_block_stmt(static_cast<IGraphBlockStmt *>(stmt));
+		process_graph_block_stmt(dynamic_cast<IGraphBlockStmt *>(stmt));
 	} break;
 
 	case IGraphStmt::GraphStmt_IfElse: {
@@ -492,7 +492,7 @@ void PSI2XML::process_graph_stmt(IGraphStmt *stmt, const char *tag) {
 	} break;
 
 	case IGraphStmt::GraphStmt_Parallel: {
-		IGraphBlockStmt *block = static_cast<IGraphBlockStmt *>(stmt);
+		IGraphBlockStmt *block = dynamic_cast<IGraphBlockStmt *>(stmt);
 		enter("parallel");
 
 		for (std::vector<IGraphStmt *>::const_iterator it=block->getStmts().begin();
@@ -504,11 +504,11 @@ void PSI2XML::process_graph_stmt(IGraphStmt *stmt, const char *tag) {
 	} break;
 
 	case IGraphStmt::GraphStmt_Schedule: {
-		process_graph_block_stmt(static_cast<IGraphBlockStmt *>(stmt), "schedule");
+		process_graph_block_stmt(dynamic_cast<IGraphBlockStmt *>(stmt), "schedule");
 	} break;
 
 	case IGraphStmt::GraphStmt_Select: {
-		IGraphBlockStmt *block = static_cast<IGraphBlockStmt *>(stmt);
+		IGraphBlockStmt *block = dynamic_cast<IGraphBlockStmt *>(stmt);
 		enter("select");
 
 		for (std::vector<IGraphStmt *>::const_iterator it=block->getStmts().begin();
@@ -520,7 +520,7 @@ void PSI2XML::process_graph_stmt(IGraphStmt *stmt, const char *tag) {
 	} break;
 
 	case IGraphStmt::GraphStmt_Repeat: {
-		IGraphRepeatStmt *r = static_cast<IGraphRepeatStmt *>(stmt);
+		IGraphRepeatStmt *r = dynamic_cast<IGraphRepeatStmt *>(stmt);
 
 		std::string tag = "repeat type=\"";
 		switch (r->getRepeatType()) {
@@ -542,7 +542,7 @@ void PSI2XML::process_graph_stmt(IGraphStmt *stmt, const char *tag) {
 	} break;
 
 	case IGraphStmt::GraphStmt_Traverse: {
-		IGraphTraverseStmt *t = static_cast<IGraphTraverseStmt *>(stmt);
+		IGraphTraverseStmt *t = dynamic_cast<IGraphTraverseStmt *>(stmt);
 
 		std::string tag = "traverse name=\"";
 		tag += path2string(t->getAction());
@@ -611,9 +611,10 @@ void PSI2XML::type2hierarchical_id(IBaseItem *it, const std::string &tag) {
 	enter(tag);
 
 	while (it) {
-		INamedItem *ni = toNamedItem(it);
+		INamedItem *ni = dynamic_cast<INamedItem *>(it);
 
-		if (ni) {
+		// Don't display the global package in paths
+		if (ni && ni->getName() != "") {
 			p.insert(p.begin(), ni);
 		} else {
 			break;
@@ -638,7 +639,7 @@ void PSI2XML::type2data_type(IBaseItem *dt_i, const std::string &tag) {
 
 	if (dt_i) {
 		if (dt_i->getType() == IBaseItem::TypeScalar) {
-			IScalarType *st = static_cast<IScalarType *>(dt_i);
+			IScalarType *st = dynamic_cast<IScalarType *>(dt_i);
 			std::string tname = "pss:unknown-scalar";
 			// TODO: this really should be a sub-expression
 			sprintf(msb_s, "%d", st->getMSB());
@@ -769,10 +770,10 @@ void PSI2XML::dec_indent() {
 
 INamedItem *PSI2XML::toNamedItem(IBaseItem *it) {
 	switch (it->getType()) {
-	case IBaseItem::TypeAction: return static_cast<IAction *>(it);
-	case IBaseItem::TypeComponent: return static_cast<IComponent *>(it);
-	case IBaseItem::TypeField: return static_cast<IField *>(it);
-	case IBaseItem::TypeStruct: return static_cast<IStruct *>(it);
+	case IBaseItem::TypeAction: return dynamic_cast<IAction *>(it);
+	case IBaseItem::TypeComponent: return dynamic_cast<IComponent *>(it);
+	case IBaseItem::TypeField: return dynamic_cast<IField *>(it);
+	case IBaseItem::TypeStruct: return dynamic_cast<IStruct *>(it);
 	}
 
 	return 0;

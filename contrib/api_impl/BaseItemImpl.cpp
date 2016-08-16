@@ -26,7 +26,8 @@
 
 namespace psi {
 
-BaseItemImpl::BaseItemImpl(IBaseItem::ItemType t) : m_type(t) {
+BaseItemImpl::BaseItemImpl(IBaseItem::ItemType t) :
+		m_type(t), m_parent(0) {
 	// TODO Auto-generated constructor stub
 
 }
@@ -38,5 +39,7 @@ BaseItemImpl::~BaseItemImpl() {
 IBaseItem::ItemType BaseItemImpl::getType() const {
 	return m_type;
 }
+
+
 
 } /* namespace psi */

@@ -10,44 +10,28 @@
 #include <vector>
 #include "api/IExtend.h"
 #include "api/IField.h"
+#include "BaseItemImpl.h"
+#include "ScopeItemImpl.h"
 
 using namespace psi_api;
 
 namespace psi {
 
-class ExtendImpl: public IExtend {
+class ExtendImpl:
+		public virtual IExtend,
+		public virtual BaseItemImpl,
+		public virtual ScopeItemImpl {
 public:
 	ExtendImpl(IBaseItem *target);
 	virtual ~ExtendImpl();
-
-	virtual IBaseItem::ItemType getType() const { return IBaseItem::TypeExtend; }
-
-	virtual IBaseItem *clone() { return 0; }
-
-	virtual IBaseItem *getParent() const { return m_parent; }
-
-	virtual void setParent(IBaseItem *p) { m_parent = p; }
 
 	virtual ExtendType getExtendType() const { return m_extendType; }
 
 	virtual IBaseItem *getTarget() const { return m_target; }
 
-	virtual const std::vector<IBaseItem *> &getItems() const { return m_items; }
-
-	virtual void add(IBaseItem *it);
-
-	/**
-	 * Locates and returns the named field. Returns 0 if
-	 * the named field does not exist
-	 */
-	virtual IField *getField(const std::string &name);
-
 private:
 	IExtend::ExtendType				m_extendType;
 	IBaseItem						*m_target;
-
-	IBaseItem						*m_parent;
-	std::vector<IBaseItem *>		m_items;
 
 };
 

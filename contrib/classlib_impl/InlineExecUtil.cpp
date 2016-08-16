@@ -106,8 +106,8 @@ bool InlineExecUtil::update_lookup_path() {
 					it!=model->getItems().end(); it++) {
 				IBaseItem *t = *it;
 				if (t->getType() == IBaseItem::TypeComponent &&
-						static_cast<IComponent *>(t)->getName() == c->getName()) {
-					scope = static_cast<IComponent *>(t);
+						dynamic_cast<IComponent *>(t)->getName() == c->getName()) {
+					scope = dynamic_cast<IComponent *>(t);
 					break;
 				}
 			}
@@ -121,8 +121,8 @@ bool InlineExecUtil::update_lookup_path() {
 				IBaseItem *t = *it;
 
 				if (t->getType() == IBaseItem::TypeAction &&
-						static_cast<IAction *>(t)->getName() == a->getName()) {
-					scope = static_cast<IAction *>(t);
+						dynamic_cast<IAction *>(t)->getName() == a->getName()) {
+					scope = dynamic_cast<IAction *>(t);
 					break;
 				}
 			}
@@ -147,8 +147,8 @@ bool InlineExecUtil::update_lookup_path() {
 				IBaseItem *t = *it;
 
 				if (t->getType() == IBaseItem::TypeField &&
-						static_cast<IField *>(t)->getName() == path_e) {
-					f = static_cast<IField *>(t);
+						dynamic_cast<IField *>(t)->getName() == path_e) {
+					f = dynamic_cast<IField *>(t);
 					break;
 				}
 			}

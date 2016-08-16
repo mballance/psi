@@ -26,45 +26,24 @@
 #define IMPL_COMPONENTIMPL_H_
 #include "api/IComponent.h"
 #include "api/IField.h"
+#include "BaseItemImpl.h"
+#include "NamedItemImpl.h"
+#include "ScopeItemImpl.h"
 
 using namespace psi_api;
 
 namespace psi {
 
-class ComponentImpl: public IComponent {
+class ComponentImpl:
+		public virtual IComponent,
+		public virtual BaseItemImpl,
+		public virtual NamedItemImpl,
+		public virtual ScopeItemImpl {
 
 public:
 	ComponentImpl(const std::string &name);
 
 	virtual ~ComponentImpl();
-
-	virtual IBaseItem::ItemType getType() const {
-		return IBaseItem::TypeComponent;
-	}
-
-	virtual const std::string &getName() const;
-
-	virtual IBaseItem *clone();
-
-	virtual IBaseItem *getParent() const { return m_parent; }
-
-	void setParent(IBaseItem *p) { m_parent = p; }
-
-	virtual const std::vector<IBaseItem *> &getItems() const;
-
-	virtual void add(IBaseItem *it);
-
-	/**
-	 * Locates and returns the named field. Returns 0 if
-	 * the named field does not exist
-	 */
-	virtual IField *getField(const std::string &name);
-
-
-private:
-	IBaseItem					*m_parent;
-	std::string					m_name;
-	std::vector<IBaseItem *>	m_children;
 
 };
 

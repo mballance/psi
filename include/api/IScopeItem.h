@@ -32,7 +32,7 @@
 namespace psi_api {
 	class IField;
 
-	class IScopeItem : public IBaseItem {
+	class IScopeItem {
 	public:
 
 		virtual ~IScopeItem() { }

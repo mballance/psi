@@ -23,20 +23,17 @@
  *      Author: ballance
  */
 
-#include "../api_impl/ConstraintIfImpl.h"
+#include "ConstraintIfImpl.h"
 
 namespace psi {
 
 ConstraintIfImpl::ConstraintIfImpl(IExpr *cond, IConstraint *true_c, IConstraint *false_c) :
-	m_cond(cond), m_true(true_c), m_false(false_c) { }
+		BaseItemImpl(IBaseItem::TypeConstraint),
+		m_cond(cond), m_true(true_c), m_false(false_c) { }
 
 ConstraintIfImpl::~ConstraintIfImpl() {
 	// TODO Auto-generated destructor stub
 }
 
-IBaseItem *ConstraintIfImpl::clone() {
-	// TODO:
-	return 0;
-}
 
 } /* namespace psi */

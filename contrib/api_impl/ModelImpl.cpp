@@ -53,9 +53,9 @@
 
 namespace psi {
 
-ModelImpl::ModelImpl() : m_global_pkg("") {
-	m_callback_ctxt = 0;
-
+ModelImpl::ModelImpl() :
+		BaseItemImpl(IBaseItem::TypeModel),
+		m_global_pkg(""), m_callback_ctxt(0) {
 }
 
 ModelImpl::~ModelImpl() {
@@ -84,9 +84,7 @@ IPackage *ModelImpl::findPackage(const std::string &name, bool create) {
 	for (it=m_children.begin(); it!=m_children.end(); it++) {
 		if ((*it)->getType() == IBaseItem::TypePackage) {
 			IBaseItem *bi = *it;
-			IPackage *pkg_ir = reinterpret_cast<IPackage *>(bi);
-			IPackage *pkg_is = static_cast<IPackage *>(bi);
-			IPackage *pkg = reinterpret_cast<IPackage *>(*it);
+			IPackage *pkg = dynamic_cast<IPackage *>(bi);
 			if (pkg->getName() == name) {
 				return pkg;
 			}
@@ -94,7 +92,7 @@ IPackage *ModelImpl::findPackage(const std::string &name, bool create) {
 	}
 
 	if (create) {
-		PackageImpl *pkg = new PackageImpl(name);
+		IPackage *pkg = new PackageImpl(name);
 		m_children.push_back(pkg);
 		return pkg;
 	} else {
@@ -287,7 +285,7 @@ void ModelImpl::setCallbackContext(ICallbackContext *ctxt) {
 IBaseItem *ModelImpl::clone(IBaseItem *item) {
 	switch (item->getType()) {
 	case TypeAction:
-		return ActionImpl::clone(this, static_cast<IAction *>(item));
+		return ActionImpl::clone(this, dynamic_cast<IAction *>(item));
 	case TypeBind:
 	case TypeComponent:
 	case TypeConstraint:
@@ -309,5 +307,26 @@ IBaseItem *ModelImpl::clone(IBaseItem *item) {
 
 	return 0;
 }
+
+const std::string &ModelImpl::getAttribute(const std::string &key) {
+	return m_null_attr;
+}
+
+void ModelImpl::getAttributes(std::vector<std::string> &keys) {
+	keys.clear();
+}
+
+bool ModelImpl::hasAttribute(const std::string &key) {
+	return false;
+}
+
+void ModelImpl::setAttribute(const std::string &key, const std::string &val) {
+
+}
+
+void ModelImpl::clearAttribute(const std::string &key) {
+
+}
+
 
 } /* namespace psi */

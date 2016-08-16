@@ -26,12 +26,17 @@
 #ifndef IMPL_FIELDIMPL_H_
 #define IMPL_FIELDIMPL_H_
 #include "api/IField.h"
+#include "BaseItemImpl.h"
+#include "NamedItemImpl.h"
 
 using namespace psi_api;
 
 namespace psi {
 
-class FieldImpl: public IField {
+class FieldImpl:
+		public virtual IField,
+		public virtual BaseItemImpl,
+		public virtual NamedItemImpl {
 public:
 
 	FieldImpl(
@@ -41,16 +46,6 @@ public:
 			IExpr				*array_dim);
 
 	virtual ~FieldImpl();
-
-	virtual IBaseItem::ItemType getType() const { return IBaseItem::TypeField; }
-
-	virtual IBaseItem *clone();
-
-	virtual IBaseItem *getParent() const { return m_parent; }
-
-	void setParent(IBaseItem *p) { m_parent = p; }
-
-	virtual const std::string &getName() const { return m_name; }
 
 	virtual IBaseItem *getDataType() const { return m_field_type; }
 
@@ -63,8 +58,6 @@ public:
 
 
 private:
-	IBaseItem					*m_parent;
-	std::string					m_name;
 	IBaseItem					*m_field_type;
 	FieldAttr					m_attr;
 	IExpr						*m_array_dim;

@@ -29,51 +29,33 @@
 
 #include "api/IField.h"
 #include "api/IStruct.h"
+#include "BaseItemImpl.h"
+#include "ScopeItemImpl.h"
+#include "NamedItemImpl.h"
 
 using namespace psi_api;
 
 namespace psi {
 
-class StructImpl: public IStruct {
+class StructImpl:
+		public virtual IStruct,
+		public virtual BaseItemImpl,
+		public virtual ScopeItemImpl,
+		public virtual NamedItemImpl {
 public:
 
 	StructImpl(const std::string &name, psi_api::IStruct::StructType t, IStruct *super_type);
 
 	virtual ~StructImpl();
 
-	virtual IBaseItem::ItemType getType() const {
-		return IBaseItem::TypeStruct;
-	}
-
 	virtual IStruct *getSuperType() const { return m_super_type; }
-
-	virtual const std::string &getName() const;
-
-	virtual IBaseItem *clone();
-
-	virtual IBaseItem *getParent() const { return m_parent; }
-
-	void setParent(IBaseItem *p) { m_parent = p; }
-
-	virtual const std::vector<IBaseItem *> &getItems() const;
-
-	virtual void add(IBaseItem *it);
 
 	virtual psi_api::IStruct::StructType getStructType() const {
 		return m_struct_type;
 	}
 
-	/**
-	 * Locates and returns the named field. Returns 0 if
-	 * the named field does not exist
-	 */
-	virtual IField *getField(const std::string &name);
-
 private:
-	IBaseItem						*m_parent;
-	std::string						m_name;
 	psi_api::IStruct::StructType	m_struct_type;
-	std::vector<IBaseItem *>		m_children;
 	IStruct							*m_super_type;
 
 };

@@ -27,17 +27,18 @@
 #include <vector>
 #include <string>
 
-#include "IConstraint.h"
+#include "api/IConstraint.h"
+#include "api/INamedItem.h"
 
 namespace psi_api {
 
-class IConstraintBlock : public IConstraint {
+class IConstraintBlock :
+		public virtual IConstraint,
+		public virtual INamedItem {
 
 public:
 
 	virtual ~IConstraintBlock() { }
-
-	virtual const std::string &getName() const = 0;
 
 	virtual void add(IConstraint *c) = 0;
 

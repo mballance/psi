@@ -28,51 +28,13 @@
 namespace psi {
 
 ComponentImpl::ComponentImpl(const std::string &name) :
-		m_parent(0), m_name(name) {
-	// TODO Auto-generated constructor stub
+		BaseItemImpl(IBaseItem::TypeComponent),
+		NamedItemImpl(name) {
 
 }
 
 ComponentImpl::~ComponentImpl() {
 	// TODO Auto-generated destructor stub
-}
-
-IBaseItem *ComponentImpl::clone() {
-	// TODO: implement clone
-	return 0;
-}
-
-const std::string &ComponentImpl::getName() const {
-	return m_name;
-}
-
-const std::vector<IBaseItem *> &ComponentImpl::getItems() const {
-	return m_children;
-}
-
-void ComponentImpl::add(IBaseItem *it) {
-	it->setParent(this);
-	m_children.push_back(it);
-}
-
-/**
- * Locates and returns the named field. Returns 0 if
- * the named field does not exist
- */
-IField *ComponentImpl::getField(const std::string &name) {
-	IField *ret = 0;
-	std::vector<IBaseItem *>::const_iterator it;
-
-	for (it=m_children.begin(); it!=m_children.end(); it++) {
-		if ((*it)->getType() == IBaseItem::TypeField &&
-				static_cast<FieldImpl *>(*it)->getName() == name) {
-			ret = static_cast<FieldImpl *>(*it);
-			break;
-		}
-
-	}
-
-	return ret;
 }
 
 } /* namespace psi */

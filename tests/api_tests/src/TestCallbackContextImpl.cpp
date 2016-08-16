@@ -536,8 +536,8 @@ TestCallbackContextImpl::ValueNode *TestCallbackContextImpl::get_insert_point(
 	for (std::vector<IBaseItem *>::const_iterator it=s->getItems().begin();
 			it!=s->getItems().end(); it++) {
 		if ((*it)->getType() == IBaseItem::TypeAction &&
-				static_cast<IAction *>(*it)->getName() == path.at(1)) {
-			a = static_cast<IAction *>(*it);
+				dynamic_cast<IAction *>(*it)->getName() == path.at(1)) {
+			a = dynamic_cast<IAction *>(*it);
 			break;
 		}
 	}
@@ -572,7 +572,8 @@ TestCallbackContextImpl::ValueNode *TestCallbackContextImpl::get_insert_point(
 	ValueNode *a_n = 0;
 	for (std::vector<ValueNode *>::const_iterator it=sn->m_children.begin();
 			it!=sn->m_children.end(); it++) {
-		if ((*it)->m_type_h == s) {
+		IBaseItem *bi_s = dynamic_cast<IBaseItem *>(s);
+		if ((*it)->m_type_h == bi_s) {
 			a_n = (*it);
 			break;
 		}
@@ -654,7 +655,7 @@ void TestCallbackContextImpl::add_bit_node(
 	if (n->m_type_h->getType() == IBaseItem::TypeField) {
 		// Parent is a composite field
 		s = dynamic_cast<IScopeItem *>(
-				static_cast<IField *>(n->m_type_h)->getDataType());
+				dynamic_cast<IField *>(n->m_type_h)->getDataType());
 	} else {
 		// Parent is an action/struct
 		s = dynamic_cast<IScopeItem *>(n->m_type_h);
@@ -668,8 +669,8 @@ void TestCallbackContextImpl::add_bit_node(
 		IBaseItem *t = *it;
 
 		if (t->getType() == IBaseItem::TypeField &&
-				static_cast<IField *>(t)->getName() == field_name) {
-			f = static_cast<IField *>(t);
+				dynamic_cast<IField *>(t)->getName() == field_name) {
+			f = dynamic_cast<IField *>(t);
 			break;
 		}
 	}
@@ -694,7 +695,7 @@ void TestCallbackContextImpl::add_int_node(
 	if (n->m_type_h->getType() == IBaseItem::TypeField) {
 		// Parent is a composite field
 		s = dynamic_cast<IScopeItem *>(
-				static_cast<IField *>(n->m_type_h)->getDataType());
+				dynamic_cast<IField *>(n->m_type_h)->getDataType());
 	} else {
 		// Parent is an action/struct
 		s = dynamic_cast<IScopeItem *>(n->m_type_h);
@@ -708,8 +709,8 @@ void TestCallbackContextImpl::add_int_node(
 		IBaseItem *t = *it;
 
 		if (t->getType() == IBaseItem::TypeField &&
-				static_cast<IField *>(t)->getName() == field_name) {
-			f = static_cast<IField *>(t);
+				dynamic_cast<IField *>(t)->getName() == field_name) {
+			f = dynamic_cast<IField *>(t);
 			break;
 		}
 	}
@@ -734,7 +735,7 @@ void TestCallbackContextImpl::add_bool_node(
 	if (n->m_type_h->getType() == IBaseItem::TypeField) {
 		// Parent is a composite field
 		s = dynamic_cast<IScopeItem *>(
-				static_cast<IField *>(n->m_type_h)->getDataType());
+				dynamic_cast<IField *>(n->m_type_h)->getDataType());
 	} else {
 		// Parent is an action/struct
 		s = dynamic_cast<IScopeItem *>(n->m_type_h);
@@ -748,8 +749,8 @@ void TestCallbackContextImpl::add_bool_node(
 		IBaseItem *t = *it;
 
 		if (t->getType() == IBaseItem::TypeField &&
-				static_cast<IField *>(t)->getName() == field_name) {
-			f = static_cast<IField *>(t);
+				dynamic_cast<IField *>(t)->getName() == field_name) {
+			f = dynamic_cast<IField *>(t);
 			break;
 		}
 	}
@@ -774,7 +775,7 @@ void TestCallbackContextImpl::add_string_node(
 	if (n->m_type_h->getType() == IBaseItem::TypeField) {
 		// Parent is a composite field
 		s = dynamic_cast<IScopeItem *>(
-				static_cast<IField *>(n->m_type_h)->getDataType());
+				dynamic_cast<IField *>(n->m_type_h)->getDataType());
 	} else {
 		// Parent is an action/struct
 		s = dynamic_cast<IScopeItem *>(n->m_type_h);
@@ -788,8 +789,8 @@ void TestCallbackContextImpl::add_string_node(
 		IBaseItem *t = *it;
 
 		if (t->getType() == IBaseItem::TypeField &&
-				static_cast<IField *>(t)->getName() == field_name) {
-			f = static_cast<IField *>(t);
+				dynamic_cast<IField *>(t)->getName() == field_name) {
+			f = dynamic_cast<IField *>(t);
 			break;
 		}
 	}
@@ -814,7 +815,7 @@ void TestCallbackContextImpl::add_chandle_node(
 	if (n->m_type_h->getType() == IBaseItem::TypeField) {
 		// Parent is a composite field
 		s = dynamic_cast<IScopeItem *>(
-				static_cast<IField *>(n->m_type_h)->getDataType());
+				dynamic_cast<IField *>(n->m_type_h)->getDataType());
 	} else {
 		// Parent is an action/struct
 		s = dynamic_cast<IScopeItem *>(n->m_type_h);
@@ -828,8 +829,8 @@ void TestCallbackContextImpl::add_chandle_node(
 		IBaseItem *t = *it;
 
 		if (t->getType() == IBaseItem::TypeField &&
-				static_cast<IField *>(t)->getName() == field_name) {
-			f = static_cast<IField *>(t);
+				dynamic_cast<IField *>(t)->getName() == field_name) {
+			f = dynamic_cast<IField *>(t);
 			break;
 		}
 	}
@@ -858,7 +859,7 @@ void *TestCallbackContextImpl::toChandleValue(const std::string &v) {
 
 TestCallbackContextImpl::ValueNode::ValueNode(IScopeItem *scope) {
 	m_type    = ValueNode_Scope;
-	m_type_h  = scope;
+	m_type_h  = dynamic_cast<IBaseItem *>(scope);
 	m_name    = dynamic_cast<INamedItem *>(scope)->getName();
 	m_val.str = 0;
 }

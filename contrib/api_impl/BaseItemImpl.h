@@ -27,14 +27,16 @@
 #include <map>
 #include <string>
 #include "api/IBaseItem.h"
-//#include "AttributeImpl.h"
+#include "AttributesImpl.h"
 
 
 using namespace psi_api;
 
 namespace psi {
 
-	class BaseItemImpl /*: public virtual IBaseItem*/ {
+	class BaseItemImpl :
+			public virtual IBaseItem,
+			public virtual AttributesImpl {
 		public:
 
 			BaseItemImpl(IBaseItem::ItemType t);
@@ -43,9 +45,15 @@ namespace psi {
 
 			virtual IBaseItem::ItemType getType() const;
 
+			virtual IBaseItem *getParent() const { return m_parent; }
+
+			virtual void setParent(IBaseItem *p) { m_parent = p; }
+
 		private:
 			IBaseItem::ItemType					m_type;
-//			std::map<std::string,AttributeImpl>	m_
+			IBaseItem							*m_parent;
+			std::map<std::string,std::string>	m_attr;
+			std::string							m_null_attr;
 };
 
 } /* namespace psi */

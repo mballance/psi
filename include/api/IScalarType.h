@@ -29,7 +29,7 @@
 
 namespace psi_api {
 
-class IScalarType : public IBaseItem {
+class IScalarType : public virtual IBaseItem {
 
 public:
 	enum ScalarType {

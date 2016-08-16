@@ -15,7 +15,8 @@
 
 namespace psi_api {
 
-class IExec : public IBaseItem {
+class IExec :
+		public virtual IBaseItem {
 public:
 
 	enum ExecKind {

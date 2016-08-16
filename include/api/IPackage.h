@@ -36,7 +36,10 @@ namespace psi_api {
 class IAction;
 class IStruct;
 
-class IPackage : public IScopeItem, public virtual INamedItem {
+class IPackage :
+		public virtual IBaseItem,
+		public virtual IScopeItem,
+		public virtual INamedItem {
 
 	public:
 

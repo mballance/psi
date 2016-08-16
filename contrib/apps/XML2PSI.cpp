@@ -264,7 +264,7 @@ void XML2PSI::enter_bit_int_type(bool is_bit, const strmap &attr) {
 			(is_bit)?IScalarType::ScalarType_Bit:IScalarType::ScalarType_Int,
 					msb, lsb);
 
-	static_cast<IField *>(top())->setDataType(type);
+	dynamic_cast<IField *>(top())->setDataType(type);
 	push(type);
 }
 
@@ -339,7 +339,7 @@ void XML2PSI::enter_struct_type(const strmap &attr) {
 	type_h = find_type(s, path);
 
 	if (top()->getType() == IBaseItem::TypeField) {
-		static_cast<IField *>(top())->setDataType(type_h);
+		dynamic_cast<IField *>(top())->setDataType(type_h);
 		push(type_h);
 	} else {
 		// not a field
@@ -483,7 +483,7 @@ IBaseItem *XML2PSI::find_type(IScopeItem *curr, const std::vector<std::string> &
 			}
 		}
 
-		ret = scope;
+		ret = dynamic_cast<IBaseItem *>(scope);
 	}
 
 	return ret;

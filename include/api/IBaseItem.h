@@ -24,6 +24,7 @@
 
 #ifndef SRC_API_IBASEITEM_H_
 #define SRC_API_IBASEITEM_H_
+#include "api/IAttributes.h"
 
 namespace psi_api {
 
@@ -32,7 +33,7 @@ namespace psi_api {
 	 *
 	 * Common base API to PSI objects
 	 */
-	class IBaseItem {
+	class IBaseItem : public virtual IAttributes {
 
 	public:
 
@@ -63,11 +64,6 @@ namespace psi_api {
 			 * Returns the type of this object.
 			 */
 			virtual ItemType getType() const = 0;
-
-			/**
-			 * Create an exact copy of this item
-			 */
-			virtual IBaseItem *clone() = 0;
 
 			virtual IBaseItem *getParent() const = 0;
 

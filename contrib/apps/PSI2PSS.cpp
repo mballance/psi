@@ -232,7 +232,7 @@ void PSI2PSS::visit_graph_stmt(IGraphStmt *stmt) {
 	} break;
 
 	case IGraphStmt::GraphStmt_Repeat: {
-		IGraphRepeatStmt *r = static_cast<IGraphRepeatStmt *>(stmt);
+		IGraphRepeatStmt *r = dynamic_cast<IGraphRepeatStmt *>(stmt);
 
 		if (r->getCond()) {
 			print(get_indent());
@@ -249,7 +249,7 @@ void PSI2PSS::visit_graph_stmt(IGraphStmt *stmt) {
 		inc_indent();
 		if (r->getBody()->getStmtType() == IGraphStmt::GraphStmt_Block) {
 			// Expand inline
-			IGraphBlockStmt *b = static_cast<IGraphBlockStmt *>(r->getBody());
+			IGraphBlockStmt *b = dynamic_cast<IGraphBlockStmt *>(r->getBody());
 			for (std::vector<IGraphStmt *>::const_iterator it=b->getStmts().begin();
 					it!=b->getStmts().end(); it++) {
 				visit_graph_stmt(*it);
@@ -274,7 +274,7 @@ void PSI2PSS::visit_graph_stmt(IGraphStmt *stmt) {
 	} break;
 
 	case IGraphStmt::GraphStmt_Traverse: {
-		IGraphTraverseStmt *t = static_cast<IGraphTraverseStmt *>(stmt);
+		IGraphTraverseStmt *t = dynamic_cast<IGraphTraverseStmt *>(stmt);
 		std::string s = path2string(t->getAction()->getFieldPath());
 
 		if (t->getWith()) {
@@ -283,7 +283,7 @@ void PSI2PSS::visit_graph_stmt(IGraphStmt *stmt) {
 			print(s);
 
 			if (t->getWith()->getConstraintType() == IConstraint::ConstraintType_Block) {
-				IConstraintBlock *b = static_cast<IConstraintBlock *>(t->getWith());
+				IConstraintBlock *b = dynamic_cast<IConstraintBlock *>(t->getWith());
 				print("{\n");
 				inc_indent();
 				for (std::vector<IConstraint *>::const_iterator it=b->getConstraints().begin();
@@ -321,7 +321,7 @@ std::string PSI2PSS::get_field_typename(IField *f) {
 
 	if (dt_i) {
 		if (dt_i->getType() == IBaseItem::TypeScalar) {
-			IScalarType *st = static_cast<IScalarType *>(dt_i);
+			IScalarType *st = dynamic_cast<IScalarType *>(dt_i);
 			std::string tname = "unknown-scalar";
 			sprintf(msb_s, "%d", st->getMSB());
 			sprintf(lsb_s, "%d", st->getLSB());

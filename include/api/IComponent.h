@@ -32,16 +32,14 @@
 
 namespace psi_api {
 
-class IComponent: public IScopeItem, public virtual INamedItem {
+class IComponent:
+		public virtual IBaseItem,
+		public virtual IScopeItem,
+		public virtual INamedItem {
 	public:
 
 		virtual ~IComponent() { };
 
-		virtual const std::string &getName() const = 0;
-
-		virtual const std::vector<IBaseItem *> &getItems() const = 0;
-
-		virtual void add(IBaseItem *it) = 0;
 };
 
 } /* namespace psi */

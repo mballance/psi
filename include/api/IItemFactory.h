@@ -163,6 +163,10 @@ public:
 			IBaseItem						*ret_type,
 			const std::vector<IField *>		&parameters) = 0;
 
+	/**
+	 * Clones the specified item using this factory.
+	 * Clone is a recursive operation
+	 */
 	virtual IBaseItem *clone(IBaseItem *item) = 0;
 };
 

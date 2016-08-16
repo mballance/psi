@@ -6,7 +6,7 @@ public:
 
 	class do_something : public Action {
 	public:
-		do_something(const Scope &p) : Action(this) { }
+		do_something(Scope p) : Action(p) { }
 	};
 	TypeDecl<do_something> _do_something_t{this};
 

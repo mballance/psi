@@ -22,7 +22,7 @@
  *      Author: ballance
  */
 
-#include "../api_impl/PackageImpl.h"
+#include "PackageImpl.h"
 
 #include "api/IAction.h"
 #include "api/IStruct.h"
@@ -30,58 +30,13 @@
 namespace psi {
 
 PackageImpl::PackageImpl(const std::string &name, IBaseItem *parent) :
-		m_name(name), m_parent(parent) {
+		BaseItemImpl(IBaseItem::TypePackage),
+		NamedItemImpl(name) {
 
 }
 
 PackageImpl::~PackageImpl() {
 	// TODO Auto-generated destructor stub
-}
-
-IBaseItem *PackageImpl::clone() {
-	// TODO: implement clone
-	return 0;
-}
-
-void PackageImpl::add(IBaseItem *it) {
-	it->setParent(this);
-	m_children.push_back(it);
-}
-
-const std::vector<IAction *> PackageImpl::getActions() {
-	return m_actions;
-}
-
-IAction *PackageImpl::findAction(const std::string &name) {
-	std::vector<IAction *>::iterator it;
-
-	for (it=m_actions.begin(); it!=m_actions.end(); it++) {
-		if ((*it)->getName() == name) {
-			return *it;
-		}
-	}
-
-	return 0;
-}
-
-void PackageImpl::addAction(IAction *action) {
-	m_actions.push_back(action);
-}
-
-const std::vector<IStruct *> PackageImpl::getStructs() {
-	return m_structs;
-}
-
-IStruct *PackageImpl::findStruct(const std::string &name) {
-	std::vector<IStruct *>::iterator it;
-
-	for (it=m_structs.begin(); it!=m_structs.end(); it++) {
-		if ((*it)->getName() == name) {
-			return *it;
-		}
-	}
-
-	return 0;
 }
 
 } /* namespace psi */

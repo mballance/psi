@@ -63,7 +63,7 @@ void Elaborator::elaborate(BaseItemImp *root, IModel *model) {
 		BaseItemImp *t = (*it);
 
 		if (t->getObjectType() == BaseItemImp::TypeStruct) {
-			IStruct *s = elaborate_struct(static_cast<StructImp *>(t));
+			IStruct *s = elaborate_struct(dynamic_cast<StructImp *>(t));
 			m_model->getGlobalPackage()->add(s);
 		}
 	}
@@ -73,9 +73,9 @@ void Elaborator::elaborate(BaseItemImp *root, IModel *model) {
 		BaseItemImp *t = (*it);
 
 		if (t->getObjectType() == BaseItemImp::TypePackage) {
-			elaborate_package(model, static_cast<PackageImp *>(t));
+			elaborate_package(model, dynamic_cast<PackageImp *>(t));
 		} else if (t->getObjectType() == BaseItemImp::TypeComponent) {
-			IComponent *c = elaborate_component(m_model, static_cast<ComponentImp *>(t));
+			IComponent *c = elaborate_component(m_model, dynamic_cast<ComponentImp *>(t));
 			fprintf(stdout, "elaborate component: %s\n", c->getName().c_str());
 //			m_model->add(c);
 		} else if (t->getObjectType() != BaseItemImp::TypeStruct) {
@@ -97,7 +97,7 @@ IAction *Elaborator::elaborate_action(ActionImp *action) {
 		build_type_hierarchy(type_h, action);
 
 		if (it_b->getType() == IBaseItem::TypeAction) {
-			super_a = static_cast<IAction *>(it_b);
+			super_a = dynamic_cast<IAction *>(it_b);
 		}
 
 		// TODO: error handling
@@ -112,7 +112,7 @@ IAction *Elaborator::elaborate_action(ActionImp *action) {
 		bool filter = false;
 
 		if (t->getObjectType() == BaseItemImp::TypeBind) {
-			c = elaborate_bind(static_cast<BindImp *>(t));
+			c = elaborate_bind(dynamic_cast<BindImp *>(t));
 
 			if (c) {
 				a->add(c);
@@ -121,7 +121,7 @@ IAction *Elaborator::elaborate_action(ActionImp *action) {
 						BaseItemImp::toString(t->getObjectType()));
 			}
 		} if (t->getObjectType() == BaseItemImp::TypeGraph) {
-			IGraphStmt *g = elaborate_graph(static_cast<GraphImp *>(t));
+			IGraphStmt *g = elaborate_graph(dynamic_cast<GraphImp *>(t));
 			a->setGraph(g);
 		} else {
 			if (super_a) {
@@ -160,16 +160,16 @@ IComponent *Elaborator::elaborate_component(IScopeItem *scope, ComponentImp *c) 
 		set_expr_ctxt(comp, c);
 
 		if (t->getObjectType() == BaseItemImp::TypeAction) {
-			IAction *a = elaborate_action(static_cast<ActionImp *>(t));
+			IAction *a = elaborate_action(dynamic_cast<ActionImp *>(t));
 			comp->add(a);
 		} else if (t->getObjectType() == BaseItemImp::TypeStruct) {
-			IStruct *s = elaborate_struct(static_cast<StructImp *>(t));
+			IStruct *s = elaborate_struct(dynamic_cast<StructImp *>(t));
 			comp->add(s);
 		} else if (t->getObjectType() == BaseItemImp::TypeField) {
-			IField *f = elaborate_field_item(static_cast<FieldItemImp *>(t));
+			IField *f = elaborate_field_item(dynamic_cast<FieldItemImp *>(t));
 			comp->add(f);
 		} else if (t->getObjectType() == BaseItemImp::TypeBind) {
-			IBind *b = elaborate_bind(static_cast<BindImp *>(t));
+			IBind *b = elaborate_bind(dynamic_cast<BindImp *>(t));
 			comp->add(b);
 		} else {
 			// TODO:
@@ -213,7 +213,7 @@ IConstraint *Elaborator::elaborate_constraint(ConstraintImp *c) {
 		fprintf(stdout, "Internal Error: Expecting ExprList\n");
 	}
 
-	ExprCoreList *l = static_cast<ExprCoreList *>(e.imp().ptr());
+	ExprCoreList *l = dynamic_cast<ExprCoreList *>(e.imp().ptr());
 	std::vector<ExprImp >::const_iterator it = l->getExprList().begin();
 
 	for (; it!=l->getExprList().end(); it++) {
@@ -249,14 +249,14 @@ IConstraint *Elaborator::elaborate_constraint_stmt(ExprCore *s) {
 	IConstraint *ret = 0;
 
 	if (s->getOp() == ExprImp::Stmt_If || s->getOp() == ExprImp::Stmt_IfElse) {
-		ret = elaborate_constraint_if(static_cast<ExprCoreIf *>(s));
+		ret = elaborate_constraint_if(dynamic_cast<ExprCoreIf *>(s));
 	} else if (ExprImp::isBinOp(s->getOp())) {
 		ret = m_model->mkConstraintExpr(elaborate_expr(s));
 	} else if (s->getOp() == ExprImp::List) {
 		IConstraintBlock *block = m_model->mkConstraintBlock("");
 
 
-		ExprCoreList *l = static_cast<ExprCoreList *>(s);
+		ExprCoreList *l = dynamic_cast<ExprCoreList *>(s);
 		std::vector<ExprImp >::const_iterator it = l->getExprList().begin();
 		for (; it!=l->getExprList().end(); it++) {
 			block->add(elaborate_constraint_stmt((*it).ptr()));
@@ -412,7 +412,7 @@ IStruct *Elaborator::elaborate_struct(StructImp *str) {
 					str->getSuperType().toString());
 		} else {
 			if (it_b->getType() == IBaseItem::TypeStruct) {
-				super_type = static_cast<IStruct *>(it_b);
+				super_type = dynamic_cast<IStruct *>(it_b);
 			} else {
 				error(std::string("Super type ") +
 						str->getSuperType().toString());
@@ -439,7 +439,7 @@ IStruct *Elaborator::elaborate_struct(StructImp *str) {
 			filter = should_filter(str->getChildren(), i, type_h);
 		}
 //		else if (t->getObjectType() == BaseItemImp::TypeField &&
-//				static_cast<FieldItem *>(t)->isInternal()) {
+//				dynamic_cast<FieldItem *>(t)->isInternal()) {
 //			filter = true;
 //		}
 
@@ -476,10 +476,10 @@ void Elaborator::elaborate_package(IModel *model, PackageImp *pkg_cl) {
 		IBaseItem *c = 0;
 
 		switch (t->getObjectType()) {
-			case BaseItemImp::TypeAction: c = elaborate_action(static_cast<ActionImp *>(t)); break;
-			case BaseItemImp::TypeStruct: c = elaborate_struct(static_cast<StructImp *>(t)); break;
-			case BaseItemImp::TypeExec:  c = elaborate_exec_item(static_cast<ExecImp *>(t)); break;
-			case BaseItemImp::TypeImport: c = elaborate_import_func(static_cast<ImportImp *>(t)); break;
+			case BaseItemImp::TypeAction: c = elaborate_action(dynamic_cast<ActionImp *>(t)); break;
+			case BaseItemImp::TypeStruct: c = elaborate_struct(dynamic_cast<StructImp *>(t)); break;
+			case BaseItemImp::TypeExec:  c = elaborate_exec_item(dynamic_cast<ExecImp *>(t)); break;
+			case BaseItemImp::TypeImport: c = elaborate_import_func(dynamic_cast<ImportImp *>(t)); break;
 		}
 
 		if (c) {
@@ -495,11 +495,11 @@ IBaseItem *Elaborator::elaborate_struct_action_body_item(BaseItemImp *t) {
 	IBaseItem *ret = 0;
 
 	if (t->getObjectType() == BaseItemImp::TypeConstraint) {
-		ret = elaborate_constraint(static_cast<ConstraintImp *>(t));
+		ret = elaborate_constraint(dynamic_cast<ConstraintImp *>(t));
 	} else if (t->getObjectType() == BaseItemImp::TypeField) {
-		ret = elaborate_field_item(static_cast<FieldItemImp *>(t));
+		ret = elaborate_field_item(dynamic_cast<FieldItemImp *>(t));
 	} else if (t->getObjectType() == BaseItemImp::TypeExec) {
-		ret = elaborate_exec_item(static_cast<ExecImp *>(t));
+		ret = elaborate_exec_item(dynamic_cast<ExecImp *>(t));
 	} else {
 
 	}
@@ -542,13 +542,13 @@ IExec *Elaborator::elaborate_exec_item(ExecImp *e) {
 		if (kind == IExec::PreSolve) {
 			if (t->getObjectType() == BaseItemImp::TypeAction) {
 				inline_exec = new InlineExecClosure<ActionImp>(
-						static_cast<ActionImp *>(t),
+						dynamic_cast<ActionImp *>(t),
 						&ActionImp::inline_exec_pre,
 						&ActionImp::pre_solve,
 						&ActionImp::inline_exec_post);
 			} else if (t->getObjectType() == BaseItemImp::TypeStruct) {
 				inline_exec = new InlineExecClosure<StructImp>(
-						static_cast<StructImp *>(t),
+						dynamic_cast<StructImp *>(t),
 						&StructImp::inline_exec_pre,
 						&StructImp::pre_solve,
 						&StructImp::inline_exec_post);
@@ -556,13 +556,13 @@ IExec *Elaborator::elaborate_exec_item(ExecImp *e) {
 		} else if (kind == IExec::PostSolve) {
 			if (t->getObjectType() == BaseItemImp::TypeAction) {
 				inline_exec = new InlineExecClosure<ActionImp>(
-						static_cast<ActionImp *>(t),
+						dynamic_cast<ActionImp *>(t),
 						&ActionImp::inline_exec_pre,
 						&ActionImp::post_solve,
 						&ActionImp::inline_exec_post);
 			} else if (t->getObjectType() == BaseItemImp::TypeStruct) {
 				inline_exec = new InlineExecClosure<StructImp>(
-						static_cast<StructImp *>(t),
+						dynamic_cast<StructImp *>(t),
 						&StructImp::inline_exec_pre,
 						&StructImp::post_solve,
 						&StructImp::inline_exec_post);
@@ -570,7 +570,7 @@ IExec *Elaborator::elaborate_exec_item(ExecImp *e) {
 		} else if (kind == IExec::Body) {
 			if (t->getObjectType() == BaseItemImp::TypeAction) {
 				inline_exec = new InlineExecClosure<ActionImp>(
-						static_cast<ActionImp *>(t),
+						dynamic_cast<ActionImp *>(t),
 						&ActionImp::inline_exec_pre,
 						&ActionImp::body,
 						&ActionImp::inline_exec_post);
@@ -605,17 +605,17 @@ IField *Elaborator::elaborate_field_item(FieldItemImp *f) {
 
 	if (dt->getObjectType() == BaseItemImp::TypeBit) {
 		// This is a bit-type field
-		BitTypeImp *bt = static_cast<BitTypeImp *>(dt);
+		BitTypeImp *bt = dynamic_cast<BitTypeImp *>(dt);
 		ft = m_model->mkScalarType(
 				IScalarType::ScalarType_Bit, bt->getMsb(), bt->getLsb());
 	} else if (dt->getObjectType() == BaseItemImp::TypeInt) {
 		// This is an int-type field
-		IntTypeImp *it = static_cast<IntTypeImp *>(dt);
+		IntTypeImp *it = dynamic_cast<IntTypeImp *>(dt);
 		ft = m_model->mkScalarType(
 				IScalarType::ScalarType_Int, it->getMsb(), it->getLsb());
 	} else if (dt->getObjectType() == BaseItemImp::TypeBool) {
 		// Boolean field
-		BoolImp *it = static_cast<BoolImp *>(dt);
+		BoolImp *it = dynamic_cast<BoolImp *>(dt);
 
 		ft = m_model->mkScalarType(
 				IScalarType::ScalarType_Bool, 0, 0);
@@ -659,9 +659,7 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItemImp *t) {
 			debug_high("Reached t==m_class_expr_ctxt");
 			break;
 		} else {
-			NamedBaseItemImp *ni;
-
-			ni = toNamedItem(t);
+			NamedBaseItemImp  *ni = dynamic_cast<NamedBaseItemImp *>(t);
 
 			if (ni) {
 				debug_high("  Add type %s (%p)", ni->getName().c_str(), t);
@@ -691,7 +689,7 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItemImp *t) {
 				for (std::vector<IBaseItem *>::const_iterator s_it=search_s->getItems().begin();
 						s_it!=search_s->getItems().end(); s_it++) {
 					if ((*s_it)->getType() == IBaseItem::TypeField &&
-							static_cast<IField *>(*s_it)->getName() == t->getName()) {
+							dynamic_cast<IField *>(*s_it)->getName() == t->getName()) {
 						t_it = *s_it;
 						break;
 					}
@@ -706,7 +704,7 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItemImp *t) {
 
 			if (t_it) {
 				if (t_it->getType() == IBaseItem::TypeField) {
-					IField *field = static_cast<IField *>(t_it);
+					IField *field = dynamic_cast<IField *>(t_it);
 
 					fields.push_back(field);
 
@@ -725,10 +723,8 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItemImp *t) {
 					}
 				}
 			} else {
-				INamedItem *named_it = toNamedItem(scope);
 				error("Failed to find field %p name=%s in scope %p %s",
-						t, t->getName().c_str(), named_it,
-						((named_it)?named_it->getName().c_str():"UNNAMED"));
+						t, t->getName().c_str(), scope, getName(scope));
 				break;
 			}
 		}
@@ -750,7 +746,7 @@ IImportFunc *Elaborator::elaborate_import_func(ImportImp *imp) {
 		BaseItemImp *ret = imp->getReturnType();
 	}
 
-	ExprCoreList *param_imp = static_cast<ExprCoreList *>(
+	ExprCoreList *param_imp = dynamic_cast<ExprCoreList *>(
 			imp->getParameters().imp().ptr());
 
 	for (std::vector<ExprImp>::const_iterator it=param_imp->getExprList().begin();
@@ -806,15 +802,15 @@ IBindPath *Elaborator::elaborate_bind_path(BaseItemImp *t) {
 				for (std::vector<IBaseItem *>::const_iterator s_it=search_s->getItems().begin();
 						s_it!=search_s->getItems().end(); s_it++) {
 					if ((*s_it)->getType() == IBaseItem::TypeField &&
-							static_cast<IField *>(*s_it)->getName() == t->getName()) {
+							dynamic_cast<IField *>(*s_it)->getName() == t->getName()) {
 						t_it = *s_it;
 						break;
 					} else if ((*s_it)->getType() == IBaseItem::TypeAction &&
-							static_cast<IAction *>(*s_it)->getName() == t->getName()) {
+							dynamic_cast<IAction *>(*s_it)->getName() == t->getName()) {
 						t_it = *s_it;
 						break;
 					} else if ((*s_it)->getType() == IBaseItem::TypeComponent &&
-							static_cast<IComponent *>(*s_it)->getName() == t->getName()) {
+							dynamic_cast<IComponent *>(*s_it)->getName() == t->getName()) {
 						t_it = *s_it;
 						break;
 					}
@@ -831,7 +827,7 @@ IBindPath *Elaborator::elaborate_bind_path(BaseItemImp *t) {
 			if (t_it) {
 				path.push_back(t_it);
 				if (t_it->getType() == IBaseItem::TypeField) {
-					IField *field = static_cast<IField *>(t_it);
+					IField *field = dynamic_cast<IField *>(t_it);
 
 					if (i > 0) {
 						if (field->getDataType()) {
@@ -847,15 +843,13 @@ IBindPath *Elaborator::elaborate_bind_path(BaseItemImp *t) {
 						}
 					}
 				} else if (t_it->getType() == IBaseItem::TypeAction) {
-					scope = static_cast<IAction *>(t_it);
+					scope = dynamic_cast<IAction *>(t_it);
 				} else if (t_it->getType() == IBaseItem::TypeComponent) {
-					scope = static_cast<IComponent *>(t_it);
+					scope = dynamic_cast<IComponent *>(t_it);
 				}
 			} else {
-				INamedItem *named_it = toNamedItem(scope);
 				error("Failed to find field %s in scope %s",
-						t->getName().c_str(),
-						toNamedItem(scope)?toNamedItem(scope)->getName().c_str():"UNNAMED");
+						t->getName().c_str(), getName(scope));
 				break;
 			}
 		}
@@ -871,7 +865,7 @@ IBindPath *Elaborator::elaborate_bind_path(BaseItemImp *t) {
 
 IGraphStmt *Elaborator::elaborate_graph(GraphImp *g) {
 	ExprList stmts = g->getSequence();
-	ExprCoreList *stmts_c = static_cast<ExprCoreList *>(stmts.imp().ptr());
+	ExprCoreList *stmts_c = dynamic_cast<ExprCoreList *>(stmts.imp().ptr());
 	if (stmts_c->getExprList().size() > 1) {
 		std::vector<ExprImp >::const_iterator it;
 		IGraphBlockStmt *block = m_model->mkGraphBlockStmt(IGraphStmt::GraphStmt_Block);
@@ -906,7 +900,7 @@ IGraphStmt *Elaborator::elaborate_graph_stmt(ExprCore *stmt) {
 						(stmt->getOp() == ExprImp::GraphSelect)?IGraphStmt::GraphStmt_Select:
 						(stmt->getOp() == ExprImp::GraphSchedule)?IGraphStmt::GraphStmt_Schedule:
 								IGraphStmt::GraphStmt_Block);
-		ExprCoreList *stmt_l = static_cast<ExprCoreList *>(stmt);
+		ExprCoreList *stmt_l = dynamic_cast<ExprCoreList *>(stmt);
 		std::vector<ExprImp >::const_iterator it;
 		for (it=stmt_l->getExprList().begin();
 				it!=stmt_l->getExprList().end(); it++) {
@@ -1029,6 +1023,7 @@ BaseItemImp *Elaborator::find_cl_type_decl(const TypePathImp &path) {
 IBaseItem *Elaborator::find_type_decl(const TypePathImp &path) {
 	IScopeItem *s = 0;
 	IBaseItem *ret;
+	debug_high("--> find_type_decl: %s", path.toString().c_str());
 	for (std::vector<std::string>::const_iterator it=path.get().begin();
 			it!=path.get().end(); it++) {
 
@@ -1037,12 +1032,16 @@ IBaseItem *Elaborator::find_type_decl(const TypePathImp &path) {
 		} else {
 			// global search
 			// First, do a global lookup for package and component items
+			debug_high("  Global search for %s", (*it).c_str());
 			ret = find_named_scope(m_model->getItems(), *it);
 
 			if (!ret) {
+				debug_high("    => Failed - looking in global package");
 				// Next, look for global data types
 				ret = find_named_scope(
 						m_model->getGlobalPackage()->getItems(), *it);
+			} else {
+				debug_high("    => Success");
 			}
 		}
 
@@ -1051,13 +1050,16 @@ IBaseItem *Elaborator::find_type_decl(const TypePathImp &path) {
 			break;
 		}
 
-		s = toScopeItem(ret);
+		s = dynamic_cast<IScopeItem *>(ret);
 
 		if (!s) {
+			debug_high("  Item %d (%s) is not a scope",
+					(ret)?ret->getType():-1, getName(ret));
 			break;
 		}
 	}
 
+	debug_high("<-- find_type_decl: %s (%s)", path.toString().c_str(), getName(ret));
 	return ret;
 }
 
@@ -1139,7 +1141,7 @@ bool Elaborator::should_filter(
 	BaseItemImp *item = items.at(i);
 
 //	if (item->getObjectType() == BaseItemImp::TypeField &&
-//			static_cast<FieldItem *>(item)->isInternal()) {
+//			dynamic_cast<FieldItem *>(item)->isInternal()) {
 //		// Always skip implementation fields
 //		return true;
 //	}
@@ -1207,9 +1209,9 @@ void Elaborator::build_type_hierarchy(
 		items.push_back(t);
 
 		if (t->getObjectType() == BaseItemImp::TypeAction) {
-			t = find_cl_type_decl(static_cast<ActionImp *>(t)->getSuperType());
+			t = find_cl_type_decl(dynamic_cast<ActionImp *>(t)->getSuperType());
 		} else if (t->getObjectType() == BaseItemImp::TypeStruct) {
-			t = find_cl_type_decl(static_cast<StructImp *>(t)->getSuperType());
+			t = find_cl_type_decl(dynamic_cast<StructImp *>(t)->getSuperType());
 		} else {
 			t = 0;
 		}
@@ -1218,20 +1220,20 @@ void Elaborator::build_type_hierarchy(
 
 IScopeItem *Elaborator::toScopeItem(IBaseItem *it) {
 	switch (it->getType()) {
-	case IBaseItem::TypeAction: return static_cast<IAction *>(it);
-	case IBaseItem::TypeStruct: return static_cast<IStruct *>(it);
-	case IBaseItem::TypeComponent: return static_cast<IComponent *>(it);
+	case IBaseItem::TypeAction: return dynamic_cast<IAction *>(it);
+	case IBaseItem::TypeStruct: return dynamic_cast<IStruct *>(it);
+	case IBaseItem::TypeComponent: return dynamic_cast<IComponent *>(it);
 	}
 	return 0;
 }
 
 INamedItem *Elaborator::toNamedItem(IBaseItem *it) {
 	switch (it->getType()) {
-	case IBaseItem::TypeAction: return static_cast<IAction *>(it);
-	case IBaseItem::TypeStruct: return static_cast<IStruct *>(it);
-	case IBaseItem::TypeComponent: return static_cast<IComponent *>(it);
-	case IBaseItem::TypeField: return static_cast<IField *>(it);
-	case IBaseItem::TypePackage: return static_cast<IPackage *>(it);
+	case IBaseItem::TypeAction: return dynamic_cast<IAction *>(it);
+	case IBaseItem::TypeStruct: return dynamic_cast<IStruct *>(it);
+	case IBaseItem::TypeComponent: return dynamic_cast<IComponent *>(it);
+	case IBaseItem::TypeField: return dynamic_cast<IField *>(it);
+	case IBaseItem::TypePackage: return dynamic_cast<IPackage *>(it);
 	}
 	return 0;
 }
@@ -1241,7 +1243,17 @@ NamedBaseItemImp *Elaborator::toNamedItem(BaseItemImp *it) {
 }
 
 const char *Elaborator::getName(IBaseItem *it) {
-	INamedItem *it_n = toNamedItem(it);
+	INamedItem *it_n = dynamic_cast<INamedItem *>(it);
+
+	if (it_n) {
+		return it_n->getName().c_str();
+	} else {
+		return "UNNAMED";
+	}
+}
+
+const char *Elaborator::getName(IScopeItem *it) {
+	INamedItem *it_n = dynamic_cast<INamedItem *>(it);
 
 	if (it_n) {
 		return it_n->getName().c_str();
@@ -1251,10 +1263,10 @@ const char *Elaborator::getName(IBaseItem *it) {
 }
 
 IScopeItem *Elaborator::getSuperType(IScopeItem *it) {
-	switch (it->getType()) {
-	case IBaseItem::TypeAction: return static_cast<IAction *>(it)->getSuperType();
-	case IBaseItem::TypeStruct: return static_cast<IStruct *>(it)->getSuperType();
-//	case IBaseItem::TypeComponent: return static_cast<IComponent *>(it)->getSuperType();
+	if (dynamic_cast<IAction *>(it)) {
+		return dynamic_cast<IAction *>(it)->getSuperType();
+	} else if (dynamic_cast<IStruct *>(it)) {
+		return dynamic_cast<IStruct *>(it)->getSuperType();
 	}
 
 	return 0;

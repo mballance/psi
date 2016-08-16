@@ -25,27 +25,22 @@
 #ifndef IMPL_CONSTRAINTEXPRIMPL_H_
 #define IMPL_CONSTRAINTEXPRIMPL_H_
 #include "api/IConstraintExpr.h"
+#include "BaseItemImpl.h"
 
 using namespace psi_api;
 
 namespace psi {
 
-class ConstraintExprImpl: public IConstraintExpr {
+class ConstraintExprImpl:
+		public virtual IConstraintExpr,
+		public virtual BaseItemImpl {
 public:
 
 	ConstraintExprImpl(IExpr *expr);
 
 	virtual ~ConstraintExprImpl();
 
-	virtual ItemType getType() const { return IBaseItem::TypeConstraint; }
-
 	virtual ConstraintType getConstraintType() const { return IConstraint::ConstraintType_Expr; }
-
-	virtual IBaseItem *clone();
-
-	virtual IBaseItem *getParent() const { return 0; }
-
-	void setParent(IBaseItem *p) { }
 
 	virtual IExpr *getExpr() const { return m_expr; }
 

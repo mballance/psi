@@ -25,12 +25,15 @@
 #ifndef IMPL_SCALARTYPEIMPL_H_
 #define IMPL_SCALARTYPEIMPL_H_
 #include "api/IScalarType.h"
+#include "BaseItemImpl.h"
 
 using namespace psi_api;
 
 namespace psi {
 
-class ScalarTypeImpl: public IScalarType {
+class ScalarTypeImpl:
+		public virtual IScalarType,
+		public virtual BaseItemImpl {
 public:
 	ScalarTypeImpl(
 			IScalarType::ScalarType			scalar_type,
@@ -38,14 +41,6 @@ public:
 			uint32_t						lsb);
 
 	virtual ~ScalarTypeImpl();
-
-	virtual ItemType getType() const { return IBaseItem::TypeScalar; }
-
-	virtual IBaseItem *clone();
-
-	virtual IBaseItem *getParent() const { return 0; }
-
-	void setParent(IBaseItem *p) { }
 
 	virtual ScalarType getScalarType() const { return m_scalarType; }
 

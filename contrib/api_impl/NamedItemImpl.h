@@ -33,16 +33,18 @@ using namespace psi_api;
 
 namespace psi {
 
-class NamedItemImpl : public virtual INamedItem, public BaseItemImpl {
+class NamedItemImpl : public virtual INamedItem {
 	public:
 
-		NamedItemImpl(const std::string &name, IBaseItem::ItemType t);
+		NamedItemImpl(const std::string &name);
 
 		virtual ~NamedItemImpl();
 
 		virtual const std::string &getName();
 
 		virtual const std::string &getName() const;
+
+		virtual void setName(const std::string &name);
 
 	private:
 

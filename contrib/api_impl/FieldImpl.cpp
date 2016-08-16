@@ -23,9 +23,7 @@
  *      Author: ballance
  */
 
-#include "../api_impl/FieldImpl.h"
-
-#include "../api_impl/FieldRefImpl.h"
+#include "FieldImpl.h"
 
 namespace psi {
 
@@ -34,16 +32,13 @@ FieldImpl::FieldImpl(
 		IBaseItem				*field_type,
 		IField::FieldAttr		attr,
 		IExpr					*array_dim) :
-				m_parent(0), m_name(name), m_field_type(field_type),
+				BaseItemImpl(IBaseItem::TypeField),
+				NamedItemImpl(name), m_field_type(field_type),
 				m_attr(attr), m_array_dim(array_dim) { }
 
 FieldImpl::~FieldImpl() {
 	// TODO Auto-generated destructor stub
 }
 
-IBaseItem *FieldImpl::clone() {
-	// TODO: implement clone
-	return 0;
-}
 
 } /* namespace psi */

@@ -7,11 +7,14 @@
 
 #ifndef SRC_PSI_API_IEXTEND_H_
 #define SRC_PSI_API_IEXTEND_H_
+#include "api/IBaseItem.h"
 #include "api/IScopeItem.h"
 
 namespace psi_api {
 
-class IExtend : public IScopeItem {
+class IExtend :
+		public virtual IBaseItem,
+		public virtual IScopeItem {
 public:
 
 	enum ExtendType {

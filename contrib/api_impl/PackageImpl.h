@@ -26,8 +26,9 @@
 #define IMPL_PACKAGEIMPL_H_
 #include <vector>
 
-#include "../api_impl/BaseItemImpl.h"
-#include "../api_impl/NamedScopeItemImpl.h"
+#include "BaseItemImpl.h"
+#include "ScopeItemImpl.h"
+#include "NamedItemImpl.h"
 #include "api/IAction.h"
 #include "api/IPackage.h"
 #include "api/IStruct.h"
@@ -36,54 +37,18 @@ using namespace psi_api;
 
 namespace psi {
 
-class PackageImpl : public IPackage  {
+class PackageImpl :
+		public virtual IPackage,
+		public virtual BaseItemImpl,
+		public virtual ScopeItemImpl,
+		public virtual NamedItemImpl {
 	public:
 
 		PackageImpl(const std::string &name, IBaseItem *parent=0);
 
 		virtual ~PackageImpl();
 
-		virtual IBaseItem::ItemType getType() const { return IBaseItem::TypePackage; }
-
-		virtual IBaseItem *clone();
-
-		virtual IBaseItem *getParent() const { return m_parent; }
-
-		void setParent(IBaseItem *p) { m_parent = p; }
-
-		virtual const std::vector<IBaseItem *> &getItems() const {
-			return m_children;
-		}
-
-		virtual void add(IBaseItem *item);
-
-		virtual const std::string &getName() const {
-			return m_name;
-		}
-
-		// TODO: Move to Component
-		virtual const std::vector<IAction *> getActions();
-
-		virtual IAction *findAction(const std::string &name);
-
-		virtual void addAction(IAction *action);
-
-		virtual const std::vector<IStruct *> getStructs();
-
-		virtual IStruct *findStruct(const std::string &name);
-
-		/**
-		 * Locates and returns the named field. Returns 0 if
-		 * the named field does not exist
-		 *
-		 * Note: packages don't have fields
-		 */
-		virtual IField *getField(const std::string &name) { return 0; }
-
 	private:
-		IBaseItem							*m_parent;
-		std::string							m_name;
-		std::vector<IBaseItem *>			m_children;
 		std::vector<IAction *>				m_actions;
 		std::vector<IStruct *>				m_structs;
 
