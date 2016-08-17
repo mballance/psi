@@ -15,12 +15,12 @@ public:
 	Rand<Bit<31,0>>				data {this, "data"};
 
 	Constraint c { this, "c",
-//		{
-			(addr == 5).implies(data == 2)
-//				(addr == 5).implies(
-//						data == 5 || data == 6
-//						)
-//		}
+		{
+			(addr == 5).implies(data == 2),
+			(addr == 7).implies(
+					data >= 0 && data <= 7
+					)
+		}
 	};
 };
 TypeDecl<my_struct>		_my_struct_t;

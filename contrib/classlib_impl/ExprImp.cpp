@@ -110,13 +110,6 @@ Expr Expr::implies(const ExprList &rhs) {
 	return Expr(new ExprCore(ExprImp::Stmt_Implies, *this, rhs));
 }
 
-//void ExprImp::build() {
-//	if (m_core.ptr()) {
-//		m_core->m_lhs.build();
-//		m_core->m_rhs.build();
-//	}
-//}
-
 const char *ExprImp::toString(Operator op) {
 	switch (op) {
 		case LiteralUint: return "uint32_t";

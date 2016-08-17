@@ -58,6 +58,50 @@
                         </pss:stmt>
                     </pss:body>
                 </pss:implies>
+                <pss:implies>
+                    <pss:cond>
+                        <pss:binexp op="EqEq">
+                            <pss:lhs>
+                                <pss:ref>
+                                    <pss:path>addr</pss:path>
+                                </pss:ref>
+                            </pss:lhs>
+                            <pss:rhs>
+                                <pss:number>0x7</pss:number>
+                            </pss:rhs>
+                        </pss:binexp>
+                    </pss:cond>
+                    <pss:body>
+                        <pss:stmt>
+                            <pss:binexp op="AndAnd">
+                                <pss:lhs>
+                                    <pss:binexp op="GE">
+                                        <pss:lhs>
+                                            <pss:ref>
+                                                <pss:path>data</pss:path>
+                                            </pss:ref>
+                                        </pss:lhs>
+                                        <pss:rhs>
+                                            <pss:number>0x0</pss:number>
+                                        </pss:rhs>
+                                    </pss:binexp>
+                                </pss:lhs>
+                                <pss:rhs>
+                                    <pss:binexp op="LE">
+                                        <pss:lhs>
+                                            <pss:ref>
+                                                <pss:path>data</pss:path>
+                                            </pss:ref>
+                                        </pss:lhs>
+                                        <pss:rhs>
+                                            <pss:number>0x7</pss:number>
+                                        </pss:rhs>
+                                    </pss:binexp>
+                                </pss:rhs>
+                            </pss:binexp>
+                        </pss:stmt>
+                    </pss:body>
+                </pss:implies>
             </pss:constraint>
         </pss:struct>
     </pss:package>
