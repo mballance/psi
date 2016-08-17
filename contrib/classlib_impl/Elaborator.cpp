@@ -250,6 +250,11 @@ IConstraint *Elaborator::elaborate_constraint_stmt(ExprCore *s) {
 
 	if (s->getOp() == ExprImp::Stmt_If || s->getOp() == ExprImp::Stmt_IfElse) {
 		ret = elaborate_constraint_if(dynamic_cast<ExprCoreIf *>(s));
+	} else if (s->getOp() == ExprImp::Stmt_Implies) {
+		fprintf(stdout, "Note: Implies\n");
+		ret = m_model->mkConstraintImplies(
+				elaborate_expr(s->getLhsPtr()),
+				elaborate_constraint_stmt(s->getRhsPtr()));
 	} else if (ExprImp::isBinOp(s->getOp())) {
 		ret = m_model->mkConstraintExpr(elaborate_expr(s));
 	} else if (s->getOp() == ExprImp::List) {

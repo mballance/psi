@@ -40,7 +40,6 @@ void ConstraintBlockImpl::add(IConstraint *c) {
 	m_constraints.push_back(c);
 }
 
-
 void ConstraintBlockImpl::add(const std::vector<IConstraint *> &cl) {
 	std::vector<IConstraint *>::const_iterator it;
 

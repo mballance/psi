@@ -621,12 +621,20 @@
     		<element name="if" type="pss:if_constraint_item"/>
     		<element name="block" type="pss:constraint_set"/>
     		<element name="foreach" type="pss:foreach_constraint_item"/>
+    		<element name="implies" type="pss:implies_constraint_item"/>
     	</choice>
     </complexType>
     
     <complexType name="foreach_constraint_item">
     	<sequence>
     		<element name="expr" type="pss:expression"/>
+    		<element name="body" type="pss:constraint_set"/>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="implies_constraint_item">
+    	<sequence>
+    		<element name="cond" type="pss:expression"/>
     		<element name="body" type="pss:constraint_set"/>
     	</sequence>
     </complexType>

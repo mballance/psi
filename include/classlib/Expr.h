@@ -26,6 +26,7 @@
 #define INCLUDED_EXPR_H
 
 #include "classlib/Types.h"
+#include "classlib/ExprListBuilder.h"
 
 namespace pss {
 
@@ -68,6 +69,27 @@ public:
 	Expr operator [] (uint32_t rhs);
 
 	Expr inside(const ExprList &inside_l);
+
+	Expr implies(const ExprList &inside_l);
+
+#ifdef PSS_HAVE_CXX_11
+	template <typename T, typename... R> Expr implies(
+			const T		&item,
+			const R&...	rest) {
+		ExprListBuilder	expr_l;
+		_implies(expr_l, item, rest...);
+		return implies(ExprList(expr_l));
+	}
+
+	template<typename T, typename... R> static void _implies(
+			ExprListBuilder 	&expr_l,
+			const T 			&i,
+			const R&... 		rest) {
+		expr_l.add(i);
+		_implies(expr_l, rest...);
+	}
+	static void _implies(ExprListBuilder &el_builder) { }
+#endif
 
 //	Expr operator -> (const Expr &rhs);
 

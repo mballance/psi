@@ -61,6 +61,7 @@ public:
 
 		Stmt_If,
 		Stmt_IfElse,
+		Stmt_Implies,
 
 		GraphParallel,
 		GraphRepeat, // 25

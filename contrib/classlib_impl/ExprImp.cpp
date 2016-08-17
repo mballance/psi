@@ -106,6 +106,10 @@ Expr Expr::inside(const ExprList &rhs) {
 	return Expr(new ExprCore(ExprImp::BinOp_Inside, *this, rhs));
 }
 
+Expr Expr::implies(const ExprList &rhs) {
+	return Expr(new ExprCore(ExprImp::Stmt_Implies, *this, rhs));
+}
+
 //void ExprImp::build() {
 //	if (m_core.ptr()) {
 //		m_core->m_lhs.build();

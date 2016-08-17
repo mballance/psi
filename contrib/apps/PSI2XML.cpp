@@ -288,6 +288,20 @@ void PSI2XML::process_constraint(IConstraint *c) {
 
 		exit("if");
 		} break;
+
+	case IConstraint::ConstraintType_Implies: {
+		IConstraintImplies *c_imp = dynamic_cast<IConstraintImplies *>(c);
+
+		enter("implies");
+
+		enter("cond");
+		process_expr(c_imp->getCond());
+		exit("cond");
+
+		process_constraint_set(c_imp->getImp(), "body");
+
+		exit("implies");
+	} break;
 	}
 }
 

@@ -52,8 +52,6 @@ namespace psi {
 		private:
 			IBaseItem::ItemType					m_type;
 			IBaseItem							*m_parent;
-			std::map<std::string,std::string>	m_attr;
-			std::string							m_null_attr;
 };
 
 } /* namespace psi */
