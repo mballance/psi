@@ -30,7 +30,7 @@ namespace pss {
 
 template <class T> class ExtendComponent : public ExtendBase<T> {
 
-	public:
+	protected:
 		ExtendComponent(const Scope &p) : ExtendBase<T>(p) { }
 
 		virtual ~ExtendComponent() { }

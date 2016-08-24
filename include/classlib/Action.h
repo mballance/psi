@@ -38,11 +38,11 @@ class Action : public BaseItem {
 public:
 	friend class ActionImp;
 
-	Action(const Scope &p);
-
 	virtual ~Action();
 
 protected:
+
+	Action(const Scope &p);
 
 	/**
 	 * Solver hook method. Enabled by instantiating an inline Exec block

@@ -60,6 +60,8 @@ class ModelImp : public BaseItemImp {
 
 		const std::vector<const ScopeImp *> &get_scope() const;
 
+		uint32_t depth() const;
+
 		TypePathImp getActiveTypeName(BaseItem *it);
 
 		TypePathImp getSuperType(BaseItem *it);

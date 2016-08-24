@@ -34,9 +34,12 @@ namespace pss {
 class Component : public BaseItem {
 
 	public:
-		Component(const Scope &p);
 
 		virtual ~Component();
+
+	protected:
+
+		Component(const Scope &p);
 
 };
 

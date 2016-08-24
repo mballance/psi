@@ -41,6 +41,7 @@
 #include "BindImp.h"
 #include "ComponentImp.h"
 #include "ConstraintImp.h"
+#include "ExtendItemImp.h"
 #include "GraphImp.h"
 #include "FieldItemImp.h"
 #include "ImportImp.h"
@@ -82,6 +83,8 @@ protected:
 
 	IComponent *elaborate_component(IScopeItem *scope, ComponentImp *c);
 
+	IBaseItem *elaborate_component_body_item(BaseItemImp *t);
+
 	IBind *elaborate_bind(BindImp *b);
 
 	IConstraint *elaborate_constraint(ConstraintImp *c);
@@ -98,7 +101,10 @@ protected:
 
 	IBaseItem *elaborate_struct_action_body_item(BaseItemImp *t);
 
+
 	IExec *elaborate_exec_item(ExecImp *e);
+
+	IExtend *elaborate_extend(ExtendItemImp *e);
 
 	IField *elaborate_field_item(FieldItemImp *f);
 

@@ -21,7 +21,7 @@ public:
 
 	virtual ~PSI2StringProcessor();
 
-	virtual const std::string &process(IModel *model);
+	virtual const std::string &process2string(IModel *model);
 
 protected:
 

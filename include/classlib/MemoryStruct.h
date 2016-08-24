@@ -31,11 +31,11 @@ namespace pss {
 
 
 class MemoryStruct: public Struct {
-
-	public:
-		MemoryStruct(const Scope &p);
-
+public:
 		virtual ~MemoryStruct();
+
+protected:
+		MemoryStruct(const Scope &p);
 
 	private:
 

@@ -159,26 +159,34 @@ IComponent *Elaborator::elaborate_component(IScopeItem *scope, ComponentImp *c) 
 
 		set_expr_ctxt(comp, c);
 
-		if (t->getObjectType() == BaseItemImp::TypeAction) {
-			IAction *a = elaborate_action(dynamic_cast<ActionImp *>(t));
-			comp->add(a);
-		} else if (t->getObjectType() == BaseItemImp::TypeStruct) {
-			IStruct *s = elaborate_struct(dynamic_cast<StructImp *>(t));
-			comp->add(s);
-		} else if (t->getObjectType() == BaseItemImp::TypeField) {
-			IField *f = elaborate_field_item(dynamic_cast<FieldItemImp *>(t));
-			comp->add(f);
-		} else if (t->getObjectType() == BaseItemImp::TypeBind) {
-			IBind *b = elaborate_bind(dynamic_cast<BindImp *>(t));
-			comp->add(b);
-		} else {
-			// TODO:
-			fprintf(stdout, "Error: Unknown component body item %s\n",
-					BaseItemImp::toString(t->getObjectType()));
+		IBaseItem *item = elaborate_component_body_item(t);
+
+		if (item) {
+			comp->add(item);
 		}
 	}
 
 	return comp;
+}
+
+IBaseItem *Elaborator::elaborate_component_body_item(BaseItemImp *t) {
+	IBaseItem *ret = 0;
+
+	if (t->getObjectType() == BaseItemImp::TypeAction) {
+		ret = elaborate_action(dynamic_cast<ActionImp *>(t));
+	} else if (t->getObjectType() == BaseItemImp::TypeStruct) {
+		ret = elaborate_struct(dynamic_cast<StructImp *>(t));
+	} else if (t->getObjectType() == BaseItemImp::TypeField) {
+		ret = elaborate_field_item(dynamic_cast<FieldItemImp *>(t));
+	} else if (t->getObjectType() == BaseItemImp::TypeBind) {
+		ret = elaborate_bind(dynamic_cast<BindImp *>(t));
+	} else {
+		// TODO:
+		fprintf(stdout, "Error: Unknown component body item %s\n",
+				BaseItemImp::toString(t->getObjectType()));
+	}
+
+	return ret;
 }
 
 IBind *Elaborator::elaborate_bind(BindImp *b) {
@@ -483,8 +491,13 @@ void Elaborator::elaborate_package(IModel *model, PackageImp *pkg_cl) {
 		switch (t->getObjectType()) {
 			case BaseItemImp::TypeAction: c = elaborate_action(dynamic_cast<ActionImp *>(t)); break;
 			case BaseItemImp::TypeStruct: c = elaborate_struct(dynamic_cast<StructImp *>(t)); break;
-			case BaseItemImp::TypeExec:  c = elaborate_exec_item(dynamic_cast<ExecImp *>(t)); break;
+//			case BaseItemImp::TypeExec:  c = elaborate_exec_item(dynamic_cast<ExecImp *>(t)); break;
 			case BaseItemImp::TypeImport: c = elaborate_import_func(dynamic_cast<ImportImp *>(t)); break;
+			case BaseItemImp::TypeExtendAction:
+			case BaseItemImp::TypeExtendComponent:
+			case BaseItemImp::TypeExtendStruct:
+				c = elaborate_extend(dynamic_cast<ExtendItemImp *>(t));
+				break;
 		}
 
 		if (c) {
@@ -592,6 +605,40 @@ IExec *Elaborator::elaborate_exec_item(ExecImp *e) {
 	case ExecImp::TargetTemplate: {
 		ret = m_model->mkTargetTemplateExec(kind, e->getLanguage(), e->getTargetTemplate());
 	} break;
+	}
+
+	return ret;
+}
+
+IExtend *Elaborator::elaborate_extend(ExtendItemImp *e) {
+	BaseItemImp *t = e->getDataType();
+	IBaseItem *target = find_type_decl(t); // Target type
+
+	BaseItemImp *ext_h = e->getExtHndl();
+
+	if (!target) {
+		error("Failed to find target of extension: %s\n",
+				dynamic_cast<NamedBaseItemImp *>(t)->getName().c_str());
+	}
+
+	IExtend *ret = m_model->mkExtend(target);
+
+	for (uint32_t i=t->getChildren().size(); i<ext_h->getChildren().size(); i++) {
+		BaseItemImp *item_c = ext_h->getChildren().at(i);
+		IBaseItem *item = 0;
+		set_expr_ctxt(target, t);
+
+		if (t->getObjectType() == BaseItemImp::TypeComponent) {
+			item = elaborate_component_body_item(item_c);
+		} else {
+			item = elaborate_struct_action_body_item(item_c);
+		}
+
+		if (item) {
+			ret->add(item);
+		} else {
+			error("Failed to elaborate extension child %d", item_c->getObjectType());
+		}
 	}
 
 	return ret;

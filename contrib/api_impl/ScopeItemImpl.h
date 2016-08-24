@@ -21,6 +21,8 @@ public:
 
 	virtual const std::vector<IBaseItem *> &getItems() const;
 
+	virtual void remove(IBaseItem *it);
+
 	virtual void add(IBaseItem *item);
 
 	/**

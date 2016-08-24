@@ -35,8 +35,8 @@ public:
 	ExtendItemImp(
 			ExtendItem 				*master,
 			BaseItem 				*p,
-			BaseItemImp::ObjectType t,
-			BaseItem				*type_hndl
+			BaseItem				*type_hndl,
+			BaseItem				*ext_hndl
 			);
 
 	virtual ~ExtendItemImp();
@@ -45,9 +45,12 @@ public:
 
 	BaseItemImp *getDataType() const { return m_data_type; }
 
+	BaseItemImp *getExtHndl() const { return m_ext_hndl; }
+
 private:
 
 	BaseItemImp				*m_data_type;
+	BaseItemImp				*m_ext_hndl;
 };
 
 } /* namespace pss */

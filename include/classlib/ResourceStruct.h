@@ -33,14 +33,14 @@
 namespace pss {
 
 class ResourceStruct : public Struct {
-	public:
+public:
 		Rand<pss::Bit<31,0> >			instance_id;
 
-	public:
-
-		ResourceStruct(const Scope &p);
-
+public:
 		virtual ~ResourceStruct();
+
+protected:
+		ResourceStruct(const Scope &p);
 
 };
 

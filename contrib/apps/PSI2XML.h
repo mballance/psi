@@ -78,6 +78,8 @@ private:
 
 	void process_expr(IExpr *e, const char *tag=0);
 
+	void process_extend(IExtend *e);
+
 	void process_field(IField *f);
 
 	void process_graph(IGraphStmt *graph);

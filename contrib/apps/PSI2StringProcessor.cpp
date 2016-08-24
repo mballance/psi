@@ -18,7 +18,7 @@ PSI2StringProcessor::~PSI2StringProcessor() {
 	// TODO Auto-generated destructor stub
 }
 
-const std::string &PSI2StringProcessor::process(IModel *model) {
+const std::string &PSI2StringProcessor::process2string(IModel *model) {
 	visit_model(model);
 
 	return m_content;

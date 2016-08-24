@@ -49,12 +49,12 @@ public:
 		TypeConstraint,
 		TypeImport,
 		TypeInt,
-		TypeExec,
+		TypeExec, // Exec
 		TypeExportItem, // 10
 		TypeExtendAction,
 		TypeExtendComponent,
 		TypeExtendStruct,
-		TypeField,
+		TypeField, // 14
 		TypeGraph, // 15
 		TypePackage,
 		TypeString,
@@ -68,6 +68,8 @@ public:
 	BaseItemImp();
 
 	BaseItemImp(const BaseItem &rhs);
+
+	uint32_t depth() const { return m_depth; }
 
 	virtual void setParent(BaseItem *p);
 	virtual void setParent(BaseItemImp *p);
@@ -108,6 +110,7 @@ private:
 	BaseItem								*m_master;
 	ObjectType								m_type;
 	BaseItemImp								*m_parent;
+	uint32_t								m_depth;
 
 	std::vector<BaseItemImp *>				m_children;
 };

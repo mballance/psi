@@ -31,12 +31,13 @@
 namespace pss {
 
 class StreamStruct : public Struct {
-
-	public:
-
-		StreamStruct(const Scope &p);
+public:
 
 		virtual ~StreamStruct();
+
+protected:
+
+		StreamStruct(const Scope &p);
 
 };
 

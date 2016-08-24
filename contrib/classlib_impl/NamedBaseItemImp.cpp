@@ -37,21 +37,7 @@ NamedBaseItemImp::NamedBaseItemImp(
 		BaseItem					*master,
 		BaseItemImp::ObjectType 	t,
 		BaseItem					*p,
-		const std::string			&name) : BaseItemImp(master, t, p), m_name(name) {
-
-//	if (p) {
-//	fprintf(stdout, "NamedBaseItemImp: \"%s\" p=%s\n", name.c_str(),
-//			(!p)?"NULL":(to(p))?to(p)->getName().c_str():"UNNAMED");
-//
-//	BaseItem *tt = this;
-//
-//	while (tt) {
-//		fprintf(stdout, "  el: %s\n",
-//				(to(tt))?to(tt)->getName().c_str():"UNNAMED");
-//		tt = tt->getParent();
-//	}
-//	}
-}
+		const std::string			&name) : BaseItemImp(master, t, p), m_name(name) { }
 
 NamedBaseItemImp::~NamedBaseItemImp() {
 	// TODO Auto-generated destructor stub

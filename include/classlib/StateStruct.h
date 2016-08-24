@@ -39,9 +39,10 @@ public:
 
 	Rand<Bool>			initial;
 
-	StateStruct(const Scope &p);
-
 	virtual ~StateStruct();
+
+protected:
+	StateStruct(const Scope &p);
 
 };
 

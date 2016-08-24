@@ -24,7 +24,7 @@
 
 #ifndef IMPL_MODELIMPL_H_
 #define IMPL_MODELIMPL_H_
-#include "../api_impl/PackageImpl.h"
+#include "PackageImpl.h"
 #include "api/ILiteral.h"
 #include "api/IModel.h"
 #include "api/IStruct.h"
@@ -57,6 +57,8 @@ class ModelImpl:
 		void setParent(IBaseItem *p) { }
 
 		virtual const std::vector<IBaseItem *> &getItems() const;
+
+		virtual void remove(IBaseItem *it);
 
 		virtual void add(IBaseItem *it);
 

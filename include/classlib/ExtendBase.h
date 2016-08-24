@@ -24,17 +24,18 @@
 
 #ifndef INCLUDED_EXTEND_BASE_H
 #define INCLUDED_EXTEND_BASE_H
-
+#include <stdio.h>
 #include "classlib/ExtendItem.h"
 #include "classlib/Scope.h"
+#include "classlib/BaseItem.h"
 
 namespace pss {
 
 template <class T> class ExtendBase : public T {
-public:
+protected:
 
 	ExtendBase(const Scope &p) : T(p),
-		m_item(p, (TypeDecl<T>::valid())?TypeDecl<T>::id():this) {
+		m_item(p, (TypeDecl<T>::valid())?TypeDecl<T>::id():this, this) {
 	}
 
 private:

@@ -34,7 +34,8 @@ class ExtendItem: public BaseItem {
 public:
 	ExtendItem(
 			const Scope 		&p,
-			BaseItem			*type_hndl);
+			BaseItem			*type_hndl,
+			BaseItem			*ext_hndl);
 
 	virtual ~ExtendItem();
 

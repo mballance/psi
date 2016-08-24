@@ -31,9 +31,12 @@ namespace pss {
 template <class T> class ExtendAction : public ExtendBase<T> {
 
 	public:
-		ExtendAction(const Scope &p) : ExtendBase<T>(p) { }
 
 		virtual ~ExtendAction() { }
+
+	protected:
+
+		ExtendAction(const Scope &p) : ExtendBase<T>(p) { }
 
 };
 

@@ -41,7 +41,7 @@ BaseItem::BaseItem(BaseItemImp *impl) {
 }
 
 BaseItemImp::BaseItemImp() : m_master(0), m_type(Model), m_parent(0) {
-
+	m_depth = 0;
 }
 
 BaseItemImp::BaseItemImp(const BaseItem &rhs) {
@@ -49,6 +49,7 @@ BaseItemImp::BaseItemImp(const BaseItem &rhs) {
 	m_type = rhs.impl()->m_type;
 	m_parent = rhs.impl()->m_parent;
 	m_children = rhs.impl()->m_children;
+	m_depth = rhs.impl()->m_depth;
 }
 
 BaseItemImp::BaseItemImp(BaseItem *master, ObjectType t, BaseItem *p) :
@@ -56,6 +57,7 @@ BaseItemImp::BaseItemImp(BaseItem *master, ObjectType t, BaseItem *p) :
 
 	if (m_parent) {
 		m_parent->add(this);
+		m_depth = ModelImp::global()->depth();
 	}
 }
 

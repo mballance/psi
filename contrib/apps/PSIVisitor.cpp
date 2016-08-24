@@ -7,12 +7,15 @@
 
 #include "PSIVisitor.h"
 #include "PSIUtil.h"
+#include "api_impl/ModelImpl.h"
 #include <stdio.h>
+
+using namespace psi;
 
 namespace psi {
 namespace apps {
 
-PSIVisitor::PSIVisitor() {
+PSIVisitor::PSIVisitor() : m_removed(false) {
 	// TODO Auto-generated constructor stub
 
 }
@@ -25,18 +28,24 @@ void PSIVisitor::visit_model(IModel *model) {
 	IPackage *pkg = model->getGlobalPackage();
 	visit_package(pkg);
 
-	std::vector<IBaseItem *>::const_iterator it=model->getItems().begin();
+	ModelImpl *model_i = dynamic_cast<ModelImpl *>(model);
+	for (int32_t i=0; i<model->getItems().size(); i++) {
+		IBaseItem *it = model->getItems().at(i);
 
-	for (; it!=model->getItems().end(); it++) {
-		IBaseItem *i = *it;
-
-		if (i->getType() == IBaseItem::TypePackage) {
-			IPackage *pkg = dynamic_cast<IPackage *>(i);
+		m_removed = false;
+		if (it->getType() == IBaseItem::TypePackage) {
+			IPackage *pkg = dynamic_cast<IPackage *>(it);
 			visit_package(pkg);
-		} else if (i->getType() == IBaseItem::TypeComponent) {
-			visit_component(dynamic_cast<IComponent *>(i));
+		} else if (it->getType() == IBaseItem::TypeComponent) {
+			visit_component(dynamic_cast<IComponent *>(it));
 		} else {
 			// Really shouldn't be anything else in the global scope
+		}
+
+		if (m_removed) {
+			model_i->remove(it);
+			delete it;
+			i--;
 		}
 	}
 }
@@ -44,19 +53,34 @@ void PSIVisitor::visit_model(IModel *model) {
 void PSIVisitor::visit_package(IPackage *pkg) {
 	std::vector<IBaseItem *>::const_iterator it=pkg->getItems().begin();
 
-	for (; it!=pkg->getItems().end(); it++) {
-		IBaseItem *i = *it;
+	for (int32_t i=0; i<pkg->getItems().size(); i++) {
+		IBaseItem *it = pkg->getItems().at(i);
 
-		switch (i->getType()) {
+		m_removed = false;
+		switch (it->getType()) {
 			case IBaseItem::TypeAction:
 				// TODO:
 				break;
 
 			case IBaseItem::TypeStruct:
-				visit_struct(dynamic_cast<IStruct *>(i));
+				visit_struct(dynamic_cast<IStruct *>(it));
 				break;
+
+			case IBaseItem::TypeExtend:
+				visit_extend(dynamic_cast<IExtend *>(it));
+				break;
+
+			default:
+				fprintf(stdout, "Error: Unhandled package item: %d\n", it->getType());
+		}
+
+		if (m_removed) {
+			dynamic_cast<PackageImpl *>(pkg)->remove(it);
+			delete it;
 		}
 	}
+
+	m_removed = false;
 }
 
 void PSIVisitor::visit_action(IAction *a) {
@@ -65,6 +89,8 @@ void PSIVisitor::visit_action(IAction *a) {
 	if (a->getGraph()) {
 		visit_graph(a->getGraph());
 	}
+
+	m_removed = false;
 }
 
 void PSIVisitor::visit_bind(IBind *b) {
@@ -74,29 +100,42 @@ void PSIVisitor::visit_bind(IBind *b) {
 void PSIVisitor::visit_body(IBaseItem *p, const std::vector<IBaseItem *> &items) {
 	std::vector<IBaseItem *>::const_iterator it = items.begin();
 
-	for (; it!=items.end(); it++) {
-		IBaseItem *i = *it;
+	for (int32_t i=0; i<items.size(); i++) {
+		IBaseItem *it = items.at(i);
+		m_removed = false;
 
-		switch (i->getType()) {
+		switch (it->getType()) {
 		case IBaseItem::TypeBind:
-			visit_bind(dynamic_cast<IBind *>(i));
+			visit_bind(dynamic_cast<IBind *>(it));
 			break;
 		case IBaseItem::TypeConstraint:
-			visit_constraint(dynamic_cast<IConstraintBlock *>(i));
+			visit_constraint(dynamic_cast<IConstraintBlock *>(it));
 			break;
 
 		case IBaseItem::TypeField:
-			visit_field(dynamic_cast<IField *>(i));
+			visit_field(dynamic_cast<IField *>(it));
 			break;
 
 		default:
-			fprintf(stdout, "Error: Unknown body item %d\n", i->getType());
+			fprintf(stdout, "Error: Unknown body item %d\n", it->getType());
+		}
+
+		if (m_removed) {
+			ScopeItemImpl *s = dynamic_cast<ScopeItemImpl *>(p);
+			s->remove(it);
+			delete it;
 		}
 	}
+
+	m_removed = false;
 }
 
 void PSIVisitor::visit_struct(IStruct *str) {
+	m_removed = false;
+
 	visit_body(str, str->getItems());
+
+	m_removed = false;
 }
 
 void PSIVisitor::visit_component(IComponent *c) {
@@ -176,6 +215,10 @@ void PSIVisitor::visit_expr(IExpr *e) {
 		case IExpr::ExprType_FieldRef: visit_fieldref_expr(dynamic_cast<IFieldRef *>(e)); break;
 		case IExpr::ExprType_Literal: visit_literal_expr(dynamic_cast<ILiteral *>(e)); break;
 	}
+}
+
+void PSIVisitor::visit_extend(IExtend *e) {
+	visit_body(e, e->getItems());
 }
 
 void PSIVisitor::visit_binary_expr(IBinaryExpr *be) {
@@ -258,6 +301,10 @@ void PSIVisitor::visit_graph_block_stmt(IGraphBlockStmt *block) {
 	for (it=block->getStmts().begin(); it!=block->getStmts().end(); it++) {
 		visit_graph_stmt(*it);
 	}
+}
+
+void PSIVisitor::remove() {
+	m_removed = true;
 }
 
 std::string PSIVisitor::type2string(IBaseItem *it) {

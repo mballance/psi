@@ -105,8 +105,7 @@ public:
 	// Declares an extension of 'write_data' to layer in the implementation
 	class write_data_ext : public ExtendAction<rw_comp::write_data> {
 	public:
-		// write_data_ext(const Scope &p) : ExtendAction(p) { }
-		pss_ctor(write_data_ext,ExtendAction);
+		write_data_ext(const Scope &p) : ExtendAction(this) { }
 
 		// Example of a target-template exec block
 		Exec do_write_body {this, Exec::Body, "C", R"(
@@ -117,17 +116,21 @@ public:
 		Exec do_write_body_native {this, Exec::Body,
 			_c_methods_t.do_write(out_data.address, out_data.data)
 		};
-	} write_data_extT {this};
+	};
+	TypeDecl<write_data_ext> _write_data_ext_t {this};
 
 	class read_data_ext : public ExtendAction<rw_comp::read_data> {
 	public:
 
-		read_data_ext(const Scope &p) : ExtendAction(p) {}
+		read_data_ext(const Scope &p) : ExtendAction(this) {}
+
+		Rand<Bit<3,0>>			tmp{this, "tmp"};
 
 		Exec do_check_body_native {this, Exec::Body,
 			_c_methods_t.do_check(in_data.address, in_data.data)
 		};
-	} read_data_extT {this};
+	};
+	TypeDecl<read_data_ext> _read_data_ext_t {this};
 
 };
 pss_global_type(c_code);

@@ -91,6 +91,10 @@ const std::vector<const ScopeImp *> &ModelImp::get_scope() const {
 	return m_scope;
 }
 
+uint32_t ModelImp::depth() const {
+	return m_scope.size();
+}
+
 TypePathImp ModelImp::getActiveTypeName(BaseItem *it) {
 	const ScopeImp *scope = 0;
 //	fprintf(stdout, "--> getActiveTypeName\n");

@@ -22,8 +22,8 @@
  *      Author: ballance
  */
 
-#ifndef SRC_BIT_H_
-#define SRC_BIT_H_
+#ifndef INCLUDED_BIT_H
+#define INCLUDED_BIT_H
 #include "classlib/BitType.h"
 #include "classlib/Scope.h"
 #include "classlib/Types.h"
@@ -42,6 +42,9 @@ template <uint32_t MSB=0, uint32_t LSB=0> class Bit : public BitType {
 		virtual ~Bit() { }
 };
 
+/**
+ * Convenience typedefs
+ */
 typedef Bit<7,0>  pss_uint8_t;
 typedef Bit<15,0> pss_uint16_t;
 typedef Bit<31,0> pss_uint32_t;

@@ -99,6 +99,10 @@ void PSI2XML::process_pkg(IPackage *pkg) {
 				process_exec(dynamic_cast<IExec *>(i));
 				break;
 
+			case IBaseItem::TypeExtend:
+				process_extend(dynamic_cast<IExtend *>(i));
+				break;
+
 			default:
 				error("Unsupported package item: %d\n", i->getType());
 				break;
@@ -164,9 +168,6 @@ void PSI2XML::process_body(
 		const std::vector<IBaseItem *>  &items,
 		const std::string				&ctxt) {
 	std::vector<IBaseItem *>::const_iterator it = items.begin();
-	std::string field_tag = (ctxt == "struct")?"pss:struct_field_declaration":
-			(ctxt == "action")?"pss:action_field_declaration":
-			(ctxt == "component")?"pss:component_field_declaration":"pss:unknown_field_declaration";
 
 	for (; it!=items.end(); it++) {
 		IBaseItem *i = *it;
@@ -339,6 +340,12 @@ void PSI2XML::process_exec(IExec *exec) {
 	} break;
 
 	case IExec::TargetTemplate: {
+		std::string tag = "code_block kind=\"" + kind_s;
+		tag += "\" language=\"" + exec->getLanguage() + "\"";
+
+		enter(tag);
+		println(exec->getTargetTemplate());
+		exit("code_block");
 	} break;
 
 	case IExec::Inline: {
@@ -442,6 +449,24 @@ void PSI2XML::process_expr(IExpr *e, const char *tag) {
 	if (tag) {
 		exit(tag);
 	}
+}
+
+void PSI2XML::process_extend(IExtend *e) {
+	enter("extend");
+	type2hierarchical_id(e->getTarget(), "type");
+
+	std::string tag = "unknown-extend-type";
+	switch (e->getExtendType()) {
+	case IExtend::ExtendType_Action: tag = "action"; break;
+	case IExtend::ExtendType_Component: tag = "component"; break;
+	case IExtend::ExtendType_Struct: tag = "struct"; break;
+	}
+
+	enter(tag);
+	process_body(dynamic_cast<IScopeItem *>(e)->getItems(), "");
+	exit(tag);
+
+	exit("extend");
 }
 
 void PSI2XML::process_field(IField *f) {

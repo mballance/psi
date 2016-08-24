@@ -70,6 +70,17 @@ const std::vector<IBaseItem *> &ModelImpl::getItems() const {
 	return m_children;
 }
 
+void ModelImpl::remove(IBaseItem *it) {
+	for (std::vector<IBaseItem *>::iterator i=m_children.begin();
+			i!=m_children.end(); i++) {
+		if ((*i) == it) {
+			m_children.erase(i);
+			break;
+		}
+	}
+}
+
+
 void ModelImpl::add(IBaseItem *it) {
 	m_children.push_back(it);
 }

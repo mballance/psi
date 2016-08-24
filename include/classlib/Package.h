@@ -33,12 +33,12 @@
 namespace pss {
 
 class Package : public BaseItem {
+public:
+		virtual ~Package();
 
-	public:
-
+protected:
 		Package(const Scope &p);
 
-		virtual ~Package();
 
 };
 

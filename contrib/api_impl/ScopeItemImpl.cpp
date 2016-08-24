@@ -23,6 +23,16 @@ const std::vector<IBaseItem *> &ScopeItemImpl::getItems() const {
 	return m_children;
 }
 
+void ScopeItemImpl::remove(IBaseItem *it) {
+	for (std::vector<IBaseItem *>::iterator i=m_children.begin();
+			i!=m_children.end(); i++) {
+		if ((*i) == it) {
+			m_children.erase(i);
+			break;
+		}
+	}
+}
+
 void ScopeItemImpl::add(IBaseItem *item) {
 	item->setParent(dynamic_cast<IBaseItem *>(this));
 	m_children.push_back(item);

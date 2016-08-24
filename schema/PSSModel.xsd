@@ -89,13 +89,15 @@
 	</complexType>
 	
 	<complexType name="extend_stmt">
-		<choice minOccurs="1" maxOccurs="1">
-			<element name="action" type="pss:extend_action"/>
-			<element name="struct" type="pss:extend_struct"/>
-			<element name="enum" type="pss:extend_enum"/>
-			<element name="component" type="pss:extend_component"/>
-		</choice>
-		<attribute name="name" use="required"/>
+		<sequence minOccurs="1" maxOccurs="1">
+			<element name="type" type="pss:hierarchical_id"/>
+			<choice minOccurs="1" maxOccurs="1">
+				<element name="action" type="pss:extend_action"/>
+				<element name="struct" type="pss:extend_struct"/>
+				<element name="enum" type="pss:extend_enum"/>
+				<element name="component" type="pss:extend_component"/>
+			</choice>
+		</sequence>
 	</complexType>
 	
 	<complexType name="extend_action">
@@ -247,21 +249,24 @@
 	</complexType>
 	
 	<complexType name="target_code_exec_block">
-		<sequence>
-			<any/>
-		</sequence>
-		<attribute name="kind" use="required">
-			<simpleType>
-				<restriction base="string">
-					<enumeration value="body"/>
-					<enumeration value="pre_solve"/>
-					<enumeration value="post_solve"/>
-					<enumeration value="declaration"/>
-					<!-- TODO: capture full list -->
-				</restriction>
-			</simpleType>
-		</attribute>
-		<attribute name="language" use="required"/>
+		<simpleContent>
+			<extension base="string">
+				<attribute name="kind" use="required">
+					<simpleType>
+						<restriction base="string">
+							<enumeration value="body"/>
+							<enumeration value="pre_solve"/>
+							<enumeration value="post_solve"/>
+							<enumeration value="declaration"/>
+							<!-- TODO: capture full list -->
+						</restriction>
+					</simpleType>
+				</attribute>
+				<attribute name="language" use="required"/>
+			</extension>			
+			
+		</simpleContent>
+
 	</complexType>
 	
 	<complexType name="target_file_exec_block">

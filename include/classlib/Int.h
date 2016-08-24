@@ -39,6 +39,14 @@ template <int MSB=31, int LSB=0> class Int : public IntType {
 
 };
 
+/**
+ * Convenience typedefs
+ */
+typedef Int<7,0>  pss_int8_t;
+typedef Int<15,0> pss_int16_t;
+typedef Int<31,0> pss_int32_t;
+typedef Int<63,0> pss_int64_t;
+
 }
 
 

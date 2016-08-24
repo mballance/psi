@@ -50,6 +50,8 @@ protected:
 
 	virtual void visit_expr(IExpr *e);
 
+	virtual void visit_extend(IExtend *e);
+
 	virtual void visit_binary_expr(IBinaryExpr *be);
 
 	virtual void visit_fieldref_expr(IFieldRef *ref);
@@ -64,11 +66,15 @@ protected:
 
 	virtual void visit_graph_block_stmt(IGraphBlockStmt *block);
 
+	virtual void remove();
+
 	static std::string type2string(IBaseItem *it);
 
 	static std::string path2string(IFieldRef *f);
 
 	static std::string path2string(const std::vector<IField *> &path);
+private:
+	bool		m_removed;
 
 };
 

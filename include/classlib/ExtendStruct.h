@@ -29,8 +29,7 @@
 namespace pss {
 
 template <class T> class ExtendStruct : public ExtendBase<T> {
-
-	public:
+protected:
 		ExtendStruct(const Scope &p) : ExtendBase<T>(p) { }
 
 		virtual ~ExtendStruct() { }

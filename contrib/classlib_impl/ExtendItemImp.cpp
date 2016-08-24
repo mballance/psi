@@ -24,21 +24,34 @@
 
 #include "ExtendItemImp.h"
 #include "ScopeImp.h"
+#include <stdio.h>
 
 namespace pss {
 
-ExtendItem::ExtendItem(const Scope &p, BaseItem *type_hndl) :
-		BaseItem(new ExtendItemImp(this, p.impl()->parent(), BaseItemImp::TypeExtendAction, type_hndl)) {
+ExtendItem::ExtendItem(
+		const Scope 		&p,
+		BaseItem 			*type_hndl,
+		BaseItem			*ext_hndl) :
+		BaseItem(new ExtendItemImp(this, p.impl()->parent(), type_hndl, ext_hndl)) {
 	// TODO: need to pass through an extension type
+	fprintf(stdout, "ExtendItem::ExtendItem\n");
 }
 
 ExtendItemImp::ExtendItemImp(
 		ExtendItem 					*master,
 		BaseItem 					*p,
-		BaseItemImp::ObjectType 	t,
-		BaseItem					*type_hndl) :
-		BaseItemImp(master, t, p), m_data_type(toImp(type_hndl)) {
+		BaseItem					*type_hndl,
+		BaseItem					*ext_hndl) :
+		BaseItemImp(master, BaseItemImp::TypeExtendAction, p), m_data_type(toImp(type_hndl)) {
 
+	// Modify our specific type based on the type we're extending
+	switch (type_hndl->impl()->getObjectType()) {
+	case BaseItemImp::TypeAction: setObjectType(BaseItemImp::TypeExtendAction); break;
+	case BaseItemImp::TypeStruct: setObjectType(BaseItemImp::TypeExtendStruct); break;
+	case BaseItemImp::TypeComponent: setObjectType(BaseItemImp::TypeExtendComponent); break;
+	}
+
+	m_ext_hndl = ext_hndl->impl();
 }
 
 void ExtendItemImp::setDataType(BaseItem *t) {
