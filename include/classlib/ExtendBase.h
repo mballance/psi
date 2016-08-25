@@ -34,7 +34,7 @@ namespace pss {
 template <class T> class ExtendBase : public T {
 protected:
 
-	ExtendBase(const Scope &p) : T(p),
+	ExtendBase(const Scope &p) : T(Scope(true)),
 		m_item(p, (TypeDecl<T>::valid())?TypeDecl<T>::id():this, this) {
 	}
 
