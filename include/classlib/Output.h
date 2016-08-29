@@ -32,11 +32,21 @@
 
 namespace pss {
 
+class Action;
 template <class T> class Output : public FieldBase<T> {
 
 	public:
-		Output(BaseItem *p, const std::string &name) :
+		/**
+		 * This constructor is used to specify an action Output field
+		 */
+		Output(Action *p, const std::string &name) :
 			FieldBase<T>(FieldItem::AttrOutput, p, name) { }
+
+		/**
+		 * This constructor is used to specify a method parameter
+		 */
+		Output(const std::string &name) :
+			FieldBase<T>(FieldItem::AttrOutput, 0, name) { }
 
 		virtual ~Output() { }
 

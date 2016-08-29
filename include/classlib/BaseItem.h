@@ -56,6 +56,8 @@ public:
 
 	BaseItemImp *impl() const;
 
+	BaseItem(const BaseItem &rhs);
+
 protected:
 
 		BaseItem(BaseItemImp *impl);

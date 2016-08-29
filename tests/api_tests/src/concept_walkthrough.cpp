@@ -87,12 +87,13 @@ public:
 	pss_package_ctor(c_methods);
 
 	// Prototypes for import functions
-	Import do_write {this, "do_write",
-		{Bit<31,0>("addr"), Bit<31,0>("data")}
+	ImportFunc do_write {this, "do_write",
+//		{InParam<Bit<31,0>>("addr"), InParam<Bit<31,0>>("data")}
+		(Input<Bit<31,0>>("addr"), Input<Bit<31,0>>("data"))
 	};
 
-	Import do_check {this, "do_check",
-		{Bit<31,0>("addr"), Bit<31,0>("data")}
+	ImportFunc do_check {this, "do_check",
+		{Input<Bit<31,0>>("addr"), Input<Bit<31,0>>("data")}
 	};
 
 };

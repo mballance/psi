@@ -1,5 +1,5 @@
 /*
- * ExprImportCall.h
+ * ImportFunc.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,27 +18,52 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: May 11, 2016
+ *  Created on: Apr 29, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_EXPR_IMPORT_CALL_H
-#define INCLUDED_EXPR_IMPORT_CALL_H
+#ifndef INCLUDED_IMPORT_H
+#define INCLUDED_IMPORT_H
+#include <string>
 
-#include "Expr.h"
+#include "classlib/Expr.h"
+#include "classlib/BaseItem.h"
+#include "classlib/ExecImportCallStmt.h"
+#include "classlib/MethodParamList.h"
 
 namespace pss {
 
-class Import;
-class ExprList;
-class ExprImportCall: public Expr {
-public:
-	ExprImportCall(Import &import, const ExprList &plist);
+class ImportFunc : public BaseItem {
 
-	virtual ~ExprImportCall();
+	public:
 
+		ImportFunc(
+				BaseItem 				*p,
+				const std::string 		&name,
+				const MethodParamList	&plist);
+
+		ImportFunc(
+				BaseItem 				*p,
+				const std::string 		&name,
+				const BaseItem 			&ret,
+				const MethodParamList	&plist);
+
+		virtual ~ImportFunc();
+
+		ExecImportCallStmt operator()(const ExprList &plist);
+
+#ifdef PSS_HAVE_CXX_11
+
+		template<typename... I> ExecImportCallStmt operator()(const I&... items) {
+			return ExecImportCallStmt(*this, ExprList::mklist(items...));
+		}
+
+#endif
+
+		ExecImportCallStmt operator()();
 };
+
 
 } /* namespace pss */
 
-#endif /* INCLUDED_EXPR_IMPORT_CALL_H */
+#endif /* SRC_CLASSLIB_IMPORT_H_ */

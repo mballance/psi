@@ -67,7 +67,7 @@ public:
 
 	BaseItemImp();
 
-	BaseItemImp(const BaseItem &rhs);
+//	BaseItemImp(const BaseItem &rhs);
 
 	uint32_t depth() const { return m_depth; }
 
@@ -99,6 +99,12 @@ public:
 
 	void setMaster(BaseItem *m) { m_master = m; }
 
+	void inc_refcnt();
+
+	void dec_refcnt();
+
+	void operator = (const BaseItemImp &rhs);
+
 	static BaseItem *pOrGlobal(BaseItem *p);
 
 protected:
@@ -107,6 +113,7 @@ protected:
 
 
 private:
+	uint32_t								m_refcnt;
 	BaseItem								*m_master;
 	ObjectType								m_type;
 	BaseItemImp								*m_parent;
@@ -114,6 +121,7 @@ private:
 
 	std::vector<BaseItemImp *>				m_children;
 };
+
 
 } /* namespace pss */
 

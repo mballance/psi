@@ -20,7 +20,7 @@
 			<!-- TODO:
 			<element name="coverspec" type="pss:coverspec_declaration"/>
 		  	-->
-			<element name="import_method" type="pss:import_method_decl"/>
+			<element name="import_function" type="pss:import_method_decl"/>
 			<!-- TODO:
 			<element name="import_class" type="pss:import_class_decl"/>
 			<element name="import_method_qualifiers" type="pss:import_method_qualifiers"/>
@@ -48,7 +48,7 @@
 			<!-- TODO:
 			<element name="coverspec" type="pss:coverspec_declaration"/>
 		  	-->
-			<element name="import_method" type="pss:import_method_decl"/>
+			<element name="import_function" type="pss:import_method_decl"/>
 			<!-- TODO:
 			<element name="import_class" type="pss:import_class_decl"/>
 			<element name="import_method_qualifiers" type="pss:import_method_qualifiers"/>
@@ -72,7 +72,7 @@
 			<!-- TODO:
 			<element name="coverspec" type="pss:coverspec_declaration"/>
 			-->
-			<element name="import_method" type="pss:import_method_decl"/>
+			<element name="import_function" type="pss:import_method_decl"/>
 			<!-- TODO:
 			<element name="import_class" type="pss:import_class_decl"/>
 			<element name="import_method_qualifiers" type="pss:import_method_qualifiers"/>
@@ -227,11 +227,19 @@
 	</complexType>
 	
 	<complexType name="exec_body_stmt">
+		<choice minOccurs="1" maxOccurs="1">
+			<element name="assign" type="pss:exec_body_assign_stmt"/>
+			<element name="call" type="pss:exec_body_call_stmt"/>
+		</choice>
+	</complexType>
+	
+	<complexType name="exec_body_assign_stmt">
 		<sequence minOccurs="1" maxOccurs="1">
-			<element name="lhs" type="pss:expression"/>
-			<sequence minOccurs="0" maxOccurs="1">
+			<element name="lhs" type="pss:variable_ref"/>
+			<choice minOccurs="1" maxOccurs="1">
+				<element name="call" type="pss:exec_body_call_stmt"/>
 				<element name="rhs" type="pss:expression"/>
-			</sequence>
+			</choice>	
 		</sequence>
 		<attribute name="op">
 			<simpleType>
@@ -246,6 +254,9 @@
 				</restriction>
 			</simpleType>
 		</attribute>
+	</complexType>
+	
+	<complexType name="exec_body_call_stmt">
 	</complexType>
 	
 	<complexType name="target_code_exec_block">
@@ -382,21 +393,19 @@
 	</complexType>
 	
 	<complexType name="method_parameter">
-		<complexContent>
-			<extension base="pss:data_type">
-				<attribute name="name" type="string"/>
-				<attribute name="dir">
-					<simpleType>
-						<restriction base="string">
-							<enumeration value="input"/>
-							<enumeration value="output"/>
-							<enumeration value="inout"/>
-						</restriction>
-					</simpleType>
-				</attribute>
-			</extension>
-		</complexContent>
-		
+		<sequence minOccurs="1" maxOccurs="1">
+			<element name="type" type="pss:data_type"/>
+		</sequence>
+		<attribute name="name" type="string" use="required"/>
+		<attribute name="dir">
+			<simpleType>
+				<restriction base="string">
+					<enumeration value="input"/>
+					<enumeration value="output"/>
+					<enumeration value="inout"/>
+				</restriction>
+			</simpleType>
+		</attribute>
 	</complexType>
 	
     <!-- ************************************************************

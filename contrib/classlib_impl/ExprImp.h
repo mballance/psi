@@ -64,14 +64,14 @@ public:
 		Stmt_Implies,
 
 		GraphParallel,
-		GraphRepeat, // 25
+		GraphRepeat,
 		GraphSchedule,
 		GraphSelect,
-		GraphWith,
+		GraphWith, // 30
 
 		ImportCall,
 
-		List, // 30
+		List,
 		TypeRef
 	};
 

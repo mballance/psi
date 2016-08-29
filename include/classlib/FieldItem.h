@@ -29,12 +29,16 @@
 
 namespace pss {
 
+class MethodParamList;
+class ExecStmt;
+class ExecImportCallStmt;
 class FieldItem: public BaseItem {
 public:
 	enum FieldAttr {
 		AttrNone = 0,
 		AttrInput,
 		AttrOutput,
+		AttrInout, // Only used for method parameters
 		AttrLock,
 		AttrShare,
 		AttrRand,
@@ -59,6 +63,17 @@ public:
 			BaseItem			*type_hndl);
 
 	Expr implies(const ExprList &rhs);
+
+	MethodParamList operator,(const FieldItem &rhs);
+
+	ExecStmt operator =(const ExecImportCallStmt &rhs);
+
+	ExecStmt operator =(const Expr &rhs);
+
+	ExecStmt operator &= (const ExecImportCallStmt &rhs);
+
+	ExecStmt operator &= (const Expr &rhs);
+
 };
 
 } /* namespace pss */

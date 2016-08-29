@@ -31,11 +31,21 @@
 
 namespace pss {
 
+class Action;
 template <class T> class Input : public FieldBase<T> {
 
 	public:
-		Input(BaseItem *p, const std::string &name) :
+		/**
+		 * This constructor is used for specifying an action Input field
+		 */
+		Input(Action *p, const std::string &name) :
 			FieldBase<T>(FieldItem::AttrInput, p, name) { }
+
+		/**
+		 * This constructor is used for specifying method parameters
+		 */
+		Input(const std::string &name) :
+			FieldBase<T>(FieldItem::AttrInput, 0, name) { }
 
 		virtual ~Input() { }
 

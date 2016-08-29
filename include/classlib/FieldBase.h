@@ -22,10 +22,12 @@
 #ifndef INCLUDED_FIELD_BASE_H
 #define INCLUDED_FIELD_BASE_H
 #include "classlib/FieldItem.h"
+#include "classlib/MethodParamList.h"
 #include "classlib/TypeDecl.h"
 
 namespace pss {
 
+class MethodParamList;
 template <class T> class FieldBase : public T {
 public:
 
@@ -39,6 +41,9 @@ public:
 	operator Expr() const { return Expr(m_field); }
 
 	operator const FieldItem &() const { return m_field; }
+
+	// Helper operator used to form parameter lists
+	MethodParamList operator,(const FieldItem &rhs) { return (m_field , rhs); }
 
 protected:
 

@@ -29,11 +29,13 @@
 
 #include "classlib/BaseItem.h"
 #include "classlib/Types.h"
+#include "classlib/ExecStmtList.h"
 
 namespace pss {
 
 class ImportCall;
 class ExtendItem;
+class ExecStmtList;
 
 class Exec : public BaseItem {
 
@@ -62,12 +64,12 @@ class Exec : public BaseItem {
 		Exec(
 			BaseItem								*p,
 			ExecKind 								kind,
-			const ExprList							&stmts);
+			const ExecStmtList						&stmts);
 
 		Exec(
 			ExtendItem								*p,
 			ExecKind 								kind,
-			const ExprList							&stmts);
+			const ExecStmtList						&stmts);
 
 		/**
 		 * Inline exec block that activates the appropriate

@@ -1,5 +1,5 @@
 /*
- * Import.cpp
+ * ImportFunc.cpp
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,57 +22,64 @@
  *      Author: ballance
  */
 
-#include "ImportImp.h"
+#include "ImportFuncImp.h"
 #include "classlib/ExprList.h"
+#include "classlib/ChandleType.h"
 
 
 namespace pss {
 
-Import::Import(BaseItem *p, const std::string &name, const ExprList &plist) :
-	BaseItem(new ImportImp(this, p, name, plist)) {
+ImportFunc::ImportFunc(
+		BaseItem 				*p,
+		const std::string 		&name,
+		const MethodParamList 	&plist) :
+	BaseItem(new ImportFuncImp(this, p, name, plist)) {
 
 }
 
-ImportImp::ImportImp(
-		Import				*master,
-		BaseItem 			*p,
-		const std::string 	&name,
-		const ExprList 		&plist) :
+ImportFuncImp::ImportFuncImp(
+		ImportFunc					*master,
+		BaseItem 				*p,
+		const std::string 		&name,
+		const MethodParamList 	&plist) :
 	NamedBaseItemImp(master, BaseItemImp::TypeImport, p, name),
-	m_have_ret(false), m_parameters(plist.imp()) {
+	m_have_ret(false), m_ret(ChandleType(std::string("void"))), m_parameters(plist) {
 
 }
 
-Import::Import(BaseItem *p, const std::string &name,
-		const BaseItem &ret, const ExprList &plist) :
-	BaseItem(new ImportImp(this, p, name, ret, plist)) {
+ImportFunc::ImportFunc(
+		BaseItem 				*p,
+		const std::string 		&name,
+		const BaseItem 			&ret,
+		const MethodParamList	&plist) :
+	BaseItem(new ImportFuncImp(this, p, name, ret, plist)) {
 
 }
 
-ImportImp::ImportImp(
-		Import				*master,
-		BaseItem 			*p,
-		const std::string 	&name,
-		const BaseItem 		&ret,
-		const ExprList 		&plist) :
+ImportFuncImp::ImportFuncImp(
+		ImportFunc					*master,
+		BaseItem 				*p,
+		const std::string 		&name,
+		const BaseItem 			&ret,
+		const MethodParamList	&plist) :
 	NamedBaseItemImp(master, BaseItemImp::TypeImport, p, name),
-	m_have_ret(true), m_ret(ret), m_parameters(plist.imp()) {
+	m_have_ret(true), m_ret(ret), m_parameters(plist) {
 }
 
-Import::~Import() {
+ImportFunc::~ImportFunc() {
 	// TODO Auto-generated destructor stub
 }
 
-ImportImp::~ImportImp() {
+ImportFuncImp::~ImportFuncImp() {
 	// TODO Auto-generated destructor stub
 }
 
-ExprImportCall Import::operator()(const ExprList &plist) {
-	return ExprImportCall(*this, plist);
+ExecImportCallStmt ImportFunc::operator()(const ExprList &plist) {
+	return ExecImportCallStmt(*this, plist);
 }
 
-ExprImportCall Import::operator()() {
-	return ExprImportCall(*this, ExprList());
+ExecImportCallStmt ImportFunc::operator()() {
+	return ExecImportCallStmt(*this, ExprList());
 }
 
 } /* namespace pss */

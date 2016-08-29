@@ -35,25 +35,35 @@
 
 namespace pss {
 
-BaseItem::BaseItem(BaseItemImp *impl) {
-	m_impl = impl;
+BaseItem::BaseItem(BaseItemImp *impl) : m_impl(impl) {
+	m_impl->inc_refcnt();
 	m_impl->setMaster(this);
 }
 
-BaseItemImp::BaseItemImp() : m_master(0), m_type(Model), m_parent(0) {
+BaseItem::BaseItem(const BaseItem &rhs) {
+	m_impl = rhs.m_impl;
+	m_impl->inc_refcnt();
+}
+
+BaseItemImp::BaseItemImp() :
+		m_refcnt(0),
+		m_master(0),
+		m_type(Model),
+		m_parent(0) {
 	m_depth = 0;
 }
 
-BaseItemImp::BaseItemImp(const BaseItem &rhs) {
-	m_master = 0;
-	m_type = rhs.impl()->m_type;
-	m_parent = rhs.impl()->m_parent;
-	m_children = rhs.impl()->m_children;
-	m_depth = rhs.impl()->m_depth;
-}
+// Is this constructor required?
+//BaseItemImp::BaseItemImp(const BaseItem &rhs) {
+//	m_master = 0;
+//	m_type = rhs.impl()->m_type;
+//	m_parent = rhs.impl()->m_parent;
+//	m_children = rhs.impl()->m_children;
+//	m_depth = rhs.impl()->m_depth;
+//}
 
 BaseItemImp::BaseItemImp(BaseItem *master, ObjectType t, BaseItem *p) :
-		m_master(master), m_type(t), m_parent(toImp(p)) {
+		m_refcnt(0), m_master(master), m_type(t), m_parent(toImp(p)) {
 
 	if (m_parent) {
 		m_parent->add(this);
@@ -62,7 +72,7 @@ BaseItemImp::BaseItemImp(BaseItem *master, ObjectType t, BaseItem *p) :
 }
 
 BaseItem::~BaseItem() {
-	delete m_impl;
+	m_impl->dec_refcnt();
 }
 
 BaseItemImp::~BaseItemImp() {
@@ -75,6 +85,21 @@ BaseItemImp *BaseItem::impl() const {
 
 BaseItemImp *BaseItemImp::toImp(BaseItem *i) {
 	return (i)?i->impl():0;
+}
+
+void BaseItemImp::inc_refcnt() {
+	m_refcnt++;
+}
+
+void BaseItemImp::dec_refcnt() {
+	if (!m_refcnt) {
+		// Error: too many frees
+	}
+	m_refcnt--;
+
+	if (!m_refcnt) {
+		delete this;
+	}
 }
 
 //void BaseItem::setParent(BaseItem *p) {
@@ -102,14 +127,6 @@ ExprListBuilder BaseItem::operator,(const BaseItem &rhs) {
 }
 
 void BaseItemImp::add(BaseItemImp *item, bool reparent) {
-//	NamedBaseItem *ni_t = NamedBaseItem::to(this);
-//	NamedBaseItem *ni_it = NamedBaseItem::to(item);
-//
-//	fprintf(stdout, "add %d (%s) -> %d (%s)\n",
-//			item->getObjectType(),
-//			(ni_it)?ni_it->getName().c_str():"NULL",
-//			getObjectType(),
-//			(ni_t)?ni_t->getName().c_str():"NULL");
 	if (reparent) {
 		item->setParent(this);
 	}

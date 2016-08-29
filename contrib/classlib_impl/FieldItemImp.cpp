@@ -23,6 +23,7 @@
  */
 
 #include "FieldItemImp.h"
+#include "classlib/MethodParamList.h"
 
 namespace pss {
 
@@ -72,6 +73,14 @@ FieldItemImp::~FieldItemImp() {
 
 void FieldItemImp::setDataType(BaseItem *dt) {
 	m_data_type = toImp(dt);
+}
+
+MethodParamList FieldItem::operator,(const FieldItem &rhs) {
+	MethodParamList ret(*this);
+
+	ret = (ret, rhs);
+
+	return ret;
 }
 
 

@@ -26,7 +26,7 @@
 #include "ActionImp.h"
 #include "ComponentImp.h"
 #include "ConstraintImp.h"
-#include "ImportImp.h"
+#include "ImportFuncImp.h"
 #include "FieldItemImp.h"
 #include "PackageImp.h"
 #include "StructImp.h"
@@ -49,7 +49,7 @@ NamedBaseItemImp *NamedBaseItemImp::to(BaseItemImp *it) {
 		case BaseItemImp::TypeAction: return static_cast<ActionImp *>(it);
 		case BaseItemImp::TypeComponent: return static_cast<ComponentImp *>(it);
 		case BaseItemImp::TypeConstraint: return static_cast<ConstraintImp *>(it);
-		case BaseItemImp::TypeImport: return static_cast<ImportImp *>(it);
+		case BaseItemImp::TypeImport: return static_cast<ImportFuncImp *>(it);
 		case BaseItemImp::TypeField: return static_cast<FieldItemImp *>(it);
 		case BaseItemImp::TypePackage: return static_cast<PackageImp *>(it);
 		case BaseItemImp::TypeStruct: return static_cast<StructImp *>(it);

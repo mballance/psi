@@ -41,7 +41,6 @@ StringImp::StringImp(String *master, const std::string &name) :
 		m_utils(this) { }
 
 String::~String() {
-	delete m_impl;
 }
 
 StringImp::~StringImp() {

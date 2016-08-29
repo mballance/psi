@@ -1,5 +1,5 @@
 /*
- * Import.h
+ * ImportFunc.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,38 +22,51 @@
  *      Author: ballance
  */
 
-#ifndef INCLUDED_IMPORT_H
-#define INCLUDED_IMPORT_H
+#ifndef INCLUDED_IMPORT_IMP_H
+#define INCLUDED_IMPORT_IMP_H
 #include <string>
 
-#include "classlib/Expr.h"
-#include "classlib/BaseItem.h"
-#include "classlib/ExprImportCall.h"
+#include "classlib/ImportFunc.h"
+#include "NamedBaseItemImp.h"
+#include "MethodParamListImp.h"
 
 namespace pss {
 
-class Import : public BaseItem {
+class ImportFuncImp : public NamedBaseItemImp {
 
 	public:
 
-		Import(BaseItem *p, const std::string &name, const ExprList &plist);
+		ImportFuncImp(
+				ImportFunc					*master,
+				BaseItem 				*p,
+				const std::string 		&name,
+				const MethodParamList	&plist);
 
-		Import(BaseItem *p, const std::string &name,
-				const BaseItem &ret, const ExprList &plist);
+		ImportFuncImp(
+				ImportFunc					*master,
+				BaseItem 				*p,
+				const std::string 		&name,
+				const BaseItem 			&ret,
+				const MethodParamList	&plist);
 
-		virtual ~Import();
+		virtual ~ImportFuncImp();
 
-		ExprImportCall operator()(const ExprList &plist);
+//		ExecImportCallStmt operator()(const ExprList &plist);
+//
+//		ExecImportCallStmt operator()();
 
-#ifdef PSS_HAVE_CXX_11
-
-		template<typename... I> ExprImportCall operator()(const I&... items) {
-			return ExprImportCall(*this, ExprList::mklist(items...));
+		BaseItemImp *getReturnType() {
+			return (m_have_ret)?m_ret.impl():0;
 		}
 
-#endif
+		const MethodParamList &getParameters() const { return m_parameters; }
 
-		ExprImportCall operator()();
+	private:
+
+		bool						m_have_ret;
+		BaseItem					m_ret;
+		MethodParamList				m_parameters;
+
 };
 
 

@@ -12,10 +12,10 @@ tests/classlib_graph_parallel_repeat.f
 tests/classlib_implies_1.f
 tests/classlib_inline_exec_1.f
 tests/classlib_inline_exec_chandle_1.f
-// Import not currently properly elaborated
+// ImportFunc not currently properly elaborated
 // tests/classlib_native_exec_1.f
 tests/classlib_type_hierarchy_1.f
-// Import not currently properly elaborated
+// ImportFunc not currently properly elaborated
 // tests/concept_walkthrough.f
 tests/constraint_basics_test.f
 tests/constraint_ifelse_test.f

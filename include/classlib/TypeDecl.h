@@ -57,6 +57,10 @@ public:
 
 	static T *id() { return type_id(); }
 
+	static T *idOrPrimitive() {
+		return (valid())?id():(new T(Scope(true)));
+	}
+
 	static bool valid() {
 		return m_valid;
 	}

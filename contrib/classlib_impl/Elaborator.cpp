@@ -27,10 +27,11 @@
 #include "api/IComponent.h"
 #include "api/IExecCallback.h"
 #include "BitTypeImp.h"
-#include "ImportImp.h"
+#include "ImportFuncImp.h"
 #include "IntTypeImp.h"
 #include "BoolImp.h"
 #include "ModelImp.h"
+#include "ExecStmtListImp.h"
 #include <stdio.h>
 #include <stdarg.h>
 
@@ -492,7 +493,7 @@ void Elaborator::elaborate_package(IModel *model, PackageImp *pkg_cl) {
 			case BaseItemImp::TypeAction: c = elaborate_action(dynamic_cast<ActionImp *>(t)); break;
 			case BaseItemImp::TypeStruct: c = elaborate_struct(dynamic_cast<StructImp *>(t)); break;
 //			case BaseItemImp::TypeExec:  c = elaborate_exec_item(dynamic_cast<ExecImp *>(t)); break;
-			case BaseItemImp::TypeImport: c = elaborate_import_func(dynamic_cast<ImportImp *>(t)); break;
+			case BaseItemImp::TypeImport: c = elaborate_import_func(dynamic_cast<ImportFuncImp *>(t)); break;
 			case BaseItemImp::TypeExtendAction:
 			case BaseItemImp::TypeExtendComponent:
 			case BaseItemImp::TypeExtendStruct:
@@ -512,14 +513,22 @@ void Elaborator::elaborate_package(IModel *model, PackageImp *pkg_cl) {
 IBaseItem *Elaborator::elaborate_struct_action_body_item(BaseItemImp *t) {
 	IBaseItem *ret = 0;
 
-	if (t->getObjectType() == BaseItemImp::TypeConstraint) {
+	switch (t->getObjectType()) {
+	case BaseItemImp::TypeConstraint:
 		ret = elaborate_constraint(dynamic_cast<ConstraintImp *>(t));
-	} else if (t->getObjectType() == BaseItemImp::TypeField) {
-		ret = elaborate_field_item(dynamic_cast<FieldItemImp *>(t));
-	} else if (t->getObjectType() == BaseItemImp::TypeExec) {
-		ret = elaborate_exec_item(dynamic_cast<ExecImp *>(t));
-	} else {
+		break;
 
+	case BaseItemImp::TypeField:
+		ret = elaborate_field_item(dynamic_cast<FieldItemImp *>(t));
+		break;
+
+	case BaseItemImp::TypeExec:
+		ret = elaborate_exec_item(dynamic_cast<ExecImp *>(t));
+		break;
+
+	default:
+		fprintf(stdout, "Error: unhandled struct/action-body item %d\n",
+				t->getObjectType());
 	}
 
 	return ret;
@@ -549,9 +558,15 @@ IExec *Elaborator::elaborate_exec_item(ExecImp *e) {
 
 	switch (e->getExecType()) {
 	case ExecImp::Native: {
-		fprintf(stdout, "TODO: native exec\n");
-		std::vector<IExpr *> stmts;
-//		ret = m_model->mkNativeExec(kind, stmts);
+		const std::vector<ExecStmt> &stmts = static_cast<ExecImp *>(e)->getStmtList().imp()->stmts();
+		std::vector<IExecStmt *> stmts_e;
+
+		for (std::vector<ExecStmt>::const_iterator it=stmts.begin();
+				it!=stmts.end(); it++) {
+			stmts_e.push_back(elaborate_exec_stmt((*it).imp()));
+			fprintf(stdout, "Stmt\n");
+		}
+		ret = m_model->mkNativeExec(kind, stmts_e);
 	} break;
 
 	case ExecImp::Inline: {
@@ -610,6 +625,10 @@ IExec *Elaborator::elaborate_exec_item(ExecImp *e) {
 	return ret;
 }
 
+IExecStmt *Elaborator::elaborate_exec_stmt(ExecStmtImp *e) {
+	return 0;
+}
+
 IExtend *Elaborator::elaborate_extend(ExtendItemImp *e) {
 	BaseItemImp *t = e->getDataType();
 	IBaseItem *target = find_type_decl(t); // Target type
@@ -655,6 +674,18 @@ IField *Elaborator::elaborate_field_item(FieldItemImp *f) {
 		array_dim = elaborate_expr(f->arrayDim().ptr());
 	}
 
+	ft = elaborate_datatype(dt);
+
+	if (ft) {
+		ret = m_model->mkField(f->getName(), ft, attr, array_dim);
+	}
+
+	return ret;
+}
+
+IBaseItem *Elaborator::elaborate_datatype(BaseItemImp *dt) {
+	IBaseItem *ft = 0;
+
 	if (dt->getObjectType() == BaseItemImp::TypeBit) {
 		// This is a bit-type field
 		BitTypeImp *bt = dynamic_cast<BitTypeImp *>(dt);
@@ -690,11 +721,7 @@ IField *Elaborator::elaborate_field_item(FieldItemImp *f) {
 		// Error
 	}
 
-	if (ft) {
-		ret = m_model->mkField(f->getName(), ft, attr, array_dim);
-	}
-
-	return ret;
+	return ft;
 }
 
 IFieldRef *Elaborator::elaborate_field_ref(BaseItemImp *t) {
@@ -790,23 +817,32 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItemImp *t) {
 	return m_model->mkFieldRef(fields);
 }
 
-IImportFunc *Elaborator::elaborate_import_func(ImportImp *imp) {
+IImportFunc *Elaborator::elaborate_import_func(ImportFuncImp *imp) {
 	std::vector<IField *> parameters;
 	IBaseItem *ret = 0;
 
 	if (imp->getReturnType()) {
-		BaseItemImp *ret = imp->getReturnType();
+		ret = elaborate_datatype(imp->getReturnType());
 	}
 
-	ExprCoreList *param_imp = dynamic_cast<ExprCoreList *>(
-			imp->getParameters().imp().ptr());
+//	ExprCoreList *param_imp = dynamic_cast<ExprCoreList *>(
+//			imp->getParameters().imp().ptr());
 
-	for (std::vector<ExprImp>::const_iterator it=param_imp->getExprList().begin();
-			it!=param_imp->getExprList().end(); it++) {
-		const ExprImp &expr = *it;
-		ExprCore *p = expr.ptr();
-		fprintf(stdout, "p=%p\n", p);
-	}
+//	const MethodParamListImp &plist = imp->getParameters();
+//
+//	for (std::vector<MethodParamImp *>::const_iterator it=plist.parameters().begin();
+//			it!=plist.parameters().end(); it++) {
+//		MethodParamImp *p = *it;
+//		IBaseItem *pt = elaborate_datatype(p->getDataType()->impl());
+//		IField::FieldAttr attr;
+//		switch (p->getDir()) {
+//		case MethodParam::In: attr = IField::FieldAttr_Input; break;
+//		case MethodParam::Out: attr = IField::FieldAttr_Output; break;
+//		case MethodParam::InOut: attr = IField::FieldAttr_Output; break; // TODO:
+//		}
+//		IField *p_h = m_model->mkField(p->getName(), pt, attr, 0);
+//		parameters.push_back(p_h);
+//	}
 
 	return m_model->mkImportFunc(
 			imp->getName(),

@@ -26,6 +26,7 @@
 
 #include "ExecImp.h"
 #include "classlib/ExtendItem.h"
+#include "classlib/ExecStmtList.h"
 
 namespace pss {
 
@@ -70,14 +71,14 @@ ExecImp::ExecImp(
 Exec::Exec(
 		BaseItem				*p,
 		ExecKind 				kind,
-		const ExprList			&stmts) :
+		const ExecStmtList		&stmts) :
 			BaseItem(new ExecImp(this, p, kind, stmts)) { }
 
 ExecImp::ExecImp(
 		Exec					*master,
 		ExtendItem				*p,
 		Exec::ExecKind 			kind,
-		const ExprList			&stmts) :
+		const ExecStmtList		&stmts) :
 			BaseItemImp(master, BaseItemImp::TypeExec, p),
 			m_execType(Native),
 			m_execKind(kind),
@@ -90,7 +91,7 @@ ExecImp::ExecImp(
 		Exec					*master,
 		BaseItem				*p,
 		Exec::ExecKind 			kind,
-		const ExprList			&stmts) :
+		const ExecStmtList		&stmts) :
 			BaseItemImp(master, BaseItemImp::TypeExec, p),
 			m_execType(Native),
 			m_execKind(kind),

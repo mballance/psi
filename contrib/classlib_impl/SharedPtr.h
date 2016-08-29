@@ -63,6 +63,24 @@ public:
 		}
 	}
 
+	void inc_ref() {
+		if (m_ptr) {
+			*m_count++;
+		}
+	}
+
+	void dec_ref() {
+		if (m_ptr) {
+			(*m_count)--;
+			if (*m_count == 0) {
+				T *tmp = m_ptr;
+				m_ptr = 0;
+				delete m_ptr;
+				delete m_count;
+			}
+		}
+	}
+
 	T *ptr() const {
 		return m_ptr;
 	}

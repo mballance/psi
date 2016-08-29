@@ -103,6 +103,10 @@ void PSI2XML::process_pkg(IPackage *pkg) {
 				process_extend(dynamic_cast<IExtend *>(i));
 				break;
 
+			case IBaseItem::TypeImportFunc:
+				process_import_func(dynamic_cast<IImportFunc *>(i));
+				break;
+
 			default:
 				error("Unsupported package item: %d\n", i->getType());
 				break;
@@ -621,6 +625,36 @@ void PSI2XML::process_graph_block_stmt(IGraphBlockStmt *block, const char *tag) 
 	if (tag) {
 		exit(tag);
 	}
+}
+
+void PSI2XML::process_import_func(IImportFunc *f, const std::string &tag) {
+	std::string tag_s = tag + " name=\"" + f->getName() + "\"";
+
+	enter(tag_s);
+
+	if (f->getReturnType()) {
+		type2data_type(f->getReturnType(), "return");
+	}
+
+	if (f->getParameters().size() > 0) {
+		enter("parameters");
+		for (std::vector<IField *>::const_iterator it=f->getParameters().begin();
+				it!=f->getParameters().end(); it++) {
+			IField *p = *it;
+			std::string dir_s = "unknown-dir";
+			switch (p->getAttr()) {
+				case IField::FieldAttr_Input: dir_s = "input";
+				case IField::FieldAttr_Output: dir_s = "output";
+			}
+
+			enter("parameter name=\"" + p->getName() + "\" dir=\"" + dir_s + "\"");
+			type2data_type(p->getDataType(), "type");
+
+		}
+		exit("parameters");
+	}
+
+	exit(tag);
 }
 
 std::string PSI2XML::type2string(IBaseItem *it) {

@@ -44,7 +44,7 @@
 #include "ExtendItemImp.h"
 #include "GraphImp.h"
 #include "FieldItemImp.h"
-#include "ImportImp.h"
+#include "ImportFuncImp.h"
 #include "PackageImp.h"
 #include "BaseItemImp.h"
 #include "StructImp.h"
@@ -101,20 +101,24 @@ protected:
 
 	IBaseItem *elaborate_struct_action_body_item(BaseItemImp *t);
 
-
 	IExec *elaborate_exec_item(ExecImp *e);
+
+	IExecStmt *elaborate_exec_stmt(ExecStmtImp *e);
 
 	IExtend *elaborate_extend(ExtendItemImp *e);
 
 	IField *elaborate_field_item(FieldItemImp *f);
 
+	IBaseItem *elaborate_datatype(BaseItemImp *t);
+
 	IFieldRef *elaborate_field_ref(BaseItemImp *ref);
 
-	IImportFunc *elaborate_import_func(ImportImp *imp);
+	IImportFunc *elaborate_import_func(ImportFuncImp *imp);
 
 	IBindPath *elaborate_bind_path(BaseItemImp *it);
 
 	IGraphStmt *elaborate_graph(GraphImp *g);
+
 
 	IGraphStmt *elaborate_graph_stmt(ExprCore *stmt);
 

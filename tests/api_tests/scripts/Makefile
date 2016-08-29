@@ -71,7 +71,7 @@ COMPILE_REDIR:= 2>&1 | tee compile.log
 endif
 
 $(TESTEXE)$(EXEEXT) : $(SIM_DIR)/src/$(TESTEXE).cpp $(SIM_DIR)/src/test_main.cpp $(TEST_LIBS)
-	$(Q)$(CXX) -o $@ $^ $(RUN_CXXFLAGS) $(CXXFLAGS) $(BUILD_DIR)/libpsi.a -lxml2 $(COMPILE_REDIR)
+	$(Q)$(CXX) -g -o $@ $^ $(RUN_CXXFLAGS) $(CXXFLAGS) $(BUILD_DIR)/libpsi.a -lxml2 $(COMPILE_REDIR)
 
 $(BUILD_DIR)/libpsi_tests.a : $(foreach o,$(LIBPSI_TESTS_SRC:.cpp=.o),$(BUILD_DIR)/$(o))
 	$(Q)rm -rf $@

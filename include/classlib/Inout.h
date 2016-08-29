@@ -1,5 +1,5 @@
 /*
- * Import.h
+ * Inout.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,57 +18,34 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- *  Created on: Apr 29, 2016
+ *  Created on: Apr 23, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_IMPORT_IMP_H
-#define INCLUDED_IMPORT_IMP_H
+#ifndef INCLUDED_INOUT_H
+#define INCLUDED_INOUT_H
 #include <string>
 
-#include "classlib/Import.h"
-#include "NamedBaseItemImp.h"
+#include "classlib/FieldBase.h"
+#include "classlib/TypeDecl.h"
 
 namespace pss {
 
-class ImportImp : public NamedBaseItemImp {
+class Action;
+template <class T> class Inout : public FieldBase<T> {
 
 	public:
 
-		ImportImp(
-				Import				*master,
-				BaseItem 			*p,
-				const std::string 	&name,
-				const ExprList 		&plist);
+		/**
+		 * This constructor is used for specifying method parameters
+		 */
+		Inout(const std::string &name) :
+			FieldBase<T>(FieldItem::AttrInout, 0, name) { }
 
-		ImportImp(
-				Import				*master,
-				BaseItem 			*p,
-				const std::string 	&name,
-				const BaseItem 		&ret,
-				const ExprList 		&plist);
-
-		virtual ~ImportImp();
-
-		ExprImportCall operator()(const ExprList &plist);
-
-		ExprImportCall operator()();
-
-		BaseItemImp *getReturnType() {
-			return (m_have_ret)?&m_ret:0;
-		}
-
-		const ExprList &getParameters() const { return m_parameters; }
-
-	private:
-
-		bool						m_have_ret;
-		BaseItemImp					m_ret;
-		ExprList					m_parameters;
+		virtual ~Inout() { }
 
 };
 
-
 } /* namespace pss */
 
-#endif /* SRC_CLASSLIB_IMPORT_H_ */
+#endif /* INCLUDED_INPUT_H */

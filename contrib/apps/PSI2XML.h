@@ -88,6 +88,8 @@ private:
 
 	void process_graph_block_stmt(IGraphBlockStmt *block, const char *tag=0);
 
+	void process_import_func(IImportFunc *f, const std::string &tag="import_func");
+
 	static std::string type2string(IBaseItem *it);
 
 	void type2hierarchical_id(IBaseItem *it, const std::string &tag="pss:type");

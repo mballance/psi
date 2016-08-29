@@ -63,10 +63,10 @@ class methods_pkg : public Package {
 public:
 	pss_package_ctor(methods_pkg);
 
-	Import my_func {this, "my_func",
+	ImportFunc my_func {this, "my_func",
 		(Bit<7,0>("a"), Bit<31,0>("b"))};
 
-	Import my_func2 {this, "my_func2", Bit<7,0>(""),
+	ImportFunc my_func2 {this, "my_func2", Bit<7,0>(""),
 		(Bit<7,0>("a"), Bit<31,0>("b"))};
 
 };

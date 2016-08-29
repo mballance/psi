@@ -29,6 +29,7 @@
 
 #include "classlib/Exec.h"
 #include "BaseItemImp.h"
+#include "classlib/ExecStmtList.h"
 
 namespace pss {
 
@@ -62,13 +63,13 @@ class ExecImp : public BaseItemImp {
 			Exec						*master,
 			BaseItem					*p,
 			Exec::ExecKind 				kind,
-			const ExprList				&stmts);
+			const ExecStmtList			&stmts);
 
 		ExecImp(
 			Exec						*master,
 			ExtendItem					*p,
 			Exec::ExecKind				kind,
-			const ExprList				&stmts);
+			const ExecStmtList			&stmts);
 
 		/**
 		 * Inline exec block that activates the appropriate
@@ -93,13 +94,15 @@ class ExecImp : public BaseItemImp {
 
 		const std::string &getTargetTemplate() const { return m_content; }
 
+		const ExecStmtList &getStmtList() const { return m_stmts; }
+
 	private:
 		ExecType							m_execType;
 		Exec::ExecKind						m_execKind;
 
 		std::string							m_language;
 		std::string							m_content;
-		ExprList							m_stmts;
+		ExecStmtList						m_stmts;
 
 };
 
