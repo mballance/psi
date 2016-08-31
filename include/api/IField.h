@@ -41,6 +41,7 @@ public:
 		FieldAttr_None = 0,
 		FieldAttr_Rand,
 		FieldAttr_Input,
+		FieldAttr_Inout,
 		FieldAttr_Lock,
 		FieldAttr_Output,
 		FieldAttr_Pool,

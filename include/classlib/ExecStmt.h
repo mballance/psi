@@ -11,9 +11,11 @@
 namespace pss {
 
 class ExecStmtImp;
+class FieldItem;
 class ExecStmt {
 public:
 	friend ExecStmtImp;
+	friend FieldItem;
 
 	ExecStmt(const ExecStmt &rhs);
 

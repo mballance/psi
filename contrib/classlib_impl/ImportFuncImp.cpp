@@ -25,6 +25,7 @@
 #include "ImportFuncImp.h"
 #include "classlib/ExprList.h"
 #include "classlib/ChandleType.h"
+#include "ExecImportCallStmtImp.h"
 
 
 namespace pss {

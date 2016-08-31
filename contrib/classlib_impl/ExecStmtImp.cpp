@@ -9,10 +9,7 @@
 
 namespace pss {
 
-ExecStmtImp::ExecStmtImp(StmtType op) : m_refcnt(0) {
-	// TODO Auto-generated constructor stub
-
-}
+ExecStmtImp::ExecStmtImp(StmtType type) : m_refcnt(0), m_type(type) { }
 
 ExecStmt::ExecStmt(const ExecStmt &rhs) {
 	m_imp = rhs.m_imp;

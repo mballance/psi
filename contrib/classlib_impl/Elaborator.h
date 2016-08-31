@@ -137,6 +137,8 @@ private:
 
 	IBaseItem *find_type_decl(BaseItemImp *t);
 
+	IImportFunc *find_import_func(ImportFuncImp *imp);
+
 	static IBaseItem *find_named_scope(
 			const std::vector<IBaseItem *> 	&list,
 			const std::string 				&name);
@@ -156,6 +158,8 @@ private:
 	static const char *getName(IBaseItem *it);
 
 	static const char *getName(IScopeItem *it);
+
+	static const char *getName(BaseItemImp *it);
 
 	static IScopeItem *getSuperType(IScopeItem *it);
 

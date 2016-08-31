@@ -39,6 +39,8 @@
 #include "ConstraintIfImpl.h"
 #include "ConstraintImpliesImpl.h"
 #include "ExecImpl.h"
+#include "ExecCallStmtImpl.h"
+#include "ExecExprStmtImpl.h"
 #include "ExtendImpl.h"
 #include "FieldImpl.h"
 #include "FieldRefImpl.h"
@@ -166,6 +168,21 @@ IExec *ModelImpl::mkNativeExec(
 		IExec::ExecKind					kind,
 		const std::vector<IExecStmt *>	&stmts) {
 	return new ExecImpl(kind, stmts);
+}
+
+IExecExprStmt *ModelImpl::mkExecExprStmt(
+		IField					*target,
+		IExecStmt::AssignOp		op,
+		IExpr					*rhs) {
+	return new ExecExprStmtImpl(target, op, rhs);
+}
+
+IExecCallStmt *ModelImpl::mkExecCallStmt(
+		IField						*target,
+		IExecStmt::AssignOp			op,
+		IImportFunc					*func,
+		const std::vector<IExpr *>	&parameters) {
+	return new ExecCallStmtImpl(target, op, func, parameters);
 }
 
 IStruct *ModelImpl::mkStruct(

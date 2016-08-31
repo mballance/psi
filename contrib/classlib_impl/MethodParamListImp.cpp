@@ -63,8 +63,7 @@ void MethodParamListImp::dec_refcnt() {
 	m_refcnt--;
 
 	if (m_refcnt == 0) {
-		fprintf(stdout, "Delete MethodParamListImp\n");
-//		delete this;
+		delete this;
 	}
 }
 

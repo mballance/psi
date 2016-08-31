@@ -14,7 +14,7 @@ ImportFuncImpl::ImportFuncImpl(
 		IBaseItem						*ret,
 		const std::vector<IField *>		&parameters) :
 				BaseItemImpl(IBaseItem::TypeImportFunc),
-				NamedItemImpl(name), m_ret(0) {
+				NamedItemImpl(name), m_ret(0), m_parameters(parameters) {
 	// TODO Auto-generated constructor stub
 
 }

@@ -10,19 +10,36 @@
 #include <vector>
 #include "api/IExpr.h"
 #include "api/IImportFunc.h"
+#include "api/IField.h"
 
 namespace psi_api {
 
 class IExecStmt {
 public:
 
+	enum StmtType {
+		StmtType_Expr,
+		StmtType_Call
+	};
+
+	enum AssignOp {
+		AssignOp_None, // no assignment
+		AssignOp_Eq,
+		AssignOp_AndEq,
+		AssignOp_OrEq,
+		AssignOp_PlusEq,
+		AssignOp_MinusEq,
+		AssignOp_LShiftEq,
+		AssignOp_RShiftEq
+	};
+
 	virtual ~IExecStmt() { }
 
-	virtual IExpr *getExpr() = 0;
+	virtual StmtType getStmtType() = 0;
 
-	virtual IImportFunc *getFunc() = 0;
+	virtual IField *getTarget() = 0;
 
-	virtual std::vector<IExpr *> &getCallParams() = 0;
+	virtual AssignOp getAssignOp() = 0;
 
 };
 

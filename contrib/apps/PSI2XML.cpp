@@ -341,6 +341,35 @@ void PSI2XML::process_exec(IExec *exec) {
 
 	switch (exec->getExecType()) {
 	case IExec::Native: {
+		std::string tag = "block kind=\"" + kind_s + "\"";
+		enter(tag);
+		for (std::vector<IExecStmt *>::const_iterator it=exec->getStmts().begin();
+				it!=exec->getStmts().end(); it++) {
+			IExecStmt *stmt = *it;
+			switch (stmt->getStmtType()) {
+			case IExecStmt::StmtType_Call: {
+				IExecCallStmt *stmt_c = dynamic_cast<IExecCallStmt *>(stmt);
+				if (stmt_c->getTarget()) {
+					enter("assign");
+					type2hierarchical_id(stmt_c->getTarget(), "lhs");
+				}
+				enter("call");
+
+				type2hierarchical_id(stmt_c->getFunc(), "function");
+
+				// TODO: parameters
+
+				exit("call");
+				if (stmt_c->getTarget()) {
+					exit("assign");
+				}
+			}
+			case IExecStmt::StmtType_Expr: {
+
+			}
+			}
+		}
+		exit("block");
 	} break;
 
 	case IExec::TargetTemplate: {
@@ -648,7 +677,8 @@ void PSI2XML::process_import_func(IImportFunc *f, const std::string &tag) {
 			}
 
 			enter("parameter name=\"" + p->getName() + "\" dir=\"" + dir_s + "\"");
-			type2data_type(p->getDataType(), "type");
+			type2data_type(p->getDataType(), "pss:type");
+			exit("parameter");
 
 		}
 		exit("parameters");

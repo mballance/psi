@@ -23,7 +23,10 @@
  */
 
 #include "FieldItemImp.h"
+#include "ExecAssignCallStmtImp.h"
+#include "ExecAssignExprStmtImp.h"
 #include "classlib/MethodParamList.h"
+#include "classlib/ExecStmt.h"
 
 namespace pss {
 
@@ -36,6 +39,10 @@ FieldItem::FieldItem(
 		BaseItem				*type_hndl) :
 		BaseItem(new FieldItemImp(this, p, name, array_dim, attr, wrapper, type_hndl)) {
 
+	FieldItemImp *imp = static_cast<FieldItemImp *>(impl());
+	if (imp->getDataType()) {
+		imp->getDataType()->inc_refcnt();
+	}
 }
 
 FieldItemImp::FieldItemImp(
@@ -64,7 +71,10 @@ FieldItemImp::FieldItemImp(
 }
 
 FieldItem::~FieldItem() {
-	// TODO Auto-generated destructor stub
+	FieldItemImp *imp = static_cast<FieldItemImp *>(impl());
+	if (imp->getDataType()) {
+		imp->getDataType()->inc_refcnt();
+	}
 }
 
 FieldItemImp::~FieldItemImp() {
@@ -81,6 +91,11 @@ MethodParamList FieldItem::operator,(const FieldItem &rhs) {
 	ret = (ret, rhs);
 
 	return ret;
+}
+
+ExecStmt FieldItem::operator =(const ExecImportCallStmt &rhs) {
+	return ExecStmt(new ExecAssignCallStmtImp(
+			*this, ExecAssignStmtImp::AssignOp_Eq, rhs));
 }
 
 

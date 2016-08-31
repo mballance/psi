@@ -18,6 +18,8 @@
 #include "api/IConstraintIf.h"
 #include "api/IExec.h"
 #include "api/IExecStmt.h"
+#include "api/IExecExprStmt.h"
+#include "api/IExecCallStmt.h"
 #include "api/IExtend.h"
 #include "api/IGraphBlockStmt.h"
 #include "api/IGraphRepeatStmt.h"
@@ -78,6 +80,17 @@ public:
 	virtual IExec *mkNativeExec(
 			IExec::ExecKind					kind,
 			const std::vector<IExecStmt *>	&stmts) = 0;
+
+	virtual IExecExprStmt *mkExecExprStmt(
+			IField					*field,
+			IExecStmt::AssignOp		op,
+			IExpr					*rhs) = 0;
+
+	virtual IExecCallStmt *mkExecCallStmt(
+			IField						*target,
+			IExecStmt::AssignOp			op,
+			IImportFunc					*func,
+			const std::vector<IExpr *>	&parameters) = 0;
 
 	/**
 	 * Create a new struct type

@@ -19,9 +19,7 @@ public:
 	friend ImportFunc;
 
 private:
-	ExecImportCallStmt(
-			const ImportFunc &imp,
-			const ExprList &plist);
+	ExecImportCallStmt(const ImportFunc &f, const ExprList &plist);
 
 };
 

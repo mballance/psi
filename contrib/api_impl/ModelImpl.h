@@ -103,6 +103,17 @@ class ModelImpl:
 				IExec::ExecKind					kind,
 				const std::vector<IExecStmt *>	&stmts);
 
+		virtual IExecExprStmt *mkExecExprStmt(
+				IField					*field,
+				IExecStmt::AssignOp		op,
+				IExpr					*rhs);
+
+		virtual IExecCallStmt *mkExecCallStmt(
+				IField						*target,
+				IExecStmt::AssignOp			op,
+				IImportFunc					*func,
+				const std::vector<IExpr *>	&parameters);
+
 		virtual IStruct *mkStruct(
 				const std::string 		&name,
 				IStruct::StructType		t,

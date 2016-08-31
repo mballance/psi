@@ -16,25 +16,13 @@ namespace pss {
 class ExecStmtImp {
 public:
 	enum StmtType {
-		StmtType_Call,
-		StmtType_EqCall,
-		StmtType_EqExpr
+		StmtType_AssignExpr,
+		StmtType_AssignCall,
+		StmtType_Call
 	};
 
 public:
-	ExecStmtImp(StmtType op);
-
-	ExecStmtImp(
-			const FieldItem				&lhs,
-			StmtType					op,
-			const ExecImportCallStmt	&rhs
-			);
-
-	ExecStmtImp(
-			const FieldItem				&lhs,
-			StmtType					op,
-			const Expr					&rhs
-			);
+	ExecStmtImp(StmtType type);
 
 	virtual ~ExecStmtImp();
 
@@ -42,8 +30,11 @@ public:
 
 	void dec_refcnt();
 
+	StmtType getStmtType() const { return m_type; }
+
 private:
 	uint32_t				m_refcnt;
+	StmtType				m_type;
 };
 
 } /* namespace pss */

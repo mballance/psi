@@ -213,7 +213,8 @@
 	
 	<complexType name="exec_block">
 		<choice minOccurs="0" maxOccurs="unbounded">
-			<element name="stmt" type="pss:exec_body_stmt"/>
+			<element name="assign" type="pss:exec_body_assign_stmt"/>
+			<element name="call" type="pss:exec_body_call_stmt"/>
 		</choice>
 		<attribute name="kind">
 			<simpleType>
@@ -224,13 +225,6 @@
 				</restriction>
 			</simpleType>
 		</attribute>
-	</complexType>
-	
-	<complexType name="exec_body_stmt">
-		<choice minOccurs="1" maxOccurs="1">
-			<element name="assign" type="pss:exec_body_assign_stmt"/>
-			<element name="call" type="pss:exec_body_call_stmt"/>
-		</choice>
 	</complexType>
 	
 	<complexType name="exec_body_assign_stmt">
@@ -257,6 +251,10 @@
 	</complexType>
 	
 	<complexType name="exec_body_call_stmt">
+		<sequence minOccurs="1" maxOccurs="1">
+			<element name="function" type="pss:hierarchical_id"/>
+			<!-- TODO: parameters -->
+		</sequence>
 	</complexType>
 	
 	<complexType name="target_code_exec_block">

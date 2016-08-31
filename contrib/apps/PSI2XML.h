@@ -88,7 +88,7 @@ private:
 
 	void process_graph_block_stmt(IGraphBlockStmt *block, const char *tag=0);
 
-	void process_import_func(IImportFunc *f, const std::string &tag="import_func");
+	void process_import_func(IImportFunc *f, const std::string &tag="import_function");
 
 	static std::string type2string(IBaseItem *it);
 

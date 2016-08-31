@@ -32,12 +32,16 @@
 #include "BoolImp.h"
 #include "ModelImp.h"
 #include "ExecStmtListImp.h"
+#include "ExecStmtImp.h"
 #include <stdio.h>
 #include <stdarg.h>
 
 #include "ExprCoreList.h"
 #include "ExprImp.h"
 #include "InlineExecClosure.h"
+#include "ExecAssignCallStmtImp.h"
+#include "ExecImportCallStmtImp.h"
+#include "ExecAssignExprStmtImp.h"
 
 namespace pss {
 
@@ -77,7 +81,7 @@ void Elaborator::elaborate(BaseItemImp *root, IModel *model) {
 			elaborate_package(model, dynamic_cast<PackageImp *>(t));
 		} else if (t->getObjectType() == BaseItemImp::TypeComponent) {
 			IComponent *c = elaborate_component(m_model, dynamic_cast<ComponentImp *>(t));
-			fprintf(stdout, "elaborate component: %s\n", c->getName().c_str());
+			debug_med("elaborate component: %s\n", c->getName().c_str());
 //			m_model->add(c);
 		} else if (t->getObjectType() != BaseItemImp::TypeStruct) {
 			// Error:
@@ -118,7 +122,7 @@ IAction *Elaborator::elaborate_action(ActionImp *action) {
 			if (c) {
 				a->add(c);
 			} else {
-				fprintf(stdout, "Error: failed to build bind item %s\n",
+				error("Failed to build bind item %s\n",
 						BaseItemImp::toString(t->getObjectType()));
 			}
 		} if (t->getObjectType() == BaseItemImp::TypeGraph) {
@@ -135,7 +139,7 @@ IAction *Elaborator::elaborate_action(ActionImp *action) {
 				if (c) {
 					a->add(c);
 				} else {
-					fprintf(stdout, "Error: failed to build action child item %s\n",
+					error("failed to build action child item %s\n",
 							BaseItemImp::toString(t->getObjectType()));
 				}
 			}
@@ -183,7 +187,7 @@ IBaseItem *Elaborator::elaborate_component_body_item(BaseItemImp *t) {
 		ret = elaborate_bind(dynamic_cast<BindImp *>(t));
 	} else {
 		// TODO:
-		fprintf(stdout, "Error: Unknown component body item %s\n",
+		error("Unknown component body item %s\n",
 				BaseItemImp::toString(t->getObjectType()));
 	}
 
@@ -199,7 +203,6 @@ IBind *Elaborator::elaborate_bind(BindImp *b) {
 		IBindPath *path = elaborate_bind_path(*it);
 
 		if (path) {
-			fprintf(stdout, "Found ref: %p\n", path);
 			targets.push_back(path);
 		} else {
 			error("Failed to find bind reference");
@@ -219,7 +222,7 @@ IConstraint *Elaborator::elaborate_constraint(ConstraintImp *c) {
 
 	if (e.imp().getOp() != ExprImp::List) {
 		// Something is wrong here
-		fprintf(stdout, "Internal Error: Expecting ExprList\n");
+		error("Internal Error: Expecting ExprList\n");
 	}
 
 	ExprCoreList *l = dynamic_cast<ExprCoreList *>(e.imp().ptr());
@@ -260,7 +263,6 @@ IConstraint *Elaborator::elaborate_constraint_stmt(ExprCore *s) {
 	if (s->getOp() == ExprImp::Stmt_If || s->getOp() == ExprImp::Stmt_IfElse) {
 		ret = elaborate_constraint_if(dynamic_cast<ExprCoreIf *>(s));
 	} else if (s->getOp() == ExprImp::Stmt_Implies) {
-		fprintf(stdout, "Note: Implies\n");
 		ret = m_model->mkConstraintImplies(
 				elaborate_expr(s->getLhsPtr()),
 				elaborate_constraint_stmt(s->getRhsPtr()));
@@ -564,7 +566,6 @@ IExec *Elaborator::elaborate_exec_item(ExecImp *e) {
 		for (std::vector<ExecStmt>::const_iterator it=stmts.begin();
 				it!=stmts.end(); it++) {
 			stmts_e.push_back(elaborate_exec_stmt((*it).imp()));
-			fprintf(stdout, "Stmt\n");
 		}
 		ret = m_model->mkNativeExec(kind, stmts_e);
 	} break;
@@ -626,7 +627,38 @@ IExec *Elaborator::elaborate_exec_item(ExecImp *e) {
 }
 
 IExecStmt *Elaborator::elaborate_exec_stmt(ExecStmtImp *e) {
-	return 0;
+	IExecStmt *ret = 0;
+
+	switch (e->getStmtType()) {
+	case ExecStmtImp::StmtType_Call: {
+		// Call to import function with no assignment
+		ExecImportCallStmtImp *c = dynamic_cast<ExecImportCallStmtImp *>(e);
+		IImportFunc *f = find_import_func(c->getFunc());
+		std::vector<IExpr *> parameters;
+
+		ExprCoreList *p_l;
+		p_l = static_cast<ExprCoreList *>(c->getParameterList().imp().ptr());
+
+		for (std::vector<ExprImp>::const_iterator it=p_l->getExprList().begin();
+				it!=p_l->getExprList().end(); it++) {
+			parameters.push_back(elaborate_expr((*it).ptr()));
+		}
+
+		ret = m_model->mkExecCallStmt(0, IExecStmt::AssignOp_None, f, parameters);
+	} break;
+
+	case ExecStmtImp::StmtType_AssignCall: {
+		// Call to import function with assignment
+
+	} break;
+
+	case ExecStmtImp::StmtType_AssignExpr: {
+		// Expression assigned to field
+	} break;
+
+	}
+
+	return ret;
 }
 
 IExtend *Elaborator::elaborate_extend(ExtendItemImp *e) {
@@ -719,6 +751,7 @@ IBaseItem *Elaborator::elaborate_datatype(BaseItemImp *dt) {
 		ft = find_type_decl(dt);
 	} else {
 		// Error
+		fprintf(stdout, "Error: unsupported datatype %d\n", dt->getObjectType());
 	}
 
 	return ft;
@@ -727,13 +760,22 @@ IBaseItem *Elaborator::elaborate_datatype(BaseItemImp *dt) {
 IFieldRef *Elaborator::elaborate_field_ref(BaseItemImp *t) {
 	std::vector<NamedBaseItemImp *>	types;
 	std::vector<IField *> 			fields;
+	NamedBaseItemImp *ni;
+	NamedBaseItemImp *ni_i = dynamic_cast<NamedBaseItemImp *>(m_class_expr_ctxt);
 
 	debug_high("--> elaborate_field_ref: %p %d", t, (t)?t->getObjectType():0);
 
 	while (t) {
 		// Traverse up to the point where we find the
 		// declaration scope that contains this expression
-		if (t == m_class_expr_ctxt) {
+		//
+		// In most cases, can count on object identity. In the case
+		// of type extension, we also check the object-type code
+		// and the object names
+		if (t == m_class_expr_ctxt ||
+				(t->getObjectType() == m_class_expr_ctxt->getObjectType() &&
+						ni_i && (ni = dynamic_cast<NamedBaseItemImp *>(t)) &&
+						ni_i->getName() == ni->getName())) {
 			// TODO: might need to do something different for extended types?
 			debug_high("Reached t==m_class_expr_ctxt");
 			break;
@@ -825,24 +867,25 @@ IImportFunc *Elaborator::elaborate_import_func(ImportFuncImp *imp) {
 		ret = elaborate_datatype(imp->getReturnType());
 	}
 
-//	ExprCoreList *param_imp = dynamic_cast<ExprCoreList *>(
-//			imp->getParameters().imp().ptr());
+	const std::vector<FieldItem> &param_spec =
+			imp->getParameters().imp()->parameters();
 
-//	const MethodParamListImp &plist = imp->getParameters();
-//
-//	for (std::vector<MethodParamImp *>::const_iterator it=plist.parameters().begin();
-//			it!=plist.parameters().end(); it++) {
-//		MethodParamImp *p = *it;
-//		IBaseItem *pt = elaborate_datatype(p->getDataType()->impl());
-//		IField::FieldAttr attr;
-//		switch (p->getDir()) {
-//		case MethodParam::In: attr = IField::FieldAttr_Input; break;
-//		case MethodParam::Out: attr = IField::FieldAttr_Output; break;
-//		case MethodParam::InOut: attr = IField::FieldAttr_Output; break; // TODO:
-//		}
-//		IField *p_h = m_model->mkField(p->getName(), pt, attr, 0);
-//		parameters.push_back(p_h);
-//	}
+	for (std::vector<FieldItem>::const_iterator it=param_spec.begin();
+			it!=param_spec.end(); it++) {
+		FieldItemImp *p = dynamic_cast<FieldItemImp *>((*it).impl());
+		IBaseItem *pt = elaborate_datatype(p->getDataType());
+
+		IField::FieldAttr attr;
+		switch (p->getAttr()) {
+		case FieldItem::AttrInput: attr = IField::FieldAttr_Input; break;
+		case FieldItem::AttrOutput: attr = IField::FieldAttr_Output; break;
+		case FieldItem::AttrInout: attr = IField::FieldAttr_Inout; break;
+		}
+
+		fprintf(stdout, "parameter: %s\n", p->getName().c_str());
+		IField *p_h = m_model->mkField(p->getName(), pt, attr, 0);
+		parameters.push_back(p_h);
+	}
 
 	return m_model->mkImportFunc(
 			imp->getName(),
@@ -1155,11 +1198,15 @@ IBaseItem *Elaborator::find_type_decl(BaseItemImp *t) {
 	IBaseItem *ret = 0;
 	std::vector<NamedBaseItemImp *> type_p;
 
+	debug_high("--> find_type_decl %p (%s)", t, getName(t));
+
 	NamedBaseItemImp *ti = toNamedItem(t);
 	while (ti) {
+		debug_high("  -- path: %s", ti->getName().c_str());
 		type_p.push_back(ti);
-		ti = toNamedItem(ti->getParent());
+		ti = dynamic_cast<NamedBaseItemImp *>(ti->getParent());
 	}
+
 
 	IScopeItem *s = 0;
 	for (int32_t i=type_p.size()-1; i>=0; i--) {
@@ -1167,15 +1214,26 @@ IBaseItem *Elaborator::find_type_decl(BaseItemImp *t) {
 
 		if (s) {
 			ret = find_named_scope(s->getItems(), ti->getName());
+			if (!ret) {
+				error("Failed to find type %s in scope %s",
+						ti->getName().c_str(), getName(s));
+			}
 		} else if (ti->getObjectType() != BaseItemImp::Model) { // Skip global-scope references
 			// global search
 			// First, do a global lookup for package and component items
 			ret = find_named_scope(m_model->getItems(), ti->getName());
 
 			if (!ret) {
+				debug_high("  -- Failed to find scope %s in global scope",
+						ti->getName().c_str());
 				ret = find_named_scope(
 						m_model->getGlobalPackage()->getItems(),
 						ti->getName());
+			}
+
+			if (!ret) {
+				error(" -- Failed to find scope %s in global or global package scope",
+						ti->getName().c_str());
 			}
 		}
 
@@ -1184,13 +1242,31 @@ IBaseItem *Elaborator::find_type_decl(BaseItemImp *t) {
 			break;
 		}
 
-		s = toScopeItem(ret);
+		s = dynamic_cast<IScopeItem *>(ret);
+
+		if (ret && !s) {
+			debug_high(" -- found non-scope item %d\n", ret->getType());
+		}
 
 		if (!s) {
 			break;
 		}
 	}
 
+	debug_high("<-- find_type_decl %p (%s) => %p (%s)", t, getName(t), ret, getName(ret));
+	return ret;
+}
+
+IImportFunc *Elaborator::find_import_func(ImportFuncImp *imp) {
+	debug_high("--> find_import_func %p (%s)", imp, imp->getName().c_str());
+	IBaseItem *it = find_type_decl(imp);
+
+	IImportFunc *ret = dynamic_cast<IImportFunc *>(it);
+	if (!ret && it) {
+		error("Returned item is not an import function");
+	}
+
+	debug_high("<-- find_import_func %p (%s) %p", imp, imp->getName().c_str(), ret);
 	return ret;
 }
 
@@ -1201,7 +1277,7 @@ IBaseItem *Elaborator::find_named_scope(
 	std::vector<IBaseItem *>::const_iterator it;
 
 	for (it=items.begin(); it!=items.end(); it++) {
-		INamedItem *named_it = toNamedItem(*it);
+		INamedItem *named_it = dynamic_cast<INamedItem *>(*it);
 
 		if (named_it && named_it->getName() == name) {
 			ret = *it;
@@ -1347,6 +1423,21 @@ const char *Elaborator::getName(IScopeItem *it) {
 		return it_n->getName().c_str();
 	} else {
 		return "UNNAMED";
+	}
+}
+
+const char *Elaborator::getName(BaseItemImp *it) {
+
+	if (it) {
+	NamedBaseItemImp *it_n = dynamic_cast<NamedBaseItemImp *>(it);
+
+	if (it_n) {
+		return it_n->getName().c_str();
+	} else {
+		return "UNNAMED";
+	}
+	} else {
+		return "NULL";
 	}
 }
 
