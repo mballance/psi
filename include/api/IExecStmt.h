@@ -10,7 +10,7 @@
 #include <vector>
 #include "api/IExpr.h"
 #include "api/IImportFunc.h"
-#include "api/IField.h"
+#include "api/IFieldRef.h"
 
 namespace psi_api {
 
@@ -37,7 +37,7 @@ public:
 
 	virtual StmtType getStmtType() = 0;
 
-	virtual IField *getTarget() = 0;
+	virtual IFieldRef *getTarget() = 0;
 
 	virtual AssignOp getAssignOp() = 0;
 

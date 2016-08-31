@@ -70,6 +70,26 @@ public:
 
 	ExecStmt operator =(const Expr &rhs);
 
+	ExecStmt operator +=(const ExecImportCallStmt &rhs);
+
+	ExecStmt operator +=(const Expr &rhs);
+
+	ExecStmt operator -=(const ExecImportCallStmt &rhs);
+
+	ExecStmt operator -=(const Expr &rhs);
+
+	ExecStmt operator <<=(const ExecImportCallStmt &rhs);
+
+	ExecStmt operator <<=(const Expr &rhs);
+
+	ExecStmt operator >>=(const ExecImportCallStmt &rhs);
+
+	ExecStmt operator >>=(const Expr &rhs);
+
+	ExecStmt operator |=(const ExecImportCallStmt &rhs);
+
+	ExecStmt operator |=(const Expr &rhs);
+
 	ExecStmt operator &= (const ExecImportCallStmt &rhs);
 
 	ExecStmt operator &= (const Expr &rhs);

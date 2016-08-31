@@ -104,12 +104,12 @@ class ModelImpl:
 				const std::vector<IExecStmt *>	&stmts);
 
 		virtual IExecExprStmt *mkExecExprStmt(
-				IField					*field,
+				IFieldRef				*field,
 				IExecStmt::AssignOp		op,
 				IExpr					*rhs);
 
 		virtual IExecCallStmt *mkExecCallStmt(
-				IField						*target,
+				IFieldRef					*target,
 				IExecStmt::AssignOp			op,
 				IImportFunc					*func,
 				const std::vector<IExpr *>	&parameters);

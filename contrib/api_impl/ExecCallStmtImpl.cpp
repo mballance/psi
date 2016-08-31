@@ -10,7 +10,7 @@
 namespace psi {
 
 ExecCallStmtImpl::ExecCallStmtImpl(
-		IField						*target,
+		IFieldRef					*target,
 		IExecStmt::AssignOp			op,
 		IImportFunc					*func,
 		const std::vector<IExpr *>	&parameters) :

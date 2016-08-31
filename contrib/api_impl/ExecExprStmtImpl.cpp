@@ -10,7 +10,7 @@
 namespace psi {
 
 ExecExprStmtImpl::ExecExprStmtImpl(
-		IField					*target,
+		IFieldRef				*target,
 		IExecStmt::AssignOp		op,
 		IExpr					*expr) :
 				ExecStmtImpl(IExecStmt::StmtType_Expr, target, op), m_expr(expr) {

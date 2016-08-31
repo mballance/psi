@@ -19,6 +19,10 @@ public:
 	enum AssignOp {
 		AssignOp_Nop,
 		AssignOp_Eq,
+		AssignOp_PlusEq,
+		AssignOp_MinusEq,
+		AssignOp_LShiftEq,
+		AssignOp_RShiftEq,
 		AssignOp_AndEq,
 		AssignOp_OrEq
 	};

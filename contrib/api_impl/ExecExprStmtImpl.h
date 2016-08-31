@@ -19,7 +19,7 @@ class ExecExprStmtImpl:
 public:
 
 	ExecExprStmtImpl(
-			IField				*target,
+			IFieldRef			*target,
 			IExecStmt::AssignOp	op,
 			IExpr				*expr
 			);

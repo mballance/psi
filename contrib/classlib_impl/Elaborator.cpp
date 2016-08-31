@@ -629,6 +629,22 @@ IExec *Elaborator::elaborate_exec_item(ExecImp *e) {
 IExecStmt *Elaborator::elaborate_exec_stmt(ExecStmtImp *e) {
 	IExecStmt *ret = 0;
 
+	IExecStmt::AssignOp op = IExecStmt::AssignOp_None;
+
+	ExecAssignStmtImp *assign = dynamic_cast<ExecAssignStmtImp *>(e);
+
+	if (assign) {
+		switch (assign->getOp()) {
+		case ExecAssignStmtImp::AssignOp_Eq: op = IExecStmt::AssignOp_Eq; break;
+		case ExecAssignStmtImp::AssignOp_PlusEq: op = IExecStmt::AssignOp_PlusEq; break;
+		case ExecAssignStmtImp::AssignOp_MinusEq: op = IExecStmt::AssignOp_MinusEq; break;
+		case ExecAssignStmtImp::AssignOp_LShiftEq: op = IExecStmt::AssignOp_LShiftEq; break;
+		case ExecAssignStmtImp::AssignOp_RShiftEq: op = IExecStmt::AssignOp_RShiftEq; break;
+		case ExecAssignStmtImp::AssignOp_AndEq: op = IExecStmt::AssignOp_AndEq; break;
+		case ExecAssignStmtImp::AssignOp_OrEq: op = IExecStmt::AssignOp_OrEq; break;
+		}
+	}
+
 	switch (e->getStmtType()) {
 	case ExecStmtImp::StmtType_Call: {
 		// Call to import function with no assignment
@@ -644,16 +660,37 @@ IExecStmt *Elaborator::elaborate_exec_stmt(ExecStmtImp *e) {
 			parameters.push_back(elaborate_expr((*it).ptr()));
 		}
 
-		ret = m_model->mkExecCallStmt(0, IExecStmt::AssignOp_None, f, parameters);
+		ret = m_model->mkExecCallStmt(0, op, f, parameters);
 	} break;
 
 	case ExecStmtImp::StmtType_AssignCall: {
 		// Call to import function with assignment
+		ExecAssignCallStmtImp *c = dynamic_cast<ExecAssignCallStmtImp *>(e);
+		ExecImportCallStmtImp *call = dynamic_cast<ExecImportCallStmtImp *>(c->rhs().imp());
+		IImportFunc *f = find_import_func(call->getFunc());
+		std::vector<IExpr *> parameters;
 
+		IFieldRef *target = elaborate_field_ref(c->lhs().impl());
+
+		ExprCoreList *p_l;
+		p_l = static_cast<ExprCoreList *>(call->getParameterList().imp().ptr());
+
+		for (std::vector<ExprImp>::const_iterator it=p_l->getExprList().begin();
+				it!=p_l->getExprList().end(); it++) {
+			parameters.push_back(elaborate_expr((*it).ptr()));
+		}
+
+		ret = m_model->mkExecCallStmt(target, op, f, parameters);
 	} break;
 
 	case ExecStmtImp::StmtType_AssignExpr: {
 		// Expression assigned to field
+		ExecAssignExprStmtImp *a = dynamic_cast<ExecAssignExprStmtImp *>(e);
+		IFieldRef *target = elaborate_field_ref(a->lhs().impl());
+
+		IExpr *rhs = elaborate_expr(a->rhs().imp().ptr());
+
+		ret = m_model->mkExecExprStmt(target, op, rhs);
 	} break;
 
 	}

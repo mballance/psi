@@ -42,6 +42,34 @@ template <class T> class Field : public FieldBase<T> {
 			FieldBase<T>(FieldItem::AttrNone, p, name, array_dim) { }
 
 		virtual ~Field() { }
+
+		ExecStmt operator =(const ExecImportCallStmt &rhs) { return (FieldBase<T>::m_field = rhs); }
+
+		ExecStmt operator =(const Expr &rhs) { return (FieldBase<T>::m_field = rhs); }
+
+		ExecStmt operator +=(const ExecImportCallStmt &rhs) { return (FieldBase<T>::m_field += rhs); }
+
+		ExecStmt operator +=(const Expr &rhs) { return (FieldBase<T>::m_field += rhs); }
+
+		ExecStmt operator -=(const ExecImportCallStmt &rhs) { return (FieldBase<T>::m_field -= rhs); }
+
+		ExecStmt operator -=(const Expr &rhs) { return (FieldBase<T>::m_field -= rhs); }
+
+		ExecStmt operator <<=(const ExecImportCallStmt &rhs) { return (FieldBase<T>::m_field <<= rhs); }
+
+		ExecStmt operator <<=(const Expr &rhs) { return (FieldBase<T>::m_field <<= rhs); }
+
+		ExecStmt operator >>=(const ExecImportCallStmt &rhs) { return (FieldBase<T>::m_field >>= rhs); }
+
+		ExecStmt operator >>=(const Expr &rhs) { return (FieldBase<T>::m_field >>= rhs); }
+
+		ExecStmt operator |=(const ExecImportCallStmt &rhs) { return (FieldBase<T>::m_field |= rhs); }
+
+		ExecStmt operator |=(const Expr &rhs) { return (FieldBase<T>::m_field |= rhs); }
+
+		ExecStmt operator &=(const ExecImportCallStmt &rhs) { return (FieldBase<T>::m_field &= rhs); }
+
+		ExecStmt operator &=(const Expr &rhs) { return (FieldBase<T>::m_field &= rhs); }
 };
 
 }

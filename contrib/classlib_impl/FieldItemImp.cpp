@@ -98,5 +98,69 @@ ExecStmt FieldItem::operator =(const ExecImportCallStmt &rhs) {
 			*this, ExecAssignStmtImp::AssignOp_Eq, rhs));
 }
 
+ExecStmt FieldItem::operator =(const Expr &rhs) {
+	return ExecStmt(new ExecAssignExprStmtImp(
+			*this, ExecAssignStmtImp::AssignOp_Eq, rhs));
+}
+
+ExecStmt FieldItem::operator +=(const ExecImportCallStmt &rhs) {
+	return ExecStmt(new ExecAssignCallStmtImp(
+			*this, ExecAssignStmtImp::AssignOp_PlusEq, rhs));
+}
+
+ExecStmt FieldItem::operator +=(const Expr &rhs) {
+	return ExecStmt(new ExecAssignExprStmtImp(
+			*this, ExecAssignStmtImp::AssignOp_PlusEq, rhs));
+}
+
+ExecStmt FieldItem::operator -=(const ExecImportCallStmt &rhs) {
+	return ExecStmt(new ExecAssignCallStmtImp(
+			*this, ExecAssignStmtImp::AssignOp_MinusEq, rhs));
+}
+
+ExecStmt FieldItem::operator -=(const Expr &rhs) {
+	return ExecStmt(new ExecAssignExprStmtImp(
+			*this, ExecAssignStmtImp::AssignOp_MinusEq, rhs));
+}
+
+ExecStmt FieldItem::operator <<=(const ExecImportCallStmt &rhs) {
+	return ExecStmt(new ExecAssignCallStmtImp(
+			*this, ExecAssignStmtImp::AssignOp_LShiftEq, rhs));
+}
+
+ExecStmt FieldItem::operator <<=(const Expr &rhs) {
+	return ExecStmt(new ExecAssignExprStmtImp(
+			*this, ExecAssignStmtImp::AssignOp_LShiftEq, rhs));
+}
+
+ExecStmt FieldItem::operator >>=(const ExecImportCallStmt &rhs) {
+	return ExecStmt(new ExecAssignCallStmtImp(
+			*this, ExecAssignStmtImp::AssignOp_RShiftEq, rhs));
+}
+
+ExecStmt FieldItem::operator >>=(const Expr &rhs) {
+	return ExecStmt(new ExecAssignExprStmtImp(
+			*this, ExecAssignStmtImp::AssignOp_RShiftEq, rhs));
+}
+
+ExecStmt FieldItem::operator |=(const ExecImportCallStmt &rhs) {
+	return ExecStmt(new ExecAssignCallStmtImp(
+			*this, ExecAssignStmtImp::AssignOp_OrEq, rhs));
+}
+
+ExecStmt FieldItem::operator |=(const Expr &rhs) {
+	return ExecStmt(new ExecAssignExprStmtImp(
+			*this, ExecAssignStmtImp::AssignOp_OrEq, rhs));
+}
+
+ExecStmt FieldItem::operator &=(const ExecImportCallStmt &rhs) {
+	return ExecStmt(new ExecAssignCallStmtImp(
+			*this, ExecAssignStmtImp::AssignOp_AndEq, rhs));
+}
+
+ExecStmt FieldItem::operator &=(const Expr &rhs) {
+	return ExecStmt(new ExecAssignExprStmtImp(
+			*this, ExecAssignStmtImp::AssignOp_AndEq, rhs));
+}
 
 } /* namespace pss */

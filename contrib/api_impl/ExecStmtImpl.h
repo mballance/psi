@@ -18,7 +18,7 @@ public:
 
 	ExecStmtImpl(
 			IExecStmt::StmtType type,
-			IField				*target,
+			IFieldRef			*target,
 			IExecStmt::AssignOp	op);
 
 	virtual ~ExecStmtImpl();
@@ -26,13 +26,13 @@ public:
 
 	virtual StmtType getStmtType() { return m_type; }
 
-	virtual IField *getTarget()  { return m_target; }
+	virtual IFieldRef *getTarget()  { return m_target; }
 
 	virtual AssignOp getAssignOp() { return m_op; }
 
 private:
 	IExecStmt::StmtType				m_type;
-	IField							*m_target;
+	IFieldRef						*m_target;
 	IExecStmt::AssignOp				m_op;
 };
 

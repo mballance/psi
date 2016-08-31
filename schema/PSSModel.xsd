@@ -253,7 +253,15 @@
 	<complexType name="exec_body_call_stmt">
 		<sequence minOccurs="1" maxOccurs="1">
 			<element name="function" type="pss:hierarchical_id"/>
-			<!-- TODO: parameters -->
+			<choice minOccurs="0" maxOccurs="1">
+				<element name="parameters" type="pss:call_parameters"/>
+			</choice>
+		</sequence>
+	</complexType>
+	
+	<complexType name="call_parameters">
+		<sequence minOccurs="0" maxOccurs="unbounded">
+			<element name="parameter" type="pss:expression"/>
 		</sequence>
 	</complexType>
 	

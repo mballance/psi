@@ -96,6 +96,8 @@ private:
 
 	void type2data_type(IBaseItem *it, const std::string &tag="pss:type");
 
+	void process_fieldref(IFieldRef *ref, const std::string &tag="ref");
+
 	void to_hierarchical_id(const std::vector<IBaseItem *> &path, const char *tag=0);
 
 	static std::string path2string(IFieldRef *f);

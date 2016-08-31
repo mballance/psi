@@ -339,6 +339,7 @@ void PSI2XML::process_exec(IExec *exec) {
 	case IExec::Body: kind_s = "body"; break;
 	}
 
+
 	switch (exec->getExecType()) {
 	case IExec::Native: {
 		std::string tag = "block kind=\"" + kind_s + "\"";
@@ -346,27 +347,53 @@ void PSI2XML::process_exec(IExec *exec) {
 		for (std::vector<IExecStmt *>::const_iterator it=exec->getStmts().begin();
 				it!=exec->getStmts().end(); it++) {
 			IExecStmt *stmt = *it;
+			std::string op_s;
+
+			switch (stmt->getAssignOp()) {
+			case IExecStmt::AssignOp_Eq: op_s = "Eq"; break;
+			case IExecStmt::AssignOp_PlusEq: op_s = "PlusEq"; break;
+			case IExecStmt::AssignOp_MinusEq: op_s = "MinusEq"; break;
+			case IExecStmt::AssignOp_LShiftEq: op_s = "LShiftEq"; break;
+			case IExecStmt::AssignOp_RShiftEq: op_s = "RShiftEq"; break;
+			case IExecStmt::AssignOp_OrEq: op_s = "OrEq"; break;
+			case IExecStmt::AssignOp_AndEq: op_s = "AndEq"; break;
+			default: op_s = "None"; break;
+			}
+
 			switch (stmt->getStmtType()) {
 			case IExecStmt::StmtType_Call: {
 				IExecCallStmt *stmt_c = dynamic_cast<IExecCallStmt *>(stmt);
 				if (stmt_c->getTarget()) {
-					enter("assign");
-					type2hierarchical_id(stmt_c->getTarget(), "lhs");
+					enter("assign op=\"" + op_s + "\"");
+					IFieldRef *ref = stmt_c->getTarget();
+					process_fieldref(ref, "lhs");
 				}
 				enter("call");
 
 				type2hierarchical_id(stmt_c->getFunc(), "function");
 
-				// TODO: parameters
+				enter("parameters");
+				for (std::vector<IExpr *>::const_iterator it=stmt_c->getParameters().begin();
+						it!=stmt_c->getParameters().end(); it++) {
+					process_expr(*it, "parameter");
+				}
+				exit("parameters");
+
 
 				exit("call");
 				if (stmt_c->getTarget()) {
 					exit("assign");
 				}
-			}
-			case IExecStmt::StmtType_Expr: {
+			} break;
 
-			}
+			case IExecStmt::StmtType_Expr: {
+				IExecExprStmt *stmt_e = dynamic_cast<IExecExprStmt *>(stmt);
+
+				enter("assign op=\"" + op_s + "\"");
+				process_fieldref(stmt_e->getTarget(), "lhs");
+				process_expr(stmt_e->getExpr(), "rhs");
+				exit("assign");
+			} break;
 			}
 		}
 		exit("block");
@@ -793,6 +820,17 @@ void PSI2XML::type2data_type(IBaseItem *dt_i, const std::string &tag) {
 
 	dec_indent();
 	println("</" + tag + ">");
+}
+
+void PSI2XML::process_fieldref(IFieldRef *ref, const std::string &tag) {
+	enter(tag);
+
+	for (std::vector<IField *>::const_iterator it=ref->getFieldPath().begin();
+			it!=ref->getFieldPath().end(); it++) {
+		println(std::string("<pss:path>") + (*it)->getName() + "</pss:path>");
+	}
+
+	exit(tag);
 }
 
 void PSI2XML::to_hierarchical_id(const std::vector<IBaseItem *> &path, const char *tag) {

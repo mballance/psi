@@ -82,12 +82,12 @@ public:
 			const std::vector<IExecStmt *>	&stmts) = 0;
 
 	virtual IExecExprStmt *mkExecExprStmt(
-			IField					*field,
+			IFieldRef				*field,
 			IExecStmt::AssignOp		op,
 			IExpr					*rhs) = 0;
 
 	virtual IExecCallStmt *mkExecCallStmt(
-			IField						*target,
+			IFieldRef					*target,
 			IExecStmt::AssignOp			op,
 			IImportFunc					*func,
 			const std::vector<IExpr *>	&parameters) = 0;

@@ -171,14 +171,14 @@ IExec *ModelImpl::mkNativeExec(
 }
 
 IExecExprStmt *ModelImpl::mkExecExprStmt(
-		IField					*target,
+		IFieldRef				*target,
 		IExecStmt::AssignOp		op,
 		IExpr					*rhs) {
 	return new ExecExprStmtImpl(target, op, rhs);
 }
 
 IExecCallStmt *ModelImpl::mkExecCallStmt(
-		IField						*target,
+		IFieldRef					*target,
 		IExecStmt::AssignOp			op,
 		IImportFunc					*func,
 		const std::vector<IExpr *>	&parameters) {

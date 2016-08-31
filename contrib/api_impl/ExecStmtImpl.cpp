@@ -11,7 +11,7 @@ namespace psi {
 
 ExecStmtImpl::ExecStmtImpl(
 		IExecStmt::StmtType		type,
-		IField					*target,
+		IFieldRef				*target,
 		IExecStmt::AssignOp		op) : m_type(type), m_target(target), m_op(op) {
 
 }

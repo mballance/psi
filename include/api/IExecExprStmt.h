@@ -7,10 +7,11 @@
 
 #ifndef INCLUDE_API_IEXECEXPRSTMT_H_
 #define INCLUDE_API_IEXECEXPRSTMT_H_
+#include "api/IExecStmt.h"
 
 namespace psi_api {
 
-class IExecExprStmt {
+class IExecExprStmt : public virtual IExecStmt {
 public:
 
 	virtual ~IExecExprStmt() { }
