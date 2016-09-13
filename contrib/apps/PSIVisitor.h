@@ -46,7 +46,17 @@ protected:
 
 	virtual void visit_constraint_expr_stmt(IConstraintExpr *c);
 
+	virtual void visit_constraint_if_stmt(IConstraintIf *c);
+
 	virtual void visit_constraint_block(IConstraintBlock *block);
+
+	virtual void visit_exec(IExec *e);
+
+	virtual void visit_exec_stmt(IExecStmt *e);
+
+	virtual void visit_exec_call_stmt(IExecCallStmt *s);
+
+	virtual void visit_exec_expr_stmt(IExecExprStmt *s);
 
 	virtual void visit_expr(IExpr *e);
 
@@ -65,6 +75,8 @@ protected:
 	virtual void visit_graph_stmt(IGraphStmt *stmt);
 
 	virtual void visit_graph_block_stmt(IGraphBlockStmt *block);
+
+	virtual void visit_import_func(IImportFunc *f);
 
 	virtual void remove();
 

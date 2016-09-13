@@ -28,6 +28,7 @@ PSS_SCHEMA_O=PSSModelXsd.o
 # endif
 
 LIB_TARGETS += $(LIBDIR)/libpsi.a $(LIBDIR)/libpsi_apps.a 
+EXE_TARGETS += $(BINDIR)/pssxml2xml$(EXEEXT) $(BINDIR)/validatepssxml$(EXEEXT)
 # $(BUILDDIR)/libxml2.build
 
 PSI_API_HEADERS := $(notdir $(wildcard $(PSI_INCLUDE_DIR)/api/*.h))
@@ -41,7 +42,7 @@ PSI_APPS_SRC += PSSModel.cpp
 INST_TARGETS += $(foreach h,$(PSI_API_HEADERS),$(INCDIR)/api/$(h))
 INST_TARGETS += $(foreach h,$(PSI_CL_HEADERS),$(INCDIR)/classlib/$(h))
 INST_TARGETS += $(foreach h,$(PSI_APPS_HEADERS),$(INCDIR)/apps/$(h))
-INST_TARGETS += $(INCDIR)/psi.h $(INCDIR)/psi_api.h
+INST_TARGETS += $(INCDIR)/pss.h $(INCDIR)/psi_api.h
 
 CXXFLAGS += -I/usr/include/libxml2
 CXXFLAGS += -I$(PSI_INCLUDE_DIR)
@@ -98,5 +99,13 @@ $(LIBDIR)/libpsi_apps.a : $(foreach o,$(PSI_APPS_SRC:.cpp=.o),$(PSI_BUILDDIR)/$(
 $(PSI_BUILDDIR)/%.o : $(PSI_SRC_DIR)/apps/%.cpp
 	$(Q)if test ! -d $(PSI_BUILDDIR); then mkdir -p $(PSI_BUILDDIR); fi
 	$(DO_CXX) -I$(PSI_SRC_DIR)/psi -I$(PSI_SRC_DIR)/apps 
+	
+$(BINDIR)/pssxml2xml$(EXEEXT) : $(PSI_BUILDDIR)/pssxml2xml.o $(LIBDIR)/libpsi_impl.a $(LIBDIR)/libpsi_apps.a
+	$(Q)if test ! -d `dirname $@`; then mkdir -p `dirname $@`; fi
+	$(CXX) -o $@ $^ -lxml2
+	
+$(BINDIR)/validatepssxml$(EXEEXT) : $(PSI_BUILDDIR)/validatepssxml.o $(LIBDIR)/libpsi_impl.a $(LIBDIR)/libpsi_apps.a
+	$(Q)if test ! -d `dirname $@`; then mkdir -p `dirname $@`; fi
+	$(CXX) -o $@ $^ -lxml2
 
 endif

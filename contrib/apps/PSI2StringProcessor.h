@@ -29,7 +29,11 @@ protected:
 
 	void print(const std::string &str);
 
+	void print(const char *fmt, ...);
+
 	void println(const std::string &str);
+
+	void println(const char *fmt, ...);
 
 	void inc_indent();
 

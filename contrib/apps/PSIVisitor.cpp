@@ -70,6 +70,10 @@ void PSIVisitor::visit_package(IPackage *pkg) {
 				visit_extend(dynamic_cast<IExtend *>(it));
 				break;
 
+			case IBaseItem::TypeImportFunc:
+				visit_import_func(dynamic_cast<IImportFunc *>(it));
+				break;
+
 			default:
 				fprintf(stdout, "Error: Unhandled package item: %d\n", it->getType());
 		}
@@ -114,6 +118,10 @@ void PSIVisitor::visit_body(IBaseItem *p, const std::vector<IBaseItem *> &items)
 
 		case IBaseItem::TypeField:
 			visit_field(dynamic_cast<IField *>(it));
+			break;
+
+		case IBaseItem::TypeExec:
+			visit_exec(dynamic_cast<IExec *>(it));
 			break;
 
 		default:
@@ -178,22 +186,24 @@ void PSIVisitor::visit_constraint_stmt(IConstraint *c) {
 		visit_constraint_expr_stmt(dynamic_cast<IConstraintExpr *>(c));
 		break;
 
-	case IConstraint::ConstraintType_If: {
-		IConstraintIf *c_if = dynamic_cast<IConstraintIf *>(c);
-
-		visit_expr(c_if->getCond());
-
-		visit_constraint_stmt(c_if->getTrue());
-
-		if (c_if->getFalse()) {
-			visit_constraint_stmt(c_if->getFalse());
-		}
-		} break;
+	case IConstraint::ConstraintType_If:
+		visit_constraint_if_stmt(dynamic_cast<IConstraintIf *>(c));
+		break;
 	}
 }
 
 void PSIVisitor::visit_constraint_expr_stmt(IConstraintExpr *c) {
 	visit_expr(c->getExpr());
+}
+
+void PSIVisitor::visit_constraint_if_stmt(IConstraintIf *c) {
+	visit_expr(c->getCond());
+
+	visit_constraint_stmt(c->getTrue());
+
+	if (c->getFalse()) {
+		visit_constraint_stmt(c->getFalse());
+	}
 }
 
 void PSIVisitor::visit_constraint_block(IConstraintBlock *block) {
@@ -203,6 +213,33 @@ void PSIVisitor::visit_constraint_block(IConstraintBlock *block) {
 		IConstraint *c = *it;
 		visit_constraint_stmt(c);
 	}
+}
+
+void PSIVisitor::visit_exec(IExec *e) {
+	for (std::vector<IExecStmt *>::const_iterator it=e->getStmts().begin();
+			it!=e->getStmts().end(); it++) {
+		visit_exec_stmt(*it);
+	}
+}
+
+void PSIVisitor::visit_exec_stmt(IExecStmt *e) {
+	switch (e->getStmtType()) {
+	case IExecStmt::StmtType_Call:
+		visit_exec_call_stmt(dynamic_cast<IExecCallStmt *>(e));
+		break;
+
+	case IExecStmt::StmtType_Expr:
+		visit_exec_expr_stmt(dynamic_cast<IExecExprStmt *>(e));
+		break;
+	}
+}
+
+void PSIVisitor::visit_exec_call_stmt(IExecCallStmt *s) {
+	// NOP
+}
+
+void PSIVisitor::visit_exec_expr_stmt(IExecExprStmt *s) {
+	// NOP
 }
 
 void PSIVisitor::visit_expr(IExpr *e) {
@@ -293,6 +330,10 @@ void PSIVisitor::visit_graph_stmt(IGraphStmt *stmt) {
 	default: fprintf(stdout, "TODO: handle graph stmt %d\n", stmt->getStmtType());
 
 	}
+}
+
+void PSIVisitor::visit_import_func(IImportFunc *f) {
+	// NOP
 }
 
 void PSIVisitor::visit_graph_block_stmt(IGraphBlockStmt *block) {

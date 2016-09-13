@@ -6,6 +6,8 @@
  */
 
 #include "PSI2StringProcessor.h"
+#include <stdarg.h>
+#include <stdio.h>
 
 namespace psi {
 namespace apps {
@@ -43,10 +45,32 @@ void PSI2StringProcessor::print(const std::string &str) {
 	m_content.append(str);
 }
 
+void PSI2StringProcessor::print(const char *fmt, ...) {
+	va_list ap;
+	char tmp[256];
+
+	va_start(ap, fmt);
+	vsprintf(tmp, fmt, ap);
+	m_content.append(tmp);
+	va_end(ap);
+}
+
 void PSI2StringProcessor::println(const std::string &str) {
 	m_content.append(m_ind);
 	m_content.append(str);
 	m_content.append("\n");
+}
+
+void PSI2StringProcessor::println(const char *fmt, ...) {
+	va_list ap;
+	char tmp[256];
+
+	va_start(ap, fmt);
+	m_content.append(m_ind);
+	vsprintf(tmp, fmt, ap);
+	m_content.append(tmp);
+	m_content.append("\n");
+	va_end(ap);
 }
 
 void PSI2StringProcessor::inc_indent() {
