@@ -29,6 +29,7 @@
 
 namespace psi_api {
 
+class IExpr;
 class IScalarType : public virtual IBaseItem {
 
 public:
@@ -45,12 +46,12 @@ public:
 	/**
 	 * Returns the MSB of the type for Bit and Int types
 	 */
-	virtual uint32_t getMSB() const = 0;
+	virtual IExpr *getMSB() const = 0;
 
 	/**
 	 * Returns the LSB of the type for Bit and Int types
 	 */
-	virtual uint32_t getLSB() const = 0;
+	virtual IExpr *getLSB() const = 0;
 
 };
 }

@@ -28,8 +28,8 @@ namespace psi {
 
 ScalarTypeImpl::ScalarTypeImpl(
 		IScalarType::ScalarType			scalar_type,
-		uint32_t						msb,
-		uint32_t						lsb) :
+		IExpr							*msb,
+		IExpr							*lsb) :
 				BaseItemImpl(IBaseItem::TypeScalar),
 				m_scalarType(scalar_type), m_msb(msb), m_lsb(lsb) { }
 

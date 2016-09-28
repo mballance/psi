@@ -34,8 +34,10 @@ void ScopeItemImpl::remove(IBaseItem *it) {
 }
 
 void ScopeItemImpl::add(IBaseItem *item) {
-	item->setParent(dynamic_cast<IBaseItem *>(this));
-	m_children.push_back(item);
+	if (item) {
+		item->setParent(dynamic_cast<IBaseItem *>(this));
+		m_children.push_back(item);
+	}
 }
 
 /**

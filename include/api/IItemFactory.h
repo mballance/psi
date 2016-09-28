@@ -47,8 +47,8 @@ public:
 	 */
 	virtual IScalarType *mkScalarType(
 			IScalarType::ScalarType t,
-			uint32_t				msb,
-			uint32_t				lsb) = 0;
+			IExpr					*msb,
+			IExpr					*lsb) = 0;
 
 	/**
 	 * Action

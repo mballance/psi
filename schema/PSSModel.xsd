@@ -321,6 +321,9 @@
 	<complexType name="struct_declaration">
 		<complexContent>
 			<extension base="pss:struct_body">
+				<sequence minOccurs="0" maxOccurs="1">
+					<element name="super" type="pss:hierarchical_id"/>
+				</sequence>
 				<attribute name="name" type="string"/>
 				<attribute name="qualifier">
 					<simpleType>
@@ -341,7 +344,6 @@
 	
 	<complexType name="struct_body">
 		<choice minOccurs="0" maxOccurs="unbounded">
-			<element name="super" type="pss:hierarchical_id"/>
 			
 			<element name="constraint" type="pss:constraint_declaration"/>
 			<element name="field" type="pss:struct_field_declaration"/>

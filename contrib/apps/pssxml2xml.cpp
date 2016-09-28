@@ -52,6 +52,8 @@ int main(int argc, char **argv) {
 		exit(1);
 	}
 
+	fprintf(stdout, "==> pssxml2xml::validate\n");
+	fflush(stdout);
 	// First, validate the file
 	PSSXmlValidator *validator = new PSSXmlValidator();
 	FILE *in = fopen(file, "r");
@@ -69,13 +71,21 @@ int main(int argc, char **argv) {
 	}
 	delete validator;
 
+	fprintf(stdout, "<== pssxml2xml::validate\n");
+	fflush(stdout);
+
 	// Run XML2PSI
 	ModelImpl *model = new ModelImpl();
 	XML2PSI *xml2psi = new XML2PSI();
 	xml2psi->process(in_c, model);
 
+	fprintf(stdout, "==> pssxml2xml::psi2xml\n");
+	fflush(stdout);
 	PSI2XML *psi2xml = new PSI2XML();
 	std::string out_c = psi2xml->traverse(model);
+
+	fprintf(stdout, "<== pssxml2xml::psi2xml\n");
+	fflush(stdout);
 
 	FILE *out;
 
@@ -102,6 +112,8 @@ int main(int argc, char **argv) {
 	delete psi2xml;
 	delete model;
 
+	fprintf(stdout, "<== pssxml2xml\n");
+	fflush(stdout);
 	return 0;
 }
 

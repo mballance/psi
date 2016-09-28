@@ -74,9 +74,7 @@ const std::string &PSI2XML::traverse(IModel *model) {
 }
 
 void PSI2XML::process_pkg(IPackage *pkg) {
-	if (pkg->getName() == "") {
-		enter("package");
-	} else {
+	if (pkg->getName() != "") {
 		enter("package name=\"" + pkg->getName() + "\"");
 	}
 
@@ -84,8 +82,6 @@ void PSI2XML::process_pkg(IPackage *pkg) {
 
 	for (; it!=pkg->getItems().end(); it++) {
 		IBaseItem *i = *it;
-
-		fprintf(stdout, "pkg_item: %d\n", i->getType());
 
 		switch (i->getType()) {
 			case IBaseItem::TypeAction:
@@ -113,7 +109,9 @@ void PSI2XML::process_pkg(IPackage *pkg) {
 		}
 	}
 
-	exit("package");
+	if (pkg->getName() != "") {
+		exit("package");
+	}
 }
 
 void PSI2XML::process_action(IAction *a) {
@@ -762,8 +760,6 @@ void PSI2XML::type2hierarchical_id(IBaseItem *it, const std::string &tag) {
 }
 
 void PSI2XML::type2data_type(IBaseItem *dt_i, const std::string &tag) {
-	char msb_s[64], lsb_s[64];
-
 	println("<" + tag + ">");
 	inc_indent();
 
@@ -771,9 +767,6 @@ void PSI2XML::type2data_type(IBaseItem *dt_i, const std::string &tag) {
 		if (dt_i->getType() == IBaseItem::TypeScalar) {
 			IScalarType *st = dynamic_cast<IScalarType *>(dt_i);
 			std::string tname = "pss:unknown-scalar";
-			// TODO: this really should be a sub-expression
-			sprintf(msb_s, "%d", st->getMSB());
-			sprintf(lsb_s, "%d", st->getLSB());
 			bool has_bitwidth = false;
 
 			if (st->getScalarType() == IScalarType::ScalarType_Bit) {
@@ -795,14 +788,8 @@ void PSI2XML::type2data_type(IBaseItem *dt_i, const std::string &tag) {
 
 			if (has_bitwidth) {
 				enter(tname);
-				enter("msb");
-				println(std::string("<pss:number>") + msb_s + "</pss:number>");
-				exit("msb");
-
-				enter("lsb");
-				println(std::string("<pss:number>") + lsb_s + "</pss:number>");
-				exit("lsb");
-
+				process_expr(st->getMSB(), "msb");
+				process_expr(st->getLSB(), "lsb");
 				exit(tname);
 			} else {
 				println(std::string("<pss:") + tname + "/>");

@@ -37,8 +37,8 @@ class ScalarTypeImpl:
 public:
 	ScalarTypeImpl(
 			IScalarType::ScalarType			scalar_type,
-			uint32_t						msb,
-			uint32_t						lsb);
+			IExpr							*msb,
+			IExpr							*lsb);
 
 	virtual ~ScalarTypeImpl();
 
@@ -47,18 +47,18 @@ public:
 	/**
 	 * Returns the MSB of the type for Bit and Int types
 	 */
-	virtual uint32_t getMSB() const { return m_msb; }
+	virtual IExpr *getMSB() const { return m_msb; }
 
 	/**
 	 * Returns the LSB of the type for Bit and Int types
 	 */
-	virtual uint32_t getLSB() const { return m_lsb; }
+	virtual IExpr *getLSB() const { return m_lsb; }
 
 
 private:
 	IScalarType::ScalarType			m_scalarType;
-	uint32_t						m_msb;
-	uint32_t						m_lsb;
+	IExpr							*m_msb;
+	IExpr							*m_lsb;
 };
 
 } /* namespace psi */

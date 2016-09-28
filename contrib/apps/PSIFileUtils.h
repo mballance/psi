@@ -9,6 +9,7 @@
 #define CONTRIB_APPS_PSIFILEUTILS_H_
 #include <stdio.h>
 #include <string>
+#include <stdint.h>
 
 namespace psi {
 

@@ -758,13 +758,15 @@ IBaseItem *Elaborator::elaborate_datatype(BaseItemImp *dt) {
 	if (dt->getObjectType() == BaseItemImp::TypeBit) {
 		// This is a bit-type field
 		BitTypeImp *bt = dynamic_cast<BitTypeImp *>(dt);
-		ft = m_model->mkScalarType(
-				IScalarType::ScalarType_Bit, bt->getMsb(), bt->getLsb());
+		ft = m_model->mkScalarType(IScalarType::ScalarType_Bit,
+				m_model->mkBitLiteral(bt->getMsb()),
+				m_model->mkBitLiteral(bt->getLsb()));
 	} else if (dt->getObjectType() == BaseItemImp::TypeInt) {
 		// This is an int-type field
 		IntTypeImp *it = dynamic_cast<IntTypeImp *>(dt);
-		ft = m_model->mkScalarType(
-				IScalarType::ScalarType_Int, it->getMsb(), it->getLsb());
+		ft = m_model->mkScalarType(IScalarType::ScalarType_Int,
+				m_model->mkBitLiteral(it->getMsb()),
+				m_model->mkBitLiteral(it->getLsb()));
 	} else if (dt->getObjectType() == BaseItemImp::TypeBool) {
 		// Boolean field
 		BoolImp *it = dynamic_cast<BoolImp *>(dt);

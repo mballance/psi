@@ -76,8 +76,8 @@ class ModelImpl:
 		 */
 		virtual IScalarType *mkScalarType(
 				IScalarType::ScalarType t,
-				uint32_t				msb,
-				uint32_t				lsb);
+				IExpr					*msb,
+				IExpr					*lsb);
 
 		/**
 		 * Action

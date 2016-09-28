@@ -25,9 +25,11 @@
 #include "ModelImpl.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <iterator>
 #include <string>
 #include <vector>
+#include <assert.h>
 
 #include "ActionImpl.h"
 #include "BinaryExprImpl.h"
@@ -52,6 +54,9 @@
 #include "ScalarTypeImpl.h"
 #include "StructImpl.h"
 #include "api/IBaseItem.h"
+#if !defined(_WIN32) && !defined(__CYGWIN__)
+#include <execinfo.h>
+#endif
 
 namespace psi {
 
@@ -84,7 +89,26 @@ void ModelImpl::remove(IBaseItem *it) {
 
 
 void ModelImpl::add(IBaseItem *it) {
-	m_children.push_back(it);
+	if (it) {
+		it->setParent(this);
+		m_children.push_back(it);
+	} else {
+		fprintf(stdout, "Error: Attempting to add null item\n");
+#if !defined(_WIN32) && !defined(__CYGWIN__)
+		{
+			int bt_sz;
+			void *bt[256];
+			bt_sz = backtrace(bt, sizeof(bt)/sizeof(void *));
+
+			char **bt_s = backtrace_symbols(bt, bt_sz);
+			fprintf(stdout, "Backtrace:\n");
+			for (int i=0; i<bt_sz; i++) {
+				fprintf(stdout, "  %s\n", bt_s[i]);
+			}
+			free(bt_s);
+		}
+#endif
+	}
 }
 
 IPackage *ModelImpl::getGlobalPackage() {
@@ -123,8 +147,8 @@ IPackage *ModelImpl::findPackage(const std::string &name, bool create) {
  */
 IScalarType *ModelImpl::mkScalarType(
 		IScalarType::ScalarType t,
-		uint32_t				msb,
-		uint32_t				lsb) {
+		IExpr					*msb,
+		IExpr					*lsb) {
 	if (t != IScalarType::ScalarType_Bit && t != IScalarType::ScalarType_Int) {
 		msb = 0;
 		lsb = 0;
