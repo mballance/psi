@@ -8,6 +8,7 @@
 #include "XML2PSI.h"
 #include "PSIUtil.h"
 #include <stdio.h>
+#include <assert.h>
 
 namespace psi {
 namespace apps {
@@ -100,10 +101,10 @@ IAction *XML2PSI::elaborate_action(xmlNode *p, const strmap &attr) {
 
 	if (attr.find("super") != attr.end()) {
 		// TODO: look up super
+		fprintf(stdout, "Error: action 'super' unsupported\n");
 	}
 
-	IAction *a = m_model->mkAction(
-			attr.find("name")->second, super);
+	IAction *a = m_model->mkAction(attr.find("name")->second, super);
 
 	for (xmlNode *n=p->children; n; n=n->next) {
 		if (n->type != XML_ELEMENT_NODE) {
@@ -111,7 +112,7 @@ IAction *XML2PSI::elaborate_action(xmlNode *p, const strmap &attr) {
 		}
 
 		get_attributes(n, attr_m);
-		a->add(elaborate_action_struct_component_item(p, attr_m));
+		a->add(elaborate_action_struct_component_item(n, attr_m));
 	}
 
 	return a;
@@ -142,56 +143,191 @@ IComponent *XML2PSI::elaborate_component(xmlNode *p, const strmap &attr) {
 	return c;
 }
 
-IConstraint *XML2PSI::elaborate_constraint(xmlNode *p, const strmap &attr) {
-	IConstraintBlock *c = 0;
-	std::string c_name;
+IConstraint *XML2PSI::elaborate_constraint_set(xmlNode *p, const strmap &attr) {
+	IConstraint *ret = 0;
 
-	if (attr.find("name") != attr.end()) {
-		c_name = attr.find("name")->second;
+	std::string name = reinterpret_cast<const char *>(p->name);
+
+	fprintf(stdout, "elaborate_constraint_set: %s\n", name.c_str());
+	fflush(stdout);
+
+	if (name == "stmt") {
+		// Find the first child node
+		xmlNode *n = p->children;
+
+		while (n && n->type != XML_ELEMENT_NODE) { n=n->next; }
+		strmap attr_n;
+
+		get_attributes(n, attr_n);
+
+		ret = m_model->mkConstraintExpr(elaborate_expr(n, attr_n));
+	} else if (name == "if") {
+		fprintf(stdout, "Error: unsupported constraint %s\n", name.c_str());
+	} else if (name == "block") {
+		std::vector<IConstraint *> cl;
+
+		for (xmlNode *cn=p->children; cn; cn=cn->next) {
+			if (cn->type != XML_ELEMENT_NODE) {
+				continue;
+			}
+
+			strmap attr_m;
+			get_attributes(cn, attr_m);
+			cl.push_back(elaborate_constraint_set(cn, attr_m));
+		}
+		ret = m_model->mkConstraintBlock(name, cl);
+	} else if (name == "foreach") {
+		fprintf(stdout, "Error: unsupported constraint %s\n", name.c_str());
+	} else if (name == "implies") {
+		fprintf(stdout, "Error: unsupported constraint %s\n", name.c_str());
+	} else {
+		fprintf(stdout, "Error: unknown constraint %s\n", name.c_str());
 	}
 
-	c = m_model->mkConstraintBlock(c_name, c)
-
-	return c;
+	return ret;
 }
 
 IConstraintBlock *XML2PSI::elaborate_constraint_declaration(xmlNode *p, const strmap &attr) {
+	std::vector<IConstraint *> cl;
 	IConstraintBlock *c = 0;
 	std::string c_name;
+
+	fprintf(stdout, "elaborate_constraint_declaration: %s\n", p->name);
 
 	if (attr.find("name") != attr.end()) {
 		c_name = attr.find("name")->second;
 	}
 
-	c = m_model->mkConstraintBlock(c_name, c)
+	for (xmlNode *cn=p->children; cn; cn=cn->next) {
+		if (cn->type != XML_ELEMENT_NODE) {
+			continue;
+		}
+
+		strmap attr_m;
+		get_attributes(cn, attr_m);
+		cl.push_back(elaborate_constraint_set(cn, attr_m));
+	}
+
+	c = m_model->mkConstraintBlock(c_name, cl);
 
 	return c;
 }
 
 IExpr *XML2PSI::elaborate_expr(xmlNode *p, const strmap &attr) {
-	xmlNode *n = p->children;
 	std::string name;
 	IExpr *ret = 0;
 
 	// Skip leading non-element nodes
-	while (n && n->type != XML_ELEMENT_NODE) { n = n->next; }
 
-	name = reinterpret_cast<const char *>(n->name);
+	name = reinterpret_cast<const char *>(p->name);
+
+	fprintf(stdout, "elaborate_expr: %s\n", name.c_str());
+	fflush(stdout);
 
 	if (name == "binexp") {
-		fprintf(stdout, "Error: unhandled expr element %s\n", name.c_str());
+		xmlNode *lhs = 0;
+		xmlNode *rhs = 0;
+
+		for (xmlNode *cn=p->children; cn; cn=cn->next) {
+			if (cn->type != XML_ELEMENT_NODE) {
+				continue;
+			}
+			name = reinterpret_cast<const char *>(cn->name);
+
+
+			if (name == "lhs") {
+				lhs = cn;
+			} else if (name == "rhs") {
+				rhs = cn;
+			} else {
+				fprintf(stdout, "Error: unknown binexp child %s\n", name.c_str());
+			}
+		}
+
+		assert(lhs);
+		assert(rhs);
+
+		// Find the first element child of lhs and rhs
+		lhs = lhs->children;
+		while (lhs && lhs->type != XML_ELEMENT_NODE) { lhs = lhs->next; }
+
+		rhs = rhs->children;
+		while (rhs && rhs->type != XML_ELEMENT_NODE) { rhs = rhs->next; }
+
+		assert(lhs);
+		assert(rhs);
+
+		strmap attr_lhs, attr_rhs;
+		get_attributes(lhs, attr_lhs);
+		get_attributes(rhs, attr_rhs);
+
+		IBinaryExpr::BinOpType op = toBinOp(attr.find("op")->second);
+
+		ret = m_model->mkBinExpr(
+				elaborate_expr(lhs, attr_lhs),
+				toBinOp(attr.find("op")->second),
+				elaborate_expr(rhs, attr_rhs));
 	} else if (name == "unexp") {
 		fprintf(stdout, "Error: unhandled expr element %s\n", name.c_str());
 	} else if (name == "inside") {
 		fprintf(stdout, "Error: unhandled expr element %s\n", name.c_str());
 	} else if (name == "number") {
-		const char *v = reinterpret_cast<const char *>(xmlNodeListGetString(n->doc, n->children, 1));
+		const char *v = reinterpret_cast<const char *>(xmlNodeListGetString(p->doc, p->children, 1));
 		uint64_t v_i = strtoul(v, 0, 0);
 		ret = m_model->mkIntLiteral(v_i);
 	} else if (name == "paren") {
 		fprintf(stdout, "Error: unhandled expr element %s\n", name.c_str());
 	} else if (name == "ref") {
-		fprintf(stdout, "Error: unhandled expr element %s\n", name.c_str());
+		IBaseItem *ctxt = m_scope_stack.top();
+		IField *f = 0;
+		std::vector<IField *> path;
+
+		for (xmlNode *cn = p->children; cn; cn=cn->next) {
+			if (cn->type != XML_ELEMENT_NODE) {
+				continue;
+			}
+
+			std::string c_name = reinterpret_cast<const char *>(cn->name);
+
+			if (c_name == "path") {
+				std::string v = reinterpret_cast<const char *>(xmlNodeListGetString(cn->doc, cn->children, 1));
+
+				IScopeItem *scope;
+
+				if (!(scope = dynamic_cast<IScopeItem *>(ctxt))) {
+					fprintf(stdout, "Error: context isnt't a scope\n");
+				}
+
+				IField *f_i = 0;
+				// Search for this element in the current scope
+				for (std::vector<IBaseItem *>::const_iterator it=scope->getItems().begin();
+						it!=scope->getItems().end(); it++) {
+					if ((f_i = dynamic_cast<IField *>(*it)) && f_i->getName() == v) {
+						break;
+					} else {
+						f_i = 0;
+					}
+				}
+
+				if (!f_i) {
+					fprintf(stdout, "Error: Failed to find element %s\n", v.c_str());
+					f = 0;
+					break;
+				} else {
+					path.push_back(f_i);
+					f = f_i;
+					ctxt = f_i->getDataType();
+				}
+			} else {
+				fprintf(stdout, "Error: unknown ref sub-element %s\n", c_name.c_str());
+			}
+		}
+
+		if (!f) {
+			fprintf(stdout, "Error: Failed to find referenced field\n");
+		}
+
+		ret = m_model->mkFieldRef(path);
 	} else if (name == "call") {
 		fprintf(stdout, "Error: unhandled expr element %s\n", name.c_str());
 	} else {
@@ -214,30 +350,29 @@ IBaseItem *XML2PSI::elaborate_type(xmlNode *p, const strmap &attr) {
 		strmap attr_m;
 
 		// Must look inside the containing element
-		n = n->children;
 
 		IExpr *msb = 0, *lsb=0;
-		if (n) {
-			n = n->next;
-			while (n && n->type != XML_ELEMENT_NODE) { n = n->next; }
 
-			if (n) {
-				get_attributes(n, attr_m);
-				msb = elaborate_expr(n, attr_m);
-			} else {
-				fprintf(stdout, "Error: Missing 'msb' (1)\n");
+		for (n=n->children; n; n=n->next) {
+			if (n->type != XML_ELEMENT_NODE) {
+				continue;
 			}
-		} else {
-			fprintf(stdout, "Error: Missing 'msb'\n");
-		}
 
-		if (n) {
-			n = n->next;
-			while (n && n->type != XML_ELEMENT_NODE) { n = n->next; }
-			get_attributes(n, attr_m);
-			lsb = elaborate_expr(n, attr_m);
-		} else {
-			fprintf(stdout, "Error: Missing 'msb'\n");
+			std::string c_name = reinterpret_cast<const char *>(n->name);
+
+			if (c_name == "msb") {
+				xmlNode *cn = n->children;
+				while (cn && cn->type != XML_ELEMENT_NODE) { cn=cn->next; }
+				assert(cn);
+				get_attributes(cn, attr_m);
+				msb = elaborate_expr(cn, attr_m);
+			} else if (c_name == "lsb") {
+				xmlNode *cn = n->children;
+				while (cn && cn->type != XML_ELEMENT_NODE) { cn=cn->next; }
+				assert(cn);
+				get_attributes(cn, attr_m);
+				lsb = elaborate_expr(cn, attr_m);
+			}
 		}
 
 		if (name == "int") {
@@ -251,9 +386,11 @@ IBaseItem *XML2PSI::elaborate_type(xmlNode *p, const strmap &attr) {
 		type = m_model->mkScalarType(IScalarType::ScalarType_Chandle, 0, 0);
 	} else if (name == "string") {
 		type = m_model->mkScalarType(IScalarType::ScalarType_String, 0, 0);
+	} else if (name == "user") {
+		type = find_type(n);
 	} else {
 		// user-defined type
-		fprintf(stdout, "Error: Unhandled type \"user-defined\"\n");
+		fprintf(stdout, "Error: Unhandled type \"%s\"\n", name.c_str());
 	}
 
 	return type;
@@ -264,20 +401,20 @@ IField *XML2PSI::elaborate_field(xmlNode *p, const strmap &attr) {
 	IField *field = 0;
 	IField::FieldAttr field_attr = IField::FieldAttr_None;
 	strmap attr_m;
-	strmap::const_iterator type = attr.find("type");
+	strmap::const_iterator q = attr.find("qualifier");
 
-	if (type != attr.end()) {
-		if (type->second == "rand") {
+	if (q != attr.end()) {
+		if (q->second == "rand") {
 			field_attr = IField::FieldAttr_Rand;
-		} else if (type->second == "input") {
+		} else if (q->second == "input") {
 			field_attr = IField::FieldAttr_Input;
-		} else if (type->second == "output") {
+		} else if (q->second == "output") {
 			field_attr = IField::FieldAttr_Output;
-		} else if (type->second == "lock") {
+		} else if (q->second == "lock") {
 			field_attr = IField::FieldAttr_Lock;
-		} else if (type->second == "share") {
+		} else if (q->second == "share") {
 			field_attr = IField::FieldAttr_Share;
-		} else if (type->second == "pool") {
+		} else if (q->second == "pool") {
 			field_attr = IField::FieldAttr_Pool;
 		} else {
 			// TODO: Error
@@ -364,7 +501,6 @@ IStruct *XML2PSI::elaborate_struct(xmlNode *p, const strmap &attr) {
 	strmap::const_iterator name_i = attr.find("name");
 	strmap::const_iterator qual_i = attr.find("qualifier");
 
-
 	IStruct::StructType type = IStruct::Base;
 
 	if (qual_i != attr.end()) {
@@ -390,6 +526,7 @@ IStruct *XML2PSI::elaborate_struct(xmlNode *p, const strmap &attr) {
 
 	IStruct *ret = m_model->mkStruct(
 			name_i->second, type, super_type);
+	m_scope_stack.push(ret);
 
 	// Process body items
 	for (; c; c=c->next) {
@@ -403,6 +540,8 @@ IStruct *XML2PSI::elaborate_struct(xmlNode *p, const strmap &attr) {
 		ret->add(elaborate_action_struct_component_item(c, attr));
 	}
 
+	m_scope_stack.pop();
+
 	return ret;
 }
 
@@ -413,7 +552,7 @@ IBaseItem *XML2PSI::elaborate_action_struct_component_item(xmlNode *p, const str
 	if (p_n == "field") {
 		ret = elaborate_field(p, attr);
 	} else if (p_n == "constraint") {
-		ret = elaborate_constraint(p, attr);
+		ret = elaborate_constraint_declaration(p, attr);
 	} else {
 		fprintf(stdout, "Error: unhandled action_struct_component_item %s\n", p_n.c_str());
 	}
@@ -696,6 +835,63 @@ void XML2PSI::get_attributes(xmlNode *n, strmap &attr_m) {
 		std::string value = reinterpret_cast<const char *>(xmlGetProp(n, attr->name));
 		attr_m.insert(strmap_ent(name, value));
 	}
+}
+
+IBinaryExpr::BinOpType XML2PSI::toBinOp(const std::string &op) {
+	if (op == "Eq") {
+		return IBinaryExpr::BinOp_Eq;
+	} else if (op == "EqEq") {
+		return IBinaryExpr::BinOp_EqEq;
+	} else if (op == "NotEq") {
+		return IBinaryExpr::BinOp_NotEq;
+	} else if (op == "GE") {
+		return IBinaryExpr::BinOp_GE;
+	} else if (op == "GT") {
+		return IBinaryExpr::BinOp_GT;
+	} else if (op == "LE") {
+		return IBinaryExpr::BinOp_LE;
+	} else if (op == "LT") {
+		return IBinaryExpr::BinOp_LT;
+	} else if (op == "And") {
+		return IBinaryExpr::BinOp_And;
+	} else if (op == "AndAnd") {
+		return IBinaryExpr::BinOp_AndAnd;
+	} else if (op == "Or") {
+		return IBinaryExpr::BinOp_Or;
+	} else if (op == "OrOr") {
+		return IBinaryExpr::BinOp_OrOr;
+	} else if (op == "Minus") {
+		return IBinaryExpr::BinOp_Minus;
+	} else if (op == "Plus") {
+		return IBinaryExpr::BinOp_Plus;
+	} else if (op == "Mul") {
+		return IBinaryExpr::BinOp_Multiply;
+	} else if (op == "Mod") {
+		return IBinaryExpr::BinOp_Mod;
+	} else if (op == "ArrRef") {
+		return IBinaryExpr::BinOp_ArrayRef;
+	} else {
+		fprintf(stdout, "Error: Unknown binary op %s\n", op.c_str());
+		return IBinaryExpr::BinOp_Eq;
+	}
+}
+
+IBaseItem *XML2PSI::find_type(xmlNode *p) {
+	IScopeItem *scope = 0;
+//	dynamic_cast<IScopeItem *>(m_scope_stack.top());
+	std::vector<std::string> pl;
+
+	for (xmlNode *c=p->children; c; c=c->next) {
+		if (c->type != XML_ELEMENT_NODE) {
+			continue;
+		}
+
+		std::string path = reinterpret_cast<const char *>(
+				xmlNodeListGetString(c->doc, c->children, 1));
+		pl.push_back(path);
+	}
+
+	return find_type(dynamic_cast<IScopeItem *>(m_scope_stack.top()), pl);
 }
 
 }

@@ -39,7 +39,7 @@ protected:
 
 	IComponent *elaborate_component(xmlNode *p, const strmap &attr);
 
-	IConstraint *elaborate_constraint(xmlNode *p, const strmap &attr);
+	IConstraint *elaborate_constraint_set(xmlNode *p, const strmap &attr);
 
 	IConstraintBlock *elaborate_constraint_declaration(xmlNode *p, const strmap &attr);
 
@@ -92,6 +92,10 @@ protected:
 private:
 
 	static void get_attributes(xmlNode *n, strmap &attr);
+
+	static IBinaryExpr::BinOpType toBinOp(const std::string &op);
+
+	IBaseItem *find_type(xmlNode *p);
 
 
 private:
