@@ -43,9 +43,19 @@ protected:
 
 	IConstraintBlock *elaborate_constraint_declaration(xmlNode *p, const strmap &attr);
 
+	IExec *elaborate_exec(xmlNode *p, const strmap &attr);
+
 	IExpr *elaborate_expr(xmlNode *p, const strmap &attr);
 
 	IField *elaborate_field(xmlNode *p, const strmap &attr);
+
+	IFieldRef *elaborate_field_ref(xmlNode *p);
+
+	IImportFunc *elaborate_import_function(xmlNode *p, const strmap &attr);
+
+	void elaborate_import_stmt(xmlNode *p, const strmap &attr);
+
+	IField *elaborate_parameter(xmlNode *p, const strmap &attr);
 
 	IBaseItem *elaborate_type(xmlNode *p, const strmap &attr);
 
@@ -55,43 +65,41 @@ protected:
 
 	IBaseItem *elaborate_action_struct_component_item(xmlNode *p, const strmap &attr);
 
-	void enter_action(const strmap &attr);
-
-	void enter_component(const strmap &attr);
-
-	void enter_field(const strmap &attr);
-
-	void enter_literal(const strmap &attr);
-
-	void enter_package(const strmap &attr);
-
-	void enter_struct(const strmap &attr);
-
-	void enter_struct_type(const strmap &attr);
-
-	static void start(void *data, const char *el, const char **attr) {
-		static_cast<XML2PSI *>(data)->start(el, attr);
-	}
-	void start(const std::string &el, const char **attr);
-
-	static void end(void *data, const char *el) {
-		static_cast<XML2PSI *>(data)->end(el);
-	}
-	void end(const std::string &el);
+	IFieldRef *elaborate_variable_ref(xmlNode *p);
 
 	IBaseItem *find_type(IScopeItem *curr, const std::vector<std::string> &path);
 
+	IField *find_field(const std::string &name);
+
 	std::vector<std::string> split_path(const std::string &path);
 
-	void push(IBaseItem *it);
+private:
+	class Context {
+	public:
 
-	IBaseItem *pop();
+		Context(IBaseItem *scope) : m_scope(scope) { }
 
-	IBaseItem *top();
+		IBaseItem *scope() const { return m_scope; }
+
+		void add_import(IBaseItem *imp) {
+			m_imports.push_back(imp);
+		}
+
+		const std::vector<IBaseItem *> &imports() const {
+			return m_imports;
+		}
+
+	private:
+
+		IBaseItem						*m_scope;
+		std::vector<IBaseItem *>		m_imports;
+	};
 
 private:
 
 	static void get_attributes(xmlNode *n, strmap &attr);
+
+	static IExecExprStmt::AssignOp toAssignOp(const std::string &op);
 
 	static IBinaryExpr::BinOpType toBinOp(const std::string &op);
 
@@ -101,7 +109,7 @@ private:
 private:
 
 	IModel								*m_model;
-	std::stack<IBaseItem *>				m_scope_stack;
+	std::stack<Context>					m_scope_stack;
 
 };
 

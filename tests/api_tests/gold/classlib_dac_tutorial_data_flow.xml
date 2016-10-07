@@ -3,10 +3,8 @@
   xmlns:pss="http://accellera.org/PSS"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://accellera.org/PSS PSSModel.xsd">
-    <pss:package>
-        <pss:struct name="S">
-        </pss:struct>
-    </pss:package>
+    <pss:struct name="S">
+    </pss:struct>
     <pss:component name="CA">
         <pss:action name="A">
             <pss:field name="out_s" qualifier="output">

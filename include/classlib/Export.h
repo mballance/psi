@@ -26,6 +26,7 @@
 #define INCLUDED_EXPORT_H
 #include "classlib/ExportItem.h"
 #include "classlib/TypeDecl.h"
+#include "classlib/MethodParamList.h"
 
 namespace pss {
 
@@ -35,7 +36,7 @@ public:
 		m_item.setDataType(TypeDecl<T>::id());
 	}
 
-	Export(BaseItem *p, const ExprList &exp_params) : T(Scope(true)), m_item(p, exp_params) {
+	Export(BaseItem *p, const MethodParamList &exp_params) : T(Scope(true)), m_item(p, exp_params) {
 		m_item.setDataType(TypeDecl<T>::id());
 	}
 

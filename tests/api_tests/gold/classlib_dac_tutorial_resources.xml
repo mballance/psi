@@ -3,22 +3,20 @@
   xmlns:pss="http://accellera.org/PSS"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://accellera.org/PSS PSSModel.xsd">
-    <pss:package>
-        <pss:struct name="R" qualifier="resource">
-            <pss:field name="instance_id" qualifier="rand">
-                <pss:type>
-                    <pss:bit>
-                        <pss:msb>
-                            <pss:number>31</pss:number>
-                        </pss:msb>
-                        <pss:lsb>
-                            <pss:number>0</pss:number>
-                        </pss:lsb>
-                    </pss:bit>
-                </pss:type>
-            </pss:field>
-        </pss:struct>
-    </pss:package>
+    <pss:struct name="R" qualifier="resource">
+        <pss:field name="instance_id" qualifier="rand">
+            <pss:type>
+                <pss:bit>
+                    <pss:msb>
+                        <pss:number>0x1f</pss:number>
+                    </pss:msb>
+                    <pss:lsb>
+                        <pss:number>0x0</pss:number>
+                    </pss:lsb>
+                </pss:bit>
+            </pss:type>
+        </pss:field>
+    </pss:struct>
     <pss:component name="C">
         <pss:action name="A">
             <pss:field name="rc" qualifier="lock">

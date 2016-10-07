@@ -3,8 +3,6 @@
   xmlns:pss="http://accellera.org/PSS"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://accellera.org/PSS PSSModel.xsd">
-    <pss:package>
-    </pss:package>
     <pss:component name="top">
         <pss:action name="entry_point">
             <pss:field name="p1">
@@ -16,10 +14,10 @@
                 <pss:type>
                     <pss:bit>
                         <pss:msb>
-                            <pss:number>31</pss:number>
+                            <pss:number>0x1f</pss:number>
                         </pss:msb>
                         <pss:lsb>
-                            <pss:number>0</pss:number>
+                            <pss:number>0x0</pss:number>
                         </pss:lsb>
                     </pss:bit>
                 </pss:type>

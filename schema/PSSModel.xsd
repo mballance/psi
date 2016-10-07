@@ -107,9 +107,17 @@
 	</complexType>
 	
 	<complexType name="extend_struct">
-		<complexContent>
-			<extension base="pss:struct_body"/>
-		</complexContent>
+		<choice minOccurs="0" maxOccurs="unbounded">
+			
+			<element name="constraint" type="pss:constraint_declaration"/>
+			<element name="field" type="pss:struct_field_declaration"/>
+			<element name="typedef" type="pss:typedef_declaration"/>
+			<!-- TODO:
+			<element name="bins" type="pss:bins_declaration"/>
+			<element name="coverspec" type="pss:coverspec_declaration"/>
+			  -->
+			<element name="exec" type="pss:exec_block_stmt"/>
+		</choice>	
 	</complexType>
 	
 	<complexType name="extend_enum">
@@ -319,27 +327,33 @@
     	 * Struct Declarations
          ************************************************************ -->
 	<complexType name="struct_declaration">
-		<complexContent>
-			<extension base="pss:struct_body">
-				<sequence minOccurs="0" maxOccurs="1">
-					<element name="super" type="pss:hierarchical_id"/>
-				</sequence>
-				<attribute name="name" type="string"/>
-				<attribute name="qualifier">
-					<simpleType>
-						<restriction base="string">
-							<enumeration value="memory"/>
-							<enumeration value="stream"/>
-							<enumeration value="state"/>
-							<enumeration value="resource"/>
-						</restriction>
-					</simpleType>
-				</attribute>				
-			</extension>
-
-		<!--  
-		-->
-		</complexContent>
+		<sequence minOccurs="1" maxOccurs="1">
+		<sequence minOccurs="0" maxOccurs="1">
+			<element name="super" type="pss:hierarchical_id"/>
+		</sequence>
+		<choice minOccurs="0" maxOccurs="unbounded">
+			
+			<element name="constraint" type="pss:constraint_declaration"/>
+			<element name="field" type="pss:struct_field_declaration"/>
+			<element name="typedef" type="pss:typedef_declaration"/>
+			<!-- TODO:
+			<element name="bins" type="pss:bins_declaration"/>
+			<element name="coverspec" type="pss:coverspec_declaration"/>
+			  -->
+			<element name="exec" type="pss:exec_block_stmt"/>
+		</choice>	
+		</sequence>
+        <attribute name="name" type="string"/>
+        <attribute name="qualifier">
+            <simpleType>
+                <restriction base="string">
+                    <enumeration value="memory"/>
+                    <enumeration value="stream"/>
+                    <enumeration value="state"/>
+                    <enumeration value="resource"/>
+                </restriction>
+            </simpleType>
+        </attribute>
 	</complexType>
 	
 	<complexType name="struct_body">
