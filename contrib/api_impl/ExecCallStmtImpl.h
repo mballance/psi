@@ -10,6 +10,7 @@
 
 #include "ExecStmtImpl.h"
 #include "api/IExecCallStmt.h"
+#include "BaseItemImpl.h"
 
 namespace psi {
 
@@ -23,6 +24,14 @@ public:
 			IExecStmt::AssignOp			op,
 			IImportFunc					*func,
 			const std::vector<IExpr *>	&parameters);
+#ifdef PSS_HAVE_CXX_11
+	ExecCallStmtImpl(
+			IFieldRef						*target,
+			IExecStmt::AssignOp				op,
+			IImportFunc						*func,
+			std::initializer_list<IExpr *>	parameters) :
+				ExecCallStmtImpl(target, op, func, std::vector<IExpr *>(parameters)) { }
+#endif
 
 	virtual ~ExecCallStmtImpl();
 

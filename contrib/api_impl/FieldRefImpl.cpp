@@ -15,6 +15,10 @@ FieldRefImpl::FieldRefImpl(const std::vector<IField *> &field_path) :
 
 }
 
+FieldRefImpl::FieldRefImpl(IField *field_path) {
+	m_field_path.push_back(field_path);
+}
+
 FieldRefImpl::~FieldRefImpl() {
 	// TODO Auto-generated destructor stub
 }

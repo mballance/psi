@@ -17,4 +17,8 @@ GraphRepeatStmtImpl::~GraphRepeatStmtImpl() {
 	// TODO Auto-generated destructor stub
 }
 
+void GraphRepeatStmtImpl::setBody(IGraphStmt *s) {
+	m_body = s;
+}
+
 } /* namespace psi */

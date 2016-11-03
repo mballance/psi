@@ -40,6 +40,11 @@ void ScopeItemImpl::add(IBaseItem *item) {
 	}
 }
 
+void ScopeItemImpl::insert(std::vector<IBaseItem *>::const_iterator i, IBaseItem *item) {
+	item->setParent(dynamic_cast<IBaseItem *>(this));
+	m_children.insert(i, item);
+}
+
 /**
  * Locates and returns the named field. Returns 0 if
  * the named field does not exist

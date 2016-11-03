@@ -9,6 +9,7 @@
 #define SRC_APPS_PSIVISITOR_H_
 #include "api/IModel.h"
 #include "api/IBaseItem.h"
+#include <stack>
 
 using namespace psi_api;
 
@@ -58,6 +59,8 @@ protected:
 
 	virtual void visit_exec_expr_stmt(IExecExprStmt *s);
 
+	virtual void visit_exec_vendor_stmt(IExecStmt *s);
+
 	virtual void visit_expr(IExpr *e);
 
 	virtual void visit_extend(IExtend *e);
@@ -76,7 +79,15 @@ protected:
 
 	virtual void visit_graph_block_stmt(IGraphBlockStmt *block);
 
+	virtual void visit_graph_repeat_stmt(IGraphRepeatStmt *repeat);
+
+	virtual void visit_graph_select_stmt(IGraphBlockStmt *s);
+
+	virtual void visit_graph_traverse_stmt(IGraphTraverseStmt *t);
+
 	virtual void visit_import_func(IImportFunc *f);
+
+	virtual void visit_vendor_item(IBaseItem *it);
 
 	virtual void remove();
 
@@ -85,8 +96,23 @@ protected:
 	static std::string path2string(IFieldRef *f);
 
 	static std::string path2string(const std::vector<IField *> &path);
+
+	void push_scope(IBaseItem *it);
+
+	void pop_scope();
+
+	IBaseItem *scope_parent(IBaseItem *it=0);
+
+	void push_graph(IGraphStmt *it);
+
+	void pop_graph();
+
+	IGraphStmt *graph_parent(IGraphStmt *it=0);
+
 private:
-	bool		m_removed;
+	bool						m_removed;
+	std::vector<IBaseItem *>	m_scope_stack;
+	std::vector<IGraphStmt *>	m_graph_stack;
 
 };
 

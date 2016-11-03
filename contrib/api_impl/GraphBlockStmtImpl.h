@@ -25,6 +25,9 @@ public:
 	virtual const std::vector<IGraphStmt *> &getStmts() const;
 
 	virtual void add(IGraphStmt *stmt);
+
+	void insert(std::vector<IGraphStmt *>::const_iterator it, IGraphStmt *stmt);
+
 private:
 
 	IGraphBlockStmt::GraphStmtType				m_type;

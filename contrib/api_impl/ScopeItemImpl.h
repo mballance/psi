@@ -25,6 +25,8 @@ public:
 
 	virtual void add(IBaseItem *item);
 
+	void insert(std::vector<IBaseItem *>::const_iterator i, IBaseItem *item);
+
 	/**
 	 * Locates and returns the named field. Returns 0 if
 	 * the named field does not exist

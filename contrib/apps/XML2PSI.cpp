@@ -9,7 +9,8 @@
 
 #include <assert.h>
 #include <stdio.h>
-#include <sys/_stdint.h>
+#include <sys/types.h>
+#include <stdint.h>
 #include <cstdlib>
 #include <iterator>
 #include <string>

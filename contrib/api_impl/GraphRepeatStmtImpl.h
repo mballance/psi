@@ -27,6 +27,8 @@ public:
 
 	virtual IGraphStmt *getBody() { return m_body; }
 
+	virtual void setBody(IGraphStmt *s);
+
 private:
 	RepeatType				m_type;
 	IExpr					*m_cond;

@@ -32,9 +32,21 @@ ExecImpl::ExecImpl(
 				m_execKind(kind), m_execType(IExec::Native),
 				m_inlineExec(0), m_stmts(stmts) { }
 
+ExecImpl::ExecImpl() : BaseItemImpl(IBaseItem::TypeExec),
+		m_execKind(IExec::Body),
+		m_execType(IExec::Native),
+		m_inlineExec(0) { }
+
 ExecImpl::~ExecImpl() {
 	// TODO Auto-generated destructor stub
 }
 
+std::vector<IExecStmt *> &ExecImpl::getStmtsM() {
+	return m_stmts;
+}
+
+void ExecImpl::addStmt(IExecStmt *s) {
+	m_stmts.push_back(s);
+}
 
 } /* namespace psi */

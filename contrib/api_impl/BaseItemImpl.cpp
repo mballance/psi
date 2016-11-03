@@ -40,6 +40,9 @@ IBaseItem::ItemType BaseItemImpl::getType() const {
 	return m_type;
 }
 
+void BaseItemImpl::setType(IBaseItem::ItemType t) {
+	m_type = t;
+}
 
 
 } /* namespace psi */

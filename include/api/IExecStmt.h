@@ -19,7 +19,8 @@ public:
 
 	enum StmtType {
 		StmtType_Expr,
-		StmtType_Call
+		StmtType_Call,
+		StmtType_Vendor
 	};
 
 	enum AssignOp {

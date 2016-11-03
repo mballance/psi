@@ -31,6 +31,15 @@ public:
 			ExecKind						kind,
 			const std::vector<IExecStmt *>	&stmts);
 
+#ifdef PSS_HAVE_CXX_11
+	ExecImpl(
+			ExecKind							kind,
+			std::initializer_list<IExecStmt *>	stmts) :
+				ExecImpl(kind, std::vector<IExecStmt *>(stmts)) { }
+#endif
+
+	ExecImpl();
+
 	virtual ~ExecImpl();
 
 	virtual ExecKind getExecKind() { return m_execKind; }
@@ -56,6 +65,10 @@ public:
 	 * Returns the native-exec statement list
 	 */
 	virtual const std::vector<IExecStmt *> &getStmts() { return m_stmts; }
+
+	std::vector<IExecStmt *> &getStmtsM();
+
+	void addStmt(IExecStmt *s);
 
 private:
 	ExecKind					m_execKind;

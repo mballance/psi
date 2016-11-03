@@ -18,6 +18,13 @@ class FieldRefImpl: public IFieldRef {
 public:
 	FieldRefImpl(const std::vector<IField *> &field_path);
 
+#ifdef PSS_HAVE_CXX_11
+	FieldRefImpl(std::initializer_list<IField *> field_path) :
+		FieldRefImpl(std::vector<IField *>(field_path)) { }
+#endif
+
+	FieldRefImpl(IField *field_path);
+
 	virtual ~FieldRefImpl();
 
 	virtual ExprType getType() const { return IExpr::ExprType_FieldRef; }

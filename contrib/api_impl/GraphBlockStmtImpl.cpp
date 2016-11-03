@@ -25,4 +25,8 @@ void GraphBlockStmtImpl::add(IGraphStmt *stmt) {
 	m_stmts.push_back(stmt);
 }
 
+void GraphBlockStmtImpl::insert(std::vector<IGraphStmt *>::const_iterator it, IGraphStmt *stmt) {
+	m_stmts.insert(it, stmt);
+}
+
 } /* namespace psi */

@@ -29,6 +29,16 @@
 #include "api/IBaseItem.h"
 #include "AttributesImpl.h"
 
+#ifndef PSS_HAVE_CXX_11
+#if __cplusplus >= 201103L
+#define PSS_HAVE_CXX_11
+#endif
+#endif
+
+#ifdef PSS_HAVE_CXX_11
+#include <initializer_list>
+#include <type_traits>
+#endif
 
 using namespace psi_api;
 
@@ -44,6 +54,8 @@ namespace psi {
 			virtual ~BaseItemImpl();
 
 			virtual IBaseItem::ItemType getType() const;
+
+			virtual void setType(IBaseItem::ItemType t);
 
 			virtual IBaseItem *getParent() const { return m_parent; }
 

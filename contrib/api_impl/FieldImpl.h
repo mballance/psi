@@ -34,9 +34,9 @@ using namespace psi_api;
 namespace psi {
 
 class FieldImpl:
-		public virtual IField,
-		public virtual BaseItemImpl,
-		public virtual NamedItemImpl {
+		public BaseItemImpl,
+		public NamedItemImpl,
+		public virtual IField {
 public:
 
 	FieldImpl(

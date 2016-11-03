@@ -26,6 +26,7 @@
 #define INCLUDED_REPEAT_H
 #include "classlib/Types.h"
 #include "classlib/Expr.h"
+#include "classlib/ExprList.h"
 #include "classlib/ExprListBuilder.h"
 
 namespace pss {
