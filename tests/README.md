@@ -14,5 +14,5 @@ Note: A recent GCC that supports C++-11 must be present in the path
 
 ## Run the test suite
 
-% runtest.pl -testlist testlists/alltests.f
+% runtest.pl -testlist testlists/passing_tests.f
 

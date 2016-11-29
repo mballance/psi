@@ -1,32 +1,6 @@
 
 ---------------------------------------------------------------------
--- 0.2 Release --
+-- 1.0.0 Release --
 
-- Add API support for graph block, if/else, and repeat statements
+- Initial public release 
 
-- Update copyright notices for API and implementation
-
-- Add class library support for Bind
-
-- Add class library support for inline exec method
-
-- Add class library support for action export
-
-- Add class library support for state struct
-
-- Refactor class library for enhanced support of native exec blocks
-
-- Add basic mechanism for inline exec (hook class method)
-
-- Modify type registration process, add TypeRgy class
-
-- Modify constructor argument order to minimize user-created code
-
-- Enhance elaborator to properly separate type hierarchy
-
-- Add a check for proper use of the type registry
-
----------------------------------------------------------------------
--- 0.1 Release --
-
-- Initial release
