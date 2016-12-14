@@ -25,14 +25,14 @@
 #include "pss_tests.h"
 
 
-class my_struct : public Struct {
+class my_struct : public pss_struct {
 public:
-	my_struct(const Scope &p) : Struct(this) { }
+	my_struct(const Scope &p) : pss_struct(this) { }
 
-	Rand<Bit<31,0>>				addr {this, "addr"};
-	Rand<Bit<31,0>>				data {this, "data"};
+	rand_attr<pss_bit<31,0>>				addr {this, "addr"};
+	rand_attr<pss_bit<31,0>>				data {this, "data"};
 
-	Constraint c { this, "c",
+	constraint c { this, "c",
 		{
 			(addr == 5).implies(data == 2),
 			(addr == 7).implies(
@@ -41,7 +41,7 @@ public:
 		}
 	};
 };
-TypeDecl<my_struct>		_my_struct_t;
+type_decl<my_struct>		_my_struct_t;
 
 
 

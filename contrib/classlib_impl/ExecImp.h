@@ -28,7 +28,7 @@
 
 #include <string>
 
-#include "classlib/Exec.h"
+#include "classlib/exec.h"
 #include "BaseItemImp.h"
 #include "classlib/ExecStmtList.h"
 
@@ -47,29 +47,29 @@ class ExecImp : public BaseItemImp {
 	public:
 
 		ExecImp(
-			Exec						*master,
+			exec						*master,
 			BaseItem					*p,
-			Exec::ExecKind 				kind,
+			exec::ExecKind 				kind,
 			const std::string 			&language,
 			const std::string 			&content);
 
 		ExecImp(
-			Exec						*master,
+			exec						*master,
 			ExtendItem					*p,
-			Exec::ExecKind 				kind,
+			exec::ExecKind 				kind,
 			const std::string 			&language,
 			const std::string 			&content);
 
 		ExecImp(
-			Exec						*master,
+			exec						*master,
 			BaseItem					*p,
-			Exec::ExecKind 				kind,
+			exec::ExecKind 				kind,
 			const ExecStmtList			&stmts);
 
 		ExecImp(
-			Exec						*master,
+			exec						*master,
 			ExtendItem					*p,
-			Exec::ExecKind				kind,
+			exec::ExecKind				kind,
 			const ExecStmtList			&stmts);
 
 		/**
@@ -77,13 +77,13 @@ class ExecImp : public BaseItemImp {
 		 * hook method in the containing declaration
 		 */
 		ExecImp(
-			Exec							*master,
+			exec							*master,
 			BaseItem						*p,
-			Exec::ExecKind					kind);
+			exec::ExecKind					kind);
 
 		virtual ~ExecImp();
 
-		inline Exec::ExecKind getExecKind() const {
+		inline exec::ExecKind getExecKind() const {
 			return m_execKind;
 		}
 
@@ -99,7 +99,7 @@ class ExecImp : public BaseItemImp {
 
 	private:
 		ExecType							m_execType;
-		Exec::ExecKind						m_execKind;
+		exec::ExecKind						m_execKind;
 
 		std::string							m_language;
 		std::string							m_content;

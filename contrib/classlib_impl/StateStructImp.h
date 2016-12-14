@@ -1,5 +1,5 @@
 /*
- * StateStruct.h
+ * state_struct.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -28,7 +28,7 @@
 
 #include <string>
 #include <vector>
-#include "classlib/StateStruct.h"
+#include "classlib/state_struct.h"
 #include "StructImp.h"
 
 namespace pss {
@@ -37,7 +37,7 @@ class ScopeImp;
 class StateStructImp : public StructImp {
 public:
 
-	StateStructImp(StateStruct *master, ScopeImp *p);
+	StateStructImp(state_struct *master, ScopeImp *p);
 
 	virtual ~StateStructImp();
 

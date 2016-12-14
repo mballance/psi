@@ -1,5 +1,5 @@
 /*
- * Struct.h
+ * pss_struct.h
  *
  *
  * Copyright 2016 Mentor Graphics Corporation
@@ -28,7 +28,7 @@
 #define INCLUDED_STRUCT_IMP_H
 #include <string>
 
-#include "classlib/Struct.h"
+#include "classlib/pss_struct.h"
 #include "NamedBaseItemImp.h"
 #include "TypePathImp.h"
 #include "api/IExecCallback.h"
@@ -52,7 +52,7 @@ public:
 
 public:
 
-	StructImp(Struct *master, ScopeImp *p, StructType t=Base);
+	StructImp(pss_struct *master, ScopeImp *p, StructType t=Base);
 
 	virtual ~StructImp();
 

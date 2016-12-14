@@ -1,5 +1,5 @@
 /*
- * Chandle.h
+ * chandle.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -31,12 +31,12 @@
 
 namespace pss {
 
-template <class T=void> class Chandle : public ChandleType {
+template <class T=void> class chandle : public ChandleType {
 public:
 
-	Chandle(const Scope &p) : ChandleType(p) { }
+	chandle(const Scope &p) : ChandleType(p) { }
 
-	Chandle(const std::string &name) : ChandleType(name) { }
+	chandle(const std::string &name) : ChandleType(name) { }
 
 	T *get() { return static_cast<T *>(ChandleType::get()); }
 

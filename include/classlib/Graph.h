@@ -1,5 +1,5 @@
 /*
- * Graph.h
+ * graph.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -30,17 +30,17 @@
 
 namespace pss {
 
-class Graph : public BaseItem {
+class graph : public BaseItem {
 
 	public:
-		Graph(BaseItem *p, const ExprList &seq);
+		graph(BaseItem *p, const ExprList &seq);
 
 #ifdef PSS_HAVE_CXX_11
-		template<typename... I> Graph(BaseItem *p, const I&... items) :
-				Graph(p, ExprList::mklist(items...)) { }
+		template<typename... I> graph(BaseItem *p, const I&... items) :
+				graph(p, ExprList::mklist(items...)) { }
 #endif
 
-		virtual ~Graph();
+		virtual ~graph();
 
 };
 

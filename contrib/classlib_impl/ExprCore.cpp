@@ -23,7 +23,7 @@
  *      Author: ballance
  */
 #include "ExprCore.h"
-#include "classlib/ImportFunc.h"
+#include "classlib/import_func.h"
 
 namespace pss {
 
@@ -49,7 +49,7 @@ ExprCore::ExprCore(
 
 }
 
-ExprCore::ExprCore(ImportFunc &import, const Expr &params) :
+ExprCore::ExprCore(import_func &import, const Expr &params) :
 		m_op(ExprImp::ImportCall), m_lhs(params) {
 	m_val.ref = import.impl();
 }

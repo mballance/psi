@@ -1,5 +1,5 @@
 /*
- * ResourceStruct.cpp
+ * resource_struct.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -28,13 +28,13 @@
 
 namespace pss {
 
-ResourceStruct::ResourceStruct(const Scope &p) :
-		Struct(new ResourceStructImp(this, p.impl())), instance_id(this, "instance_id") { }
+resource_struct::resource_struct(const Scope &p) :
+		pss_struct(new ResourceStructImp(this, p.impl())), instance_id(this, "instance_id") { }
 
-ResourceStructImp::ResourceStructImp(ResourceStruct *master, ScopeImp *p) :
+ResourceStructImp::ResourceStructImp(resource_struct *master, ScopeImp *p) :
 		StructImp(master, p, StructImp::Resource) { }
 
-ResourceStruct::~ResourceStruct() {
+resource_struct::~resource_struct() {
 	// TODO Auto-generated destructor stub
 }
 

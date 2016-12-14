@@ -34,7 +34,7 @@
 
 namespace psi_api {
 	/**
-	 * Specifies the API to an Action declaration
+	 * Specifies the API to an action declaration
 	 */
 	class IAction :
 			public virtual IBaseItem,

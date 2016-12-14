@@ -1,5 +1,5 @@
 /*
- * Bind.cpp
+ * bind.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -27,46 +27,7 @@
 
 namespace pss {
 
-Bind::Bind(BaseItem *p, BaseItem &i1, BaseItem &i2) :
-		BaseItem(new BindImp(this, p)) {
-	BindImp *imp = static_cast<BindImp *>(impl());
-
-	imp->add(i1.impl(), false);
-	imp->add(i2.impl(), false);
-}
-
-Bind::Bind(BaseItem *p, BaseItem &i1, BaseItem &i2, BaseItem &i3) :
-		BaseItem(new BindImp(this, p)) {
-	BindImp *imp = static_cast<BindImp *>(impl());
-
-	imp->add(i1.impl(), false);
-	imp->add(i2.impl(), false);
-	imp->add(i3.impl(), false);
-}
-
-Bind::Bind(BaseItem *p, BaseItem &i1, BaseItem &i2, BaseItem &i3,
-		BaseItem &i4) : BaseItem(new BindImp(this, p)) {
-	BindImp *imp = static_cast<BindImp *>(impl());
-
-	imp->add(i1.impl(), false);
-	imp->add(i2.impl(), false);
-	imp->add(i3.impl(), false);
-	imp->add(i4.impl(), false);
-}
-
-Bind::Bind(BaseItem *p, BaseItem &i1, BaseItem &i2, BaseItem &i3,
-		BaseItem &i4, BaseItem &i5) : BaseItem(new BindImp(this, p)) {
-	BindImp *imp = static_cast<BindImp *>(impl());
-
-	imp->add(i1.impl(), false);
-	imp->add(i2.impl(), false);
-	imp->add(i3.impl(), false);
-	imp->add(i4.impl(), false);
-	imp->add(i5.impl(), false);
-}
-
-
-Bind::Bind(BaseItem *p, const std::vector<BaseItem *> &items) :
+bind::bind(BaseItem *p, const std::vector<BaseItem *> &items) :
 		BaseItem(new BindImp(this, p)) {
 	BindImp *imp = static_cast<BindImp *>(impl());
 
@@ -77,12 +38,12 @@ Bind::Bind(BaseItem *p, const std::vector<BaseItem *> &items) :
 	}
 }
 
-BindImp::BindImp(Bind *master, BaseItem *p) :
+BindImp::BindImp(bind *master, BaseItem *p) :
 	BaseItemImp(master, BaseItemImp::TypeBind, p) {
 
 }
 
-Bind::~Bind() {
+bind::~bind() {
 
 }
 

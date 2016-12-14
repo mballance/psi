@@ -1,5 +1,5 @@
 /*
- * Schedule.cpp
+ * schedule.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -23,17 +23,17 @@
  *      Author: ballance
  */
 
-#include "classlib/Schedule.h"
+#include "classlib/schedule.h"
 #include "ExprImp.h"
 #include "ExprCore.h"
 
 namespace pss {
 
-Schedule::Schedule(const ExprList &body) : Expr(body) {
+schedule::schedule(const ExprList &body) : Expr(body) {
 	m_core->ptr()->setOp(ExprImp::GraphSchedule);
 }
 
-Schedule::~Schedule() {
+schedule::~schedule() {
 	// TODO Auto-generated destructor stub
 }
 

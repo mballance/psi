@@ -1,5 +1,5 @@
 /*
- * Select.h
+ * select.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -26,22 +26,22 @@
 #ifndef SRC_PSI_CLASSLIB_SELECT_H_
 #define SRC_PSI_CLASSLIB_SELECT_H_
 #include <vector>
-#include "classlib/Types.h"
+#include "classlib/pss_types.h"
 #include "classlib/Expr.h"
 #include "classlib/ExprList.h"
 
 namespace pss {
 
-class Select: public Expr {
+class select: public Expr {
 public:
 
-	Select(const ExprList &list);
+	select(const ExprList &list);
 
 #ifdef PSS_HAVE_CXX_11
-	Select(std::initializer_list<Expr> l) : Select(ExprList(l)) { };
+	select(std::initializer_list<Expr> l) : select(ExprList(l)) { };
 #endif
 
-	virtual ~Select();
+	virtual ~select();
 
 };
 

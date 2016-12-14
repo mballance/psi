@@ -67,12 +67,12 @@ class ModelImpl:
 		virtual IPackage *findPackage(const std::string &name, bool create=false);
 
 		/**
-		 * Data Types
+		 * Data pss_types
 		 */
 
 		/**
 		 * Creates a scalar type. The msb and lsb parameters are ignored for types
-		 * other than Int and Bit
+		 * other than pss_int and pss_bit
 		 */
 		virtual IScalarType *mkScalarType(
 				IScalarType::ScalarType t,
@@ -80,7 +80,7 @@ class ModelImpl:
 				IExpr					*lsb);
 
 		/**
-		 * Action
+		 * action
 		 */
 		virtual IAction *mkAction(const std::string &name, IAction *super_type);
 

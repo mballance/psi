@@ -587,7 +587,7 @@ sub run_jobs {
             $pid = wait();
         }
 
-        # If -1 is returned, there are no child processes
+        # pss_if -1 is returned, there are no child processes
         if ($pid == -1) {
             last;
         }

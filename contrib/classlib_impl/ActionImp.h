@@ -26,7 +26,7 @@
 #define INCLUDED_ACTION_IMP_H
 #include <string>
 
-#include "classlib/Action.h"
+#include "classlib/action.h"
 #include "NamedBaseItemImp.h"
 #include "ScopeImp.h"
 #include "TypePathImp.h"
@@ -41,7 +41,7 @@ class ActionImp : public NamedBaseItemImp {
 friend ElaboratorImpl;
 public:
 
-		ActionImp(Action *master, ScopeImp *p);
+		ActionImp(action *master, ScopeImp *p);
 
 		virtual ~ActionImp();
 

@@ -48,7 +48,7 @@ public:
 		TypeConstraint,
 		TypeImport,
 		TypeInt,
-		TypeExec, // Exec
+		TypeExec, // exec
 		TypeExportItem, // 10
 		TypeExtendAction,
 		TypeExtendComponent,

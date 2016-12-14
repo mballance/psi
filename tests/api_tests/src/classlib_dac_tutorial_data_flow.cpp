@@ -24,63 +24,63 @@
 
 #include "pss_tests.h"
 
-class S : public Struct {
+class S : public pss_struct {
 public:
-	pss_ctor(S, Struct);
+	pss_ctor(S, pss_struct);
 
 };
 pss_global_type(S);
 
-class CA : public Component {
+class CA : public component {
 public:
-	pss_ctor(CA, Component);
+	pss_ctor(CA, component);
 
-	class A : public Action {
+	class A : public action {
 	public:
-		pss_ctor(A, Action);
+		pss_ctor(A, action);
 
-		Output<S>			pss_field(out_s);
+		output<S>			pss_field(out_s);
 	};
 	pss_type(A);
 
 };
 pss_global_type(CA);
 
-class CB : public Component {
+class CB : public component {
 public:
-	pss_ctor(CB, Component);
+	pss_ctor(CB, component);
 
-	class B : public Action {
+	class B : public action {
 	public:
-		pss_ctor(B, Action);
+		pss_ctor(B, action);
 
-		Input<S>			pss_field(in_s);
+		input<S>			pss_field(in_s);
 	};
 	pss_type(B);
 };
 pss_global_type(CB);
 
-class static_structure : public Component {
+class static_structure : public component {
 public:
 
-	Field<CA>			pss_field(ca1);
-	Field<CA>			pss_field(ca2);
-	Field<CB>			pss_field(cb1);
-	Field<CB>			pss_field(cb2);
+	attr<CA>			pss_field(ca1);
+	attr<CA>			pss_field(ca2);
+	attr<CB>			pss_field(cb1);
+	attr<CB>			pss_field(cb2);
 
-	pss_ctor(static_structure, Component);
+	pss_ctor(static_structure, component);
 
 	// TODO:
-	Bind b2 { this,
+	bind b2 { this,
 			// ca1.A.out_s
 			ca1._A_t.out_s,
 			ca2._A_t.out_s,
 			cb1._B_t.in_s,
 			cb2._B_t.in_s };
 
-	class entry_point : public Action {
+	class entry_point : public action {
 	public:
-		pss_ctor(entry_point, Action);
+		pss_ctor(entry_point, action);
 
 	};
 	pss_type(entry_point);

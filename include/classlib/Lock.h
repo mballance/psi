@@ -1,5 +1,5 @@
 /*
- * Lock.h
+ * lock.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -27,17 +27,17 @@
 #include <string>
 
 #include "classlib/FieldBase.h"
-#include "classlib/TypeDecl.h"
+#include "classlib/type_decl.h"
 
 namespace pss {
 
-template <class T> class Lock: public FieldBase<T> {
+template <class T> class lock: public FieldBase<T> {
 
 	public:
-		Lock(BaseItem *p, const std::string &name) :
+		lock(BaseItem *p, const std::string &name) :
 			FieldBase<T>(FieldItem::AttrLock, p, name) { }
 
-		virtual ~Lock() { }
+		virtual ~lock() { }
 };
 
 } /* namespace pss */

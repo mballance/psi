@@ -1,5 +1,5 @@
 /*
- * Repeat.h
+ * repeat.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -24,24 +24,24 @@
 
 #ifndef INCLUDED_REPEAT_H
 #define INCLUDED_REPEAT_H
-#include "classlib/Types.h"
+#include "classlib/pss_types.h"
 #include "classlib/Expr.h"
 #include "classlib/ExprList.h"
 #include "classlib/ExprListBuilder.h"
 
 namespace pss {
 
-class Repeat: public Expr {
+class repeat: public Expr {
 public:
 
 #ifdef PSS_HAVE_CXX_11
-	template<typename... I> Repeat(const Expr &cond, const I&... items) :
-		Repeat(cond, ExprList::mklist(items...)) { }
+	template<typename... I> repeat(const Expr &cond, const I&... items) :
+		repeat(cond, ExprList::mklist(items...)) { }
 #endif
 
-	Repeat(const Expr &cond, const ExprList &body);
+	repeat(const Expr &cond, const ExprList &body);
 
-	virtual ~Repeat();
+	virtual ~repeat();
 
 	ExprListBuilder operator,(const Expr &rhs);
 

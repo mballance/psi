@@ -26,7 +26,7 @@
 #ifndef SRC_CLASSLIB_SHAREDPTR_H_
 #define SRC_CLASSLIB_SHAREDPTR_H_
 #include <stdio.h>
-#include "classlib/Types.h"
+#include "classlib/pss_types.h"
 
 template <class T> class SharedPtr {
 

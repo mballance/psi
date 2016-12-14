@@ -1,5 +1,5 @@
 /*
- * Bind.h
+ * bind.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -27,23 +27,40 @@
 #include <vector>
 #include <functional>
 #include "classlib/BaseItem.h"
-#include "classlib/Types.h"
+#include "classlib/pss_types.h"
 
 namespace pss {
 
-class Bind: public BaseItem {
+class bind: public BaseItem {
 public:
-	Bind(BaseItem *p, BaseItem &i1, BaseItem &i2);
+	bind(BaseItem *p, const std::vector<BaseItem *> &items);
 
-	Bind(BaseItem *p, BaseItem &i1, BaseItem &i2, BaseItem &i3);
+#ifdef PSS_HAVE_CXX_11
+	template<typename... I> bind(BaseItem *p, const I&... items)
+			: bind(p, mklist(items...)) { }
 
-	Bind(BaseItem *p, BaseItem &i1, BaseItem &i2, BaseItem &i3, BaseItem &i4);
+	template <typename T, typename... R> static std::vector<BaseItem *> mklist(
+			const T &i1, const R&... rest) {
+		std::vector<BaseItem *> items;
+		const BaseItem &bi = i1;
+		items.push_back(const_cast<BaseItem *>(&bi));
+		_mklist(items, rest...);
+		return items;
+	}
 
-	Bind(BaseItem *p, BaseItem &i1, BaseItem &i2, BaseItem &i3, BaseItem &i4, BaseItem &i5);
+	template <typename T, typename... R> static void _mklist(
+			std::vector<BaseItem *> &items,
+			const T 				&it,
+			const R&...				rest) {
+		const BaseItem &bi = it;
+		items.push_back(const_cast<BaseItem *>(&bi));
+		_mklist(items, rest...);
+	}
 
-	Bind(BaseItem *p, const std::vector<BaseItem *> &items);
+	static void _mklist(std::vector<BaseItem *> &items) { }
+#endif /* PSS_HAVE_CXX_11 */
 
-	virtual ~Bind();
+	virtual ~bind();
 
 protected:
 

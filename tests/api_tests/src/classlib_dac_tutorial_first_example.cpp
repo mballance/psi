@@ -24,15 +24,15 @@
  */
 #include "pss_tests.h"
 
-class C : public Component {
+class C : public component {
 public:
-	pss_ctor(C, Component);
+	pss_ctor(C, component);
 
-	class A : public Action {
+	class A : public action {
 	public:
-		pss_ctor(A, Action);
+		pss_ctor(A, action);
 
-		Rand<Bit<3,0>>		pss_field(field1);
+		rand_attr<pss_bit<3,0>>		pss_field(field1);
 	};
 	pss_type(A);
 
@@ -40,20 +40,20 @@ public:
 pss_global_type(C);
 
 
-class static_structure : public Component {
-	pss_ctor(static_structure, Component);
+class static_structure : public component {
+	pss_ctor(static_structure, component);
 
-	Field<C>		pss_field(c1);
-	Field<C>		pss_field(c2);
+	attr<C>		pss_field(c1);
+	attr<C>		pss_field(c2);
 
-	class entry : public Action {
-		pss_ctor(entry, Action);
+	class entry : public action {
+		pss_ctor(entry, action);
 
 		GraphNode<C::A>			pss_field(a1);
 		GraphNode<C::A>			pss_field(a2);
 
-		Graph g1 {this,
-			Repeat {5, {
+		graph g1 {this,
+			repeat {5, {
 					a1, a2.with(a2.field1 < 2)
 				}
 			}

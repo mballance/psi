@@ -27,14 +27,14 @@
 #include <vector>
 #include <functional>
 #include "BaseItemImp.h"
-#include "classlib/Bind.h"
+#include "classlib/bind.h"
 
 namespace pss {
 
 class BindImp: public BaseItemImp {
 public:
 
-	BindImp(Bind *master, BaseItem *p);
+	BindImp(bind *master, BaseItem *p);
 
 	virtual ~BindImp();
 

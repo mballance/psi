@@ -1,5 +1,5 @@
 /*
- * Pool.h
+ * pool.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -26,17 +26,17 @@
 #ifndef INCLUDED_POOL_H
 #define INCLUDED_POOL_H
 #include "classlib/FieldBase.h"
-#include "classlib/TypeDecl.h"
+#include "classlib/type_decl.h"
 
 namespace pss {
 
-template <class T> class Pool : public FieldBase<T> {
+template <class T> class pool : public FieldBase<T> {
 
 	public:
-		Pool(BaseItem *p, const std::string &name) :
+		pool(BaseItem *p, const std::string &name) :
 			FieldBase<T>(FieldItem::AttrPool, p, name) { }
 
-		virtual ~Pool() { }
+		virtual ~pool() { }
 
 };
 

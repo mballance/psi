@@ -1,5 +1,5 @@
 /*
- * Parallel.h
+ * parallel.h
  *
  *
  * Copyright 2016 Mentor Graphics Corporation
@@ -27,7 +27,7 @@
 #ifndef INCLUDED_PARALLEL_H
 #define INCLUDED_PARALLEL_H
 
-#include "classlib/Types.h"
+#include "classlib/pss_types.h"
 #include "classlib/Expr.h"
 #include "classlib/ExprList.h"
 #include "classlib/ExprListBuilder.h"
@@ -35,16 +35,16 @@
 namespace pss {
 
 class ExprList;
-class Parallel: public Expr {
+class parallel: public Expr {
 public:
-	Parallel(const ExprList &body);
+	parallel(const ExprList &body);
 
 #ifdef PSS_HAVE_CXX_11
-	template <typename... I> Parallel(const I&... items) :
-			Parallel(ExprList::mklist(items...)) { }
+	template <typename... I> parallel(const I&... items) :
+			parallel(ExprList::mklist(items...)) { }
 #endif
 
-	virtual ~Parallel();
+	virtual ~parallel();
 
 	ExprListBuilder operator,(const Expr &rhs);
 

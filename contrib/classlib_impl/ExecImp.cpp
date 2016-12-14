@@ -1,5 +1,5 @@
 /*
- * Exec.cpp
+ * exec.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -30,17 +30,17 @@
 
 namespace pss {
 
-Exec::Exec(
+exec::exec(
 		BaseItem				*p,
-		Exec::ExecKind			kind,
+		exec::ExecKind			kind,
 		const std::string 		&language,
 		const std::string 		&content) :
 	BaseItem(new ExecImp(this, p, kind, language, content)) { }
 
 ExecImp::ExecImp(
-		Exec					*master,
+		exec					*master,
 		BaseItem				*p,
-		Exec::ExecKind 			kind,
+		exec::ExecKind 			kind,
 		const std::string 		&language,
 		const std::string		&content) :
 			BaseItemImp(master, BaseItemImp::TypeExec, p),
@@ -49,7 +49,7 @@ ExecImp::ExecImp(
 			m_language(language),
 			m_content(content) { }
 
-Exec::Exec(
+exec::exec(
 		ExtendItem				*p,
 		ExecKind 				kind,
 		const std::string 		&language,
@@ -57,9 +57,9 @@ Exec::Exec(
 	BaseItem(new ExecImp(this, p, kind, language, content)) { }
 
 ExecImp::ExecImp(
-		Exec					*master,
+		exec					*master,
 		ExtendItem				*p,
-		Exec::ExecKind 			kind,
+		exec::ExecKind 			kind,
 		const std::string 		&language,
 		const std::string 		&content) :
 			BaseItemImp(master, BaseItemImp::TypeExec, p),
@@ -68,16 +68,16 @@ ExecImp::ExecImp(
 			m_language(language),
 			m_content(content) { }
 
-Exec::Exec(
+exec::exec(
 		BaseItem				*p,
 		ExecKind 				kind,
 		const ExecStmtList		&stmts) :
 			BaseItem(new ExecImp(this, p, kind, stmts)) { }
 
 ExecImp::ExecImp(
-		Exec					*master,
+		exec					*master,
 		ExtendItem				*p,
-		Exec::ExecKind 			kind,
+		exec::ExecKind 			kind,
 		const ExecStmtList		&stmts) :
 			BaseItemImp(master, BaseItemImp::TypeExec, p),
 			m_execType(Native),
@@ -88,9 +88,9 @@ ExecImp::ExecImp(
 }
 
 ExecImp::ExecImp(
-		Exec					*master,
+		exec					*master,
 		BaseItem				*p,
-		Exec::ExecKind 			kind,
+		exec::ExecKind 			kind,
 		const ExecStmtList		&stmts) :
 			BaseItemImp(master, BaseItemImp::TypeExec, p),
 			m_execType(Native),
@@ -100,15 +100,15 @@ ExecImp::ExecImp(
 	fprintf(stdout, "ExecImp::ExecImp Native\n");
 }
 
-Exec::Exec(
+exec::exec(
 		BaseItem								*p,
 		ExecKind								kind) :
 	BaseItem(new ExecImp(this, p, kind)) { }
 
 ExecImp::ExecImp(
-		Exec									*master,
+		exec									*master,
 		BaseItem								*p,
-		Exec::ExecKind							kind) :
+		exec::ExecKind							kind) :
 				BaseItemImp(master, BaseItemImp::TypeExec, p),
 				m_execType(Inline),
 				m_execKind(kind) {
@@ -116,7 +116,7 @@ ExecImp::ExecImp(
 	fprintf(stdout, "ExecImp::ExecImp Inline\n");
 }
 
-Exec::~Exec() {
+exec::~exec() {
 	// TODO Auto-generated destructor stub
 }
 

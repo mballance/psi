@@ -55,12 +55,12 @@ public:
 	virtual ~IItemFactory() { }
 
 	/**
-	 * Data Types
+	 * Data pss_types
 	 */
 
 	/**
 	 * Creates a scalar type. The msb and lsb parameters are ignored for types
-	 * other than Int and Bit
+	 * other than pss_int and pss_bit
 	 */
 	virtual IScalarType *mkScalarType(
 			IScalarType::ScalarType t,
@@ -68,7 +68,7 @@ public:
 			IExpr					*lsb) = 0;
 
 	/**
-	 * Action
+	 * action
 	 */
 	virtual IAction *mkAction(const std::string &name, IAction *super_type) = 0;
 
@@ -138,7 +138,7 @@ public:
 			const std::vector<IField *>		&field_path) = 0;
 
 	/**
-	 * Creates a new block statement. Parallel, Schedule, Select, and
+	 * Creates a new block statement. parallel, schedule, select, and
 	 * Block statements are all, fundamentally, block statements.
 	 * The value of the 'type' parameter can be
 	 * GraphStmt_Block, GraphStmt_Parallel, GraphStmt_Schedule, or GraphStmt_Select

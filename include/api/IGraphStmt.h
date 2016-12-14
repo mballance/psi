@@ -31,22 +31,22 @@ namespace psi_api {
 class IGraphStmt {
 public:
 	enum GraphStmtType {
-		/*! Graph block statement. Object is of type IGraphBlockStmt. */
+		/*! graph block statement. Object is of type IGraphBlockStmt. */
 		GraphStmt_Block,
-		/*! Graph if/else statement. Object is of type IGraphIfElseStmt.
+		/*! graph if/else statement. Object is of type IGraphIfElseStmt.
 		 * Used for both top-level if/else and for if-gated select statement */
 		GraphStmt_IfElse,
-		/*! Graph parallel statement. Object is of type IGraphBlockStmt */
+		/*! graph parallel statement. Object is of type IGraphBlockStmt */
 		GraphStmt_Parallel,
-		/*! Graph schedule statement. Object is of type IGraphBlockStmt */
+		/*! graph schedule statement. Object is of type IGraphBlockStmt */
 		GraphStmt_Schedule,
-		//! Graph select statement. Object is of type IGraphBlockStmt
+		//! graph select statement. Object is of type IGraphBlockStmt
 		GraphStmt_Select,
-		//! Graph repeat, repeat while, or repeat ... while statement.
+		//! graph repeat, repeat while, or repeat ... while statement.
 		//! Object is of type IGraphRepeatStmt
 		GraphStmt_Repeat,
 
-		/*! Graph action-traversal statement */
+		/*! graph action-traversal statement */
 		GraphStmt_Traverse
 	};
 

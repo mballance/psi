@@ -1,5 +1,5 @@
 /*
- * Component.h
+ * component.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -28,14 +28,14 @@
 
 #include "NamedBaseItemImp.h"
 #include "TypePathImp.h"
-#include "classlib/Component.h"
+#include "classlib/component.h"
 
 namespace pss {
 
 class ComponentImp : public NamedBaseItemImp {
 
 	public:
-		ComponentImp(Component *master, ScopeImp *p);
+		ComponentImp(component *master, ScopeImp *p);
 
 		virtual ~ComponentImp();
 

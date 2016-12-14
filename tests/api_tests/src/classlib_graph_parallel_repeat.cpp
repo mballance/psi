@@ -20,32 +20,32 @@
  */
 #include "pss_tests.h"
 
-class top_comp : public Component {
+class top_comp : public component {
 public:
-	pss_ctor(top_comp, Component);
+	pss_ctor(top_comp, component);
 
-	class at : public Action {
+	class at : public action {
 	public:
-		pss_ctor(at, Action);
+		pss_ctor(at, action);
 
-		Rand<Bit<3,0>>		pss_field(field);
+		rand_attr<pss_bit<3,0>>		pss_field(field);
 	};
 	pss_type(at);
 
-	class top_action : public Action {
+	class top_action : public action {
 	public:
-		pss_ctor(top_action, Action);
+		pss_ctor(top_action, action);
 
-		Field<at>		pss_field(a);
-		Field<at>		pss_field(b);
-		Field<at>		pss_field(c);
+		attr<at>		pss_field(a);
+		attr<at>		pss_field(b);
+		attr<at>		pss_field(c);
 
-		Graph g {this, 
+		graph g {this, 
 			a,
 			b,
-			Parallel {
+			parallel {
 				a,
-				Repeat {5,
+				repeat {5,
 						c
 				},
 				a

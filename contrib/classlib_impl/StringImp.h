@@ -1,5 +1,5 @@
 /*
- * String.h
+ * pss_string.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -25,7 +25,7 @@
 
 #ifndef INCLUDED_STRING_IMP_H
 #define INCLUDED_STRING_IMP_H
-#include "classlib/String.h"
+#include "classlib/pss_string.h"
 #include "NamedBaseItemImp.h"
 #include "InlineExecUtil.h"
 #include <string>
@@ -36,9 +36,9 @@ class StringImp : public NamedBaseItemImp {
 
 	public:
 
-		StringImp(String *master, BaseItem *p);
+		StringImp(pss_string *master, BaseItem *p);
 
-		StringImp(String *master, const std::string &name);
+		StringImp(pss_string *master, const std::string &name);
 
 		virtual ~StringImp();
 

@@ -1,5 +1,5 @@
 /*
- * If.cpp
+ * pss_if.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -23,20 +23,20 @@
  *      Author: ballance
  */
 
-#include "classlib/If.h"
+#include "classlib/pss_if.h"
 
 #include "ExprCoreIf.h"
 #include "ExprCoreIf.h"
 
 namespace pss {
 
-If::If(const Expr &cond, const ExprList &true_expr) :
+pss_if::pss_if(const Expr &cond, const ExprList &true_expr) :
 	Expr(new ExprCoreIf(cond, true_expr)) { }
 
-If::If(const Expr &cond, const ExprList &true_expr, const ExprList &false_expr) :
+pss_if::pss_if(const Expr &cond, const ExprList &true_expr, const ExprList &false_expr) :
 	Expr(new ExprCoreIf(cond, true_expr, false_expr)) { }
 
-If::~If() {
+pss_if::~pss_if() {
 	// TODO Auto-generated destructor stub
 }
 

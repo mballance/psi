@@ -1,5 +1,5 @@
 /*
- * Inout.h
+ * inout.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -28,22 +28,22 @@
 #include <string>
 
 #include "classlib/FieldBase.h"
-#include "classlib/TypeDecl.h"
+#include "classlib/type_decl.h"
 
 namespace pss {
 
-class Action;
-template <class T> class Inout : public FieldBase<T> {
+class action;
+template <class T> class inout : public FieldBase<T> {
 
 	public:
 
 		/**
 		 * This constructor is used for specifying method parameters
 		 */
-		Inout(const std::string &name) :
+		inout(const std::string &name) :
 			FieldBase<T>(FieldItem::AttrInout, 0, name) { }
 
-		virtual ~Inout() { }
+		virtual ~inout() { }
 
 };
 

@@ -1,5 +1,5 @@
 /*
- * MemoryStruct.h
+ * memory_struct.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -26,7 +26,7 @@
 #ifndef INCLUDED_MEMORY_STRUCT_IMP_H
 #define INCLUDED_MEMORY_STRUCT_IMP_H
 
-#include "classlib/MemoryStruct.h"
+#include "classlib/memory_struct.h"
 #include "StructImp.h"
 
 namespace pss {
@@ -36,7 +36,7 @@ class MemoryStructImp: public StructImp {
 
 	public:
 		MemoryStructImp(
-				MemoryStruct		*master,
+				memory_struct		*master,
 				ScopeImp			*p);
 
 		virtual ~MemoryStructImp();

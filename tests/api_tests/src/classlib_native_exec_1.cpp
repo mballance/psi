@@ -24,32 +24,32 @@
  */
 #include "pss_tests.h"
 
-class methods_pkg : public Package {
+class methods_pkg : public package {
 public:
-	pss_ctor(methods_pkg, Package);
+	pss_ctor(methods_pkg, package);
 
-	ImportFunc my_func { this, "my_func",
-		(Input<Bit<7,0>>("a"), Input<Bit<31,0>>("b"))};
+	import_func my_func { this, "my_func",
+		(input<pss_bit<7,0>>("a"), input<pss_bit<31,0>>("b"))};
 
-	ImportFunc my_func2 { this, "my_func2", Bit<7,0>(""),
-		(Input<Bit<7,0>>("a"), Input<Bit<31,0>>("b"))};
+	import_func my_func2 { this, "my_func2", pss_bit<7,0>(""),
+		(input<pss_bit<7,0>>("a"), input<pss_bit<31,0>>("b"))};
 
 };
 pss_global_type(methods_pkg);
 
-class top : public Component {
+class top : public component {
 public:
-	pss_ctor(top, Component);
+	pss_ctor(top, component);
 
-	class entry_point : public Action {
+	class entry_point : public action {
 	public:
-		pss_ctor(entry_point, Action);
+		pss_ctor(entry_point, action);
 
-		Rand<Bit<7,0>>		pss_field(p1);
-		Rand<Bit<7,0>>		pss_field(p2);
-		Rand<Bit<7,0>>		pss_field(p3);
+		rand_attr<pss_bit<7,0>>		pss_field(p1);
+		rand_attr<pss_bit<7,0>>		pss_field(p2);
+		rand_attr<pss_bit<7,0>>		pss_field(p3);
 
-		Exec post_solve_en {this, Exec::PostSolve,
+		exec post_solve_en {this, exec::PostSolve,
 			{
 					pss_typeid(methods_pkg).my_func({p1, p2}),
 					pss_typeid(methods_pkg).my_func({p1+1, p2+4})

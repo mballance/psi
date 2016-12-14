@@ -29,7 +29,7 @@
 #include <string>
 
 #include "NamedBaseItemImp.h"
-#include "classlib/Bool.h"
+#include "classlib/pss_bool.h"
 #include "InlineExecUtil.h"
 
 namespace pss {
@@ -37,13 +37,13 @@ namespace pss {
 class BoolImp: public NamedBaseItemImp {
 
 	public:
-		BoolImp(Bool *master, BaseItem *p);
+		BoolImp(pss_bool *master, BaseItem *p);
 
 		/**
 		 * This constructor is used for composing parameter lists.
 		 * The name is that of the parameter
 		 */
-		BoolImp(Bool *master, const std::string &name);
+		BoolImp(pss_bool *master, const std::string &name);
 
 		virtual ~BoolImp();
 

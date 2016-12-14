@@ -25,20 +25,20 @@
 
 #include "pss_tests.h"
 
-class constraint_ifelse_test : public Struct {
+class constraint_ifelse_test : public pss_struct {
 public:
 	pss_struct_ctor(constraint_ifelse_test);
 
-	Rand<Bit<>>			pss_field(control);
-	Rand<Bit<31,1>>		pss_field(address);
-	Rand<Bit<31,1>>		pss_field(data);
+	rand_attr<pss_bit<>>			pss_field(control);
+	rand_attr<pss_bit<31,1>>		pss_field(address);
+	rand_attr<pss_bit<31,1>>		pss_field(data);
 
-	Constraint c1 {this, "c1",
-		If {(control == 1), address < 10}
+	constraint c1 {this, "c1",
+		pss_if {(control == 1), address < 10}
 	};
 
-	Constraint c2 {this,
-		If {
+	constraint c2 {this,
+		pss_if {
 			(control == 1),
 			{
 				address < 10,
@@ -50,12 +50,12 @@ public:
 		}
 	};
 
-	Constraint c3 {this,
-		If {
+	constraint c3 {this,
+		pss_if {
 			(control == 1), {
 						address == 1
 			}, /* else */ {
-					If {
+					pss_if {
 						(address == 20), {
 							data == 10
 						}, /* else */ {

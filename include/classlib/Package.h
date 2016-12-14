@@ -1,5 +1,5 @@
 /*
- * Package.h
+ * package.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -33,12 +33,12 @@
 
 namespace pss {
 
-class Package : public BaseItem {
+class package : public BaseItem {
 public:
-		virtual ~Package();
+		virtual ~package();
 
 protected:
-		Package(const Scope &p);
+		package(const Scope &p);
 
 
 };

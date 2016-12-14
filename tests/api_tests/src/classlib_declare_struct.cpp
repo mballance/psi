@@ -24,11 +24,11 @@
  */
 #include "pss_tests.h"
 
-class data_s : public MemoryStruct {
-	pss_ctor(data_s, MemoryStruct);
+class data_s : public memory_struct {
+	pss_ctor(data_s, memory_struct);
 
-	Rand<Bit<7,0>>				pss_field(data);
-	Rand<Bit<31,0>>				pss_field(address);
+	rand_attr<pss_bit<7,0>>				pss_field(data);
+	rand_attr<pss_bit<31,0>>				pss_field(address);
 
 	pss_constraint(address_c,
 		address >= 0x1000 && address <= 0x1FFF);
@@ -40,15 +40,15 @@ pss_global_type(data_s);
 class data_s_ext : public data_s {
 	pss_ctor(data_s_ext, data_s);
 
-	Rand<Bit<3,0>>				pss_field(burst_len);
+	rand_attr<pss_bit<3,0>>				pss_field(burst_len);
 
 };
 pss_global_type(data_s_ext);
 
-class my_comp : public Component {
+class my_comp : public component {
 	pss_component_ctor(my_comp);
 
-	class data_s2 : public Struct {
+	class data_s2 : public pss_struct {
 		pss_struct_ctor(data_s2);
 	};
 	pss_type(data_s2);

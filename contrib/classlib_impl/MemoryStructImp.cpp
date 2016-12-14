@@ -1,5 +1,5 @@
 /*
- * MemoryStruct.cpp
+ * memory_struct.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -27,14 +27,14 @@
 
 namespace pss {
 
-MemoryStruct::MemoryStruct(const Scope &p) :
-		Struct(new MemoryStructImp(this, p.impl())) { }
+memory_struct::memory_struct(const Scope &p) :
+		pss_struct(new MemoryStructImp(this, p.impl())) { }
 
 MemoryStructImp::MemoryStructImp(
-		MemoryStruct		*master,
+		memory_struct		*master,
 		ScopeImp			*p) : StructImp(master, p, StructImp::Memory) { }
 
-MemoryStruct::~MemoryStruct() {
+memory_struct::~memory_struct() {
 	// TODO Auto-generated destructor stub
 }
 

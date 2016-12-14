@@ -1,5 +1,5 @@
 /*
- * StreamStruct.h
+ * stream_struct.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -25,7 +25,7 @@
 
 #ifndef INCLUDED_STREAM_STRUCT_IMP_H
 #define INCLUDED_STREAM_STRUCT_IMP_H
-#include "classlib/StreamStruct.h"
+#include "classlib/stream_struct.h"
 #include "StructImp.h"
 
 namespace pss {
@@ -35,7 +35,7 @@ class StreamStructImp : public StructImp {
 
 	public:
 
-		StreamStructImp(StreamStruct *master, ScopeImp *p);
+		StreamStructImp(stream_struct *master, ScopeImp *p);
 
 		virtual ~StreamStructImp();
 

@@ -26,7 +26,7 @@
 #ifndef INCLUDED_EXPR_H
 #define INCLUDED_EXPR_H
 
-#include "classlib/Types.h"
+#include "classlib/pss_types.h"
 #include "classlib/ExprListBuilder.h"
 
 namespace pss {

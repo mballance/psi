@@ -24,19 +24,19 @@
  */
 #include "pss_tests.h"
 
-class power_state_s : public StateStruct {
+class power_state_s : public state_struct {
 public:
 
-	pss_ctor(power_state_s, StateStruct);
+	pss_ctor(power_state_s, state_struct);
 
-	Rand<Bit<1,0>>		pss_field(dmn_A);
-	Rand<Bit<1,0>>		pss_field(dmn_B);
-	Rand<Bit<1,0>>		pss_field(dmn_C);
+	rand_attr<pss_bit<1,0>>		pss_field(dmn_A);
+	rand_attr<pss_bit<1,0>>		pss_field(dmn_B);
+	rand_attr<pss_bit<1,0>>		pss_field(dmn_C);
 
-	Constraint c {this, {
-			If {dmn_C != 0, dmn_B == 0},
+	constraint c {this, {
+			pss_if {dmn_C != 0, dmn_B == 0},
 
-			If {initial == 1, {
+			pss_if {initial == 1, {
 				dmn_A == 0,
 				dmn_B == 0,
 				dmn_C == 0
@@ -50,19 +50,19 @@ public:
 pss_global_type(power_state_s);
 
 
-class my_system_c : public Component {
+class my_system_c : public component {
 public:
 
-	pss_ctor(my_system_c, Component);
+	pss_ctor(my_system_c, component);
 
-	class power_transition : public Action {
+	class power_transition : public action {
 	public:
 
-		pss_ctor(power_transition, Action);
+		pss_ctor(power_transition, action);
 
-		Rand<Int<31,0>>				pss_field(step);
-		Input<power_state_s>		pss_field(prev);
-		Output<power_state_s>		pss_field(next);
+		rand_attr<pss_int<31,0>>				pss_field(step);
+		input<power_state_s>		pss_field(prev);
+		output<power_state_s>		pss_field(next);
 
 		pss_constraint(step_c, {step == -1 || step == 1});
 

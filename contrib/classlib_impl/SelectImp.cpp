@@ -1,5 +1,5 @@
 /*
- * Select.cpp
+ * select.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -23,17 +23,17 @@
  *      Author: ballance
  */
 
-#include "classlib/Select.h"
+#include "classlib/select.h"
 #include "ExprImp.h"
 #include "ExprCore.h"
 
 namespace pss {
 
-Select::Select(const ExprList &list) : Expr(list) {
+select::select(const ExprList &list) : Expr(list) {
 	imp().ptr()->setOp(ExprImp::GraphSelect);
 }
 
-Select::~Select() {
+select::~select() {
 	// TODO Auto-generated destructor stub
 }
 

@@ -24,7 +24,7 @@
 #define INCLUDED_FIELD_BASE_H
 #include "classlib/FieldItem.h"
 #include "classlib/MethodParamList.h"
-#include "classlib/TypeDecl.h"
+#include "classlib/type_decl.h"
 
 namespace pss {
 
@@ -53,7 +53,7 @@ protected:
 			BaseItem 				*p,
 			const std::string 		&name) : T(Scope(true)),
 				m_field(p, name, 0, attr, this,
-						(TypeDecl<T>::valid())?TypeDecl<T>::id():0) {
+						(type_decl<T>::valid())?type_decl<T>::id():0) {
 	}
 
 	FieldBase(
@@ -62,7 +62,7 @@ protected:
 			const std::string 		&name,
 			const Expr				&array_dim) : T(Scope(true)),
 				m_field(p, name, &array_dim, attr, this,
-						(TypeDecl<T>::valid())?TypeDecl<T>::id():0) {
+						(type_decl<T>::valid())?type_decl<T>::id():0) {
 	}
 
 protected:

@@ -1,5 +1,5 @@
 /*
- * ResourceStruct.h
+ * resource_struct.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -27,7 +27,7 @@
 #define INCLUDED_RESOURCE_STRUCT_IMP_H
 #include <string>
 
-#include "classlib/ResourceStruct.h"
+#include "classlib/resource_struct.h"
 #include "StructImp.h"
 
 namespace pss {
@@ -35,7 +35,7 @@ namespace pss {
 class ResourceStructImp : public StructImp {
 	public:
 
-		ResourceStructImp(ResourceStruct *master, ScopeImp *p);
+		ResourceStructImp(resource_struct *master, ScopeImp *p);
 
 		virtual ~ResourceStructImp();
 

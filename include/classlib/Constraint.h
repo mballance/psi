@@ -1,5 +1,5 @@
 /*
- * Constraint.h
+ * constraint.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -31,16 +31,16 @@
 
 namespace pss {
 
-class Constraint : public BaseItem {
+class constraint : public BaseItem {
 public:
-	Constraint(BaseItem *p, const ExprList &stmt);
+	constraint(BaseItem *p, const ExprList &stmt);
 
-	Constraint(
+	constraint(
 			BaseItem 				*p,
 			const std::string 		&name,
 			const ExprList 			&stmt);
 
-	virtual ~Constraint();
+	virtual ~constraint();
 
 };
 

@@ -30,7 +30,7 @@
 
 namespace pss {
 
-class ImportFunc;
+class import_func;
 class Expr;
 class ExprCore {
 
@@ -45,7 +45,7 @@ class ExprCore {
 
 		ExprCore(ExprImp::Operator op, const Expr &lhs, const Expr &rhs);
 
-		ExprCore(ImportFunc &import, const Expr &params);
+		ExprCore(import_func &import, const Expr &params);
 
 		ExprCore(ExprImp::Operator op);
 

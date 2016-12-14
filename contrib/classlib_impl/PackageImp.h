@@ -1,5 +1,5 @@
 /*
- * Package.h
+ * package.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -30,7 +30,7 @@
 
 #include "NamedBaseItemImp.h"
 #include "ScopeImp.h"
-#include "classlib/Package.h"
+#include "classlib/package.h"
 
 namespace pss {
 
@@ -38,7 +38,7 @@ class PackageImp : public NamedBaseItemImp {
 
 	public:
 
-		PackageImp(Package *master, ScopeImp *p);
+		PackageImp(package *master, ScopeImp *p);
 
 		virtual ~PackageImp();
 

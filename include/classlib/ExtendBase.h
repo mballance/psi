@@ -36,7 +36,7 @@ template <class T> class ExtendBase : public T {
 protected:
 
 	ExtendBase(const Scope &p) : T(Scope(true)),
-		m_item(p, (TypeDecl<T>::valid())?TypeDecl<T>::id():this, this) {
+		m_item(p, (type_decl<T>::valid())?type_decl<T>::id():this, this) {
 	}
 
 private:

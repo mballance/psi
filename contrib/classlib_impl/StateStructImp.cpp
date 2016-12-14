@@ -1,5 +1,5 @@
 /*
- * StateStruct.cpp
+ * state_struct.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -31,11 +31,11 @@
 
 namespace pss {
 
-StateStruct::StateStruct(const Scope &p) :
-		Struct(new StateStructImp(this, p.impl())), initial(this, "initial") {
+state_struct::state_struct(const Scope &p) :
+		pss_struct(new StateStructImp(this, p.impl())), initial(this, "initial") {
 }
 
-StateStructImp::StateStructImp(StateStruct *master, ScopeImp *p) :
+StateStructImp::StateStructImp(state_struct *master, ScopeImp *p) :
 		StructImp(master, p, StructImp::State) {
 	TypePathImp path = ModelImp::global()->getActiveTypeName(master);
 	setName(path.leaf());
@@ -44,7 +44,7 @@ StateStructImp::StateStructImp(StateStruct *master, ScopeImp *p) :
 //	initial.setInternal(true);
 }
 
-StateStruct::~StateStruct() {
+state_struct::~state_struct() {
 	// TODO Auto-generated destructor stub
 }
 

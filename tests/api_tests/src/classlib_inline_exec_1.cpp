@@ -28,23 +28,23 @@ int refmodel_get_next_value() {
 	return 27;
 }
 
-class top : public Component {
+class top : public component {
 public:
 	pss_component_ctor(top);
 
-	class entry_point : public Action {
+	class entry_point : public action {
 	public:
 		pss_action_ctor(entry_point);
 
-		Rand<Bit<7,0>>		pss_field(p1);
-		Rand<Bit<31,0>>		pss_field(p2);
-		Rand<Bit<31,0>>		pss_field(p3);
-		Field<Bit<31,0>>	pss_field(p4);
-		Field<Bit<31,0>>	pss_field(p5);
+		rand_attr<pss_bit<7,0>>		pss_field(p1);
+		rand_attr<pss_bit<31,0>>		pss_field(p2);
+		rand_attr<pss_bit<31,0>>		pss_field(p3);
+		attr<pss_bit<31,0>>	pss_field(p4);
+		attr<pss_bit<31,0>>	pss_field(p5);
 
-		Exec pre_solve_e {this, Exec::PreSolve};
+		exec pre_solve_e {this, exec::PreSolve};
 
-		Exec post_solve_e {this, Exec::PostSolve};
+		exec post_solve_e {this, exec::PostSolve};
 
 		void pre_solve() {
 			// Set p4 based on calling a generation-time method

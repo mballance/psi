@@ -1,5 +1,5 @@
 /*
- * Schedule.h
+ * schedule.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -31,16 +31,16 @@
 
 namespace pss {
 
-class Schedule: public Expr {
+class schedule: public Expr {
 public:
-	Schedule(const ExprList &body);
+	schedule(const ExprList &body);
 
 #ifdef PSS_HAVE_CXX_11
-	template <typename... I> Schedule(const I&... items) :
-			Schedule(ExprList::mklist(items...)) { }
+	template <typename... I> schedule(const I&... items) :
+			schedule(ExprList::mklist(items...)) { }
 #endif
 
-	virtual ~Schedule();
+	virtual ~schedule();
 
 };
 

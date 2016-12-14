@@ -1,5 +1,5 @@
 /*
- * Repeat.cpp
+ * repeat.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -23,27 +23,27 @@
  *      Author: ballance
  */
 
-#include "classlib/Repeat.h"
+#include "classlib/repeat.h"
 #include "ExprCore.h"
 #include "ExprImp.h"
 
 namespace pss {
 
-//Repeat::Repeat(const Expr &expr, const ExprListBuilder &body) :
+//repeat::repeat(const Expr &expr, const ExprListBuilder &body) :
 //		Expr(new ExprCore(Expr::GraphRepeat, expr, ExprList(body))) {
 //}
 
-Repeat::Repeat(const Expr &cond, const ExprList &body) :
+repeat::repeat(const Expr &cond, const ExprList &body) :
 		Expr(ExprImp(new ExprCore(ExprImp::GraphRepeat, cond, body))) {
 }
 
-Repeat::~Repeat() { }
+repeat::~repeat() { }
 
-ExprListBuilder Repeat::operator,(const Expr &rhs) {
+ExprListBuilder repeat::operator,(const Expr &rhs) {
 	return ExprListBuilder(*this, rhs);
 }
 
-ExprListBuilder Repeat::operator,(const ExprListBuilder &rhs) {
+ExprListBuilder repeat::operator,(const ExprListBuilder &rhs) {
 	return ExprListBuilder(*this, rhs);
 }
 

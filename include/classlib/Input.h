@@ -1,5 +1,5 @@
 /*
- * Input.h
+ * input.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -28,27 +28,27 @@
 #include <string>
 
 #include "classlib/FieldBase.h"
-#include "classlib/TypeDecl.h"
+#include "classlib/type_decl.h"
 
 namespace pss {
 
-class Action;
-template <class T> class Input : public FieldBase<T> {
+class action;
+template <class T> class input : public FieldBase<T> {
 
 	public:
 		/**
-		 * This constructor is used for specifying an action Input field
+		 * This constructor is used for specifying an action input field
 		 */
-		Input(Action *p, const std::string &name) :
+		input(action *p, const std::string &name) :
 			FieldBase<T>(FieldItem::AttrInput, p, name) { }
 
 		/**
 		 * This constructor is used for specifying method parameters
 		 */
-		Input(const std::string &name) :
+		input(const std::string &name) :
 			FieldBase<T>(FieldItem::AttrInput, 0, name) { }
 
-		virtual ~Input() { }
+		virtual ~input() { }
 
 };
 

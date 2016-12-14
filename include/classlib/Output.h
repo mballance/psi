@@ -1,5 +1,5 @@
 /*
- * Output.h
+ * output.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -29,27 +29,27 @@
 #include <stdio.h>
 
 #include "classlib/FieldBase.h"
-#include "classlib/TypeDecl.h"
+#include "classlib/type_decl.h"
 
 namespace pss {
 
-class Action;
-template <class T> class Output : public FieldBase<T> {
+class action;
+template <class T> class output : public FieldBase<T> {
 
 	public:
 		/**
-		 * This constructor is used to specify an action Output field
+		 * This constructor is used to specify an action output field
 		 */
-		Output(Action *p, const std::string &name) :
+		output(action *p, const std::string &name) :
 			FieldBase<T>(FieldItem::AttrOutput, p, name) { }
 
 		/**
 		 * This constructor is used to specify a method parameter
 		 */
-		Output(const std::string &name) :
+		output(const std::string &name) :
 			FieldBase<T>(FieldItem::AttrOutput, 0, name) { }
 
-		virtual ~Output() { }
+		virtual ~output() { }
 
 };
 

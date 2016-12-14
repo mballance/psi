@@ -26,7 +26,7 @@
 #ifndef INCLUDED_METHOD_PARAM_LIST_H
 #define INCLUDED_METHOD_PARAM_LIST_H
 #include <vector>
-#include "classlib/Types.h"
+#include "classlib/pss_types.h"
 #include "classlib/FieldItem.h"
 
 namespace pss {

@@ -26,7 +26,7 @@
 #define CONTRIB_CLASSLIB_IMPL_EXECIMPORTCALLSTMTIMP_H_
 
 #include "ExecStmtImp.h"
-#include "classlib/ImportFunc.h"
+#include "classlib/import_func.h"
 #include "classlib/ExprList.h"
 #include "ImportFuncImp.h"
 
@@ -35,7 +35,7 @@ namespace pss {
 class ExecImportCallStmtImp: public ExecStmtImp {
 public:
 	ExecImportCallStmtImp(
-			const ImportFunc		&imp,
+			const import_func		&imp,
 			const ExprList			&plist
 			);
 
@@ -46,7 +46,7 @@ public:
 	ExprList &getParameterList() { return m_plist; }
 
 private:
-	ImportFunc						m_imp;
+	import_func						m_imp;
 	ExprList						m_plist;
 
 };

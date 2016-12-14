@@ -27,11 +27,11 @@
 namespace pss {
 
 ExecImportCallStmt::ExecImportCallStmt(
-		const ImportFunc		&imp,
+		const import_func		&imp,
 		const ExprList			&plist) : ExecStmt(new ExecImportCallStmtImp(imp, plist)) { }
 
 ExecImportCallStmtImp::ExecImportCallStmtImp(
-		const ImportFunc		&imp,
+		const import_func		&imp,
 		const ExprList			&plist) :
 				ExecStmtImp(StmtType_Call), m_imp(imp), m_plist(plist) { }
 

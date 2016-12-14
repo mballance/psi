@@ -1,5 +1,5 @@
 /*
- * Graph.cpp
+ * graph.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -26,15 +26,15 @@
 
 namespace pss {
 
-Graph::Graph(BaseItem *p, const ExprList &seq) :
+graph::graph(BaseItem *p, const ExprList &seq) :
 		BaseItem(new GraphImp(this, p, seq)) {
 
 }
 
-GraphImp::GraphImp(Graph *master, BaseItem *p, const ExprList &seq) :
+GraphImp::GraphImp(graph *master, BaseItem *p, const ExprList &seq) :
 		BaseItemImp(master, BaseItemImp::TypeGraph, p), m_seq(seq) { }
 
-Graph::~Graph() {
+graph::~graph() {
 	// TODO Auto-generated destructor stub
 }
 

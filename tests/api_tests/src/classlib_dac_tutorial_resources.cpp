@@ -25,57 +25,57 @@
 #include "pss_tests.h"
 
 
-class R : public ResourceStruct {
+class R : public resource_struct {
 public:
-	pss_ctor(R, ResourceStruct);
+	pss_ctor(R, resource_struct);
 
 };
 pss_global_type(R);
 
-class C : public Component {
+class C : public component {
 public:
-	pss_ctor(C, Component);
+	pss_ctor(C, component);
 
-	class A : public Action {
+	class A : public action {
 	public:
-		pss_ctor(A, Action);
+		pss_ctor(A, action);
 
-		Lock<R>			pss_field(rc);
+		lock<R>			pss_field(rc);
 	};
 	pss_type(A);
 };
 pss_global_type(C);
 
-class static_structure : public Component {
+class static_structure : public component {
 public:
-	pss_ctor(static_structure, Component);
+	pss_ctor(static_structure, component);
 
-	Field<C>			pss_field(c1);
-	Field<C>			pss_field(c2);
+	attr<C>			pss_field(c1);
+	attr<C>			pss_field(c2);
 
-	Pool<R>				pss_field(rp);
+	pool<R>				pss_field(rp);
 
-	Bind b1 {this, rp, c1};
-	Bind b2 {this, rp, c2};
+	bind b1 {this, rp, c1};
+	bind b2 {this, rp, c2};
 
-	Bind b {this, rp, c1, c2};
+	bind b {this, rp, c1, c2};
 
 };
 pss_global_type(static_structure);
 
-class top : public Component {
+class top : public component {
 public:
-	pss_ctor(top, Component);
+	pss_ctor(top, component);
 
-	class entry_point : public Action {
+	class entry_point : public action {
 	public:
-		pss_ctor(entry_point, Action);
+		pss_ctor(entry_point, action);
 
-		Field<C::A>			pss_field(a1);
-		Field<C::A>			pss_field(a2);
+		attr<C::A>			pss_field(a1);
+		attr<C::A>			pss_field(a2);
 
-		Graph graph {this,
-			Parallel {
+		graph graph {this,
+			parallel {
 				a1, a2
 			}
 		};

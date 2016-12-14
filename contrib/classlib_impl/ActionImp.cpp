@@ -25,16 +25,16 @@
 
 #include <stdio.h>
 
-#include "classlib/Action.h"
+#include "classlib/action.h"
 #include "ActionImp.h"
 #include "ModelImp.h"
 
 namespace pss {
 
-Action::Action(const Scope	&p) :
+action::action(const Scope	&p) :
 			BaseItem(new ActionImp(this, p.impl())) { }
 
-ActionImp::ActionImp(Action *master, ScopeImp *p) :
+ActionImp::ActionImp(action *master, ScopeImp *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypeAction, p->parent()) {
 	m_super_type = ModelImp::global()->getSuperType(master);
 	m_model = 0;
@@ -45,34 +45,34 @@ ActionImp::ActionImp(Action *master, ScopeImp *p) :
 	setName(type.leaf());
 }
 
-Action::~Action() {
+action::~action() {
 }
 
 ActionImp::~ActionImp() {
 }
 
-void Action::pre_solve() {
+void action::pre_solve() {
 
 }
 
-void Action::post_solve() {
+void action::post_solve() {
 
 }
 
-void Action::body() {
+void action::body() {
 
 }
 
 void ActionImp::pre_solve() {
-	static_cast<Action *>(master())->pre_solve();
+	static_cast<action *>(master())->pre_solve();
 }
 
 void ActionImp::post_solve() {
-	static_cast<Action *>(master())->post_solve();
+	static_cast<action *>(master())->post_solve();
 }
 
 void ActionImp::body() {
-	static_cast<Action *>(master())->body();
+	static_cast<action *>(master())->body();
 }
 
 void ActionImp::inline_exec_pre(IModel *model, psshandle_t hndl) {

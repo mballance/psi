@@ -1,5 +1,5 @@
 /*
- * ImportFunc.h
+ * import_func.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -27,7 +27,7 @@
 #define INCLUDED_IMPORT_IMP_H
 #include <string>
 
-#include "classlib/ImportFunc.h"
+#include "classlib/import_func.h"
 #include "NamedBaseItemImp.h"
 #include "MethodParamListImp.h"
 
@@ -38,13 +38,13 @@ class ImportFuncImp : public NamedBaseItemImp {
 	public:
 
 		ImportFuncImp(
-				ImportFunc					*master,
+				import_func					*master,
 				BaseItem 				*p,
 				const std::string 		&name,
 				const MethodParamList	&plist);
 
 		ImportFuncImp(
-				ImportFunc					*master,
+				import_func					*master,
 				BaseItem 				*p,
 				const std::string 		&name,
 				const BaseItem 			&ret,

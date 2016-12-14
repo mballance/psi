@@ -45,12 +45,12 @@ public:
 	virtual ScalarType getScalarType() const = 0;
 
 	/**
-	 * Returns the MSB of the type for Bit and Int types
+	 * Returns the MSB of the type for pss_bit and pss_int types
 	 */
 	virtual IExpr *getMSB() const = 0;
 
 	/**
-	 * Returns the LSB of the type for Bit and Int types
+	 * Returns the LSB of the type for pss_bit and pss_int types
 	 */
 	virtual IExpr *getLSB() const = 0;
 

@@ -1,5 +1,5 @@
 /*
- * Struct.cpp
+ * pss_struct.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -29,13 +29,13 @@
 
 namespace pss {
 
-Struct::Struct(const Scope &p) :
+pss_struct::pss_struct(const Scope &p) :
 	BaseItem(new StructImp(this, p.impl())) { }
 
-Struct::Struct(BaseItemImp *imp) : BaseItem(imp) { }
+pss_struct::pss_struct(BaseItemImp *imp) : BaseItem(imp) { }
 
 StructImp::StructImp(
-		Struct		*master,
+		pss_struct		*master,
 		ScopeImp	*p,
 		StructType	t) :
 	NamedBaseItemImp(master, BaseItemImp::TypeStruct, p->parent(), ""),
@@ -46,7 +46,7 @@ StructImp::StructImp(
 	m_hndl = 0;
 }
 
-Struct::~Struct() {
+pss_struct::~pss_struct() {
 	// TODO Auto-generated destructor stub
 }
 
@@ -62,11 +62,11 @@ StructImp::StructType StructImp::getStructType() const {
 	return m_struct_type;
 }
 
-void Struct::pre_solve() {
+void pss_struct::pre_solve() {
 
 }
 
-void Struct::post_solve() {
+void pss_struct::post_solve() {
 
 }
 

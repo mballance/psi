@@ -1,5 +1,5 @@
 /*
- * Component.h
+ * component.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -32,15 +32,15 @@
 
 namespace pss {
 
-class Component : public BaseItem {
+class component : public BaseItem {
 
 	public:
 
-		virtual ~Component();
+		virtual ~component();
 
 	protected:
 
-		Component(const Scope &p);
+		component(const Scope &p);
 
 };
 

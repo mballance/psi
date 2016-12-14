@@ -1,5 +1,5 @@
 /*
- * Component.cpp
+ * component.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -28,17 +28,17 @@
 
 namespace pss {
 
-Component::Component(const Scope &p) : BaseItem(new ComponentImp(this, p.impl())) {
+component::component(const Scope &p) : BaseItem(new ComponentImp(this, p.impl())) {
 
 }
 
-ComponentImp::ComponentImp(Component *master, ScopeImp *p) :
+ComponentImp::ComponentImp(component *master, ScopeImp *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypeComponent, p->parent()) {
 	setName(ModelImp::global()->getActiveTypeName(master).leaf());
 	m_super_type = ModelImp::global()->getSuperType(master);
 }
 
-Component::~Component() {
+component::~component() {
 	// TODO Auto-generated destructor stub
 }
 

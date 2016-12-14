@@ -62,7 +62,7 @@ void ModelImp::push_scope(const ScopeImp *p) {
 void ModelImp::pop_scope(const ScopeImp *p) {
 //	const Scope *p_c = m_scope.back();
 
-	// If the last element is 'p', then pop until
+	// pss_if the last element is 'p', then pop until
 	// we exit that hierarchy
 	if (m_scope.size() > 0) {
 		m_scope.pop_back();

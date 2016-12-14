@@ -27,8 +27,8 @@
 #define INCLUDED_EXPORT_ITEM_H
 
 #include "classlib/BaseItem.h"
-#include "classlib/Types.h"
-#include "classlib/Action.h"
+#include "classlib/pss_types.h"
+#include "classlib/action.h"
 #include "classlib/ExprList.h"
 
 namespace pss {

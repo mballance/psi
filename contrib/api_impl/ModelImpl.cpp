@@ -139,12 +139,12 @@ IPackage *ModelImpl::findPackage(const std::string &name, bool create) {
 }
 
 /**
- * Data Types
+ * Data pss_types
  */
 
 /**
  * Creates a scalar type. The msb and lsb parameters are ignored for types
- * other than Int and Bit
+ * other than pss_int and pss_bit
  */
 IScalarType *ModelImpl::mkScalarType(
 		IScalarType::ScalarType t,
@@ -166,7 +166,7 @@ IBindPath *ModelImpl::mkBindPath(const std::vector<IBaseItem *> &path) {
 }
 
 /**
- * Action
+ * action
  */
 IAction *ModelImpl::mkAction(const std::string &name, IAction *super_type) {
 	return new ActionImpl(name, super_type);

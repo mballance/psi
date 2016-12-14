@@ -1,6 +1,6 @@
 /*
  *
- * Package.cpp
+ * package.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -32,16 +32,16 @@
 
 namespace pss {
 
-Package::Package(const Scope &p) :
+package::package(const Scope &p) :
 		BaseItem(new PackageImp(this, p.impl())) { }
 
-PackageImp::PackageImp(Package *master, ScopeImp *p) :
+PackageImp::PackageImp(package *master, ScopeImp *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypePackage, p->parent()) {
 	TypePathImp type = ModelImp::global()->getActiveTypeName(master);
 	setName(type.leaf());
 }
 
-Package::~Package() {
+package::~package() {
 	// TODO Auto-generated destructor stub
 }
 

@@ -1,5 +1,5 @@
 /*
- * String.cpp
+ * pss_string.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -27,28 +27,28 @@
 
 namespace pss {
 
-String::String(BaseItem *p) :
+pss_string::pss_string(BaseItem *p) :
 		BaseItem(new StringImp(this, p)) { }
 
-StringImp::StringImp(String *master, BaseItem *p) :
+StringImp::StringImp(pss_string *master, BaseItem *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypeString, p),
 		m_utils(this) { }
 
-String::String(const std::string &name) :
+pss_string::pss_string(const std::string &name) :
 		BaseItem(new StringImp(this, name)) { }
 
-StringImp::StringImp(String *master, const std::string &name) :
+StringImp::StringImp(pss_string *master, const std::string &name) :
 		NamedBaseItemImp(master, BaseItemImp::TypeString, 0, name),
 		m_utils(this) { }
 
-String::~String() {
+pss_string::~pss_string() {
 }
 
 StringImp::~StringImp() {
 	// TODO Auto-generated destructor stub
 }
 
-std::string String::get() {
+std::string pss_string::get() {
 	// TODO:
 	return static_cast<StringImp *>(impl())->get();
 }
@@ -57,7 +57,7 @@ std::string StringImp::get() {
 	return m_utils.getStringValue();
 }
 
-void String::set(const std::string &v) {
+void pss_string::set(const std::string &v) {
 	static_cast<StringImp *>(impl())->set(v);
 }
 

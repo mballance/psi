@@ -25,26 +25,26 @@
 
 #include "pss_tests.h"
 
-class graph_seq_comp : public Component {
+class graph_seq_comp : public component {
 public:
-	pss_ctor(graph_seq_comp, Component);
+	pss_ctor(graph_seq_comp, component);
 
-	class A1 : public Action {
+	class A1 : public action {
 	public:
-		pss_ctor(A1, Action);
+		pss_ctor(A1, action);
 
 	};
 	pss_type(A1);
 
-	class graph_seq_test : public Action {
+	class graph_seq_test : public action {
 	public:
-		pss_ctor(graph_seq_test, Action);
+		pss_ctor(graph_seq_test, action);
 
-		Field<A1> pss_field(a1);
-		Field<A1> pss_field(a2);
-		Field<A1> pss_field(a3);
+		attr<A1> pss_field(a1);
+		attr<A1> pss_field(a2);
+		attr<A1> pss_field(a3);
 
-		Graph graph {this, Sequential {
+		graph graph {this, sequence {
 			a1, a2, a3
 		}
 		};

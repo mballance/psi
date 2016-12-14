@@ -30,13 +30,13 @@
 
 namespace pss {
 
-class ImportFunc;
+class import_func;
 class ExecImportCallStmt : public ExecStmt {
 public:
-	friend ImportFunc;
+	friend import_func;
 
 private:
-	ExecImportCallStmt(const ImportFunc &f, const ExprList &plist);
+	ExecImportCallStmt(const import_func &f, const ExprList &plist);
 
 };
 

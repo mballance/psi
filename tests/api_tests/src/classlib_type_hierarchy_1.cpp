@@ -25,14 +25,14 @@
 
 #include "pss_tests.h"
 
-class Base : public Struct {
+class Base : public pss_struct {
 public:
-	pss_ctor(Base, Struct);
+	pss_ctor(Base, pss_struct);
 
-	Rand<Bit<7,0>>		pss_field(a);
-	Rand<Bit<7,0>>		pss_field(b);
+	rand_attr<pss_bit<7,0>>		pss_field(a);
+	rand_attr<pss_bit<7,0>>		pss_field(b);
 
-	Constraint c {this, "c", {
+	constraint c {this, "c", {
 			a == 5,
 			b == 6
 	}};
@@ -44,7 +44,7 @@ class Ext : public Base {
 public:
 	pss_ctor(Ext, Base);
 
-	Constraint c {this, "c", {
+	constraint c {this, "c", {
 			a == 7,
 			b == 8
 	}};

@@ -542,10 +542,10 @@ IExec *Elaborator::elaborate_exec_item(ExecImp *e) {
 
 	IExec::ExecKind kind = IExec::Body;
 	switch (e->getExecKind()) {
-	case Exec::Declaration: kind = IExec::Declaration; break;
-	case Exec::Body: kind = IExec::Body; break;
-	case Exec::PreSolve: kind = IExec::PreSolve; break;
-	case Exec::PostSolve: kind = IExec::PostSolve; break;
+	case exec::Declaration: kind = IExec::Declaration; break;
+	case exec::Body: kind = IExec::Body; break;
+	case exec::PreSolve: kind = IExec::PreSolve; break;
+	case exec::PostSolve: kind = IExec::PostSolve; break;
 	default:
 		error("unhandled exec-block kind %d", e->getExecKind());
 	}
@@ -554,7 +554,7 @@ IExec *Elaborator::elaborate_exec_item(ExecImp *e) {
 
 	if (t->getObjectType() != BaseItemImp::TypeStruct &&
 			t->getObjectType() != BaseItemImp::TypeAction) {
-		error("Exec blocks can only be placed inside Action and Struct types. "
+		error("exec blocks can only be placed inside action and pss_struct types. "
 				"Invalid type: %s", BaseItemImp::toString(t->getObjectType()));
 		return 0;
 	}
@@ -874,11 +874,11 @@ IFieldRef *Elaborator::elaborate_field_ref(BaseItemImp *t) {
 							scope = toScopeItem(field->getDataType());
 
 							if (!scope) {
-								error(std::string("Field ") + t->getName() + " is not user-defined");
+								error(std::string("attr ") + t->getName() + " is not user-defined");
 								break;
 							}
 						} else {
-							error(std::string("Field ") + field->getName() + " doesn't have a type");
+							error(std::string("attr ") + field->getName() + " doesn't have a type");
 							break;
 						}
 					}
@@ -1005,11 +1005,11 @@ IBindPath *Elaborator::elaborate_bind_path(BaseItemImp *t) {
 							scope = toScopeItem(field->getDataType());
 
 							if (!scope) {
-								error(std::string("Field ") + t->getName() + " is not user-defined");
+								error(std::string("attr ") + t->getName() + " is not user-defined");
 								break;
 							}
 						} else {
-							error(std::string("Field ") + field->getName() + " doesn't have a type");
+							error(std::string("attr ") + field->getName() + " doesn't have a type");
 							break;
 						}
 					}
@@ -1377,7 +1377,7 @@ bool Elaborator::should_filter(
 
 	if (parent_c > 0) {
 		// Okay, the parent contains this item
-		// Now count how many instances are in this item. If there
+		// Now count how many instances are in this item. pss_if there
 		// are more instances in this item AND we are pointing at the last,
 		// then we can add. Otherwise, we filter
 		uint32_t this_c = 0;

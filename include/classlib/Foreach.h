@@ -1,5 +1,5 @@
 /*
- * Foreach.h
+ * foreach.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -29,10 +29,10 @@
 
 namespace pss {
 
-class Foreach : public Expr {
+class foreach : public Expr {
 public:
 
-	Foreach(
+	foreach(
 			const BaseItem 	&var,
 			const ExprList 	&index_vars,
 			const ExprList	&constraints);

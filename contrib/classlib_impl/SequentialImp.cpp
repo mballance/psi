@@ -1,5 +1,5 @@
 /*
- * Sequential.cpp
+ * sequence.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -23,21 +23,21 @@
  *      Author: ballance
  */
 
-#include "classlib/Sequential.h"
+#include "classlib/sequence.h"
 
 namespace pss {
 
-Sequential::Sequential(const ExprList &body) : ExprList(body) { }
+sequence::sequence(const ExprList &body) : ExprList(body) { }
 
-Sequential::~Sequential() {
+sequence::~sequence() {
 	// TODO Auto-generated destructor stub
 }
 
-ExprListBuilder Sequential::operator,(const Expr &rhs) {
+ExprListBuilder sequence::operator,(const Expr &rhs) {
 	return ExprListBuilder(*this, rhs);
 }
 
-ExprListBuilder Sequential::operator,(const ExprListBuilder &rhs) {
+ExprListBuilder sequence::operator,(const ExprListBuilder &rhs) {
 	return ExprListBuilder(*this, rhs);
 }
 

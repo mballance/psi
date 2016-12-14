@@ -29,19 +29,19 @@
 
 namespace pss {
 
-Bool::Bool(const Scope &p) : BaseItem(new BoolImp(this, p.impl()->parent())) { }
+pss_bool::pss_bool(const Scope &p) : BaseItem(new BoolImp(this, p.impl()->parent())) { }
 
-BoolImp::BoolImp(Bool *master, BaseItem *p) :
+BoolImp::BoolImp(pss_bool *master, BaseItem *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypeBool, p),
 		m_utils(this) { }
 
-Bool::Bool(const std::string &name) : BaseItem(new BoolImp(this, name)) { }
+pss_bool::pss_bool(const std::string &name) : BaseItem(new BoolImp(this, name)) { }
 
-BoolImp::BoolImp(Bool *master, const std::string &name) :
+BoolImp::BoolImp(pss_bool *master, const std::string &name) :
 		NamedBaseItemImp(master, BaseItemImp::TypeBool, 0, name),
 		m_utils(this) { }
 
-Bool::~Bool() {
+pss_bool::~pss_bool() {
 
 }
 
@@ -49,7 +49,7 @@ BoolImp::~BoolImp() {
 	// TODO Auto-generated destructor stub
 }
 
-bool Bool::get() {
+bool pss_bool::get() {
 	return static_cast<BoolImp *>(impl())->get();
 }
 
@@ -57,7 +57,7 @@ bool BoolImp::get() {
 	return m_utils.getBoolValue();
 }
 
-void Bool::set(bool v) {
+void pss_bool::set(bool v) {
 	static_cast<BoolImp *>(impl())->set(v);
 }
 

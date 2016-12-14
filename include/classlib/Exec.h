@@ -1,5 +1,5 @@
 /*
- * Exec.h
+ * exec.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -29,7 +29,7 @@
 #include <string>
 
 #include "classlib/BaseItem.h"
-#include "classlib/Types.h"
+#include "classlib/pss_types.h"
 #include "classlib/ExecStmtList.h"
 
 namespace pss {
@@ -38,7 +38,7 @@ class ImportCall;
 class ExtendItem;
 class ExecStmtList;
 
-class Exec : public BaseItem {
+class exec : public BaseItem {
 
 	public:
 		enum ExecKind {
@@ -50,24 +50,24 @@ class Exec : public BaseItem {
 
 	public:
 
-		Exec(
+		exec(
 			BaseItem								*p,
 			ExecKind 								kind,
 			const std::string 						&language,
 			const std::string 						&content);
 
-		Exec(
+		exec(
 			ExtendItem								*p,
 			ExecKind 								kind,
 			const std::string 						&language,
 			const std::string 						&content);
 
-		Exec(
+		exec(
 			BaseItem								*p,
 			ExecKind 								kind,
 			const ExecStmtList						&stmts);
 
-		Exec(
+		exec(
 			ExtendItem								*p,
 			ExecKind 								kind,
 			const ExecStmtList						&stmts);
@@ -76,12 +76,12 @@ class Exec : public BaseItem {
 		 * Inline exec block that activates the appropriate
 		 * hook method
 		 */
-		Exec(
+		exec(
 			BaseItem								*p,
 			ExecKind								kind);
 
 #ifdef PSS_HAVE_CXX_11
-//		Exec(
+//		exec(
 //			BaseItem								*p,
 //			ExecKind								kind,
 //			std::initializer_list<BaseItem>			write_vars) :
@@ -99,7 +99,7 @@ class Exec : public BaseItem {
 //		}
 #endif
 
-		virtual ~Exec();
+		virtual ~exec();
 
 
 };

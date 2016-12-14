@@ -1,5 +1,5 @@
 /*
- * Action.h
+ * action.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -33,32 +33,32 @@
 namespace pss {
 
 /**
- * User-defined Action classes extend from the Action base class.
+ * User-defined action classes extend from the action base class.
  */
-class Action : public BaseItem {
+class action : public BaseItem {
 public:
 	friend class ActionImp;
 
-	virtual ~Action();
+	virtual ~action();
 
 protected:
 
-	Action(const Scope &p);
+	action(const Scope &p);
 
 	/**
-	 * Solver hook method. Enabled by instantiating an inline Exec block
+	 * Solver hook method. Enabled by instantiating an inline exec block
 	 * for ExecKind::PreSolve
 	 */
 	virtual void pre_solve();
 
 	/**
-	 * Solver hook method. Enabled by instantiating an inline Exec block
+	 * Solver hook method. Enabled by instantiating an inline exec block
 	 * for ExecKind::PostSolve
 	 */
 	virtual void post_solve();
 
 	/**
-	 * Solver hook method. Enabled by instantiating an inline Exec block
+	 * Solver hook method. Enabled by instantiating an inline exec block
 	 * for ExecKind::Body
 	 */
 	virtual void body();

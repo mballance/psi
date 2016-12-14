@@ -1,5 +1,5 @@
 /*
- * StreamStruct.cpp
+ * stream_struct.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -28,13 +28,13 @@
 
 namespace pss {
 
-StreamStruct::StreamStruct(const Scope &p) :
-		Struct(new StreamStructImp(this, p.impl())) { }
+stream_struct::stream_struct(const Scope &p) :
+		pss_struct(new StreamStructImp(this, p.impl())) { }
 
-StreamStructImp::StreamStructImp(StreamStruct *master, ScopeImp *p) :
+StreamStructImp::StreamStructImp(stream_struct *master, ScopeImp *p) :
 		StructImp(master, p, StructImp::Stream) { }
 
-StreamStruct::~StreamStruct() {
+stream_struct::~stream_struct() {
 	// TODO Auto-generated destructor stub
 }
 

@@ -1,5 +1,5 @@
 /*
- * Parallel.cpp
+ * parallel.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -23,26 +23,26 @@
  *      Author: ballance
  */
 
-#include "classlib/Parallel.h"
+#include "classlib/parallel.h"
 #include "classlib/ExprList.h"
 #include "ExprImp.h"
 #include "ExprCore.h"
 
 namespace pss {
 
-Parallel::Parallel(const ExprList &body) : Expr(body.imp()) {
+parallel::parallel(const ExprList &body) : Expr(body.imp()) {
 	imp().ptr()->setOp(ExprImp::GraphParallel);
 }
 
-Parallel::~Parallel() {
+parallel::~parallel() {
 	// TODO Auto-generated destructor stub
 }
 
-ExprListBuilder Parallel::operator,(const Expr &rhs) {
+ExprListBuilder parallel::operator,(const Expr &rhs) {
 	return ExprListBuilder(*this, rhs);
 }
 
-ExprListBuilder Parallel::operator,(const ExprListBuilder &rhs) {
+ExprListBuilder parallel::operator,(const ExprListBuilder &rhs) {
 	return ExprListBuilder(*this, rhs);
 }
 

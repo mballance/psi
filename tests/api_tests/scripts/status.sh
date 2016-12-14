@@ -3,8 +3,8 @@
 #* status.sh
 #*
 #* Checks the run status of the test. 
-#* - If the test passes, display PASS: <name>
-#* - If the test fails, display FAIL: <name> - reason
+#* - pss_if the test passes, display PASS: <name>
+#* - pss_if the test fails, display FAIL: <name> - reason
 #****************************************************************************
 
 

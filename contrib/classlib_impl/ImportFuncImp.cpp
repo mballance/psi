@@ -1,5 +1,5 @@
 /*
- * ImportFunc.cpp
+ * import_func.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -31,7 +31,7 @@
 
 namespace pss {
 
-ImportFunc::ImportFunc(
+import_func::import_func(
 		BaseItem 				*p,
 		const std::string 		&name,
 		const MethodParamList 	&plist) :
@@ -40,7 +40,7 @@ ImportFunc::ImportFunc(
 }
 
 ImportFuncImp::ImportFuncImp(
-		ImportFunc					*master,
+		import_func					*master,
 		BaseItem 				*p,
 		const std::string 		&name,
 		const MethodParamList 	&plist) :
@@ -49,7 +49,7 @@ ImportFuncImp::ImportFuncImp(
 
 }
 
-ImportFunc::ImportFunc(
+import_func::import_func(
 		BaseItem 				*p,
 		const std::string 		&name,
 		const BaseItem 			&ret,
@@ -59,7 +59,7 @@ ImportFunc::ImportFunc(
 }
 
 ImportFuncImp::ImportFuncImp(
-		ImportFunc					*master,
+		import_func					*master,
 		BaseItem 				*p,
 		const std::string 		&name,
 		const BaseItem 			&ret,
@@ -68,7 +68,7 @@ ImportFuncImp::ImportFuncImp(
 	m_have_ret(true), m_ret(ret), m_parameters(plist) {
 }
 
-ImportFunc::~ImportFunc() {
+import_func::~import_func() {
 	// TODO Auto-generated destructor stub
 }
 
@@ -76,11 +76,11 @@ ImportFuncImp::~ImportFuncImp() {
 	// TODO Auto-generated destructor stub
 }
 
-ExecImportCallStmt ImportFunc::operator()(const ExprList &plist) {
+ExecImportCallStmt import_func::operator()(const ExprList &plist) {
 	return ExecImportCallStmt(*this, plist);
 }
 
-ExecImportCallStmt ImportFunc::operator()() {
+ExecImportCallStmt import_func::operator()() {
 	return ExecImportCallStmt(*this, ExprList());
 }
 

@@ -24,75 +24,75 @@
  */
 #include "pss_tests.h"
 
-class data_s : public MemoryStruct {
+class data_s : public memory_struct {
 public:
-	Rand<Bit<7,0>>		pss_field(data);
-	Rand<Bit<31,0>>		pss_field(address);
+	rand_attr<pss_bit<7,0>>		pss_field(data);
+	rand_attr<pss_bit<31,0>>		pss_field(address);
 
-	pss_ctor(data_s, MemoryStruct);
+	pss_ctor(data_s, memory_struct);
 
-	Constraint address_c {this, address >= 0x1000 && address <= 0x1FFF};
+	constraint address_c {this, address >= 0x1000 && address <= 0x1FFF};
 };
 pss_global_type(data_s);
 
-class rw_comp : public Component {
+class rw_comp : public component {
 public:
 
-	pss_ctor(rw_comp, Component);
+	pss_ctor(rw_comp, component);
 
-	class processor_s : public ResourceStruct {
+	class processor_s : public resource_struct {
 	public:
-		pss_ctor(processor_s, ResourceStruct);
+		pss_ctor(processor_s, resource_struct);
 
-		Constraint resource_c {this, instance_id == 1};
+		constraint resource_c {this, instance_id == 1};
 
 	};
 	pss_type(processor_s);
 
-	class write_data : public Action {
+	class write_data : public action {
 	public:
-		pss_ctor(write_data, Action);
+		pss_ctor(write_data, action);
 
-		Output<data_s>			pss_field(out_data);
-		Lock<processor_s>		pss_field(proc);
+		output<data_s>			pss_field(out_data);
+		lock<processor_s>		pss_field(proc);
 	};
 	pss_type(write_data);
 
-	class read_data : public Action {
+	class read_data : public action {
 	public:
-		pss_ctor(read_data, Action);
+		pss_ctor(read_data, action);
 
-		Input<data_s>			pss_field(in_data);
-		Lock<processor_s>		pss_field(proc);
+		input<data_s>			pss_field(in_data);
+		lock<processor_s>		pss_field(proc);
 	};
 	pss_type(read_data);
 
 };
 pss_global_type(rw_comp);
 
-class top_comp : public Component {
+class top_comp : public component {
 public:
-	pss_ctor(top_comp, Component);
+	pss_ctor(top_comp, component);
 
-	class my_test2 : public Action {
+	class my_test2 : public action {
 	public:
-		pss_ctor(my_test2, Action);
+		pss_ctor(my_test2, action);
 
-		// Action instance needs to know the details of its type. This is
+		// action instance needs to know the details of its type. This is
 		// provided via a type-definition reference (eg _rw_comp._write_data)
-		Field<rw_comp::write_data>		pss_field(wd1);
-		Field<rw_comp::read_data>		pss_field(rd1);
-		Field<rw_comp::write_data>		pss_field(wd2);
-		Field<rw_comp::read_data>		pss_field(rd2);
+		attr<rw_comp::write_data>		pss_field(wd1);
+		attr<rw_comp::read_data>		pss_field(rd1);
+		attr<rw_comp::write_data>		pss_field(wd2);
+		attr<rw_comp::read_data>		pss_field(rd2);
 
 		// Only a single graph is permitted per action
-		Graph graph {this,
-			Sequential {
+		graph graph {this,
+			sequence {
 				wd1, rd1, wd2, rd2
 			}
 		};
 
-		Constraint addr_c {this, "addr_c", rd1.in_data.address != rd2.in_data.address };
+		constraint addr_c {this, "addr_c", rd1.in_data.address != rd2.in_data.address };
 
 	};
 	pss_type(my_test2);
@@ -100,56 +100,56 @@ public:
 };
 pss_global_type(top_comp);
 
-class c_methods : public Package {
+class c_methods : public package {
 public:
 	pss_package_ctor(c_methods);
 
 	// Prototypes for import functions
-	ImportFunc do_write {this, "do_write",
-//		{InParam<Bit<31,0>>("addr"), InParam<Bit<31,0>>("data")}
-		(Input<Bit<31,0>>("addr"), Input<Bit<31,0>>("data"))
+	import_func do_write {this, "do_write",
+//		{InParam<pss_bit<31,0>>("addr"), InParam<pss_bit<31,0>>("data")}
+		(input<pss_bit<31,0>>("addr"), input<pss_bit<31,0>>("data"))
 	};
 
-	ImportFunc do_check {this, "do_check",
-		{Input<Bit<31,0>>("addr"), Input<Bit<31,0>>("data")}
+	import_func do_check {this, "do_check",
+		{input<pss_bit<31,0>>("addr"), input<pss_bit<31,0>>("data")}
 	};
 
 };
 pss_global_type(c_methods);
 
-class c_code : public Package {
+class c_code : public package {
 public:
-	pss_ctor(c_code, Package);
+	pss_ctor(c_code, package);
 
 	// Declares an extension of 'write_data' to layer in the implementation
-	class write_data_ext : public ExtendAction<rw_comp::write_data> {
+	class write_data_ext : public extend_action<rw_comp::write_data> {
 	public:
-		write_data_ext(const Scope &p) : ExtendAction(this) { }
+		write_data_ext(const Scope &p) : extend_action(this) { }
 
 		// Example of a target-template exec block
-		Exec do_write_body {this, Exec::Body, "C", R"(
+		exec do_write_body {this, exec::Body, "C", R"(
 				do_write({{address}}, {{data}}
 				)"
 		};
 
-		Exec do_write_body_native {this, Exec::Body,
+		exec do_write_body_native {this, exec::Body,
 			_c_methods_t.do_write(out_data.address, out_data.data)
 		};
 	};
-	TypeDecl<write_data_ext> _write_data_ext_t {this};
+	type_decl<write_data_ext> _write_data_ext_t {this};
 
-	class read_data_ext : public ExtendAction<rw_comp::read_data> {
+	class read_data_ext : public extend_action<rw_comp::read_data> {
 	public:
 
-		read_data_ext(const Scope &p) : ExtendAction(this) {}
+		read_data_ext(const Scope &p) : extend_action(this) {}
 
-		Rand<Bit<3,0>>			tmp{this, "tmp"};
+		rand_attr<pss_bit<3,0>>			tmp{this, "tmp"};
 
-		Exec do_check_body_native {this, Exec::Body,
+		exec do_check_body_native {this, exec::Body,
 			_c_methods_t.do_check(in_data.address, in_data.data)
 		};
 	};
-	TypeDecl<read_data_ext> _read_data_ext_t {this};
+	type_decl<read_data_ext> _read_data_ext_t {this};
 
 };
 pss_global_type(c_code);

@@ -26,19 +26,19 @@
 
 namespace pss {
 
-Constraint::Constraint(BaseItem *p, const ExprList &stmt) :
+constraint::constraint(BaseItem *p, const ExprList &stmt) :
 		BaseItem(new ConstraintImp(this, p, "", stmt)) { }
 
-ConstraintImp::ConstraintImp(Constraint *master, BaseItem *p, const ExprList &stmt) :
+ConstraintImp::ConstraintImp(constraint *master, BaseItem *p, const ExprList &stmt) :
 		NamedBaseItemImp(master, BaseItemImp::TypeConstraint, p), m_stmt(stmt) { }
 
-Constraint::Constraint(BaseItem *p, const std::string &name, const ExprList &stmt) :
+constraint::constraint(BaseItem *p, const std::string &name, const ExprList &stmt) :
 		BaseItem(new ConstraintImp(this, p, name, stmt)) { }
 
-ConstraintImp::ConstraintImp(Constraint *master, BaseItem *p, const std::string &name, const ExprList &stmt) :
+ConstraintImp::ConstraintImp(constraint *master, BaseItem *p, const std::string &name, const ExprList &stmt) :
 		NamedBaseItemImp(master, BaseItemImp::TypeConstraint, p, name), m_stmt(stmt) { }
 
-Constraint::~Constraint() {
+constraint::~constraint() {
 	// TODO Auto-generated destructor stub
 }
 

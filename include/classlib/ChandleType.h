@@ -1,5 +1,5 @@
 /*
- * Chandle.h
+ * chandle.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide

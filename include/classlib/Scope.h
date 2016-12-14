@@ -30,7 +30,7 @@
 #include <vector>
 #include <typeinfo>
 #include "classlib/BaseItem.h"
-#include "classlib/Types.h"
+#include "classlib/pss_types.h"
 
 namespace pss {
 

@@ -844,7 +844,7 @@ IBaseItem *XML2PSI::find_type(IScopeItem *curr, const std::vector<std::string> &
 			}
 		}
 
-		// If we didn't find it there, look in the global scope
+		// pss_if we didn't find it there, look in the global scope
 		if (!ret) {
 			const std::vector<IBaseItem *> &items =
 					m_model->getGlobalPackage()->getItems();

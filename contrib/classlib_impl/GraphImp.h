@@ -1,5 +1,5 @@
 /*
- * Graph.h
+ * graph.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -25,7 +25,7 @@
 
 #ifndef INCLUDED_GRAPH_IMP_H
 #define INCLUDED_GRAPH_IMP_H
-#include "classlib/Graph.h"
+#include "classlib/graph.h"
 #include "BaseItemImp.h"
 
 namespace pss {
@@ -33,7 +33,7 @@ namespace pss {
 class GraphImp : public BaseItemImp {
 
 	public:
-		GraphImp(Graph *master, BaseItem *p, const ExprList &seq);
+		GraphImp(graph *master, BaseItem *p, const ExprList &seq);
 
 		virtual ~GraphImp();
 

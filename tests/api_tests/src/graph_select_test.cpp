@@ -25,34 +25,34 @@
 
 #include "pss_tests.h"
 
-class top_c : public Component {
+class top_c : public component {
 public:
-	pss_ctor(top_c, Component);
+	pss_ctor(top_c, component);
 
-	class A1 : public Action {
+	class A1 : public action {
 	public:
-		pss_ctor(A1, Action);
+		pss_ctor(A1, action);
 
 	};
 	pss_type(A1);
 
-	class graph_select_test : public Action {
+	class graph_select_test : public action {
 	public:
-		pss_ctor(graph_select_test, Action);
+		pss_ctor(graph_select_test, action);
 
-		Field<A1>			pss_field(a1_1);
-		Field<A1>			pss_field(a1_2);
-		Field<A1>			pss_field(a1_3);
-		Field<A1>			pss_field(a1_4);
+		attr<A1>			pss_field(a1_1);
+		attr<A1>			pss_field(a1_2);
+		attr<A1>			pss_field(a1_3);
+		attr<A1>			pss_field(a1_4);
 
-		Graph graph {this, {
-				Select {
-						Sequential{a1_1, a1_2},
-						Sequential{a1_3, a1_4}
+		graph graph {this, {
+				select {
+						sequence{a1_1, a1_2},
+						sequence{a1_3, a1_4}
 				},
-				Parallel {
-						Sequential{a1_1, a1_2},
-						Sequential{a1_3, a1_4}
+				parallel {
+						sequence{a1_1, a1_2},
+						sequence{a1_3, a1_4}
 				}
 		}
 		};

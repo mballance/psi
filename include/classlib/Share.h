@@ -1,5 +1,5 @@
 /*
- * Share.h
+ * share.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -29,13 +29,13 @@
 
 namespace pss {
 
-template <class T> class Share : public FieldBase<T> {
+template <class T> class share : public FieldBase<T> {
 	public:
 
-		Share(BaseItem *p, const std::string &name) :
+		share(BaseItem *p, const std::string &name) :
 			FieldBase<T>(FieldItem::AttrShare, p, name) { }
 
-		virtual ~Share();
+		virtual ~share();
 
 };
 

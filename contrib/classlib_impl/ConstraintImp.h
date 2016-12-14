@@ -27,17 +27,17 @@
 #define INCLUDED_CONSTRAINT_IMP_H
 #include <string>
 
-#include "classlib/Constraint.h"
+#include "classlib/constraint.h"
 #include "NamedBaseItemImp.h"
 
 namespace pss {
 
 class ConstraintImp : public NamedBaseItemImp {
 public:
-	ConstraintImp(Constraint *master, BaseItem *p, const ExprList &stmt);
+	ConstraintImp(constraint *master, BaseItem *p, const ExprList &stmt);
 
 	ConstraintImp(
-			Constraint				*master,
+			constraint				*master,
 			BaseItem 				*p,
 			const std::string 		&name,
 			const ExprList 			&stmt);
