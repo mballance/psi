@@ -32,6 +32,8 @@ namespace pss {
 class MethodParamList;
 class ExecStmt;
 class ExecImportCallStmt;
+class Scope;
+
 class FieldItem: public BaseItem {
 public:
 	enum FieldAttr {
@@ -49,6 +51,18 @@ public:
 	virtual ~FieldItem();
 
 	FieldItem(
+			const Scope			&scope,
+			FieldAttr			modifiers,
+			const BaseItem		&type_hndl,
+			const Expr			*array_dim);
+
+	FieldItem(
+			const Scope			&scope,
+			FieldAttr			modifiers,
+			const BaseItem		*type_hndl,
+			const Expr			*array_dim);
+
+	FieldItem(
 			// Parent handle
 			BaseItem 			*p,
 			// Name of the field
@@ -56,7 +70,7 @@ public:
 			// Array dimension
 			const Expr			*array_dim,
 			// Attribute of the field
-			FieldAttr 			attr,
+			FieldAttr 			modifiers,
 			// Handle to the instantiating object
 			BaseItem			*wrapper,
 			// Handle to the type object, if this is a user-defined type

@@ -38,7 +38,7 @@ class Scope;
 class state_struct: public pss_struct {
 public:
 
-	rand_attr<pss_bool>			initial;
+	rand_attr<bool>			initial;
 
 	virtual ~state_struct();
 

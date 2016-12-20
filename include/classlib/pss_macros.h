@@ -28,7 +28,7 @@
 /**
  * Helper macro for declaring fields.
  */
-#define pss_field(name) name { this, #name }
+#define pss_field(name) name { #name }
 
 /**
  * Helper macro for declaring array fields
@@ -71,7 +71,7 @@
  * Helper macro to register a non-global namespace type
  */
 #define pss_type(_name) \
-		type_decl<_name>		_##_name##_t {this}
+		type_decl<_name>		_##_name##_t
 
 #endif /* End PSS_HAVE_CXX_11 */
 

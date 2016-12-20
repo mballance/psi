@@ -35,7 +35,7 @@ namespace pss {
 
 class resource_struct : public pss_struct {
 public:
-		rand_attr<pss::pss_bit<31,0> >			instance_id;
+//TODO:		rand_attr<pss::pss_bit<uint32_t> >			instance_id;
 
 public:
 		virtual ~resource_struct();

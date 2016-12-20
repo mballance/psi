@@ -26,27 +26,24 @@
 #ifndef INT_H_
 #define INT_H_
 #include "classlib/IntType.h"
+#include "classlib/Scope.h"
 
 namespace pss {
 
-template <int MSB=31, int LSB=0> class pss_int : public IntType {
+class pss_int : public IntType {
 
 	public:
 
-		pss_int(const Scope &p) : IntType(0, MSB, LSB) { }
+		pss_int() : IntType(0, 31, 0) { }
 
-		pss_int(const std::string &name) :
-			IntType(name, MSB, LSB) { }
+		pss_int(uint32_t width) : IntType(0, width-1, 0) { }
+
+		pss_int(const std::string &name, uint32_t width) :
+			IntType(name, width-1, 0) { }
+
+		pss_int(const Scope &parent);
 
 };
-
-/**
- * Convenience typedefs
- */
-typedef pss_int<7,0>  pss_int8_t;
-typedef pss_int<15,0> pss_int16_t;
-typedef pss_int<31,0> pss_int32_t;
-typedef pss_int<63,0> pss_int64_t;
 
 }
 

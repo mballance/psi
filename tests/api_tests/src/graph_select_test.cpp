@@ -46,7 +46,7 @@ public:
 		attr<A1>			pss_field(a1_4);
 
 		graph graph {this, {
-				select {
+				pss_select {
 						sequence{a1_1, a1_2},
 						sequence{a1_3, a1_4}
 				},

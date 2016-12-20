@@ -39,14 +39,8 @@ template <class T> class input : public FieldBase<T> {
 		/**
 		 * This constructor is used for specifying an action input field
 		 */
-		input(action *p, const std::string &name) :
-			FieldBase<T>(FieldItem::AttrInput, p, name) { }
-
-		/**
-		 * This constructor is used for specifying method parameters
-		 */
-		input(const std::string &name) :
-			FieldBase<T>(FieldItem::AttrInput, 0, name) { }
+		input(const Scope &name) :
+			FieldBase<T>(FieldItem::AttrInput, name) { }
 
 		virtual ~input() { }
 

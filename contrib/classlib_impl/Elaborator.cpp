@@ -75,8 +75,11 @@ void Elaborator::elaborate(BaseItemImp *root, IModel *model) {
 	}
 
 	// Next, go through and declare global scopes
+	debug_high("Root scope has %d items", root->getChildren().size());
 	for (it=root->getChildren().begin(); it!=root->getChildren().end(); it++) {
 		BaseItemImp *t = (*it);
+
+		debug_high("  Root Item: %d", t->getObjectType());
 
 		if (t->getObjectType() == BaseItemImp::TypePackage) {
 			elaborate_package(model, dynamic_cast<PackageImp *>(t));
@@ -99,6 +102,10 @@ IAction *Elaborator::elaborate_action(ActionImp *action) {
 	if (!action->getSuperType().isNull()) {
 		// Locate the type
 		IBaseItem *it_b = find_type_decl(action->getSuperType());
+
+		if (!it_b) {
+			error("Failed to find super-type");
+		}
 
 		build_type_hierarchy(type_h, action);
 
@@ -937,7 +944,7 @@ IBindPath *Elaborator::elaborate_bind_path(BaseItemImp *t) {
 	std::vector<NamedBaseItemImp *>	types;
 	std::vector<IBaseItem *> 		path;
 
-	debug_high("--> elaborate_field_ref: %p %d", t, (t)?t->getObjectType():0);
+	debug_high("--> elaborate_bind_path: %p %d", t, (t)?t->getObjectType():0);
 
 	while (t) {
 		// Traverse up to the point where we find the
@@ -1030,7 +1037,7 @@ IBindPath *Elaborator::elaborate_bind_path(BaseItemImp *t) {
 		error(std::string("Current context (") + name + ") is not a scope");
 	}
 
-	debug_high("<-- elaborate_field_ref");
+	debug_high("<-- elaborate_bind_path");
 	return m_model->mkBindPath(path);
 }
 

@@ -32,6 +32,7 @@
 #include "classlib/BaseItem.h"
 #include "classlib/ExecImportCallStmt.h"
 #include "classlib/MethodParamList.h"
+#include "classlib/ExprList.h"
 
 namespace pss {
 

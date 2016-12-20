@@ -43,7 +43,8 @@ public:
 			const std::type_info	*type,
 			BaseItem 				*ctxt,
 			bool					in_field_decl,
-			const std::string		&name);
+			const std::string		&name,
+			BaseItem				*type_id);
 
 	virtual ~ScopeImp();
 
@@ -51,11 +52,17 @@ public:
 
 	BaseItem *ctxt() const { return m_ctxt; }
 
+	void set_ctxt(BaseItem *ctxt) { m_ctxt = ctxt; }
+
 	const std::type_info *get_typeinfo() const { return m_type; }
 
 	const char *name() const;
 
+	const char *scope_name() const { return m_name.c_str(); }
+
 	bool in_field_decl() const { return m_in_field_decl; }
+
+	BaseItem *type_id() const { return m_type_id; }
 
 private:
 
@@ -69,6 +76,7 @@ private:
 	BaseItem				*m_ctxt;
 	const std::type_info	*m_type;
 	std::string				m_name;
+	BaseItem				*m_type_id;
 };
 
 } /* namespace pss */

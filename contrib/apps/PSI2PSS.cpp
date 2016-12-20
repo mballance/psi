@@ -194,7 +194,7 @@ void PSI2PSS::visit_literal_expr(ILiteral *l) {
 	} break;
 
 	case ILiteral::LiteralInt: {
-		sprintf(val, "%lld", l->getInt());
+		sprintf(val, "%lld", (long long)l->getInt());
 		print(val);
 	} break;
 
@@ -340,8 +340,9 @@ std::string PSI2PSS::get_field_typename(IField *f) {
 		if (dt_i->getType() == IBaseItem::TypeScalar) {
 			IScalarType *st = dynamic_cast<IScalarType *>(dt_i);
 			std::string tname = "unknown-scalar";
-			sprintf(msb_s, "%d", st->getMSB());
-			sprintf(lsb_s, "%d", st->getLSB());
+			// TODO:
+//			sprintf(msb_s, "%d", st->getMSB());
+//			sprintf(lsb_s, "%d", st->getLSB());
 			bool has_bitwidth = false;
 
 			if (st->getScalarType() == IScalarType::ScalarType_Bit) {

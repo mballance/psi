@@ -59,22 +59,33 @@ class ModelImp : public BaseItemImp {
 
 		const std::vector<const ScopeImp *> &get_scope() const;
 
+		const std::vector<BaseItem *> &get_scopes() const;
+
 		uint32_t depth() const;
 
 		TypePathImp getActiveTypeName(BaseItem *it);
 
+		BaseItemImp *getActiveType(BaseItem *it);
+
 		TypePathImp getSuperType(BaseItem *it);
+
+		BaseItem *getParentScope();
 
 		BaseItem *getActiveScope();
 
-		bool in_field_decl() const { return m_in_field_decl; }
+		const char *get_field_name(BaseItem *p);
+
+		bool in_field_decl() const;
 
 		static TypePathImp demangle(const ScopeImp *s);
 
 		static BaseItem *pOrGlobal(BaseItem *p);
 
+		static void print_scopes();
+
 	private:
 		std::vector<const ScopeImp *>		m_scope;
+		std::vector<BaseItem *>				m_scopes;
 		bool								m_in_field_decl;
 
 		static ModelImp					*m_global;

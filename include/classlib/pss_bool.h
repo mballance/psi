@@ -36,13 +36,10 @@ class Scope;
 class pss_bool: public BaseItem {
 
 	public:
-		pss_bool(const Scope &p);
 
-		/**
-		 * This constructor is used for composing parameter lists.
-		 * The name is that of the parameter
-		 */
-		pss_bool(const std::string &name);
+		pss_bool();
+
+		pss_bool(const Scope &p);
 
 		virtual ~pss_bool();
 

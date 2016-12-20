@@ -31,6 +31,7 @@
 #include <typeinfo>
 #include "classlib/BaseItem.h"
 #include "classlib/pss_types.h"
+#include "classlib/type_decl.h"
 
 namespace pss {
 
@@ -40,12 +41,14 @@ class Scope {
 public:
 	template <class T> Scope(T *t) {
 		// Save the type of the super-class
-		init(&typeid(T), t);
+		init(&typeid(T), t,
+				type_decl<T>::valid()?type_decl<T>::id():0);
 	}
 
 	template <class T> Scope(T *t, BaseItem *p) {
 		// Save the type of the super-class
-		init(&typeid(T), p);
+		init(&typeid(T), p,
+				type_decl<T>::valid()?type_decl<T>::id():0);
 	}
 
 	/**
@@ -64,7 +67,10 @@ public:
 
 private:
 
-	void init(const std::type_info *type, BaseItem *ctxt);
+	void init(
+			const std::type_info 	*type,
+			BaseItem 				*ctxt,
+			BaseItem				*type_d);
 
 private:
 	ScopeImp				*m_impl;

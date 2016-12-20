@@ -40,14 +40,8 @@ template <class T> class output : public FieldBase<T> {
 		/**
 		 * This constructor is used to specify an action output field
 		 */
-		output(action *p, const std::string &name) :
-			FieldBase<T>(FieldItem::AttrOutput, p, name) { }
-
-		/**
-		 * This constructor is used to specify a method parameter
-		 */
-		output(const std::string &name) :
-			FieldBase<T>(FieldItem::AttrOutput, 0, name) { }
+		output(const Scope &scope) :
+			FieldBase<T>(FieldItem::AttrOutput, static_cast<T *>(this)) { }
 
 		virtual ~output() { }
 

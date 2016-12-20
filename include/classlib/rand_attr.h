@@ -28,19 +28,49 @@
 #include <string>
 
 #include "classlib/FieldBase.h"
+#include "classlib/pss_int.h"
+#include "classlib/pss_bit.h"
+#include "classlib/pss_bool.h"
 
 namespace pss {
 
 template <class T> class rand_attr : public FieldBase<T> {
 
 	public:
-		rand_attr(BaseItem *p, const std::string &name) :
-			FieldBase<T>(FieldItem::AttrRand, p, name) { }
+		rand_attr(const Scope &scope) :
+			FieldBase<T>(FieldItem::AttrRand, scope) { }
 
-		rand_attr(BaseItem *p, const std::string &name, const Expr &array_dim) :
-			FieldBase<T>(FieldItem::AttrRand, p, name, array_dim) { }
+//		rand_attr(BaseItem *p, const std::string &name, const Expr &array_dim) :
+//			FieldBase<T>(FieldItem::AttrRand, p, name, array_dim) { }
 
 		virtual ~rand_attr() { };
+
+};
+
+template <> class rand_attr<unsigned int> : public FieldItem {
+public:
+	rand_attr(const Scope &name) :
+		FieldItem(name, FieldItem::AttrRand, pss_int(32), 0) { }
+
+};
+
+template <> class rand_attr<pss_bit> : public FieldItem {
+public:
+	rand_attr(const Scope &name) :
+		FieldItem(name, FieldItem::AttrRand, pss_bit(), 0) { }
+
+	rand_attr(const Scope &name, const pss_bit &t_decl) :
+		FieldItem(name, FieldItem::AttrRand, t_decl, 0) { }
+
+	rand_attr(const Scope &name, uint32_t w) :
+		FieldItem(name, FieldItem::AttrRand, pss_bit(w), 0) { }
+
+};
+
+template <> class rand_attr<bool> : public FieldItem {
+public:
+	rand_attr(const Scope &name) :
+		FieldItem(name, FieldItem::AttrRand, pss_bool(), 0) { }
 
 };
 

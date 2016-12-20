@@ -29,9 +29,9 @@ public:
 
 	pss_ctor(power_state_s, state_struct);
 
-	rand_attr<pss_bit<1,0>>		pss_field(dmn_A);
-	rand_attr<pss_bit<1,0>>		pss_field(dmn_B);
-	rand_attr<pss_bit<1,0>>		pss_field(dmn_C);
+	rand_attr<pss_bit>		dmn_A{"dmn_A"};
+	rand_attr<pss_bit>		dmn_B{"dmn_B"};
+	rand_attr<pss_bit>		dmn_C{"dmn_C"};
 
 	constraint c {this, {
 			pss_if {dmn_C != 0, dmn_B == 0},
@@ -60,9 +60,9 @@ public:
 
 		pss_ctor(power_transition, action);
 
-		rand_attr<pss_int<31,0>>				pss_field(step);
-		input<power_state_s>		pss_field(prev);
-		output<power_state_s>		pss_field(next);
+		rand_attr<uint32_t>		step {"step"};
+		input<power_state_s>		prev {"prev"};
+		output<power_state_s>		next {"next"};
 
 		pss_constraint(step_c, {step == -1 || step == 1});
 

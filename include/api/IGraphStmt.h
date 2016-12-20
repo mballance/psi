@@ -34,13 +34,13 @@ public:
 		/*! graph block statement. Object is of type IGraphBlockStmt. */
 		GraphStmt_Block,
 		/*! graph if/else statement. Object is of type IGraphIfElseStmt.
-		 * Used for both top-level if/else and for if-gated select statement */
+		 * Used for both top-level if/else and for if-gated pss_select statement */
 		GraphStmt_IfElse,
 		/*! graph parallel statement. Object is of type IGraphBlockStmt */
 		GraphStmt_Parallel,
 		/*! graph schedule statement. Object is of type IGraphBlockStmt */
 		GraphStmt_Schedule,
-		//! graph select statement. Object is of type IGraphBlockStmt
+		//! graph pss_select statement. Object is of type IGraphBlockStmt
 		GraphStmt_Select,
 		//! graph repeat, repeat while, or repeat ... while statement.
 		//! Object is of type IGraphRepeatStmt

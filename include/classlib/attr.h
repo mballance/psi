@@ -29,20 +29,25 @@
 #include <string>
 
 #include "classlib/FieldBase.h"
+#include "classlib/pss_int.h"
+#include "classlib/pss_bit.h"
 
 namespace pss {
 
 template <class T> class attr : public FieldBase<T> {
 	public:
 
-		attr(BaseItem *p, const std::string &name) :
-			FieldBase<T>(FieldItem::AttrNone, p, name) { }
+		attr(const Scope &name) : FieldBase<T>(FieldItem::AttrNone, name) { }
 
-		attr(BaseItem *p, const std::string &name, const Expr &array_dim) :
-			FieldBase<T>(FieldItem::AttrNone, p, name, array_dim) { }
+//		attr(BaseItem *p, const std::string &name) :
+//			FieldBase<T>(FieldItem::AttrNone, p, name) { }
+//
+//		attr(BaseItem *p, const std::string &name, const Expr &array_dim) :
+//			FieldBase<T>(FieldItem::AttrNone, p, name, array_dim) { }
 
 		virtual ~attr() { }
 
+#ifdef UNDEFINED
 		ExecStmt operator =(const ExecImportCallStmt &rhs) { return (FieldBase<T>::m_field = rhs); }
 
 		ExecStmt operator =(const Expr &rhs) { return (FieldBase<T>::m_field = rhs); }
@@ -70,10 +75,79 @@ template <class T> class attr : public FieldBase<T> {
 		ExecStmt operator &=(const ExecImportCallStmt &rhs) { return (FieldBase<T>::m_field &= rhs); }
 
 		ExecStmt operator &=(const Expr &rhs) { return (FieldBase<T>::m_field &= rhs); }
+#endif
+
 };
 
-}
+template <> class attr<pss_int> : public FieldItem {
+public:
 
+	attr(const Scope &name) :
+		FieldItem(this, FieldItem::AttrNone, pss_int(), 0) { }
+
+	attr(const Scope &name, const pss_int &t_decl) :
+		FieldItem(this, FieldItem::AttrNone, t_decl, 0) { }
+
+//	operator const FieldItem &() const { return m_field; }
+
+//	operator Expr() const { return Expr(m_field); }
+
+};
+
+#ifdef UNDEFINED
+template <> class attr<pss_bit> {
+public:
+
+	attr(const std::string &name, const pss_bit &t_decl) : m_type(t_decl),
+		m_field(0, name, 0, FieldItem::AttrNone, 0, 0, &m_type) { }
+
+	operator const FieldItem &() const { return m_field; }
+
+	operator Expr() const { return Expr(m_field); }
+
+protected:
+
+private:
+	pss_int					m_type;
+	FieldItem				m_field;
+};
+
+template <> class attr<unsigned int> {
+public:
+
+	attr(const std::string &name) : m_type(32),
+		m_field(0, name, 0, FieldItem::AttrNone, 0, 0, &m_type) { }
+
+	operator const FieldItem &() const { return m_field; }
+
+	operator Expr() const { return Expr(m_field); }
+
+protected:
+
+private:
+	pss_bit					m_type;
+	FieldItem				m_field;
+};
+
+template <> class attr<int> {
+public:
+
+	attr(const std::string &name) : m_type(32),
+		m_field(0, name, 0, FieldItem::AttrNone, 0, 0, &m_type) { }
+
+	operator const FieldItem &() const { return m_field; }
+
+	operator Expr() const { return Expr(m_field); }
+
+protected:
+
+private:
+	pss_int					m_type;
+	FieldItem				m_field;
+};
+#endif /* UNDEFINED */
+
+}
 
 
 

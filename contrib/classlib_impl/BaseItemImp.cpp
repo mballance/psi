@@ -65,6 +65,7 @@ BaseItemImp::BaseItemImp(BaseItem *master, ObjectType t, BaseItem *p) :
 		m_refcnt(0), m_master(master), m_type(t), m_parent(toImp(p)) {
 
 	if (m_parent) {
+		fprintf(stdout, "Add item %p to scope %p\n", this, m_parent);
 		m_parent->add(this);
 		m_depth = ModelImp::global()->depth();
 	}

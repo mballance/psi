@@ -59,7 +59,7 @@
 #include "classlib/repeat.h"
 #include "classlib/resource_struct.h"
 #include "classlib/schedule.h"
-#include "classlib/select.h"
+#include "classlib/pss_select.h"
 #include "classlib/sequence.h"
 #include "classlib/share.h"
 #include "classlib/state_struct.h"

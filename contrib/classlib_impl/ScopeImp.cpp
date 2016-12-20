@@ -30,7 +30,7 @@
 namespace pss {
 
 Scope::Scope(bool in_field_decl) {
-	m_impl = new ScopeImp(this, &typeid(this), 0, in_field_decl, "");
+	m_impl = new ScopeImp(this, &typeid(this), 0, in_field_decl, "", 0);
 }
 
 ScopeImp::ScopeImp(
@@ -38,20 +38,22 @@ ScopeImp::ScopeImp(
 		const std::type_info	*type,
 		BaseItem				*ctxt,
 		bool					in_field_decl,
-		const std::string		&name) :
+		const std::string		&name,
+		BaseItem				*type_id) :
 	m_master(master), m_type(type), m_ctxt(ctxt),
-	m_in_field_decl(in_field_decl), m_name(name) {
+	m_in_field_decl(in_field_decl), m_name(name),
+	m_type_id(type_id) {
 
 	enter();
 
 }
 
 Scope::Scope(const char *name) {
-	m_impl = new ScopeImp(this, 0, 0, true, name);
+	m_impl = new ScopeImp(this, 0, 0, true, name, 0);
 }
 
 Scope::Scope(const std::string &name) {
-	m_impl = new ScopeImp(this, 0, 0, true, name);
+	m_impl = new ScopeImp(this, 0, 0, true, name, 0);
 }
 
 Scope::~Scope() {
@@ -75,11 +77,11 @@ BaseItem *ScopeImp::parent() const {
 		BaseItem *ret = ModelImp::global()->master();
 
 		// Return the first case where m_parent != this
-//		fprintf(stdout, "--> parent() ctxt=%p type=%s\n", m_ctxt,
-//				(m_type)?m_type->name():"unnamed");
+		fprintf(stdout, "--> parent() ctxt=%p type=%s\n", m_ctxt,
+				(m_type)?m_type->name():"unnamed");
 		for (int i=scope.size()-1; i>=0; i--) {
-//			fprintf(stdout, "  scope[%d] ctxt=%p in_field=%s\n",
-//					i, scope.at(i)->m_ctxt, (scope.at(i)->m_in_field_decl)?"true":"false");
+			fprintf(stdout, "  scope[%d] ctxt=%p in_field=%s\n",
+					i, scope.at(i)->m_ctxt, (scope.at(i)->m_in_field_decl)?"true":"false");
 			if (scope.at(i)->m_in_field_decl) {
 				ret = 0;
 				break;
@@ -88,7 +90,7 @@ BaseItem *ScopeImp::parent() const {
 				break;
 			}
 		}
-//		fprintf(stdout, "<-- parent() ctxt=%p ret=%p\n", m_ctxt, ret);
+		fprintf(stdout, "<-- parent() ctxt=%p ret=%p\n", m_ctxt, ret);
 
 		return ret;
 	}
@@ -98,8 +100,9 @@ const char *ScopeImp::name() const {
 	return m_type->name();
 }
 
-void Scope::init(const std::type_info *type, BaseItem *ctxt) {
-	m_impl = new ScopeImp(this, type, ctxt, false, "");
+void Scope::init(const std::type_info *type, BaseItem *ctxt, BaseItem *type_id) {
+	// TODO: type_id
+	m_impl = new ScopeImp(this, type, ctxt, false, "", type_id);
 }
 
 void ScopeImp::enter() {

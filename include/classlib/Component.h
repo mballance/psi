@@ -42,6 +42,8 @@ class component : public BaseItem {
 
 		component(const Scope &p);
 
+//TODO:		operator const FieldItem &() const;
+
 };
 
 } /* namespace pss */

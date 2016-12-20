@@ -29,6 +29,7 @@
 #include "classlib/FieldItem.h"
 #include "ExprImp.h"
 #include "NamedBaseItemImp.h"
+#include "classlib/MethodParamList.h"
 
 namespace pss {
 
@@ -41,13 +42,13 @@ public:
 			const Expr				*array_dim,
 			FieldItem::FieldAttr	attr,
 			BaseItem				*wrapper,
-			BaseItem				*type_hndl);
+			BaseItemImp				*type_hndl);
 
 	virtual ~FieldItemImp();
 
 	BaseItemImp *getDataType() const { return m_data_type; }
 
-	void setDataType(BaseItem *dt);
+	void setDataType(BaseItemImp *dt);
 
 	FieldItem::FieldAttr getAttr() const { return m_attr; }
 

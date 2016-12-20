@@ -29,7 +29,7 @@ public:
 	pss_ctor(S, pss_struct);
 
 };
-pss_global_type(S);
+pss_type(S);
 
 class CA : public component {
 public:
@@ -44,7 +44,7 @@ public:
 	pss_type(A);
 
 };
-pss_global_type(CA);
+pss_type(CA);
 
 class CB : public component {
 public:
@@ -58,21 +58,21 @@ public:
 	};
 	pss_type(B);
 };
-pss_global_type(CB);
+pss_type(CB);
 
 class static_structure : public component {
 public:
 
-	attr<CA>			pss_field(ca1);
-	attr<CA>			pss_field(ca2);
-	attr<CB>			pss_field(cb1);
-	attr<CB>			pss_field(cb2);
+	CA			ca1 {"ca1"};
+	CA			ca2 {"ca2"};
+	CB			cb1 {"cb1"};
+	CB			cb2 {"cb2"};
 
-	pss_ctor(static_structure, component);
+	static_structure(const Scope &s) : component(this) {
+		fprintf(stdout, "<--> static_structure %p\n", this);
+	}
 
-	// TODO:
 	bind b2 { this,
-			// ca1.A.out_s
 			ca1._A_t.out_s,
 			ca2._A_t.out_s,
 			cb1._B_t.in_s,
@@ -86,7 +86,7 @@ public:
 	pss_type(entry_point);
 
 };
-pss_global_type(static_structure);
+pss_type(static_structure);
 
 
 

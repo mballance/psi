@@ -25,6 +25,7 @@
 #include "ComponentImp.h"
 #include "ScopeImp.h"
 #include "ModelImp.h"
+#include "FieldItemImp.h"
 
 namespace pss {
 
@@ -34,6 +35,30 @@ component::component(const Scope &p) : BaseItem(new ComponentImp(this, p.impl())
 
 ComponentImp::ComponentImp(component *master, ScopeImp *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypeComponent, p->parent()) {
+	const char *field_name = ModelImp::global()->get_field_name(master);
+
+	if (field_name) {
+		// Create a field to represent this component and add it to the
+		// parent context
+		fprintf(stdout, "TODO: should create a field name %s\n", field_name);
+		fprintf(stdout, "  typename=%s\n",
+				ModelImp::global()->getActiveTypeName(master).leaf().c_str());
+		ModelImp::print_scopes();
+		FieldItemImp *field = new FieldItemImp(
+				0, // master -- there is none
+				ModelImp::global()->getParentScope(),
+				field_name,
+				0,
+				FieldItem::AttrNone,
+				0, // wrapper
+				ModelImp::global()->getActiveType(master));
+//		FieldItem *field = new FieldItem(p->parent(), field_name, 0,
+//				FieldItem::AttrNone, master, 0);
+	} else {
+		// Type registration
+		fprintf(stdout, "TODO: this is a type registration\n");
+	}
+
 	setName(ModelImp::global()->getActiveTypeName(master).leaf());
 	m_super_type = ModelImp::global()->getSuperType(master);
 }

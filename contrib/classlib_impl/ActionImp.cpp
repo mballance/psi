@@ -36,7 +36,11 @@ action::action(const Scope	&p) :
 
 ActionImp::ActionImp(action *master, ScopeImp *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypeAction, p->parent()) {
-	m_super_type = ModelImp::global()->getSuperType(master);
+	if (!ModelImp::global()->in_field_decl()) {
+		m_super_type = ModelImp::global()->getSuperType(master);
+	} else {
+		m_super_type = TypePathImp();
+	}
 	m_model = 0;
 	m_hndl = 0;
 

@@ -24,21 +24,52 @@
  */
 
 #include "FieldItemImp.h"
+
+#include "classlib/Expr.h"
+#include "classlib/Scope.h"
+#include "BaseItemImp.h"
 #include "ExecAssignCallStmtImp.h"
 #include "ExecAssignExprStmtImp.h"
-#include "classlib/MethodParamList.h"
-#include "classlib/ExecStmt.h"
+#include "ExecAssignStmtImp.h"
+#include "ScopeImp.h"
+#include "ModelImp.h"
 
 namespace pss {
 
 FieldItem::FieldItem(
-		BaseItem 				*p,
-		const std::string 		&name,
-		const Expr				*array_dim,
-		FieldItem::FieldAttr 	attr,
-		BaseItem				*wrapper,
-		BaseItem				*type_hndl) :
-		BaseItem(new FieldItemImp(this, p, name, array_dim, attr, wrapper, type_hndl)) {
+		const Scope				&scope,
+		FieldItem::FieldAttr 	modifiers,
+		const BaseItem			&type_hndl,
+		const Expr				*array_dim) :
+		BaseItem(new FieldItemImp(this, scope.impl()->parent(),
+				scope.impl()->name(), array_dim, modifiers, 0, type_hndl.impl())) {
+
+	fprintf(stdout, "FieldItem: scope, modifiers, type_hndl_ref: %s\n",
+			ModelImp::global()->get_field_name(this));
+
+	FieldItemImp *imp = static_cast<FieldItemImp *>(impl());
+	if (imp->getDataType()) {
+		imp->getDataType()->inc_refcnt();
+	}
+}
+
+FieldItem::FieldItem(
+		const Scope				&scope,
+		FieldItem::FieldAttr 	modifiers,
+		const BaseItem			*type_hndl,
+		const Expr				*array_dim) :
+		BaseItem(new FieldItemImp(
+				this, // master
+				ModelImp::global()->getParentScope(), // parent scope
+				ModelImp::global()->get_field_name(0), // name
+				array_dim,
+				modifiers,
+				0, // wrapper
+				(type_hndl)?type_hndl->impl():0)) {
+
+	fprintf(stdout, "FieldItem: scope, modifiers, type_hndl_ptr: %s this=%p\n",
+			ModelImp::global()->get_field_name(this), this);
+	ModelImp::print_scopes();
 
 	FieldItemImp *imp = static_cast<FieldItemImp *>(impl());
 	if (imp->getDataType()) {
@@ -53,14 +84,22 @@ FieldItemImp::FieldItemImp(
 		const Expr				*array_dim,
 		FieldItem::FieldAttr	attr,
 		BaseItem				*wrapper,
-		BaseItem				*type_hndl) :
+		BaseItemImp				*type_hndl) :
 	NamedBaseItemImp(master, BaseItemImp::TypeField, p, name),
 		m_data_type(0), m_attr(attr), m_internal(false),
 		m_has_array_dim(array_dim!=0),
 		m_array_dim((array_dim)?array_dim->imp():ExprImp(0)) {
 
-	setDataType((type_hndl)?type_hndl:wrapper);
-	NamedBaseItemImp *wrapper_ni = dynamic_cast<NamedBaseItemImp *>(wrapper->impl());
+	fprintf(stdout, "FieldItemImp: name=%s parent=%p (%d)\n",
+			name.c_str(), p, (p)?p->impl()->getObjectType():-1);
+
+	// TODO:
+	setDataType(type_hndl); // (type_hndl)?type_hndl:wrapper);
+	NamedBaseItemImp *wrapper_ni = 0;
+
+	if (wrapper) {
+		dynamic_cast<NamedBaseItemImp *>(wrapper->impl());
+	}
 
 	// Change the name of the field base-class object to match the field name
 	if (wrapper_ni) {
@@ -68,7 +107,9 @@ FieldItemImp::FieldItemImp(
 	}
 
 	// re-home the field base-class object
-	toImp(wrapper)->setParent(p);
+	if (wrapper) {
+		toImp(wrapper)->setParent(p);
+	}
 }
 
 FieldItem::~FieldItem() {
@@ -82,8 +123,8 @@ FieldItemImp::~FieldItemImp() {
 	// TODO Auto-generated destructor stub
 }
 
-void FieldItemImp::setDataType(BaseItem *dt) {
-	m_data_type = toImp(dt);
+void FieldItemImp::setDataType(BaseItemImp *dt) {
+	m_data_type = dt;
 }
 
 MethodParamList FieldItem::operator,(const FieldItem &rhs) {

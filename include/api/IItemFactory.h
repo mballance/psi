@@ -138,7 +138,7 @@ public:
 			const std::vector<IField *>		&field_path) = 0;
 
 	/**
-	 * Creates a new block statement. parallel, schedule, select, and
+	 * Creates a new block statement. parallel, schedule, pss_select, and
 	 * Block statements are all, fundamentally, block statements.
 	 * The value of the 'type' parameter can be
 	 * GraphStmt_Block, GraphStmt_Parallel, GraphStmt_Schedule, or GraphStmt_Select

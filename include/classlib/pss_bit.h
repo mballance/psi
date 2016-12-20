@@ -31,25 +31,19 @@
 
 namespace pss {
 
-template <uint32_t MSB=0, uint32_t LSB=0> class pss_bit : public BitType {
+class pss_bit : public BitType {
 
 	public:
-		pss_bit(const Scope &p) : BitType(0, MSB, LSB) { }
+		pss_bit() : BitType(0, 1, 0) { }
 
-		pss_bit(const char *name) : BitType(name, MSB, LSB) { }
+		pss_bit(uint32_t width) : BitType(0, width-1, 0) { }
 
-		pss_bit(const std::string &name) : BitType(name, MSB, LSB) { }
+		pss_bit(const char *name) : BitType(name, 0, 0) { }
+
+		pss_bit(const std::string &name) : BitType(name, 0, 0) { }
 
 		virtual ~pss_bit() { }
 };
-
-/**
- * Convenience typedefs
- */
-typedef pss_bit<7,0>  pss_uint8_t;
-typedef pss_bit<15,0> pss_uint16_t;
-typedef pss_bit<31,0> pss_uint32_t;
-typedef pss_bit<63,0> pss_uint64_t;
 
 } /* namespace pss */
 

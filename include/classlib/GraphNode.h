@@ -29,11 +29,12 @@
 #include <string>
 
 #include "classlib/FieldBase.h"
+#include "classlib/FieldItem.h"
 #include "classlib/With.h"
 
 namespace pss {
 
-template <class T> class GraphNode : public FieldBase<T> {
+template <class T> class GraphNode /* : public FieldBase<T> */ {
 	public:
 
 		GraphNode(BaseItem *p, const std::string &name) :

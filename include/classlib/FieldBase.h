@@ -46,15 +46,20 @@ public:
 	// Helper operator used to form parameter lists
 	MethodParamList operator,(const FieldItem &rhs) { return (m_field , rhs); }
 
+public:
+	// TODO: make type_decl<> a friend?
+	FieldBase(
+			const Scope				&scope) : T(this),
+				m_field(this, FieldItem::AttrNone,
+						(type_decl<T>::valid())?type_decl<T>::id():0, 0) { }
+
 protected:
 
 	FieldBase(
 			FieldItem::FieldAttr 	attr,
-			BaseItem 				*p,
-			const std::string 		&name) : T(Scope(true)),
-				m_field(p, name, 0, attr, this,
-						(type_decl<T>::valid())?type_decl<T>::id():0) {
-	}
+			const Scope				&scope) : T(this),
+				m_field(this, attr,
+						(type_decl<T>::valid())?type_decl<T>::id():0, 0) { }
 
 	FieldBase(
 			FieldItem::FieldAttr 	attr,

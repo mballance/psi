@@ -27,13 +27,13 @@
 
 namespace pss {
 
-bind::bind(BaseItem *p, const std::vector<BaseItem *> &items) :
+bind::bind(BaseItem *p, const std::vector<FieldItem *> &items) :
 		BaseItem(new BindImp(this, p)) {
 	BindImp *imp = static_cast<BindImp *>(impl());
 
-	for (std::vector<BaseItem *>::const_iterator it=items.begin();
+	for (std::vector<FieldItem *>::const_iterator it=items.begin();
 			it != items.end(); it++) {
-		BaseItem *it_p = *it;
+		FieldItem *it_p = *it;
 		imp->add(it_p->impl(), false);
 	}
 }
