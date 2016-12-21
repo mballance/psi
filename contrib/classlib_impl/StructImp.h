@@ -31,6 +31,7 @@
 #include "classlib/pss_struct.h"
 #include "NamedBaseItemImp.h"
 #include "TypePathImp.h"
+#include "FieldItemImp.h"
 #include "api/IExecCallback.h"
 #include "api/IModel.h"
 
@@ -71,11 +72,16 @@ public:
 
 	psshandle_t getHandle() const { return m_hndl; }
 
+	virtual const std::string &getName() const;
+
+	FieldItem &getField() const { return *m_field; }
+
 private:
 	StructType				m_struct_type;
 	TypePathImp				m_super_type;
 	IModel					*m_model;
 	psshandle_t				m_hndl;
+	FieldItem				*m_field;
 
 };
 

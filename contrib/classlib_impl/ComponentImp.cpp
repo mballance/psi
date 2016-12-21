@@ -34,17 +34,31 @@ component::component(const Scope &p) : BaseItem(new ComponentImp(this, p.impl())
 }
 
 ComponentImp::ComponentImp(component *master, ScopeImp *p) :
-		NamedBaseItemImp(master, BaseItemImp::TypeComponent, p->parent()) {
-	const char *field_name = ModelImp::global()->get_field_name(master);
+		NamedBaseItemImp(master, BaseItemImp::TypeComponent, p->parent()),
+		m_field(0) {
 
-	if (field_name) {
+	bool is_field = ModelImp::global()->isField();
+	bool is_parent_field = ModelImp::global()->isParentField();
+
+	fprintf(stdout, "ComponentImp::ComponentImp isField=%s isParentField=%s\n",
+			ModelImp::global()->isField()?"true":"false",
+			ModelImp::global()->isParentField()?"true":"false");
+
+	if (is_field) {
+		const char *field_name = ModelImp::global()->get_field_name(master);
+
 		// Create a field to represent this component and add it to the
 		// parent context
-		fprintf(stdout, "TODO: should create a field name %s\n", field_name);
+		fprintf(stdout, "TODO: should create a component field name %s\n", field_name);
 		fprintf(stdout, "  typename=%s\n",
 				ModelImp::global()->getActiveTypeName(master).leaf().c_str());
 		ModelImp::print_scopes();
-		FieldItemImp *field = new FieldItemImp(
+
+		// First, remove ourselves from the children list
+		getParent()->remove(this);
+
+		// Any children of this component must be added to the field
+		m_field = new FieldItemImp(
 				0, // master -- there is none
 				ModelImp::global()->getParentScope(),
 				field_name,
@@ -52,11 +66,10 @@ ComponentImp::ComponentImp(component *master, ScopeImp *p) :
 				FieldItem::AttrNone,
 				0, // wrapper
 				ModelImp::global()->getActiveType(master));
-//		FieldItem *field = new FieldItem(p->parent(), field_name, 0,
-//				FieldItem::AttrNone, master, 0);
 	} else {
 		// Type registration
-		fprintf(stdout, "TODO: this is a type registration\n");
+		fprintf(stdout, "TODO: this is a component type registration\n");
+		ModelImp::print_scopes();
 	}
 
 	setName(ModelImp::global()->getActiveTypeName(master).leaf());
@@ -69,6 +82,14 @@ component::~component() {
 
 ComponentImp::~ComponentImp() {
 	// TODO Auto-generated destructor stub
+}
+
+const std::string &ComponentImp::getName() const {
+	if (m_field) {
+		return m_field->getName();
+	} else {
+		return NamedBaseItemImp::getName();
+	}
 }
 
 } /* namespace pss */

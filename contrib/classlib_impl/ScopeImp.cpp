@@ -29,27 +29,36 @@
 
 namespace pss {
 
-Scope::Scope(bool in_field_decl) {
-	m_impl = new ScopeImp(this, &typeid(this), 0, in_field_decl, "", 0);
-}
+//Scope::Scope(bool is_field) {
+//	m_impl = new ScopeImp(this, &typeid(this), 0, is_field, "", 0);
+//}
 
 ScopeImp::ScopeImp(
 		Scope					*master,
 		const std::type_info	*type,
 		BaseItem				*ctxt,
-		bool					in_field_decl,
+		bool					is_field,
 		const std::string		&name,
 		BaseItem				*type_id) :
 	m_master(master), m_type(type), m_ctxt(ctxt),
-	m_in_field_decl(in_field_decl), m_name(name),
+	m_is_field(is_field), m_name(name),
 	m_type_id(type_id) {
 
 	enter();
 
 }
 
+ScopeImp::ScopeImp(BaseItem *ctxt) {
+	m_master = 0;
+	m_type = 0;
+	m_is_field = false;
+	m_type_id = 0;
+	m_ctxt = ctxt;
+}
+
 Scope::Scope(const char *name) {
-	m_impl = new ScopeImp(this, 0, 0, true, name, 0);
+	m_impl = new ScopeImp(this, 0, 0,
+			(name!=0), (name)?name:"", 0);
 }
 
 Scope::Scope(const std::string &name) {
@@ -69,30 +78,35 @@ ScopeImp *Scope::impl() const {
 }
 
 BaseItem *ScopeImp::parent() const {
-
-	if (m_in_field_decl) {
+/*	if (m_is_field) {
 		return 0;
-	} else {
-		const std::vector<const ScopeImp *> &scope = ModelImp::global()->get_scope();
-		BaseItem *ret = ModelImp::global()->master();
-
-		// Return the first case where m_parent != this
-		fprintf(stdout, "--> parent() ctxt=%p type=%s\n", m_ctxt,
-				(m_type)?m_type->name():"unnamed");
-		for (int i=scope.size()-1; i>=0; i--) {
-			fprintf(stdout, "  scope[%d] ctxt=%p in_field=%s\n",
-					i, scope.at(i)->m_ctxt, (scope.at(i)->m_in_field_decl)?"true":"false");
-			if (scope.at(i)->m_in_field_decl) {
-				ret = 0;
-				break;
-			} else if (scope.at(i)->m_ctxt && scope.at(i)->m_ctxt != m_ctxt) {
-				ret = scope.at(i)->m_ctxt;
-				break;
-			}
-		}
-		fprintf(stdout, "<-- parent() ctxt=%p ret=%p\n", m_ctxt, ret);
-
-		return ret;
+	} else */{
+		return ModelImp::global()->getParentScope();
+//		const std::vector<const ScopeImp *> &scope = ModelImp::global()->get_scope();
+//		BaseItem *ret = ModelImp::global()->master();
+//
+//		// Return the first case where m_parent != this
+//		fprintf(stdout, "--> parent() ctxt=%p type=%s\n", m_ctxt,
+//				(m_type)?m_type->name():"unnamed");
+//		for (int i=scope.size()-1; i>=0; i--) {
+//			fprintf(stdout, "  scope[%d] ctxt=%p in_field=%s\n",
+//					i, scope.at(i)->m_ctxt, (scope.at(i)->m_is_field)?"true":"false");
+//			if (scope.at(i)->m_is_field) {
+//				ret = 0;
+//				break;
+//			} else if (scope.at(i)->m_ctxt && scope.at(i)->m_ctxt != m_ctxt) {
+//				ret = scope.at(i)->m_ctxt;
+//				break;
+//			}
+//		}
+//
+//		if (!ret) {
+//
+//		}
+//
+//		fprintf(stdout, "<-- parent() ctxt=%p ret=%p\n", m_ctxt, ret);
+//
+//		return ret;
 	}
 }
 

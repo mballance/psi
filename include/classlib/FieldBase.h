@@ -38,18 +38,17 @@ public:
 	 * Provide an explicit conversion function to tell the
 	 * compiler how to interpret the fact that both we and T extend
 	 * from BaseItem
-	 */
 	operator Expr() const { return Expr(m_field); }
 
 	operator const FieldItem &() const { return m_field; }
+	 */
 
 	// Helper operator used to form parameter lists
 	MethodParamList operator,(const FieldItem &rhs) { return (m_field , rhs); }
 
 public:
 	// TODO: make type_decl<> a friend?
-	FieldBase(
-			const Scope				&scope) : T(this),
+	FieldBase(const Scope &scope) : T(static_cast<T *>(this)),
 				m_field(this, FieldItem::AttrNone,
 						(type_decl<T>::valid())?type_decl<T>::id():0, 0) { }
 
@@ -57,7 +56,7 @@ protected:
 
 	FieldBase(
 			FieldItem::FieldAttr 	attr,
-			const Scope				&scope) : T(this),
+			const Scope				&scope) : T(static_cast<T *>(this)),
 				m_field(this, attr,
 						(type_decl<T>::valid())?type_decl<T>::id():0, 0) { }
 

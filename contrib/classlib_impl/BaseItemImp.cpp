@@ -65,7 +65,8 @@ BaseItemImp::BaseItemImp(BaseItem *master, ObjectType t, BaseItem *p) :
 		m_refcnt(0), m_master(master), m_type(t), m_parent(toImp(p)) {
 
 	if (m_parent) {
-		fprintf(stdout, "Add item %p to scope %p\n", this, m_parent);
+		fprintf(stdout, "Add item %p to scope %p (%d)\n",
+				this, m_parent->master(), m_parent->getObjectType());
 		m_parent->add(this);
 		m_depth = ModelImp::global()->depth();
 	}
@@ -131,6 +132,34 @@ void BaseItemImp::add(BaseItemImp *item, bool reparent) {
 		item->setParent(this);
 	}
 	m_children.push_back(item);
+}
+
+void BaseItemImp::remove(BaseItemImp *item) {
+	std::vector<BaseItemImp *>::iterator it=m_children.end();
+
+	if (m_children.size() > 0) {
+		it--;
+		while (true) {
+			if (*it == item) {
+				m_children.erase(it);
+				break;
+			} else if (it == m_children.begin()) {
+				break;
+			}
+			it--;
+		}
+	}
+//		for (; it!=m_children.end(); it++) {
+//			fprintf(stdout, "it=%p item=%p\n", *it, item);
+//			if ((*it) == item) {
+//				break;
+//			}
+//		}
+//
+//	if (it != m_children.end()) {
+//		fprintf(stdout, "remove\n");
+//		m_children.erase(it);
+//	}
 }
 
 void BaseItemImp::setObjectType(ObjectType t) {

@@ -951,18 +951,20 @@ IBindPath *Elaborator::elaborate_bind_path(BaseItemImp *t) {
 		// declaration scope that contains this expression
 		if (t == m_class_expr_ctxt) {
 			// TODO: might need to do something different for extended types?
+			debug_high("  Reached context scope");
 			break;
 		} else {
 			NamedBaseItemImp *ni = toNamedItem(t);
 
 			if (ni) {
-				debug_high("  Add type %s", ni->getName().c_str());
+				debug_high("  Add path elem %s", ni->getName().c_str());
 				types.push_back(ni);
 			} else {
 				debug_high("  Warn: element is not named (%d)", t->getObjectType());
 			}
 		}
 		t = t->getParent();
+		debug_high("  parent=%p", t);
 	}
 
 	// This is the active scope

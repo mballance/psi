@@ -26,6 +26,7 @@
 #include "StructImp.h"
 #include "ModelImp.h"
 #include "ScopeImp.h"
+#include "classlib/Expr.h"
 
 namespace pss {
 
@@ -35,15 +36,46 @@ pss_struct::pss_struct(const Scope &p) :
 pss_struct::pss_struct(BaseItemImp *imp) : BaseItem(imp) { }
 
 StructImp::StructImp(
-		pss_struct		*master,
+		pss_struct	*master,
 		ScopeImp	*p,
 		StructType	t) :
 	NamedBaseItemImp(master, BaseItemImp::TypeStruct, p->parent(), ""),
-	m_struct_type(t) {
+	m_struct_type(t), m_model(0), m_hndl(0), m_field(0) {
+
+	bool is_field = ModelImp::global()->isField();
+	bool is_parent_field = ModelImp::global()->isParentField();
+
 	m_super_type = ModelImp::global()->getSuperType(master);
 	setName(ModelImp::global()->getActiveTypeName(master).leaf());
-	m_model = 0;
-	m_hndl = 0;
+
+	fprintf(stdout, "StructImp::StructImp(%s) isField=%s isParentField=%s\n",
+			getName().c_str(),
+			is_field?"true":"false",
+			is_parent_field?"true":"false");
+
+	if (is_field) {
+		const char *field_name = ModelImp::global()->get_field_name(master);
+
+		// First, remove ourselves from the children list
+		getParent()->remove(this);
+
+		// Any children of this component must be added to the field
+		m_field = new FieldItem(
+				getParent()->master(),
+				field_name,
+				FieldItem::AttrNone,
+				ModelImp::global()->getActiveType(master)->master(),
+				0);
+
+//		m_field = new FieldItemImp(
+//				0, // master -- there is none
+//				getParent()->master(),
+//				field_name,
+//				0,
+//				FieldItem::AttrNone,
+//				0, // wrapper
+//				ModelImp::global()->getActiveType(master));
+	}
 }
 
 pss_struct::~pss_struct() {
@@ -60,6 +92,14 @@ const TypePathImp &StructImp::getSuperType() const {
 
 StructImp::StructType StructImp::getStructType() const {
 	return m_struct_type;
+}
+
+pss_struct::operator Expr() const {
+//	return Expr(*m_field);
+}
+
+pss_struct::operator const FieldItem &() const {
+	return static_cast<StructImp *>(impl())->getField();
 }
 
 void pss_struct::pre_solve() {
@@ -86,6 +126,14 @@ void StructImp::post_solve() {
 void StructImp::inline_exec_post() {
 	m_model = 0;
 	m_hndl = 0;
+}
+
+const std::string &StructImp::getName() const {
+	if (m_field) {
+		return static_cast<FieldItemImp *>(m_field->impl())->getName();
+	} else {
+		return NamedBaseItemImp::getName();
+	}
 }
 
 } /* namespace pss */

@@ -31,8 +31,7 @@ namespace pss {
 template <class T> class type_decl : public T {
 public:
 
-//	type_decl(BaseItem *namespace_p=0) : T(Scope(this, namespace_p)) {
-	type_decl() : T(static_cast<T *>(this)) {
+	type_decl() : T((const char *)0) {
 		if (!m_type_id) {
 			m_valid = true;
 			m_type_id = this;
@@ -42,7 +41,7 @@ public:
 	static T *type_id() {
 
 		if (!m_type_id) {
-			m_type_id = new T("ANONYMOUS"); // anonymous
+			m_type_id = new T((const char *)0); // anonymous
 			// TODO: need to demangle name
 			fprintf(stdout, "Error: Object %s is missing type registration\n",
 					typeid(T).name());
@@ -58,10 +57,6 @@ public:
 	}
 
 	static T *id() { return type_id(); }
-
-//	static T *idOrPrimitive() {
-//		return (valid())?id():(new T(Scope("")));
-//	}
 
 	static bool valid() {
 		return m_valid;

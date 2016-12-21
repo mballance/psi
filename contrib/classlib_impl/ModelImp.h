@@ -71,11 +71,15 @@ class ModelImp : public BaseItemImp {
 
 		BaseItem *getParentScope();
 
+		bool isField();
+
+		bool isParentField();
+
 		BaseItem *getActiveScope();
 
 		const char *get_field_name(BaseItem *p);
 
-		bool in_field_decl() const;
+		bool is_field() const;
 
 		static TypePathImp demangle(const ScopeImp *s);
 
@@ -86,7 +90,6 @@ class ModelImp : public BaseItemImp {
 	private:
 		std::vector<const ScopeImp *>		m_scope;
 		std::vector<BaseItem *>				m_scopes;
-		bool								m_in_field_decl;
 
 		static ModelImp					*m_global;
 

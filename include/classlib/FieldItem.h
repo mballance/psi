@@ -51,6 +51,13 @@ public:
 	virtual ~FieldItem();
 
 	FieldItem(
+			BaseItem			*p,
+			const std::string	&name,
+			FieldAttr			modifiers,
+			const BaseItem		*type_hndl,
+			const Expr			*array_dim);
+
+	FieldItem(
 			const Scope			&scope,
 			FieldAttr			modifiers,
 			const BaseItem		&type_hndl,

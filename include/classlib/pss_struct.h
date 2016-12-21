@@ -32,11 +32,17 @@
 
 namespace pss {
 
+class FieldItem;
+
 class pss_struct : public BaseItem {
 
 public:
 
 		virtual ~pss_struct();
+
+		operator Expr() const;
+
+		operator const FieldItem &() const;
 
 	protected:
 

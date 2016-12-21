@@ -38,8 +38,9 @@ Model::Model(ModelImp *imp) : BaseItem(imp) {
 
 }
 
-ModelImp::ModelImp() : BaseItemImp(new pss::Model(this), BaseItemImp::Model, 0),
-		m_in_field_decl(false) {
+ModelImp::ModelImp() : BaseItemImp(new pss::Model(this), BaseItemImp::Model, 0) {
+	m_scopes.push_back(master());
+	m_scope.push_back(new ScopeImp(master()));
 }
 
 ModelImp::~ModelImp() {
@@ -81,8 +82,6 @@ void ModelImp::push_scope(const ScopeImp *p) {
 	}
 	}
 
-	m_in_field_decl = p->in_field_decl();
-
 	fprintf(stdout, "<-- push_scope Context: %p %s (%d)\n",
 				p->ctxt(), p->scope_name(), (int)(m_scope.size()+1));
 }
@@ -113,9 +112,9 @@ void ModelImp::pop_scope(const ScopeImp *p) {
 //				m_scope.pop_back();
 //			}
 //
-//			// Update 'm_in_field_decl' state
+//			// Update 'm_is_field' state
 //			if (m_scope.size() > 0) {
-//				m_in_field_decl = m_scope.at(m_scope.size()-1)->in_field_decl();
+//				m_is_field = m_scope.at(m_scope.size()-1)->is_field();
 //			}
 //		}
 	} else {
@@ -229,32 +228,54 @@ TypePathImp ModelImp::getSuperType(BaseItem *it) {
 BaseItem *ModelImp::getParentScope() {
 	BaseItem *p = 0;
 
-//	fprintf(stdout, "--> getParentScope %p\n", it);
+	fprintf(stdout, "--> getParentScope\n");
 
 	if (m_scopes.size() > 0) {
 		BaseItem *s = m_scopes.at(m_scopes.size()-1);
 
 		for (int32_t i=m_scopes.size()-1; i>=0; i--) {
-//			fprintf(stdout, "  Searching: %p %p\n", m_scopes.at(i), s);
-			if (m_scopes.at(i) != s) {
+			fprintf(stdout, "  Searching: %p %p\n", m_scopes.at(i), s);
+			if (m_scopes.at(i) != s/* || (!include_fields && m_scope.at(i)->is_field())*/) {
 				p = m_scopes.at(i);
 				break;
 			}
 		}
 	}
 
-//	fprintf(stdout, "--> getParentScope %p %p\n", it, p);
+	fprintf(stdout, "<-- getParentScope %p\n", p);
 
 	return p;
+}
+
+bool ModelImp::isField() {
+	return is_field();
+}
+
+bool ModelImp::isParentField() {
+	bool ret = false;
+
+	if (m_scopes.size() > 0) {
+		BaseItem *s = m_scopes.at(m_scopes.size()-1);
+
+		for (int32_t i=m_scopes.size()-1; i>=0; i--) {
+			fprintf(stdout, "  Searching: %p %p\n", m_scopes.at(i), s);
+			if (m_scopes.at(i) != s) {
+				ret = m_scope.at(i)->is_field();
+				break;
+			}
+		}
+	}
+
+	return ret;
 }
 
 BaseItem *ModelImp::getActiveScope() {
 //	fprintf(stdout, "ModelImp::getActiveScope scope=%d\n",
 //			(m_last_scope)?m_last_scope->getObjectType():-1);
 
-	if (m_in_field_decl) {
-		return 0;
-	} else {
+//	if (m_is_field) {
+//		return 0;
+//	} else {
 		// Search back until we find something different than 'us'
 		BaseItem *curr = (m_scopes.size())?m_scopes.at(m_scopes.size()-1):0;
 
@@ -270,7 +291,7 @@ BaseItem *ModelImp::getActiveScope() {
 		} else {
 			return curr;
 		}
-	}
+//	}
 
 //	fprintf(stdout, "ModelImp::getActiveScope size=%d\n", m_scope.size());
 //
@@ -305,7 +326,7 @@ const char *ModelImp::get_field_name(BaseItem *p) {
 //
 //	for (; i>0; i--) {
 //		if (m_scope.at(i)->ctxt() == p &&
-//				m_scope.at(i-1)->in_field_decl()) {
+//				m_scope.at(i-1)->is_field()) {
 //			return m_scope.at(i-1)->scope_name();
 //		}
 //	}
@@ -313,9 +334,9 @@ const char *ModelImp::get_field_name(BaseItem *p) {
 	return 0;
 }
 
-bool ModelImp::in_field_decl() const {
+bool ModelImp::is_field() const {
 	for (int i=m_scope.size()-1; i>=0; i--) {
-		if (m_scope.at(i)->in_field_decl()) {
+		if (m_scope.at(i)->is_field()) {
 			return true;
 		}
 	}
@@ -383,8 +404,10 @@ void ModelImp::print_scopes() {
 	for (int32_t i=m->m_scope.size()-1; i>=0; i--) {
 		const ScopeImp *s = m->m_scope.at(i);
 		BaseItem *b = m->m_scopes.at(i);
-		fprintf(stdout, "  scope=%p name=%s type_name=%s\n",
-				b, s->scope_name(), (s->get_typeinfo())?s->get_typeinfo()->name():"NULL");
+		fprintf(stdout, "  scope=%p name=%s type_name=%s is_field=%s\n",
+				b, s->scope_name(),
+				(s->get_typeinfo())?s->get_typeinfo()->name():"NULL",
+				(s->is_field())?"true":"false");
 	}
 	fprintf(stdout, "<-- print_scopes()\n");
 }

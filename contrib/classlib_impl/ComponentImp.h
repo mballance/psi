@@ -29,6 +29,7 @@
 #include "NamedBaseItemImp.h"
 #include "TypePathImp.h"
 #include "classlib/component.h"
+#include "FieldItemImp.h"
 
 namespace pss {
 
@@ -41,8 +42,13 @@ class ComponentImp : public NamedBaseItemImp {
 
 		const TypePathImp &getSuperType() const { return m_super_type; }
 
+		FieldItemImp *getField() const { return m_field; }
+
+		virtual const std::string &getName() const;
+
 	private:
 		TypePathImp				m_super_type;
+		FieldItemImp			*m_field;
 
 };
 

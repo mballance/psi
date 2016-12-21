@@ -42,9 +42,11 @@ public:
 			Scope 					*master,
 			const std::type_info	*type,
 			BaseItem 				*ctxt,
-			bool					in_field_decl,
+			bool					is_field,
 			const std::string		&name,
 			BaseItem				*type_id);
+
+	ScopeImp(BaseItem				*ctxt);
 
 	virtual ~ScopeImp();
 
@@ -60,7 +62,7 @@ public:
 
 	const char *scope_name() const { return m_name.c_str(); }
 
-	bool in_field_decl() const { return m_in_field_decl; }
+	bool is_field() const { return m_is_field; }
 
 	BaseItem *type_id() const { return m_type_id; }
 
@@ -72,7 +74,7 @@ private:
 
 private:
 	Scope					*m_master;
-	bool					m_in_field_decl;
+	bool					m_is_field;
 	BaseItem				*m_ctxt;
 	const std::type_info	*m_type;
 	std::string				m_name;

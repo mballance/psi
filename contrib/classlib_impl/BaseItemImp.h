@@ -84,6 +84,8 @@ public:
 	// Effectively private.
 	virtual void add(BaseItemImp *item, bool reparent=true);
 
+	virtual void remove(BaseItemImp *item);
+
 	void setObjectType(ObjectType t);
 
 	virtual const std::vector<BaseItemImp *> &getChildren() const;

@@ -34,18 +34,20 @@
 namespace pss {
 
 class action;
-template <class T> class output : public FieldBase<T> {
+template <class T> class output : public T {
 
 	public:
 		/**
 		 * This constructor is used to specify an action output field
 		 */
-		output(const Scope &scope) :
-			FieldBase<T>(FieldItem::AttrOutput, static_cast<T *>(this)) { }
+		output(const Scope &scope) : T(static_cast<T *>(this)) {
+			// TODO: pass on AttrOutput
+		}
 
 		virtual ~output() { }
 
 };
+
 
 } /* namespace pss */
 

@@ -28,6 +28,7 @@
 #include "classlib/action.h"
 #include "ActionImp.h"
 #include "ModelImp.h"
+#include "ComponentImp.h"
 
 namespace pss {
 
@@ -35,18 +36,41 @@ action::action(const Scope	&p) :
 			BaseItem(new ActionImp(this, p.impl())) { }
 
 ActionImp::ActionImp(action *master, ScopeImp *p) :
-		NamedBaseItemImp(master, BaseItemImp::TypeAction, p->parent()) {
-	if (!ModelImp::global()->in_field_decl()) {
+		NamedBaseItemImp(master, BaseItemImp::TypeAction, p->parent()),
+		m_field(0), m_model(0), m_hndl(0) {
+
+	bool is_field = ModelImp::global()->isField();
+	bool is_parent_field = ModelImp::global()->isParentField();
+
+	if (is_field) {
 		m_super_type = ModelImp::global()->getSuperType(master);
 	} else {
 		m_super_type = TypePathImp();
 	}
-	m_model = 0;
-	m_hndl = 0;
 
 	// TODO: need to deal with named scopes
 	TypePathImp type = ModelImp::global()->getActiveTypeName(master);
 	setName(type.leaf());
+
+	fprintf(stdout, "ActionImp::ActionImp is_field=%s name=%s\n",
+			is_field?"true":"false",
+			getName().c_str());
+
+	if (is_field) {
+		const char *field_name = ModelImp::global()->get_field_name(master);
+
+		// First, remove ourselves
+		getParent()->remove(this);
+
+		m_field = new FieldItemImp(
+				0, // master
+				getParent()->master(),
+				field_name,
+				0,
+				FieldItem::AttrNone,
+				0, // wrapper
+				ModelImp::global()->getActiveType(master));
+	}
 }
 
 action::~action() {
@@ -87,6 +111,14 @@ void ActionImp::inline_exec_pre(IModel *model, psshandle_t hndl) {
 void ActionImp::inline_exec_post() {
 	m_model = 0;
 	m_hndl = 0;
+}
+
+const std::string &ActionImp::getName() const {
+	if (m_field) {
+		return m_field->getName();
+	} else {
+		return NamedBaseItemImp::getName();
+	}
 }
 
 } /* namespace pss */

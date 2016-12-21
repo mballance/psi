@@ -37,6 +37,16 @@
 namespace pss {
 
 FieldItem::FieldItem(
+		BaseItem				*p,
+		const std::string		&name,
+		FieldAttr				modifiers,
+		const BaseItem			*type_hndl,
+		const Expr				*array_dim) : BaseItem(
+				new FieldItemImp(this, p, name, array_dim, modifiers, 0, type_hndl->impl())) {
+
+}
+
+FieldItem::FieldItem(
 		const Scope				&scope,
 		FieldItem::FieldAttr 	modifiers,
 		const BaseItem			&type_hndl,

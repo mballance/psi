@@ -28,6 +28,7 @@
 
 #include "classlib/action.h"
 #include "NamedBaseItemImp.h"
+#include "FieldItemImp.h"
 #include "ScopeImp.h"
 #include "TypePathImp.h"
 #include "api/IExecCallback.h"
@@ -59,11 +60,13 @@ public:
 
 		psshandle_t getHandle() const { return m_hndl; }
 
+		virtual const std::string &getName() const;
 
 	private:
 		TypePathImp						m_super_type;
 		IModel							*m_model;
 		psshandle_t						m_hndl;
+		FieldItemImp					*m_field;
 
 };
 
