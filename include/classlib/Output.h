@@ -28,7 +28,7 @@
 #include <string>
 #include <stdio.h>
 
-#include "classlib/FieldBase.h"
+#include "classlib/FieldItem.h"
 #include "classlib/type_decl.h"
 
 namespace pss {
@@ -41,7 +41,8 @@ template <class T> class output : public T {
 		 * This constructor is used to specify an action output field
 		 */
 		output(const Scope &scope) : T(static_cast<T *>(this)) {
-			// TODO: pass on AttrOutput
+			FieldItem &it = static_cast<FieldItem &>(*this);
+			it.setModifiers(FieldItem::AttrOutput);
 		}
 
 		virtual ~output() { }

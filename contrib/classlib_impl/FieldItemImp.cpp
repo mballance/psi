@@ -137,6 +137,10 @@ void FieldItemImp::setDataType(BaseItemImp *dt) {
 	m_data_type = dt;
 }
 
+void FieldItem::setModifiers(FieldAttr modifiers) {
+	static_cast<FieldItemImp *>(impl())->setAttr(modifiers);
+}
+
 MethodParamList FieldItem::operator,(const FieldItem &rhs) {
 	MethodParamList ret(*this);
 

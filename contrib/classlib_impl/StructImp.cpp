@@ -98,7 +98,7 @@ pss_struct::operator Expr() const {
 //	return Expr(*m_field);
 }
 
-pss_struct::operator const FieldItem &() const {
+pss_struct::operator FieldItem &() const {
 	return static_cast<StructImp *>(impl())->getField();
 }
 

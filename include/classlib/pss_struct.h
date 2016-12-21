@@ -42,7 +42,7 @@ public:
 
 		operator Expr() const;
 
-		operator const FieldItem &() const;
+		operator FieldItem &() const;
 
 	protected:
 

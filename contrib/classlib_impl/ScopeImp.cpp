@@ -38,11 +38,12 @@ ScopeImp::ScopeImp(
 		const std::type_info	*type,
 		BaseItem				*ctxt,
 		bool					is_field,
+		bool					is_type,
 		const std::string		&name,
 		BaseItem				*type_id) :
 	m_master(master), m_type(type), m_ctxt(ctxt),
-	m_is_field(is_field), m_name(name),
-	m_type_id(type_id) {
+	m_is_field(is_field), m_is_type(is_type),
+	m_name(name), m_type_id(type_id) {
 
 	enter();
 
@@ -52,17 +53,26 @@ ScopeImp::ScopeImp(BaseItem *ctxt) {
 	m_master = 0;
 	m_type = 0;
 	m_is_field = false;
+	m_is_type = false;
 	m_type_id = 0;
 	m_ctxt = ctxt;
 }
 
 Scope::Scope(const char *name) {
 	m_impl = new ScopeImp(this, 0, 0,
-			(name!=0), (name)?name:"", 0);
+			(name!=0), false, (name)?name:"", 0);
+}
+
+Scope::Scope(bool is_type) {
+	m_impl = new ScopeImp(this, 0, 0,
+			false, // is_field
+			true, // is_type,
+			"",
+			0);
 }
 
 Scope::Scope(const std::string &name) {
-	m_impl = new ScopeImp(this, 0, 0, true, name, 0);
+	m_impl = new ScopeImp(this, 0, 0, true, false, name, 0);
 }
 
 Scope::~Scope() {
@@ -114,9 +124,13 @@ const char *ScopeImp::name() const {
 	return m_type->name();
 }
 
+void ScopeImp::set_scope_name(const std::string &name) {
+	m_name = name;
+}
+
 void Scope::init(const std::type_info *type, BaseItem *ctxt, BaseItem *type_id) {
 	// TODO: type_id
-	m_impl = new ScopeImp(this, type, ctxt, false, "", type_id);
+	m_impl = new ScopeImp(this, type, ctxt, false, false, "", type_id);
 }
 
 void ScopeImp::enter() {

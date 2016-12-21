@@ -43,6 +43,7 @@ public:
 			const std::type_info	*type,
 			BaseItem 				*ctxt,
 			bool					is_field,
+			bool					is_type,
 			const std::string		&name,
 			BaseItem				*type_id);
 
@@ -62,7 +63,11 @@ public:
 
 	const char *scope_name() const { return m_name.c_str(); }
 
+	void set_scope_name(const std::string &name);
+
 	bool is_field() const { return m_is_field; }
+
+	bool is_type() const { return m_is_type; }
 
 	BaseItem *type_id() const { return m_type_id; }
 
@@ -75,6 +80,7 @@ private:
 private:
 	Scope					*m_master;
 	bool					m_is_field;
+	bool					m_is_type;
 	BaseItem				*m_ctxt;
 	const std::type_info	*m_type;
 	std::string				m_name;

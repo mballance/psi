@@ -83,6 +83,8 @@ public:
 			// Handle to the type object, if this is a user-defined type
 			BaseItem			*type_hndl);
 
+	void setModifiers(FieldAttr modifiers);
+
 	Expr implies(const ExprList &rhs);
 
 	MethodParamList operator,(const FieldItem &rhs);

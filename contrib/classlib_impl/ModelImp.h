@@ -90,6 +90,7 @@ class ModelImp : public BaseItemImp {
 	private:
 		std::vector<const ScopeImp *>		m_scope;
 		std::vector<BaseItem *>				m_scopes;
+		std::string							m_tmpname;
 
 		static ModelImp					*m_global;
 

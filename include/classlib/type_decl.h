@@ -31,7 +31,7 @@ namespace pss {
 template <class T> class type_decl : public T {
 public:
 
-	type_decl() : T((const char *)0) {
+	type_decl() : T(true) {
 		if (!m_type_id) {
 			m_valid = true;
 			m_type_id = this;

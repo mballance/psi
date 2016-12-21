@@ -51,6 +51,8 @@ public:
 				type_decl<T>::valid()?type_decl<T>::id():0);
 	}
 
+	Scope(bool is_type);
+
 	Scope(const char *name);
 
 	Scope(const std::string &name);

@@ -307,31 +307,31 @@ BaseItem *ModelImp::getActiveScope() {
 }
 
 const char *ModelImp::get_field_name(BaseItem *p) {
-//	int i=m_scope.size()-1;
+	const char *ret = 0;
+	fprintf(stdout, "--> get_field_name\n");
+
+	print_scopes();
 
 	// Just pick the last scope that specified a name
 	for (int i=m_scope.size()-1; i>=0; i--) {
-		if (!m_scope.at(i)->ctxt() &&
-				m_scope.at(i)->scope_name() &&
-				strcmp(m_scope.at(i)->scope_name(), "") != 0) {
-			return m_scope.at(i)->scope_name();
+		if (m_scope.at(i)->is_field()) {
+			ret = m_scope.at(i)->scope_name();
+			break;
+		} else if (m_scope.at(i)->is_type()) {
+			m_tmpname = demangle(m_scope.at(i+1)).leaf();
+			ret = m_tmpname.c_str();
+			break;
 		}
+//		if (!m_scope.at(i)->ctxt() &&
+//				m_scope.at(i)->scope_name() &&
+//				strcmp(m_scope.at(i)->scope_name(), "") != 0) {
+//			fprintf(stdout, "<-- get_field_name %s\n", m_scope.at(i)->scope_name());
+//			return m_scope.at(i)->scope_name();
+//		}
 	}
 
-//	for (; i>=0; i--) {
-//		if (m_scope.at(i)->ctxt() == p) {
-//			break;
-//		}
-//	}
-//
-//	for (; i>0; i--) {
-//		if (m_scope.at(i)->ctxt() == p &&
-//				m_scope.at(i-1)->is_field()) {
-//			return m_scope.at(i-1)->scope_name();
-//		}
-//	}
-
-	return 0;
+	fprintf(stdout, "<-- get_field_name %s\n", ret);
+	return ret;
 }
 
 bool ModelImp::is_field() const {
@@ -404,10 +404,11 @@ void ModelImp::print_scopes() {
 	for (int32_t i=m->m_scope.size()-1; i>=0; i--) {
 		const ScopeImp *s = m->m_scope.at(i);
 		BaseItem *b = m->m_scopes.at(i);
-		fprintf(stdout, "  scope=%p name=%s type_name=%s is_field=%s\n",
+		fprintf(stdout, "  scope=%p name=%s type_name=%s is_field=%s is_type=%s\n",
 				b, s->scope_name(),
 				(s->get_typeinfo())?s->get_typeinfo()->name():"NULL",
-				(s->is_field())?"true":"false");
+				(s->is_field())?"true":"false",
+				(s->is_type())?"true":"false");
 	}
 	fprintf(stdout, "<-- print_scopes()\n");
 }

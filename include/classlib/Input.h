@@ -27,20 +27,22 @@
 #define INCLUDED_INPUT_H
 #include <string>
 
-#include "classlib/FieldBase.h"
+#include "classlib/FieldItem.h"
 #include "classlib/type_decl.h"
 
 namespace pss {
 
 class action;
-template <class T> class input : public FieldBase<T> {
+template <class T> class input : public T {
 
 	public:
 		/**
 		 * This constructor is used for specifying an action input field
 		 */
-		input(const Scope &name) :
-			FieldBase<T>(FieldItem::AttrInput, name) { }
+		input(const Scope &name) : T(static_cast<T *>(this)) {
+			FieldItem &it = static_cast<FieldItem &>(*this);
+			it.setModifiers(FieldItem::AttrInput);
+		}
 
 		virtual ~input() { }
 
