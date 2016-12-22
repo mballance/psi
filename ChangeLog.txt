@@ -14,6 +14,8 @@
 - Add partial template specializations for attr<> and rand_attr<> classes
   to support direct use of primitive data types. For example: rand_attr<uint32_t>
 
+- Complete uppercase to lowercase refactoring for public API classes
+
 ---------------------------------------------------------------------
 -- 1.0.1 Release --
 
