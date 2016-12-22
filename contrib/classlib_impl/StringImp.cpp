@@ -27,15 +27,15 @@
 
 namespace pss {
 
-pss_string::pss_string(BaseItem *p) :
-		BaseItem(new StringImp(this, p)) { }
+pss_string::pss_string(base_item *p) :
+		base_item(new StringImp(this, p)) { }
 
-StringImp::StringImp(pss_string *master, BaseItem *p) :
+StringImp::StringImp(pss_string *master, base_item *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypeString, p),
 		m_utils(this) { }
 
 pss_string::pss_string(const std::string &name) :
-		BaseItem(new StringImp(this, name)) { }
+		base_item(new StringImp(this, name)) { }
 
 StringImp::StringImp(pss_string *master, const std::string &name) :
 		NamedBaseItemImp(master, BaseItemImp::TypeString, 0, name),

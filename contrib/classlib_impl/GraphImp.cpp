@@ -26,12 +26,12 @@
 
 namespace pss {
 
-graph::graph(BaseItem *p, const ExprList &seq) :
-		BaseItem(new GraphImp(this, p, seq)) {
+graph::graph(base_item *p, const expr_list &seq) :
+		base_item(new GraphImp(this, p, seq)) {
 
 }
 
-GraphImp::GraphImp(graph *master, BaseItem *p, const ExprList &seq) :
+GraphImp::GraphImp(graph *master, base_item *p, const expr_list &seq) :
 		BaseItemImp(master, BaseItemImp::TypeGraph, p), m_seq(seq) { }
 
 graph::~graph() {

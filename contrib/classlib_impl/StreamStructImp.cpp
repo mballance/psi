@@ -28,7 +28,7 @@
 
 namespace pss {
 
-stream_struct::stream_struct(const Scope &p) :
+stream_struct::stream_struct(const scope &p) :
 		pss_struct(new StreamStructImp(this, p.impl())) { }
 
 StreamStructImp::StreamStructImp(stream_struct *master, ScopeImp *p) :

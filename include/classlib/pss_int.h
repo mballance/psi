@@ -25,23 +25,23 @@
 
 #ifndef INT_H_
 #define INT_H_
-#include "classlib/IntType.h"
-#include "classlib/Scope.h"
+#include "classlib/int_type.h"
+#include "classlib/scope.h"
 
 namespace pss {
 
-class pss_int : public IntType {
+class pss_int : public int_type {
 
 	public:
 
-		pss_int() : IntType(0, 31, 0) { }
+		pss_int() : int_type(0, 31, 0) { }
 
-		pss_int(uint32_t width) : IntType(0, width-1, 0) { }
+		pss_int(uint32_t width) : int_type(0, width-1, 0) { }
 
 		pss_int(const std::string &name, uint32_t width) :
-			IntType(name, width-1, 0) { }
+			int_type(name, width-1, 0) { }
 
-		pss_int(const Scope &parent);
+		pss_int(const scope &parent);
 
 };
 

@@ -26,7 +26,7 @@
 #ifndef INCLUDED_EXPR_IMP_H
 #define INCLUDED_EXPR_IMP_H
 
-#include "classlib/Expr.h"
+#include "classlib/expr.h"
 #include "SharedPtr.h"
 
 namespace pss {
@@ -84,7 +84,7 @@ public:
 
 	ExprImp(const ExprImp &p);
 
-	ExprImp(const Expr &p);
+	ExprImp(const expr &p);
 
 	virtual ~ExprImp();
 

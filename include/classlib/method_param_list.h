@@ -1,5 +1,5 @@
 /*
- * MethodParamList.h
+ * method_param_list.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -27,52 +27,52 @@
 #define INCLUDED_METHOD_PARAM_LIST_H
 #include <vector>
 #include "classlib/pss_types.h"
-#include "classlib/FieldItem.h"
+#include "classlib/attr_item.h"
 
 namespace pss {
 
 class MethodParamListImp;
-class MethodParamList {
+class method_param_list {
 	friend class MethodParamListImp;
 	public:
 
-		MethodParamList();
+		method_param_list();
 
-		MethodParamList(const MethodParamList &rhs);
+		method_param_list(const method_param_list &rhs);
 
 #ifdef PSS_HAVE_CXX_11
 
-		MethodParamList(std::initializer_list<FieldItem> l) : MethodParamList() {
-			MethodParamList &el = *this;
+		method_param_list(std::initializer_list<attr_item> l) : method_param_list() {
+			method_param_list &el = *this;
 
-			for (std::initializer_list<FieldItem>::const_iterator it=l.begin();
+			for (std::initializer_list<attr_item>::const_iterator it=l.begin();
 					it!=l.end(); it++) {
 				el = (el, *it);
 			}
 		}
 
-		template<typename T, typename... R> static MethodParamList mklist(
+		template<typename T, typename... R> static method_param_list mklist(
 				const T 			&item,
 				const R&... 		rest) {
-			MethodParamList plist;
+			method_param_list plist;
 			return _mklist(plist, item, rest...);
 		}
 #endif
 
-		MethodParamList(const FieldItem &rhs);
+		method_param_list(const attr_item &rhs);
 
-		virtual ~MethodParamList();
+		virtual ~method_param_list();
 
-		MethodParamList operator,(const FieldItem &rhs);
-//		MethodParamList &operator,(const MethodParamList &rhs);
+		method_param_list operator,(const attr_item &rhs);
+//		method_param_list &operator,(const method_param_list &rhs);
 
 		MethodParamListImp *imp() const;
 
 	private:
 
 #ifdef PSS_HAVE_CXX_11
-		template <typename T, typename... R> static MethodParamList &_mklist(
-				MethodParamList		&plist,
+		template <typename T, typename... R> static method_param_list &_mklist(
+				method_param_list		&plist,
 				const T				&item,
 				const R&...			rest) {
 			plist = (plist, item);
@@ -80,7 +80,7 @@ class MethodParamList {
 			return _mklist(plist, rest...);
 		}
 
-		static MethodParamList &_mklist(MethodParamList	&plist) {
+		static method_param_list &_mklist(method_param_list	&plist) {
 			return plist;
 		}
 #endif

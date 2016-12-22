@@ -24,20 +24,20 @@
 
 #ifndef CONTRIB_CLASSLIB_IMPL_METHODPARAMLISTIMP_H_
 #define CONTRIB_CLASSLIB_IMPL_METHODPARAMLISTIMP_H_
-#include "classlib/MethodParamList.h"
+#include "classlib/method_param_list.h"
 
 namespace pss {
 
 class FieldItemImp;
 class MethodParamListImp {
 public:
-	MethodParamListImp(MethodParamList	*master);
+	MethodParamListImp(method_param_list	*master);
 
 	virtual ~MethodParamListImp();
 
-	void add(const FieldItem &rhs);
+	void add(const attr_item &rhs);
 
-	const std::vector<FieldItem> &parameters() const {
+	const std::vector<attr_item> &parameters() const {
 		return m_parameters;
 	}
 
@@ -46,7 +46,7 @@ public:
 	void dec_refcnt();
 
 private:
-	std::vector<FieldItem>			m_parameters;
+	std::vector<attr_item>			m_parameters;
 	uint32_t						m_refcnt;
 
 };

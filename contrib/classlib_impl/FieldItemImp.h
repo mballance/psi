@@ -1,5 +1,5 @@
 /*
- * FieldItem.h
+ * attr_item.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -26,24 +26,24 @@
 #ifndef INCLUDED_FIELD_ITEM_IMP_H
 #define INCLUDED_FIELD_ITEM_IMP_H
 #include <string>
-#include "classlib/FieldItem.h"
+#include "classlib/attr_item.h"
 #include "ExprImp.h"
 #include "NamedBaseItemImp.h"
-#include "classlib/MethodParamList.h"
+#include "classlib/method_param_list.h"
 #include "InlineExecUtil.h"
 
 namespace pss {
 
 class FieldItemImp: public NamedBaseItemImp {
 public:
-	friend class FieldItem;
+	friend class attr_item;
 	FieldItemImp(
-			FieldItem 				*master,
-			BaseItem 				*p,
+			attr_item 				*master,
+			base_item 				*p,
 			const std::string 		&name,
-			const Expr				*array_dim,
-			FieldItem::FieldAttr	attr,
-			BaseItem				*wrapper,
+			const expr				*array_dim,
+			attr_item::FieldAttr	attr,
+			base_item				*wrapper,
 			BaseItemImp				*type_hndl);
 
 	virtual ~FieldItemImp();
@@ -52,9 +52,9 @@ public:
 
 	void setDataType(BaseItemImp *dt);
 
-	FieldItem::FieldAttr getAttr() const { return m_attr; }
+	attr_item::FieldAttr getAttr() const { return m_attr; }
 
-	void setAttr(FieldItem::FieldAttr attr) { m_attr = attr; }
+	void setAttr(attr_item::FieldAttr attr) { m_attr = attr; }
 
 	void setInternal(bool i) { m_internal = i; }
 
@@ -66,7 +66,7 @@ public:
 
 private:
 	BaseItemImp				*m_data_type;
-	FieldItem::FieldAttr	m_attr;
+	attr_item::FieldAttr	m_attr;
 	bool					m_internal;
 
 	bool					m_has_array_dim;

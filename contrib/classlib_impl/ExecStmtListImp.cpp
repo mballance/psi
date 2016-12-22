@@ -26,28 +26,28 @@
 
 namespace pss {
 
-ExecStmtList::ExecStmtList() {
+exec_stmt_list::exec_stmt_list() {
 	m_imp = new ExecStmtListImp();
 	m_imp->inc_refcnt();
 }
 
-ExecStmtList::ExecStmtList(const ExecStmtList &rhs) {
+exec_stmt_list::exec_stmt_list(const exec_stmt_list &rhs) {
 	m_imp = rhs.m_imp;
 	m_imp->inc_refcnt();
 }
 
-ExecStmtList::ExecStmtList(ExecStmtListImp *imp) {
+exec_stmt_list::exec_stmt_list(ExecStmtListImp *imp) {
 	m_imp = imp;
 	m_imp->inc_refcnt();
 }
 
-ExecStmtList::ExecStmtList(const ExecStmt &rhs) {
+exec_stmt_list::exec_stmt_list(const exec_stmt &rhs) {
 	m_imp = new ExecStmtListImp();
 	m_imp->inc_refcnt();
 	m_imp->add(rhs);
 }
 
-ExecStmtList::~ExecStmtList() {
+exec_stmt_list::~exec_stmt_list() {
 	m_imp->dec_refcnt();
 }
 
@@ -60,16 +60,16 @@ ExecStmtListImp::~ExecStmtListImp() {
 	// TODO Auto-generated destructor stub
 }
 
-void ExecStmtListImp::add(const ExecStmt &stmt) {
+void ExecStmtListImp::add(const exec_stmt &stmt) {
 	m_stmts.push_back(stmt);
 }
 
-ExecStmtList ExecStmtList::operator,(const ExecStmt &rhs) {
+exec_stmt_list exec_stmt_list::operator,(const exec_stmt &rhs) {
 	m_imp->add(rhs);
 	return *this;
 }
 
-ExecStmtListImp *ExecStmtList::imp() const {
+ExecStmtListImp *exec_stmt_list::imp() const {
 	return m_imp;
 }
 

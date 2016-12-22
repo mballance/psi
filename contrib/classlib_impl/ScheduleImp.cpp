@@ -29,7 +29,7 @@
 
 namespace pss {
 
-schedule::schedule(const ExprList &body) : Expr(body) {
+schedule::schedule(const expr_list &body) : expr(body) {
 	m_core->ptr()->setOp(ExprImp::GraphSchedule);
 }
 

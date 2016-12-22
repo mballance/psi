@@ -1,5 +1,5 @@
 /*
- * Expr.h
+ * expr.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -27,72 +27,72 @@
 #define INCLUDED_EXPR_H
 
 #include "classlib/pss_types.h"
-#include "classlib/ExprListBuilder.h"
+#include "classlib/expr_list_builder.h"
 
 namespace pss {
 
-class ExprListBuilder;
-class BaseItem;
-class ExprList;
+class expr_list_builder;
+class base_item;
+class expr_list;
 class ConstraintExpr;
 
 #define DECLARE_OP_FUNCTIONS(_prefix, _op) \
-	_prefix Expr operator _op (const Expr &lhs, const Expr &rhs); \
-	_prefix Expr operator _op (int32_t lhs, const Expr &rhs);     \
-	_prefix Expr operator _op (uint32_t lhs, const Expr &rhs);    \
+	_prefix expr operator _op (const expr &lhs, const expr &rhs); \
+	_prefix expr operator _op (int32_t lhs, const expr &rhs);     \
+	_prefix expr operator _op (uint32_t lhs, const expr &rhs);    \
 
 
 class ExprImp;
-class Expr {
+class expr {
 public:
 	friend ExprImp;
 
-	Expr();
+	expr();
 
-	Expr(uint32_t v);
+	expr(uint32_t v);
 
-	Expr(int32_t v);
+	expr(int32_t v);
 
-	Expr(const BaseItem &t);
+	expr(const base_item &t);
 
-	Expr(const Expr &rhs);
+	expr(const expr &rhs);
 
-	Expr(const ExprImp &ptr);
+	expr(const ExprImp &ptr);
 
-	virtual ~Expr();
+	virtual ~expr();
 
-	ExprListBuilder operator,(const Expr &rhs);
+	expr_list_builder operator,(const expr &rhs);
 
-	Expr operator [] (const Expr &rhs);
+	expr operator [] (const expr &rhs);
 
-	Expr operator [] (int32_t rhs);
+	expr operator [] (int32_t rhs);
 
-	Expr operator [] (uint32_t rhs);
+	expr operator [] (uint32_t rhs);
 
-	Expr inside(const ExprList &inside_l);
+	expr inside(const expr_list &inside_l);
 
-	Expr implies(const ExprList &inside_l);
+	expr implies(const expr_list &inside_l);
 
 #ifdef PSS_HAVE_CXX_11
-	template <typename T, typename... R> Expr implies(
+	template <typename T, typename... R> expr implies(
 			const T		&item,
 			const R&...	rest) {
-		ExprListBuilder	expr_l;
+		expr_list_builder	expr_l;
 		_implies(expr_l, item, rest...);
-		return implies(ExprList(expr_l));
+		return implies(expr_list(expr_l));
 	}
 
 	template<typename T, typename... R> static void _implies(
-			ExprListBuilder 	&expr_l,
+			expr_list_builder 	&expr_l,
 			const T 			&i,
 			const R&... 		rest) {
 		expr_l.add(i);
 		_implies(expr_l, rest...);
 	}
-	static void _implies(ExprListBuilder &el_builder) { }
+	static void _implies(expr_list_builder &el_builder) { }
 #endif
 
-//	Expr operator -> (const Expr &rhs);
+//	expr operator -> (const expr &rhs);
 
 	DECLARE_OP_FUNCTIONS(friend, ==)
 	DECLARE_OP_FUNCTIONS(friend, !=)

@@ -26,18 +26,18 @@
 #ifndef INCLUDED_SCHEDULE_H
 #define INCLUDED_SCHEDULE_H
 
-#include "classlib/Expr.h"
-#include "classlib/ExprList.h"
+#include "classlib/expr.h"
+#include "classlib/expr_list.h"
 
 namespace pss {
 
-class schedule: public Expr {
+class schedule: public expr {
 public:
-	schedule(const ExprList &body);
+	schedule(const expr_list &body);
 
 #ifdef PSS_HAVE_CXX_11
 	template <typename... I> schedule(const I&... items) :
-			schedule(ExprList::mklist(items...)) { }
+			schedule(expr_list::mklist(items...)) { }
 #endif
 
 	virtual ~schedule();

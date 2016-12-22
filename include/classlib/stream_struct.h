@@ -36,7 +36,7 @@ public:
 
 protected:
 
-		stream_struct(const Scope &p);
+		stream_struct(const scope &p);
 
 };
 

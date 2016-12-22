@@ -1,5 +1,5 @@
 /*
- * FieldItem.h
+ * attr_item.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -25,16 +25,16 @@
 #ifndef INCLUDED_FIELD_ITEM_H
 #define INCLUDED_FIELD_ITEM_H
 #include <string>
-#include "classlib/BaseItem.h"
+#include "classlib/base_item.h"
 
 namespace pss {
 
-class MethodParamList;
-class ExecStmt;
-class ExecImportCallStmt;
-class Scope;
+class method_param_list;
+class exec_stmt;
+class exec_import_call_stmt;
+class scope;
 
-class FieldItem: public BaseItem {
+class attr_item: public base_item {
 public:
 	enum FieldAttr {
 		AttrNone = 0,
@@ -49,41 +49,41 @@ public:
 	};
 
 public:
-	virtual ~FieldItem();
+	virtual ~attr_item();
 
-	FieldItem(
-			BaseItem			*p,
+	attr_item(
+			base_item			*p,
 			const std::string	&name,
 			FieldAttr			modifiers,
-			const BaseItem		*type_hndl,
-			const Expr			*array_dim);
+			const base_item		*type_hndl,
+			const expr			*array_dim);
 
 protected:
-	FieldItem(
-			const Scope			&scope,
+	attr_item(
+			const scope			&scope,
 			FieldAttr			modifiers,
-			const BaseItem		&type_hndl,
-			const Expr			*array_dim);
+			const base_item		&type_hndl,
+			const expr			*array_dim);
 
-	FieldItem(
-			const Scope			&scope,
+	attr_item(
+			const scope			&scope,
 			FieldAttr			modifiers,
-			const BaseItem		*type_hndl,
-			const Expr			*array_dim);
+			const base_item		*type_hndl,
+			const expr			*array_dim);
 
-	FieldItem(
+	attr_item(
 			// Parent handle
-			BaseItem 			*p,
+			base_item 			*p,
 			// Name of the field
 			const std::string 	&name,
 			// Array dimension
-			const Expr			*array_dim,
+			const expr			*array_dim,
 			// Attribute of the field
 			FieldAttr 			modifiers,
 			// Handle to the instantiating object
-			BaseItem			*wrapper,
+			base_item			*wrapper,
 			// Handle to the type object, if this is a user-defined type
-			BaseItem			*type_hndl);
+			base_item			*type_hndl);
 
 	/**
 	 * The get method returns the solve-time value of this
@@ -120,37 +120,37 @@ protected:
 public:
 	void setModifiers(FieldAttr modifiers);
 
-	Expr implies(const ExprList &rhs);
+	expr implies(const expr_list &rhs);
 
-	MethodParamList operator,(const FieldItem &rhs);
+	method_param_list operator,(const attr_item &rhs);
 
-	ExecStmt operator =(const ExecImportCallStmt &rhs);
+	exec_stmt operator =(const exec_import_call_stmt &rhs);
 
-	ExecStmt operator =(const Expr &rhs);
+	exec_stmt operator =(const expr &rhs);
 
-	ExecStmt operator +=(const ExecImportCallStmt &rhs);
+	exec_stmt operator +=(const exec_import_call_stmt &rhs);
 
-	ExecStmt operator +=(const Expr &rhs);
+	exec_stmt operator +=(const expr &rhs);
 
-	ExecStmt operator -=(const ExecImportCallStmt &rhs);
+	exec_stmt operator -=(const exec_import_call_stmt &rhs);
 
-	ExecStmt operator -=(const Expr &rhs);
+	exec_stmt operator -=(const expr &rhs);
 
-	ExecStmt operator <<=(const ExecImportCallStmt &rhs);
+	exec_stmt operator <<=(const exec_import_call_stmt &rhs);
 
-	ExecStmt operator <<=(const Expr &rhs);
+	exec_stmt operator <<=(const expr &rhs);
 
-	ExecStmt operator >>=(const ExecImportCallStmt &rhs);
+	exec_stmt operator >>=(const exec_import_call_stmt &rhs);
 
-	ExecStmt operator >>=(const Expr &rhs);
+	exec_stmt operator >>=(const expr &rhs);
 
-	ExecStmt operator |=(const ExecImportCallStmt &rhs);
+	exec_stmt operator |=(const exec_import_call_stmt &rhs);
 
-	ExecStmt operator |=(const Expr &rhs);
+	exec_stmt operator |=(const expr &rhs);
 
-	ExecStmt operator &= (const ExecImportCallStmt &rhs);
+	exec_stmt operator &= (const exec_import_call_stmt &rhs);
 
-	ExecStmt operator &= (const Expr &rhs);
+	exec_stmt operator &= (const expr &rhs);
 
 };
 

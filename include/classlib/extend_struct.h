@@ -25,13 +25,13 @@
 
 #ifndef INCLUDED_EXTEND_STRUCT_H
 #define INCLUDED_EXTEND_STRUCT_H
-#include "classlib/ExtendBase.h"
+#include "classlib/extend_base.h"
 
 namespace pss {
 
-template <class T> class extend_struct : public ExtendBase<T> {
+template <class T> class extend_struct : public extend_base<T> {
 protected:
-		extend_struct(const Scope &p) : ExtendBase<T>(p) { }
+		extend_struct(const scope &p) : extend_base<T>(p) { }
 
 		virtual ~extend_struct() { }
 

@@ -34,26 +34,26 @@ using namespace psi_api;
 
 namespace pss {
 
-BitType::BitType(
-		BaseItem				*p,
+bit_type::bit_type(
+		base_item				*p,
 		uint32_t				msb,
-		uint32_t				lsb) : BaseItem(new BitTypeImp(this, p, msb, lsb)) { }
+		uint32_t				lsb) : base_item(new BitTypeImp(this, p, msb, lsb)) { }
 
 BitTypeImp::BitTypeImp(
-		BitType					*master,
-		BaseItem				*p,
+		bit_type					*master,
+		base_item				*p,
 		uint32_t				msb,
 		uint32_t				lsb) :
 	NamedBaseItemImp(master, BaseItemImp::TypeBit, p), m_msb(msb), m_lsb(lsb),
 	m_utils(this) { }
 
-BitType::BitType(
+bit_type::bit_type(
 		const std::string		&name,
 		uint32_t				msb,
-		uint32_t				lsb) : BaseItem(new BitTypeImp(this, name, msb, lsb)) { }
+		uint32_t				lsb) : base_item(new BitTypeImp(this, name, msb, lsb)) { }
 
 BitTypeImp::BitTypeImp(
-		BitType					*master,
+		bit_type					*master,
 		const std::string		&name,
 		uint32_t				msb,
 		uint32_t				lsb) : NamedBaseItemImp(
@@ -61,7 +61,7 @@ BitTypeImp::BitTypeImp(
 				m_utils(this) {
 }
 
-BitType::~BitType() {
+bit_type::~bit_type() {
 	// TODO Auto-generated destructor stub
 }
 
@@ -73,7 +73,7 @@ uint64_t BitTypeImp::get() {
 	return m_utils.getBitValue();
 }
 
-uint64_t BitType::get() {
+uint64_t bit_type::get() {
 	return static_cast<BitTypeImp *>(impl())->get();
 }
 
@@ -81,7 +81,7 @@ void BitTypeImp::set(uint64_t v) {
 	m_utils.setBitValue(v);
 }
 
-void BitType::set(uint64_t v) {
+void bit_type::set(uint64_t v) {
 	static_cast<BitTypeImp *>(impl())->set(v);
 }
 

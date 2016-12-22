@@ -28,27 +28,27 @@
 #define INCLUDED_PARALLEL_H
 
 #include "classlib/pss_types.h"
-#include "classlib/Expr.h"
-#include "classlib/ExprList.h"
-#include "classlib/ExprListBuilder.h"
+#include "classlib/expr.h"
+#include "classlib/expr_list.h"
+#include "classlib/expr_list_builder.h"
 
 namespace pss {
 
-class ExprList;
-class parallel: public Expr {
+class expr_list;
+class parallel: public expr {
 public:
-	parallel(const ExprList &body);
+	parallel(const expr_list &body);
 
 #ifdef PSS_HAVE_CXX_11
 	template <typename... I> parallel(const I&... items) :
-			parallel(ExprList::mklist(items...)) { }
+			parallel(expr_list::mklist(items...)) { }
 #endif
 
 	virtual ~parallel();
 
-	ExprListBuilder operator,(const Expr &rhs);
+	expr_list_builder operator,(const expr &rhs);
 
-	ExprListBuilder operator,(const ExprListBuilder &rhs);
+	expr_list_builder operator,(const expr_list_builder &rhs);
 
 };
 

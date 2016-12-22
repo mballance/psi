@@ -1,5 +1,5 @@
 /*
- * ExprListBuilder.h
+ * expr_list_builder.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -27,24 +27,24 @@
 #define INCLUDED_EXPR_LIST_BUILDER_IMP_H
 #include <vector>
 
-#include "classlib/ExprListBuilder.h"
+#include "classlib/expr_list_builder.h"
 #include "ExprImp.h"
 
 namespace pss {
 
-class Expr;
+class expr;
 class ExprImp;
 class ExprListBuilderImp {
 public:
-	friend class ExprListBuilder;
+	friend class expr_list_builder;
 
 	ExprListBuilderImp();
 
-	ExprListBuilderImp(const std::vector<Expr> &l);
+	ExprListBuilderImp(const std::vector<expr> &l);
 
-	ExprListBuilderImp(const Expr &e1, const Expr &e2);
+	ExprListBuilderImp(const expr &e1, const expr &e2);
 
-	ExprListBuilderImp(const Expr &e1, const ExprListBuilder &e2);
+	ExprListBuilderImp(const expr &e1, const expr_list_builder &e2);
 
 	virtual ~ExprListBuilderImp();
 

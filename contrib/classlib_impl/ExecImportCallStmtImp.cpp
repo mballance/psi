@@ -26,13 +26,13 @@
 
 namespace pss {
 
-ExecImportCallStmt::ExecImportCallStmt(
+exec_import_call_stmt::exec_import_call_stmt(
 		const import_func		&imp,
-		const ExprList			&plist) : ExecStmt(new ExecImportCallStmtImp(imp, plist)) { }
+		const expr_list			&plist) : exec_stmt(new ExecImportCallStmtImp(imp, plist)) { }
 
 ExecImportCallStmtImp::ExecImportCallStmtImp(
 		const import_func		&imp,
-		const ExprList			&plist) :
+		const expr_list			&plist) :
 				ExecStmtImp(StmtType_Call), m_imp(imp), m_plist(plist) { }
 
 ExecImportCallStmtImp::~ExecImportCallStmtImp() {

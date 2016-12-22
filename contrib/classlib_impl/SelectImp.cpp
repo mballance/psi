@@ -29,7 +29,7 @@
 
 namespace pss {
 
-pss_select::pss_select(const ExprList &list) : Expr(list) {
+pss_select::pss_select(const expr_list &list) : expr(list) {
 	imp().ptr()->setOp(ExprImp::GraphSelect);
 }
 

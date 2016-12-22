@@ -1,5 +1,5 @@
 /*
- * Scope.h
+ * scope.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -29,33 +29,33 @@
 #include <vector>
 #include <typeinfo>
 
-#include "classlib/Scope.h"
+#include "classlib/scope.h"
 
 namespace pss {
 
 class BaseItemImp;
-class Scope;
+class scope;
 class ScopeImp {
 public:
-	friend Scope;
+	friend scope;
 	ScopeImp(
-			Scope 					*master,
+			scope 					*master,
 			const std::type_info	*type,
-			BaseItem 				*ctxt,
+			base_item 				*ctxt,
 			bool					is_field,
 			bool					is_type,
 			const std::string		&name,
-			BaseItem				*type_id);
+			base_item				*type_id);
 
-	ScopeImp(BaseItem				*ctxt);
+	ScopeImp(base_item				*ctxt);
 
 	virtual ~ScopeImp();
 
-	BaseItem *parent() const;
+	base_item *parent() const;
 
-	BaseItem *ctxt() const { return m_ctxt; }
+	base_item *ctxt() const { return m_ctxt; }
 
-	void set_ctxt(BaseItem *ctxt) { m_ctxt = ctxt; }
+	void set_ctxt(base_item *ctxt) { m_ctxt = ctxt; }
 
 	const std::type_info *get_typeinfo() const { return m_type; }
 
@@ -69,7 +69,7 @@ public:
 
 	bool is_type() const { return m_is_type; }
 
-	BaseItem *type_id() const { return m_type_id; }
+	base_item *type_id() const { return m_type_id; }
 
 private:
 
@@ -78,13 +78,13 @@ private:
 	void leave();
 
 private:
-	Scope					*m_master;
+	scope					*m_master;
 	bool					m_is_field;
 	bool					m_is_type;
-	BaseItem				*m_ctxt;
+	base_item				*m_ctxt;
 	const std::type_info	*m_type;
 	std::string				m_name;
-	BaseItem				*m_type_id;
+	base_item				*m_type_id;
 };
 
 } /* namespace pss */

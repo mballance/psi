@@ -29,7 +29,7 @@
 #include <stdint.h>
 #include <string>
 
-#include "classlib/BitType.h"
+#include "classlib/bit_type.h"
 #include "NamedBaseItemImp.h"
 #include "api/IField.h"
 #include "InlineExecUtil.h"
@@ -42,13 +42,13 @@ class BitTypeImp : public NamedBaseItemImp {
 
 	public:
 		BitTypeImp(
-				BitType				*master,
-				BaseItem 			*p,
+				bit_type				*master,
+				base_item 			*p,
 				uint32_t			msb,
 				uint32_t			lsb);
 
 		BitTypeImp(
-				BitType				*master,
+				bit_type				*master,
 				const std::string	&name,
 				uint32_t			msb,
 				uint32_t			lsb);

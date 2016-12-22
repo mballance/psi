@@ -28,21 +28,21 @@ namespace pss {
 
 ExecStmtImp::ExecStmtImp(StmtType type) : m_refcnt(0), m_type(type) { }
 
-ExecStmt::ExecStmt(const ExecStmt &rhs) {
+exec_stmt::exec_stmt(const exec_stmt &rhs) {
 	m_imp = rhs.m_imp;
 	m_imp->inc_refcnt();
 }
 
-ExecStmt::ExecStmt(ExecStmtImp *imp) {
+exec_stmt::exec_stmt(ExecStmtImp *imp) {
 	m_imp = imp;
 	m_imp->inc_refcnt();
 }
 
-ExecStmt::~ExecStmt() {
+exec_stmt::~exec_stmt() {
 	m_imp->dec_refcnt();
 }
 
-ExecStmtImp *ExecStmt::imp() const {
+ExecStmtImp *exec_stmt::imp() const {
 	return m_imp;
 }
 

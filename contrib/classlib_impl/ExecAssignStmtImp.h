@@ -26,7 +26,7 @@
 #define CONTRIB_CLASSLIB_IMPL_EXECASSIGNSTMTIMP_H_
 
 #include "ExecStmtImp.h"
-#include "classlib/Expr.h"
+#include "classlib/expr.h"
 
 namespace pss {
 
@@ -47,12 +47,12 @@ public:
 public:
 	ExecAssignStmtImp(
 			StmtType			type,
-			const FieldItem 	&lhs,
+			const attr_item 	&lhs,
 			AssignOp 			op);
 
 	virtual ~ExecAssignStmtImp();
 
-	const FieldItem &lhs() const {
+	const attr_item &lhs() const {
 		return m_lhs;
 	}
 
@@ -61,7 +61,7 @@ public:
 	}
 
 private:
-	FieldItem			m_lhs;
+	attr_item			m_lhs;
 	AssignOp			m_op;
 };
 

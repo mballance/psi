@@ -29,11 +29,11 @@
 
 namespace pss {
 
-pss_bool::pss_bool() : BaseItem(new BoolImp(this, 0)) { }
+pss_bool::pss_bool() : base_item(new BoolImp(this, 0)) { }
 
-pss_bool::pss_bool(const Scope &p) : BaseItem(new BoolImp(this, p.impl()->parent())) { }
+pss_bool::pss_bool(const scope &p) : base_item(new BoolImp(this, p.impl()->parent())) { }
 
-BoolImp::BoolImp(pss_bool *master, BaseItem *p) :
+BoolImp::BoolImp(pss_bool *master, base_item *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypeBool, p),
 		m_utils(this) { }
 

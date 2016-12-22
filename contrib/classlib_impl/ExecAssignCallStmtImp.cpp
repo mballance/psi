@@ -27,9 +27,9 @@
 namespace pss {
 
 ExecAssignCallStmtImp::ExecAssignCallStmtImp(
-		const FieldItem				&lhs,
+		const attr_item				&lhs,
 		AssignOp					op,
-		const ExecImportCallStmt	&rhs) :
+		const exec_import_call_stmt	&rhs) :
 	ExecAssignStmtImp(StmtType_AssignCall, lhs, op), m_rhs(rhs) {
 
 }

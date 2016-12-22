@@ -39,34 +39,34 @@ class ImportFuncImp : public NamedBaseItemImp {
 
 		ImportFuncImp(
 				import_func					*master,
-				BaseItem 				*p,
+				base_item 				*p,
 				const std::string 		&name,
-				const MethodParamList	&plist);
+				const method_param_list	&plist);
 
 		ImportFuncImp(
 				import_func					*master,
-				BaseItem 				*p,
+				base_item 				*p,
 				const std::string 		&name,
-				const BaseItem 			&ret,
-				const MethodParamList	&plist);
+				const base_item 			&ret,
+				const method_param_list	&plist);
 
 		virtual ~ImportFuncImp();
 
-//		ExecImportCallStmt operator()(const ExprList &plist);
+//		exec_import_call_stmt operator()(const expr_list &plist);
 //
-//		ExecImportCallStmt operator()();
+//		exec_import_call_stmt operator()();
 
 		BaseItemImp *getReturnType() {
 			return (m_have_ret)?m_ret.impl():0;
 		}
 
-		const MethodParamList &getParameters() const { return m_parameters; }
+		const method_param_list &getParameters() const { return m_parameters; }
 
 	private:
 
 		bool						m_have_ret;
-		BaseItem					m_ret;
-		MethodParamList				m_parameters;
+		base_item					m_ret;
+		method_param_list				m_parameters;
 
 };
 

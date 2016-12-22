@@ -25,19 +25,19 @@
 
 #ifndef INCLUDED_GRAPH_H
 #define INCLUDED_GRAPH_H
-#include "classlib/BaseItem.h"
-#include "classlib/ExprList.h"
+#include "classlib/base_item.h"
+#include "classlib/expr_list.h"
 
 namespace pss {
 
-class graph : public BaseItem {
+class graph : public base_item {
 
 	public:
-		graph(BaseItem *p, const ExprList &seq);
+		graph(base_item *p, const expr_list &seq);
 
 #ifdef PSS_HAVE_CXX_11
-		template<typename... I> graph(BaseItem *p, const I&... items) :
-				graph(p, ExprList::mklist(items...)) { }
+		template<typename... I> graph(base_item *p, const I&... items) :
+				graph(p, expr_list::mklist(items...)) { }
 #endif
 
 		virtual ~graph();

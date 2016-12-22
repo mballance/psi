@@ -28,7 +28,7 @@ namespace pss {
 
 ExecAssignStmtImp::ExecAssignStmtImp(
 		StmtType			type,
-		const FieldItem 	&lhs,
+		const attr_item 	&lhs,
 		AssignOp 			op) : ExecStmtImp(type), m_lhs(lhs), m_op(op) {
 }
 

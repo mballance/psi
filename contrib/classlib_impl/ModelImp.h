@@ -34,7 +34,7 @@
 namespace pss {
 
 class ModelImp;
-class Model : public BaseItem {
+class Model : public base_item {
 public:
 
 	Model(ModelImp *imp);
@@ -59,17 +59,17 @@ class ModelImp : public BaseItemImp {
 
 		const std::vector<const ScopeImp *> &get_scope() const;
 
-		const std::vector<BaseItem *> &get_scopes() const;
+		const std::vector<base_item *> &get_scopes() const;
 
 		uint32_t depth() const;
 
-		TypePathImp getActiveTypeName(BaseItem *it);
+		TypePathImp getActiveTypeName(base_item *it);
 
-		BaseItemImp *getActiveType(BaseItem *it);
+		BaseItemImp *getActiveType(base_item *it);
 
 		TypePathImp getSuperType();
 
-		BaseItem *getParentScope();
+		base_item *getParentScope();
 
 		bool isField();
 
@@ -77,7 +77,7 @@ class ModelImp : public BaseItemImp {
 
 		bool isType();
 
-		BaseItem *getActiveScope();
+		base_item *getActiveScope();
 
 		const char *get_field_name();
 
@@ -85,13 +85,13 @@ class ModelImp : public BaseItemImp {
 
 		static TypePathImp demangle(const ScopeImp *s);
 
-		static BaseItem *pOrGlobal(BaseItem *p);
+		static base_item *pOrGlobal(base_item *p);
 
 		static void print_scopes();
 
 	private:
 		std::vector<const ScopeImp *>		m_scope;
-		std::vector<BaseItem *>				m_scopes;
+		std::vector<base_item *>				m_scopes;
 		std::string							m_tmpname;
 
 		static ModelImp					*m_global;

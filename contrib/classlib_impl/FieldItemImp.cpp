@@ -1,5 +1,5 @@
 /*
- * FieldItem.cpp
+ * attr_item.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -25,8 +25,8 @@
 
 #include "FieldItemImp.h"
 
-#include "classlib/Expr.h"
-#include "classlib/Scope.h"
+#include "classlib/expr.h"
+#include "classlib/scope.h"
 #include "BaseItemImp.h"
 #include "ExecAssignCallStmtImp.h"
 #include "ExecAssignExprStmtImp.h"
@@ -36,22 +36,22 @@
 
 namespace pss {
 
-FieldItem::FieldItem(
-		BaseItem				*p,
+attr_item::attr_item(
+		base_item				*p,
 		const std::string		&name,
 		FieldAttr				modifiers,
-		const BaseItem			*type_hndl,
-		const Expr				*array_dim) : BaseItem(
+		const base_item			*type_hndl,
+		const expr				*array_dim) : base_item(
 				new FieldItemImp(this, p, name, array_dim, modifiers, 0, type_hndl->impl())) {
 
 }
 
-FieldItem::FieldItem(
-		const Scope				&scope,
-		FieldItem::FieldAttr 	modifiers,
-		const BaseItem			&type_hndl,
-		const Expr				*array_dim) :
-		BaseItem(new FieldItemImp(this,
+attr_item::attr_item(
+		const scope				&scope,
+		attr_item::FieldAttr 	modifiers,
+		const base_item			&type_hndl,
+		const expr				*array_dim) :
+		base_item(new FieldItemImp(this,
 				ModelImp::global()->getParentScope(),
 				ModelImp::global()->get_field_name(),
 				array_dim,
@@ -64,12 +64,12 @@ FieldItem::FieldItem(
 	}
 }
 
-FieldItem::FieldItem(
-		const Scope				&scope,
-		FieldItem::FieldAttr 	modifiers,
-		const BaseItem			*type_hndl,
-		const Expr				*array_dim) :
-		BaseItem(new FieldItemImp(
+attr_item::attr_item(
+		const scope				&scope,
+		attr_item::FieldAttr 	modifiers,
+		const base_item			*type_hndl,
+		const expr				*array_dim) :
+		base_item(new FieldItemImp(
 				this, // master
 				ModelImp::global()->getParentScope(), // parent scope
 				ModelImp::global()->get_field_name(), // name
@@ -85,12 +85,12 @@ FieldItem::FieldItem(
 }
 
 FieldItemImp::FieldItemImp(
-		FieldItem 				*master,
-		BaseItem 				*p,
+		attr_item 				*master,
+		base_item 				*p,
 		const std::string 		&name,
-		const Expr				*array_dim,
-		FieldItem::FieldAttr	attr,
-		BaseItem				*wrapper,
+		const expr				*array_dim,
+		attr_item::FieldAttr	attr,
+		base_item				*wrapper,
 		BaseItemImp				*type_hndl) :
 	NamedBaseItemImp(master, BaseItemImp::TypeField, p, name),
 		m_data_type(0), m_attr(attr), m_internal(false),
@@ -117,7 +117,7 @@ FieldItemImp::FieldItemImp(
 	}
 }
 
-FieldItem::~FieldItem() {
+attr_item::~attr_item() {
 	FieldItemImp *imp = static_cast<FieldItemImp *>(impl());
 	if (imp->getDataType()) {
 		imp->getDataType()->inc_refcnt();
@@ -132,101 +132,101 @@ void FieldItemImp::setDataType(BaseItemImp *dt) {
 	m_data_type = dt;
 }
 
-uint64_t FieldItem::get_bit() {
+uint64_t attr_item::get_bit() {
 	return static_cast<FieldItemImp *>(impl())->m_utils.getBitValue();
 }
 
-void FieldItem::set_bit(uint64_t v) {
+void attr_item::set_bit(uint64_t v) {
 	static_cast<FieldItemImp *>(impl())->m_utils.setBitValue(v);
 }
 
-int64_t FieldItem::get_int() {
+int64_t attr_item::get_int() {
 	return static_cast<FieldItemImp *>(impl())->m_utils.getIntValue();
 }
 
-void FieldItem::set_int(int64_t v) {
+void attr_item::set_int(int64_t v) {
 	static_cast<FieldItemImp *>(impl())->m_utils.setIntValue(v);
 }
 
-void FieldItem::setModifiers(FieldAttr modifiers) {
+void attr_item::setModifiers(FieldAttr modifiers) {
 	static_cast<FieldItemImp *>(impl())->setAttr(modifiers);
 }
 
-MethodParamList FieldItem::operator,(const FieldItem &rhs) {
-	MethodParamList ret(*this);
+method_param_list attr_item::operator,(const attr_item &rhs) {
+	method_param_list ret(*this);
 
 	ret = (ret, rhs);
 
 	return ret;
 }
 
-ExecStmt FieldItem::operator =(const ExecImportCallStmt &rhs) {
-	return ExecStmt(new ExecAssignCallStmtImp(
+exec_stmt attr_item::operator =(const exec_import_call_stmt &rhs) {
+	return exec_stmt(new ExecAssignCallStmtImp(
 			*this, ExecAssignStmtImp::AssignOp_Eq, rhs));
 }
 
-ExecStmt FieldItem::operator =(const Expr &rhs) {
-	return ExecStmt(new ExecAssignExprStmtImp(
+exec_stmt attr_item::operator =(const expr &rhs) {
+	return exec_stmt(new ExecAssignExprStmtImp(
 			*this, ExecAssignStmtImp::AssignOp_Eq, rhs));
 }
 
-ExecStmt FieldItem::operator +=(const ExecImportCallStmt &rhs) {
-	return ExecStmt(new ExecAssignCallStmtImp(
+exec_stmt attr_item::operator +=(const exec_import_call_stmt &rhs) {
+	return exec_stmt(new ExecAssignCallStmtImp(
 			*this, ExecAssignStmtImp::AssignOp_PlusEq, rhs));
 }
 
-ExecStmt FieldItem::operator +=(const Expr &rhs) {
-	return ExecStmt(new ExecAssignExprStmtImp(
+exec_stmt attr_item::operator +=(const expr &rhs) {
+	return exec_stmt(new ExecAssignExprStmtImp(
 			*this, ExecAssignStmtImp::AssignOp_PlusEq, rhs));
 }
 
-ExecStmt FieldItem::operator -=(const ExecImportCallStmt &rhs) {
-	return ExecStmt(new ExecAssignCallStmtImp(
+exec_stmt attr_item::operator -=(const exec_import_call_stmt &rhs) {
+	return exec_stmt(new ExecAssignCallStmtImp(
 			*this, ExecAssignStmtImp::AssignOp_MinusEq, rhs));
 }
 
-ExecStmt FieldItem::operator -=(const Expr &rhs) {
-	return ExecStmt(new ExecAssignExprStmtImp(
+exec_stmt attr_item::operator -=(const expr &rhs) {
+	return exec_stmt(new ExecAssignExprStmtImp(
 			*this, ExecAssignStmtImp::AssignOp_MinusEq, rhs));
 }
 
-ExecStmt FieldItem::operator <<=(const ExecImportCallStmt &rhs) {
-	return ExecStmt(new ExecAssignCallStmtImp(
+exec_stmt attr_item::operator <<=(const exec_import_call_stmt &rhs) {
+	return exec_stmt(new ExecAssignCallStmtImp(
 			*this, ExecAssignStmtImp::AssignOp_LShiftEq, rhs));
 }
 
-ExecStmt FieldItem::operator <<=(const Expr &rhs) {
-	return ExecStmt(new ExecAssignExprStmtImp(
+exec_stmt attr_item::operator <<=(const expr &rhs) {
+	return exec_stmt(new ExecAssignExprStmtImp(
 			*this, ExecAssignStmtImp::AssignOp_LShiftEq, rhs));
 }
 
-ExecStmt FieldItem::operator >>=(const ExecImportCallStmt &rhs) {
-	return ExecStmt(new ExecAssignCallStmtImp(
+exec_stmt attr_item::operator >>=(const exec_import_call_stmt &rhs) {
+	return exec_stmt(new ExecAssignCallStmtImp(
 			*this, ExecAssignStmtImp::AssignOp_RShiftEq, rhs));
 }
 
-ExecStmt FieldItem::operator >>=(const Expr &rhs) {
-	return ExecStmt(new ExecAssignExprStmtImp(
+exec_stmt attr_item::operator >>=(const expr &rhs) {
+	return exec_stmt(new ExecAssignExprStmtImp(
 			*this, ExecAssignStmtImp::AssignOp_RShiftEq, rhs));
 }
 
-ExecStmt FieldItem::operator |=(const ExecImportCallStmt &rhs) {
-	return ExecStmt(new ExecAssignCallStmtImp(
+exec_stmt attr_item::operator |=(const exec_import_call_stmt &rhs) {
+	return exec_stmt(new ExecAssignCallStmtImp(
 			*this, ExecAssignStmtImp::AssignOp_OrEq, rhs));
 }
 
-ExecStmt FieldItem::operator |=(const Expr &rhs) {
-	return ExecStmt(new ExecAssignExprStmtImp(
+exec_stmt attr_item::operator |=(const expr &rhs) {
+	return exec_stmt(new ExecAssignExprStmtImp(
 			*this, ExecAssignStmtImp::AssignOp_OrEq, rhs));
 }
 
-ExecStmt FieldItem::operator &=(const ExecImportCallStmt &rhs) {
-	return ExecStmt(new ExecAssignCallStmtImp(
+exec_stmt attr_item::operator &=(const exec_import_call_stmt &rhs) {
+	return exec_stmt(new ExecAssignCallStmtImp(
 			*this, ExecAssignStmtImp::AssignOp_AndEq, rhs));
 }
 
-ExecStmt FieldItem::operator &=(const Expr &rhs) {
-	return ExecStmt(new ExecAssignExprStmtImp(
+exec_stmt attr_item::operator &=(const expr &rhs) {
+	return exec_stmt(new ExecAssignExprStmtImp(
 			*this, ExecAssignStmtImp::AssignOp_AndEq, rhs));
 }
 

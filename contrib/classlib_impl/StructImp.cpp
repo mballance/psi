@@ -26,14 +26,14 @@
 #include "StructImp.h"
 #include "ModelImp.h"
 #include "ScopeImp.h"
-#include "classlib/Expr.h"
+#include "classlib/expr.h"
 
 namespace pss {
 
-pss_struct::pss_struct(const Scope &p) :
-	BaseItem(new StructImp(this, p.impl())) { }
+pss_struct::pss_struct(const scope &p) :
+	base_item(new StructImp(this, p.impl())) { }
 
-pss_struct::pss_struct(BaseItemImp *imp) : BaseItem(imp) { }
+pss_struct::pss_struct(BaseItemImp *imp) : base_item(imp) { }
 
 StructImp::StructImp(
 		pss_struct	*master,
@@ -53,10 +53,10 @@ StructImp::StructImp(
 		getParent()->remove(this);
 
 		// Any children of this component must be added to the field
-		m_field = new FieldItem(
+		m_field = new attr_item(
 				getParent()->master(),
 				ModelImp::global()->get_field_name(),
-				FieldItem::AttrNone,
+				attr_item::AttrNone,
 				ModelImp::global()->getActiveType(master)->master(),
 				0);
 	}
@@ -78,11 +78,11 @@ StructImp::StructType StructImp::getStructType() const {
 	return m_struct_type;
 }
 
-pss_struct::operator Expr() const {
-//	return Expr(*m_field);
+pss_struct::operator expr() const {
+//	return expr(*m_field);
 }
 
-pss_struct::operator FieldItem &() const {
+pss_struct::operator attr_item &() const {
 	return static_cast<StructImp *>(impl())->getField();
 }
 

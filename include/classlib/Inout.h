@@ -27,13 +27,13 @@
 #define INCLUDED_INOUT_H
 #include <string>
 
-#include "classlib/FieldBase.h"
+#include "classlib/attr_base.h"
 #include "classlib/type_decl.h"
 
 namespace pss {
 
 class action;
-template <class T> class inout : public FieldBase<T> {
+template <class T> class inout : public attr_base<T> {
 
 	public:
 
@@ -41,7 +41,7 @@ template <class T> class inout : public FieldBase<T> {
 		 * This constructor is used for specifying method parameters
 		 */
 		inout(const std::string &name) :
-			FieldBase<T>(FieldItem::AttrInout, 0, name) { }
+			attr_base<T>(attr_item::AttrInout, 0, name) { }
 
 		virtual ~inout() { }
 

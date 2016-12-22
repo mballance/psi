@@ -24,7 +24,7 @@
 
 #ifndef INCLUDED_CHANDLE_IMPL_H
 #define INCLUDED_CHANDLE_IMPL_H
-#include "classlib/ChandleType.h"
+#include "classlib/chandle_type.h"
 #include "NamedBaseItemImp.h"
 #include "InlineExecUtil.h"
 
@@ -34,9 +34,9 @@ class ChandleTypeImpl : public NamedBaseItemImp {
 
 	public:
 
-		ChandleTypeImpl(ChandleType *master, BaseItem *p);
+		ChandleTypeImpl(chandle_type *master, base_item *p);
 
-		ChandleTypeImpl(ChandleType *master, const std::string &name);
+		ChandleTypeImpl(chandle_type *master, const std::string &name);
 
 		virtual ~ChandleTypeImpl();
 

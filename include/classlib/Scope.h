@@ -1,5 +1,5 @@
 /*
- * Scope.h
+ * scope.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -29,7 +29,7 @@
 #include <string>
 #include <vector>
 #include <typeinfo>
-#include "classlib/BaseItem.h"
+#include "classlib/base_item.h"
 #include "classlib/pss_types.h"
 #include "classlib/type_decl.h"
 
@@ -37,27 +37,27 @@ namespace pss {
 
 class BaseItemImp;
 class ScopeImp;
-class Scope {
+class scope {
 public:
-	template <class T> Scope(T *t) {
+	template <class T> scope(T *t) {
 		// Save the type of the super-class
 		init(&typeid(T), t,
 				type_decl<T>::valid()?type_decl<T>::id():0);
 	}
 
-	template <class T> Scope(T *t, BaseItem *p) {
+	template <class T> scope(T *t, base_item *p) {
 		// Save the type of the super-class
 		init(&typeid(T), p,
 				type_decl<T>::valid()?type_decl<T>::id():0);
 	}
 
-	Scope(bool is_type);
+	scope(bool is_type);
 
-	Scope(const char *name);
+	scope(const char *name);
 
-	Scope(const std::string &name);
+	scope(const std::string &name);
 
-	virtual ~Scope();
+	virtual ~scope();
 
 	ScopeImp *impl() const;
 
@@ -65,8 +65,8 @@ private:
 
 	void init(
 			const std::type_info 	*type,
-			BaseItem 				*ctxt,
-			BaseItem				*type_d);
+			base_item 				*ctxt,
+			base_item				*type_d);
 
 private:
 	ScopeImp				*m_impl;

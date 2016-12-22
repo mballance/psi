@@ -25,22 +25,22 @@
 
 #ifndef INCLUDED_CHANDLE_H
 #define INCLUDED_CHANDLE_H
-#include "classlib/BaseItem.h"
-#include "classlib/Scope.h"
-#include "classlib/ChandleType.h"
+#include "classlib/base_item.h"
+#include "classlib/scope.h"
+#include "classlib/chandle_type.h"
 
 namespace pss {
 
-template <class T=void> class chandle : public ChandleType {
+template <class T=void> class chandle : public chandle_type {
 public:
 
-	chandle(const Scope &p) : ChandleType(p) { }
+	chandle(const scope &p) : chandle_type(p) { }
 
-	chandle(const std::string &name) : ChandleType(name) { }
+	chandle(const std::string &name) : chandle_type(name) { }
 
-	T *get() { return static_cast<T *>(ChandleType::get()); }
+	T *get() { return static_cast<T *>(chandle_type::get()); }
 
-	void set(T *v) { ChandleType::set(v); }
+	void set(T *v) { chandle_type::set(v); }
 
 };
 

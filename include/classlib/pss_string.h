@@ -25,16 +25,16 @@
 
 #ifndef INCLUDED_STRING_H
 #define INCLUDED_STRING_H
-#include "classlib/BaseItem.h"
+#include "classlib/base_item.h"
 #include <string>
 
 namespace pss {
 
-class pss_string : public BaseItem {
+class pss_string : public base_item {
 
 	public:
 
-		pss_string(BaseItem *p);
+		pss_string(base_item *p);
 
 		pss_string(const std::string &name);
 

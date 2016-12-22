@@ -1,5 +1,5 @@
 /*
- * ImportClass.h
+ * extend_component.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -19,25 +19,25 @@
  * permissions and limitations under the License.
  * 
  *
- *  Created on: Apr 29, 2016
+ *  Created on: Apr 26, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_IMPORT_CLASS_H
-#define INCLUDED_IMPORT_CLASS_H
-
+#ifndef SRC_CLASSLIB_EXTENDCOMPONENT_H_
+#define SRC_CLASSLIB_EXTENDCOMPONENT_H_
+#include "classlib/extend_base.h"
 
 namespace pss {
 
-class ImportClass {
+template <class T> class extend_component : public extend_base<T> {
 
-	public:
+	protected:
+		extend_component(const scope &p) : extend_base<T>(p) { }
 
-		ImportClass();
+		virtual ~extend_component() { }
 
-		virtual ~ImportClass();
 };
 
 } /* namespace pss */
 
-#endif /* INCLUDED_IMPORT_CLASS_H */
+#endif /* SRC_CLASSLIB_EXTENDCOMPONENT_H_ */

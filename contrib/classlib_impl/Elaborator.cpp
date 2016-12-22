@@ -226,11 +226,11 @@ IConstraint *Elaborator::elaborate_constraint(ConstraintImp *c) {
 			(c->getName() == "")?"UNNAMED":c->getName().c_str());
 	IConstraintBlock *ret = m_model->mkConstraintBlock(c->getName());
 
-	Expr &e = c->getStmt();
+	expr &e = c->getStmt();
 
 	if (e.imp().getOp() != ExprImp::List) {
 		// Something is wrong here
-		error("Internal Error: Expecting ExprList\n");
+		error("Internal Error: Expecting expr_list\n");
 	}
 
 	ExprCoreList *l = dynamic_cast<ExprCoreList *>(e.imp().ptr());
@@ -463,7 +463,7 @@ IStruct *Elaborator::elaborate_struct(StructImp *str) {
 			filter = should_filter(str->getChildren(), i, type_h);
 		}
 //		else if (t->getObjectType() == BaseItemImp::TypeField &&
-//				dynamic_cast<FieldItem *>(t)->isInternal()) {
+//				dynamic_cast<attr_item *>(t)->isInternal()) {
 //			filter = true;
 //		}
 
@@ -568,10 +568,10 @@ IExec *Elaborator::elaborate_exec_item(ExecImp *e) {
 
 	switch (e->getExecType()) {
 	case ExecImp::Native: {
-		const std::vector<ExecStmt> &stmts = static_cast<ExecImp *>(e)->getStmtList().imp()->stmts();
+		const std::vector<exec_stmt> &stmts = static_cast<ExecImp *>(e)->getStmtList().imp()->stmts();
 		std::vector<IExecStmt *> stmts_e;
 
-		for (std::vector<ExecStmt>::const_iterator it=stmts.begin();
+		for (std::vector<exec_stmt>::const_iterator it=stmts.begin();
 				it!=stmts.end(); it++) {
 			stmts_e.push_back(elaborate_exec_stmt((*it).imp()));
 		}
@@ -914,19 +914,19 @@ IImportFunc *Elaborator::elaborate_import_func(ImportFuncImp *imp) {
 		ret = elaborate_datatype(imp->getReturnType());
 	}
 
-	const std::vector<FieldItem> &param_spec =
+	const std::vector<attr_item> &param_spec =
 			imp->getParameters().imp()->parameters();
 
-	for (std::vector<FieldItem>::const_iterator it=param_spec.begin();
+	for (std::vector<attr_item>::const_iterator it=param_spec.begin();
 			it!=param_spec.end(); it++) {
 		FieldItemImp *p = dynamic_cast<FieldItemImp *>((*it).impl());
 		IBaseItem *pt = elaborate_datatype(p->getDataType());
 
 		IField::FieldAttr attr;
 		switch (p->getAttr()) {
-		case FieldItem::AttrInput: attr = IField::FieldAttr_Input; break;
-		case FieldItem::AttrOutput: attr = IField::FieldAttr_Output; break;
-		case FieldItem::AttrInout: attr = IField::FieldAttr_Inout; break;
+		case attr_item::AttrInput: attr = IField::FieldAttr_Input; break;
+		case attr_item::AttrOutput: attr = IField::FieldAttr_Output; break;
+		case attr_item::AttrInout: attr = IField::FieldAttr_Inout; break;
 		}
 
 		fprintf(stdout, "parameter: %s\n", p->getName().c_str());
@@ -1044,7 +1044,7 @@ IBindPath *Elaborator::elaborate_bind_path(BaseItemImp *t) {
 }
 
 IGraphStmt *Elaborator::elaborate_graph(GraphImp *g) {
-	ExprList stmts = g->getSequence();
+	expr_list stmts = g->getSequence();
 	ExprCoreList *stmts_c = dynamic_cast<ExprCoreList *>(stmts.imp().ptr());
 	if (stmts_c->getExprList().size() > 1) {
 		std::vector<ExprImp >::const_iterator it;
@@ -1152,12 +1152,12 @@ IField::FieldAttr Elaborator::getAttr(FieldItemImp *t) {
 	IField::FieldAttr attr = IField::FieldAttr_None;
 
 	switch (t->getAttr()) {
-	case FieldItem::AttrInput: attr = IField::FieldAttr_Input; break;
-	case FieldItem::AttrOutput: attr = IField::FieldAttr_Output; break;
-	case FieldItem::AttrLock: attr = IField::FieldAttr_Lock; break;
-	case FieldItem::AttrShare: attr = IField::FieldAttr_Share; break;
-	case FieldItem::AttrRand: attr = IField::FieldAttr_Rand; break;
-	case FieldItem::AttrPool: attr = IField::FieldAttr_Pool; break;
+	case attr_item::AttrInput: attr = IField::FieldAttr_Input; break;
+	case attr_item::AttrOutput: attr = IField::FieldAttr_Output; break;
+	case attr_item::AttrLock: attr = IField::FieldAttr_Lock; break;
+	case attr_item::AttrShare: attr = IField::FieldAttr_Share; break;
+	case attr_item::AttrRand: attr = IField::FieldAttr_Rand; break;
+	case attr_item::AttrPool: attr = IField::FieldAttr_Pool; break;
 	}
 
 	return attr;
@@ -1355,7 +1355,7 @@ bool Elaborator::should_filter(
 	BaseItemImp *item = items.at(i);
 
 //	if (item->getObjectType() == BaseItemImp::TypeField &&
-//			dynamic_cast<FieldItem *>(item)->isInternal()) {
+//			dynamic_cast<attr_item *>(item)->isInternal()) {
 //		// Always skip implementation fields
 //		return true;
 //	}

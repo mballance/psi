@@ -32,7 +32,7 @@
 
 namespace pss {
 
-class FieldItem;
+class attr_item;
 class ComponentImp : public NamedBaseItemImp {
 
 	public:
@@ -42,13 +42,13 @@ class ComponentImp : public NamedBaseItemImp {
 
 		const TypePathImp &getSuperType() const { return m_super_type; }
 
-		FieldItem &getField() const { return *m_field; }
+		attr_item &getField() const { return *m_field; }
 
 		virtual const std::string &getName() const;
 
 	private:
 		TypePathImp				m_super_type;
-		FieldItem				*m_field;
+		attr_item				*m_field;
 
 };
 

@@ -1,5 +1,5 @@
 /*
- * ExtendComponent.h
+ * extend_item.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -19,25 +19,29 @@
  * permissions and limitations under the License.
  * 
  *
- *  Created on: Apr 26, 2016
+ *  Created on: Jul 8, 2016
  *      Author: ballance
  */
 
-#ifndef SRC_CLASSLIB_EXTENDCOMPONENT_H_
-#define SRC_CLASSLIB_EXTENDCOMPONENT_H_
-#include "classlib/ExtendBase.h"
+#ifndef SRC_PSI_CLASSLIB_EXTENDITEM_H_
+#define SRC_PSI_CLASSLIB_EXTENDITEM_H_
+
+#include "classlib/base_item.h"
+#include "classlib/scope.h"
 
 namespace pss {
 
-template <class T> class ExtendComponent : public ExtendBase<T> {
+class extend_item: public base_item {
+public:
+	extend_item(
+			const scope 		&p,
+			base_item			*type_hndl,
+			base_item			*ext_hndl);
 
-	protected:
-		ExtendComponent(const Scope &p) : ExtendBase<T>(p) { }
-
-		virtual ~ExtendComponent() { }
+	virtual ~extend_item();
 
 };
 
 } /* namespace pss */
 
-#endif /* SRC_CLASSLIB_EXTENDCOMPONENT_H_ */
+#endif /* SRC_PSI_CLASSLIB_EXTENDITEM_H_ */

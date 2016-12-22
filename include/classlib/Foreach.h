@@ -24,18 +24,18 @@
 
 #ifndef INCLUDED_FOREACH_H
 #define INCLUDED_FOREACH_H
-#include "classlib/Expr.h"
+#include "classlib/expr.h"
 
 
 namespace pss {
 
-class foreach : public Expr {
+class foreach : public expr {
 public:
 
 	foreach(
-			const BaseItem 	&var,
-			const ExprList 	&index_vars,
-			const ExprList	&constraints);
+			const base_item 	&var,
+			const expr_list 	&index_vars,
+			const expr_list	&constraints);
 
 };
 

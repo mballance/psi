@@ -27,10 +27,10 @@
 
 namespace pss {
 
-ExprCoreIf::ExprCoreIf(const Expr &cond, const Expr &true_expr) :
+ExprCoreIf::ExprCoreIf(const expr &cond, const expr &true_expr) :
 	ExprCore(ExprImp::Stmt_If, cond, true_expr) { }
 
-ExprCoreIf::ExprCoreIf(const Expr &cond, const Expr &true_expr, const Expr &false_expr) :
+ExprCoreIf::ExprCoreIf(const expr &cond, const expr &true_expr, const expr &false_expr) :
 	ExprCore(ExprImp::Stmt_IfElse, cond, true_expr), m_false_stmt(false_expr) { }
 
 ExprCoreIf::~ExprCoreIf() {

@@ -27,18 +27,18 @@
 #define INCLUDED_CONSTRAINT_H
 #include <string>
 
-#include "classlib/BaseItem.h"
+#include "classlib/base_item.h"
 
 namespace pss {
 
-class constraint : public BaseItem {
+class constraint : public base_item {
 public:
-	constraint(BaseItem *p, const ExprList &stmt);
+	constraint(base_item *p, const expr_list &stmt);
 
 	constraint(
-			BaseItem 				*p,
+			base_item 				*p,
 			const std::string 		&name,
-			const ExprList 			&stmt);
+			const expr_list 			&stmt);
 
 	virtual ~constraint();
 

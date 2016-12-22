@@ -27,7 +27,7 @@
 #define INCLUDED_INPUT_H
 #include <string>
 
-#include "classlib/FieldItem.h"
+#include "classlib/attr_item.h"
 #include "classlib/type_decl.h"
 
 namespace pss {
@@ -39,87 +39,87 @@ template <class T> class input : public T {
 		/**
 		 * This constructor is used for specifying an action input field
 		 */
-		input(const Scope &name) : T(static_cast<T *>(this)) {
-			FieldItem &it = static_cast<FieldItem &>(*this);
-			it.setModifiers(FieldItem::AttrInput);
+		input(const scope &name) : T(static_cast<T *>(this)) {
+			attr_item &it = static_cast<attr_item &>(*this);
+			it.setModifiers(attr_item::AttrInput);
 		}
 
 		virtual ~input() { }
 
 };
 
-template <> class input<pss_bit> : public FieldItem {
+template <> class input<pss_bit> : public attr_item {
 public:
-	input(const Scope &name) :
-		FieldItem(name, FieldItem::AttrInput, pss_bit(), 0) { }
+	input(const scope &name) :
+		attr_item(name, attr_item::AttrInput, pss_bit(), 0) { }
 
-	input(const Scope &name, const pss_bit &t_decl) :
-		FieldItem(name, FieldItem::AttrInput, t_decl, 0) { }
+	input(const scope &name, const pss_bit &t_decl) :
+		attr_item(name, attr_item::AttrInput, t_decl, 0) { }
 
-	input(const Scope &name, uint32_t w) :
-		FieldItem(name, FieldItem::AttrInput, pss_bit(w), 0) { }
+	input(const scope &name, uint32_t w) :
+		attr_item(name, attr_item::AttrInput, pss_bit(w), 0) { }
 
 };
 
-template <> class input<pss_int> : public FieldItem {
+template <> class input<pss_int> : public attr_item {
 public:
-	input(const Scope &name) :
-		FieldItem(name, FieldItem::AttrInput, pss_int(), 0) { }
+	input(const scope &name) :
+		attr_item(name, attr_item::AttrInput, pss_int(), 0) { }
 
-	input(const Scope &name, const pss_int &t_decl) :
-		FieldItem(name, FieldItem::AttrInput, t_decl, 0) { }
+	input(const scope &name, const pss_int &t_decl) :
+		attr_item(name, attr_item::AttrInput, t_decl, 0) { }
 
-	input(const Scope &name, uint32_t w) :
-		FieldItem(name, FieldItem::AttrInput, pss_int(w), 0) { }
+	input(const scope &name, uint32_t w) :
+		attr_item(name, attr_item::AttrInput, pss_int(w), 0) { }
 
 };
 
-template <> class input<unsigned int> : public FieldItem {
+template <> class input<unsigned int> : public attr_item {
 public:
-	input(const Scope &name) :
-		FieldItem(name, FieldItem::AttrInput, pss_bit(32), 0) { }
+	input(const scope &name) :
+		attr_item(name, attr_item::AttrInput, pss_bit(32), 0) { }
 
 };
 
-template <> class input<int> : public FieldItem {
+template <> class input<int> : public attr_item {
 public:
-	input(const Scope &name) :
-		FieldItem(name, FieldItem::AttrInput, pss_int(32), 0) { }
+	input(const scope &name) :
+		attr_item(name, attr_item::AttrInput, pss_int(32), 0) { }
 
 };
 
-template <> class input<unsigned short> : public FieldItem {
+template <> class input<unsigned short> : public attr_item {
 public:
-	input(const Scope &name) :
-		FieldItem(name, FieldItem::AttrInput, pss_bit(16), 0) { }
+	input(const scope &name) :
+		attr_item(name, attr_item::AttrInput, pss_bit(16), 0) { }
 
 };
 
-template <> class input<short> : public FieldItem {
+template <> class input<short> : public attr_item {
 public:
-	input(const Scope &name) :
-		FieldItem(name, FieldItem::AttrInput, pss_int(16), 0) { }
+	input(const scope &name) :
+		attr_item(name, attr_item::AttrInput, pss_int(16), 0) { }
 
 };
 
-template <> class input<unsigned char> : public FieldItem {
+template <> class input<unsigned char> : public attr_item {
 public:
-	input(const Scope &name) :
-		FieldItem(name, FieldItem::AttrInput, pss_bit(8), 0) { }
+	input(const scope &name) :
+		attr_item(name, attr_item::AttrInput, pss_bit(8), 0) { }
 
 };
 
-template <> class input<char> : public FieldItem {
+template <> class input<char> : public attr_item {
 public:
-	input(const Scope &name) :
-		FieldItem(name, FieldItem::AttrInput, pss_int(8), 0) { }
+	input(const scope &name) :
+		attr_item(name, attr_item::AttrInput, pss_int(8), 0) { }
 
 };
 
-template <> class input<bool> : public FieldItem {
+template <> class input<bool> : public attr_item {
 public:
-	input(const Scope &name) :
-		FieldItem(name, FieldItem::AttrInput, pss_bool(), 0) { }
+	input(const scope &name) :
+		attr_item(name, attr_item::AttrInput, pss_bool(), 0) { }
 
 };
 

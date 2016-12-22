@@ -26,24 +26,24 @@
 #define CONTRIB_CLASSLIB_IMPL_EXECASSIGNCALLSTMTIMP_H_
 
 #include "ExecAssignStmtImp.h"
-#include "classlib/ExecImportCallStmt.h"
-#include "classlib/FieldItem.h"
+#include "classlib/exec_import_call_stmt.h"
+#include "classlib/attr_item.h"
 
 namespace pss {
 
 class ExecAssignCallStmtImp: public ExecAssignStmtImp {
 public:
 	ExecAssignCallStmtImp(
-			const FieldItem				&lhs,
+			const attr_item				&lhs,
 			AssignOp					op,
-			const ExecImportCallStmt	&rhs);
+			const exec_import_call_stmt	&rhs);
 
 	virtual ~ExecAssignCallStmtImp();
 
-	const ExecImportCallStmt &rhs() const { return m_rhs; }
+	const exec_import_call_stmt &rhs() const { return m_rhs; }
 
 private:
-	ExecImportCallStmt				m_rhs;
+	exec_import_call_stmt				m_rhs;
 
 };
 

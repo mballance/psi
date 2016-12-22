@@ -26,26 +26,26 @@
 #ifndef INCLUDED_SEQUENTIAL_H
 #define INCLUDED_SEQUENTIAL_H
 #include "classlib/pss_types.h"
-#include "classlib/ExprList.h"
-#include "classlib/ExprListBuilder.h"
+#include "classlib/expr_list.h"
+#include "classlib/expr_list_builder.h"
 
 namespace pss {
 
-class sequence : public ExprList {
+class sequence : public expr_list {
 public:
 
-	sequence(const ExprList &body);
+	sequence(const expr_list &body);
 
 #ifdef PSS_HAVE_CXX_11
 	template <typename... I> sequence(const I&... items) :
-			sequence(ExprList::mklist(items...)) { }
+			sequence(expr_list::mklist(items...)) { }
 #endif
 
 	virtual ~sequence();
 
-	ExprListBuilder operator,(const Expr &rhs);
+	expr_list_builder operator,(const expr &rhs);
 
-	ExprListBuilder operator,(const ExprListBuilder &rhs);
+	expr_list_builder operator,(const expr_list_builder &rhs);
 
 };
 

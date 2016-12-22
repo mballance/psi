@@ -28,7 +28,7 @@
 #include <string>
 #include <stdio.h>
 
-#include "classlib/FieldItem.h"
+#include "classlib/attr_item.h"
 #include "classlib/type_decl.h"
 
 namespace pss {
@@ -40,87 +40,87 @@ template <class T> class output : public T {
 		/**
 		 * This constructor is used to specify an action output field
 		 */
-		output(const Scope &scope) : T(static_cast<T *>(this)) {
-			FieldItem &it = static_cast<FieldItem &>(*this);
-			it.setModifiers(FieldItem::AttrOutput);
+		output(const scope &scope) : T(static_cast<T *>(this)) {
+			attr_item &it = static_cast<attr_item &>(*this);
+			it.setModifiers(attr_item::AttrOutput);
 		}
 
 		virtual ~output() { }
 
 };
 
-template <> class output<pss_bit> : public FieldItem {
+template <> class output<pss_bit> : public attr_item {
 public:
-	output(const Scope &name) :
-		FieldItem(name, FieldItem::AttrOutput, pss_bit(), 0) { }
+	output(const scope &name) :
+		attr_item(name, attr_item::AttrOutput, pss_bit(), 0) { }
 
-	output(const Scope &name, const pss_bit &t_decl) :
-		FieldItem(name, FieldItem::AttrOutput, t_decl, 0) { }
+	output(const scope &name, const pss_bit &t_decl) :
+		attr_item(name, attr_item::AttrOutput, t_decl, 0) { }
 
-	output(const Scope &name, uint32_t w) :
-		FieldItem(name, FieldItem::AttrOutput, pss_bit(w), 0) { }
+	output(const scope &name, uint32_t w) :
+		attr_item(name, attr_item::AttrOutput, pss_bit(w), 0) { }
 
 };
 
-template <> class output<pss_int> : public FieldItem {
+template <> class output<pss_int> : public attr_item {
 public:
-	output(const Scope &name) :
-		FieldItem(name, FieldItem::AttrOutput, pss_int(), 0) { }
+	output(const scope &name) :
+		attr_item(name, attr_item::AttrOutput, pss_int(), 0) { }
 
-	output(const Scope &name, const pss_int &t_decl) :
-		FieldItem(name, FieldItem::AttrOutput, t_decl, 0) { }
+	output(const scope &name, const pss_int &t_decl) :
+		attr_item(name, attr_item::AttrOutput, t_decl, 0) { }
 
-	output(const Scope &name, uint32_t w) :
-		FieldItem(name, FieldItem::AttrOutput, pss_int(w), 0) { }
+	output(const scope &name, uint32_t w) :
+		attr_item(name, attr_item::AttrOutput, pss_int(w), 0) { }
 
 };
 
-template <> class output<unsigned int> : public FieldItem {
+template <> class output<unsigned int> : public attr_item {
 public:
-	output(const Scope &name) :
-		FieldItem(name, FieldItem::AttrOutput, pss_bit(32), 0) { }
+	output(const scope &name) :
+		attr_item(name, attr_item::AttrOutput, pss_bit(32), 0) { }
 
 };
 
-template <> class output<int> : public FieldItem {
+template <> class output<int> : public attr_item {
 public:
-	output(const Scope &name) :
-		FieldItem(name, FieldItem::AttrOutput, pss_int(32), 0) { }
+	output(const scope &name) :
+		attr_item(name, attr_item::AttrOutput, pss_int(32), 0) { }
 
 };
 
-template <> class output<unsigned short> : public FieldItem {
+template <> class output<unsigned short> : public attr_item {
 public:
-	output(const Scope &name) :
-		FieldItem(name, FieldItem::AttrOutput, pss_bit(16), 0) { }
+	output(const scope &name) :
+		attr_item(name, attr_item::AttrOutput, pss_bit(16), 0) { }
 
 };
 
-template <> class output<short> : public FieldItem {
+template <> class output<short> : public attr_item {
 public:
-	output(const Scope &name) :
-		FieldItem(name, FieldItem::AttrOutput, pss_int(16), 0) { }
+	output(const scope &name) :
+		attr_item(name, attr_item::AttrOutput, pss_int(16), 0) { }
 
 };
 
-template <> class output<unsigned char> : public FieldItem {
+template <> class output<unsigned char> : public attr_item {
 public:
-	output(const Scope &name) :
-		FieldItem(name, FieldItem::AttrOutput, pss_bit(8), 0) { }
+	output(const scope &name) :
+		attr_item(name, attr_item::AttrOutput, pss_bit(8), 0) { }
 
 };
 
-template <> class output<char> : public FieldItem {
+template <> class output<char> : public attr_item {
 public:
-	output(const Scope &name) :
-		FieldItem(name, FieldItem::AttrOutput, pss_int(8), 0) { }
+	output(const scope &name) :
+		attr_item(name, attr_item::AttrOutput, pss_int(8), 0) { }
 
 };
 
-template <> class output<bool> : public FieldItem {
+template <> class output<bool> : public attr_item {
 public:
-	output(const Scope &name) :
-		FieldItem(name, FieldItem::AttrOutput, pss_bool(), 0) { }
+	output(const scope &name) :
+		attr_item(name, attr_item::AttrOutput, pss_bool(), 0) { }
 
 };
 

@@ -25,27 +25,27 @@
 #ifndef INCLUDED_REPEAT_H
 #define INCLUDED_REPEAT_H
 #include "classlib/pss_types.h"
-#include "classlib/Expr.h"
-#include "classlib/ExprList.h"
-#include "classlib/ExprListBuilder.h"
+#include "classlib/expr.h"
+#include "classlib/expr_list.h"
+#include "classlib/expr_list_builder.h"
 
 namespace pss {
 
-class repeat: public Expr {
+class repeat: public expr {
 public:
 
 #ifdef PSS_HAVE_CXX_11
-	template<typename... I> repeat(const Expr &cond, const I&... items) :
-		repeat(cond, ExprList::mklist(items...)) { }
+	template<typename... I> repeat(const expr &cond, const I&... items) :
+		repeat(cond, expr_list::mklist(items...)) { }
 #endif
 
-	repeat(const Expr &cond, const ExprList &body);
+	repeat(const expr &cond, const expr_list &body);
 
 	virtual ~repeat();
 
-	ExprListBuilder operator,(const Expr &rhs);
+	expr_list_builder operator,(const expr &rhs);
 
-	ExprListBuilder operator,(const ExprListBuilder &rhs);
+	expr_list_builder operator,(const expr_list_builder &rhs);
 
 };
 

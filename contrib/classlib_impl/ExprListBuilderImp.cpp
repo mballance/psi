@@ -1,5 +1,5 @@
 /*
- * ExprListBuilder.cpp
+ * expr_list_builder.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -24,57 +24,57 @@
  */
 
 #include "ExprListBuilderImp.h"
-#include "classlib/ExprListBuilder.h"
-#include "classlib/Expr.h"
+#include "classlib/expr_list_builder.h"
+#include "classlib/expr.h"
 #include <stdio.h>
 #include "ExprCore.h"
 
 namespace pss {
 
-ExprListBuilder::ExprListBuilder() : m_imp(new ExprListBuilderImp()) {
+expr_list_builder::expr_list_builder() : m_imp(new ExprListBuilderImp()) {
 }
 
 ExprListBuilderImp::ExprListBuilderImp() {
 
 }
 
-ExprListBuilder::ExprListBuilder(const std::vector<Expr> &l) :
+expr_list_builder::expr_list_builder(const std::vector<expr> &l) :
 		m_imp(new ExprListBuilderImp(l)) {
 
 }
 
-ExprListBuilderImp::ExprListBuilderImp(const std::vector<Expr> &l) {
-	for (std::vector<Expr>::const_iterator it=l.begin(); it!=l.end(); it++) {
+ExprListBuilderImp::ExprListBuilderImp(const std::vector<expr> &l) {
+	for (std::vector<expr>::const_iterator it=l.begin(); it!=l.end(); it++) {
 		m_list.push_back((*it).imp());
 	}
 }
 
-ExprListBuilder::ExprListBuilder(const Expr &e1, const Expr &e2) :
+expr_list_builder::expr_list_builder(const expr &e1, const expr &e2) :
 	m_imp(new ExprListBuilderImp(e1, e2)) {
 }
 
-ExprListBuilderImp::ExprListBuilderImp(const Expr &e1, const Expr &e2) {
+ExprListBuilderImp::ExprListBuilderImp(const expr &e1, const expr &e2) {
 	m_list.push_back(e1.imp());
 	m_list.push_back(e2.imp());
 }
 
-ExprListBuilder::ExprListBuilder(const Expr &e1, const ExprListBuilder &e2) :
+expr_list_builder::expr_list_builder(const expr &e1, const expr_list_builder &e2) :
 	m_imp(new ExprListBuilderImp(e1, e2)) {
 }
 
-ExprListBuilderImp::ExprListBuilderImp(const Expr &e1, const ExprListBuilder &e2) {
+ExprListBuilderImp::ExprListBuilderImp(const expr &e1, const expr_list_builder &e2) {
 	ExprListBuilderImp e1_l;
 	e1_l.m_list.push_back(e1.imp());
 	m_builders.push_back(e1_l);
 	m_builders.push_back(e2.imp());
 }
 
-ExprListBuilder &ExprListBuilder::operator,(const ExprListBuilder &rhs) {
+expr_list_builder &expr_list_builder::operator,(const expr_list_builder &rhs) {
 
 	// Convert ourselves int a list of builders
 	if (m_imp->m_list.size() > 0) {
 		// We're a list of expressions.
-		// Pack the expressions into an ExprListBuilder
+		// Pack the expressions into an expr_list_builder
 		ExprListBuilderImp this_l;
 		for (std::vector<ExprImp>::const_iterator it=m_imp->m_list.begin();
 				it!=m_imp->m_list.end(); it++) {
@@ -90,16 +90,16 @@ ExprListBuilder &ExprListBuilder::operator,(const ExprListBuilder &rhs) {
 	return *this;
 }
 
-void ExprListBuilder::add(const Expr &rhs) {
+void expr_list_builder::add(const expr &rhs) {
 	m_imp->m_list.push_back(rhs.imp());
 }
 
-void ExprListBuilder::add(const ExprListBuilder &rhs) {
+void expr_list_builder::add(const expr_list_builder &rhs) {
 
 	// Convert ourselves int a list of builders
 	if (m_imp->m_list.size() > 0) {
 		// We're a list of expressions.
-		// Pack the expressions into an ExprListBuilder
+		// Pack the expressions into an expr_list_builder
 		ExprListBuilderImp this_l;
 		for (std::vector<ExprImp>::const_iterator it=m_imp->m_list.begin();
 				it!=m_imp->m_list.end(); it++) {
@@ -113,12 +113,12 @@ void ExprListBuilder::add(const ExprListBuilder &rhs) {
 	m_imp->m_builders.push_back(rhs.imp());
 }
 
-ExprListBuilder &ExprListBuilder::operator,(const Expr &rhs) {
+expr_list_builder &expr_list_builder::operator,(const expr &rhs) {
 	m_imp->m_list.push_back(rhs.imp());
 	return *this;
 }
 
-ExprListBuilder::~ExprListBuilder() {
+expr_list_builder::~expr_list_builder() {
 	delete m_imp;
 }
 

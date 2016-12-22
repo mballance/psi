@@ -25,15 +25,15 @@
 #ifndef INCLUDED_WITH_H
 #define INCLUDED_WITH_H
 
-#include "classlib/Expr.h"
+#include "classlib/expr.h"
 
 namespace pss {
 
-class FieldItem;
-class ExprList;
-class With: public Expr {
+class attr_item;
+class expr_list;
+class With: public expr {
 public:
-	With(const FieldItem &lhs, const ExprList &stmt);
+	With(const attr_item &lhs, const expr_list &stmt);
 
 	virtual ~With();
 };

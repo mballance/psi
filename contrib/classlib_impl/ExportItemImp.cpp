@@ -1,5 +1,5 @@
 /*
- * ExportItem.cpp
+ * export_item.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -27,37 +27,37 @@
 
 namespace pss {
 
-ExportItem::ExportItem(BaseItem	*p) : BaseItem(new ExportItemImp(this, p)) {
+export_item::export_item(base_item	*p) : base_item(new ExportItemImp(this, p)) {
 
 }
 
 ExportItemImp::ExportItemImp(
-		ExportItem		*master,
-		BaseItem		*p) :
+		export_item		*master,
+		base_item		*p) :
 	BaseItemImp(master, BaseItemImp::TypeExportItem, p), m_data_type(0) {
 }
 
-ExportItem::ExportItem(
-		BaseItem 			*p,
-		const ExprList		&exp_params) :
-	BaseItem(new ExportItemImp(this, p, exp_params)) {
+export_item::export_item(
+		base_item 			*p,
+		const expr_list		&exp_params) :
+	base_item(new ExportItemImp(this, p, exp_params)) {
 //	setTypeData(t_ref);
 }
 
 ExportItemImp::ExportItemImp(
-		ExportItem			*master,
-		BaseItem 			*p,
-		const ExprList		&exp_params) :
+		export_item			*master,
+		base_item 			*p,
+		const expr_list		&exp_params) :
 	BaseItemImp(master, BaseItemImp::TypeExportItem, p),
 	m_exp_params(exp_params), m_data_type(0) {
 //	setTypeData(t_ref);
 }
 
-void ExportItem::setDataType(BaseItem *t) {
+void export_item::setDataType(base_item *t) {
 	static_cast<ExportItemImp *>(impl())->setDataType(t);
 }
 
-void ExportItemImp::setDataType(BaseItem *t) {
+void ExportItemImp::setDataType(base_item *t) {
 	m_data_type = (t)?t->impl():0;
 }
 
@@ -65,7 +65,7 @@ BaseItemImp *ExportItemImp::getDataType() const {
 	return m_data_type;
 }
 
-ExportItem::~ExportItem() {
+export_item::~export_item() {
 	// TODO Auto-generated destructor stub
 }
 

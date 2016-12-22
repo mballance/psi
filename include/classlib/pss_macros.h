@@ -41,7 +41,7 @@
  */
 #define pss_ctor(_name, _super) \
 	public: \
-	_name (const Scope &p) : _super(this) { }
+	_name (const scope &p) : _super(this) { }
 
 #define pss_constraint(_name, _body) \
 		constraint _name {this, #_name, _body};

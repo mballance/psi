@@ -37,7 +37,7 @@ namespace pss {
 class BoolImp: public NamedBaseItemImp {
 
 	public:
-		BoolImp(pss_bool *master, BaseItem *p);
+		BoolImp(pss_bool *master, base_item *p);
 
 		/**
 		 * This constructor is used for composing parameter lists.

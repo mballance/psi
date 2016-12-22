@@ -36,7 +36,7 @@ public:
 		virtual ~memory_struct();
 
 protected:
-		memory_struct(const Scope &p);
+		memory_struct(const scope &p);
 
 	private:
 

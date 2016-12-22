@@ -1,5 +1,5 @@
 /*
- * ExecImportCallStmt.h
+ * extend_base.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -17,26 +17,30 @@
  * CONDITIONS OF ANY KIND, either express or implied.  See
  * the License for the specific language governing
  * permissions and limitations under the License.
-* 
- *  Created on: Aug 29, 2016
+ * 
+ *
+ *  Created on: Jul 27, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDE_CLASSLIB_EXECIMPORTCALLSTMT_H_
-#define INCLUDE_CLASSLIB_EXECIMPORTCALLSTMT_H_
-
-#include "classlib/ExecStmt.h"
-#include "classlib/ExprList.h"
+#ifndef INCLUDED_EXTEND_BASE_H
+#define INCLUDED_EXTEND_BASE_H
+#include <stdio.h>
+#include "classlib/extend_item.h"
+#include "classlib/scope.h"
+#include "classlib/base_item.h"
 
 namespace pss {
 
-class import_func;
-class ExecImportCallStmt : public ExecStmt {
-public:
-	friend import_func;
+template <class T> class extend_base : public T {
+protected:
+
+	extend_base(const scope &p) : T(scope(true)),
+		m_item(p, (type_decl<T>::valid())?type_decl<T>::id():this, this) {
+	}
 
 private:
-	ExecImportCallStmt(const import_func &f, const ExprList &plist);
+	extend_item					m_item;
 
 };
 
@@ -45,4 +49,4 @@ private:
 
 
 
-#endif /* INCLUDE_CLASSLIB_EXECIMPORTCALLSTMT_H_ */
+#endif /* INCLUDE_CLASSLIB_EXTENDBASE_H_ */

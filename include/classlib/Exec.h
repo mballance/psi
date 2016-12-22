@@ -28,17 +28,17 @@
 
 #include <string>
 
-#include "classlib/BaseItem.h"
+#include "classlib/base_item.h"
 #include "classlib/pss_types.h"
-#include "classlib/ExecStmtList.h"
+#include "classlib/exec_stmt_list.h"
 
 namespace pss {
 
 class ImportCall;
-class ExtendItem;
-class ExecStmtList;
+class extend_item;
+class exec_stmt_list;
 
-class exec : public BaseItem {
+class exec : public base_item {
 
 	public:
 		enum ExecKind {
@@ -51,47 +51,47 @@ class exec : public BaseItem {
 	public:
 
 		exec(
-			BaseItem								*p,
+			base_item								*p,
 			ExecKind 								kind,
 			const std::string 						&language,
 			const std::string 						&content);
 
 		exec(
-			ExtendItem								*p,
+			extend_item								*p,
 			ExecKind 								kind,
 			const std::string 						&language,
 			const std::string 						&content);
 
 		exec(
-			BaseItem								*p,
+			base_item								*p,
 			ExecKind 								kind,
-			const ExecStmtList						&stmts);
+			const exec_stmt_list						&stmts);
 
 		exec(
-			ExtendItem								*p,
+			extend_item								*p,
 			ExecKind 								kind,
-			const ExecStmtList						&stmts);
+			const exec_stmt_list						&stmts);
 
 		/**
 		 * Inline exec block that activates the appropriate
 		 * hook method
 		 */
 		exec(
-			BaseItem								*p,
+			base_item								*p,
 			ExecKind								kind);
 
 #ifdef PSS_HAVE_CXX_11
 //		exec(
-//			BaseItem								*p,
+//			base_item								*p,
 //			ExecKind								kind,
-//			std::initializer_list<BaseItem>			write_vars) :
-//				BaseItem(BaseItem::TypeExec, p),
+//			std::initializer_list<base_item>			write_vars) :
+//				base_item(base_item::TypeExec, p),
 //				m_execType(Inline),
 //				m_execKind(kind) {
 //			// TODO: save write variables
-////			std::vector<BaseItem *> ptr_v;
+////			std::vector<base_item *> ptr_v;
 ////
-////			for (std::initializer_list<BaseItem>::const_iterator it=write_vars.begin();
+////			for (std::initializer_list<base_item>::const_iterator it=write_vars.begin();
 ////					it!=write_vars.end(); it++) {
 ////				ptr_v.
 ////

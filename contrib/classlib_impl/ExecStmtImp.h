@@ -24,9 +24,9 @@
 
 #ifndef CONTRIB_CLASSLIB_IMPL_EXECSTMTIMP_H_
 #define CONTRIB_CLASSLIB_IMPL_EXECSTMTIMP_H_
-#include "classlib/ExecStmt.h"
-#include "classlib/FieldItem.h"
-#include "classlib/Expr.h"
+#include "classlib/exec_stmt.h"
+#include "classlib/attr_item.h"
+#include "classlib/expr.h"
 
 namespace pss {
 

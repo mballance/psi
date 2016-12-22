@@ -32,17 +32,17 @@ namespace pss {
 class ExecAssignExprStmtImp: public ExecAssignStmtImp {
 public:
 	ExecAssignExprStmtImp(
-			const FieldItem		&lhs,
+			const attr_item		&lhs,
 			AssignOp			op,
-			const Expr			&rhs
+			const expr			&rhs
 			);
 
 	virtual ~ExecAssignExprStmtImp();
 
-	const Expr &rhs() const { return m_rhs; }
+	const expr &rhs() const { return m_rhs; }
 
 private:
-	Expr						m_rhs;
+	expr						m_rhs;
 };
 
 } /* namespace pss */

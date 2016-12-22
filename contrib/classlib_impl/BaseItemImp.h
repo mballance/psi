@@ -1,5 +1,5 @@
 /*
- * BaseItem.h
+ * base_item.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -28,10 +28,10 @@
 #include <string>
 #include <vector>
 
-#include "classlib/BaseItem.h"
-#include "classlib/Expr.h"
-#include "classlib/ExprList.h"
-#include "classlib/ExprListBuilder.h"
+#include "classlib/base_item.h"
+#include "classlib/expr.h"
+#include "classlib/expr_list.h"
+#include "classlib/expr_list_builder.h"
 
 namespace pss {
 
@@ -66,11 +66,11 @@ public:
 
 	BaseItemImp();
 
-//	BaseItemImp(const BaseItem &rhs);
+//	BaseItemImp(const base_item &rhs);
 
 	uint32_t depth() const { return m_depth; }
 
-	virtual void setParent(BaseItem *p);
+	virtual void setParent(base_item *p);
 	virtual void setParent(BaseItemImp *p);
 
 	virtual BaseItemImp *getParent() const {
@@ -94,11 +94,11 @@ public:
 
 	virtual ~BaseItemImp();
 
-	static BaseItemImp *toImp(BaseItem *i);
+	static BaseItemImp *toImp(base_item *i);
 
-	BaseItem *master() const { return m_master; }
+	base_item *master() const { return m_master; }
 
-	void setMaster(BaseItem *m) { m_master = m; }
+	void setMaster(base_item *m) { m_master = m; }
 
 	void inc_refcnt();
 
@@ -106,16 +106,16 @@ public:
 
 	void operator = (const BaseItemImp &rhs);
 
-	static BaseItem *pOrGlobal(BaseItem *p);
+	static base_item *pOrGlobal(base_item *p);
 
 protected:
 
-	BaseItemImp(BaseItem *master, ObjectType t, BaseItem *p);
+	BaseItemImp(base_item *master, ObjectType t, base_item *p);
 
 
 private:
 	uint32_t								m_refcnt;
-	BaseItem								*m_master;
+	base_item								*m_master;
 	ObjectType								m_type;
 	BaseItemImp								*m_parent;
 	uint32_t								m_depth;

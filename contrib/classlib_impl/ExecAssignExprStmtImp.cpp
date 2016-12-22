@@ -27,9 +27,9 @@
 namespace pss {
 
 ExecAssignExprStmtImp::ExecAssignExprStmtImp(
-		const FieldItem			&lhs,
+		const attr_item			&lhs,
 		AssignOp				op,
-		const Expr				&rhs) :
+		const expr				&rhs) :
 	ExecAssignStmtImp(StmtType_AssignExpr, lhs, op), m_rhs(rhs) {
 
 }

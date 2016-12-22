@@ -25,7 +25,7 @@
 
 #ifndef INCLUDED_POOL_H
 #define INCLUDED_POOL_H
-#include "classlib/FieldItem.h"
+#include "classlib/attr_item.h"
 #include "classlib/type_decl.h"
 
 namespace pss {
@@ -33,9 +33,9 @@ namespace pss {
 template <class T> class pool : public T {
 
 	public:
-		pool(const Scope &name) : T(static_cast<T *>(this)) {
-			FieldItem &it = static_cast<FieldItem &>(*this);
-			it.setModifiers(FieldItem::AttrPool);
+		pool(const scope &name) : T(static_cast<T *>(this)) {
+			attr_item &it = static_cast<attr_item &>(*this);
+			it.setModifiers(attr_item::AttrPool);
 		}
 
 		virtual ~pool() { }

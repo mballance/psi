@@ -31,21 +31,21 @@
 
 namespace pss {
 
-class ExprList;
+class expr_list;
 class ExprCoreList: public ExprCore {
-	friend class ExprList;
+	friend class expr_list;
 
 public:
 
 	ExprCoreList();
 
-	ExprCoreList(const Expr &e);
+	ExprCoreList(const expr &e);
 
-	ExprCoreList(const Expr &e1, const Expr &e2);
+	ExprCoreList(const expr &e1, const expr &e2);
 
 	virtual ~ExprCoreList();
 
-	void add(const Expr &e);
+	void add(const expr &e);
 
 	void add(const ExprImp &e);
 

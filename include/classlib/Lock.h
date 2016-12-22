@@ -26,7 +26,7 @@
 #define LOCK_H_
 #include <string>
 
-#include "classlib/FieldItem.h"
+#include "classlib/attr_item.h"
 #include "classlib/type_decl.h"
 
 namespace pss {
@@ -34,9 +34,9 @@ namespace pss {
 template <class T> class lock : public T {
 
 	public:
-		lock(const Scope &name) : T(static_cast<T *>(this)) {
-			FieldItem &it = static_cast<FieldItem &>(*this);
-			it.setModifiers(FieldItem::AttrLock);
+		lock(const scope &name) : T(static_cast<T *>(this)) {
+			attr_item &it = static_cast<attr_item &>(*this);
+			it.setModifiers(attr_item::AttrLock);
 		}
 
 		virtual ~lock() { }

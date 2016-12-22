@@ -28,18 +28,18 @@
 
 #include <string>
 
-#include "classlib/BaseItem.h"
+#include "classlib/base_item.h"
 
 namespace pss {
 
-class Scope;
-class pss_bool: public BaseItem {
+class scope;
+class pss_bool: public base_item {
 
 	public:
 
 		pss_bool();
 
-		pss_bool(const Scope &p);
+		pss_bool(const scope &p);
 
 		virtual ~pss_bool();
 

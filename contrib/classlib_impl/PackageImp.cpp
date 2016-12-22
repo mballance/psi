@@ -32,8 +32,8 @@
 
 namespace pss {
 
-package::package(const Scope &p) :
-		BaseItem(new PackageImp(this, p.impl())) { }
+package::package(const scope &p) :
+		base_item(new PackageImp(this, p.impl())) { }
 
 PackageImp::PackageImp(package *master, ScopeImp *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypePackage, p->parent()) {

@@ -27,25 +27,25 @@
 #define COMPONENT_H_
 #include <string>
 
-#include "classlib/BaseItem.h"
-#include "classlib/Scope.h"
-#include "classlib/FieldItem.h"
+#include "classlib/base_item.h"
+#include "classlib/scope.h"
+#include "classlib/attr_item.h"
 
 namespace pss {
 
-class component : public BaseItem {
+class component : public base_item {
 
 	public:
 
 		virtual ~component();
 
-		operator FieldItem &() const;
+		operator attr_item &() const;
 
 	protected:
 
-		component(const Scope &p);
+		component(const scope &p);
 
-//TODO:		operator const FieldItem &() const;
+//TODO:		operator const attr_item &() const;
 
 };
 

@@ -25,21 +25,21 @@
 #include <stdio.h>
 
 #include "ExecImp.h"
-#include "classlib/ExtendItem.h"
-#include "classlib/ExecStmtList.h"
+#include "classlib/extend_item.h"
+#include "classlib/exec_stmt_list.h"
 
 namespace pss {
 
 exec::exec(
-		BaseItem				*p,
+		base_item				*p,
 		exec::ExecKind			kind,
 		const std::string 		&language,
 		const std::string 		&content) :
-	BaseItem(new ExecImp(this, p, kind, language, content)) { }
+	base_item(new ExecImp(this, p, kind, language, content)) { }
 
 ExecImp::ExecImp(
 		exec					*master,
-		BaseItem				*p,
+		base_item				*p,
 		exec::ExecKind 			kind,
 		const std::string 		&language,
 		const std::string		&content) :
@@ -50,15 +50,15 @@ ExecImp::ExecImp(
 			m_content(content) { }
 
 exec::exec(
-		ExtendItem				*p,
+		extend_item				*p,
 		ExecKind 				kind,
 		const std::string 		&language,
 		const std::string 		&content) :
-	BaseItem(new ExecImp(this, p, kind, language, content)) { }
+	base_item(new ExecImp(this, p, kind, language, content)) { }
 
 ExecImp::ExecImp(
 		exec					*master,
-		ExtendItem				*p,
+		extend_item				*p,
 		exec::ExecKind 			kind,
 		const std::string 		&language,
 		const std::string 		&content) :
@@ -69,16 +69,16 @@ ExecImp::ExecImp(
 			m_content(content) { }
 
 exec::exec(
-		BaseItem				*p,
+		base_item				*p,
 		ExecKind 				kind,
-		const ExecStmtList		&stmts) :
-			BaseItem(new ExecImp(this, p, kind, stmts)) { }
+		const exec_stmt_list		&stmts) :
+			base_item(new ExecImp(this, p, kind, stmts)) { }
 
 ExecImp::ExecImp(
 		exec					*master,
-		ExtendItem				*p,
+		extend_item				*p,
 		exec::ExecKind 			kind,
-		const ExecStmtList		&stmts) :
+		const exec_stmt_list		&stmts) :
 			BaseItemImp(master, BaseItemImp::TypeExec, p),
 			m_execType(Native),
 			m_execKind(kind),
@@ -89,9 +89,9 @@ ExecImp::ExecImp(
 
 ExecImp::ExecImp(
 		exec					*master,
-		BaseItem				*p,
+		base_item				*p,
 		exec::ExecKind 			kind,
-		const ExecStmtList		&stmts) :
+		const exec_stmt_list		&stmts) :
 			BaseItemImp(master, BaseItemImp::TypeExec, p),
 			m_execType(Native),
 			m_execKind(kind),
@@ -101,13 +101,13 @@ ExecImp::ExecImp(
 }
 
 exec::exec(
-		BaseItem								*p,
+		base_item								*p,
 		ExecKind								kind) :
-	BaseItem(new ExecImp(this, p, kind)) { }
+	base_item(new ExecImp(this, p, kind)) { }
 
 ExecImp::ExecImp(
 		exec									*master,
-		BaseItem								*p,
+		base_item								*p,
 		exec::ExecKind							kind) :
 				BaseItemImp(master, BaseItemImp::TypeExec, p),
 				m_execType(Inline),

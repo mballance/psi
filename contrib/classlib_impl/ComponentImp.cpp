@@ -25,12 +25,12 @@
 #include "ComponentImp.h"
 #include "ScopeImp.h"
 #include "ModelImp.h"
-#include "classlib/FieldItem.h"
+#include "classlib/attr_item.h"
 #include "FieldItemImp.h"
 
 namespace pss {
 
-component::component(const Scope &p) : BaseItem(new ComponentImp(this, p.impl())) {
+component::component(const scope &p) : base_item(new ComponentImp(this, p.impl())) {
 
 }
 
@@ -49,10 +49,10 @@ ComponentImp::ComponentImp(component *master, ScopeImp *p) :
 		getParent()->remove(this);
 
 		// Any children of this component must be added to the field
-		m_field = new FieldItem(
+		m_field = new attr_item(
 				getParent()->master(),
 				ModelImp::global()->get_field_name(),
-				FieldItem::AttrNone,
+				attr_item::AttrNone,
 				ModelImp::global()->getActiveType(master)->master(),
 				0);
 	}
@@ -77,7 +77,7 @@ const std::string &ComponentImp::getName() const {
 	}
 }
 
-component::operator FieldItem &() const {
+component::operator attr_item &() const {
 	return static_cast<ComponentImp *>(impl())->getField();
 }
 

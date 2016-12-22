@@ -27,36 +27,36 @@
 #define INCLUDED_ACTION_H
 #include <string>
 
-#include "classlib/BaseItem.h"
-#include "classlib/Scope.h"
-#include "classlib/ExprList.h"
+#include "classlib/base_item.h"
+#include "classlib/scope.h"
+#include "classlib/expr_list.h"
 
 namespace pss {
-class FieldItem;
+class attr_item;
 
 /**
  * User-defined action classes extend from the action base class.
  */
-class action : public BaseItem {
+class action : public base_item {
 public:
 	friend class ActionImp;
 
 	virtual ~action();
 
-	Expr with(const ExprList &l) const;
+	expr with(const expr_list &l) const;
 
-	operator FieldItem &() const;
+	operator attr_item &() const;
 
 #ifdef PSS_HAVE_CXX_11
-	template <typename... E> Expr with(const E&... rest) {
-		return mk_with(ExprList::mklist(rest...));
+	template <typename... E> expr with(const E&... rest) {
+		return mk_with(expr_list::mklist(rest...));
 	}
 
 #endif
 
 protected:
 
-	action(const Scope &p);
+	action(const scope &p);
 
 	/**
 	 * Solver hook method. Enabled by instantiating an inline exec block
@@ -78,7 +78,7 @@ protected:
 
 private:
 	// Helper method used by the variadic-template form of with()
-	Expr mk_with(const ExprList &l) const;
+	expr mk_with(const expr_list &l) const;
 
 };
 

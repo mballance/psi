@@ -26,16 +26,16 @@
 #ifndef SRC_PSI_CLASSLIB_IF_H_
 #define SRC_PSI_CLASSLIB_IF_H_
 
-#include "classlib/Expr.h"
-#include "classlib/ExprList.h"
+#include "classlib/expr.h"
+#include "classlib/expr_list.h"
 
 namespace pss {
 
-class pss_if : public Expr {
+class pss_if : public expr {
 public:
-	pss_if(const Expr &cond, const ExprList &true_expr);
+	pss_if(const expr &cond, const expr_list &true_expr);
 
-	pss_if(const Expr &cond, const ExprList &true_expr, const ExprList &false_expr);
+	pss_if(const expr &cond, const expr_list &true_expr, const expr_list &false_expr);
 
 	virtual ~pss_if();
 

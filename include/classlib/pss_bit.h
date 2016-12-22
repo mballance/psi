@@ -25,22 +25,22 @@
 
 #ifndef INCLUDED_BIT_H
 #define INCLUDED_BIT_H
-#include "classlib/BitType.h"
-#include "classlib/Scope.h"
+#include "classlib/bit_type.h"
+#include "classlib/scope.h"
 #include "classlib/pss_types.h"
 
 namespace pss {
 
-class pss_bit : public BitType {
+class pss_bit : public bit_type {
 
 	public:
-		pss_bit() : BitType(0, 0, 0) { }
+		pss_bit() : bit_type(0, 0, 0) { }
 
-		pss_bit(uint32_t width) : BitType(0, width-1, 0) { }
+		pss_bit(uint32_t width) : bit_type(0, width-1, 0) { }
 
-		pss_bit(const char *name) : BitType(name, 0, 0) { }
+		pss_bit(const char *name) : bit_type(name, 0, 0) { }
 
-		pss_bit(const std::string &name) : BitType(name, 0, 0) { }
+		pss_bit(const std::string &name) : bit_type(name, 0, 0) { }
 
 		virtual ~pss_bit() { }
 };

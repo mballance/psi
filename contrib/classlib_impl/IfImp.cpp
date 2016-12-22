@@ -30,11 +30,11 @@
 
 namespace pss {
 
-pss_if::pss_if(const Expr &cond, const ExprList &true_expr) :
-	Expr(new ExprCoreIf(cond, true_expr)) { }
+pss_if::pss_if(const expr &cond, const expr_list &true_expr) :
+	expr(new ExprCoreIf(cond, true_expr)) { }
 
-pss_if::pss_if(const Expr &cond, const ExprList &true_expr, const ExprList &false_expr) :
-	Expr(new ExprCoreIf(cond, true_expr, false_expr)) { }
+pss_if::pss_if(const expr &cond, const expr_list &true_expr, const expr_list &false_expr) :
+	expr(new ExprCoreIf(cond, true_expr, false_expr)) { }
 
 pss_if::~pss_if() {
 	// TODO Auto-generated destructor stub

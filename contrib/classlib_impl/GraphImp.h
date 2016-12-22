@@ -33,14 +33,14 @@ namespace pss {
 class GraphImp : public BaseItemImp {
 
 	public:
-		GraphImp(graph *master, BaseItem *p, const ExprList &seq);
+		GraphImp(graph *master, base_item *p, const expr_list &seq);
 
 		virtual ~GraphImp();
 
-		ExprList &getSequence() { return m_seq; }
+		expr_list &getSequence() { return m_seq; }
 
 	private:
-		ExprList				m_seq;
+		expr_list				m_seq;
 };
 
 } /* namespace pss */

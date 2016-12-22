@@ -27,7 +27,7 @@
 
 class my_struct : public pss_struct {
 public:
-	my_struct(const Scope &p) : pss_struct(this) { }
+	my_struct(const scope &p) : pss_struct(this) { }
 
 	rand_attr<pss_bit>				addr {"addr", 32};
 	rand_attr<pss_bit>				data {"data", 32};

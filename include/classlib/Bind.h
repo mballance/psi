@@ -26,39 +26,39 @@
 #define INCLUDED_BIND_H
 #include <vector>
 #include <functional>
-#include "classlib/BaseItem.h"
-#include "classlib/FieldItem.h"
+#include "classlib/base_item.h"
+#include "classlib/attr_item.h"
 #include "classlib/pss_types.h"
 
 namespace pss {
 
-class bind: public BaseItem {
+class bind: public base_item {
 public:
-	bind(BaseItem *p, const std::vector<FieldItem *> &items);
+	bind(base_item *p, const std::vector<attr_item *> &items);
 
 #ifdef PSS_HAVE_CXX_11
-	template<typename... I> bind(BaseItem *p, const I&... items)
+	template<typename... I> bind(base_item *p, const I&... items)
 			: bind(p, mklist(items...)) { }
 
-	template <typename T, typename... R> static std::vector<FieldItem *> mklist(
+	template <typename T, typename... R> static std::vector<attr_item *> mklist(
 			const T &i1, const R&... rest) {
-		std::vector<FieldItem *> items;
-		const FieldItem &bi = i1;
-		items.push_back(const_cast<FieldItem *>(&bi));
+		std::vector<attr_item *> items;
+		const attr_item &bi = i1;
+		items.push_back(const_cast<attr_item *>(&bi));
 		_mklist(items, rest...);
 		return items;
 	}
 
 	template <typename T, typename... R> static void _mklist(
-			std::vector<FieldItem *> &items,
+			std::vector<attr_item *> &items,
 			const T 				 &it,
 			const R&...				 rest) {
-		const FieldItem &bi = it;
-		items.push_back(const_cast<FieldItem *>(&bi));
+		const attr_item &bi = it;
+		items.push_back(const_cast<attr_item *>(&bi));
 		_mklist(items, rest...);
 	}
 
-	static void _mklist(std::vector<FieldItem *> &items) { }
+	static void _mklist(std::vector<attr_item *> &items) { }
 #endif /* PSS_HAVE_CXX_11 */
 
 	virtual ~bind();

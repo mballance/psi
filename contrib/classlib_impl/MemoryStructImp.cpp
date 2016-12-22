@@ -27,7 +27,7 @@
 
 namespace pss {
 
-memory_struct::memory_struct(const Scope &p) :
+memory_struct::memory_struct(const scope &p) :
 		pss_struct(new MemoryStructImp(this, p.impl())) { }
 
 MemoryStructImp::MemoryStructImp(

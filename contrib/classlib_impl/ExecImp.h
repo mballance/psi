@@ -30,7 +30,7 @@
 
 #include "classlib/exec.h"
 #include "BaseItemImp.h"
-#include "classlib/ExecStmtList.h"
+#include "classlib/exec_stmt_list.h"
 
 namespace pss {
 
@@ -48,29 +48,29 @@ class ExecImp : public BaseItemImp {
 
 		ExecImp(
 			exec						*master,
-			BaseItem					*p,
+			base_item					*p,
 			exec::ExecKind 				kind,
 			const std::string 			&language,
 			const std::string 			&content);
 
 		ExecImp(
 			exec						*master,
-			ExtendItem					*p,
+			extend_item					*p,
 			exec::ExecKind 				kind,
 			const std::string 			&language,
 			const std::string 			&content);
 
 		ExecImp(
 			exec						*master,
-			BaseItem					*p,
+			base_item					*p,
 			exec::ExecKind 				kind,
-			const ExecStmtList			&stmts);
+			const exec_stmt_list			&stmts);
 
 		ExecImp(
 			exec						*master,
-			ExtendItem					*p,
+			extend_item					*p,
 			exec::ExecKind				kind,
-			const ExecStmtList			&stmts);
+			const exec_stmt_list			&stmts);
 
 		/**
 		 * Inline exec block that activates the appropriate
@@ -78,7 +78,7 @@ class ExecImp : public BaseItemImp {
 		 */
 		ExecImp(
 			exec							*master,
-			BaseItem						*p,
+			base_item						*p,
 			exec::ExecKind					kind);
 
 		virtual ~ExecImp();
@@ -95,7 +95,7 @@ class ExecImp : public BaseItemImp {
 
 		const std::string &getTargetTemplate() const { return m_content; }
 
-		const ExecStmtList &getStmtList() const { return m_stmts; }
+		const exec_stmt_list &getStmtList() const { return m_stmts; }
 
 	private:
 		ExecType							m_execType;
@@ -103,7 +103,7 @@ class ExecImp : public BaseItemImp {
 
 		std::string							m_language;
 		std::string							m_content;
-		ExecStmtList						m_stmts;
+		exec_stmt_list						m_stmts;
 
 };
 

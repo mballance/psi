@@ -1,5 +1,5 @@
 /*
- * ExtendItem.h
+ * exec_stmt.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -18,30 +18,40 @@
  * the License for the specific language governing
  * permissions and limitations under the License.
  * 
- *
- *  Created on: Jul 8, 2016
+ *  Created on: Aug 29, 2016
  *      Author: ballance
  */
 
-#ifndef SRC_PSI_CLASSLIB_EXTENDITEM_H_
-#define SRC_PSI_CLASSLIB_EXTENDITEM_H_
-
-#include "classlib/BaseItem.h"
-#include "classlib/Scope.h"
+#ifndef INCLUDE_CLASSLIB_EXECSTMT_H_
+#define INCLUDE_CLASSLIB_EXECSTMT_H_
 
 namespace pss {
 
-class ExtendItem: public BaseItem {
+class ExecStmtImp;
+class attr_item;
+class exec_stmt {
 public:
-	ExtendItem(
-			const Scope 		&p,
-			BaseItem			*type_hndl,
-			BaseItem			*ext_hndl);
+	friend ExecStmtImp;
+	friend attr_item;
 
-	virtual ~ExtendItem();
+	exec_stmt(const exec_stmt &rhs);
+
+	virtual ~exec_stmt();
+
+	ExecStmtImp *imp() const;
+
+protected:
+	exec_stmt(ExecStmtImp *imp);
+
+private:
+	ExecStmtImp			*m_imp;
 
 };
 
-} /* namespace pss */
 
-#endif /* SRC_PSI_CLASSLIB_EXTENDITEM_H_ */
+}
+
+
+
+
+#endif /* INCLUDE_CLASSLIB_EXECSTMT_H_ */

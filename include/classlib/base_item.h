@@ -1,5 +1,5 @@
 /*
- * BaseItem.h
+ * base_item.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -28,38 +28,38 @@
 #include <string>
 #include <vector>
 
-#include "classlib/Expr.h"
-#include "classlib/ExprList.h"
-#include "classlib/ExprListBuilder.h"
+#include "classlib/expr.h"
+#include "classlib/expr_list.h"
+#include "classlib/expr_list_builder.h"
 
 namespace pss {
 
 class BaseItemImp;
-class BaseItem {
+class base_item {
 public:
 	friend BaseItemImp;
 
-	BaseItem *operator ()();
+	base_item *operator ()();
 
-	Expr operator [] (const Expr &rhs);
+	expr operator [] (const expr &rhs);
 
-	Expr operator [] (const std::string &idx);
+	expr operator [] (const std::string &idx);
 
-//	Expr operator -> (const Expr &rhs);
+//	expr operator -> (const expr &rhs);
 
-	ExprListBuilder operator,(const BaseItem &rhs);
+	expr_list_builder operator,(const base_item &rhs);
 
-	Expr operator = (const Expr &rhs);
+	expr operator = (const expr &rhs);
 
-	virtual ~BaseItem();
+	virtual ~base_item();
 
 	BaseItemImp *impl() const;
 
-	BaseItem(const BaseItem &rhs);
+	base_item(const base_item &rhs);
 
 protected:
 
-		BaseItem(BaseItemImp *impl);
+		base_item(BaseItemImp *impl);
 
 
 protected:

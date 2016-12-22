@@ -1,5 +1,5 @@
 /*
- * ExportItem.h
+ * export_item.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -26,26 +26,26 @@
 #ifndef INCLUDED_EXPORT_ITEM_IMP_H
 #define INCLUDED_EXPORT_ITEM_IMP_H
 
-#include "classlib/ExportItem.h"
+#include "classlib/export_item.h"
 #include "BaseItemImp.h"
 
 namespace pss {
 
 class ExportItemImp : public BaseItemImp {
 public:
-	ExportItemImp(ExportItem *master, BaseItem *p);
+	ExportItemImp(export_item *master, base_item *p);
 
-	ExportItemImp(ExportItem *master, BaseItem *p, const ExprList &exp_params);
+	ExportItemImp(export_item *master, base_item *p, const expr_list &exp_params);
 
 	virtual ~ExportItemImp();
 
-	void setDataType(BaseItem *t);
+	void setDataType(base_item *t);
 
 	BaseItemImp *getDataType() const;
 
 private:
 	BaseItemImp				*m_data_type;
-	ExprList				m_exp_params;
+	expr_list				m_exp_params;
 };
 
 }

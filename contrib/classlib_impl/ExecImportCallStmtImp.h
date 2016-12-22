@@ -27,7 +27,7 @@
 
 #include "ExecStmtImp.h"
 #include "classlib/import_func.h"
-#include "classlib/ExprList.h"
+#include "classlib/expr_list.h"
 #include "ImportFuncImp.h"
 
 namespace pss {
@@ -36,18 +36,18 @@ class ExecImportCallStmtImp: public ExecStmtImp {
 public:
 	ExecImportCallStmtImp(
 			const import_func		&imp,
-			const ExprList			&plist
+			const expr_list			&plist
 			);
 
 	virtual ~ExecImportCallStmtImp();
 
 	ImportFuncImp *getFunc() const { return static_cast<ImportFuncImp *>(m_imp.impl()); }
 
-	ExprList &getParameterList() { return m_plist; }
+	expr_list &getParameterList() { return m_plist; }
 
 private:
 	import_func						m_imp;
-	ExprList						m_plist;
+	expr_list						m_plist;
 
 };
 

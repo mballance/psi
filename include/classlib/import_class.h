@@ -1,5 +1,5 @@
 /*
- * MethodParam.h
+ * import_class.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -18,45 +18,26 @@
  * the License for the specific language governing
  * permissions and limitations under the License.
  * 
- *  Created on: Aug 26, 2016
+ *
+ *  Created on: Apr 29, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDE_CLASSLIB_METHODPARAM_H_
-#define INCLUDE_CLASSLIB_METHODPARAM_H_
-#include <string>
+#ifndef INCLUDED_IMPORT_CLASS_H
+#define INCLUDED_IMPORT_CLASS_H
+
 
 namespace pss {
 
-class MethodParamImp;
-class MethodParamList;
-class BaseItem;
-class MethodParam {
-	friend class MethodParamImp;
-	friend class MethodParamList;
-public:
-	enum Dir {
-		In,
-		Out,
-		InOut
-	};
+class import_class {
 
-	virtual ~MethodParam();
+	public:
 
-protected:
-	MethodParam(
-			const std::string 	&name,
-			Dir					dir,
-			BaseItem			*type);
+		import_class();
 
-private:
-	MethodParamImp				*m_imp;
-
+		virtual ~import_class();
 };
 
-}
+} /* namespace pss */
 
-
-
-
-#endif /* INCLUDE_CLASSLIB_METHODPARAM_H_ */
+#endif /* INCLUDED_IMPORT_CLASS_H */

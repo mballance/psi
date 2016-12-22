@@ -1,5 +1,5 @@
 /*
- * IntType.h
+ * int_type.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -27,7 +27,7 @@
 #define INCLUDED_INT_TYPE_IMP_H
 #include <string>
 
-#include "classlib/IntType.h"
+#include "classlib/int_type.h"
 #include "NamedBaseItemImp.h"
 #include "InlineExecUtil.h"
 
@@ -37,13 +37,13 @@ class IntTypeImp : public NamedBaseItemImp {
 
 	public:
 		IntTypeImp(
-				IntType				*master,
-				BaseItem 			*p,
+				int_type				*master,
+				base_item 			*p,
 				uint32_t			msb,
 				uint32_t			lsb);
 
 		IntTypeImp(
-				IntType				*master,
+				int_type				*master,
 				const std::string	&name,
 				uint32_t			msb,
 				uint32_t			lsb);

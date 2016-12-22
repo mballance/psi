@@ -33,8 +33,8 @@
 
 namespace pss {
 
-action::action(const Scope	&p) :
-			BaseItem(new ActionImp(this, p.impl())) { }
+action::action(const scope	&p) :
+			base_item(new ActionImp(this, p.impl())) { }
 
 ActionImp::ActionImp(action *master, ScopeImp *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypeAction, p->parent()),
@@ -58,10 +58,10 @@ ActionImp::ActionImp(action *master, ScopeImp *p) :
 		// First, remove ourselves
 		getParent()->remove(this);
 
-		m_field = new FieldItem(
+		m_field = new attr_item(
 				getParent()->master(),
 				ModelImp::global()->get_field_name(),
-				FieldItem::AttrNone,
+				attr_item::AttrNone,
 				ModelImp::global()->getActiveType(master)->master(),
 				0);
 	}
@@ -85,11 +85,11 @@ void action::body() {
 
 }
 
-Expr action::with(const ExprList &l) const {
+expr action::with(const expr_list &l) const {
 	return With(*(static_cast<ActionImp *>(impl())->getField()), l);
 }
 
-Expr action::mk_with(const ExprList &l) const {
+expr action::mk_with(const expr_list &l) const {
 	return With(*(static_cast<ActionImp *>(impl())->getField()), l);
 }
 

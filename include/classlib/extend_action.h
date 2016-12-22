@@ -25,11 +25,11 @@
 
 #ifndef INCLUDED_EXTEND_ACTION_H
 #define INCLUDED_EXTEND_ACTION_H
-#include "classlib/ExtendBase.h"
+#include "classlib/extend_base.h"
 
 namespace pss {
 
-template <class T> class extend_action : public ExtendBase<T> {
+template <class T> class extend_action : public extend_base<T> {
 
 	public:
 
@@ -37,7 +37,7 @@ template <class T> class extend_action : public ExtendBase<T> {
 
 	protected:
 
-		extend_action(const Scope &p) : ExtendBase<T>(p) { }
+		extend_action(const scope &p) : extend_base<T>(p) { }
 
 };
 

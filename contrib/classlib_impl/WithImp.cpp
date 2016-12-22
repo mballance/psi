@@ -24,14 +24,14 @@
  */
 
 #include "With.h"
-#include "classlib/FieldItem.h"
+#include "classlib/attr_item.h"
 #include "ExprCore.h"
 #include "ExprImp.h"
 
 namespace pss {
 
-With::With(const FieldItem &lhs, const ExprList &stmt) :
-	Expr(ExprImp(new ExprCore(ExprImp::GraphWith, lhs, stmt))) {
+With::With(const attr_item &lhs, const expr_list &stmt) :
+	expr(ExprImp(new ExprCore(ExprImp::GraphWith, lhs, stmt))) {
 
 }
 

@@ -32,9 +32,9 @@ namespace pss {
 class ExprCoreIf : public ExprCore {
 public:
 
-	ExprCoreIf(const Expr &cond, const Expr &true_expr);
+	ExprCoreIf(const expr &cond, const expr &true_expr);
 
-	ExprCoreIf(const Expr &cond, const Expr &true_expr, const Expr &false_expr);
+	ExprCoreIf(const expr &cond, const expr &true_expr, const expr &false_expr);
 
 	virtual ~ExprCoreIf();
 

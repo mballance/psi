@@ -36,7 +36,7 @@ class StringImp : public NamedBaseItemImp {
 
 	public:
 
-		StringImp(pss_string *master, BaseItem *p);
+		StringImp(pss_string *master, base_item *p);
 
 		StringImp(pss_string *master, const std::string &name);
 

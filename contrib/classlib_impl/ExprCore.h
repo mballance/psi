@@ -26,26 +26,26 @@
 #ifndef INCLUDED_EXPR_CORE_H
 #define INCLUDED_EXPR_CORE_H
 #include "ExprImp.h"
-#include "classlib/BaseItem.h"
+#include "classlib/base_item.h"
 
 namespace pss {
 
 class import_func;
-class Expr;
+class expr;
 class ExprCore {
 
 	public:
-		friend class Expr;
+		friend class expr;
 
 		ExprCore(uint32_t v);
 
 		ExprCore(int32_t v);
 
-		ExprCore(const BaseItem &t);
+		ExprCore(const base_item &t);
 
-		ExprCore(ExprImp::Operator op, const Expr &lhs, const Expr &rhs);
+		ExprCore(ExprImp::Operator op, const expr &lhs, const expr &rhs);
 
-		ExprCore(import_func &import, const Expr &params);
+		ExprCore(import_func &import, const expr &params);
 
 		ExprCore(ExprImp::Operator op);
 

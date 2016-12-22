@@ -1,5 +1,5 @@
 /*
- * chandle.h
+ * bit_type.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -19,26 +19,35 @@
  * permissions and limitations under the License.
  * 
  *
- *  Created on: Apr 29, 2016
+ *  Created on: Apr 23, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_CHANDLE_TYPE_H
-#define INCLUDED_CHANDLE_TYPE_H
-#include "classlib/BaseItem.h"
-#include "classlib/Scope.h"
+#ifndef INCLUDED_BIT_TYPE_H
+#define INCLUDED_BIT_TYPE_H
+#include <stdint.h>
+#include <string>
+
+#include "classlib/base_item.h"
+#include "classlib/pss_types.h"
 
 namespace pss {
 
-class ChandleType : public BaseItem {
+class expr_list;
+class bit_type : public base_item {
 
 	public:
+		bit_type(
+				base_item 			*p,
+				uint32_t			msb,
+				uint32_t			lsb);
 
-		ChandleType(const Scope &p);
+		bit_type(
+				const std::string	&name,
+				uint32_t			msb,
+				uint32_t			lsb);
 
-		ChandleType(const std::string &name);
-
-		virtual ~ChandleType();
+		virtual ~bit_type();
 
 		/**
 		 * The get method returns the solve-time value of this
@@ -46,7 +55,7 @@ class ChandleType : public BaseItem {
 		 * on fields of this type, and only from within an
 		 * inline-exec callback.
 		 */
-		void *get();
+		uint64_t get();
 
 		/**
 		 * The set method sets the value of this data field.
@@ -54,9 +63,18 @@ class ChandleType : public BaseItem {
 		 * of this type, and only from within an
 		 * inline-exec callback.
 		 */
-		void set(void *v);
+		void set(uint64_t v);
+
+		expr inside(const expr_list &inside_l);
+
+#ifdef PSS_HAVE_CXX_11
+		expr inside(std::initializer_list<expr> l) { return inside(expr_list(l)); }
+#endif
+
 };
+
 
 } /* namespace pss */
 
-#endif /* SRC_CLASSLIB_CHANDLE_H_ */
+#endif /* INCLUDED_BIT_TYPE_H */
+

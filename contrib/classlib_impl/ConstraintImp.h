@@ -34,22 +34,22 @@ namespace pss {
 
 class ConstraintImp : public NamedBaseItemImp {
 public:
-	ConstraintImp(constraint *master, BaseItem *p, const ExprList &stmt);
+	ConstraintImp(constraint *master, base_item *p, const expr_list &stmt);
 
 	ConstraintImp(
 			constraint				*master,
-			BaseItem 				*p,
+			base_item 				*p,
 			const std::string 		&name,
-			const ExprList 			&stmt);
+			const expr_list 			&stmt);
 
 	virtual ~ConstraintImp();
 
-	ExprList &getStmt() {
+	expr_list &getStmt() {
 		return m_stmt;
 	}
 
 private:
-	ExprList				m_stmt;
+	expr_list				m_stmt;
 };
 
 } /* namespace pss */

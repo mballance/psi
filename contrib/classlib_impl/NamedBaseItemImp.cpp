@@ -35,9 +35,9 @@
 namespace pss {
 
 NamedBaseItemImp::NamedBaseItemImp(
-		BaseItem					*master,
+		base_item					*master,
 		BaseItemImp::ObjectType 	t,
-		BaseItem					*p,
+		base_item					*p,
 		const std::string			&name) : BaseItemImp(master, t, p), m_name(name) { }
 
 NamedBaseItemImp::~NamedBaseItemImp() {

@@ -27,18 +27,18 @@
 
 namespace pss {
 
-sequence::sequence(const ExprList &body) : ExprList(body) { }
+sequence::sequence(const expr_list &body) : expr_list(body) { }
 
 sequence::~sequence() {
 	// TODO Auto-generated destructor stub
 }
 
-ExprListBuilder sequence::operator,(const Expr &rhs) {
-	return ExprListBuilder(*this, rhs);
+expr_list_builder sequence::operator,(const expr &rhs) {
+	return expr_list_builder(*this, rhs);
 }
 
-ExprListBuilder sequence::operator,(const ExprListBuilder &rhs) {
-	return ExprListBuilder(*this, rhs);
+expr_list_builder sequence::operator,(const expr_list_builder &rhs) {
+	return expr_list_builder(*this, rhs);
 }
 
 } /* namespace pss */

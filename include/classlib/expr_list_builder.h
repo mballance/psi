@@ -1,5 +1,5 @@
 /*
- * ExprListBuilder.h
+ * expr_list_builder.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -30,33 +30,33 @@
 
 namespace pss {
 
-class Expr;
+class expr;
 class ExprListBuilderImp;
-class ExprListBuilder {
+class expr_list_builder {
 public:
 
-	ExprListBuilder();
+	expr_list_builder();
 
 #ifdef PSS_HAVE_CXX_11
-	ExprListBuilder(std::initializer_list<Expr> l) : 
-		ExprListBuilder(std::vector<Expr>(l)) { }
+	expr_list_builder(std::initializer_list<expr> l) : 
+		expr_list_builder(std::vector<expr>(l)) { }
 #endif
 
-	ExprListBuilder(const std::vector<Expr> &l);
+	expr_list_builder(const std::vector<expr> &l);
 
-	ExprListBuilder(const Expr &e1, const Expr &e2);
+	expr_list_builder(const expr &e1, const expr &e2);
 
-	ExprListBuilder(const Expr &e1, const ExprListBuilder &e2);
+	expr_list_builder(const expr &e1, const expr_list_builder &e2);
 
-	virtual ~ExprListBuilder();
+	virtual ~expr_list_builder();
 
-	ExprListBuilder &operator,(const Expr &rhs);
+	expr_list_builder &operator,(const expr &rhs);
 
-	ExprListBuilder &operator,(const ExprListBuilder &rhs);
+	expr_list_builder &operator,(const expr_list_builder &rhs);
 
-	void add(const Expr &e);
+	void add(const expr &e);
 
-	void add(const ExprListBuilder &l);
+	void add(const expr_list_builder &l);
 
 	ExprListBuilderImp &imp() const { return *m_imp; }
 

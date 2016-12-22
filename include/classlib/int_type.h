@@ -1,5 +1,5 @@
 /*
- * BitType.h
+ * int_type.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -18,36 +18,34 @@
  * the License for the specific language governing
  * permissions and limitations under the License.
  * 
- *
- *  Created on: Apr 23, 2016
+ *  Created on: Apr 24, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_BIT_TYPE_H
-#define INCLUDED_BIT_TYPE_H
-#include <stdint.h>
+#ifndef INCLUDED_INT_TYPE_H
+#define INCLUDED_INT_TYPE_H
 #include <string>
 
-#include "classlib/BaseItem.h"
+#include "classlib/base_item.h"
 #include "classlib/pss_types.h"
 
 namespace pss {
 
-class ExprList;
-class BitType : public BaseItem {
+class expr_list;
+class int_type : public base_item {
 
 	public:
-		BitType(
-				BaseItem 			*p,
+		int_type(
+				base_item 			*p,
 				uint32_t			msb,
 				uint32_t			lsb);
 
-		BitType(
+		int_type(
 				const std::string	&name,
 				uint32_t			msb,
 				uint32_t			lsb);
 
-		virtual ~BitType();
+		virtual ~int_type();
 
 		/**
 		 * The get method returns the solve-time value of this
@@ -55,7 +53,7 @@ class BitType : public BaseItem {
 		 * on fields of this type, and only from within an
 		 * inline-exec callback.
 		 */
-		uint64_t get();
+		int64_t get();
 
 		/**
 		 * The set method sets the value of this data field.
@@ -63,18 +61,17 @@ class BitType : public BaseItem {
 		 * of this type, and only from within an
 		 * inline-exec callback.
 		 */
-		void set(uint64_t v);
+		void set(int64_t v);
 
-		Expr inside(const ExprList &inside_l);
+
+		expr inside(const expr_list &l);
 
 #ifdef PSS_HAVE_CXX_11
-		Expr inside(std::initializer_list<Expr> l) { return inside(ExprList(l)); }
+		expr inside(std::initializer_list<expr> l) { return inside(expr_list(l)); }
 #endif
 
 };
 
-
 } /* namespace pss */
 
-#endif /* INCLUDED_BIT_TYPE_H */
-
+#endif /* INCLUDED_INT_TYPE_H */

@@ -1,5 +1,5 @@
 /*
- * ExtendItem.cpp
+ * extend_item.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -29,20 +29,20 @@
 
 namespace pss {
 
-ExtendItem::ExtendItem(
-		const Scope 		&p,
-		BaseItem 			*type_hndl,
-		BaseItem			*ext_hndl) :
-		BaseItem(new ExtendItemImp(this, p.impl()->parent(), type_hndl, ext_hndl)) {
+extend_item::extend_item(
+		const scope 		&p,
+		base_item 			*type_hndl,
+		base_item			*ext_hndl) :
+		base_item(new ExtendItemImp(this, p.impl()->parent(), type_hndl, ext_hndl)) {
 	// TODO: need to pass through an extension type
-	fprintf(stdout, "ExtendItem::ExtendItem\n");
+	fprintf(stdout, "extend_item::extend_item\n");
 }
 
 ExtendItemImp::ExtendItemImp(
-		ExtendItem 					*master,
-		BaseItem 					*p,
-		BaseItem					*type_hndl,
-		BaseItem					*ext_hndl) :
+		extend_item 					*master,
+		base_item 					*p,
+		base_item					*type_hndl,
+		base_item					*ext_hndl) :
 		BaseItemImp(master, BaseItemImp::TypeExtendAction, p), m_data_type(toImp(type_hndl)) {
 
 	// Modify our specific type based on the type we're extending
@@ -55,11 +55,11 @@ ExtendItemImp::ExtendItemImp(
 	m_ext_hndl = ext_hndl->impl();
 }
 
-void ExtendItemImp::setDataType(BaseItem *t) {
+void ExtendItemImp::setDataType(base_item *t) {
 	m_data_type = toImp(t);
 }
 
-ExtendItem::~ExtendItem() {
+extend_item::~extend_item() {
 	// TODO Auto-generated destructor stub
 }
 

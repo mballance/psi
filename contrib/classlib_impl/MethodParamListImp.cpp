@@ -27,27 +27,27 @@
 
 namespace pss {
 
-MethodParamList::MethodParamList() : m_imp(new MethodParamListImp(this)) {
+method_param_list::method_param_list() : m_imp(new MethodParamListImp(this)) {
 	m_imp->inc_refcnt();
 }
 
-MethodParamList::MethodParamList(const MethodParamList &rhs) {
+method_param_list::method_param_list(const method_param_list &rhs) {
 	m_imp = rhs.m_imp;
 	m_imp->inc_refcnt();
 }
 
-MethodParamList::MethodParamList(const FieldItem &rhs) :
+method_param_list::method_param_list(const attr_item &rhs) :
 		m_imp(new MethodParamListImp(this)) {
 	m_imp->add(rhs);
 	m_imp->inc_refcnt();
 }
 
-MethodParamListImp::MethodParamListImp(MethodParamList *master) : m_refcnt(0) {
+MethodParamListImp::MethodParamListImp(method_param_list *master) : m_refcnt(0) {
 	// TODO Auto-generated constructor stub
 
 }
 
-MethodParamList::~MethodParamList() {
+method_param_list::~method_param_list() {
 	m_imp->dec_refcnt();
 }
 
@@ -55,16 +55,16 @@ MethodParamListImp::~MethodParamListImp() {
 	// TODO Auto-generated destructor stub
 }
 
-MethodParamList MethodParamList::operator,(const FieldItem &rhs) {
+method_param_list method_param_list::operator,(const attr_item &rhs) {
 	m_imp->add(rhs);
 	return *(this);
 }
 
-MethodParamListImp *MethodParamList::imp() const {
+MethodParamListImp *method_param_list::imp() const {
 	return m_imp;
 }
 
-void MethodParamListImp::add(const FieldItem &rhs) {
+void MethodParamListImp::add(const attr_item &rhs) {
 	m_parameters.push_back(rhs);
 }
 

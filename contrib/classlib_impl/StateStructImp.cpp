@@ -31,7 +31,7 @@
 
 namespace pss {
 
-state_struct::state_struct(const Scope &p) :
+state_struct::state_struct(const scope &p) :
 		pss_struct(new StateStructImp(this, p.impl())), initial("initial") {
 }
 

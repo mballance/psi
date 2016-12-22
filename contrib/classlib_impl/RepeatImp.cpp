@@ -29,22 +29,22 @@
 
 namespace pss {
 
-//repeat::repeat(const Expr &expr, const ExprListBuilder &body) :
-//		Expr(new ExprCore(Expr::GraphRepeat, expr, ExprList(body))) {
+//repeat::repeat(const expr &expr, const expr_list_builder &body) :
+//		expr(new ExprCore(expr::GraphRepeat, expr, expr_list(body))) {
 //}
 
-repeat::repeat(const Expr &cond, const ExprList &body) :
-		Expr(ExprImp(new ExprCore(ExprImp::GraphRepeat, cond, body))) {
+repeat::repeat(const expr &cond, const expr_list &body) :
+		expr(ExprImp(new ExprCore(ExprImp::GraphRepeat, cond, body))) {
 }
 
 repeat::~repeat() { }
 
-ExprListBuilder repeat::operator,(const Expr &rhs) {
-	return ExprListBuilder(*this, rhs);
+expr_list_builder repeat::operator,(const expr &rhs) {
+	return expr_list_builder(*this, rhs);
 }
 
-ExprListBuilder repeat::operator,(const ExprListBuilder &rhs) {
-	return ExprListBuilder(*this, rhs);
+expr_list_builder repeat::operator,(const expr_list_builder &rhs) {
+	return expr_list_builder(*this, rhs);
 }
 
 } /* namespace pss */

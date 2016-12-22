@@ -1,5 +1,5 @@
 /*
- * Scope.cpp
+ * scope.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -30,13 +30,13 @@
 namespace pss {
 
 ScopeImp::ScopeImp(
-		Scope					*master,
+		scope					*master,
 		const std::type_info	*type,
-		BaseItem				*ctxt,
+		base_item				*ctxt,
 		bool					is_field,
 		bool					is_type,
 		const std::string		&name,
-		BaseItem				*type_id) :
+		base_item				*type_id) :
 	m_master(master), m_type(type), m_ctxt(ctxt),
 	m_is_field(is_field), m_is_type(is_type),
 	m_name(name), m_type_id(type_id) {
@@ -45,7 +45,7 @@ ScopeImp::ScopeImp(
 
 }
 
-ScopeImp::ScopeImp(BaseItem *ctxt) {
+ScopeImp::ScopeImp(base_item *ctxt) {
 	m_master = 0;
 	m_type = 0;
 	m_is_field = false;
@@ -54,12 +54,12 @@ ScopeImp::ScopeImp(BaseItem *ctxt) {
 	m_ctxt = ctxt;
 }
 
-Scope::Scope(const char *name) {
+scope::scope(const char *name) {
 	m_impl = new ScopeImp(this, 0, 0,
 			(name!=0), false, (name)?name:"", 0);
 }
 
-Scope::Scope(bool is_type) {
+scope::scope(bool is_type) {
 	m_impl = new ScopeImp(this, 0, 0,
 			false, // is_field
 			true, // is_type,
@@ -67,11 +67,11 @@ Scope::Scope(bool is_type) {
 			0);
 }
 
-Scope::Scope(const std::string &name) {
+scope::scope(const std::string &name) {
 	m_impl = new ScopeImp(this, 0, 0, true, false, name, 0);
 }
 
-Scope::~Scope() {
+scope::~scope() {
 	delete m_impl;
 }
 
@@ -79,11 +79,11 @@ ScopeImp::~ScopeImp() {
 	leave();
 }
 
-ScopeImp *Scope::impl() const {
+ScopeImp *scope::impl() const {
 	return m_impl;
 }
 
-BaseItem *ScopeImp::parent() const {
+base_item *ScopeImp::parent() const {
 	return ModelImp::global()->getParentScope();
 }
 
@@ -95,7 +95,7 @@ void ScopeImp::set_scope_name(const std::string &name) {
 	m_name = name;
 }
 
-void Scope::init(const std::type_info *type, BaseItem *ctxt, BaseItem *type_id) {
+void scope::init(const std::type_info *type, base_item *ctxt, base_item *type_id) {
 	// TODO: type_id
 	m_impl = new ScopeImp(this, type, ctxt, false, false, "", type_id);
 }

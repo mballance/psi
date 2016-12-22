@@ -91,11 +91,11 @@ int main(int argc, char **argv) {
 //	fprintf(stdout, "Vector size: %d\n", global->getChildren().size());
 //	for (it=global->getChildren().begin();
 //			it != global->getChildren().end(); ++it) {
-//		BaseItem *t = (*it);
+//		base_item *t = (*it);
 //		fprintf(stdout, "PTR: %p\n", t);
 //		if (t != nullptr) {
-//		fprintf(stdout, "BaseItem: %s %s\n",
-//				BaseItem::toString(t->getObjectType()),
+//		fprintf(stdout, "base_item: %s %s\n",
+//				base_item::toString(t->getObjectType()),
 //				t->getName().c_str());
 //		}
 //	}

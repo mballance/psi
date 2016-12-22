@@ -28,17 +28,17 @@
 
 #include <string>
 
-#include "classlib/BaseItem.h"
-#include "classlib/Scope.h"
+#include "classlib/base_item.h"
+#include "classlib/scope.h"
 
 namespace pss {
 
-class package : public BaseItem {
+class package : public base_item {
 public:
 		virtual ~package();
 
 protected:
-		package(const Scope &p);
+		package(const scope &p);
 
 
 };

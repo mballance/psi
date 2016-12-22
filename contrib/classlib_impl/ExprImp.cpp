@@ -42,7 +42,7 @@ ExprImp::ExprImp(const ExprImp &p) : SharedPtr<ExprCore>(p)  {
 
 }
 
-ExprImp::ExprImp(const Expr &p) : SharedPtr<ExprCore>(p.imp())  {
+ExprImp::ExprImp(const expr &p) : SharedPtr<ExprCore>(p.imp())  {
 
 }
 
@@ -50,23 +50,23 @@ ExprImp::~ExprImp() {
 
 }
 
-Expr::Expr() : m_core(new ExprImp(0)) {
+expr::expr() : m_core(new ExprImp(0)) {
 
 }
 
-Expr::Expr(uint32_t v) : m_core(new ExprImp(new ExprCore(v))) { }
+expr::expr(uint32_t v) : m_core(new ExprImp(new ExprCore(v))) { }
 
-Expr::Expr(int32_t v) : m_core(new ExprImp(new ExprCore(v))) { }
+expr::expr(int32_t v) : m_core(new ExprImp(new ExprCore(v))) { }
 
-Expr::Expr(const BaseItem &t) : m_core(new ExprImp(new ExprCore(t))) { }
+expr::expr(const base_item &t) : m_core(new ExprImp(new ExprCore(t))) { }
 
-Expr::Expr(const ExprImp &ptr) : m_core(new ExprImp(ptr)) { }
+expr::expr(const ExprImp &ptr) : m_core(new ExprImp(ptr)) { }
 
-Expr::Expr(const Expr &rhs) : m_core(new ExprImp(rhs.imp())) { }
+expr::expr(const expr &rhs) : m_core(new ExprImp(rhs.imp())) { }
 
-// Expr::Expr(ExprCore *rhs) : m_core(rhs) { }
+// expr::expr(ExprCore *rhs) : m_core(rhs) { }
 
-Expr::~Expr() {
+expr::~expr() {
 	if (m_core) {
 		delete m_core;
 	}
@@ -79,8 +79,8 @@ Expr::~Expr() {
 //	return false;
 //}
 
-ExprListBuilder Expr::operator,(const Expr &rhs) {
-	return ExprListBuilder(*this, rhs);
+expr_list_builder expr::operator,(const expr &rhs) {
+	return expr_list_builder(*this, rhs);
 }
 
 bool ExprImp::isBinOp(Operator op) {
@@ -91,24 +91,24 @@ ExprImp::Operator ExprImp::getOp() const {
 	return ptr()->getOp();
 }
 
-Expr Expr::operator [] (const Expr &rhs) {
-	return Expr(new ExprCore(ExprImp::BinOp_ArrayRef, *this, rhs));
+expr expr::operator [] (const expr &rhs) {
+	return expr(new ExprCore(ExprImp::BinOp_ArrayRef, *this, rhs));
 }
 
-Expr Expr::operator [] (int32_t rhs) {
-	return Expr(new ExprCore(ExprImp::BinOp_ArrayRef, *this, rhs));
+expr expr::operator [] (int32_t rhs) {
+	return expr(new ExprCore(ExprImp::BinOp_ArrayRef, *this, rhs));
 }
 
-Expr Expr::operator [] (uint32_t rhs) {
-	return Expr(new ExprCore(ExprImp::BinOp_ArrayRef, *this, rhs));
+expr expr::operator [] (uint32_t rhs) {
+	return expr(new ExprCore(ExprImp::BinOp_ArrayRef, *this, rhs));
 }
 
-Expr Expr::inside(const ExprList &rhs) {
-	return Expr(new ExprCore(ExprImp::BinOp_Inside, *this, rhs));
+expr expr::inside(const expr_list &rhs) {
+	return expr(new ExprCore(ExprImp::BinOp_Inside, *this, rhs));
 }
 
-Expr Expr::implies(const ExprList &rhs) {
-	return Expr(new ExprCore(ExprImp::Stmt_Implies, *this, rhs));
+expr expr::implies(const expr_list &rhs) {
+	return expr(new ExprCore(ExprImp::Stmt_Implies, *this, rhs));
 }
 
 const char *ExprImp::toString(Operator op) {
@@ -143,19 +143,19 @@ const char *ExprImp::toString(Operator op) {
 	return "UNKNOWN";
 }
 
-//Expr operator _op (const BaseItem &lhs, const Expr &rhs) { \
-//	return Expr(new ExprCore(_code, lhs, rhs)); \
+//expr operator _op (const base_item &lhs, const expr &rhs) { \
+//	return expr(new ExprCore(_code, lhs, rhs)); \
 //} \
 
 #define DEFINE_OP_FUNCTIONS(_op, _code) \
-	Expr operator _op (const Expr &lhs, const Expr &rhs) { \
-		return Expr(new ExprCore(_code, lhs, rhs)); \
+	expr operator _op (const expr &lhs, const expr &rhs) { \
+		return expr(new ExprCore(_code, lhs, rhs)); \
 	} \
-	Expr operator _op (int32_t lhs, const Expr &rhs) { \
-		return Expr(new ExprCore(_code, lhs, rhs)); \
+	expr operator _op (int32_t lhs, const expr &rhs) { \
+		return expr(new ExprCore(_code, lhs, rhs)); \
 	} \
-	Expr operator _op (uint32_t lhs, const Expr &rhs) { \
-		return Expr(new ExprCore(_code, lhs, rhs)); \
+	expr operator _op (uint32_t lhs, const expr &rhs) { \
+		return expr(new ExprCore(_code, lhs, rhs)); \
 	}
 
 
@@ -176,7 +176,7 @@ DEFINE_OP_FUNCTIONS(*, ExprImp::BinOp_Multiply)
 DEFINE_OP_FUNCTIONS(/, ExprImp::BinOp_Divide)
 DEFINE_OP_FUNCTIONS(%, ExprImp::BinOp_Mod)
 
-const ExprImp &Expr::imp() const {
+const ExprImp &expr::imp() const {
 	return *m_core;
 }
 

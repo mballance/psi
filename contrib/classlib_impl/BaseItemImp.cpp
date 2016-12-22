@@ -1,5 +1,5 @@
 /*
- * BaseItem.cpp
+ * base_item.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -22,7 +22,7 @@
  *      Author: ballance
  */
 
-#include "classlib/BaseItem.h"
+#include "classlib/base_item.h"
 #include "BaseItemImp.h"
 #include "NamedBaseItemImp.h"
 #include "ExprCore.h"
@@ -34,12 +34,12 @@
 
 namespace pss {
 
-BaseItem::BaseItem(BaseItemImp *impl) : m_impl(impl) {
+base_item::base_item(BaseItemImp *impl) : m_impl(impl) {
 	m_impl->inc_refcnt();
 	m_impl->setMaster(this);
 }
 
-BaseItem::BaseItem(const BaseItem &rhs) {
+base_item::base_item(const base_item &rhs) {
 	m_impl = rhs.m_impl;
 	m_impl->inc_refcnt();
 }
@@ -52,7 +52,7 @@ BaseItemImp::BaseItemImp() :
 	m_depth = 0;
 }
 
-BaseItemImp::BaseItemImp(BaseItem *master, ObjectType t, BaseItem *p) :
+BaseItemImp::BaseItemImp(base_item *master, ObjectType t, base_item *p) :
 		m_refcnt(0), m_master(master), m_type(t), m_parent(toImp(p)) {
 
 	if (m_parent) {
@@ -61,7 +61,7 @@ BaseItemImp::BaseItemImp(BaseItem *master, ObjectType t, BaseItem *p) :
 	}
 }
 
-BaseItem::~BaseItem() {
+base_item::~base_item() {
 	m_impl->dec_refcnt();
 }
 
@@ -69,11 +69,11 @@ BaseItemImp::~BaseItemImp() {
 	// TODO Auto-generated destructor stub
 }
 
-BaseItemImp *BaseItem::impl() const {
+BaseItemImp *base_item::impl() const {
 	return m_impl;
 }
 
-BaseItemImp *BaseItemImp::toImp(BaseItem *i) {
+BaseItemImp *BaseItemImp::toImp(base_item *i) {
 	return (i)?i->impl():0;
 }
 
@@ -92,11 +92,11 @@ void BaseItemImp::dec_refcnt() {
 	}
 }
 
-//void BaseItem::setParent(BaseItem *p) {
+//void base_item::setParent(base_item *p) {
 //	static_cast<BaseItemImp *>(impl())->setParent(p);
 //}
 //
-void BaseItemImp::setParent(BaseItem *p) {
+void BaseItemImp::setParent(base_item *p) {
 	m_parent = toImp(p);
 }
 
@@ -104,16 +104,16 @@ void BaseItemImp::setParent(BaseItemImp *p) {
 	m_parent = p;
 }
 
-BaseItem *BaseItemImp::pOrGlobal(BaseItem *p) {
+base_item *BaseItemImp::pOrGlobal(base_item *p) {
 	return (p)?p:ModelImp::global()->master();
 }
 
-Expr BaseItem::operator [] (const Expr &rhs) {
-	return Expr(ExprImp(new ExprCore(ExprImp::BinOp_ArrayRef, *this, rhs)));
+expr base_item::operator [] (const expr &rhs) {
+	return expr(ExprImp(new ExprCore(ExprImp::BinOp_ArrayRef, *this, rhs)));
 }
 
-ExprListBuilder BaseItem::operator,(const BaseItem &rhs) {
-	return ExprListBuilder(*this, rhs);
+expr_list_builder base_item::operator,(const base_item &rhs) {
+	return expr_list_builder(*this, rhs);
 }
 
 void BaseItemImp::add(BaseItemImp *item, bool reparent) {

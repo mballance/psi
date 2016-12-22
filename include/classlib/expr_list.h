@@ -1,5 +1,5 @@
 /*
- * ExprList.h
+ * expr_list.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -27,51 +27,51 @@
 #define INCLUDED_EXPR_LIST_H
 #include <vector>
 #include "classlib/pss_types.h"
-#include "classlib/Expr.h"
-#include "classlib/ExprListBuilder.h"
+#include "classlib/expr.h"
+#include "classlib/expr_list_builder.h"
 
 namespace pss {
 
 class ExprImp;
-class ExprList : public Expr {
+class expr_list : public expr {
 	public:
 
-		ExprList();
+		expr_list();
 
 #ifdef PSS_HAVE_CXX_11
-		ExprList(std::initializer_list<Expr> l) : ExprList(ExprListBuilder(l)) { }
+		expr_list(std::initializer_list<expr> l) : expr_list(expr_list_builder(l)) { }
 
-		template<typename T, typename... R> static ExprList mklist(
+		template<typename T, typename... R> static expr_list mklist(
 				const T 			&item,
 				const R&... 		rest) {
-			ExprListBuilder expr_l;
+			expr_list_builder expr_l;
 			_mklist(expr_l, item, rest...);
-			return ExprList(expr_l);
+			return expr_list(expr_l);
 		}
 #endif
 
-		ExprList(const Expr &rhs);
+		expr_list(const expr &rhs);
 
-		ExprList(const ExprImp &ptr);
+		expr_list(const ExprImp &ptr);
 
-		ExprList(const ExprListBuilder &el);
+		expr_list(const expr_list_builder &el);
 
-		virtual ~ExprList();
+		virtual ~expr_list();
 
-		ExprListBuilder operator,(const Expr &rhs);
+		expr_list_builder operator,(const expr &rhs);
 
 	private:
 
 #ifdef PSS_HAVE_CXX_11
 		template <typename T, typename... R> static void _mklist(
-				ExprListBuilder			&expr_l,
+				expr_list_builder			&expr_l,
 				const T					&item,
 				const R&...				rest) {
 			expr_l.add(item);
 			_mklist(expr_l, rest...);
 		}
 
-		static void _mklist(ExprListBuilder	&expr_l) { }
+		static void _mklist(expr_list_builder	&expr_l) { }
 #endif
 
 

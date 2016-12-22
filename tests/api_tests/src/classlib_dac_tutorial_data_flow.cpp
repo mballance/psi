@@ -26,18 +26,18 @@
 
 class S : public pss_struct {
 public:
-	S(const Scope &s) : pss_struct(this) { }
+	S(const scope &s) : pss_struct(this) { }
 
 };
 type_decl<S> _S_t;
 
 class CA : public component {
 public:
-	CA(const Scope &s) : component(this) { }
+	CA(const scope &s) : component(this) { }
 
 	class A : public action {
 	public:
-		A(const Scope &s) : action(this) { }
+		A(const scope &s) : action(this) { }
 
 		output<S>			out_s {"out_s"};
 	};
@@ -68,7 +68,7 @@ public:
 	CB			cb1 {"cb1"};
 	CB			cb2 {"cb2"};
 
-	static_structure(const Scope &s) : component(this) {
+	static_structure(const scope &s) : component(this) {
 		fprintf(stdout, "<--> static_structure %p\n", this);
 	}
 

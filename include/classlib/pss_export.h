@@ -25,24 +25,24 @@
 
 #ifndef INCLUDED_EXPORT_H
 #define INCLUDED_EXPORT_H
-#include "classlib/ExportItem.h"
+#include "classlib/export_item.h"
 #include "classlib/type_decl.h"
-#include "classlib/MethodParamList.h"
+#include "classlib/method_param_list.h"
 
 namespace pss {
 
 template <class T> class pss_export : public T {
 public:
-	pss_export(BaseItem *p) : T(Scope(true)), m_item(p) {
+	pss_export(base_item *p) : T(scope(true)), m_item(p) {
 		m_item.setDataType(type_decl<T>::id());
 	}
 
-	pss_export(BaseItem *p, const MethodParamList &exp_params) : T(Scope(true)), m_item(p, exp_params) {
+	pss_export(base_item *p, const method_param_list &exp_params) : T(scope(true)), m_item(p, exp_params) {
 		m_item.setDataType(type_decl<T>::id());
 	}
 
 private:
-	ExportItem				m_item;
+	export_item				m_item;
 
 
 };

@@ -24,13 +24,13 @@
  */
 
 #include "classlib/parallel.h"
-#include "classlib/ExprList.h"
+#include "classlib/expr_list.h"
 #include "ExprImp.h"
 #include "ExprCore.h"
 
 namespace pss {
 
-parallel::parallel(const ExprList &body) : Expr(body.imp()) {
+parallel::parallel(const expr_list &body) : expr(body.imp()) {
 	imp().ptr()->setOp(ExprImp::GraphParallel);
 }
 
@@ -38,12 +38,12 @@ parallel::~parallel() {
 	// TODO Auto-generated destructor stub
 }
 
-ExprListBuilder parallel::operator,(const Expr &rhs) {
-	return ExprListBuilder(*this, rhs);
+expr_list_builder parallel::operator,(const expr &rhs) {
+	return expr_list_builder(*this, rhs);
 }
 
-ExprListBuilder parallel::operator,(const ExprListBuilder &rhs) {
-	return ExprListBuilder(*this, rhs);
+expr_list_builder parallel::operator,(const expr_list_builder &rhs) {
+	return expr_list_builder(*this, rhs);
 }
 
 } /* namespace pss */

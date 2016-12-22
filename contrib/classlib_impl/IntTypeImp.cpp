@@ -1,5 +1,5 @@
 /*
- * IntType.cpp
+ * int_type.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -27,28 +27,28 @@
 
 namespace pss {
 
-IntType::IntType(
-		BaseItem 			*p,
+int_type::int_type(
+		base_item 			*p,
 		uint32_t			msb,
 		uint32_t			lsb) :
-	BaseItem(new IntTypeImp(this, p, msb, lsb)) { }
+	base_item(new IntTypeImp(this, p, msb, lsb)) { }
 
 IntTypeImp::IntTypeImp(
-		IntType				*master,
-		BaseItem 			*p,
+		int_type				*master,
+		base_item 			*p,
 		uint32_t			msb,
 		uint32_t			lsb) :
 	NamedBaseItemImp(master, BaseItemImp::TypeInt, p),
 	m_msb(msb), m_lsb(lsb), m_utils(this) { }
 
-IntType::IntType(
+int_type::int_type(
 		const std::string	&name,
 		uint32_t			msb,
 		uint32_t			lsb) :
-	BaseItem(new IntTypeImp(this, name, msb, lsb)) { }
+	base_item(new IntTypeImp(this, name, msb, lsb)) { }
 
 IntTypeImp::IntTypeImp(
-		IntType				*master,
+		int_type				*master,
 		const std::string	&name,
 		uint32_t			msb,
 		uint32_t			lsb) :
@@ -56,11 +56,11 @@ IntTypeImp::IntTypeImp(
 	m_msb(msb), m_lsb(lsb), m_utils(this) {
 }
 
-IntType::~IntType() { }
+int_type::~int_type() { }
 
 IntTypeImp::~IntTypeImp() { }
 
-int64_t IntType::get() {
+int64_t int_type::get() {
 	return static_cast<IntTypeImp *>(impl())->get();
 }
 
@@ -68,7 +68,7 @@ int64_t IntTypeImp::get() {
 	return m_utils.getIntValue();
 }
 
-void IntType::set(int64_t v) {
+void int_type::set(int64_t v) {
 	static_cast<IntTypeImp *>(impl())->set(v);
 }
 

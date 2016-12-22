@@ -1,5 +1,5 @@
 /*
- * ChandleType.cpp
+ * chandle_type.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -27,22 +27,22 @@
 
 namespace pss {
 
-ChandleType::ChandleType(const Scope &p) :
-		BaseItem(new ChandleTypeImpl(this, 0)) { }
+chandle_type::chandle_type(const scope &p) :
+		base_item(new ChandleTypeImpl(this, 0)) { }
 
-ChandleTypeImpl::ChandleTypeImpl(ChandleType *master, BaseItem *p) :
+ChandleTypeImpl::ChandleTypeImpl(chandle_type *master, base_item *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypeChandle, p),
 		m_utils(this) { }
 
-ChandleType::ChandleType(const std::string &name) :
-		BaseItem(new ChandleTypeImpl(this, name)) { }
+chandle_type::chandle_type(const std::string &name) :
+		base_item(new ChandleTypeImpl(this, name)) { }
 
-ChandleTypeImpl::ChandleTypeImpl(ChandleType *master, const std::string &name) :
+ChandleTypeImpl::ChandleTypeImpl(chandle_type *master, const std::string &name) :
 		NamedBaseItemImp(master, BaseItemImp::TypeChandle, 0, name),
 		m_utils(this) { }
 
 
-ChandleType::~ChandleType() {
+chandle_type::~chandle_type() {
 	// TODO Auto-generated destructor stub
 }
 
@@ -50,7 +50,7 @@ ChandleTypeImpl::~ChandleTypeImpl() {
 	// TODO Auto-generated destructor stub
 }
 
-void *ChandleType::get() {
+void *chandle_type::get() {
 	return static_cast<ChandleTypeImpl *>(impl())->get();
 }
 
@@ -62,7 +62,7 @@ void ChandleTypeImpl::set(void *v) {
 	m_utils.setChandleValue(v);
 }
 
-void ChandleType::set(void *v) {
+void chandle_type::set(void *v) {
 	static_cast<ChandleTypeImpl *>(impl())->set(v);
 }
 

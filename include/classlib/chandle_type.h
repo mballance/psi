@@ -1,5 +1,5 @@
 /*
- * IntType.h
+ * chandle.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -18,34 +18,27 @@
  * the License for the specific language governing
  * permissions and limitations under the License.
  * 
- *  Created on: Apr 24, 2016
+ *
+ *  Created on: Apr 29, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_INT_TYPE_H
-#define INCLUDED_INT_TYPE_H
-#include <string>
-
-#include "classlib/BaseItem.h"
-#include "classlib/pss_types.h"
+#ifndef INCLUDED_CHANDLE_TYPE_H
+#define INCLUDED_CHANDLE_TYPE_H
+#include "classlib/base_item.h"
+#include "classlib/scope.h"
 
 namespace pss {
 
-class ExprList;
-class IntType : public BaseItem {
+class chandle_type : public base_item {
 
 	public:
-		IntType(
-				BaseItem 			*p,
-				uint32_t			msb,
-				uint32_t			lsb);
 
-		IntType(
-				const std::string	&name,
-				uint32_t			msb,
-				uint32_t			lsb);
+		chandle_type(const scope &p);
 
-		virtual ~IntType();
+		chandle_type(const std::string &name);
+
+		virtual ~chandle_type();
 
 		/**
 		 * The get method returns the solve-time value of this
@@ -53,7 +46,7 @@ class IntType : public BaseItem {
 		 * on fields of this type, and only from within an
 		 * inline-exec callback.
 		 */
-		int64_t get();
+		void *get();
 
 		/**
 		 * The set method sets the value of this data field.
@@ -61,17 +54,9 @@ class IntType : public BaseItem {
 		 * of this type, and only from within an
 		 * inline-exec callback.
 		 */
-		void set(int64_t v);
-
-
-		Expr inside(const ExprList &l);
-
-#ifdef PSS_HAVE_CXX_11
-		Expr inside(std::initializer_list<Expr> l) { return inside(ExprList(l)); }
-#endif
-
+		void set(void *v);
 };
 
 } /* namespace pss */
 
-#endif /* INCLUDED_INT_TYPE_H */
+#endif /* SRC_CLASSLIB_CHANDLE_H_ */

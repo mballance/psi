@@ -25,7 +25,7 @@
 #ifndef CONTRIB_CLASSLIB_IMPL_EXECSTMTLISTIMP_H_
 #define CONTRIB_CLASSLIB_IMPL_EXECSTMTLISTIMP_H_
 #include <vector>
-#include "classlib/ExecStmtList.h"
+#include "classlib/exec_stmt_list.h"
 
 namespace pss {
 
@@ -35,17 +35,17 @@ public:
 
 	virtual ~ExecStmtListImp();
 
-	void add(const ExecStmt &stmt);
+	void add(const exec_stmt &stmt);
 
 	void inc_refcnt();
 
 	void dec_refcnt();
 
-	const std::vector<ExecStmt> &stmts() const { return m_stmts; }
+	const std::vector<exec_stmt> &stmts() const { return m_stmts; }
 
 private:
 	uint32_t				m_refcnt;
-	std::vector<ExecStmt>	m_stmts;
+	std::vector<exec_stmt>	m_stmts;
 };
 
 } /* namespace pss */

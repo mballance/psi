@@ -28,42 +28,42 @@
 #define INCLUDED_IMPORT_H
 #include <string>
 
-#include "classlib/Expr.h"
-#include "classlib/BaseItem.h"
-#include "classlib/ExecImportCallStmt.h"
-#include "classlib/MethodParamList.h"
-#include "classlib/ExprList.h"
+#include "classlib/expr.h"
+#include "classlib/base_item.h"
+#include "classlib/exec_import_call_stmt.h"
+#include "classlib/method_param_list.h"
+#include "classlib/expr_list.h"
 
 namespace pss {
 
-class import_func : public BaseItem {
+class import_func : public base_item {
 
 	public:
 
 		import_func(
-				BaseItem 				*p,
+				base_item 				*p,
 				const std::string 		&name,
-				const MethodParamList	&plist);
+				const method_param_list	&plist);
 
 		import_func(
-				BaseItem 				*p,
+				base_item 				*p,
 				const std::string 		&name,
-				const BaseItem 			&ret,
-				const MethodParamList	&plist);
+				const base_item 			&ret,
+				const method_param_list	&plist);
 
 		virtual ~import_func();
 
-		ExecImportCallStmt operator()(const ExprList &plist);
+		exec_import_call_stmt operator()(const expr_list &plist);
 
 #ifdef PSS_HAVE_CXX_11
 
-		template<typename... I> ExecImportCallStmt operator()(const I&... items) {
-			return ExecImportCallStmt(*this, ExprList::mklist(items...));
+		template<typename... I> exec_import_call_stmt operator()(const I&... items) {
+			return exec_import_call_stmt(*this, expr_list::mklist(items...));
 		}
 
 #endif
 
-		ExecImportCallStmt operator()();
+		exec_import_call_stmt operator()();
 };
 
 

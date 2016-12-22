@@ -23,7 +23,7 @@
  *      Author: ballance
  */
 
-#include "classlib/ExprList.h"
+#include "classlib/expr_list.h"
 #include "ExprCoreList.h"
 #include "ExprImp.h"
 #include "ExprListBuilderImp.h"
@@ -32,22 +32,22 @@ namespace pss {
 
 void traverse_expr_builder(ExprCoreList *c_t, const ExprListBuilderImp &el);
 
-ExprList::ExprList() : Expr(ExprImp(new ExprCoreList())) {
+expr_list::expr_list() : expr(ExprImp(new ExprCoreList())) {
 
 }
 
-ExprList::~ExprList() {
+expr_list::~expr_list() {
 
 }
 
-ExprList::ExprList(const Expr &rhs) : Expr(ExprImp(new ExprCoreList())) {
+expr_list::expr_list(const expr &rhs) : expr(ExprImp(new ExprCoreList())) {
 	ExprCoreList *c_t = static_cast<ExprCoreList *>(m_core->ptr());
 	c_t->m_exprList.push_back(rhs.imp());
 }
 
-ExprList::ExprList(const ExprImp &rhs) : Expr(rhs) { }
+expr_list::expr_list(const ExprImp &rhs) : expr(rhs) { }
 
-ExprList::ExprList(const ExprListBuilder &el) : Expr(ExprImp(new ExprCoreList())) {
+expr_list::expr_list(const expr_list_builder &el) : expr(ExprImp(new ExprCoreList())) {
 	ExprCoreList *c_t = static_cast<ExprCoreList *>(m_core->ptr());
 	traverse_expr_builder(c_t, el.imp());
 }

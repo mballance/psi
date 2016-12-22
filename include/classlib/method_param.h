@@ -1,5 +1,5 @@
 /*
- * ExecStmt.h
+ * method_param.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -18,40 +18,45 @@
  * the License for the specific language governing
  * permissions and limitations under the License.
  * 
- *  Created on: Aug 29, 2016
+ *  Created on: Aug 26, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDE_CLASSLIB_EXECSTMT_H_
-#define INCLUDE_CLASSLIB_EXECSTMT_H_
+#ifndef INCLUDE_CLASSLIB_METHODPARAM_H_
+#define INCLUDE_CLASSLIB_METHODPARAM_H_
+#include <string>
 
 namespace pss {
 
-class ExecStmtImp;
-class FieldItem;
-class ExecStmt {
+class MethodParamImp;
+class method_param_list;
+class base_item;
+class method_param {
+	friend class MethodParamImp;
+	friend class method_param_list;
 public:
-	friend ExecStmtImp;
-	friend FieldItem;
+	enum Dir {
+		In,
+		Out,
+		InOut
+	};
 
-	ExecStmt(const ExecStmt &rhs);
-
-	virtual ~ExecStmt();
-
-	ExecStmtImp *imp() const;
+	virtual ~method_param();
 
 protected:
-	ExecStmt(ExecStmtImp *imp);
+	method_param(
+			const std::string 	&name,
+			Dir					dir,
+			base_item			*type);
 
 private:
-	ExecStmtImp			*m_imp;
+	MethodParamImp				*m_imp;
 
 };
-
 
 }
 
 
 
 
-#endif /* INCLUDE_CLASSLIB_EXECSTMT_H_ */
+#endif /* INCLUDE_CLASSLIB_METHODPARAM_H_ */

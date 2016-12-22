@@ -27,18 +27,18 @@
 #define SRC_PSI_CLASSLIB_SELECT_H_
 #include <vector>
 #include "classlib/pss_types.h"
-#include "classlib/Expr.h"
-#include "classlib/ExprList.h"
+#include "classlib/expr.h"
+#include "classlib/expr_list.h"
 
 namespace pss {
 
-class pss_select: public Expr {
+class pss_select: public expr {
 public:
 
-	pss_select(const ExprList &list);
+	pss_select(const expr_list &list);
 
 #ifdef PSS_HAVE_CXX_11
-	pss_select(std::initializer_list<Expr> l) : pss_select(ExprList(l)) { };
+	pss_select(std::initializer_list<expr> l) : pss_select(expr_list(l)) { };
 #endif
 
 	virtual ~pss_select();

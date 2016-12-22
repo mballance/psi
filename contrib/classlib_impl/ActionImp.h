@@ -62,13 +62,13 @@ public:
 
 		virtual const std::string &getName() const;
 
-		FieldItem *getField() const { return m_field; }
+		attr_item *getField() const { return m_field; }
 
 	private:
 		TypePathImp						m_super_type;
 		IModel							*m_model;
 		psshandle_t						m_hndl;
-		FieldItem						*m_field;
+		attr_item						*m_field;
 
 };
 

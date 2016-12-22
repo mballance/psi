@@ -34,7 +34,7 @@ namespace pss {
 class BindImp: public BaseItemImp {
 public:
 
-	BindImp(bind *master, BaseItem *p);
+	BindImp(bind *master, base_item *p);
 
 	virtual ~BindImp();
 

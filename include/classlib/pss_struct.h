@@ -27,26 +27,26 @@
 #define INCLUDED_STRUCT_H
 #include <string>
 
-#include "classlib/BaseItem.h"
-#include "classlib/Scope.h"
+#include "classlib/base_item.h"
+#include "classlib/scope.h"
 
 namespace pss {
 
-class FieldItem;
+class attr_item;
 
-class pss_struct : public BaseItem {
+class pss_struct : public base_item {
 
 public:
 
 		virtual ~pss_struct();
 
-		operator Expr() const;
+		operator expr() const;
 
-		operator FieldItem &() const;
+		operator attr_item &() const;
 
 	protected:
 
-		pss_struct(const Scope &p);
+		pss_struct(const scope &p);
 
 		pss_struct(BaseItemImp *imp);
 

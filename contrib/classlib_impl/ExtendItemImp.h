@@ -1,5 +1,5 @@
 /*
- * ExtendItem.h
+ * extend_item.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -26,7 +26,7 @@
 #ifndef INCLUDED_EXTEND_ITEM_IMP_H
 #define INCLUDED_EXTEND_ITEM_IMP_H
 
-#include "classlib/ExtendItem.h"
+#include "classlib/extend_item.h"
 #include "BaseItemImp.h"
 
 namespace pss {
@@ -34,15 +34,15 @@ namespace pss {
 class ExtendItemImp: public BaseItemImp {
 public:
 	ExtendItemImp(
-			ExtendItem 				*master,
-			BaseItem 				*p,
-			BaseItem				*type_hndl,
-			BaseItem				*ext_hndl
+			extend_item 				*master,
+			base_item 				*p,
+			base_item				*type_hndl,
+			base_item				*ext_hndl
 			);
 
 	virtual ~ExtendItemImp();
 
-	void setDataType(BaseItem *dt);
+	void setDataType(base_item *dt);
 
 	BaseItemImp *getDataType() const { return m_data_type; }
 

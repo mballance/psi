@@ -34,7 +34,7 @@
 
 namespace pss {
 
-class Scope;
+class scope;
 class state_struct: public pss_struct {
 public:
 
@@ -43,7 +43,7 @@ public:
 	virtual ~state_struct();
 
 protected:
-	state_struct(const Scope &p);
+	state_struct(const scope &p);
 
 };
 

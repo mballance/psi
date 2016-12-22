@@ -32,11 +32,11 @@ ExprCoreList::ExprCoreList() : ExprCore(ExprImp::List) {
 
 }
 
-ExprCoreList::ExprCoreList(const Expr &e) : ExprCore(ExprImp::List) {
+ExprCoreList::ExprCoreList(const expr &e) : ExprCore(ExprImp::List) {
 	add(e);
 }
 
-ExprCoreList::ExprCoreList(const Expr &e1, const Expr &e2) : ExprCore(ExprImp::List) {
+ExprCoreList::ExprCoreList(const expr &e1, const expr &e2) : ExprCore(ExprImp::List) {
 	add(e1);
 	add(e2);
 }
@@ -45,7 +45,7 @@ ExprCoreList::~ExprCoreList() {
 	// TODO Auto-generated destructor stub
 }
 
-void ExprCoreList::add(const Expr &e) {
+void ExprCoreList::add(const expr &e) {
 	m_exprList.push_back(e.imp());
 }
 

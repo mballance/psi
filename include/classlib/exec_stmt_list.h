@@ -1,5 +1,5 @@
 /*
- * ExecStmtList.h
+ * exec_stmt_list.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -25,51 +25,51 @@
 #ifndef INCLUDE_CLASSLIB_EXECSTMTLIST_H_
 #define INCLUDE_CLASSLIB_EXECSTMTLIST_H_
 #include "classlib/pss_types.h"
-#include "classlib/ExecStmt.h"
-#include "classlib/ExecImportCallStmt.h"
+#include "classlib/exec_stmt.h"
+#include "classlib/exec_import_call_stmt.h"
 
 namespace pss {
 
 class ExecStmtListImp;
-class ExecStmtList {
+class exec_stmt_list {
 public:
 
-	ExecStmtList();
+	exec_stmt_list();
 
-	ExecStmtList(const ExecStmtList &rhs);
+	exec_stmt_list(const exec_stmt_list &rhs);
 
 #ifdef PSS_HAVE_CXX_11
-	ExecStmtList(std::initializer_list<ExecStmt> l) : ExecStmtList() {
-		ExecStmtList &el = *this;
+	exec_stmt_list(std::initializer_list<exec_stmt> l) : exec_stmt_list() {
+		exec_stmt_list &el = *this;
 
-		for (std::initializer_list<ExecStmt>::const_iterator it=l.begin();
+		for (std::initializer_list<exec_stmt>::const_iterator it=l.begin();
 				it!=l.end(); it++) {
 			el = (el, *it);
 		}
 	}
 
-	template <typename T, typename... R> static ExecStmtList mklist(
+	template <typename T, typename... R> static exec_stmt_list mklist(
 			const T			&item,
 			const R&...		rest) {
-		ExecStmtList el;
+		exec_stmt_list el;
 		return _mklist(el, item, rest...);
 	}
 #endif
 
-	ExecStmtList(const ExecStmt &rhs);
+	exec_stmt_list(const exec_stmt &rhs);
 
-	virtual ~ExecStmtList();
+	virtual ~exec_stmt_list();
 
-	ExecStmtList operator,(const ExecStmt &rhs);
+	exec_stmt_list operator,(const exec_stmt &rhs);
 
 	ExecStmtListImp *imp() const;
 
 private:
-	ExecStmtList(ExecStmtListImp *imp);
+	exec_stmt_list(ExecStmtListImp *imp);
 
 #ifdef PSS_HAVE_CXX_11
-	template <typename T, typename... R> static ExecStmtList &_mklist(
-			ExecStmtList		&el,
+	template <typename T, typename... R> static exec_stmt_list &_mklist(
+			exec_stmt_list		&el,
 			const T				&item,
 			const R&...			rest) {
 		el = (el, item);
@@ -77,7 +77,7 @@ private:
 		return _mklist(el, rest...);
 	}
 
-	static ExecStmtList &_mklist(ExecStmtList &el) {
+	static exec_stmt_list &_mklist(exec_stmt_list &el) {
 		return el;
 	}
 #endif

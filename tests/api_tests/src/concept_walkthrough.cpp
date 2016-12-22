@@ -123,7 +123,7 @@ public:
 	// Declares an extension of 'write_data' to layer in the implementation
 	class write_data_ext : public extend_action<rw_comp::write_data> {
 	public:
-		write_data_ext(const Scope &p) : extend_action(this) { }
+		write_data_ext(const scope &p) : extend_action(this) { }
 
 		// Example of a target-template exec block
 		exec do_write_body {this, exec::Body, "C", R"(
@@ -140,7 +140,7 @@ public:
 	class read_data_ext : public extend_action<rw_comp::read_data> {
 	public:
 
-		read_data_ext(const Scope &p) : extend_action(this) {}
+		read_data_ext(const scope &p) : extend_action(this) {}
 
 		rand_attr<pss_bit>			tmp{"tmp", 4};
 

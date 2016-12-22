@@ -37,19 +37,19 @@ ExprCore::ExprCore(int32_t v) {
 	m_op = ExprImp::LiteralInt;
 }
 
-ExprCore::ExprCore(const BaseItem &t) {
+ExprCore::ExprCore(const base_item &t) {
 	m_val.ref = t.impl();
 	m_op = ExprImp::TypeRef;
 }
 
 ExprCore::ExprCore(
 		ExprImp::Operator 	op,
-		const Expr 			&lhs,
-		const Expr 			&rhs) : m_op(op), m_lhs(lhs.imp()), m_rhs(rhs.imp()) {
+		const expr 			&lhs,
+		const expr 			&rhs) : m_op(op), m_lhs(lhs.imp()), m_rhs(rhs.imp()) {
 
 }
 
-ExprCore::ExprCore(import_func &import, const Expr &params) :
+ExprCore::ExprCore(import_func &import, const expr &params) :
 		m_op(ExprImp::ImportCall), m_lhs(params) {
 	m_val.ref = import.impl();
 }

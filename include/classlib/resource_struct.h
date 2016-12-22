@@ -41,7 +41,7 @@ public:
 		virtual ~resource_struct();
 
 protected:
-		resource_struct(const Scope &p);
+		resource_struct(const scope &p);
 
 };
 

@@ -34,7 +34,7 @@
 
 namespace pss {
 
-Model::Model(ModelImp *imp) : BaseItem(imp) {
+Model::Model(ModelImp *imp) : base_item(imp) {
 
 }
 
@@ -61,7 +61,7 @@ void ModelImp::push_scope(const ScopeImp *p) {
 	// Search back to back-populate 'ctxt' handle
 	if (p->ctxt()) {
 	int i=m_scope.size()-1;
-	std::vector<BaseItem *>::iterator it = m_scopes.end();
+	std::vector<base_item *>::iterator it = m_scopes.end();
 	it--;
 
 	for (; i>=0; i--) {
@@ -93,7 +93,7 @@ const std::vector<const ScopeImp *> &ModelImp::get_scope() const {
 	return m_scope;
 }
 
-const std::vector<BaseItem *> &ModelImp::get_scopes() const {
+const std::vector<base_item *> &ModelImp::get_scopes() const {
 	return m_scopes;
 }
 
@@ -101,7 +101,7 @@ uint32_t ModelImp::depth() const {
 	return m_scope.size();
 }
 
-TypePathImp ModelImp::getActiveTypeName(BaseItem *it) {
+TypePathImp ModelImp::getActiveTypeName(base_item *it) {
 	const ScopeImp *scope = 0;
 	for (int i=m_scope.size()-1; i>=0; i--) {
 		if (m_scope.at(i)->ctxt() == it) {
@@ -123,8 +123,8 @@ TypePathImp ModelImp::getActiveTypeName(BaseItem *it) {
 	}
 }
 
-BaseItemImp *ModelImp::getActiveType(BaseItem *it) {
-	BaseItem *ret = 0;
+BaseItemImp *ModelImp::getActiveType(base_item *it) {
+	base_item *ret = 0;
 	for (int i=m_scope.size()-1; i>=0; i--) {
 		if (m_scope.at(i)->ctxt() == it) {
 			ret = m_scope.at(i)->type_id();
@@ -138,7 +138,7 @@ BaseItemImp *ModelImp::getActiveType(BaseItem *it) {
 
 TypePathImp ModelImp::getSuperType() {
 	if (m_scope.size() > 0) {
-		BaseItem *s = m_scope.at(m_scope.size()-1)->ctxt();
+		base_item *s = m_scope.at(m_scope.size()-1)->ctxt();
 		int32_t i=m_scope.size()-1;
 
 		// Super-type will be called from the very base type (action, pss_struct, component)
@@ -162,11 +162,11 @@ TypePathImp ModelImp::getSuperType() {
 	}
 }
 
-BaseItem *ModelImp::getParentScope() {
-	BaseItem *p = 0;
+base_item *ModelImp::getParentScope() {
+	base_item *p = 0;
 
 	if (m_scopes.size() > 0) {
-		BaseItem *s = m_scopes.at(m_scopes.size()-1);
+		base_item *s = m_scopes.at(m_scopes.size()-1);
 
 		for (int32_t i=m_scopes.size()-1; i>=0; i--) {
 			if (m_scopes.at(i) != s) {
@@ -187,7 +187,7 @@ bool ModelImp::isType() {
 	bool ret = false;
 
 	if (m_scopes.size() > 0) {
-		BaseItem *s = m_scopes.at(m_scopes.size()-1);
+		base_item *s = m_scopes.at(m_scopes.size()-1);
 
 		for (int32_t i=m_scopes.size()-1; i>=0; i--) {
 			if (m_scopes.at(i) != s) {
@@ -204,7 +204,7 @@ bool ModelImp::isParentField() {
 	bool ret = false;
 
 	if (m_scopes.size() > 0) {
-		BaseItem *s = m_scopes.at(m_scopes.size()-1);
+		base_item *s = m_scopes.at(m_scopes.size()-1);
 
 		for (int32_t i=m_scopes.size()-1; i>=0; i--) {
 			if (m_scopes.at(i) != s) {
@@ -217,9 +217,9 @@ bool ModelImp::isParentField() {
 	return ret;
 }
 
-BaseItem *ModelImp::getActiveScope() {
+base_item *ModelImp::getActiveScope() {
 	// Search back until we find something different than 'us'
-	BaseItem *curr = (m_scopes.size())?m_scopes.at(m_scopes.size()-1):0;
+	base_item *curr = (m_scopes.size())?m_scopes.at(m_scopes.size()-1):0;
 
 	for (int i=m_scopes.size()-1; i>=0; i--) {
 		if (m_scopes.at(i) != curr) {
@@ -310,7 +310,7 @@ TypePathImp ModelImp::demangle(const ScopeImp *s) {
     return name;
 }
 
-BaseItem *ModelImp::pOrGlobal(BaseItem *p) {
+base_item *ModelImp::pOrGlobal(base_item *p) {
 	return (p)?p:ModelImp::global()->master();
 }
 
@@ -320,7 +320,7 @@ void ModelImp::print_scopes() {
 	fprintf(stdout, "--> print_scopes()\n");
 	for (int32_t i=m->m_scope.size()-1; i>=0; i--) {
 		const ScopeImp *s = m->m_scope.at(i);
-		BaseItem *b = m->m_scopes.at(i);
+		base_item *b = m->m_scopes.at(i);
 		fprintf(stdout, "  scope=%p name=%s type_name=%s is_field=%s is_type=%s\n",
 				b, s->scope_name(),
 				(s->get_typeinfo())?s->get_typeinfo()->name():"NULL",

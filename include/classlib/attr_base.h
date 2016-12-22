@@ -1,5 +1,5 @@
 /*
- * FieldBase.h
+ * attr_base.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -22,55 +22,55 @@
  */
 #ifndef INCLUDED_FIELD_BASE_H
 #define INCLUDED_FIELD_BASE_H
-#include "classlib/FieldItem.h"
-#include "classlib/MethodParamList.h"
+#include "classlib/attr_item.h"
+#include "classlib/method_param_list.h"
 #include "classlib/type_decl.h"
 
 namespace pss {
 
-class MethodParamList;
-template <class T> class FieldBase : public T {
+class method_param_list;
+template <class T> class attr_base : public T {
 public:
 
-	virtual ~FieldBase() { }
+	virtual ~attr_base() { }
 
 	/*
 	 * Provide an explicit conversion function to tell the
 	 * compiler how to interpret the fact that both we and T extend
-	 * from BaseItem
-	operator Expr() const { return Expr(m_field); }
+	 * from base_item
+	operator expr() const { return expr(m_field); }
 
-	operator const FieldItem &() const { return m_field; }
+	operator const attr_item &() const { return m_field; }
 	 */
 
 	// Helper operator used to form parameter lists
-	MethodParamList operator,(const FieldItem &rhs) { return (m_field , rhs); }
+	method_param_list operator,(const attr_item &rhs) { return (m_field , rhs); }
 
 public:
 	// TODO: make type_decl<> a friend?
-	FieldBase(const Scope &scope) : T(static_cast<T *>(this)),
-				m_field(this, FieldItem::AttrNone,
+	attr_base(const scope &scope) : T(static_cast<T *>(this)),
+				m_field(this, attr_item::AttrNone,
 						(type_decl<T>::valid())?type_decl<T>::id():0, 0) { }
 
 protected:
 
-	FieldBase(
-			FieldItem::FieldAttr 	attr,
-			const Scope				&scope) : T(static_cast<T *>(this)),
+	attr_base(
+			attr_item::FieldAttr 	attr,
+			const scope				&scope) : T(static_cast<T *>(this)),
 				m_field(this, attr,
 						(type_decl<T>::valid())?type_decl<T>::id():0, 0) { }
 
-	FieldBase(
-			FieldItem::FieldAttr 	attr,
-			BaseItem 				*p,
+	attr_base(
+			attr_item::FieldAttr 	attr,
+			base_item 				*p,
 			const std::string 		&name,
-			const Expr				&array_dim) : T(Scope(true)),
+			const expr				&array_dim) : T(scope(true)),
 				m_field(p, name, &array_dim, attr, this,
 						(type_decl<T>::valid())?type_decl<T>::id():0) {
 	}
 
 protected:
-	FieldItem						m_field;
+	attr_item						m_field;
 
 };
 

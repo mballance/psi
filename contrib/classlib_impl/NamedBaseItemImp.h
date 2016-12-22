@@ -35,9 +35,9 @@ namespace pss {
 class NamedBaseItemImp : public BaseItemImp {
 public:
 	NamedBaseItemImp(
-			BaseItem 					*master,
+			base_item 					*master,
 			BaseItemImp::ObjectType 	t,
-			BaseItem 					*p,
+			base_item 					*p,
 			const std::string 			&name="");
 
 	virtual ~NamedBaseItemImp();
