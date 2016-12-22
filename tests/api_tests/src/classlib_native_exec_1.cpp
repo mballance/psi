@@ -29,13 +29,13 @@ public:
 	pss_ctor(methods_pkg, package);
 
 	import_func my_func { this, "my_func",
-		(input<pss_bit<7,0>>("a"), input<pss_bit<31,0>>("b"))};
+		(input<uint8_t>("a"), input<uint32_t>("b"))};
 
-	import_func my_func2 { this, "my_func2", pss_bit<7,0>(""),
-		(input<pss_bit<7,0>>("a"), input<pss_bit<31,0>>("b"))};
+	import_func my_func2 { this, "my_func2", pss_bit(8),
+		(input<uint8_t>("a"), input<uint32_t>("b"))};
 
 };
-pss_global_type(methods_pkg);
+pss_type(methods_pkg);
 
 class top : public component {
 public:
@@ -45,9 +45,9 @@ public:
 	public:
 		pss_ctor(entry_point, action);
 
-		rand_attr<pss_bit<7,0>>		pss_field(p1);
-		rand_attr<pss_bit<7,0>>		pss_field(p2);
-		rand_attr<pss_bit<7,0>>		pss_field(p3);
+		rand_attr<uint8_t>		pss_field(p1);
+		rand_attr<uint8_t>		pss_field(p2);
+		rand_attr<uint8_t>		pss_field(p3);
 
 		exec post_solve_en {this, exec::PostSolve,
 			{
@@ -60,6 +60,6 @@ public:
 	pss_type(entry_point);
 
 };
-pss_global_type(top);
+pss_type(top);
 
 

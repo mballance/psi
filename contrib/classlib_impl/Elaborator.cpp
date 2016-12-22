@@ -1167,8 +1167,9 @@ BaseItemImp *Elaborator::find_cl_type_decl(const TypePathImp &path) {
 	BaseItemImp *ret = 0;
 	BaseItemImp *scope = ModelImp::global();
 
-	for (std::vector<std::string>::const_iterator it=path.get().begin();
-			it!=path.get().end(); it++) {
+	const std::vector<std::string> &pl = path.get();
+	for (std::vector<std::string>::const_iterator it=pl.begin();
+			it!=pl.end(); it++) {
 		const std::string &it_s = (*it);
 		const std::vector<BaseItemImp *> &item_v = scope->getChildren();
 		fprintf(stdout, "  Path Elem: %s\n", (*it).c_str());
@@ -1419,14 +1420,20 @@ void Elaborator::build_type_hierarchy(
 		std::vector<BaseItemImp *>			&items,
 		BaseItemImp						*t) {
 	while (t) {
+		BaseItemImp *new_t = 0;
 		items.push_back(t);
 
 		if (t->getObjectType() == BaseItemImp::TypeAction) {
-			t = find_cl_type_decl(dynamic_cast<ActionImp *>(t)->getSuperType());
+			new_t = find_cl_type_decl(dynamic_cast<ActionImp *>(t)->getSuperType());
 		} else if (t->getObjectType() == BaseItemImp::TypeStruct) {
-			t = find_cl_type_decl(dynamic_cast<StructImp *>(t)->getSuperType());
-		} else {
+			new_t = find_cl_type_decl(dynamic_cast<StructImp *>(t)->getSuperType());
+		}
+
+		if (t == new_t) {
+			error("Super-type cannot be self");
 			t = 0;
+		} else {
+			t = new_t;
 		}
 	}
 }

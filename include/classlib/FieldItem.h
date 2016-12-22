@@ -44,7 +44,8 @@ public:
 		AttrLock,
 		AttrShare,
 		AttrRand,
-		AttrPool
+		AttrPool,
+		AttrAction // action_attr
 	};
 
 public:
@@ -57,6 +58,7 @@ public:
 			const BaseItem		*type_hndl,
 			const Expr			*array_dim);
 
+protected:
 	FieldItem(
 			const Scope			&scope,
 			FieldAttr			modifiers,
@@ -83,6 +85,39 @@ public:
 			// Handle to the type object, if this is a user-defined type
 			BaseItem			*type_hndl);
 
+	/**
+	 * The get method returns the solve-time value of this
+	 * data field. Calling this method is only valid
+	 * on fields of this type, and only from within an
+	 * inline-exec callback.
+	 */
+	uint64_t get_bit();
+
+	/**
+	 * The set method sets the value of this data field.
+	 * Calling this method is only valid on fields
+	 * of this type, and only from within an
+	 * inline-exec callback.
+	 */
+	void set_bit(uint64_t v);
+
+	/**
+	 * The get method returns the solve-time value of this
+	 * data field. Calling this method is only valid
+	 * on fields of this type, and only from within an
+	 * inline-exec callback.
+	 */
+	int64_t get_int();
+
+	/**
+	 * The set method sets the value of this data field.
+	 * Calling this method is only valid on fields
+	 * of this type, and only from within an
+	 * inline-exec callback.
+	 */
+	void set_int(int64_t v);
+
+public:
 	void setModifiers(FieldAttr modifiers);
 
 	Expr implies(const ExprList &rhs);

@@ -49,6 +49,81 @@ template <class T> class output : public T {
 
 };
 
+template <> class output<pss_bit> : public FieldItem {
+public:
+	output(const Scope &name) :
+		FieldItem(name, FieldItem::AttrOutput, pss_bit(), 0) { }
+
+	output(const Scope &name, const pss_bit &t_decl) :
+		FieldItem(name, FieldItem::AttrOutput, t_decl, 0) { }
+
+	output(const Scope &name, uint32_t w) :
+		FieldItem(name, FieldItem::AttrOutput, pss_bit(w), 0) { }
+
+};
+
+template <> class output<pss_int> : public FieldItem {
+public:
+	output(const Scope &name) :
+		FieldItem(name, FieldItem::AttrOutput, pss_int(), 0) { }
+
+	output(const Scope &name, const pss_int &t_decl) :
+		FieldItem(name, FieldItem::AttrOutput, t_decl, 0) { }
+
+	output(const Scope &name, uint32_t w) :
+		FieldItem(name, FieldItem::AttrOutput, pss_int(w), 0) { }
+
+};
+
+template <> class output<unsigned int> : public FieldItem {
+public:
+	output(const Scope &name) :
+		FieldItem(name, FieldItem::AttrOutput, pss_bit(32), 0) { }
+
+};
+
+template <> class output<int> : public FieldItem {
+public:
+	output(const Scope &name) :
+		FieldItem(name, FieldItem::AttrOutput, pss_int(32), 0) { }
+
+};
+
+template <> class output<unsigned short> : public FieldItem {
+public:
+	output(const Scope &name) :
+		FieldItem(name, FieldItem::AttrOutput, pss_bit(16), 0) { }
+
+};
+
+template <> class output<short> : public FieldItem {
+public:
+	output(const Scope &name) :
+		FieldItem(name, FieldItem::AttrOutput, pss_int(16), 0) { }
+
+};
+
+template <> class output<unsigned char> : public FieldItem {
+public:
+	output(const Scope &name) :
+		FieldItem(name, FieldItem::AttrOutput, pss_bit(8), 0) { }
+
+};
+
+template <> class output<char> : public FieldItem {
+public:
+	output(const Scope &name) :
+		FieldItem(name, FieldItem::AttrOutput, pss_int(8), 0) { }
+
+};
+
+template <> class output<bool> : public FieldItem {
+public:
+	output(const Scope &name) :
+		FieldItem(name, FieldItem::AttrOutput, pss_bool(), 0) { }
+
+};
+
 
 } /* namespace pss */
 

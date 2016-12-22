@@ -51,12 +51,13 @@ FieldItem::FieldItem(
 		FieldItem::FieldAttr 	modifiers,
 		const BaseItem			&type_hndl,
 		const Expr				*array_dim) :
-		BaseItem(new FieldItemImp(this, scope.impl()->parent(),
-				scope.impl()->name(), array_dim, modifiers, 0, type_hndl.impl())) {
-
-	fprintf(stdout, "FieldItem: scope, modifiers, type_hndl_ref: %s\n",
-			ModelImp::global()->get_field_name(this));
-
+		BaseItem(new FieldItemImp(this,
+				ModelImp::global()->getParentScope(),
+				ModelImp::global()->get_field_name(),
+				array_dim,
+				modifiers,
+				0,
+				type_hndl.impl())) {
 	FieldItemImp *imp = static_cast<FieldItemImp *>(impl());
 	if (imp->getDataType()) {
 		imp->getDataType()->inc_refcnt();
@@ -71,14 +72,14 @@ FieldItem::FieldItem(
 		BaseItem(new FieldItemImp(
 				this, // master
 				ModelImp::global()->getParentScope(), // parent scope
-				ModelImp::global()->get_field_name(0), // name
+				ModelImp::global()->get_field_name(), // name
 				array_dim,
 				modifiers,
 				0, // wrapper
 				(type_hndl)?type_hndl->impl():0)) {
 
 	fprintf(stdout, "FieldItem: scope, modifiers, type_hndl_ptr: %s this=%p\n",
-			ModelImp::global()->get_field_name(this), this);
+			ModelImp::global()->get_field_name(), this);
 	ModelImp::print_scopes();
 
 	FieldItemImp *imp = static_cast<FieldItemImp *>(impl());
@@ -98,7 +99,8 @@ FieldItemImp::FieldItemImp(
 	NamedBaseItemImp(master, BaseItemImp::TypeField, p, name),
 		m_data_type(0), m_attr(attr), m_internal(false),
 		m_has_array_dim(array_dim!=0),
-		m_array_dim((array_dim)?array_dim->imp():ExprImp(0)) {
+		m_array_dim((array_dim)?array_dim->imp():ExprImp(0)),
+		m_utils(this) {
 
 	fprintf(stdout, "FieldItemImp: name=%s parent=%p (%d)\n",
 			name.c_str(), p, (p)?p->impl()->getObjectType():-1);
@@ -135,6 +137,22 @@ FieldItemImp::~FieldItemImp() {
 
 void FieldItemImp::setDataType(BaseItemImp *dt) {
 	m_data_type = dt;
+}
+
+uint64_t FieldItem::get_bit() {
+	return static_cast<FieldItemImp *>(impl())->m_utils.getBitValue();
+}
+
+void FieldItem::set_bit(uint64_t v) {
+	static_cast<FieldItemImp *>(impl())->m_utils.setBitValue(v);
+}
+
+int64_t FieldItem::get_int() {
+	return static_cast<FieldItemImp *>(impl())->m_utils.getIntValue();
+}
+
+void FieldItem::set_int(int64_t v) {
+	static_cast<FieldItemImp *>(impl())->m_utils.setIntValue(v);
 }
 
 void FieldItem::setModifiers(FieldAttr modifiers) {

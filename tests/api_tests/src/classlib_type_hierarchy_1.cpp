@@ -29,8 +29,8 @@ class Base : public pss_struct {
 public:
 	pss_ctor(Base, pss_struct);
 
-	rand_attr<pss_bit<7,0>>		pss_field(a);
-	rand_attr<pss_bit<7,0>>		pss_field(b);
+	rand_attr<uint8_t>		pss_field(a);
+	rand_attr<uint8_t>		pss_field(b);
 
 	constraint c {this, "c", {
 			a == 5,
@@ -38,7 +38,7 @@ public:
 	}};
 
 };
-pss_global_type(Base);
+pss_type(Base);
 
 class Ext : public Base {
 public:
@@ -49,6 +49,6 @@ public:
 			b == 8
 	}};
 };
-pss_global_type(Ext);
+pss_type(Ext);
 
 

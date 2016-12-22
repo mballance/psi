@@ -30,11 +30,13 @@
 #include "ExprImp.h"
 #include "NamedBaseItemImp.h"
 #include "classlib/MethodParamList.h"
+#include "InlineExecUtil.h"
 
 namespace pss {
 
 class FieldItemImp: public NamedBaseItemImp {
 public:
+	friend class FieldItem;
 	FieldItemImp(
 			FieldItem 				*master,
 			BaseItem 				*p,
@@ -69,6 +71,7 @@ private:
 
 	bool					m_has_array_dim;
 	ExprImp					m_array_dim;
+	InlineExecUtil			m_utils;
 
 };
 

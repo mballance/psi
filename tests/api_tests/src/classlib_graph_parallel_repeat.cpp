@@ -28,7 +28,7 @@ public:
 	public:
 		pss_ctor(at, action);
 
-		rand_attr<pss_bit<3,0>>		pss_field(field);
+		rand_attr<pss_bit>			field{"field", 4};
 	};
 	pss_type(at);
 
@@ -36,9 +36,9 @@ public:
 	public:
 		pss_ctor(top_action, action);
 
-		attr<at>		pss_field(a);
-		attr<at>		pss_field(b);
-		attr<at>		pss_field(c);
+		at			pss_field(a);
+		at			pss_field(b);
+		at			pss_field(c);
 
 		graph g {this, 
 			a,
@@ -56,4 +56,4 @@ public:
 	pss_type(top_action);
 
 };
-pss_global_type(top_comp);
+pss_type(top_comp);

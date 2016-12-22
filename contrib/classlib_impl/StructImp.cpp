@@ -45,7 +45,7 @@ StructImp::StructImp(
 	bool is_field = ModelImp::global()->isField();
 	bool is_parent_field = ModelImp::global()->isParentField();
 
-	m_super_type = ModelImp::global()->getSuperType(master);
+	m_super_type = ModelImp::global()->getSuperType();
 	setName(ModelImp::global()->getActiveTypeName(master).leaf());
 
 	fprintf(stdout, "StructImp::StructImp(%s) isField=%s isParentField=%s\n",
@@ -54,27 +54,16 @@ StructImp::StructImp(
 			is_parent_field?"true":"false");
 
 	if (is_field) {
-		const char *field_name = ModelImp::global()->get_field_name(master);
-
 		// First, remove ourselves from the children list
 		getParent()->remove(this);
 
 		// Any children of this component must be added to the field
 		m_field = new FieldItem(
 				getParent()->master(),
-				field_name,
+				ModelImp::global()->get_field_name(),
 				FieldItem::AttrNone,
 				ModelImp::global()->getActiveType(master)->master(),
 				0);
-
-//		m_field = new FieldItemImp(
-//				0, // master -- there is none
-//				getParent()->master(),
-//				field_name,
-//				0,
-//				FieldItem::AttrNone,
-//				0, // wrapper
-//				ModelImp::global()->getActiveType(master));
 	}
 }
 

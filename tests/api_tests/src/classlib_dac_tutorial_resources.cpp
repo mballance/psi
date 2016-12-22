@@ -30,7 +30,7 @@ public:
 	pss_ctor(R, resource_struct);
 
 };
-pss_global_type(R);
+pss_type(R);
 
 class C : public component {
 public:
@@ -44,14 +44,14 @@ public:
 	};
 	pss_type(A);
 };
-pss_global_type(C);
+pss_type(C);
 
 class static_structure : public component {
 public:
 	pss_ctor(static_structure, component);
 
-	attr<C>			pss_field(c1);
-	attr<C>			pss_field(c2);
+	C					pss_field(c1);
+	C					pss_field(c2);
 
 	pool<R>				pss_field(rp);
 
@@ -61,7 +61,7 @@ public:
 	bind b {this, rp, c1, c2};
 
 };
-pss_global_type(static_structure);
+pss_type(static_structure);
 
 class top : public component {
 public:
@@ -71,10 +71,10 @@ public:
 	public:
 		pss_ctor(entry_point, action);
 
-		attr<C::A>			pss_field(a1);
-		attr<C::A>			pss_field(a2);
+		C::A			pss_field(a1);
+		C::A			pss_field(a2);
 
-		graph graph {this,
+		graph g {this,
 			parallel {
 				a1, a2
 			}
@@ -83,7 +83,7 @@ public:
 	pss_type(entry_point);
 
 };
-pss_global_type(top);
+pss_type(top);
 
 
 

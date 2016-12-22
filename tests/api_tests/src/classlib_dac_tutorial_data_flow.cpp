@@ -26,25 +26,25 @@
 
 class S : public pss_struct {
 public:
-	pss_ctor(S, pss_struct);
+	S(const Scope &s) : pss_struct(this) { }
 
 };
-pss_type(S);
+type_decl<S> _S_t;
 
 class CA : public component {
 public:
-	pss_ctor(CA, component);
+	CA(const Scope &s) : component(this) { }
 
 	class A : public action {
 	public:
-		pss_ctor(A, action);
+		A(const Scope &s) : action(this) { }
 
-		output<S>			pss_field(out_s);
+		output<S>			out_s {"out_s"};
 	};
-	pss_type(A);
+	type_decl<A> _A_t;
 
 };
-pss_type(CA);
+type_decl<CA> _CA_t;
 
 class CB : public component {
 public:
@@ -83,7 +83,7 @@ public:
 		pss_ctor(entry_point, action);
 
 	};
-	pss_type(entry_point);
+	type_decl<entry_point> _type_decl_t;
 
 };
 pss_type(static_structure);

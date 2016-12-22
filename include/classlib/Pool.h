@@ -25,16 +25,18 @@
 
 #ifndef INCLUDED_POOL_H
 #define INCLUDED_POOL_H
-#include "classlib/FieldBase.h"
+#include "classlib/FieldItem.h"
 #include "classlib/type_decl.h"
 
 namespace pss {
 
-template <class T> class pool : public FieldBase<T> {
+template <class T> class pool : public T {
 
 	public:
-		pool(BaseItem *p, const std::string &name) :
-			FieldBase<T>(FieldItem::AttrPool, p, name) { }
+		pool(const Scope &name) : T(static_cast<T *>(this)) {
+			FieldItem &it = static_cast<FieldItem &>(*this);
+			it.setModifiers(FieldItem::AttrPool);
+		}
 
 		virtual ~pool() { }
 

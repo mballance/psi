@@ -29,8 +29,8 @@ class my_struct : public pss_struct {
 public:
 	my_struct(const Scope &p) : pss_struct(this) { }
 
-	rand_attr<pss_bit<31,0>>				addr {this, "addr"};
-	rand_attr<pss_bit<31,0>>				data {this, "data"};
+	rand_attr<pss_bit>				addr {"addr", 32};
+	rand_attr<pss_bit>				data {"data", 32};
 
 	constraint c { this, "c",
 		{

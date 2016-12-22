@@ -1,5 +1,5 @@
 /*
- * attr.h
+ * action_attr.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -17,14 +17,14 @@
  * CONDITIONS OF ANY KIND, either express or implied.  See
  * the License for the specific language governing
  * permissions and limitations under the License.
- * 
  *
- *  Created on: Apr 26, 2016
+ *
+ *  Created on: Dec 22, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_FIELD_H
-#define INCLUDED_FIELD_H
+#ifndef INCLUDED_ACTION_ATTR_H
+#define INCLUDED_ACTION_ATTR_H
 
 #include <string>
 
@@ -34,18 +34,18 @@
 
 namespace pss {
 
-template <class T> class attr : public FieldBase<T> {
+template <class T> class action_attr : public FieldBase<T> {
 	public:
 
-		attr(const Scope &name) : FieldBase<T>(FieldItem::AttrNone, name) { }
+		action_attr(const Scope &name) : FieldBase<T>(FieldItem::AttrAction, name) { }
 
-//		attr(BaseItem *p, const std::string &name) :
-//			FieldBase<T>(FieldItem::AttrNone, p, name) { }
+//		action_attr(BaseItem *p, const std::string &name) :
+//			FieldBase<T>(FieldItem::AttrAction, p, name) { }
 //
-//		attr(BaseItem *p, const std::string &name, const Expr &array_dim) :
-//			FieldBase<T>(FieldItem::AttrNone, p, name, array_dim) { }
+//		action_attr(BaseItem *p, const std::string &name, const Expr &array_dim) :
+//			FieldBase<T>(FieldItem::AttrAction, p, name, array_dim) { }
 
-		virtual ~attr() { }
+		virtual ~action_attr() { }
 
 #ifdef UNDEFINED
 		ExecStmt operator =(const ExecImportCallStmt &rhs) { return (FieldBase<T>::m_field = rhs); }
@@ -79,27 +79,27 @@ template <class T> class attr : public FieldBase<T> {
 
 };
 
-template <> class attr<pss_int> : public FieldItem {
+template <> class action_attr<pss_int> : public FieldItem {
 public:
 
-	attr(const Scope &name) :
-		FieldItem(this, FieldItem::AttrNone, pss_int(), 0) { }
+	action_attr(const Scope &name) :
+		FieldItem(this, FieldItem::AttrAction, pss_int(), 0) { }
 
-	attr(const Scope &name, const pss_int &t_decl) :
-		FieldItem(this, FieldItem::AttrNone, t_decl, 0) { }
+	action_attr(const Scope &name, const pss_int &t_decl) :
+		FieldItem(this, FieldItem::AttrAction, t_decl, 0) { }
 
 	void set(int64_t v) { set_int(v); }
 
 	int64_t get() { return get_int(); }
 };
 
-template <> class attr<pss_bit> : public FieldItem {
+template <> class action_attr<pss_bit> : public FieldItem {
 public:
-	attr(const Scope &name) :
-		FieldItem(this, FieldItem::AttrNone, pss_bit(), 0) { }
+	action_attr(const Scope &name) :
+		FieldItem(this, FieldItem::AttrAction, pss_bit(), 0) { }
 
-	attr(const Scope &name, const pss_bit &t_decl) :
-		FieldItem(this, FieldItem::AttrNone, t_decl, 0) { }
+	action_attr(const Scope &name, const pss_bit &t_decl) :
+		FieldItem(this, FieldItem::AttrAction, t_decl, 0) { }
 
 	void set(uint64_t v) { set_bit(v); }
 
@@ -107,22 +107,22 @@ public:
 
 };
 
-template <> class attr<unsigned long long> : public FieldItem {
+template <> class action_attr<unsigned long long> : public FieldItem {
 public:
 
-	attr(const std::string &name) :
-		FieldItem(this, FieldItem::AttrNone, pss_bit(64), 0) { }
+	action_attr(const std::string &name) :
+		FieldItem(this, FieldItem::AttrAction, pss_bit(64), 0) { }
 
 	void set(uint64_t v) { set_bit(v); }
 
 	uint64_t get() { return get_bit(); }
 };
 
-template <> class attr<long long> : public FieldItem {
+template <> class action_attr<long long> : public FieldItem {
 public:
 
-	attr(const std::string &name) :
-		FieldItem(this, FieldItem::AttrNone, pss_int(64), 0) { }
+	action_attr(const std::string &name) :
+		FieldItem(this, FieldItem::AttrAction, pss_int(64), 0) { }
 
 	void set(int64_t v) { set_int(v); }
 
@@ -130,22 +130,22 @@ public:
 
 };
 
-template <> class attr<unsigned int> : public FieldItem {
+template <> class action_attr<unsigned int> : public FieldItem {
 public:
 
-	attr(const std::string &name) :
-		FieldItem(this, FieldItem::AttrNone, pss_bit(32), 0) { }
+	action_attr(const std::string &name) :
+		FieldItem(this, FieldItem::AttrAction, pss_bit(32), 0) { }
 
 	void set(uint32_t v) { set_bit(v); }
 
 	uint32_t get() { return get_bit(); }
 };
 
-template <> class attr<int> : public FieldItem {
+template <> class action_attr<int> : public FieldItem {
 public:
 
-	attr(const std::string &name) :
-		FieldItem(this, FieldItem::AttrNone, pss_int(32), 0) { }
+	action_attr(const std::string &name) :
+		FieldItem(this, FieldItem::AttrAction, pss_int(32), 0) { }
 
 	void set(int32_t v) { set_int(v); }
 
@@ -153,22 +153,22 @@ public:
 
 };
 
-template <> class attr<unsigned short> : public FieldItem {
+template <> class action_attr<unsigned short> : public FieldItem {
 public:
 
-	attr(const std::string &name) :
-		FieldItem(this, FieldItem::AttrNone, pss_bit(16), 0) { }
+	action_attr(const std::string &name) :
+		FieldItem(this, FieldItem::AttrAction, pss_bit(16), 0) { }
 
 	void set(uint16_t v) { set_bit(v); }
 
 	uint16_t get() { return get_bit(); }
 };
 
-template <> class attr<short> : public FieldItem {
+template <> class action_attr<short> : public FieldItem {
 public:
 
-	attr(const std::string &name) :
-		FieldItem(this, FieldItem::AttrNone, pss_int(16), 0) { }
+	action_attr(const std::string &name) :
+		FieldItem(this, FieldItem::AttrAction, pss_int(16), 0) { }
 
 	void set(int16_t v) { set_int(v); }
 
@@ -176,32 +176,32 @@ public:
 
 };
 
-template <> class attr<unsigned char> : public FieldItem {
+template <> class action_attr<unsigned char> : public FieldItem {
 public:
 
-	attr(const std::string &name) :
-		FieldItem(this, FieldItem::AttrNone, pss_bit(8), 0) { }
+	action_attr(const std::string &name) :
+		FieldItem(this, FieldItem::AttrAction, pss_bit(8), 0) { }
 
 	void set(uint8_t v) { set_bit(v); }
 
 	uint8_t get() { return get_bit(); }
 };
 
-template <> class attr<char> : public FieldItem {
+template <> class action_attr<char> : public FieldItem {
 public:
 
-	attr(const std::string &name) :
-		FieldItem(this, FieldItem::AttrNone, pss_int(8), 0) { }
+	action_attr(const std::string &name) :
+		FieldItem(this, FieldItem::AttrAction, pss_int(8), 0) { }
 
 	void set(int8_t v) { set_int(v); }
 
 	int8_t get() { return get_int(); }
 };
 
-template <> class attr<bool> : public FieldItem {
+template <> class action_attr<bool> : public FieldItem {
 public:
-	attr(const Scope &name) :
-		FieldItem(name, FieldItem::AttrNone, pss_bool(), 0) { }
+	action_attr(const Scope &name) :
+		FieldItem(name, FieldItem::AttrAction, pss_bool(), 0) { }
 
 	void set(bool v) { set_bit(v); }
 
@@ -212,4 +212,4 @@ public:
 
 
 
-#endif /* SRC_CLASSLIB_FIELD_H_ */
+#endif /* INCLUDED_ACTION_ATTR_H */

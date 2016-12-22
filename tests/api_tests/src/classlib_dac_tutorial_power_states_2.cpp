@@ -29,9 +29,9 @@ public:
 
 	pss_ctor(power_state_s, state_struct);
 
-	rand_attr<pss_bit>		dmn_A{"dmn_A"};
-	rand_attr<pss_bit>		dmn_B{"dmn_B"};
-	rand_attr<pss_bit>		dmn_C{"dmn_C"};
+	rand_attr<pss_bit>		dmn_A{"dmn_A", 2};
+	rand_attr<pss_bit>		dmn_B{"dmn_B", 2};
+	rand_attr<pss_bit>		dmn_C{"dmn_C", 2};
 
 	constraint c {this, {
 			pss_if {dmn_C != 0, dmn_B == 0},
@@ -47,7 +47,7 @@ public:
 	};
 
 };
-pss_global_type(power_state_s);
+pss_type(power_state_s);
 
 
 class my_system_c : public component {
@@ -60,7 +60,7 @@ public:
 
 		pss_ctor(power_transition, action);
 
-		rand_attr<uint32_t>		step {"step"};
+		rand_attr<pss_int>			step {"step"};
 		input<power_state_s>		prev {"prev"};
 		output<power_state_s>		next {"next"};
 
@@ -99,7 +99,7 @@ public:
 	pss_type(C_transition);
 
 };
-pss_global_type(my_system_c);
+pss_type(my_system_c);
 
 
 

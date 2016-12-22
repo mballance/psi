@@ -181,48 +181,30 @@ BaseItemImp *ModelImp::getActiveType(BaseItem *it) {
 	return (ret)?ret->impl():0;
 }
 
-TypePathImp ModelImp::getSuperType(BaseItem *it) {
-	// Looking for <last+1>
-//	fprintf(stdout, "--> getSuperType %p\n", it);
-	int i=0;
-	for (i=m_scopes.size()-1; i>=0; i--) {
-//		fprintf(stdout, "m_scopes[%d]=%p it=%p\n", i, m_scopes.at(i), it);
-		if (m_scopes.at(i) != it) {
-			// The 'leaf' is actually the next one
-			i++;
-			break;
-		}
-	}
+TypePathImp ModelImp::getSuperType() {
+	if (m_scope.size() > 0) {
+		BaseItem *s = m_scope.at(m_scope.size()-1)->ctxt();
+		int32_t i=m_scope.size()-1;
 
-	// i points to the type
-	// i+1 points to the supertype as long as
-
-//	fprintf(stdout, "i=%d scope.size=%d\n", i, (int)m_scope.size());
-	if (i >= 0 && m_scope.size() > i+2) {
-		const char *name_i = "null";
-		const char *name_ip1 = "null";
-
-		if (m_scope.at(i+1)->get_typeinfo()) {
-			name_ip1 = m_scope.at(i+1)->get_typeinfo()->name();
-		}
-		if (m_scope.at(i)->get_typeinfo()) {
-			name_i = m_scope.at(i)->get_typeinfo()->name();
-		}
-//		fprintf(stdout, "scope[i+1]=%s scope[i]=%s\n", name_ip1, name_i);
-		if (m_scope.at(i+1)->get_typeinfo() != m_scope.at(i)->get_typeinfo()) {
-			TypePathImp super = ModelImp::demangle(m_scope.at(i+1));
-
-			for (std::vector<std::string>::const_iterator it=super.get().begin();
-					it!=super.get().end(); it++) {
-//				fprintf(stdout, "  path=%s\n", (*it).c_str());
+		// Super-type will be called from the very base type (action, pss_struct, component)
+		// Scan back as long as the context is the same
+		for (; i>=0; i--) {
+			if (m_scope.at(i)->ctxt() != s) {
+				i++;
+				break;
 			}
-
-			return super;
 		}
-	}
-//	fprintf(stdout, "<-- getSuperType\n");
 
-	return TypePathImp();
+		// i now points where the user's type started
+		if (i >= 0 && i+1 < m_scope.size()) {
+			TypePathImp super = ModelImp::demangle(m_scope.at(i+1));
+			return super;
+		} else {
+			return TypePathImp();
+		}
+	} else {
+		return TypePathImp();
+	}
 }
 
 BaseItem *ModelImp::getParentScope() {
@@ -249,6 +231,24 @@ BaseItem *ModelImp::getParentScope() {
 
 bool ModelImp::isField() {
 	return is_field();
+}
+
+bool ModelImp::isType() {
+	bool ret = false;
+
+	if (m_scopes.size() > 0) {
+		BaseItem *s = m_scopes.at(m_scopes.size()-1);
+
+		for (int32_t i=m_scopes.size()-1; i>=0; i--) {
+			fprintf(stdout, "  (isType) Searching: %p %p\n", m_scopes.at(i), s);
+			if (m_scopes.at(i) != s) {
+				ret = m_scope.at(i)->is_type();
+				break;
+			}
+		}
+	}
+
+	return ret;
 }
 
 bool ModelImp::isParentField() {
@@ -306,7 +306,7 @@ BaseItem *ModelImp::getActiveScope() {
 //	return 0;
 }
 
-const char *ModelImp::get_field_name(BaseItem *p) {
+const char *ModelImp::get_field_name() {
 	const char *ret = 0;
 	fprintf(stdout, "--> get_field_name\n");
 

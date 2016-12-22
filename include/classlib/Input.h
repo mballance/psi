@@ -48,6 +48,81 @@ template <class T> class input : public T {
 
 };
 
+template <> class input<pss_bit> : public FieldItem {
+public:
+	input(const Scope &name) :
+		FieldItem(name, FieldItem::AttrInput, pss_bit(), 0) { }
+
+	input(const Scope &name, const pss_bit &t_decl) :
+		FieldItem(name, FieldItem::AttrInput, t_decl, 0) { }
+
+	input(const Scope &name, uint32_t w) :
+		FieldItem(name, FieldItem::AttrInput, pss_bit(w), 0) { }
+
+};
+
+template <> class input<pss_int> : public FieldItem {
+public:
+	input(const Scope &name) :
+		FieldItem(name, FieldItem::AttrInput, pss_int(), 0) { }
+
+	input(const Scope &name, const pss_int &t_decl) :
+		FieldItem(name, FieldItem::AttrInput, t_decl, 0) { }
+
+	input(const Scope &name, uint32_t w) :
+		FieldItem(name, FieldItem::AttrInput, pss_int(w), 0) { }
+
+};
+
+template <> class input<unsigned int> : public FieldItem {
+public:
+	input(const Scope &name) :
+		FieldItem(name, FieldItem::AttrInput, pss_bit(32), 0) { }
+
+};
+
+template <> class input<int> : public FieldItem {
+public:
+	input(const Scope &name) :
+		FieldItem(name, FieldItem::AttrInput, pss_int(32), 0) { }
+
+};
+
+template <> class input<unsigned short> : public FieldItem {
+public:
+	input(const Scope &name) :
+		FieldItem(name, FieldItem::AttrInput, pss_bit(16), 0) { }
+
+};
+
+template <> class input<short> : public FieldItem {
+public:
+	input(const Scope &name) :
+		FieldItem(name, FieldItem::AttrInput, pss_int(16), 0) { }
+
+};
+
+template <> class input<unsigned char> : public FieldItem {
+public:
+	input(const Scope &name) :
+		FieldItem(name, FieldItem::AttrInput, pss_bit(8), 0) { }
+
+};
+
+template <> class input<char> : public FieldItem {
+public:
+	input(const Scope &name) :
+		FieldItem(name, FieldItem::AttrInput, pss_int(8), 0) { }
+
+};
+
+template <> class input<bool> : public FieldItem {
+public:
+	input(const Scope &name) :
+		FieldItem(name, FieldItem::AttrInput, pss_bool(), 0) { }
+
+};
+
 } /* namespace pss */
 
 #endif /* INCLUDED_INPUT_H */

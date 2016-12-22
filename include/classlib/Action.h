@@ -29,8 +29,10 @@
 
 #include "classlib/BaseItem.h"
 #include "classlib/Scope.h"
+#include "classlib/ExprList.h"
 
 namespace pss {
+class FieldItem;
 
 /**
  * User-defined action classes extend from the action base class.
@@ -40,6 +42,17 @@ public:
 	friend class ActionImp;
 
 	virtual ~action();
+
+	Expr with(const ExprList &l) const;
+
+	operator FieldItem &() const;
+
+#ifdef PSS_HAVE_CXX_11
+	template <typename... E> Expr with(const E&... rest) {
+		return mk_with(ExprList::mklist(rest...));
+	}
+
+#endif
 
 protected:
 
@@ -62,6 +75,10 @@ protected:
 	 * for ExecKind::Body
 	 */
 	virtual void body();
+
+private:
+	// Helper method used by the variadic-template form of with()
+	Expr mk_with(const ExprList &l) const;
 
 };
 

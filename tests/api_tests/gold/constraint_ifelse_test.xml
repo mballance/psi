@@ -23,7 +23,7 @@
                         <pss:number>0x1f</pss:number>
                     </pss:msb>
                     <pss:lsb>
-                        <pss:number>0x1</pss:number>
+                        <pss:number>0x0</pss:number>
                     </pss:lsb>
                 </pss:bit>
             </pss:type>
@@ -35,7 +35,7 @@
                         <pss:number>0x1f</pss:number>
                     </pss:msb>
                     <pss:lsb>
-                        <pss:number>0x1</pss:number>
+                        <pss:number>0x0</pss:number>
                     </pss:lsb>
                 </pss:bit>
             </pss:type>

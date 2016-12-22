@@ -29,9 +29,9 @@ class constraint_ifelse_test : public pss_struct {
 public:
 	pss_struct_ctor(constraint_ifelse_test);
 
-	rand_attr<pss_bit<>>			pss_field(control);
-	rand_attr<pss_bit<31,1>>		pss_field(address);
-	rand_attr<pss_bit<31,1>>		pss_field(data);
+	rand_attr<pss_bit>			pss_field(control);
+	rand_attr<uint32_t>			pss_field(address);
+	rand_attr<uint32_t>			pss_field(data);
 
 	constraint c1 {this, "c1",
 		pss_if {(control == 1), address < 10}
@@ -67,6 +67,6 @@ public:
 	};
 
 };
-pss_global_type(constraint_ifelse_test);
+pss_type(constraint_ifelse_test);
 
 

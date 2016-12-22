@@ -38,8 +38,8 @@ public:
 	public:
 		pss_action_ctor(entry_point);
 
-		attr<chandle<my_class>>		pss_field(p1);
-		attr<pss_bit<31,0>>				pss_field(p2);
+		chandle<my_class>			pss_field(p1);
+		attr<uint32_t>				pss_field(p2);
 		attr<chandle<>>				pss_field(p3);
 
 		exec pre_solve_e {this, exec::PreSolve};
@@ -58,7 +58,7 @@ public:
 	pss_type(entry_point);
 
 };
-pss_global_type(top);
+pss_type(top);
 
 /**
  * Test code

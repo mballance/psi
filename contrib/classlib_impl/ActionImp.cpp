@@ -29,6 +29,7 @@
 #include "ActionImp.h"
 #include "ModelImp.h"
 #include "ComponentImp.h"
+#include "With.h"
 
 namespace pss {
 
@@ -39,11 +40,12 @@ ActionImp::ActionImp(action *master, ScopeImp *p) :
 		NamedBaseItemImp(master, BaseItemImp::TypeAction, p->parent()),
 		m_field(0), m_model(0), m_hndl(0) {
 
+	bool is_type  = ModelImp::global()->isType();
 	bool is_field = ModelImp::global()->isField();
 	bool is_parent_field = ModelImp::global()->isParentField();
 
-	if (is_field) {
-		m_super_type = ModelImp::global()->getSuperType(master);
+	if (is_type) {
+		m_super_type = ModelImp::global()->getSuperType();
 	} else {
 		m_super_type = TypePathImp();
 	}
@@ -57,19 +59,15 @@ ActionImp::ActionImp(action *master, ScopeImp *p) :
 			getName().c_str());
 
 	if (is_field) {
-		const char *field_name = ModelImp::global()->get_field_name(master);
-
 		// First, remove ourselves
 		getParent()->remove(this);
 
-		m_field = new FieldItemImp(
-				0, // master
+		m_field = new FieldItem(
 				getParent()->master(),
-				field_name,
-				0,
+				ModelImp::global()->get_field_name(),
 				FieldItem::AttrNone,
-				0, // wrapper
-				ModelImp::global()->getActiveType(master));
+				ModelImp::global()->getActiveType(master)->master(),
+				0);
 	}
 }
 
@@ -89,6 +87,14 @@ void action::post_solve() {
 
 void action::body() {
 
+}
+
+Expr action::with(const ExprList &l) const {
+	return With(*(static_cast<ActionImp *>(impl())->getField()), l);
+}
+
+Expr action::mk_with(const ExprList &l) const {
+	return With(*(static_cast<ActionImp *>(impl())->getField()), l);
 }
 
 void ActionImp::pre_solve() {
@@ -115,7 +121,7 @@ void ActionImp::inline_exec_post() {
 
 const std::string &ActionImp::getName() const {
 	if (m_field) {
-		return m_field->getName();
+		return static_cast<FieldItemImp *>(m_field->impl())->getName();
 	} else {
 		return NamedBaseItemImp::getName();
 	}

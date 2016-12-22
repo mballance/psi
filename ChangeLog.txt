@@ -9,7 +9,10 @@
 - Remove need to pass "this" to type_decl<> for inner types. Both global and
   inner type registration is now identical
   
-- 
+- Remove "With" class from public API. Added 'with' method to action class.
+
+- Add partial template specializations for attr<> and rand_attr<> classes
+  to support direct use of primitive data types. For example: rand_attr<uint32_t>
 
 ---------------------------------------------------------------------
 -- 1.0.1 Release --

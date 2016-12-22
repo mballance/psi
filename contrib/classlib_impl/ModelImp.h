@@ -67,7 +67,7 @@ class ModelImp : public BaseItemImp {
 
 		BaseItemImp *getActiveType(BaseItem *it);
 
-		TypePathImp getSuperType(BaseItem *it);
+		TypePathImp getSuperType();
 
 		BaseItem *getParentScope();
 
@@ -75,9 +75,11 @@ class ModelImp : public BaseItemImp {
 
 		bool isParentField();
 
+		bool isType();
+
 		BaseItem *getActiveScope();
 
-		const char *get_field_name(BaseItem *p);
+		const char *get_field_name();
 
 		bool is_field() const;
 

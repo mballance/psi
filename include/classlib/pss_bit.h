@@ -34,7 +34,7 @@ namespace pss {
 class pss_bit : public BitType {
 
 	public:
-		pss_bit() : BitType(0, 1, 0) { }
+		pss_bit() : BitType(0, 0, 0) { }
 
 		pss_bit(uint32_t width) : BitType(0, width-1, 0) { }
 

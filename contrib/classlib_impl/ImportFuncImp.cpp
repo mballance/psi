@@ -27,6 +27,7 @@
 #include "classlib/ExprList.h"
 #include "classlib/ChandleType.h"
 #include "ExecImportCallStmtImp.h"
+#include "FieldItemImp.h"
 
 
 namespace pss {
@@ -36,17 +37,26 @@ import_func::import_func(
 		const std::string 		&name,
 		const MethodParamList 	&plist) :
 	BaseItem(new ImportFuncImp(this, p, name, plist)) {
-
 }
 
 ImportFuncImp::ImportFuncImp(
-		import_func					*master,
+		import_func				*master,
 		BaseItem 				*p,
 		const std::string 		&name,
 		const MethodParamList 	&plist) :
 	NamedBaseItemImp(master, BaseItemImp::TypeImport, p, name),
 	m_have_ret(false), m_ret(ChandleType(std::string("void"))), m_parameters(plist) {
 
+	// Unlink the parameters from the parent, since the scope parent
+	// is the containing package/component
+	MethodParamListImp *plist_i = static_cast<MethodParamListImp *>(plist.imp());
+	for (std::vector<FieldItem>::const_iterator it=plist_i->parameters().begin();
+			it!=plist_i->parameters().end(); it++) {
+		FieldItemImp *imp = static_cast<FieldItemImp *>((*it).impl());
+		if (imp->getParent()) {
+			imp->getParent()->remove(imp);
+		}
+	}
 }
 
 import_func::import_func(
@@ -66,6 +76,17 @@ ImportFuncImp::ImportFuncImp(
 		const MethodParamList	&plist) :
 	NamedBaseItemImp(master, BaseItemImp::TypeImport, p, name),
 	m_have_ret(true), m_ret(ret), m_parameters(plist) {
+
+	// Unlink the parameters from the parent, since the scope parent
+	// is the containing package/component
+	MethodParamListImp *plist_i = static_cast<MethodParamListImp *>(plist.imp());
+	for (std::vector<FieldItem>::const_iterator it=plist_i->parameters().begin();
+			it!=plist_i->parameters().end(); it++) {
+		FieldItemImp *imp = static_cast<FieldItemImp *>((*it).impl());
+		if (imp->getParent()) {
+			imp->getParent()->remove(imp);
+		}
+	}
 }
 
 import_func::~import_func() {

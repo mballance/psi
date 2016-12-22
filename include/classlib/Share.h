@@ -25,15 +25,17 @@
 
 #ifndef INCLUDED_SHARE_H
 #define INCLUDED_SHARE_H
-#include "classlib/FieldBase.h"
+#include "classlib/FieldItem.h"
 
 namespace pss {
 
-template <class T> class share : public FieldBase<T> {
+template <class T> class share : public T {
 	public:
 
-		share(BaseItem *p, const std::string &name) :
-			FieldBase<T>(FieldItem::AttrShare, p, name) { }
+		share(const Scope &name) : T(static_cast<T *>(this)) {
+			FieldItem &it = static_cast<FieldItem &>(*this);
+			it.setModifiers(FieldItem::AttrShare);
+		}
 
 		virtual ~share();
 

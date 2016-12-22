@@ -42,8 +42,8 @@
 #include "classlib/ExtendComponent.h"
 #include "classlib/extend_struct.h"
 #include "classlib/attr.h"
+#include "classlib/action_attr.h"
 #include "classlib/graph.h"
-#include "classlib/GraphNode.h"
 #include "classlib/pss_if.h"
 #include "classlib/import_func.h"
 #include "classlib/input.h"
@@ -67,7 +67,6 @@
 #include "classlib/pss_struct.h"
 #include "classlib/type_decl.h"
 #include "classlib/pss_types.h"
-#include "classlib/With.h"
 #include "classlib/pss_macros.h"
 
 

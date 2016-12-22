@@ -40,11 +40,11 @@ public:
 	public:
 		pss_ctor(graph_seq_test, action);
 
-		attr<A1> pss_field(a1);
-		attr<A1> pss_field(a2);
-		attr<A1> pss_field(a3);
+		A1 pss_field(a1);
+		A1 pss_field(a2);
+		A1 pss_field(a3);
 
-		graph graph {this, sequence {
+		graph g {this, sequence {
 			a1, a2, a3
 		}
 		};
@@ -53,7 +53,7 @@ public:
 	pss_type(graph_seq_test);
 
 };
-pss_global_type(graph_seq_comp);
+pss_type(graph_seq_comp);
 
 
 

@@ -26,14 +26,14 @@
 
 class data_s : public memory_struct {
 public:
-	rand_attr<pss_bit<7,0>>		pss_field(data);
-	rand_attr<pss_bit<31,0>>		pss_field(address);
+	rand_attr<uint8_t>		pss_field(data);
+	rand_attr<uint32_t>		pss_field(address);
 
 	pss_ctor(data_s, memory_struct);
 
 	constraint address_c {this, address >= 0x1000 && address <= 0x1FFF};
 };
-pss_global_type(data_s);
+pss_type(data_s);
 
 class rw_comp : public component {
 public:
@@ -68,7 +68,7 @@ public:
 	pss_type(read_data);
 
 };
-pss_global_type(rw_comp);
+pss_type(rw_comp);
 
 class top_comp : public component {
 public:
@@ -80,13 +80,13 @@ public:
 
 		// action instance needs to know the details of its type. This is
 		// provided via a type-definition reference (eg _rw_comp._write_data)
-		attr<rw_comp::write_data>		pss_field(wd1);
-		attr<rw_comp::read_data>		pss_field(rd1);
-		attr<rw_comp::write_data>		pss_field(wd2);
-		attr<rw_comp::read_data>		pss_field(rd2);
+		rw_comp::write_data		pss_field(wd1);
+		rw_comp::read_data		pss_field(rd1);
+		rw_comp::write_data		pss_field(wd2);
+		rw_comp::read_data		pss_field(rd2);
 
 		// Only a single graph is permitted per action
-		graph graph {this,
+		graph g {this,
 			sequence {
 				wd1, rd1, wd2, rd2
 			}
@@ -98,7 +98,7 @@ public:
 	pss_type(my_test2);
 
 };
-pss_global_type(top_comp);
+pss_type(top_comp);
 
 class c_methods : public package {
 public:
@@ -106,16 +106,15 @@ public:
 
 	// Prototypes for import functions
 	import_func do_write {this, "do_write",
-//		{InParam<pss_bit<31,0>>("addr"), InParam<pss_bit<31,0>>("data")}
-		(input<pss_bit<31,0>>("addr"), input<pss_bit<31,0>>("data"))
+		(input<uint32_t>("addr"), input<uint32_t>("data"))
 	};
 
 	import_func do_check {this, "do_check",
-		{input<pss_bit<31,0>>("addr"), input<pss_bit<31,0>>("data")}
+		{input<uint32_t>("addr"), input<uint32_t>("data")}
 	};
 
 };
-pss_global_type(c_methods);
+pss_type(c_methods);
 
 class c_code : public package {
 public:
@@ -136,21 +135,21 @@ public:
 			_c_methods_t.do_write(out_data.address, out_data.data)
 		};
 	};
-	type_decl<write_data_ext> _write_data_ext_t {this};
+	type_decl<write_data_ext> _write_data_ext_t;
 
 	class read_data_ext : public extend_action<rw_comp::read_data> {
 	public:
 
 		read_data_ext(const Scope &p) : extend_action(this) {}
 
-		rand_attr<pss_bit<3,0>>			tmp{this, "tmp"};
+		rand_attr<pss_bit>			tmp{"tmp", 4};
 
 		exec do_check_body_native {this, exec::Body,
 			_c_methods_t.do_check(in_data.address, in_data.data)
 		};
 	};
-	type_decl<read_data_ext> _read_data_ext_t {this};
+	type_decl<read_data_ext> _read_data_ext_t;
 
 };
-pss_global_type(c_code);
+pss_type(c_code);
 

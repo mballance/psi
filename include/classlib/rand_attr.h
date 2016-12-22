@@ -47,12 +47,6 @@ template <class T> class rand_attr : public FieldBase<T> {
 
 };
 
-template <> class rand_attr<unsigned int> : public FieldItem {
-public:
-	rand_attr(const Scope &name) :
-		FieldItem(name, FieldItem::AttrRand, pss_int(32), 0) { }
-
-};
 
 template <> class rand_attr<pss_bit> : public FieldItem {
 public:
@@ -65,6 +59,107 @@ public:
 	rand_attr(const Scope &name, uint32_t w) :
 		FieldItem(name, FieldItem::AttrRand, pss_bit(w), 0) { }
 
+	void set(uint64_t v) { set_bit(v); }
+
+	uint64_t get() { return get_bit(); }
+
+};
+
+template <> class rand_attr<pss_int> : public FieldItem {
+public:
+	rand_attr(const Scope &name) :
+		FieldItem(name, FieldItem::AttrRand, pss_int(), 0) { }
+
+	rand_attr(const Scope &name, const pss_int &t_decl) :
+		FieldItem(name, FieldItem::AttrRand, t_decl, 0) { }
+
+	rand_attr(const Scope &name, uint32_t w) :
+		FieldItem(name, FieldItem::AttrRand, pss_int(w), 0) { }
+
+	void set(int64_t v) { set_int(v); }
+
+	int64_t get() { return get_int(); }
+
+};
+
+template <> class rand_attr<unsigned long long> : public FieldItem {
+public:
+	rand_attr(const Scope &name) :
+		FieldItem(name, FieldItem::AttrRand, pss_bit(32), 0) { }
+
+	void set(uint64_t v) { set_bit(v); }
+
+	uint64_t get() { return get_bit(); }
+};
+
+template <> class rand_attr<long long> : public FieldItem {
+public:
+	rand_attr(const Scope &name) :
+		FieldItem(name, FieldItem::AttrRand, pss_int(32), 0) { }
+
+	void set(int64_t v) { set_int(v); }
+
+	int64_t get() { return get_int(); }
+};
+
+template <> class rand_attr<unsigned int> : public FieldItem {
+public:
+	rand_attr(const Scope &name) :
+		FieldItem(name, FieldItem::AttrRand, pss_bit(32), 0) { }
+
+	void set(uint32_t v) { set_bit(v); }
+
+	uint32_t get() { return get_bit(); }
+};
+
+template <> class rand_attr<int> : public FieldItem {
+public:
+	rand_attr(const Scope &name) :
+		FieldItem(name, FieldItem::AttrRand, pss_int(32), 0) { }
+
+	void set(int32_t v) { set_int(v); }
+
+	int32_t get() { return get_int(); }
+};
+
+template <> class rand_attr<unsigned short> : public FieldItem {
+public:
+	rand_attr(const Scope &name) :
+		FieldItem(name, FieldItem::AttrRand, pss_bit(16), 0) { }
+
+	void set(uint16_t v) { set_bit(v); }
+
+	uint16_t get() { return get_bit(); }
+};
+
+template <> class rand_attr<short> : public FieldItem {
+public:
+	rand_attr(const Scope &name) :
+		FieldItem(name, FieldItem::AttrRand, pss_int(16), 0) { }
+
+	void set(int16_t v) { set_int(v); }
+
+	int16_t get() { return get_int(); }
+};
+
+template <> class rand_attr<unsigned char> : public FieldItem {
+public:
+	rand_attr(const Scope &name) :
+		FieldItem(name, FieldItem::AttrRand, pss_bit(8), 0) { }
+
+	void set(uint8_t v) { set_bit(v); }
+
+	uint8_t get() { return get_bit(); }
+};
+
+template <> class rand_attr<char> : public FieldItem {
+public:
+	rand_attr(const Scope &name) :
+		FieldItem(name, FieldItem::AttrRand, pss_int(8), 0) { }
+
+	void set(int8_t v) { set_int(v); }
+
+	int8_t get() { return get_int(); }
 };
 
 template <> class rand_attr<bool> : public FieldItem {
@@ -72,6 +167,9 @@ public:
 	rand_attr(const Scope &name) :
 		FieldItem(name, FieldItem::AttrRand, pss_bool(), 0) { }
 
+	void set(bool v) { set_bit(v); }
+
+	bool get() { return get_bit(); }
 };
 
 } /* namespace pss */

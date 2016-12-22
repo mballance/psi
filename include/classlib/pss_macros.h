@@ -60,12 +60,6 @@
 
 #endif /* End PSS_HAVE_CXX_11 */
 
-/**
- * Helper macro to register a global namespace type
- */
-#define pss_global_type(_name) \
-		type_decl<_name>		_##_name##_t
-
 #ifdef PSS_HAVE_CXX_11
 /**
  * Helper macro to register a non-global namespace type

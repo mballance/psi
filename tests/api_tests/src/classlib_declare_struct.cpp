@@ -27,23 +27,23 @@
 class data_s : public memory_struct {
 	pss_ctor(data_s, memory_struct);
 
-	rand_attr<pss_bit<7,0>>				pss_field(data);
-	rand_attr<pss_bit<31,0>>				pss_field(address);
+	rand_attr<pss_bit>				data{"data", 8};
+	rand_attr<pss_bit>				address{"address", 32};
 
 	pss_constraint(address_c,
 		address >= 0x1000 && address <= 0x1FFF);
 };
-pss_global_type(data_s);
+pss_type(data_s);
 
 
 
 class data_s_ext : public data_s {
 	pss_ctor(data_s_ext, data_s);
 
-	rand_attr<pss_bit<3,0>>				pss_field(burst_len);
+	rand_attr<pss_bit>				burst_len{"burst_len", 4};
 
 };
-pss_global_type(data_s_ext);
+pss_type(data_s_ext);
 
 class my_comp : public component {
 	pss_component_ctor(my_comp);
@@ -59,6 +59,6 @@ class my_comp : public component {
 	pss_type(data_s2_ext);
 
 };
-pss_global_type(my_comp);
+pss_type(my_comp);
 
 

@@ -29,6 +29,7 @@
 
 #include "classlib/BaseItem.h"
 #include "classlib/Scope.h"
+#include "classlib/FieldItem.h"
 
 namespace pss {
 
@@ -37,6 +38,8 @@ class component : public BaseItem {
 	public:
 
 		virtual ~component();
+
+		operator FieldItem &() const;
 
 	protected:
 

@@ -29,7 +29,7 @@ class constraint_basics_test : public pss_struct {
 public:
 	pss_struct_ctor(constraint_basics_test);
 
-	rand_attr<pss_bit<31,0>>			pss_field(address);
+	rand_attr<uint32_t>			pss_field(address);
 
 	constraint c0 {this, address >= 0x1000 }; // named constraint
 
@@ -42,5 +42,5 @@ public:
 			} };
 
 };
-pss_global_type(constraint_basics_test);
+pss_type(constraint_basics_test);
 

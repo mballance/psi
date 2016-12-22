@@ -29,8 +29,8 @@
 namespace pss {
 
 resource_struct::resource_struct(const Scope &p) :
-		pss_struct(new ResourceStructImp(this, p.impl()))
-		// , instance_id(this, "instance_id")
+		pss_struct(new ResourceStructImp(this, p.impl())),
+		instance_id("instance_id")
 		{ }
 
 ResourceStructImp::ResourceStructImp(resource_struct *master, ScopeImp *p) :

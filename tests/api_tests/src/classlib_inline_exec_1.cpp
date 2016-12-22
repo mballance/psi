@@ -36,11 +36,11 @@ public:
 	public:
 		pss_action_ctor(entry_point);
 
-		rand_attr<pss_bit<7,0>>		pss_field(p1);
-		rand_attr<pss_bit<31,0>>		pss_field(p2);
-		rand_attr<pss_bit<31,0>>		pss_field(p3);
-		attr<pss_bit<31,0>>	pss_field(p4);
-		attr<pss_bit<31,0>>	pss_field(p5);
+		rand_attr<uint8_t>		pss_field(p1);
+		rand_attr<uint32_t>		pss_field(p2);
+		rand_attr<uint32_t>		pss_field(p3);
+		attr<uint32_t>			pss_field(p4);
+		attr<uint32_t>			pss_field(p5);
 
 		exec pre_solve_e {this, exec::PreSolve};
 
@@ -60,7 +60,7 @@ public:
 	pss_type(entry_point);
 
 };
-pss_global_type(top);
+pss_type(top);
 
 /**
  * Test code

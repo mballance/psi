@@ -25,6 +25,7 @@
 #include "ComponentImp.h"
 #include "ScopeImp.h"
 #include "ModelImp.h"
+#include "classlib/FieldItem.h"
 #include "FieldItemImp.h"
 
 namespace pss {
@@ -45,27 +46,19 @@ ComponentImp::ComponentImp(component *master, ScopeImp *p) :
 			ModelImp::global()->isParentField()?"true":"false");
 
 	if (is_field) {
-		const char *field_name = ModelImp::global()->get_field_name(master);
-
 		// Create a field to represent this component and add it to the
 		// parent context
-		fprintf(stdout, "TODO: should create a component field name %s\n", field_name);
-		fprintf(stdout, "  typename=%s\n",
-				ModelImp::global()->getActiveTypeName(master).leaf().c_str());
-		ModelImp::print_scopes();
 
 		// First, remove ourselves from the children list
 		getParent()->remove(this);
 
 		// Any children of this component must be added to the field
-		m_field = new FieldItemImp(
-				0, // master -- there is none
-				ModelImp::global()->getParentScope(),
-				field_name,
-				0,
+		m_field = new FieldItem(
+				getParent()->master(),
+				ModelImp::global()->get_field_name(),
 				FieldItem::AttrNone,
-				0, // wrapper
-				ModelImp::global()->getActiveType(master));
+				ModelImp::global()->getActiveType(master)->master(),
+				0);
 	} else {
 		// Type registration
 		fprintf(stdout, "TODO: this is a component type registration\n");
@@ -73,7 +66,7 @@ ComponentImp::ComponentImp(component *master, ScopeImp *p) :
 	}
 
 	setName(ModelImp::global()->getActiveTypeName(master).leaf());
-	m_super_type = ModelImp::global()->getSuperType(master);
+	m_super_type = ModelImp::global()->getSuperType();
 }
 
 component::~component() {
@@ -86,10 +79,14 @@ ComponentImp::~ComponentImp() {
 
 const std::string &ComponentImp::getName() const {
 	if (m_field) {
-		return m_field->getName();
+		return static_cast<FieldItemImp *>(m_field->impl())->getName();
 	} else {
 		return NamedBaseItemImp::getName();
 	}
+}
+
+component::operator FieldItem &() const {
+	return static_cast<ComponentImp *>(impl())->getField();
 }
 
 } /* namespace pss */

@@ -29,13 +29,13 @@ public:
 
 	pss_ctor(data_s, memory_struct);
 
-	rand_attr<pss_bit<7,0>>				pss_field(data);
-	rand_attr<pss_bit<31,0>>				pss_field(address);
+	rand_attr<pss_bit>			data {"data", 8};
+	rand_attr<pss_bit>			address{"address", 32};
 
 	pss_constraint(address_c,
 			{address >= 0x1000 && address <= 0x1FFF});
 };
-pss_global_type(data_s);
+pss_type(data_s);
 
 class rw_comp : public component {
 public:
@@ -68,6 +68,6 @@ public:
 	pss_type(write_data);
 
 };
-pss_global_type(rw_comp);
+pss_type(rw_comp);
 
 

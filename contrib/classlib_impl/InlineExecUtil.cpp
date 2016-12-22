@@ -49,8 +49,10 @@ bool InlineExecUtil::find_model_hndl_level(
 	model = 0;
 	hndl = 0;
 
+	fprintf(stdout, "--> find_model_hndl_level\n");
 	// First, find the model and object handle
 	while (s) {
+		fprintf(stdout, "  s=%p type=%d\n", s, (s)?s->getObjectType():-1);
 		// See if we've reached the active scope
 		if (s->getObjectType() == BaseItemImp::TypeAction) {
 			model = static_cast<ActionImp *>(s)->getModel();
@@ -66,6 +68,7 @@ bool InlineExecUtil::find_model_hndl_level(
 		s = s->getParent();
 		level++;
 	}
+	fprintf(stdout, "<-- find_model_hndl_level %s\n", (model)?"true":"false");
 
 	return (model)?true:false;
 }

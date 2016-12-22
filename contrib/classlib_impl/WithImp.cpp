@@ -23,7 +23,7 @@
  *      Author: ballance
  */
 
-#include "classlib/With.h"
+#include "With.h"
 #include "classlib/FieldItem.h"
 #include "ExprCore.h"
 #include "ExprImp.h"
