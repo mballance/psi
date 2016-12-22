@@ -55,10 +55,6 @@ ModelImp *ModelImp::global() {
 }
 
 void ModelImp::push_scope(const ScopeImp *p) {
-
-	fprintf(stdout, "--> push_scope Context: %p %s (%d)\n",
-				p->ctxt(), p->scope_name(), (int)(m_scope.size()+1));
-
 	m_scope.push_back(p);
 	m_scopes.push_back(p->ctxt());
 
@@ -76,47 +72,18 @@ void ModelImp::push_scope(const ScopeImp *p) {
 	}
 
 	if (i>=0) {
-		fprintf(stdout, "Setting parent context: @ %d - %p\n", i, p->ctxt());
 		m_scopes.erase(it);
 		m_scopes.insert(it, p->ctxt());
 	}
 	}
-
-	fprintf(stdout, "<-- push_scope Context: %p %s (%d)\n",
-				p->ctxt(), p->scope_name(), (int)(m_scope.size()+1));
 }
 
 void ModelImp::pop_scope(const ScopeImp *p) {
-//	const Scope *p_c = m_scope.back();
-
-	if (p->ctxt()) {
-		fprintf(stdout, "-- pop_scope Context: %p (%d)\n",
-				p->ctxt(), (int)m_scope.size());
-	} else {
-		fprintf(stdout, "-- pop_scope Name: %s (%d)\n",
-				p->scope_name(), (int)m_scope.size());
-	}
-
 	// pss_if the last element is 'p', then pop until
 	// we exit that hierarchy
 	if (m_scope.size() > 0) {
 		m_scope.pop_back();
 		m_scopes.pop_back();
-//		if (m_scope.back()->ctxt() == p->ctxt()) {
-//			m_last_scope = m_scope.back()->ctxt();
-//
-//			while (m_scope.size() > 0 &&
-//					m_scope.back()->ctxt() == p->ctxt()) {
-//				const ScopeImp *pp = m_scope.back();
-//				//			fprintf(stdout, "  pop-back %p\n", pp->ctxt());
-//				m_scope.pop_back();
-//			}
-//
-//			// Update 'm_is_field' state
-//			if (m_scope.size() > 0) {
-//				m_is_field = m_scope.at(m_scope.size()-1)->is_field();
-//			}
-//		}
 	} else {
 		fprintf(stdout, "Error: attempting to pop scope from empty stack\n");
 	}
@@ -136,10 +103,7 @@ uint32_t ModelImp::depth() const {
 
 TypePathImp ModelImp::getActiveTypeName(BaseItem *it) {
 	const ScopeImp *scope = 0;
-//	fprintf(stdout, "--> getActiveTypeName\n");
 	for (int i=m_scope.size()-1; i>=0; i--) {
-//		fprintf(stdout, "m_scope[%d]=%p it=%p\n",
-//				i, m_scope.at(i)->ctxt(), it);
 		if (m_scope.at(i)->ctxt() == it) {
 			scope = m_scope.at(i);
 		} else {
@@ -149,12 +113,6 @@ TypePathImp ModelImp::getActiveTypeName(BaseItem *it) {
 
 	if (scope) {
 		TypePathImp ret = ModelImp::demangle(scope);
-
-//		for (std::vector<std::string>::const_iterator it=ret.get().begin();
-//				it!=ret.get().end(); it++) {
-//			fprintf(stdout, "  path=%s\n", (*it).c_str());
-//		}
-
 		return ret;
 	} else {
 		fprintf(stdout, "getActiveTypeName: failed to find scope %p\n", it);
@@ -167,9 +125,7 @@ TypePathImp ModelImp::getActiveTypeName(BaseItem *it) {
 
 BaseItemImp *ModelImp::getActiveType(BaseItem *it) {
 	BaseItem *ret = 0;
-//	fprintf(stdout, "--> getActiveTypeName %p\n", it);
 	for (int i=m_scope.size()-1; i>=0; i--) {
-//		fprintf(stdout, "  %p %p\n", m_scope.at(i)->ctxt(), it);
 		if (m_scope.at(i)->ctxt() == it) {
 			ret = m_scope.at(i)->type_id();
 		} else {
@@ -177,7 +133,6 @@ BaseItemImp *ModelImp::getActiveType(BaseItem *it) {
 		}
 	}
 
-//	fprintf(stdout, "<-- getActiveTypeName %p %p\n", it, ret);
 	return (ret)?ret->impl():0;
 }
 
@@ -210,21 +165,16 @@ TypePathImp ModelImp::getSuperType() {
 BaseItem *ModelImp::getParentScope() {
 	BaseItem *p = 0;
 
-	fprintf(stdout, "--> getParentScope\n");
-
 	if (m_scopes.size() > 0) {
 		BaseItem *s = m_scopes.at(m_scopes.size()-1);
 
 		for (int32_t i=m_scopes.size()-1; i>=0; i--) {
-			fprintf(stdout, "  Searching: %p %p\n", m_scopes.at(i), s);
-			if (m_scopes.at(i) != s/* || (!include_fields && m_scope.at(i)->is_field())*/) {
+			if (m_scopes.at(i) != s) {
 				p = m_scopes.at(i);
 				break;
 			}
 		}
 	}
-
-	fprintf(stdout, "<-- getParentScope %p\n", p);
 
 	return p;
 }
@@ -240,7 +190,6 @@ bool ModelImp::isType() {
 		BaseItem *s = m_scopes.at(m_scopes.size()-1);
 
 		for (int32_t i=m_scopes.size()-1; i>=0; i--) {
-			fprintf(stdout, "  (isType) Searching: %p %p\n", m_scopes.at(i), s);
 			if (m_scopes.at(i) != s) {
 				ret = m_scope.at(i)->is_type();
 				break;
@@ -258,7 +207,6 @@ bool ModelImp::isParentField() {
 		BaseItem *s = m_scopes.at(m_scopes.size()-1);
 
 		for (int32_t i=m_scopes.size()-1; i>=0; i--) {
-			fprintf(stdout, "  Searching: %p %p\n", m_scopes.at(i), s);
 			if (m_scopes.at(i) != s) {
 				ret = m_scope.at(i)->is_field();
 				break;
@@ -270,47 +218,25 @@ bool ModelImp::isParentField() {
 }
 
 BaseItem *ModelImp::getActiveScope() {
-//	fprintf(stdout, "ModelImp::getActiveScope scope=%d\n",
-//			(m_last_scope)?m_last_scope->getObjectType():-1);
+	// Search back until we find something different than 'us'
+	BaseItem *curr = (m_scopes.size())?m_scopes.at(m_scopes.size()-1):0;
 
-//	if (m_is_field) {
-//		return 0;
-//	} else {
-		// Search back until we find something different than 'us'
-		BaseItem *curr = (m_scopes.size())?m_scopes.at(m_scopes.size()-1):0;
-
-		for (int i=m_scopes.size()-1; i>=0; i--) {
-			if (m_scopes.at(i) != curr) {
-				curr = m_scopes.at(i);
-				break;
-			}
+	for (int i=m_scopes.size()-1; i>=0; i--) {
+		if (m_scopes.at(i) != curr) {
+			curr = m_scopes.at(i);
+			break;
 		}
+	}
 
-		if (!curr) {
-			return ModelImp::global()->master();
-		} else {
-			return curr;
-		}
-//	}
-
-//	fprintf(stdout, "ModelImp::getActiveScope size=%d\n", m_scope.size());
-//
-//	for (int i=m_scope.size()-1; i>=0; i--) {
-//		fprintf(stdout, "  %d %p it=%p\n", i, m_scope.at(i)->ctxt(), it);
-//		if (m_scope.at(i)->ctxt() && m_scope.at(i)->ctxt() != it) {
-//			fprintf(stdout, "Returning %d\n", m_scope.at(i)->ctxt()->getObjectType());
-//			return m_scope.at(i)->ctxt();
-//		}
-//	}
-//
-//	return 0;
+	if (!curr) {
+		return ModelImp::global()->master();
+	} else {
+		return curr;
+	}
 }
 
 const char *ModelImp::get_field_name() {
 	const char *ret = 0;
-	fprintf(stdout, "--> get_field_name\n");
-
-	print_scopes();
 
 	// Just pick the last scope that specified a name
 	for (int i=m_scope.size()-1; i>=0; i--) {
@@ -322,15 +248,8 @@ const char *ModelImp::get_field_name() {
 			ret = m_tmpname.c_str();
 			break;
 		}
-//		if (!m_scope.at(i)->ctxt() &&
-//				m_scope.at(i)->scope_name() &&
-//				strcmp(m_scope.at(i)->scope_name(), "") != 0) {
-//			fprintf(stdout, "<-- get_field_name %s\n", m_scope.at(i)->scope_name());
-//			return m_scope.at(i)->scope_name();
-//		}
 	}
 
-	fprintf(stdout, "<-- get_field_name %s\n", ret);
 	return ret;
 }
 
@@ -349,8 +268,6 @@ TypePathImp ModelImp::demangle(const ScopeImp *s) {
 	const std::type_info *info = s->get_typeinfo();
 
     char *n = abi::__cxa_demangle(info->name(), 0, 0, 0);
-
-//    fprintf(stdout, "--> n=%s\n", n);
 
     char *r = n;
     int nl = strlen(n);

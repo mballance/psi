@@ -41,10 +41,6 @@ ComponentImp::ComponentImp(component *master, ScopeImp *p) :
 	bool is_field = ModelImp::global()->isField();
 	bool is_parent_field = ModelImp::global()->isParentField();
 
-	fprintf(stdout, "ComponentImp::ComponentImp isField=%s isParentField=%s\n",
-			ModelImp::global()->isField()?"true":"false",
-			ModelImp::global()->isParentField()?"true":"false");
-
 	if (is_field) {
 		// Create a field to represent this component and add it to the
 		// parent context
@@ -59,10 +55,6 @@ ComponentImp::ComponentImp(component *master, ScopeImp *p) :
 				FieldItem::AttrNone,
 				ModelImp::global()->getActiveType(master)->master(),
 				0);
-	} else {
-		// Type registration
-		fprintf(stdout, "TODO: this is a component type registration\n");
-		ModelImp::print_scopes();
 	}
 
 	setName(ModelImp::global()->getActiveTypeName(master).leaf());

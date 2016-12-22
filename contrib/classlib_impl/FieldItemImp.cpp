@@ -78,10 +78,6 @@ FieldItem::FieldItem(
 				0, // wrapper
 				(type_hndl)?type_hndl->impl():0)) {
 
-	fprintf(stdout, "FieldItem: scope, modifiers, type_hndl_ptr: %s this=%p\n",
-			ModelImp::global()->get_field_name(), this);
-	ModelImp::print_scopes();
-
 	FieldItemImp *imp = static_cast<FieldItemImp *>(impl());
 	if (imp->getDataType()) {
 		imp->getDataType()->inc_refcnt();
@@ -101,9 +97,6 @@ FieldItemImp::FieldItemImp(
 		m_has_array_dim(array_dim!=0),
 		m_array_dim((array_dim)?array_dim->imp():ExprImp(0)),
 		m_utils(this) {
-
-	fprintf(stdout, "FieldItemImp: name=%s parent=%p (%d)\n",
-			name.c_str(), p, (p)?p->impl()->getObjectType():-1);
 
 	// TODO:
 	setDataType(type_hndl); // (type_hndl)?type_hndl:wrapper);

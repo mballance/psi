@@ -52,21 +52,10 @@ BaseItemImp::BaseItemImp() :
 	m_depth = 0;
 }
 
-// Is this constructor required?
-//BaseItemImp::BaseItemImp(const BaseItem &rhs) {
-//	m_master = 0;
-//	m_type = rhs.impl()->m_type;
-//	m_parent = rhs.impl()->m_parent;
-//	m_children = rhs.impl()->m_children;
-//	m_depth = rhs.impl()->m_depth;
-//}
-
 BaseItemImp::BaseItemImp(BaseItem *master, ObjectType t, BaseItem *p) :
 		m_refcnt(0), m_master(master), m_type(t), m_parent(toImp(p)) {
 
 	if (m_parent) {
-		fprintf(stdout, "Add item %p to scope %p (%d)\n",
-				this, m_parent->master(), m_parent->getObjectType());
 		m_parent->add(this);
 		m_depth = ModelImp::global()->depth();
 	}
@@ -149,17 +138,6 @@ void BaseItemImp::remove(BaseItemImp *item) {
 			it--;
 		}
 	}
-//		for (; it!=m_children.end(); it++) {
-//			fprintf(stdout, "it=%p item=%p\n", *it, item);
-//			if ((*it) == item) {
-//				break;
-//			}
-//		}
-//
-//	if (it != m_children.end()) {
-//		fprintf(stdout, "remove\n");
-//		m_children.erase(it);
-//	}
 }
 
 void BaseItemImp::setObjectType(ObjectType t) {

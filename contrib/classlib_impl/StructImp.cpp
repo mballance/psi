@@ -48,11 +48,6 @@ StructImp::StructImp(
 	m_super_type = ModelImp::global()->getSuperType();
 	setName(ModelImp::global()->getActiveTypeName(master).leaf());
 
-	fprintf(stdout, "StructImp::StructImp(%s) isField=%s isParentField=%s\n",
-			getName().c_str(),
-			is_field?"true":"false",
-			is_parent_field?"true":"false");
-
 	if (is_field) {
 		// First, remove ourselves from the children list
 		getParent()->remove(this);

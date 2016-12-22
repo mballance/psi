@@ -29,10 +29,6 @@
 
 namespace pss {
 
-//Scope::Scope(bool is_field) {
-//	m_impl = new ScopeImp(this, &typeid(this), 0, is_field, "", 0);
-//}
-
 ScopeImp::ScopeImp(
 		Scope					*master,
 		const std::type_info	*type,
@@ -88,36 +84,7 @@ ScopeImp *Scope::impl() const {
 }
 
 BaseItem *ScopeImp::parent() const {
-/*	if (m_is_field) {
-		return 0;
-	} else */{
-		return ModelImp::global()->getParentScope();
-//		const std::vector<const ScopeImp *> &scope = ModelImp::global()->get_scope();
-//		BaseItem *ret = ModelImp::global()->master();
-//
-//		// Return the first case where m_parent != this
-//		fprintf(stdout, "--> parent() ctxt=%p type=%s\n", m_ctxt,
-//				(m_type)?m_type->name():"unnamed");
-//		for (int i=scope.size()-1; i>=0; i--) {
-//			fprintf(stdout, "  scope[%d] ctxt=%p in_field=%s\n",
-//					i, scope.at(i)->m_ctxt, (scope.at(i)->m_is_field)?"true":"false");
-//			if (scope.at(i)->m_is_field) {
-//				ret = 0;
-//				break;
-//			} else if (scope.at(i)->m_ctxt && scope.at(i)->m_ctxt != m_ctxt) {
-//				ret = scope.at(i)->m_ctxt;
-//				break;
-//			}
-//		}
-//
-//		if (!ret) {
-//
-//		}
-//
-//		fprintf(stdout, "<-- parent() ctxt=%p ret=%p\n", m_ctxt, ret);
-//
-//		return ret;
-	}
+	return ModelImp::global()->getParentScope();
 }
 
 const char *ScopeImp::name() const {

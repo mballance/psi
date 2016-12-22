@@ -54,10 +54,6 @@ ActionImp::ActionImp(action *master, ScopeImp *p) :
 	TypePathImp type = ModelImp::global()->getActiveTypeName(master);
 	setName(type.leaf());
 
-	fprintf(stdout, "ActionImp::ActionImp is_field=%s name=%s\n",
-			is_field?"true":"false",
-			getName().c_str());
-
 	if (is_field) {
 		// First, remove ourselves
 		getParent()->remove(this);
