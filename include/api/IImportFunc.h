@@ -26,6 +26,7 @@
 #define INCLUDED_IMPORT_FUNC_H
 #include <vector>
 #include "api/IBaseItem.h"
+#include "api/IExecCallback.h"
 #include "api/INamedItem.h"
 #include "api/IField.h"
 
@@ -36,9 +37,13 @@ public:
 
 	virtual ~IImportFunc() { }
 
-	virtual IBaseItem *getReturnType() const = 0;
+	virtual IField *getReturn() const = 0;
 
 	virtual const std::vector<IField *> &getParameters() const = 0;
+
+	virtual void setCallback(IExecCallback *cb) = 0;
+
+	virtual IExecCallback *getCallback() = 0;
 
 };
 

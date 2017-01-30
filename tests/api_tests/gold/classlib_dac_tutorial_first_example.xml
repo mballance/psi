@@ -51,7 +51,7 @@
                     </pss:user>
                 </pss:type>
             </pss:field>
-            <pss:graph>
+            <pss:activity>
                 <pss:repeat type="count">
                     <pss:expr>
                         <pss:number>0x5</pss:number>
@@ -77,7 +77,7 @@
                         </pss:traverse>
                     </pss:body>
                 </pss:repeat>
-            </pss:graph>
+            </pss:activity>
         </pss:action>
     </pss:component>
 </pss:model>

@@ -85,8 +85,8 @@ public:
 		rw_comp::write_data		pss_field(wd2);
 		rw_comp::read_data		pss_field(rd2);
 
-		// Only a single graph is permitted per action
-		graph g {this,
+		// Only a single activity is permitted per action
+		activity g {this,
 			sequence {
 				wd1, rd1, wd2, rd2
 			}

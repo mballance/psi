@@ -36,6 +36,8 @@ class scope;
 
 class attr_item: public base_item {
 public:
+	template <typename T> friend class rand_attr;
+
 	enum FieldAttr {
 		AttrNone = 0,
 		AttrInput,

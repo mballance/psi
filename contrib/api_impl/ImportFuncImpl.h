@@ -39,21 +39,25 @@ class ImportFuncImpl : public IImportFunc,
 public:
 	ImportFuncImpl(
 			const std::string				&name,
-			IBaseItem						*ret_type,
+			IField							*ret,
 			const std::vector<IField *>		&parameters);
 
 	virtual ~ImportFuncImpl();
 
-	IBaseItem *getReturnType() const { return m_ret; }
+	IField *getReturn() const { return m_ret; }
 
 	const std::vector<IField *> &getParameters() const {
 		return m_parameters;
 	}
 
+	virtual void setCallback(IExecCallback *cb) { m_cb = cb; }
+
+	virtual IExecCallback *getCallback() { return m_cb; }
 
 private:
-	IBaseItem					*m_ret;
+	IField						*m_ret;
 	std::vector<IField *>		m_parameters;
+	IExecCallback				*m_cb;
 };
 
 } /* namespace psi_api */

@@ -64,6 +64,14 @@ ActionImp::ActionImp(action *master, ScopeImp *p) :
 				attr_item::AttrNone,
 				ModelImp::global()->getActiveType(master)->master(),
 				0);
+	} else {
+		// This is a type reference
+		m_field = new attr_item(
+				0, // don't add this field in anywhere
+				type.leaf(),
+				attr_item::AttrNone,
+				master, // We are the type
+				0);
 	}
 }
 
@@ -87,6 +95,10 @@ void action::body() {
 
 expr action::with(const expr_list &l) const {
 	return With(*(static_cast<ActionImp *>(impl())->getField()), l);
+}
+
+action::operator attr_item &() const {
+	return *(static_cast<ActionImp *>(impl())->getField());
 }
 
 expr action::mk_with(const expr_list &l) const {

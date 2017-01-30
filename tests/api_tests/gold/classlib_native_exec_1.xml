@@ -33,6 +33,16 @@
             </pss:parameters>
         </pss:import_function>
         <pss:import_function name="my_func2">
+            <pss:return>
+                <pss:bit>
+                    <pss:msb>
+                        <pss:number>0x7</pss:number>
+                    </pss:msb>
+                    <pss:lsb>
+                        <pss:number>0x0</pss:number>
+                    </pss:lsb>
+                </pss:bit>
+            </pss:return>
             <pss:parameters>
                 <pss:parameter name="a" dir="output">
                     <pss:type>

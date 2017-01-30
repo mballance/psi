@@ -37,7 +37,7 @@ class BaseItemImp;
 class scope;
 class ScopeImp {
 public:
-	friend scope;
+	friend class scope;
 	ScopeImp(
 			scope 					*master,
 			const std::type_info	*type,

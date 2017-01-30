@@ -44,7 +44,7 @@ public:
 		A1 pss_field(a2);
 		A1 pss_field(a3);
 
-		graph g {this, sequence {
+		activity g {this, sequence {
 			a1, a2, a3
 		}
 		};

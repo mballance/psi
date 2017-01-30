@@ -90,13 +90,17 @@ protected:
 
 	virtual void visit_field(IField *f);
 
-	virtual void visit_graph(IGraphStmt *graph);
+	virtual void visit_graph(IGraphStmt *activity);
 
 	virtual void visit_graph_stmt(IGraphStmt *stmt);
 
 	virtual void visit_graph_block_stmt(IGraphBlockStmt *block);
 
+	virtual void visit_graph_parallel_block_stmt(IGraphBlockStmt *block);
+
 	virtual void visit_graph_repeat_stmt(IGraphRepeatStmt *repeat);
+
+	virtual void visit_graph_schedule_block_stmt(IGraphBlockStmt *s);
 
 	virtual void visit_graph_select_stmt(IGraphBlockStmt *s);
 

@@ -39,8 +39,8 @@ ActionImpl::~ActionImpl() {
 	// TODO Auto-generated destructor stub
 }
 
-void ActionImpl::setGraph(IGraphStmt *graph) {
-	m_graph = graph;
+void ActionImpl::setGraph(IGraphStmt *activity) {
+	m_graph = activity;
 }
 
 IBaseItem *ActionImpl::clone(IItemFactory *f, IAction *action) {

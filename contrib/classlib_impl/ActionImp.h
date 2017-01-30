@@ -39,7 +39,7 @@ namespace pss {
 
 class ElaboratorImpl;
 class ActionImp : public NamedBaseItemImp {
-friend ElaboratorImpl;
+friend class ElaboratorImpl;
 public:
 
 		ActionImp(action *master, ScopeImp *p);

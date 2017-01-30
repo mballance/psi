@@ -82,7 +82,7 @@ private:
 
 	void process_field(IField *f);
 
-	void process_graph(IGraphStmt *graph);
+	void process_graph(IGraphStmt *activity);
 
 	void process_graph_stmt(IGraphStmt *stmt, const char *tag=0);
 

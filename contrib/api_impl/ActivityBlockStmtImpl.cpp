@@ -1,5 +1,5 @@
 /*
- * GraphBlockStmtImpl.h
+ * ActivityBlockStmtImpl.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -22,36 +22,32 @@
  *      Author: ballance
  */
 
-#ifndef IMPL_GRAPHBLOCKSTMTIMPL_H_
-#define IMPL_GRAPHBLOCKSTMTIMPL_H_
-#include "api/IGraphBlockStmt.h"
-
-using namespace psi_api;
+#include "../api_impl/ActivityBlockStmtImpl.h"
 
 namespace psi {
 
+ActivityBlockStmtImpl::ActivityBlockStmtImpl(IGraphBlockStmt::GraphStmtType type) : m_type(type) {
 
-class GraphBlockStmtImpl : public IGraphBlockStmt {
-public:
-	GraphBlockStmtImpl(IGraphBlockStmt::GraphStmtType type);
+}
 
-	virtual ~GraphBlockStmtImpl();
+ActivityBlockStmtImpl::~ActivityBlockStmtImpl() {
+	// TODO Auto-generated destructor stub
+}
 
-	virtual GraphStmtType getStmtType() const { return m_type; }
+const std::vector<IGraphStmt *> &ActivityBlockStmtImpl::getStmts() const {
+	return m_stmts;
+}
 
-	virtual const std::vector<IGraphStmt *> &getStmts() const;
+std::vector<IGraphStmt *> &ActivityBlockStmtImpl::getStmtsM() {
+	return m_stmts;
+}
 
-	virtual void add(IGraphStmt *stmt);
+void ActivityBlockStmtImpl::add(IGraphStmt *stmt) {
+	m_stmts.push_back(stmt);
+}
 
-	void insert(std::vector<IGraphStmt *>::iterator it, IGraphStmt *stmt);
-
-private:
-
-	IGraphBlockStmt::GraphStmtType				m_type;
-	std::vector<IGraphStmt *>					m_stmts;
-
-};
+void ActivityBlockStmtImpl::insert(std::vector<IGraphStmt *>::iterator it, IGraphStmt *stmt) {
+	m_stmts.insert(it, stmt);
+}
 
 } /* namespace psi */
-
-#endif /* IMPL_GRAPHBLOCKSTMTIMPL_H_ */

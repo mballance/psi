@@ -70,7 +70,7 @@ protected:
 
 	virtual void visit_field(IField *f);
 
-	virtual void visit_graph(IGraphStmt *graph);
+	virtual void visit_graph(IGraphStmt *activity);
 
 	virtual void visit_graph_stmt(IGraphStmt *stmt);
 

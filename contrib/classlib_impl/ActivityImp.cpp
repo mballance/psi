@@ -1,5 +1,5 @@
 /*
- * graph.cpp
+ * activity.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -22,23 +22,23 @@
  *      Author: ballance
  */
 
-#include "GraphImp.h"
+#include "ActivityImp.h"
 
 namespace pss {
 
-graph::graph(base_item *p, const expr_list &seq) :
-		base_item(new GraphImp(this, p, seq)) {
+activity::activity(base_item *p, const expr_list &seq) :
+		base_item(new ActivityImp(this, p, seq)) {
 
 }
 
-GraphImp::GraphImp(graph *master, base_item *p, const expr_list &seq) :
+ActivityImp::ActivityImp(activity *master, base_item *p, const expr_list &seq) :
 		BaseItemImp(master, BaseItemImp::TypeGraph, p), m_seq(seq) { }
 
-graph::~graph() {
+activity::~activity() {
 	// TODO Auto-generated destructor stub
 }
 
-GraphImp::~GraphImp() {
+ActivityImp::~ActivityImp() {
 	// TODO Auto-generated destructor stub
 }
 

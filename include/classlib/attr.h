@@ -34,6 +34,30 @@
 
 namespace pss {
 
+#define ATTR_OP_METHODS(_op) \
+	expr operator _op (unsigned int v) { return expr(*static_cast<attr_item *>(this)) _op v; } \
+	expr operator _op (int v) { return expr(*static_cast<attr_item *>(this)) _op v; } \
+	expr operator _op (const attr_item &rhs) { return expr(*static_cast<attr_item *>(this)) _op rhs; } \
+	expr operator _op (const expr &rhs) { return expr(*static_cast<attr_item *>(this)) _op rhs; } 
+
+
+#define ATTR_OPERATORS \
+	ATTR_OP_METHODS(==) \
+	ATTR_OP_METHODS(!=) \
+	ATTR_OP_METHODS(<=) \
+	ATTR_OP_METHODS(<) \
+	ATTR_OP_METHODS(>=) \
+	ATTR_OP_METHODS(>) \
+	ATTR_OP_METHODS(&) \
+	ATTR_OP_METHODS(&&) \
+	ATTR_OP_METHODS(|) \
+	ATTR_OP_METHODS(||) \
+	ATTR_OP_METHODS(-) \
+	ATTR_OP_METHODS(+) \
+	ATTR_OP_METHODS(*) \
+	ATTR_OP_METHODS(/) \
+	ATTR_OP_METHODS(%) 
+
 template <class T> class attr : public attr_base<T> {
 	public:
 
@@ -91,6 +115,8 @@ public:
 	void set(int64_t v) { set_int(v); }
 
 	int64_t get() { return get_int(); }
+
+	ATTR_OPERATORS
 };
 
 template <> class attr<pss_bit> : public attr_item {
@@ -105,6 +131,8 @@ public:
 
 	uint64_t get() { return get_bit(); }
 
+	ATTR_OPERATORS
+
 };
 
 template <> class attr<unsigned long long> : public attr_item {
@@ -116,6 +144,8 @@ public:
 	void set(uint64_t v) { set_bit(v); }
 
 	uint64_t get() { return get_bit(); }
+
+	ATTR_OPERATORS
 };
 
 template <> class attr<long long> : public attr_item {
@@ -128,6 +158,8 @@ public:
 
 	int64_t get() { return get_int(); }
 
+	ATTR_OPERATORS
+
 };
 
 template <> class attr<unsigned int> : public attr_item {
@@ -139,6 +171,8 @@ public:
 	void set(uint32_t v) { set_bit(v); }
 
 	uint32_t get() { return get_bit(); }
+
+	ATTR_OPERATORS
 };
 
 template <> class attr<int> : public attr_item {
@@ -151,6 +185,8 @@ public:
 
 	int32_t get() { return get_int(); }
 
+	ATTR_OPERATORS
+
 };
 
 template <> class attr<unsigned short> : public attr_item {
@@ -162,6 +198,8 @@ public:
 	void set(uint16_t v) { set_bit(v); }
 
 	uint16_t get() { return get_bit(); }
+
+	ATTR_OPERATORS
 };
 
 template <> class attr<short> : public attr_item {
@@ -174,6 +212,8 @@ public:
 
 	int16_t get() { return get_int(); }
 
+	ATTR_OPERATORS
+
 };
 
 template <> class attr<unsigned char> : public attr_item {
@@ -185,6 +225,8 @@ public:
 	void set(uint8_t v) { set_bit(v); }
 
 	uint8_t get() { return get_bit(); }
+
+	ATTR_OPERATORS
 };
 
 template <> class attr<char> : public attr_item {
@@ -196,6 +238,8 @@ public:
 	void set(int8_t v) { set_int(v); }
 
 	int8_t get() { return get_int(); }
+
+	ATTR_OPERATORS
 };
 
 template <> class attr<bool> : public attr_item {
@@ -206,7 +250,12 @@ public:
 	void set(bool v) { set_bit(v); }
 
 	bool get() { return get_bit(); }
+
+	ATTR_OPERATORS
 };
+
+#undef ATTR_OP_METHODS
+#undef ATTR_OPERATORS
 
 }
 

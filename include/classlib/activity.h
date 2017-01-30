@@ -1,5 +1,5 @@
 /*
- * graph.h
+ * activity.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -23,24 +23,25 @@
  *      Author: ballance
  */
 
-#ifndef INCLUDED_GRAPH_IMP_H
-#define INCLUDED_GRAPH_IMP_H
-#include "classlib/graph.h"
-#include "BaseItemImp.h"
+#ifndef INCLUDED_GRAPH_H
+#define INCLUDED_GRAPH_H
+#include "classlib/base_item.h"
+#include "classlib/expr_list.h"
 
 namespace pss {
 
-class GraphImp : public BaseItemImp {
+class activity : public base_item {
 
 	public:
-		GraphImp(graph *master, base_item *p, const expr_list &seq);
+		activity(base_item *p, const expr_list &seq);
 
-		virtual ~GraphImp();
+#ifdef PSS_HAVE_CXX_11
+		template<typename... I> activity(base_item *p, const I&... items) :
+				activity(p, expr_list::mklist(items...)) { }
+#endif
 
-		expr_list &getSequence() { return m_seq; }
+		virtual ~activity();
 
-	private:
-		expr_list				m_seq;
 };
 
 } /* namespace pss */

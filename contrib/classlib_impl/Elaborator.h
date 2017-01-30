@@ -43,7 +43,7 @@
 #include "ComponentImp.h"
 #include "ConstraintImp.h"
 #include "ExtendItemImp.h"
-#include "GraphImp.h"
+#include "ActivityImp.h"
 #include "FieldItemImp.h"
 #include "ImportFuncImp.h"
 #include "PackageImp.h"
@@ -118,7 +118,7 @@ protected:
 
 	IBindPath *elaborate_bind_path(BaseItemImp *it);
 
-	IGraphStmt *elaborate_graph(GraphImp *g);
+	IGraphStmt *elaborate_graph(ActivityImp *g);
 
 
 	IGraphStmt *elaborate_graph_stmt(ExprCore *stmt);

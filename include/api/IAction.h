@@ -48,14 +48,14 @@ namespace psi_api {
 			virtual IAction *getSuperType() const = 0;
 
 			/**
-			 * Returns the graph body, or null if there is none
+			 * Returns the activity body, or null if there is none
 			 */
 			virtual IGraphStmt *getGraph() const = 0;
 
 			/**
-			 * Sets the graph body
+			 * Sets the activity body
 			 */
-			virtual void setGraph(IGraphStmt *graph) = 0;
+			virtual void setGraph(IGraphStmt *activity) = 0;
 
 	};
 }

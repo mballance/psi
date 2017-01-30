@@ -11,6 +11,7 @@ tests/classlib_implies_1.f
 // tests/classlib_inline_exec_1.f
 // tests/classlib_inline_exec_chandle_1.f
 tests/classlib_native_exec_1.f
+tests/classlib_rand_attr.f
 tests/classlib_type_hierarchy_1.f
 tests/concept_walkthrough.f
 tests/constraint_basics_test.f

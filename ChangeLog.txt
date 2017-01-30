@@ -1,5 +1,12 @@
 
 ---------------------------------------------------------------------
+-- 1.0.3 Release --
+
+- Rename graph => activity
+
+- Correct an elaborator issue with rand composite fields
+
+---------------------------------------------------------------------
 -- 1.0.2 Release --
 
 - Allow components, actions, and structs to be instanced without a wrapper (eg attr<>)

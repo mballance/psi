@@ -96,7 +96,7 @@
                     </pss:user>
                 </pss:type>
             </pss:field>
-            <pss:graph>
+            <pss:activity>
                 <pss:parallel>
                     <pss:production>
                         <pss:traverse name="a1"/>
@@ -105,7 +105,7 @@
                         <pss:traverse name="a2"/>
                     </pss:production>
                 </pss:parallel>
-            </pss:graph>
+            </pss:activity>
         </pss:action>
     </pss:component>
 </pss:model>

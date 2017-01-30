@@ -74,7 +74,7 @@ public:
 		C::A			pss_field(a1);
 		C::A			pss_field(a2);
 
-		graph g {this,
+		activity g {this,
 			parallel {
 				a1, a2
 			}

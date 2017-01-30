@@ -162,7 +162,7 @@
 	   	<choice maxOccurs="unbounded" minOccurs="0">
     		<element name="super" type="pss:hierarchical_id"/>
     		
-    		<element name="graph" type="pss:graph_declaration"/>
+    		<element name="activity" type="pss:activity_declaration"/>
     		<!-- TODO:
     		<element name="overrides" type="pss:overrides_declaration"/>
     		-->
@@ -484,31 +484,31 @@
     <!-- ************************************************************
     	 * Graph Productions
          ************************************************************ -->
-    <complexType name="graph_declaration">
+    <complexType name="activity_declaration">
     	<complexContent>
-    		<extension base="pss:graph_block">
+    		<extension base="pss:activity_block">
     		</extension>
     	</complexContent>
     <!-- TODO -->
     </complexType>
     
-    <complexType name="graph_block">
+    <complexType name="activity_block">
     	<choice minOccurs="0" maxOccurs="unbounded">
-    		<element name="repeat" type="pss:graph_repeat_stmt"/>
-    		<element name="parallel" type="pss:graph_parallel_stmt"/>
-    		<element name="select" type="pss:graph_select_stmt"/>
-    		<element name="sequential" type="pss:graph_sequential_stmt"/>
-    		<element name="schedule" type="pss:graph_schedule_stmt"/>
-    		<element name="traverse" type="pss:graph_traverse_stmt"/>
+    		<element name="repeat" type="pss:activity_repeat_stmt"/>
+    		<element name="parallel" type="pss:activity_parallel_stmt"/>
+    		<element name="select" type="pss:activity_select_stmt"/>
+    		<element name="sequential" type="pss:activity_sequential_stmt"/>
+    		<element name="schedule" type="pss:activity_schedule_stmt"/>
+    		<element name="traverse" type="pss:activity_traverse_stmt"/>
     	</choice>
     </complexType>
     
-    <complexType name="graph_repeat_stmt">
+    <complexType name="activity_repeat_stmt">
    		<sequence>
    			<sequence minOccurs="0">
     			<element name="expr" type="pss:expression"/>
    			</sequence>
-   			<element name="body" type="pss:graph_block"/>
+   			<element name="body" type="pss:activity_block"/>
 		</sequence>
 		<attribute name="type">
 			<simpleType>
@@ -521,40 +521,40 @@
 		</attribute>
     </complexType>
     
-    <complexType name="graph_parallel_stmt">
+    <complexType name="activity_parallel_stmt">
     	<sequence minOccurs="1" maxOccurs="unbounded">
-    		<element name="production" type="pss:graph_labeled_production"></element>
+    		<element name="production" type="pss:activity_labeled_production"></element>
     	</sequence>
     </complexType>
     
-    <complexType name="graph_schedule_stmt">
+    <complexType name="activity_schedule_stmt">
     	<complexContent>
-    		<extension base="pss:graph_block"></extension>
+    		<extension base="pss:activity_block"></extension>
     	</complexContent>
     </complexType>
     
-    <complexType name="graph_sequential_stmt">
+    <complexType name="activity_sequential_stmt">
     	<complexContent>
-    		<extension base="pss:graph_block"></extension>
+    		<extension base="pss:activity_block"></extension>
     	</complexContent>
     </complexType>
         
-    <complexType name="graph_select_stmt">
+    <complexType name="activity_select_stmt">
     	<sequence minOccurs="2" maxOccurs="unbounded">
-    		<element name="choice" type="pss:graph_labeled_production"></element>
+    		<element name="choice" type="pss:activity_labeled_production"></element>
     	</sequence>
     </complexType>
     
-    <complexType name="graph_traverse_stmt">
+    <complexType name="activity_traverse_stmt">
     	<sequence minOccurs="0" maxOccurs="1">
     		<element name="with" type="pss:constraint_set"/>
     	</sequence>
     	<attribute name="name"/>
     </complexType>
     
-    <complexType name="graph_labeled_production">
+    <complexType name="activity_labeled_production">
     	<complexContent>
-    		<extension base="pss:graph_block">
+    		<extension base="pss:activity_block">
     			<attribute name="label"/>
     		</extension>
     	</complexContent>
@@ -779,6 +779,7 @@
 	<complexType name="variable_ref">
 		<complexContent>
 			<extension base="pss:hierarchical_id">
+			<!--
 				<sequence minOccurs="0" maxOccurs="1">
 					<choice minOccurs="1" maxOccurs="1">
 						<element name="lhs" type="pss:expression"/>
@@ -787,6 +788,7 @@
 						<element name="rhs" type="pss:expression"/>
 					</choice>
 				</sequence>
+			-->
 			</extension>
 		</complexContent>
 	</complexType>

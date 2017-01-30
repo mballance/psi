@@ -33,7 +33,7 @@ namespace pss {
 class import_func;
 class exec_import_call_stmt : public exec_stmt {
 public:
-	friend import_func;
+	friend class import_func;
 
 private:
 	exec_import_call_stmt(const import_func &f, const expr_list &plist);

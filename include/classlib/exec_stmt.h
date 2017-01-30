@@ -31,8 +31,8 @@ class ExecStmtImp;
 class attr_item;
 class exec_stmt {
 public:
-	friend ExecStmtImp;
-	friend attr_item;
+	friend class ExecStmtImp;
+	friend class attr_item;
 
 	exec_stmt(const exec_stmt &rhs);
 

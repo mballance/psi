@@ -40,7 +40,7 @@ public:
 		at			pss_field(b);
 		at			pss_field(c);
 
-		graph g {this, 
+		activity g {this, 
 			a,
 			b,
 			parallel {

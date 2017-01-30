@@ -52,7 +52,7 @@ class static_structure : public component {
 		C::A			a1{"a1"};
 		C::A			a2{"a2"};
 
-		graph g1 {this,
+		activity g1 {this,
 			repeat {5, {
 					a1, a2.with(a2.field1 < 2)
 				}

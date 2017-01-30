@@ -47,8 +47,8 @@
 #include "ExtendImpl.h"
 #include "FieldImpl.h"
 #include "FieldRefImpl.h"
-#include "GraphBlockStmtImpl.h"
-#include "GraphRepeatStmtImpl.h"
+#include "ActivityBlockStmtImpl.h"
+#include "ActivityRepeatStmtImpl.h"
 #include "GraphTraverseStmtImpl.h"
 #include "ImportFuncImpl.h"
 #include "LiteralImpl.h"
@@ -234,13 +234,13 @@ IField *ModelImpl::mkField(
 }
 
 IGraphBlockStmt *ModelImpl::mkGraphBlockStmt(IGraphStmt::GraphStmtType type) {
-	return new GraphBlockStmtImpl(type);
+	return new ActivityBlockStmtImpl(type);
 }
 
 IGraphRepeatStmt *ModelImpl::mkGraphRepeatStmt(
 		IGraphRepeatStmt::RepeatType type,
 		IExpr *expr, IGraphStmt *body) {
-	return new GraphRepeatStmtImpl(type, expr, body);
+	return new ActivityRepeatStmtImpl(type, expr, body);
 }
 
 IGraphTraverseStmt *ModelImpl::mkGraphTraverseStmt(
@@ -320,7 +320,10 @@ IImportFunc *ModelImpl::mkImportFunc(
 		const std::string				&name,
 		IBaseItem						*ret_type,
 		const std::vector<IField *>		&parameters) {
-	return new ImportFuncImpl(name, ret_type, parameters);
+	return new ImportFuncImpl(
+			name,
+			(ret_type)?(new FieldImpl("", ret_type, IField::FieldAttr_None, 0)):0,
+					parameters);
 }
 
 ICallbackContext *ModelImpl::getCallbackContext() {

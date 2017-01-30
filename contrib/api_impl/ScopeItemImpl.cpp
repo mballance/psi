@@ -62,6 +62,17 @@ void ScopeItemImpl::insert(std::vector<IBaseItem *>::iterator i, IBaseItem *item
 	m_children.insert(i, item);
 }
 
+void ScopeItemImpl::insert(uint32_t i, IBaseItem *item) {
+	item->setParent(dynamic_cast<IBaseItem *>(this));
+	std::vector<IBaseItem *>::iterator it=m_children.begin();
+
+	while (i && it != m_children.end()) {
+		it++;
+		i--;
+	}
+	m_children.insert(it, item);
+}
+
 /**
  * Locates and returns the named field. Returns 0 if
  * the named field does not exist

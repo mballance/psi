@@ -177,12 +177,12 @@
                     </pss:binexp>
                 </pss:stmt>
             </pss:constraint>
-            <pss:graph>
+            <pss:activity>
                 <pss:traverse name="wd1"/>
                 <pss:traverse name="rd1"/>
                 <pss:traverse name="wd2"/>
                 <pss:traverse name="rd2"/>
-            </pss:graph>
+            </pss:activity>
         </pss:action>
     </pss:component>
     <pss:package name="c_methods">

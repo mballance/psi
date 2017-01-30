@@ -148,16 +148,9 @@ const char *ExprImp::toString(Operator op) {
 //} \
 
 #define DEFINE_OP_FUNCTIONS(_op, _code) \
-	expr operator _op (const expr &lhs, const expr &rhs) { \
-		return expr(new ExprCore(_code, lhs, rhs)); \
-	} \
-	expr operator _op (int32_t lhs, const expr &rhs) { \
-		return expr(new ExprCore(_code, lhs, rhs)); \
-	} \
-	expr operator _op (uint32_t lhs, const expr &rhs) { \
-		return expr(new ExprCore(_code, lhs, rhs)); \
-	}
-
+expr expr::operator _op (const expr &rhs) { \
+  return expr(new ExprCore(_code, *this, rhs)); \
+}
 
 //DEFINE_OP_FUNCTIONS(=, ExprImp::BinOp_Eq)
 DEFINE_OP_FUNCTIONS(==, ExprImp::BinOp_EqEq)

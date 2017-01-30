@@ -199,6 +199,10 @@ void PSI2XML::process_body(
 			process_exec(dynamic_cast<IExec *>(i));
 			break;
 
+		case IBaseItem::TypeVendor:
+			fprintf(stdout, "Note: Vendor item detected\n");
+			break;
+
 		default:
 			fprintf(stdout, "Error: Unknown body item %d\n", i->getType());
 		}
@@ -563,14 +567,14 @@ void PSI2XML::process_field(IField *f) {
 	exit("field");
 }
 
-void PSI2XML::process_graph(IGraphStmt *graph) {
+void PSI2XML::process_graph(IGraphStmt *activity) {
 	std::vector<IGraphStmt *>::const_iterator it;
 
-	enter("graph");
+	enter("activity");
 
-	process_graph_stmt(graph);
+	process_graph_stmt(activity);
 
-	exit("graph");
+	exit("activity");
 }
 
 void PSI2XML::process_graph_stmt(IGraphStmt *stmt, const char *tag) {
@@ -656,7 +660,7 @@ void PSI2XML::process_graph_stmt(IGraphStmt *stmt, const char *tag) {
 
 	} break;
 
-	default: fprintf(stdout, "TODO: handle graph stmt %d\n", stmt->getStmtType());
+	default: fprintf(stdout, "TODO: handle activity stmt %d\n", stmt->getStmtType());
 
 	}
 
@@ -686,8 +690,8 @@ void PSI2XML::process_import_func(IImportFunc *f, const std::string &tag) {
 
 	enter(tag_s);
 
-	if (f->getReturnType()) {
-		type2data_type(f->getReturnType(), "return");
+	if (f->getReturn()) {
+		type2data_type(f->getReturn()->getDataType(), "pss:return");
 	}
 
 	if (f->getParameters().size() > 0) {

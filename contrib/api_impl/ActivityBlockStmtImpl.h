@@ -1,5 +1,5 @@
 /*
- * GraphRepeatStmtImpl.h
+ * ActivityBlockStmtImpl.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -18,41 +18,42 @@
  * the License for the specific language governing
  * permissions and limitations under the License.
  * 
- *  Created on: Jun 10, 2016
+ *  Created on: Jun 8, 2016
  *      Author: ballance
  */
 
-#ifndef IMPL_GRAPHREPEATSTMTIMPL_H_
-#define IMPL_GRAPHREPEATSTMTIMPL_H_
-#include "api/IGraphRepeatStmt.h"
+#ifndef IMPL_GRAPHBLOCKSTMTIMPL_H_
+#define IMPL_GRAPHBLOCKSTMTIMPL_H_
+#include "api/IGraphBlockStmt.h"
 
 using namespace psi_api;
 
 namespace psi {
 
-class GraphRepeatStmtImpl: public IGraphRepeatStmt {
+
+class ActivityBlockStmtImpl : public IGraphBlockStmt {
 public:
-	GraphRepeatStmtImpl(RepeatType type, IExpr *expr, IGraphStmt *body);
+	ActivityBlockStmtImpl(IGraphBlockStmt::GraphStmtType type);
 
-	virtual ~GraphRepeatStmtImpl();
+	virtual ~ActivityBlockStmtImpl();
 
-	virtual GraphStmtType getStmtType() const { return GraphStmt_Repeat; }
+	virtual GraphStmtType getStmtType() const { return m_type; }
 
-	virtual RepeatType getRepeatType() const { return m_type; }
+	virtual const std::vector<IGraphStmt *> &getStmts() const;
 
-	virtual IExpr *getCond() { return m_cond; }
+	virtual std::vector<IGraphStmt *> &getStmtsM();
 
-	virtual IGraphStmt *getBody() { return m_body; }
+	virtual void add(IGraphStmt *stmt);
 
-	virtual void setBody(IGraphStmt *s);
+	void insert(std::vector<IGraphStmt *>::iterator it, IGraphStmt *stmt);
 
 private:
-	RepeatType				m_type;
-	IExpr					*m_cond;
-	IGraphStmt				*m_body;
-};
 
+	IGraphBlockStmt::GraphStmtType				m_type;
+	std::vector<IGraphStmt *>					m_stmts;
+
+};
 
 } /* namespace psi */
 
-#endif /* IMPL_GRAPHREPEATSTMTIMPL_H_ */
+#endif /* IMPL_GRAPHBLOCKSTMTIMPL_H_ */

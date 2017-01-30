@@ -56,9 +56,10 @@ namespace psi {
 
 			virtual IGraphStmt *getGraph() const { return m_graph; }
 
-			virtual void setGraph(IGraphStmt *graph);
+			virtual void setGraph(IGraphStmt *activity);
 
 			static IBaseItem *clone(IItemFactory *f, IAction *action);
+
 
 		private:
 			IAction						*m_super_type;

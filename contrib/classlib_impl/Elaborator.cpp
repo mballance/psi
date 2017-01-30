@@ -134,7 +134,7 @@ IAction *Elaborator::elaborate_action(ActionImp *action) {
 						BaseItemImp::toString(t->getObjectType()));
 			}
 		} if (t->getObjectType() == BaseItemImp::TypeGraph) {
-			IGraphStmt *g = elaborate_graph(dynamic_cast<GraphImp *>(t));
+			IGraphStmt *g = elaborate_graph(dynamic_cast<ActivityImp *>(t));
 			a->setGraph(g);
 		} else {
 			if (super_a) {
@@ -1043,7 +1043,7 @@ IBindPath *Elaborator::elaborate_bind_path(BaseItemImp *t) {
 	return m_model->mkBindPath(path);
 }
 
-IGraphStmt *Elaborator::elaborate_graph(GraphImp *g) {
+IGraphStmt *Elaborator::elaborate_graph(ActivityImp *g) {
 	expr_list stmts = g->getSequence();
 	ExprCoreList *stmts_c = dynamic_cast<ExprCoreList *>(stmts.imp().ptr());
 	if (stmts_c->getExprList().size() > 1) {
@@ -1086,6 +1086,11 @@ IGraphStmt *Elaborator::elaborate_graph_stmt(ExprCore *stmt) {
 				it!=stmt_l->getExprList().end(); it++) {
 			IGraphStmt *s = elaborate_graph_stmt((*it).ptr());
 			if (s) {
+				if (s->getStmtType() != IGraphStmt::GraphStmt_Block) {
+					IGraphBlockStmt *block = m_model->mkGraphBlockStmt(IGraphStmt::GraphStmt_Block);
+					block->add(s);
+					s = block;
+				}
 				block->add(s);
 			} else {
 				fprintf(stdout, "Error: failed to elaborate %d\n",
@@ -1106,6 +1111,13 @@ IGraphStmt *Elaborator::elaborate_graph_stmt(ExprCore *stmt) {
 			cond = elaborate_expr(stmt->getLhsPtr());
 		}
 		body = elaborate_graph_stmt(stmt->getRhsPtr());
+
+		if (body->getStmtType() != IGraphStmt::GraphStmt_Block) {
+			IGraphBlockStmt *block = m_model->mkGraphBlockStmt(
+					IGraphStmt::GraphStmt_Block);
+			block->add(body);
+			body = block;
+		}
 
 		IGraphRepeatStmt *repeat_stmt = m_model->mkGraphRepeatStmt(
 				type, cond, body);
@@ -1137,7 +1149,7 @@ IGraphStmt *Elaborator::elaborate_graph_stmt(ExprCore *stmt) {
 	}
 
 	if (!ret) {
-		fprintf(stdout, "Error: Unhandled graph stmt %d\n", stmt->getOp());
+		fprintf(stdout, "Error: Unhandled activity stmt %d\n", stmt->getOp());
 	}
 
 	return ret;

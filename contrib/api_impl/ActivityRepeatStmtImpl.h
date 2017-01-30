@@ -1,5 +1,5 @@
 /*
- * GraphRepeatStmtImpl.cpp
+ * ActivityRepeatStmtImpl.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -22,20 +22,37 @@
  *      Author: ballance
  */
 
-#include "../api_impl/GraphRepeatStmtImpl.h"
+#ifndef IMPL_GRAPHREPEATSTMTIMPL_H_
+#define IMPL_GRAPHREPEATSTMTIMPL_H_
+#include "api/IGraphRepeatStmt.h"
+
+using namespace psi_api;
 
 namespace psi {
 
-GraphRepeatStmtImpl::GraphRepeatStmtImpl(RepeatType type, IExpr *cond, IGraphStmt *stmt) :
-	m_type(type), m_cond(cond), m_body(stmt) {
-}
+class ActivityRepeatStmtImpl: public IGraphRepeatStmt {
+public:
+	ActivityRepeatStmtImpl(RepeatType type, IExpr *expr, IGraphStmt *body);
 
-GraphRepeatStmtImpl::~GraphRepeatStmtImpl() {
-	// TODO Auto-generated destructor stub
-}
+	virtual ~ActivityRepeatStmtImpl();
 
-void GraphRepeatStmtImpl::setBody(IGraphStmt *s) {
-	m_body = s;
-}
+	virtual GraphStmtType getStmtType() const { return GraphStmt_Repeat; }
+
+	virtual RepeatType getRepeatType() const { return m_type; }
+
+	virtual IExpr *getCond() { return m_cond; }
+
+	virtual IGraphStmt *getBody() { return m_body; }
+
+	virtual void setBody(IGraphStmt *s);
+
+private:
+	RepeatType				m_type;
+	IExpr					*m_cond;
+	IGraphStmt				*m_body;
+};
+
 
 } /* namespace psi */
+
+#endif /* IMPL_GRAPHREPEATSTMTIMPL_H_ */

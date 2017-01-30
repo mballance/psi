@@ -36,16 +36,10 @@ class base_item;
 class expr_list;
 class ConstraintExpr;
 
-#define DECLARE_OP_FUNCTIONS(_prefix, _op) \
-	_prefix expr operator _op (const expr &lhs, const expr &rhs); \
-	_prefix expr operator _op (int32_t lhs, const expr &rhs);     \
-	_prefix expr operator _op (uint32_t lhs, const expr &rhs);    \
-
-
 class ExprImp;
 class expr {
 public:
-	friend ExprImp;
+	friend class ExprImp;
 
 	expr();
 
@@ -94,21 +88,21 @@ public:
 
 //	expr operator -> (const expr &rhs);
 
-	DECLARE_OP_FUNCTIONS(friend, ==)
-	DECLARE_OP_FUNCTIONS(friend, !=)
-	DECLARE_OP_FUNCTIONS(friend, <=)
-	DECLARE_OP_FUNCTIONS(friend, <)
-	DECLARE_OP_FUNCTIONS(friend, >=)
-	DECLARE_OP_FUNCTIONS(friend, >)
-	DECLARE_OP_FUNCTIONS(friend, &)
-	DECLARE_OP_FUNCTIONS(friend, &&)
-	DECLARE_OP_FUNCTIONS(friend, |)
-	DECLARE_OP_FUNCTIONS(friend, ||)
-	DECLARE_OP_FUNCTIONS(friend, -)
-	DECLARE_OP_FUNCTIONS(friend, +)
-	DECLARE_OP_FUNCTIONS(friend, *)
-	DECLARE_OP_FUNCTIONS(friend, /)
-	DECLARE_OP_FUNCTIONS(friend, %)
+	expr operator == (const expr &rhs);
+	expr operator != (const expr &rhs);
+	expr operator <= (const expr &rhs);
+	expr operator <  (const expr &rhs);
+	expr operator >= (const expr &rhs);
+	expr operator >  (const expr &rhs);
+	expr operator &  (const expr &rhs);
+	expr operator && (const expr &rhs);
+	expr operator |  (const expr &rhs);
+	expr operator || (const expr &rhs);
+	expr operator -  (const expr &rhs);
+	expr operator +  (const expr &rhs);
+	expr operator *  (const expr &rhs);
+	expr operator /  (const expr &rhs);
+	expr operator %  (const expr &rhs);
 
 	const ExprImp &imp() const;
 
@@ -116,24 +110,6 @@ protected:
 	ExprImp					*m_core;
 
 };
-
-DECLARE_OP_FUNCTIONS( , ==)
-DECLARE_OP_FUNCTIONS( , !=)
-DECLARE_OP_FUNCTIONS( , <=)
-DECLARE_OP_FUNCTIONS( , <)
-DECLARE_OP_FUNCTIONS( , >=)
-DECLARE_OP_FUNCTIONS( , >)
-DECLARE_OP_FUNCTIONS( , &)
-DECLARE_OP_FUNCTIONS( , &&)
-DECLARE_OP_FUNCTIONS( , |)
-DECLARE_OP_FUNCTIONS( , ||)
-DECLARE_OP_FUNCTIONS( , -)
-DECLARE_OP_FUNCTIONS( , +)
-DECLARE_OP_FUNCTIONS( , *)
-DECLARE_OP_FUNCTIONS( , /)
-DECLARE_OP_FUNCTIONS( , %)
-
-#undef DECLARE_OP_FUNCTIONS
 
 
 } /* namespace pss */

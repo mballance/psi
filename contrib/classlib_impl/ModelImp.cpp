@@ -125,8 +125,10 @@ TypePathImp ModelImp::getActiveTypeName(base_item *it) {
 
 BaseItemImp *ModelImp::getActiveType(base_item *it) {
 	base_item *ret = 0;
+//	fprintf(stdout, "getActiveType: it=%p\n", it);
+//	print_scopes();
 	for (int i=m_scope.size()-1; i>=0; i--) {
-		if (m_scope.at(i)->ctxt() == it) {
+		if (m_scope.at(i)->ctxt() == it && m_scope.at(i)->type_id()) {
 			ret = m_scope.at(i)->type_id();
 		} else {
 			break;
@@ -321,11 +323,12 @@ void ModelImp::print_scopes() {
 	for (int32_t i=m->m_scope.size()-1; i>=0; i--) {
 		const ScopeImp *s = m->m_scope.at(i);
 		base_item *b = m->m_scopes.at(i);
-		fprintf(stdout, "  scope=%p name=%s type_name=%s is_field=%s is_type=%s\n",
+		fprintf(stdout, "  scope=%p name=%s type_name=%s is_field=%s is_type=%s ctxt=%p\n",
 				b, s->scope_name(),
 				(s->get_typeinfo())?s->get_typeinfo()->name():"NULL",
 				(s->is_field())?"true":"false",
-				(s->is_type())?"true":"false");
+				(s->is_type())?"true":"false",
+				m->m_scope.at(i)->ctxt());
 	}
 	fprintf(stdout, "<-- print_scopes()\n");
 }

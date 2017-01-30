@@ -220,10 +220,10 @@ void PSI2PSS::visit_field(IField *f) {
 	println(str);
 }
 
-void PSI2PSS::visit_graph(IGraphStmt *graph) {
-	println("graph {");
+void PSI2PSS::visit_graph(IGraphStmt *activity) {
+	println("activity {");
 	inc_indent();
-	PSI2StringProcessor::visit_graph(graph);
+	PSI2StringProcessor::visit_graph(activity);
 	dec_indent();
 	println("}");
 }

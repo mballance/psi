@@ -37,7 +37,7 @@ namespace pss {
 class BaseItemImp;
 class base_item {
 public:
-	friend BaseItemImp;
+	friend class BaseItemImp;
 
 	base_item *operator ()();
 

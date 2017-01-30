@@ -1,5 +1,5 @@
 /*
- * GraphBlockStmtImpl.cpp
+ * ActivityRepeatStmtImpl.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -18,32 +18,24 @@
  * the License for the specific language governing
  * permissions and limitations under the License.
  * 
- *  Created on: Jun 8, 2016
+ *  Created on: Jun 10, 2016
  *      Author: ballance
  */
 
-#include "../api_impl/GraphBlockStmtImpl.h"
+#include "../api_impl/ActivityRepeatStmtImpl.h"
 
 namespace psi {
 
-GraphBlockStmtImpl::GraphBlockStmtImpl(IGraphBlockStmt::GraphStmtType type) : m_type(type) {
-
+ActivityRepeatStmtImpl::ActivityRepeatStmtImpl(RepeatType type, IExpr *cond, IGraphStmt *stmt) :
+	m_type(type), m_cond(cond), m_body(stmt) {
 }
 
-GraphBlockStmtImpl::~GraphBlockStmtImpl() {
+ActivityRepeatStmtImpl::~ActivityRepeatStmtImpl() {
 	// TODO Auto-generated destructor stub
 }
 
-const std::vector<IGraphStmt *> &GraphBlockStmtImpl::getStmts() const {
-	return m_stmts;
-}
-
-void GraphBlockStmtImpl::add(IGraphStmt *stmt) {
-	m_stmts.push_back(stmt);
-}
-
-void GraphBlockStmtImpl::insert(std::vector<IGraphStmt *>::iterator it, IGraphStmt *stmt) {
-	m_stmts.insert(it, stmt);
+void ActivityRepeatStmtImpl::setBody(IGraphStmt *s) {
+	m_body = s;
 }
 
 } /* namespace psi */

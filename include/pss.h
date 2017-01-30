@@ -43,7 +43,7 @@
 #include "classlib/extend_struct.h"
 #include "classlib/attr.h"
 #include "classlib/action_attr.h"
-#include "classlib/graph.h"
+#include "classlib/activity.h"
 #include "classlib/pss_if.h"
 #include "classlib/import_func.h"
 #include "classlib/input.h"

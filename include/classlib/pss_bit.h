@@ -28,6 +28,7 @@
 #include "classlib/bit_type.h"
 #include "classlib/scope.h"
 #include "classlib/pss_types.h"
+#include "classlib/expr.h"
 
 namespace pss {
 
@@ -43,6 +44,7 @@ class pss_bit : public bit_type {
 		pss_bit(const std::string &name) : bit_type(name, 0, 0) { }
 
 		virtual ~pss_bit() { }
+
 };
 
 } /* namespace pss */

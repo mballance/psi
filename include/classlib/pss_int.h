@@ -27,6 +27,7 @@
 #define INT_H_
 #include "classlib/int_type.h"
 #include "classlib/scope.h"
+#include "classlib/expr.h"
 
 namespace pss {
 
@@ -42,6 +43,7 @@ class pss_int : public int_type {
 			int_type(name, width-1, 0) { }
 
 		pss_int(const scope &parent);
+
 
 };
 

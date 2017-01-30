@@ -31,11 +31,11 @@
                     </pss:user>
                 </pss:type>
             </pss:field>
-            <pss:graph>
+            <pss:activity>
                 <pss:traverse name="a1"/>
                 <pss:traverse name="a2"/>
                 <pss:traverse name="a3"/>
-            </pss:graph>
+            </pss:activity>
         </pss:action>
     </pss:component>
 </pss:model>
