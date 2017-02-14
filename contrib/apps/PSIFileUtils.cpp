@@ -49,4 +49,45 @@ std::string PSIFileUtils::read(FILE *fp) {
 	return ret;
 }
 
+std::string PSIFileUtils::expand(const std::string &str) {
+	std::string ret;
+	std::string var;
+	const char *val;
+	uint32_t i=0;
+	char c;
+
+	while (i < str.length()) {
+		if (str.at(i) == '$') {
+			bool expect_closebrace=false;
+
+			var="";
+			i++;
+			if (str.at(i) == '{') {
+				i++;
+			}
+
+			while (!isspace((c=str.at(i))) &&
+					(isalnum(c) || c == '_')) {
+				var.push_back(str.at(i));
+				i++;
+			}
+
+			if (str.at(i) == '}') {
+				i++;
+			}
+
+			val = getenv(var.c_str());
+
+			if (val) {
+				ret.append(val);
+			}
+		} else {
+			ret.push_back(str.at(i));
+			i++;
+		}
+	}
+
+	return ret;
+}
+
 } /* namespace psi */

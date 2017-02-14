@@ -54,6 +54,24 @@ protected:
 
 	IAction *elaborate_action(xmlNode *p, const strmap &attr);
 
+	IGraphStmt *elaborate_activity(xmlNode *p, const strmap &attr);
+
+	IGraphBlockStmt *elaborate_block(xmlNode *p, const strmap &attr);
+
+	IGraphBlockStmt *elaborate_block(IGraphBlockStmt *b, xmlNode *p, const strmap &attr);
+
+	IGraphRepeatStmt *elaborate_repeat(xmlNode *p, const strmap &attr);
+
+	IGraphBlockStmt *elaborate_parallel(xmlNode *p, const strmap &attr);
+
+	IGraphBlockStmt *elaborate_select(xmlNode *p, const strmap &attr);
+
+	IGraphBlockStmt *elaborate_sequential(xmlNode *p, const strmap &attr);
+
+	IGraphBlockStmt *elaborate_schedule(xmlNode *p, const strmap &attr);
+
+	IGraphTraverseStmt *elaborate_traverse(xmlNode *p, const strmap &attr);
+
 	IComponent *elaborate_component(xmlNode *p, const strmap &attr);
 
 	IConstraint *elaborate_constraint_set(xmlNode *p, const strmap &attr);

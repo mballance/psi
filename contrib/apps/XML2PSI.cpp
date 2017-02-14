@@ -144,6 +144,7 @@ IAction *XML2PSI::elaborate_action(xmlNode *p, const strmap &attr) {
 	strmap attr_m;
 	IAction *super = 0;
 
+	fprintf(stdout, "--> elaborate_action %s\n", attr.find("name")->second.c_str());
 	if (attr.find("super") != attr.end()) {
 		// TODO: look up super
 		fprintf(stdout, "Error: action 'super' unsupported\n");
@@ -157,12 +158,177 @@ IAction *XML2PSI::elaborate_action(xmlNode *p, const strmap &attr) {
 			continue;
 		}
 
+		std::string p_n = reinterpret_cast<const char *>(n->name);
 		get_attributes(n, attr_m);
-		a->add(elaborate_action_struct_component_item(n, attr_m));
+		if (p_n == "activity") {
+			IGraphStmt *activity = elaborate_activity(n, attr_m);
+			a->setGraph(activity);
+		} else {
+			a->add(elaborate_action_struct_component_item(n, attr_m));
+		}
 	}
 	m_scope_stack.pop();
 
+	fprintf(stdout, "<-- elaborate_action %s\n", attr.find("name")->second.c_str());
+
 	return a;
+}
+
+IGraphStmt *XML2PSI::elaborate_activity(xmlNode *p, const strmap &attr) {
+	IGraphBlockStmt *ret = m_model->mkGraphBlockStmt(IGraphStmt::GraphStmt_Block);
+
+	for (xmlNode *n=p->children; n; n=n->next) {
+		strmap attr_n;
+		if (n->type != XML_ELEMENT_NODE) {
+			continue;
+		}
+
+		std::string n_n = reinterpret_cast<const char *>(n->name);
+
+		get_attributes(n, attr_n);
+
+		if (n_n == "repeat") {
+			ret->add(elaborate_repeat(n, attr_n));
+		} else if (n_n == "parallel") {
+			ret->add(elaborate_parallel(n, attr_n));
+		} else if (n_n == "select") {
+			ret->add(elaborate_select(n, attr_n));
+		} else if (n_n == "sequential") {
+			ret->add(elaborate_sequential(n, attr_n));
+		} else if (n_n == "schedule") {
+			ret->add(elaborate_schedule(n, attr_n));
+		} else if (n_n == "traverse") {
+			ret->add(elaborate_traverse(n, attr_n));
+		} else {
+			fprintf(stdout, "Error: Unknown activity statement: %s\n", n_n.c_str());
+		}
+	}
+
+	return ret;
+}
+
+IGraphBlockStmt *XML2PSI::elaborate_block(IGraphBlockStmt *b, xmlNode *p, const strmap &attr) {
+
+	for (xmlNode *n=p->children; n; n=n->next) {
+		strmap attr_n;
+		if (n->type != XML_ELEMENT_NODE) {
+			continue;
+		}
+
+		std::string n_n = reinterpret_cast<const char *>(n->name);
+
+		get_attributes(n, attr_n);
+
+		if (n_n == "repeat") {
+			b->add(elaborate_repeat(n, attr_n));
+		} else if (n_n == "parallel") {
+			b->add(elaborate_parallel(n, attr_n));
+		} else if (n_n == "select") {
+			b->add(elaborate_select(n, attr_n));
+		} else if (n_n == "sequential") {
+			b->add(elaborate_sequential(n, attr_n));
+		} else if (n_n == "schedule") {
+			b->add(elaborate_schedule(n, attr_n));
+		} else if (n_n == "traverse") {
+			b->add(elaborate_traverse(n, attr_n));
+		} else {
+			fprintf(stdout, "Error: Unknown activity statement: %s\n", n_n.c_str());
+		}
+	}
+
+	return b;
+}
+
+
+
+
+IGraphBlockStmt *XML2PSI::elaborate_block(xmlNode *p, const strmap &attr) {
+	IGraphBlockStmt *ret = m_model->mkGraphBlockStmt(IGraphStmt::GraphStmt_Block);
+	return elaborate_block(ret, p, attr);
+}
+
+IGraphRepeatStmt *XML2PSI::elaborate_repeat(xmlNode *p, const strmap &attr) {
+	std::string type = attr.find("type")->second;
+	IExpr *expr = 0;
+	IGraphStmt *body = 0;
+
+	xmlNode *e = 0;
+	for (xmlNode *n=p->children; n; n=n->next) {
+		std::string n_n = reinterpret_cast<const char *>(n->name);
+		if (n_n == "expr") {
+			strmap attr_c;
+			xmlNode *c=n->children;
+
+			// Find the first 'node'
+			for (; c; c=c->next) {
+				if (c->type == XML_ELEMENT_NODE) {
+					break;
+				}
+			}
+			get_attributes(c, attr_c);
+			expr = elaborate_expr(c, attr_c);
+		} else if (n_n == "body") {
+			strmap attr_n;
+			get_attributes(n, attr_n);
+			body = elaborate_block(n, attr_n);
+		}
+	}
+
+	IGraphRepeatStmt::RepeatType r_type;
+
+	if (type == "count") {
+		r_type = IGraphRepeatStmt::RepeatType_Count;
+	} else if (type == "forever") {
+		r_type = IGraphRepeatStmt::RepeatType_Forever;
+	} else {
+		fprintf(stdout, "Error: Unknown repeat type %s\n", type.c_str());
+	}
+
+	return m_model->mkGraphRepeatStmt(r_type, expr, body);
+}
+
+IGraphBlockStmt *XML2PSI::elaborate_parallel(xmlNode *p, const strmap &attr) {
+	return elaborate_block(
+			m_model->mkGraphBlockStmt(IGraphBlockStmt::GraphStmt_Parallel),
+			p, attr);
+}
+
+IGraphBlockStmt *XML2PSI::elaborate_select(xmlNode *p, const strmap &attr) {
+	return elaborate_block(
+			m_model->mkGraphBlockStmt(IGraphBlockStmt::GraphStmt_Select),
+			p, attr);
+}
+
+IGraphBlockStmt *XML2PSI::elaborate_sequential(xmlNode *p, const strmap &attr) {
+	return elaborate_block(p, attr);
+}
+
+IGraphBlockStmt *XML2PSI::elaborate_schedule(xmlNode *p, const strmap &attr) {
+	return elaborate_block(
+			m_model->mkGraphBlockStmt(IGraphBlockStmt::GraphStmt_Schedule),
+			p, attr);
+}
+
+IGraphTraverseStmt *XML2PSI::elaborate_traverse(xmlNode *p, const strmap &attr) {
+	IFieldRef *action = 0;
+	IConstraint *with = 0;
+
+	for (xmlNode *n=p->children; n; n=n->next) {
+		std::string n_n = reinterpret_cast<const char *>(n->name);
+		if (n_n == "with") {
+			strmap attr_n;
+			get_attributes(n, attr_n);
+			with = elaborate_constraint_set(n, attr_n);
+		}
+	}
+
+	std::vector<IField *> field_path;
+	field_path.push_back(find_field(attr.find("name")->second));
+	action = m_model->mkFieldRef(field_path);
+
+	IBaseItem *scope = m_scope_stack.top().scope();
+
+	return m_model->mkGraphTraverseStmt(action, with);
 }
 
 IComponent *XML2PSI::elaborate_component(xmlNode *p, const strmap &attr) {
@@ -833,9 +999,12 @@ IBaseItem *XML2PSI::find_type(IScopeItem *curr, const std::vector<std::string> &
 
 	if (path.size() == 1) {
 		// First look in the containing scope
+		fprintf(stdout, "find_type curr=%d\n",
+				(curr)?dynamic_cast<IBaseItem *>(curr)->getType():-1);
 		if (curr) {
 			for (std::vector<IBaseItem *>::const_iterator it=curr->getItems().begin();
 					it!=curr->getItems().end(); it++) {
+				fprintf(stdout, "it=%d\n", (*it)->getType());
 				INamedItem *n_it = PSIUtil::toNamedItem(*it);
 				if (n_it && n_it->getName() == path.at(0)) {
 					ret = *it;
@@ -998,8 +1167,42 @@ IBaseItem *XML2PSI::find_type(xmlNode *p) {
 		pl.push_back(path);
 	}
 
-	return find_type(dynamic_cast<IScopeItem *>(m_scope_stack.top().scope()), pl);
+	IBaseItem *top = m_scope_stack.top().scope();
+	m_scope_stack.pop();
+	IBaseItem *top_p = (!m_scope_stack.empty())?m_scope_stack.top().scope():0;
+	IBaseItem *ret;
+
+	if (!(ret=find_type(dynamic_cast<IScopeItem *>(top), pl))) {
+		if (top_p) {
+			ret = find_type(dynamic_cast<IScopeItem *>(top_p), pl);
+		}
+	}
+
+	if (top_p) {
+		m_scope_stack.push(top_p);
+	}
+	m_scope_stack.push(top);
+
+	if (!ret) {
+		fprintf(stdout, "Error: Failed to find type ");
+		for (uint32_t i=0; i<pl.size(); i++) {
+			fprintf(stdout, "%s", pl.at(i).c_str());
+			if (i+1<pl.size()) {
+				fprintf(stdout, "::");
+			}
+		}
+		fprintf(stdout, "\n");
+	}
+
+	return ret;
 }
 
+IField *XML2PSI::find_field(const std::string &name) {
+	IScopeItem *scope = dynamic_cast<IScopeItem *>(m_scope_stack.top().scope());
+
+	return scope->getField(name);
 }
+
+
+} /* namespace apps */
 } /* namespace psi */

@@ -38,6 +38,8 @@ public:
 
 	static std::string read(FILE *fp);
 
+	static std::string expand(const std::string &str);
+
 };
 
 } /* namespace psi */

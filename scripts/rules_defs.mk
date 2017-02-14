@@ -76,6 +76,7 @@ $(INCDIR)/%.h : $(PSI_INCLUDE_DIR)/%.h
 	$(DO_INST)
 
 $(LIBDIR)/libpsi.a : $(foreach o,$(PSI_CL_SRC:.cpp=.o),$(PSI_BUILDDIR)/$(o))
+	echo "PSI_CONTRIB_DIR=$(PSI_CONTRIB_DIR) PSI_CL_SRC=$(PSI_CL_SRC)"
 	$(MKDIRS)
 	$(MK_AR)
 	
