@@ -106,6 +106,8 @@ protected:
 
 	IField *find_field(const std::string &name);
 
+	IImportFunc *find_function(xmlNode *p);
+
 	std::vector<std::string> split_path(const std::string &path);
 
 private:

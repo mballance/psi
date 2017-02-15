@@ -478,8 +478,44 @@ IExec *XML2PSI::elaborate_exec(xmlNode *p, const strmap &attr) {
 				IExecStmt *stmt = m_model->mkExecExprStmt(field, op, rhs);
 				stmts.push_back(stmt);
 			} else if (cn_n == "call") {
-				// TODO:
+				IImportFunc *func = 0;
+				std::vector<IExpr *> parameters;
 
+				for (xmlNode *n=cn->children; n; n=n->next) {
+					if (n->type != XML_ELEMENT_NODE) {
+						continue;
+					}
+					std::string n_n = reinterpret_cast<const char *>(n->name);
+					if (n_n == "function") {
+						func = find_function(n);
+					} else if (n_n == "parameters") {
+						for (xmlNode *fp=n->children; fp; fp=fp->next) {
+							if (fp->type != XML_ELEMENT_NODE) {
+								continue;
+							}
+							xmlNode *fp_e=fp->children;
+							for(; fp_e; fp_e=fp_e->next) {
+								if (fp_e->type == XML_ELEMENT_NODE) {
+									break;
+								}
+							}
+							strmap attr_fp_e;
+							get_attributes(fp_e, attr_fp_e);
+							IExpr *e = elaborate_expr(fp_e, attr_fp_e);
+							parameters.push_back(e);
+						}
+
+					} else {
+						fprintf(stdout, "Error: unknown call child %s\n", n_n.c_str());
+					}
+				}
+
+				IExecCallStmt *call = m_model->mkExecCallStmt(
+						0,
+						IExecCallStmt::AssignOp_None,
+						func,
+						parameters);
+				stmts.push_back(call);
 			} else {
 				fprintf(stdout, "Error: unsupported native-exec statement %s\n", cn_n.c_str());
 			}
@@ -643,6 +679,8 @@ IField *XML2PSI::elaborate_field(xmlNode *p, const strmap &attr) {
 	strmap::const_iterator q = attr.find("qualifier");
 
 	if (q != attr.end()) {
+		fprintf(stdout, "Qualifier: for field %s %s\n",
+				attr.at("name").c_str(), q->second.c_str());
 		if (q->second == "rand") {
 			field_attr = IField::FieldAttr_Rand;
 		} else if (q->second == "input") {
@@ -694,6 +732,8 @@ IField *XML2PSI::elaborate_field(xmlNode *p, const strmap &attr) {
 			}
 		}
 	}
+
+	fprintf(stdout, "Field: %s attr=%d\n", attr.at("name").c_str(), field_attr);
 
 	field = m_model->mkField(
 			attr.at("name"),
@@ -1201,6 +1241,76 @@ IField *XML2PSI::find_field(const std::string &name) {
 	IScopeItem *scope = dynamic_cast<IScopeItem *>(m_scope_stack.top().scope());
 
 	return scope->getField(name);
+}
+
+IImportFunc *XML2PSI::find_function(xmlNode *p) {
+	// TODO: need to look through imports (I assume)
+	IImportFunc *func = 0;
+
+	// Start at root
+	IScopeItem *s = 0;
+	for (xmlNode *c=p->children; c; c=c->next) {
+		if (c->type != XML_ELEMENT_NODE) {
+			continue;
+		}
+		std::string c_n = reinterpret_cast<const char *>(c->name);
+		fprintf(stdout, "c_n=%s\n", c_n.c_str());
+		if (c_n == "path") {
+			std::string path = reinterpret_cast<const char *>(
+					xmlNodeListGetString(c->doc, c->children, 1));
+
+			fprintf(stdout, "path=%s\n", path.c_str());
+
+			if (!s) {
+				// First element. Could be a global function, or this could be a component/package name
+
+				for (std::vector<IBaseItem *>::const_iterator
+						it=m_model->getGlobalPackage()->getItems().begin();
+						it!=m_model->getGlobalPackage()->getItems().end(); it++) {
+					INamedItem *ni = dynamic_cast<INamedItem *>(*it);
+					if (ni && ni->getName() == path) {
+						func = dynamic_cast<IImportFunc *>(*it);
+						s = dynamic_cast<IScopeItem *>(*it);
+
+						if (func || s) {
+							break;
+						}
+					}
+				}
+
+				if (!func && !s) {
+					// Perform the same search on top-level items
+					for (std::vector<IBaseItem *>::const_iterator
+							it=m_model->getItems().begin();
+							it!=m_model->getItems().end(); it++) {
+						INamedItem *ni = dynamic_cast<INamedItem *>(*it);
+						if (ni && ni->getName() == path) {
+							s = dynamic_cast<IScopeItem *>(*it);
+							break;
+						}
+					}
+				}
+			} else {
+				// Search inside
+				for (std::vector<IBaseItem *>::const_iterator
+						it=s->getItems().begin(); it!=s->getItems().end(); it++) {
+					INamedItem *ni = dynamic_cast<INamedItem *>(*it);
+
+					if (ni && ni->getName() == path) {
+						func = dynamic_cast<IImportFunc *>(*it);
+						s = dynamic_cast<IScopeItem *>(*it);
+						break;
+					}
+				}
+			}
+		} else {
+			fprintf(stdout, "Error: unknown function path-element %s\n", c_n.c_str());
+		}
+	}
+
+	fprintf(stdout, "func=%p\n", func);
+
+	return func;
 }
 
 

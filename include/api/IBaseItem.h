@@ -53,7 +53,7 @@ namespace psi_api {
 			TypeObject,
 			TypePackage,
 			TypeScalar,
-			TypeStruct,
+			TypeStruct, // 14
 			TypeSymbol,
 			TypeVendor
 		};
