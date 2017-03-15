@@ -1,5 +1,10 @@
 
 ---------------------------------------------------------------------
+-- 1.0.4 Release --
+
+- Continue separating public API from proof of concept implementation
+
+---------------------------------------------------------------------
 -- 1.0.3 Release --
 
 - Rename graph => activity
