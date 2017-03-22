@@ -27,20 +27,21 @@ PSS_SCHEMA_O=PSSModelXsd.o
 # PSI_SRC_DIR := $(shell cygpath -w $(PSI_SRC_DIR) | sed -e 's^\\^/^g')
 # endif
 
-LIB_TARGETS += $(LIBDIR)/libpsi.a $(LIBDIR)/libpsi_apps.a 
-EXE_TARGETS += $(BINDIR)/pssxml2xml$(EXEEXT) $(BINDIR)/validatepssxml$(EXEEXT)
+#LIB_TARGETS += $(LIBDIR)/libpsi.a $(LIBDIR)/libpsi_apps.a 
+LIB_TARGETS += $(LIBDIR)/libpsi.a
+#EXE_TARGETS += $(BINDIR)/pssxml2xml$(EXEEXT) $(BINDIR)/validatepssxml$(EXEEXT)
 # $(BUILDDIR)/libxml2.build
 
 PSI_API_HEADERS := $(notdir $(wildcard $(PSI_INCLUDE_DIR)/api/*.h))
-PSI_CL_HEADERS := $(notdir $(wildcard $(PSI_INCLUDE_DIR)/classlib/*.h))
+PSI_CL_HEADERS := $(notdir $(wildcard $(PSI_INCLUDE_DIR)/*.h))
 PSI_APPS_HEADERS := $(notdir $(wildcard $(PSI_CONTRIB_DIR)/apps/*.h))
 
-PSI_CL_SRC := $(notdir $(wildcard $(PSI_CONTRIB_DIR)/classlib_impl/*.cpp))
+PSI_CL_SRC := $(notdir $(wildcard $(PSI_CONTRIB_DIR)/vendor/*.cpp))
 PSI_APPS_SRC += $(notdir $(wildcard $(PSI_CONTRIB_DIR)/apps/*.cpp))
 PSI_APPS_SRC += PSSModel.cpp
 
 INST_TARGETS += $(foreach h,$(PSI_API_HEADERS),$(INCDIR)/api/$(h))
-INST_TARGETS += $(foreach h,$(PSI_CL_HEADERS),$(INCDIR)/classlib/$(h))
+INST_TARGETS += $(foreach h,$(PSI_CL_HEADERS),$(APIDIR)/$(h))
 INST_TARGETS += $(foreach h,$(PSI_APPS_HEADERS),$(INCDIR)/apps/$(h))
 INST_TARGETS += $(INCDIR)/pss.h $(INCDIR)/psi_api.h
 
@@ -69,6 +70,10 @@ $(INCDIR)/api/%.h : $(PSI_INCLUDE_DIR)/api/%.h
 $(INCDIR)/classlib/%.h : $(PSI_INCLUDE_DIR)/classlib/%.h
 	$(DO_INST)
 	
+$(APIDIR)/%.h : $(PSI_INCLUDE_DIR)/%.h
+	$(Q)if test ! -d `dirname $@`; then mkdir `dirname $@`; fi
+	$(Q)perl $(PSI_SCRIPTS_DIR)/cleanup.pl $^ $@
+	
 $(INCDIR)/apps/%.h : $(PSI_CONTRIB_DIR)/apps/%.h
 	$(DO_INST)
 
@@ -80,7 +85,7 @@ $(LIBDIR)/libpsi.a : $(foreach o,$(PSI_CL_SRC:.cpp=.o),$(PSI_BUILDDIR)/$(o))
 	$(MKDIRS)
 	$(MK_AR)
 	
-vpath %.cpp $(PSI_CONTRIB_DIR)/apps $(PSI_CONTRIB_DIR)/classlib_impl $(PSI_CONTRIB_DIR)/api_impl
+vpath %.cpp $(PSI_CONTRIB_DIR)/apps $(PSI_CONTRIB_DIR)/vendor $(PSI_CONTRIB_DIR)/api_impl
 
 $(PSI_BUILDDIR)/%.o : %.cpp
 	$(Q)if test ! -d $(PSI_BUILDDIR); then mkdir -p $(PSI_BUILDDIR); fi

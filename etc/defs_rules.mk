@@ -20,6 +20,7 @@ endif
 BINDIR := $(BUILDRESULT)/bin
 LIBDIR := $(BUILDRESULT)/lib
 INCDIR := $(BUILDRESULT)/include
+APIDIR := $(BUILDRESULT)/api
 
 define MKDIRS
 $(Q)if test ! -d $(BINDIR); then mkdir -p $(BINDIR); fi
