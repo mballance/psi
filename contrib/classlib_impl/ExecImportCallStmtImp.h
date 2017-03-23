@@ -25,8 +25,8 @@
 #ifndef CONTRIB_CLASSLIB_IMPL_EXECIMPORTCALLSTMTIMP_H_
 #define CONTRIB_CLASSLIB_IMPL_EXECIMPORTCALLSTMTIMP_H_
 
+#include "../../include/import_func.h"
 #include "ExecStmtImp.h"
-#include "classlib/import_func.h"
 #include "classlib/expr_list.h"
 #include "ImportFuncImp.h"
 

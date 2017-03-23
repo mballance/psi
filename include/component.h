@@ -27,15 +27,25 @@
 #define COMPONENT_H_
 #include <string>
 
-#include "classlib/scope.h"
+#include "scope.h"
+//<vendor>
+#include "vendor/component_impl.h"
+//</vendor>
 
 namespace pss {
 
-class component {
+class component : public vendor::component_impl {
 
 	public:
 
 		virtual ~component();
+
+#ifdef UNDEFINED
+		/*
+		 * Allows the component to be treated as a field for the purposes of bind
+		 */
+		operator attr_item &() const;
+#endif
 
 	protected:
 

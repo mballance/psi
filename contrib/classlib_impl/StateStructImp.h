@@ -28,7 +28,8 @@
 
 #include <string>
 #include <vector>
-#include "classlib/state_struct.h"
+
+#include "../../include/state_struct.h"
 #include "StructImp.h"
 
 namespace pss {

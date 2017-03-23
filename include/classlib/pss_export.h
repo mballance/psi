@@ -26,8 +26,8 @@
 #ifndef INCLUDED_EXPORT_H
 #define INCLUDED_EXPORT_H
 #include "classlib/export_item.h"
-#include "classlib/type_decl.h"
 #include "classlib/method_param_list.h"
+#include "sav/type_decl.h"
 
 namespace pss {
 

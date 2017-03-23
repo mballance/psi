@@ -24,7 +24,7 @@
 
 #ifndef INCLUDED_FOREACH_H
 #define INCLUDED_FOREACH_H
-#include "classlib/expr.h"
+#include "../prv/expr.h"
 
 
 namespace pss {

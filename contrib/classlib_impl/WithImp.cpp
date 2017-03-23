@@ -23,8 +23,8 @@
  *      Author: ballance
  */
 
+#include "../vendor/attr_item_impl.h"
 #include "With.h"
-#include "classlib/attr_item.h"
 #include "ExprCore.h"
 #include "ExprImp.h"
 

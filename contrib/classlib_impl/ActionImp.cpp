@@ -27,7 +27,8 @@
 
 #include "classlib/action.h"
 #include "ActionImp.h"
-#include "ModelImp.h"
+
+#include "../vendor/model_impl.h"
 #include "ComponentImp.h"
 #include "With.h"
 

@@ -26,7 +26,7 @@
 #ifndef INCLUDED_MEMORY_STRUCT_IMP_H
 #define INCLUDED_MEMORY_STRUCT_IMP_H
 
-#include "classlib/memory_struct.h"
+#include "../../include/memory_struct.h"
 #include "StructImp.h"
 
 namespace pss {

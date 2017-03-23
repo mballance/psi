@@ -28,9 +28,9 @@
 
 #include <string>
 
+#include "../pss_bit.h"
+#include "../pss_int.h"
 #include "classlib/attr_base.h"
-#include "classlib/pss_int.h"
-#include "classlib/pss_bit.h"
 
 namespace pss {
 

@@ -29,7 +29,7 @@
 
 namespace pss {
 
-template <class T> class share : public T {
+template <class T> class share : public vendor::share_impl<T> {
 public:
 
 	share(const std::string &name);

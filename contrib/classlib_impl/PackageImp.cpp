@@ -27,7 +27,7 @@
 #include <stdio.h>
 #include "PackageImp.h"
 
-#include "ModelImp.h"
+#include "../vendor/model_impl.h"
 #include "TypePathImp.h"
 
 namespace pss {

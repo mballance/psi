@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pss:model 
+  xmlns:pss="http://accellera.org/PSS"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://accellera.org/PSS PSSModel.xsd">
+    <pss:struct name="data_s" qualifier="memory">
+        <pss:field name="data" qualifier="rand">
+            <pss:type>
+                <pss:bit>
+                    <pss:msb>
+                        <pss:number>0x7</pss:number>
+                    </pss:msb>
+                    <pss:lsb>
+                        <pss:number>0x0</pss:number>
+                    </pss:lsb>
+                </pss:bit>
+            </pss:type>
+        </pss:field>
+        <pss:field name="address" qualifier="rand">
+            <pss:type>
+                <pss:bit>
+                    <pss:msb>
+                        <pss:number>0x1f</pss:number>
+                    </pss:msb>
+                    <pss:lsb>
+                        <pss:number>0x0</pss:number>
+                    </pss:lsb>
+                </pss:bit>
+            </pss:type>
+        </pss:field>
+        <pss:constraint>
+            <pss:stmt>
+                <pss:binexp op="AndAnd">
+                    <pss:lhs>
+                        <pss:binexp op="GE">
+                            <pss:lhs>
+                                <pss:ref>
+                                    <pss:path>address</pss:path>
+                                </pss:ref>
+                            </pss:lhs>
+                            <pss:rhs>
+                                <pss:number>0x1000</pss:number>
+                            </pss:rhs>
+                        </pss:binexp>
+                    </pss:lhs>
+                    <pss:rhs>
+                        <pss:binexp op="LE">
+                            <pss:lhs>
+                                <pss:ref>
+                                    <pss:path>address</pss:path>
+                                </pss:ref>
+                            </pss:lhs>
+                            <pss:rhs>
+                                <pss:number>0x1fff</pss:number>
+                            </pss:rhs>
+                        </pss:binexp>
+                    </pss:rhs>
+                </pss:binexp>
+            </pss:stmt>
+        </pss:constraint>
+    </pss:struct>
+    <pss:component name="rw_comp">
+        <pss:struct name="processor_s" qualifier="resource">
+            <pss:field name="instance_id" qualifier="rand">
+                <pss:type>
+                    <pss:bit>
+                        <pss:msb>
+                            <pss:number>0x1f</pss:number>
+                        </pss:msb>
+                        <pss:lsb>
+                            <pss:number>0x0</pss:number>
+                        </pss:lsb>
+                    </pss:bit>
+                </pss:type>
+            </pss:field>
+            <pss:constraint>
+                <pss:stmt>
+                    <pss:binexp op="EqEq">
+                        <pss:lhs>
+                            <pss:ref>
+                                <pss:path>instance_id</pss:path>
+                            </pss:ref>
+                        </pss:lhs>
+                        <pss:rhs>
+                            <pss:number>0x1</pss:number>
+                        </pss:rhs>
+                    </pss:binexp>
+                </pss:stmt>
+            </pss:constraint>
+        </pss:struct>
+        <pss:action name="write_data">
+            <pss:field name="out_data" qualifier="output">
+                <pss:type>
+                    <pss:user>
+                        <pss:path>data_s</pss:path>
+                    </pss:user>
+                </pss:type>
+            </pss:field>
+            <pss:field name="proc" qualifier="lock">
+                <pss:type>
+                    <pss:user>
+                        <pss:path>rw_comp</pss:path>
+                        <pss:path>processor_s</pss:path>
+                    </pss:user>
+                </pss:type>
+            </pss:field>
+        </pss:action>
+        <pss:action name="read_data">
+            <pss:field name="in_data" qualifier="input">
+                <pss:type>
+                    <pss:user>
+                        <pss:path>data_s</pss:path>
+                    </pss:user>
+                </pss:type>
+            </pss:field>
+            <pss:field name="proc" qualifier="lock">
+                <pss:type>
+                    <pss:user>
+                        <pss:path>rw_comp</pss:path>
+                        <pss:path>processor_s</pss:path>
+                    </pss:user>
+                </pss:type>
+            </pss:field>
+        </pss:action>
+    </pss:component>
+    <pss:component name="top_comp">
+        <pss:action name="my_test2">
+            <pss:field name="wd1">
+                <pss:type>
+                    <pss:user>
+                        <pss:path>rw_comp</pss:path>
+                        <pss:path>write_data</pss:path>
+                    </pss:user>
+                </pss:type>
+            </pss:field>
+            <pss:field name="rd1">
+                <pss:type>
+                    <pss:user>
+                        <pss:path>rw_comp</pss:path>
+                        <pss:path>read_data</pss:path>
+                    </pss:user>
+                </pss:type>
+            </pss:field>
+            <pss:field name="wd2">
+                <pss:type>
+                    <pss:user>
+                        <pss:path>rw_comp</pss:path>
+                        <pss:path>write_data</pss:path>
+                    </pss:user>
+                </pss:type>
+            </pss:field>
+            <pss:field name="rd2">
+                <pss:type>
+                    <pss:user>
+                        <pss:path>rw_comp</pss:path>
+                        <pss:path>read_data</pss:path>
+                    </pss:user>
+                </pss:type>
+            </pss:field>
+            <pss:constraint name="addr_c">
+                <pss:stmt>
+                    <pss:binexp op="NotEq">
+                        <pss:lhs>
+                            <pss:ref>
+                                <pss:path>rd1</pss:path>
+                                <pss:path>in_data</pss:path>
+                                <pss:path>address</pss:path>
+                            </pss:ref>
+                        </pss:lhs>
+                        <pss:rhs>
+                            <pss:ref>
+                                <pss:path>rd2</pss:path>
+                                <pss:path>in_data</pss:path>
+                                <pss:path>address</pss:path>
+                            </pss:ref>
+                        </pss:rhs>
+                    </pss:binexp>
+                </pss:stmt>
+            </pss:constraint>
+            <pss:activity>
+                <pss:traverse name="wd1"/>
+                <pss:traverse name="rd1"/>
+                <pss:traverse name="wd2"/>
+                <pss:traverse name="rd2"/>
+            </pss:activity>
+        </pss:action>
+    </pss:component>
+    <pss:package name="c_methods">
+        <pss:import_function name="do_write">
+            <pss:parameters>
+                <pss:parameter name="addr" dir="output">
+                    <pss:type>
+                        <pss:bit>
+                            <pss:msb>
+                                <pss:number>0x1f</pss:number>
+                            </pss:msb>
+                            <pss:lsb>
+                                <pss:number>0x0</pss:number>
+                            </pss:lsb>
+                        </pss:bit>
+                    </pss:type>
+                </pss:parameter>
+                <pss:parameter name="data" dir="output">
+                    <pss:type>
+                        <pss:bit>
+                            <pss:msb>
+                                <pss:number>0x1f</pss:number>
+                            </pss:msb>
+                            <pss:lsb>
+                                <pss:number>0x0</pss:number>
+                            </pss:lsb>
+                        </pss:bit>
+                    </pss:type>
+                </pss:parameter>
+            </pss:parameters>
+        </pss:import_function>
+        <pss:import_function name="do_check">
+            <pss:parameters>
+                <pss:parameter name="addr" dir="output">
+                    <pss:type>
+                        <pss:bit>
+                            <pss:msb>
+                                <pss:number>0x1f</pss:number>
+                            </pss:msb>
+                            <pss:lsb>
+                                <pss:number>0x0</pss:number>
+                            </pss:lsb>
+                        </pss:bit>
+                    </pss:type>
+                </pss:parameter>
+                <pss:parameter name="data" dir="output">
+                    <pss:type>
+                        <pss:bit>
+                            <pss:msb>
+                                <pss:number>0x1f</pss:number>
+                            </pss:msb>
+                            <pss:lsb>
+                                <pss:number>0x0</pss:number>
+                            </pss:lsb>
+                        </pss:bit>
+                    </pss:type>
+                </pss:parameter>
+            </pss:parameters>
+        </pss:import_function>
+    </pss:package>
+    <pss:package name="c_code">
+        <pss:extend>
+            <pss:type>
+                <pss:path>rw_comp</pss:path>
+                <pss:path>write_data</pss:path>
+            </pss:type>
+            <pss:action>
+                <pss:exec>
+                    <pss:code_block kind="body" language="C">
+                        
+				do_write({{address}}, {{data}}
+				
+                    </pss:code_block>
+                </pss:exec>
+                <pss:exec>
+                    <pss:block kind="body">
+                        <pss:call>
+                            <pss:function>
+                                <pss:path>c_methods</pss:path>
+                                <pss:path>do_write</pss:path>
+                            </pss:function>
+                            <pss:parameters>
+                                <pss:parameter>
+                                    <pss:ref>
+                                        <pss:path>out_data</pss:path>
+                                        <pss:path>address</pss:path>
+                                    </pss:ref>
+                                </pss:parameter>
+                                <pss:parameter>
+                                    <pss:ref>
+                                        <pss:path>out_data</pss:path>
+                                        <pss:path>data</pss:path>
+                                    </pss:ref>
+                                </pss:parameter>
+                            </pss:parameters>
+                        </pss:call>
+                    </pss:block>
+                </pss:exec>
+            </pss:action>
+        </pss:extend>
+        <pss:extend>
+            <pss:type>
+                <pss:path>rw_comp</pss:path>
+                <pss:path>read_data</pss:path>
+            </pss:type>
+            <pss:action>
+                <pss:field name="tmp" qualifier="rand">
+                    <pss:type>
+                        <pss:bit>
+                            <pss:msb>
+                                <pss:number>0x3</pss:number>
+                            </pss:msb>
+                            <pss:lsb>
+                                <pss:number>0x0</pss:number>
+                            </pss:lsb>
+                        </pss:bit>
+                    </pss:type>
+                </pss:field>
+                <pss:exec>
+                    <pss:block kind="body">
+                        <pss:call>
+                            <pss:function>
+                                <pss:path>c_methods</pss:path>
+                                <pss:path>do_check</pss:path>
+                            </pss:function>
+                            <pss:parameters>
+                                <pss:parameter>
+                                    <pss:ref>
+                                        <pss:path>in_data</pss:path>
+                                        <pss:path>address</pss:path>
+                                    </pss:ref>
+                                </pss:parameter>
+                                <pss:parameter>
+                                    <pss:ref>
+                                        <pss:path>in_data</pss:path>
+                                        <pss:path>data</pss:path>
+                                    </pss:ref>
+                                </pss:parameter>
+                            </pss:parameters>
+                        </pss:call>
+                    </pss:block>
+                </pss:exec>
+            </pss:action>
+        </pss:extend>
+    </pss:package>
+</pss:model>

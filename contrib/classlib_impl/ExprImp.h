@@ -26,7 +26,7 @@
 #ifndef INCLUDED_EXPR_IMP_H
 #define INCLUDED_EXPR_IMP_H
 
-#include "classlib/expr.h"
+#include "../../include/prv/expr.h"
 #include "SharedPtr.h"
 
 namespace pss {

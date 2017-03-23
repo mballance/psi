@@ -23,7 +23,7 @@
  *      Author: ballance
  */
 
-#include "classlib/sequence.h"
+#include "../../include/sequence.h"
 
 namespace pss {
 

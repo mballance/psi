@@ -28,7 +28,7 @@
 #include <string>
 
 #include "classlib/attr_base.h"
-#include "classlib/type_decl.h"
+#include "sav/type_decl.h"
 
 namespace pss {
 

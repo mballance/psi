@@ -26,11 +26,17 @@
 #ifndef INCLUDED_INPUT_H
 #define INCLUDED_INPUT_H
 #include <string>
+#include "prv/attr_item.h"
+#include "scope.h"
+#include "pss_bit.h"
+#include "pss_int.h"
 
 namespace pss {
 
+using namespace prv;
+
 class action;
-template <class T> class input : public T {
+template <class T> class input : public vendor::input_impl<T> {
 
 public:
 	/**
@@ -38,82 +44,69 @@ public:
 	 */
 	input(const std::string &name);
 
-	virtual ~input() { }
+	virtual ~input();
 
 };
 
 template <> class input<pss_bit> : public attr_item {
 public:
-	input(const scope &name) :
-		attr_item(name, attr_item::AttrInput, pss_bit(), 0) { }
+	input(const scope &name);
 
-	input(const scope &name, const pss_bit &t_decl) :
-		attr_item(name, attr_item::AttrInput, t_decl, 0) { }
+	input(const scope &name, const pss_bit &t_decl);
 
-	input(const scope &name, uint32_t w) :
-		attr_item(name, attr_item::AttrInput, pss_bit(w), 0) { }
+	input(const scope &name, uint32_t w);
 
 };
 
 template <> class input<pss_int> : public attr_item {
 public:
-	input(const scope &name) :
-		attr_item(name, attr_item::AttrInput, pss_int(), 0) { }
+	input(const scope &name);
 
-	input(const scope &name, const pss_int &t_decl) :
-		attr_item(name, attr_item::AttrInput, t_decl, 0) { }
+	input(const scope &name, const pss_int &t_decl);
 
-	input(const scope &name, uint32_t w) :
-		attr_item(name, attr_item::AttrInput, pss_int(w), 0) { }
+	input(const scope &name, uint32_t w);
 
 };
 
 template <> class input<unsigned int> : public attr_item {
 public:
-	input(const scope &name) :
-		attr_item(name, attr_item::AttrInput, pss_bit(32), 0) { }
+	input(const scope &name);
 
 };
 
 template <> class input<int> : public attr_item {
 public:
-	input(const scope &name) :
-		attr_item(name, attr_item::AttrInput, pss_int(32), 0) { }
+	input(const scope &name);
 
 };
 
 template <> class input<unsigned short> : public attr_item {
 public:
-	input(const scope &name) :
-		attr_item(name, attr_item::AttrInput, pss_bit(16), 0) { }
+	input(const scope &name);
 
 };
 
 template <> class input<short> : public attr_item {
 public:
-	input(const scope &name) :
-		attr_item(name, attr_item::AttrInput, pss_int(16), 0) { }
+	input(const scope &name);
 
 };
 
 template <> class input<unsigned char> : public attr_item {
 public:
-	input(const scope &name) :
-		attr_item(name, attr_item::AttrInput, pss_bit(8), 0) { }
+	input(const scope &name);
 
 };
 
 template <> class input<char> : public attr_item {
 public:
-	input(const scope &name) :
-		attr_item(name, attr_item::AttrInput, pss_int(8), 0) { }
+	input(const scope &name);
 
 };
 
 template <> class input<bool> : public attr_item {
 public:
-	input(const scope &name) :
-		attr_item(name, attr_item::AttrInput, pss_bool(), 0) { }
+	input(const scope &name);
 
 };
 

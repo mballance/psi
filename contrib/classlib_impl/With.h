@@ -25,7 +25,7 @@
 #ifndef INCLUDED_WITH_H
 #define INCLUDED_WITH_H
 
-#include "classlib/expr.h"
+#include "../../include/prv/expr.h"
 
 namespace pss {
 

@@ -26,7 +26,7 @@
 #ifndef INCLUDED_GRAPH_H
 #define INCLUDED_GRAPH_H
 #include <vector>
-#include "activity_stmt.h"
+#include "prv/activity_stmt.h"
 
 namespace pss {
 
@@ -34,9 +34,9 @@ class activity {
 
 	public:
 
-		template<typename... I> activity(const I&... /* activity_stmt */ stmts);
+		template<typename... I> activity(const I&... /* prv::activity_stmt */ stmts);
 
-		activity(const std::vector<activity_stmt> &stmts);
+		activity(const std::vector<prv::activity_stmt> &stmts);
 
 		virtual ~activity();
 

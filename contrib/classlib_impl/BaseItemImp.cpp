@@ -26,10 +26,9 @@
 #include "BaseItemImp.h"
 #include "NamedBaseItemImp.h"
 #include "ExprCore.h"
-#include "ModelImp.h"
-
 #include <stdio.h>
 
+#include "../vendor/model_impl.h"
 #include "ExprListBuilderImp.h"
 
 namespace pss {

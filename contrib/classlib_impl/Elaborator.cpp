@@ -31,12 +31,12 @@
 #include "ImportFuncImp.h"
 #include "IntTypeImp.h"
 #include "BoolImp.h"
-#include "ModelImp.h"
 #include "ExecStmtListImp.h"
 #include "ExecStmtImp.h"
 #include <stdio.h>
 #include <stdarg.h>
 
+#include "../vendor/model_impl.h"
 #include "ExprCoreList.h"
 #include "ExprImp.h"
 #include "InlineExecClosure.h"

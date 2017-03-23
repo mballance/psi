@@ -26,8 +26,9 @@
 #ifndef INCLUDED_METHOD_PARAM_LIST_H
 #define INCLUDED_METHOD_PARAM_LIST_H
 #include <vector>
+
+#include "../../contrib/vendor/attr_item_impl.h"
 #include "classlib/pss_types.h"
-#include "classlib/attr_item.h"
 
 namespace pss {
 

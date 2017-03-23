@@ -23,7 +23,7 @@
  *      Author: ballance
  */
 
-#include "classlib/pss_select.h"
+#include "../../include/pss_select.h"
 #include "ExprImp.h"
 #include "ExprCore.h"
 

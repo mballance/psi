@@ -28,9 +28,9 @@
 
 #include <string>
 
+#include "../../include/package.h"
 #include "NamedBaseItemImp.h"
 #include "ScopeImp.h"
-#include "classlib/package.h"
 
 namespace pss {
 

@@ -24,8 +24,8 @@
 
 #ifndef INCLUDED_REPEAT_H
 #define INCLUDED_REPEAT_H
+#include "../prv/expr.h"
 #include "classlib/pss_types.h"
-#include "classlib/expr.h"
 #include "classlib/expr_list.h"
 #include "classlib/expr_list_builder.h"
 

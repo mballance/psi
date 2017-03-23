@@ -1,5 +1,5 @@
 /*
- * ModelImp.cpp
+ * model_impl.cpp
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -23,38 +23,34 @@
  *      Author: ballance
  */
 
-#include "ModelImp.h"
-#include "ScopeImp.h"
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 // TODO: header file is GCC-specific
 #include <cxxabi.h>
+#include "model_impl.h"
+#include "scope.h"
 
 namespace pss {
+namespace vendor {
 
-Model::Model(ModelImp *imp) : base_item(imp) {
-
+model_impl::model_impl() : base_item(base_item::Model, 0) {
+	m_scopes.push_back(this);
+	m_scope.push_back(new scope(this));
 }
 
-ModelImp::ModelImp() : BaseItemImp(new pss::Model(this), BaseItemImp::Model, 0) {
-	m_scopes.push_back(master());
-	m_scope.push_back(new ScopeImp(master()));
-}
-
-ModelImp::~ModelImp() {
+model_impl::~model_impl() {
 	// TODO Auto-generated destructor stub
 }
 
-ModelImp *ModelImp::global() {
+model_impl *model_impl::global() {
 	if (!m_global) {
-		m_global = new ModelImp();
+		m_global = new model_impl();
 	}
 	return m_global;
 }
 
-void ModelImp::push_scope(const ScopeImp *p) {
+void model_impl::push_scope(const scope_impl *p) {
 	m_scope.push_back(p);
 	m_scopes.push_back(p->ctxt());
 
@@ -78,52 +74,52 @@ void ModelImp::push_scope(const ScopeImp *p) {
 	}
 }
 
-void ModelImp::pop_scope(const ScopeImp *p) {
+void model_impl::pop_scope(const scope_impl *p) {
 	// pss_if the last element is 'p', then pop until
 	// we exit that hierarchy
 	if (m_scope.size() > 0) {
 		m_scope.pop_back();
 		m_scopes.pop_back();
 	} else {
-		fprintf(stdout, "Error: attempting to pop scope from empty stack\n");
+		fprintf(stdout, "Error: attempting to pop scope_impl from empty stack\n");
 	}
 }
 
-const std::vector<const ScopeImp *> &ModelImp::get_scope() const {
+const std::vector<const scope_impl *> &model_impl::get_scope() const {
 	return m_scope;
 }
 
-const std::vector<base_item *> &ModelImp::get_scopes() const {
+const std::vector<base_item *> &model_impl::get_scopes() const {
 	return m_scopes;
 }
 
-uint32_t ModelImp::depth() const {
+uint32_t model_impl::depth() const {
 	return m_scope.size();
 }
 
-TypePathImp ModelImp::getActiveTypeName(base_item *it) {
-	const ScopeImp *scope = 0;
+type_path model_impl::getActiveTypeName(base_item *it) {
+	const scope_impl *scope_impl = 0;
 	for (int i=m_scope.size()-1; i>=0; i--) {
 		if (m_scope.at(i)->ctxt() == it) {
-			scope = m_scope.at(i);
+			scope_impl = m_scope.at(i);
 		} else {
 			break;
 		}
 	}
 
-	if (scope) {
-		TypePathImp ret = ModelImp::demangle(scope);
+	if (scope_impl) {
+		type_path ret = model_impl::demangle(scope_impl);
 		return ret;
 	} else {
-		fprintf(stdout, "getActiveTypeName: failed to find scope %p\n", it);
+		fprintf(stdout, "getActiveTypeName: failed to find scope_impl %p\n", it);
 		for (uint32_t i=0; i<m_scope.size(); i++) {
-			fprintf(stdout, "    scope[%d]=%p\n", i, m_scope.at(i)->ctxt());
+			fprintf(stdout, "    scope_impl[%d]=%p\n", i, m_scope.at(i)->ctxt());
 		}
-		return TypePathImp();
+		return type_path();
 	}
 }
 
-BaseItemImp *ModelImp::getActiveType(base_item *it) {
+base_item *model_impl::getActiveType(base_item *it) {
 	base_item *ret = 0;
 //	fprintf(stdout, "getActiveType: it=%p\n", it);
 //	print_scopes();
@@ -135,10 +131,10 @@ BaseItemImp *ModelImp::getActiveType(base_item *it) {
 		}
 	}
 
-	return (ret)?ret->impl():0;
+	return ret;
 }
 
-TypePathImp ModelImp::getSuperType() {
+type_path model_impl::getSuperType() {
 	if (m_scope.size() > 0) {
 		base_item *s = m_scope.at(m_scope.size()-1)->ctxt();
 		int32_t i=m_scope.size()-1;
@@ -154,17 +150,17 @@ TypePathImp ModelImp::getSuperType() {
 
 		// i now points where the user's type started
 		if (i >= 0 && i+1 < m_scope.size()) {
-			TypePathImp super = ModelImp::demangle(m_scope.at(i+1));
+			type_path super = model_impl::demangle(m_scope.at(i+1));
 			return super;
 		} else {
-			return TypePathImp();
+			return type_path();
 		}
 	} else {
-		return TypePathImp();
+		return type_path();
 	}
 }
 
-base_item *ModelImp::getParentScope() {
+base_item *model_impl::getParentScope() {
 	base_item *p = 0;
 
 	if (m_scopes.size() > 0) {
@@ -181,11 +177,11 @@ base_item *ModelImp::getParentScope() {
 	return p;
 }
 
-bool ModelImp::isField() {
+bool model_impl::isField() {
 	return is_field();
 }
 
-bool ModelImp::isType() {
+bool model_impl::isType() {
 	bool ret = false;
 
 	if (m_scopes.size() > 0) {
@@ -202,7 +198,7 @@ bool ModelImp::isType() {
 	return ret;
 }
 
-bool ModelImp::isParentField() {
+bool model_impl::isParentField() {
 	bool ret = false;
 
 	if (m_scopes.size() > 0) {
@@ -219,7 +215,7 @@ bool ModelImp::isParentField() {
 	return ret;
 }
 
-base_item *ModelImp::getActiveScope() {
+base_item *model_impl::getActiveScope() {
 	// Search back until we find something different than 'us'
 	base_item *curr = (m_scopes.size())?m_scopes.at(m_scopes.size()-1):0;
 
@@ -231,16 +227,16 @@ base_item *ModelImp::getActiveScope() {
 	}
 
 	if (!curr) {
-		return ModelImp::global()->master();
+		return model_impl::global();
 	} else {
 		return curr;
 	}
 }
 
-const char *ModelImp::get_field_name() {
+const char *model_impl::get_field_name() {
 	const char *ret = 0;
 
-	// Just pick the last scope that specified a name
+	// Just pick the last scope_impl that specified a name
 	for (int i=m_scope.size()-1; i>=0; i--) {
 		if (m_scope.at(i)->is_field()) {
 			ret = m_scope.at(i)->scope_name();
@@ -255,7 +251,7 @@ const char *ModelImp::get_field_name() {
 	return ret;
 }
 
-bool ModelImp::is_field() const {
+bool model_impl::is_field() const {
 	for (int i=m_scope.size()-1; i>=0; i--) {
 		if (m_scope.at(i)->is_field()) {
 			return true;
@@ -265,8 +261,8 @@ bool ModelImp::is_field() const {
 	return false;
 }
 
-TypePathImp ModelImp::demangle(const ScopeImp *s) {
-	TypePathImp name;
+type_path model_impl::demangle(const scope_impl *s) {
+	type_path name;
 	const std::type_info *info = s->get_typeinfo();
 
     char *n = abi::__cxa_demangle(info->name(), 0, 0, 0);
@@ -312,18 +308,18 @@ TypePathImp ModelImp::demangle(const ScopeImp *s) {
     return name;
 }
 
-base_item *ModelImp::pOrGlobal(base_item *p) {
-	return (p)?p:ModelImp::global()->master();
+base_item *model_impl::pOrGlobal(base_item *p) {
+	return (p)?p:model_impl::global();
 }
 
-void ModelImp::print_scopes() {
-	ModelImp *m = ModelImp::global();
+void model_impl::print_scopes() {
+	model_impl *m = model_impl::global();
 
 	fprintf(stdout, "--> print_scopes()\n");
 	for (int32_t i=m->m_scope.size()-1; i>=0; i--) {
-		const ScopeImp *s = m->m_scope.at(i);
+		const scope_impl *s = m->m_scope.at(i);
 		base_item *b = m->m_scopes.at(i);
-		fprintf(stdout, "  scope=%p name=%s type_name=%s is_field=%s is_type=%s ctxt=%p\n",
+		fprintf(stdout, "  scope_impl=%p name=%s type_name=%s is_field=%s is_type=%s ctxt=%p\n",
 				b, s->scope_name(),
 				(s->get_typeinfo())?s->get_typeinfo()->name():"NULL",
 				(s->is_field())?"true":"false",
@@ -333,6 +329,7 @@ void ModelImp::print_scopes() {
 	fprintf(stdout, "<-- print_scopes()\n");
 }
 
-ModelImp *ModelImp::m_global = 0;
+model_impl *model_impl::m_global = 0;
 
+} /* namespace vendor */
 } /* namespace pss */

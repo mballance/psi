@@ -27,7 +27,7 @@
 #define INCLUDED_RESOURCE_STRUCT_IMP_H
 #include <string>
 
-#include "classlib/resource_struct.h"
+#include "../../include/resource_struct.h"
 #include "StructImp.h"
 
 namespace pss {

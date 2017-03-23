@@ -23,7 +23,7 @@
  *      Author: ballance
  */
 
-#include "classlib/schedule.h"
+#include "../../include/schedule.h"
 #include "ExprImp.h"
 #include "ExprCore.h"
 

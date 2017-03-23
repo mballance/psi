@@ -26,7 +26,8 @@
 #ifndef INCLUDED_FIELD_ITEM_IMP_H
 #define INCLUDED_FIELD_ITEM_IMP_H
 #include <string>
-#include "classlib/attr_item.h"
+
+#include "../vendor/attr_item_impl.h"
 #include "ExprImp.h"
 #include "NamedBaseItemImp.h"
 #include "classlib/method_param_list.h"

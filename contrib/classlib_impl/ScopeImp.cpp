@@ -23,9 +23,10 @@
  *      Author: ballance
  */
 
-#include "ModelImp.h"
 #include "ScopeImp.h"
 #include <stdio.h>
+
+#include "../vendor/model_impl.h"
 
 namespace pss {
 

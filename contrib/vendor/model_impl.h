@@ -1,5 +1,5 @@
 /*
- * ModelImp.h
+ * model_impl.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -28,46 +28,42 @@
 #include <string>
 #include <vector>
 
-#include "BaseItemImp.h"
-#include "TypePathImp.h"
+#include "base_item.h"
+#include "base_item.h"
+#include "type_path.h"
 
 namespace pss {
+namespace vendor {
 
-class ModelImp;
-class Model : public base_item {
-public:
+class model_impl;
+class base_item;
+class scope_impl;
 
-	Model(ModelImp *imp);
-
-};
-
-class PackageImpl;
-class ScopeImp;
-class ModelImp : public BaseItemImp {
+class model_impl : public base_item {
 	friend class PackageImpl;
 
 	public:
-		ModelImp();
+		model_impl();
 
-		virtual ~ModelImp();
+		virtual ~model_impl();
 
-		static ModelImp *global();
+		static model_impl *global();
 
-		void push_scope(const ScopeImp *p);
+		void push_scope(const scope_impl *p);
 
-		void pop_scope(const ScopeImp *p);
+		void pop_scope(const scope_impl *p);
 
-		const std::vector<const ScopeImp *> &get_scope() const;
+		const std::vector<const scope_impl *> &get_scope() const;
 
 		const std::vector<base_item *> &get_scopes() const;
 
 		uint32_t depth() const;
 
-		TypePathImp getActiveTypeName(base_item *it);
+		type_path getActiveTypeName(base_item *it);
 
-		BaseItemImp *getActiveType(base_item *it);
+		base_item *getActiveType(base_item *it);
 
-		TypePathImp getSuperType();
+		type_path getSuperType();
 
 		base_item *getParentScope();
 
@@ -83,22 +79,23 @@ class ModelImp : public BaseItemImp {
 
 		bool is_field() const;
 
-		static TypePathImp demangle(const ScopeImp *s);
+		static type_path demangle(const scope_impl *s);
 
 		static base_item *pOrGlobal(base_item *p);
 
 		static void print_scopes();
 
 	private:
-		std::vector<const ScopeImp *>		m_scope;
-		std::vector<base_item *>				m_scopes;
-		std::string							m_tmpname;
+		std::vector<const scope_impl *>	m_scope;
+		std::vector<base_item *>		m_scopes;
+		std::string						m_tmpname;
 
-		static ModelImp					*m_global;
+		static model_impl				*m_global;
 
 };
 
 
+} /* namespace vendor */
 } /* namespace pss */
 
 

@@ -28,12 +28,12 @@
 
 namespace pss {
 
-template <class T> class lock : public T {
+template <class T> class lock : public vendor::lock_impl<T> {
 
 	public:
 		lock(const std::string &name);
 
-		virtual ~lock() { }
+		virtual ~lock();
 };
 
 } /* namespace pss */

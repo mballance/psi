@@ -24,9 +24,9 @@
 
 #ifndef CONTRIB_CLASSLIB_IMPL_EXECSTMTIMP_H_
 #define CONTRIB_CLASSLIB_IMPL_EXECSTMTIMP_H_
+#include "../../include/prv/expr.h"
+#include "../vendor/attr_item_impl.h"
 #include "classlib/exec_stmt.h"
-#include "classlib/attr_item.h"
-#include "classlib/expr.h"
 
 namespace pss {
 

@@ -33,7 +33,7 @@
 
 namespace pss {
 
-class scope : public pss::vendor::scope_impl {
+class scope : public vendor::scope_impl {
 public:
 	template <class T> scope(T *t);
 

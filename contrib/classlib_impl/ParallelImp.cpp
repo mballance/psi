@@ -23,7 +23,7 @@
  *      Author: ballance
  */
 
-#include "classlib/parallel.h"
+#include "../../include/parallel.h"
 #include "classlib/expr_list.h"
 #include "ExprImp.h"
 #include "ExprCore.h"

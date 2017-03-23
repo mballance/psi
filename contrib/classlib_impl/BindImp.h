@@ -26,8 +26,9 @@
 #define INCLUDED_BIND_IMP_H
 #include <vector>
 #include <functional>
+
+#include "../../include/bind.h"
 #include "BaseItemImp.h"
-#include "classlib/bind.h"
 
 namespace pss {
 

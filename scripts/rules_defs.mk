@@ -34,14 +34,16 @@ LIB_TARGETS += $(LIBDIR)/libpsi.a
 
 PSI_API_HEADERS := $(notdir $(wildcard $(PSI_INCLUDE_DIR)/api/*.h))
 PSI_CL_HEADERS := $(notdir $(wildcard $(PSI_INCLUDE_DIR)/*.h))
+PSI_CL_PRV_HEADERS := $(notdir $(wildcard $(PSI_INCLUDE_DIR)/prv/*.h))
 PSI_APPS_HEADERS := $(notdir $(wildcard $(PSI_CONTRIB_DIR)/apps/*.h))
 
-PSI_CL_SRC := $(notdir $(wildcard $(PSI_CONTRIB_DIR)/vendor/*.cpp))
+#PSI_CL_SRC := $(notdir $(wildcard $(PSI_CONTRIB_DIR)/vendor/*.cpp))
 PSI_APPS_SRC += $(notdir $(wildcard $(PSI_CONTRIB_DIR)/apps/*.cpp))
 PSI_APPS_SRC += PSSModel.cpp
 
 INST_TARGETS += $(foreach h,$(PSI_API_HEADERS),$(INCDIR)/api/$(h))
 INST_TARGETS += $(foreach h,$(PSI_CL_HEADERS),$(APIDIR)/$(h))
+INST_TARGETS += $(foreach h,$(PSI_CL_PRV_HEADERS),$(APIDIR)/prv/$(h))
 INST_TARGETS += $(foreach h,$(PSI_APPS_HEADERS),$(INCDIR)/apps/$(h))
 INST_TARGETS += $(INCDIR)/pss.h $(INCDIR)/psi_api.h
 
@@ -71,6 +73,10 @@ $(INCDIR)/classlib/%.h : $(PSI_INCLUDE_DIR)/classlib/%.h
 	$(DO_INST)
 	
 $(APIDIR)/%.h : $(PSI_INCLUDE_DIR)/%.h
+	$(Q)if test ! -d `dirname $@`; then mkdir `dirname $@`; fi
+	$(Q)perl $(PSI_SCRIPTS_DIR)/cleanup.pl $^ $@
+
+$(APIDIR)/prv/%.h : $(PSI_INCLUDE_DIR)/prv/%.h
 	$(Q)if test ! -d `dirname $@`; then mkdir `dirname $@`; fi
 	$(Q)perl $(PSI_SCRIPTS_DIR)/cleanup.pl $^ $@
 	

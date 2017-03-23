@@ -23,9 +23,10 @@
  */
 
 #include "ComponentImp.h"
+
+#include "../vendor/attr_item_impl.h"
+#include "../vendor/model_impl.h"
 #include "ScopeImp.h"
-#include "ModelImp.h"
-#include "classlib/attr_item.h"
 #include "FieldItemImp.h"
 
 namespace pss {

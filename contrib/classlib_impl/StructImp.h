@@ -28,7 +28,7 @@
 #define INCLUDED_STRUCT_IMP_H
 #include <string>
 
-#include "classlib/pss_struct.h"
+#include "../../include/pss_struct.h"
 #include "NamedBaseItemImp.h"
 #include "TypePathImp.h"
 #include "FieldItemImp.h"

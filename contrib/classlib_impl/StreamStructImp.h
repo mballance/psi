@@ -25,7 +25,7 @@
 
 #ifndef INCLUDED_STREAM_STRUCT_IMP_H
 #define INCLUDED_STREAM_STRUCT_IMP_H
-#include "classlib/stream_struct.h"
+#include "../../include/stream_struct.h"
 #include "StructImp.h"
 
 namespace pss {

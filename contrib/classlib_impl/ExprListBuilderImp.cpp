@@ -25,8 +25,9 @@
 
 #include "ExprListBuilderImp.h"
 #include "classlib/expr_list_builder.h"
-#include "classlib/expr.h"
 #include <stdio.h>
+
+#include "../../include/prv/expr.h"
 #include "ExprCore.h"
 
 namespace pss {

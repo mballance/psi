@@ -24,9 +24,10 @@
  */
 
 #include "StructImp.h"
-#include "ModelImp.h"
+
+#include "../../include/prv/expr.h"
+#include "../vendor/model_impl.h"
 #include "ScopeImp.h"
-#include "classlib/expr.h"
 
 namespace pss {
 

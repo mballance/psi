@@ -25,8 +25,8 @@
 #ifndef CONTRIB_CLASSLIB_IMPL_EXECASSIGNSTMTIMP_H_
 #define CONTRIB_CLASSLIB_IMPL_EXECASSIGNSTMTIMP_H_
 
+#include "../../include/prv/expr.h"
 #include "ExecStmtImp.h"
-#include "classlib/expr.h"
 
 namespace pss {
 

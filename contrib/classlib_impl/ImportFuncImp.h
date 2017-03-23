@@ -27,7 +27,7 @@
 #define INCLUDED_IMPORT_IMP_H
 #include <string>
 
-#include "classlib/import_func.h"
+#include "../../include/import_func.h"
 #include "NamedBaseItemImp.h"
 #include "MethodParamListImp.h"
 

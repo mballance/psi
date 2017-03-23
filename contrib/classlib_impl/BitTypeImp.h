@@ -29,7 +29,7 @@
 #include <stdint.h>
 #include <string>
 
-#include "classlib/bit_type.h"
+#include "../../include/classlib/sav/bit_type.h"
 #include "NamedBaseItemImp.h"
 #include "api/IField.h"
 #include "InlineExecUtil.h"

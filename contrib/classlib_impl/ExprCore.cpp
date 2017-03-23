@@ -23,7 +23,8 @@
  *      Author: ballance
  */
 #include "ExprCore.h"
-#include "classlib/import_func.h"
+
+#include "../../include/import_func.h"
 
 namespace pss {
 

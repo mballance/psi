@@ -22,9 +22,9 @@
  */
 #ifndef INCLUDED_FIELD_BASE_H
 #define INCLUDED_FIELD_BASE_H
-#include "classlib/attr_item.h"
+#include "../../contrib/vendor/attr_item_impl.h"
 #include "classlib/method_param_list.h"
-#include "classlib/type_decl.h"
+#include "sav/type_decl.h"
 
 namespace pss {
 

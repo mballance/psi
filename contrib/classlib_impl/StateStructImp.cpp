@@ -25,8 +25,8 @@
 
 #include "StateStructImp.h"
 
+#include "../vendor/model_impl.h"
 #include "NamedBaseItemImp.h"
-#include "ModelImp.h"
 #include "ScopeImp.h"
 
 namespace pss {

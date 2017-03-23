@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pss:model 
+  xmlns:pss="http://accellera.org/PSS"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://accellera.org/PSS PSSModel.xsd">
+    <pss:struct name="my_struct">
+        <pss:field name="addr" qualifier="rand">
+            <pss:type>
+                <pss:bit>
+                    <pss:msb>
+                        <pss:number>0x1f</pss:number>
+                    </pss:msb>
+                    <pss:lsb>
+                        <pss:number>0x0</pss:number>
+                    </pss:lsb>
+                </pss:bit>
+            </pss:type>
+        </pss:field>
+        <pss:field name="data" qualifier="rand">
+            <pss:type>
+                <pss:bit>
+                    <pss:msb>
+                        <pss:number>0x1f</pss:number>
+                    </pss:msb>
+                    <pss:lsb>
+                        <pss:number>0x0</pss:number>
+                    </pss:lsb>
+                </pss:bit>
+            </pss:type>
+        </pss:field>
+        <pss:constraint name="c">
+            <pss:implies>
+                <pss:cond>
+                    <pss:binexp op="EqEq">
+                        <pss:lhs>
+                            <pss:ref>
+                                <pss:path>addr</pss:path>
+                            </pss:ref>
+                        </pss:lhs>
+                        <pss:rhs>
+                            <pss:number>0x5</pss:number>
+                        </pss:rhs>
+                    </pss:binexp>
+                </pss:cond>
+                <pss:body>
+                    <pss:stmt>
+                        <pss:binexp op="EqEq">
+                            <pss:lhs>
+                                <pss:ref>
+                                    <pss:path>data</pss:path>
+                                </pss:ref>
+                            </pss:lhs>
+                            <pss:rhs>
+                                <pss:number>0x2</pss:number>
+                            </pss:rhs>
+                        </pss:binexp>
+                    </pss:stmt>
+                </pss:body>
+            </pss:implies>
+            <pss:implies>
+                <pss:cond>
+                    <pss:binexp op="EqEq">
+                        <pss:lhs>
+                            <pss:ref>
+                                <pss:path>addr</pss:path>
+                            </pss:ref>
+                        </pss:lhs>
+                        <pss:rhs>
+                            <pss:number>0x7</pss:number>
+                        </pss:rhs>
+                    </pss:binexp>
+                </pss:cond>
+                <pss:body>
+                    <pss:stmt>
+                        <pss:binexp op="AndAnd">
+                            <pss:lhs>
+                                <pss:binexp op="GE">
+                                    <pss:lhs>
+                                        <pss:ref>
+                                            <pss:path>data</pss:path>
+                                        </pss:ref>
+                                    </pss:lhs>
+                                    <pss:rhs>
+                                        <pss:number>0x0</pss:number>
+                                    </pss:rhs>
+                                </pss:binexp>
+                            </pss:lhs>
+                            <pss:rhs>
+                                <pss:binexp op="LE">
+                                    <pss:lhs>
+                                        <pss:ref>
+                                            <pss:path>data</pss:path>
+                                        </pss:ref>
+                                    </pss:lhs>
+                                    <pss:rhs>
+                                        <pss:number>0x7</pss:number>
+                                    </pss:rhs>
+                                </pss:binexp>
+                            </pss:rhs>
+                        </pss:binexp>
+                    </pss:stmt>
+                </pss:body>
+            </pss:implies>
+        </pss:constraint>
+    </pss:struct>
+</pss:model>

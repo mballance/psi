@@ -23,8 +23,7 @@
  *      Author: ballance
  */
 
-#include "classlib/pss_if.h"
-
+#include "../../include/pss_if.h"
 #include "ExprCoreIf.h"
 #include "ExprCoreIf.h"
 
