@@ -41,11 +41,14 @@ PSI_APPS_HEADERS := $(notdir $(wildcard $(PSI_CONTRIB_DIR)/apps/*.h))
 PSI_APPS_SRC += $(notdir $(wildcard $(PSI_CONTRIB_DIR)/apps/*.cpp))
 PSI_APPS_SRC += PSSModel.cpp
 
+PUBLIC_HEADERS += $(foreach h,$(PSI_CL_HEADERS),$(APIDIR)/$(h))
+PUBLIC_HEADERS += $(foreach h,$(PSI_CL_PRV_HEADERS),$(APIDIR)/prv/$(h))
+
 INST_TARGETS += $(foreach h,$(PSI_API_HEADERS),$(INCDIR)/api/$(h))
-INST_TARGETS += $(foreach h,$(PSI_CL_HEADERS),$(APIDIR)/$(h))
-INST_TARGETS += $(foreach h,$(PSI_CL_PRV_HEADERS),$(APIDIR)/prv/$(h))
+INST_TARGETS += $(PUBLIC_HEADERS)
 INST_TARGETS += $(foreach h,$(PSI_APPS_HEADERS),$(INCDIR)/apps/$(h))
 INST_TARGETS += $(INCDIR)/pss.h $(INCDIR)/psi_api.h
+INST_TARGETS += $(DOCDIR)/pss_cls.rtf
 
 CXXFLAGS += -I/usr/include/libxml2
 CXXFLAGS += -I$(PSI_INCLUDE_DIR)
@@ -119,5 +122,20 @@ $(BINDIR)/pssxml2xml$(EXEEXT) : $(PSI_BUILDDIR)/pssxml2xml.o $(LIBDIR)/libpsi_im
 $(BINDIR)/validatepssxml$(EXEEXT) : $(PSI_BUILDDIR)/validatepssxml.o $(LIBDIR)/libpsi_impl.a $(LIBDIR)/libpsi_apps.a
 	$(Q)if test ! -d `dirname $@`; then mkdir -p `dirname $@`; fi
 	$(CXX) -o $@ $^ -lxml2
+
+$(DOCDIR)/pss_cls.rtf : $(PUBLIC_HEADERS)
+	$(Q)if test ! -d `dirname $@`; then mkdir -p `dirname $@`; fi
+	$(Q)echo "" > $(PSI_BUILDDIR)/pss_cls.h
+	$(Q)echo "namespace pss {" >> $(PSI_BUILDDIR)/pss_cls.h
+	$(Q)perl $(PSI_SCRIPTS_DIR)/extract.pl $(APIDIR) >> $(PSI_BUILDDIR)/pss_cls.h
+	$(Q)echo "}" >> $(PSI_BUILDDIR)/pss_cls.h
+	$(Q)echo "" >> $(PSI_BUILDDIR)/pss_cls.h
+	$(Q)echo "namespace pss { // pss::prv" >> $(PSI_BUILDDIR)/pss_cls.h
+	$(Q)echo "namespace prv {" >> $(PSI_BUILDDIR)/pss_cls.h
+	$(Q)perl $(PSI_SCRIPTS_DIR)/extract.pl $(APIDIR)/prv >> $(PSI_BUILDDIR)/pss_cls.h
+	$(Q)echo "} /* namespace prv */" >> $(PSI_BUILDDIR)/pss_cls.h
+	$(Q)echo "} /* namespace pss */" >> $(PSI_BUILDDIR)/pss_cls.h
+	$(Q)highlight -O rtf $(PSI_BUILDDIR)/pss_cls.h > $@
+
 
 endif

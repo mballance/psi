@@ -20,6 +20,7 @@ endif
 BINDIR := $(BUILDRESULT)/bin
 LIBDIR := $(BUILDRESULT)/lib
 INCDIR := $(BUILDRESULT)/include
+DOCDIR := $(BUILDRESULT)/doc
 APIDIR := $(BUILDRESULT)/api
 
 define MKDIRS

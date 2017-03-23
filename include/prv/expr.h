@@ -70,8 +70,6 @@ public:
 			const T		&item,
 			const R&...	rest);
 
-//	expr operator -> (const expr &rhs);
-
 	expr operator == (const expr &rhs);
 	expr operator != (const expr &rhs);
 	expr operator <= (const expr &rhs);
