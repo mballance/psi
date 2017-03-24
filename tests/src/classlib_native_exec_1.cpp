@@ -28,11 +28,11 @@ class methods_pkg : public package {
 public:
 	pss_ctor(methods_pkg, package);
 
-	import_func my_func { this, "my_func",
-		(input<uint8_t>("a"), input<uint32_t>("b"))};
+	import_func my_func {"my_func",
+		{input<uint8_t>("a"), input<uint32_t>("b")}};
 
-	import_func my_func2 { this, "my_func2", pss_bit(8),
-		(input<uint8_t>("a"), input<uint32_t>("b"))};
+	import_func my_func2 {"my_func2", pss_bit(8),
+		{input<uint8_t>("a"), input<uint32_t>("b")}};
 
 };
 pss_type(methods_pkg);
@@ -49,11 +49,9 @@ public:
 		rand_attr<uint8_t>		pss_field(p2);
 		rand_attr<uint8_t>		pss_field(p3);
 
-		exec post_solve_en {this, exec::PostSolve,
-			{
-					pss_typeid(methods_pkg).my_func({p1, p2}),
-					pss_typeid(methods_pkg).my_func({p1+1, p2+4})
-			}
+		exec post_solve_en {exec::PostSolve,
+					pss_typeid(methods_pkg).my_func(p1, p2),
+					pss_typeid(methods_pkg).my_func(p1+1, p2+4)
 		};
 
 	};

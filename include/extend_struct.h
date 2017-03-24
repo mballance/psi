@@ -1,5 +1,5 @@
 /*
- * exec_import_call_stmt.h
+ * extend_struct.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -17,32 +17,26 @@
  * CONDITIONS OF ANY KIND, either express or implied.  See
  * the License for the specific language governing
  * permissions and limitations under the License.
-* 
- *  Created on: Aug 29, 2016
+ * 
+ *
+ *  Created on: Apr 26, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDE_CLASSLIB_EXECIMPORTCALLSTMT_H_
-#define INCLUDE_CLASSLIB_EXECIMPORTCALLSTMT_H_
-
-#include "classlib/exec_stmt.h"
-#include "classlib/expr_list.h"
+#ifndef INCLUDED_EXTEND_STRUCT_H
+#define INCLUDED_EXTEND_STRUCT_H
+#include "scope.h"
 
 namespace pss {
 
-class import_func;
-class exec_import_call_stmt : public exec_stmt {
-public:
-	friend class import_func;
+template <class T> class extend_struct : public vendor::extend_struct_impl<T> {
+protected:
+		extend_struct(const scope &p);
 
-private:
-	exec_import_call_stmt(const import_func &f, const expr_list &plist);
+		virtual ~extend_struct() { }
 
 };
 
-}
+} /* namespace pss */
 
-
-
-
-#endif /* INCLUDE_CLASSLIB_EXECIMPORTCALLSTMT_H_ */
+#endif /* SRC_CLASSLIB_EXTENDSTRUCT_H_ */

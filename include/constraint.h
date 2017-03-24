@@ -33,13 +33,13 @@ namespace pss {
 
 class constraint : public vendor::constraint_impl {
 public:
+
+	template<typename... I> constraint(
+			const I&... /* prv::constraint_stmt */ stmts);
+
 	template<typename... I> constraint(
 			const std::string &name, 
 			const I&... /* prv::constraint_stmt */ stmts);
-
-	constraint(
-			const std::string						&name,
-			const std::vector<prv::constraint_stmt>	&stmts);
 
 	virtual ~constraint();
 

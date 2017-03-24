@@ -1,5 +1,5 @@
 /*
- * extend_struct.h
+ * chandle.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -19,24 +19,28 @@
  * permissions and limitations under the License.
  * 
  *
- *  Created on: Apr 26, 2016
+ *  Created on: Apr 29, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_EXTEND_STRUCT_H
-#define INCLUDED_EXTEND_STRUCT_H
-#include "classlib/extend_base.h"
+#ifndef INCLUDED_CHANDLE_H
+#define INCLUDED_CHANDLE_H
 
 namespace pss {
 
-template <class T> class extend_struct : public extend_base<T> {
-protected:
-		extend_struct(const scope &p) : extend_base<T>(p) { }
+template <class T=void> class chandle : public vendor::chandle_impl {
+public:
 
-		virtual ~extend_struct() { }
+	chandle(const scope &p);
+
+	chandle(const std::string &name);
+
+	T *get();
+
+	void set(T *v);
 
 };
 
 } /* namespace pss */
 
-#endif /* SRC_CLASSLIB_EXTENDSTRUCT_H_ */
+#endif /* SRC_CLASSLIB_CHANDLE_H_ */

@@ -14,14 +14,14 @@ BUILDDIR := $(PSI_DIR)/build
 endif
 
 ifeq (,$(BUILDRESULT))
-BUILDRESULT := $(PSI_DIR)/build/psi
+BUILDRESULT := $(BUILDDIR)/build/psi
 endif
 
 BINDIR := $(BUILDRESULT)/bin
 LIBDIR := $(BUILDRESULT)/lib
 INCDIR := $(BUILDRESULT)/include
 DOCDIR := $(BUILDRESULT)/doc
-APIDIR := $(BUILDRESULT)/api
+APIDIR := $(BUILDRESULT)/include
 
 define MKDIRS
 $(Q)if test ! -d $(BINDIR); then mkdir -p $(BINDIR); fi

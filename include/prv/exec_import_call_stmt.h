@@ -1,5 +1,5 @@
 /*
- * foreach.h
+ * exec_import_call_stmt.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -18,30 +18,31 @@
  * the License for the specific language governing
  * permissions and limitations under the License.
 * 
- *  Created on: Aug 10, 2016
+ *  Created on: Aug 29, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_FOREACH_H
-#define INCLUDED_FOREACH_H
-#include "../prv/expr.h"
+#ifndef INCLUDE_CLASSLIB_EXECIMPORTCALLSTMT_H_
+#define INCLUDE_CLASSLIB_EXECIMPORTCALLSTMT_H_
 
+#include "prv/exec_stmt.h"
 
 namespace pss {
+class import_func;
+namespace prv {
 
-class foreach : public expr {
+class exec_import_call_stmt : public prv::exec_stmt {
 public:
 
-	foreach(
-			const base_item 	&var,
-			const expr_list 	&index_vars,
-			const expr_list	&constraints);
+	exec_import_call_stmt();
 
 };
 
-}
+} /* namespace prv */
+} /* namespace pss */
 
 
 
 
-#endif /* INCLUDE_CLASSLIB_FOREACH_H_ */
+
+#endif /* INCLUDE_CLASSLIB_EXECIMPORTCALLSTMT_H_ */

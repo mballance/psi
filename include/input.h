@@ -35,7 +35,6 @@ namespace pss {
 
 using namespace prv;
 
-class action;
 template <class T> class input : public vendor::input_impl<T> {
 
 public:

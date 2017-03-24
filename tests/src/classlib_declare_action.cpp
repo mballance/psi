@@ -32,8 +32,7 @@ public:
 	rand_attr<pss_bit>			data {"data", 8};
 	rand_attr<pss_bit>			address{"address", 32};
 
-	pss_constraint(address_c,
-			{address >= 0x1000 && address <= 0x1FFF});
+	constraint address_c {address >= 0x1000 && address <= 0x1FFF};
 };
 pss_type(data_s);
 
@@ -47,7 +46,7 @@ public:
 
 		pss_ctor(processor_s, resource_struct);
 
-		pss_constraint(resource_c, {instance_id == 1});
+		constraint resource_c {instance_id == 1};
 
 	};
 	pss_type(processor_s);

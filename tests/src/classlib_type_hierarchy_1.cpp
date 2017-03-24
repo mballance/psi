@@ -32,10 +32,10 @@ public:
 	rand_attr<uint8_t>		pss_field(a);
 	rand_attr<uint8_t>		pss_field(b);
 
-	constraint c {this, "c", {
-			a == 5,
-			b == 6
-	}};
+	constraint c {"c", 
+		a == 5,
+		b == 6
+	};
 
 };
 pss_type(Base);
@@ -44,10 +44,10 @@ class Ext : public Base {
 public:
 	pss_ctor(Ext, Base);
 
-	constraint c {this, "c", {
+	constraint c {"c", 
 			a == 7,
 			b == 8
-	}};
+	};
 };
 pss_type(Ext);
 

@@ -44,15 +44,18 @@ PSI_APPS_SRC += PSSModel.cpp
 PUBLIC_HEADERS += $(foreach h,$(PSI_CL_HEADERS),$(APIDIR)/$(h))
 PUBLIC_HEADERS += $(foreach h,$(PSI_CL_PRV_HEADERS),$(APIDIR)/prv/$(h))
 
-INST_TARGETS += $(foreach h,$(PSI_API_HEADERS),$(INCDIR)/api/$(h))
+#INST_TARGETS += $(foreach h,$(PSI_API_HEADERS),$(INCDIR)/api/$(h))
 INST_TARGETS += $(PUBLIC_HEADERS)
-INST_TARGETS += $(foreach h,$(PSI_APPS_HEADERS),$(INCDIR)/apps/$(h))
-INST_TARGETS += $(INCDIR)/pss.h $(INCDIR)/psi_api.h
-INST_TARGETS += $(DOCDIR)/pss_cls.rtf
+#INST_TARGETS += $(foreach h,$(PSI_APPS_HEADERS),$(INCDIR)/apps/$(h))
+#INST_TARGETS += $(INCDIR)/pss.h $(INCDIR)/psi_api.h
+INST_TARGETS += $(DOCDIR)/pss_cls.rtf $(DOCDIR)/html/index.html
 
 CXXFLAGS += -I/usr/include/libxml2
 CXXFLAGS += -I$(PSI_INCLUDE_DIR)
 CXXFLAGS += -I$(PSI_CONTRIB_DIR)
+
+export DOCDIR
+export APIDIR
 
 else
 
@@ -76,18 +79,19 @@ $(INCDIR)/classlib/%.h : $(PSI_INCLUDE_DIR)/classlib/%.h
 	$(DO_INST)
 	
 $(APIDIR)/%.h : $(PSI_INCLUDE_DIR)/%.h
-	$(Q)if test ! -d `dirname $@`; then mkdir `dirname $@`; fi
+	$(Q)if test ! -d `dirname $@`; then mkdir -p `dirname $@`; fi
+	$(Q)echo "Export: $^"
 	$(Q)perl $(PSI_SCRIPTS_DIR)/cleanup.pl $^ $@
 
 $(APIDIR)/prv/%.h : $(PSI_INCLUDE_DIR)/prv/%.h
-	$(Q)if test ! -d `dirname $@`; then mkdir `dirname $@`; fi
+	$(Q)if test ! -d `dirname $@`; then mkdir -p `dirname $@`; fi
 	$(Q)perl $(PSI_SCRIPTS_DIR)/cleanup.pl $^ $@
 	
 $(INCDIR)/apps/%.h : $(PSI_CONTRIB_DIR)/apps/%.h
 	$(DO_INST)
 
-$(INCDIR)/%.h : $(PSI_INCLUDE_DIR)/%.h
-	$(DO_INST)
+#$(INCDIR)/%.h : $(PSI_INCLUDE_DIR)/%.h
+#	$(DO_INST)
 
 $(LIBDIR)/libpsi.a : $(foreach o,$(PSI_CL_SRC:.cpp=.o),$(PSI_BUILDDIR)/$(o))
 	echo "PSI_CONTRIB_DIR=$(PSI_CONTRIB_DIR) PSI_CL_SRC=$(PSI_CL_SRC)"
@@ -125,6 +129,7 @@ $(BINDIR)/validatepssxml$(EXEEXT) : $(PSI_BUILDDIR)/validatepssxml.o $(LIBDIR)/l
 
 $(DOCDIR)/pss_cls.rtf : $(PUBLIC_HEADERS)
 	$(Q)if test ! -d `dirname $@`; then mkdir -p `dirname $@`; fi
+	$(Q)if test ! -d $(PSI_BUILDDIR); then mkdir -p $(PSI_BUILDDIR); fi
 	$(Q)echo "" > $(PSI_BUILDDIR)/pss_cls.h
 	$(Q)echo "namespace pss {" >> $(PSI_BUILDDIR)/pss_cls.h
 	$(Q)perl $(PSI_SCRIPTS_DIR)/extract.pl $(APIDIR) >> $(PSI_BUILDDIR)/pss_cls.h
@@ -135,7 +140,10 @@ $(DOCDIR)/pss_cls.rtf : $(PUBLIC_HEADERS)
 	$(Q)perl $(PSI_SCRIPTS_DIR)/extract.pl $(APIDIR)/prv >> $(PSI_BUILDDIR)/pss_cls.h
 	$(Q)echo "} /* namespace prv */" >> $(PSI_BUILDDIR)/pss_cls.h
 	$(Q)echo "} /* namespace pss */" >> $(PSI_BUILDDIR)/pss_cls.h
-	$(Q)highlight -O rtf $(PSI_BUILDDIR)/pss_cls.h > $@
+	$(Q)highlight -O rtf -s bright $(PSI_BUILDDIR)/pss_cls.h > $@
 
+$(DOCDIR)/html/index.html : $(PUBLIC_HEADERS)
+	$(Q)if test ! -d `dirname $@`; then mkdir -p `dirname $@`; fi
+	$(Q)doxygen $(PSI_ETC_DIR)/doxygen.cfg
 
 endif

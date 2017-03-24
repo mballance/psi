@@ -41,9 +41,6 @@
 	public: \
 	_name (const scope &p) : _super(this) { }
 
-#define pss_constraint(_name, _body) \
-		constraint _name {this, #_name, _body};
-
 #define pss_action_ctor(_name) \
 		pss_ctor(_name, action)
 
@@ -65,5 +62,5 @@
 #endif /* End PSS_HAVE_CXX_11 */
 
 #define pss_typeid(T) \
-	(*type_decl<T>::type_id())
+	(*type_decl<T>::id())
 

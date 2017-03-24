@@ -33,17 +33,15 @@ public:
 	rand_attr<pss_bit>		dmn_B{"dmn_B", 2};
 	rand_attr<pss_bit>		dmn_C{"dmn_C", 2};
 
-	constraint c {this, {
-			pss_if {dmn_C != 0, dmn_B == 0},
+	constraint c {
+		pss_if {dmn_C != 0, { dmn_B == 0} },
 
-			pss_if {initial == 1, {
-				dmn_A == 0,
-				dmn_B == 0,
-				dmn_C == 0
-				}
+		pss_if {initial == 1, {
+			dmn_A == 0,
+			dmn_B == 0,
+			dmn_C == 0
 			}
 		}
-
 	};
 
 };
@@ -64,11 +62,11 @@ public:
 		input<power_state_s>		prev {"prev"};
 		output<power_state_s>		next {"next"};
 
-		pss_constraint(step_c, {step == -1 || step == 1});
+		constraint step_c {"step_c", step == -1 || step == 1};
 
-		pss_constraint(A_c, { next.dmn_A == prev.dmn_A });
-		pss_constraint(B_c, { next.dmn_B == prev.dmn_B });
-		pss_constraint(C_c, { next.dmn_C == prev.dmn_C });
+		constraint A_c {"A_c", next.dmn_A == prev.dmn_A };
+		constraint B_c {"B_c", next.dmn_B == prev.dmn_B };
+		constraint C_c {"C_c", next.dmn_C == prev.dmn_C };
 
 	};
 	pss_type(power_transition);
@@ -77,7 +75,7 @@ public:
 	public:
 		pss_ctor(A_transition, power_transition);
 
-		pss_constraint(A_c, {next.dmn_A == prev.dmn_A + step});
+		constraint A_c {"A_c", next.dmn_A == prev.dmn_A + step};
 	};
 	pss_type(A_transition);
 
@@ -85,7 +83,7 @@ public:
 	public:
 		pss_ctor(B_transition, power_transition);
 
-		pss_constraint(B_c, {next.dmn_B == prev.dmn_B + step});
+		constraint B_c {"B_c", next.dmn_B == prev.dmn_B + step};
 	};
 	pss_type(B_transition);
 
@@ -94,7 +92,7 @@ public:
 
 		pss_ctor(C_transition, power_transition);
 
-		pss_constraint(C_c, {next.dmn_C == prev.dmn_C + step});
+		constraint C_c {"C_c", next.dmn_C == prev.dmn_C + step};
 	};
 	pss_type(C_transition);
 

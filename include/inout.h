@@ -27,21 +27,15 @@
 #define INCLUDED_INOUT_H
 #include <string>
 
-#include "classlib/attr_base.h"
-#include "sav/type_decl.h"
-
 namespace pss {
 
-class action;
-template <class T> class inout : public attr_base<T> {
-
-	public:
+template <class T> class inout : public vendor::inout_impl<T> {
+public:
 
 		/**
 		 * This constructor is used for specifying method parameters
 		 */
-		inout(const std::string &name) :
-			attr_base<T>(attr_item::AttrInout, 0, name) { }
+		inout(const std::string &name);
 
 		virtual ~inout() { }
 

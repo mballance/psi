@@ -30,7 +30,7 @@
 #include <vector>
 
 #include "prv/attr_item.h"
-#include "prv/exec_stmt.h"
+#include "prv/exec_import_call_stmt.h"
 #include "prv/expr.h"
 
 namespace pss {
@@ -52,11 +52,11 @@ class import_func : public vendor::import_func_impl {
 
 		virtual ~import_func();
 
-		template<typename... I> exec_stmt operator()(const I&... items);
+		template<typename... I> prv::exec_import_call_stmt operator()(const I&... items);
 
-		exec_stmt operator()(const std::vector<prv::expr> &params);
+		prv::exec_import_call_stmt operator()(const std::vector<prv::expr> &params);
 
-		exec_stmt operator()();
+		prv::exec_import_call_stmt operator()();
 };
 
 

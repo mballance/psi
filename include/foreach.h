@@ -1,5 +1,5 @@
 /*
- * chandle.h
+ * foreach.h
  *
  * Copyright 2016 Mentor Graphics Corporation
  * All Rights Reserved Worldwide
@@ -17,33 +17,34 @@
  * CONDITIONS OF ANY KIND, either express or implied.  See
  * the License for the specific language governing
  * permissions and limitations under the License.
- * 
- *
- *  Created on: Apr 29, 2016
+* 
+ *  Created on: Aug 10, 2016
  *      Author: ballance
  */
 
-#ifndef INCLUDED_CHANDLE_H
-#define INCLUDED_CHANDLE_H
-#include "classlib/base_item.h"
-#include "classlib/scope.h"
-#include "classlib/chandle_type.h"
+#ifndef INCLUDED_FOREACH_H
+#define INCLUDED_FOREACH_H
+#include <vector>
+#include "prv/expr.h"
+#include "prv/attr_item.h"
+#include "prv/constraint_stmt.h"
+#include "prv/activity_stmt.h"
 
 namespace pss {
 
-template <class T=void> class chandle : public chandle_type {
+class foreach : public vendor::foreach_impl {
 public:
 
-	chandle(const scope &p) : chandle_type(p) { }
-
-	chandle(const std::string &name) : chandle_type(name) { }
-
-	T *get() { return static_cast<T *>(chandle_type::get()); }
-
-	void set(T *v) { chandle_type::set(v); }
+	template <class... T> foreach(
+			const attr_item 								&var,
+			const attr_item									&index_var,
+			const T&...	/* constraint_stmt|activity_stmt */	stmts);
 
 };
 
-} /* namespace pss */
+}
 
-#endif /* SRC_CLASSLIB_CHANDLE_H_ */
+
+
+
+#endif /* INCLUDE_CLASSLIB_FOREACH_H_ */

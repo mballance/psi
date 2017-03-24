@@ -29,7 +29,8 @@ endif
 
 
 include $(SIMSCRIPTS_DIR)/mkfiles/plusargs.mk
-include $(SIM_DIR)/../../rules_defs.mk
+include $(SIM_DIR)/../../etc/defs_rules.mk
+include $(SIM_DIR)/../../scripts/rules_defs.mk
 
 
 #CXXFLAGS += -I$(SRCDIR)/psi
@@ -37,6 +38,7 @@ include $(SIM_DIR)/../../rules_defs.mk
 #CXXFLAGS += -I$(SRCDIR)/apps
 #CXXFLAGS += -I/usr/include/libxml2
 CXXFLAGS += -g
+CXXFLAGS += -I$(INCDIR)
 
 USE_CXX11 := $(call get_plusarg,USE_CXX11,$(PLUSARGS))
 
@@ -53,7 +55,7 @@ endif
 #TEST_LIBS += $(BUILD_DIR)/libpsi_impl.a
 #endif
 
-# LIB_TARGETS += $(BUILD_DIR)/libpsi_tests.a
+LIB_TARGETS += $(INST_TARGETS)
 
 LIBPSI_TESTS_SRC = \
 	TestCallbackContextImpl.cpp \
@@ -61,17 +63,19 @@ LIBPSI_TESTS_SRC = \
 	InlineExecInitialValueTestFixture.cpp
 
 include $(SIMSCRIPTS_DIR)/mkfiles/common_sim.mk
-include $(SIM_DIR)/../../rules_defs.mk
+include $(SIM_DIR)/../../etc/defs_rules.mk
+include $(SIM_DIR)/../../scripts/rules_defs.mk
 
 	
 ifeq (true,$(QUIET))
-COMPILE_REDIR:= > compile.log 2>&1
+COMPILE_REDIR:= > status.log 2>&1
 else
-COMPILE_REDIR:= 2>&1 | tee compile.log
+COMPILE_REDIR:= 2>&1 | tee status.log
 endif
 
-$(TESTEXE)$(EXEEXT) : $(SIM_DIR)/src/$(TESTEXE).cpp $(SIM_DIR)/src/test_main.cpp $(TEST_LIBS)
-	$(Q)$(CXX) -g -o $@ $^ $(RUN_CXXFLAGS) $(CXXFLAGS) $(BUILD_DIR)/libpsi.a -lxml2 $(COMPILE_REDIR)
+run : $(SIM_DIR)/../src/$(TESTEXE).cpp
+	$(Q)$(CXX) -c -o $(TESTNAME).o $^ -std=c++11 -I$(INCDIR) $(COMPILE_REDIR)
+	$(Q)if test -f $(TESTNAME).o ; then echo "PASS: $(TESTNAME)" >> status.log; fi
 
 $(BUILD_DIR)/libpsi_tests.a : $(foreach o,$(LIBPSI_TESTS_SRC:.cpp=.o),$(BUILD_DIR)/$(o))
 	$(Q)rm -rf $@

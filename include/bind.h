@@ -31,7 +31,6 @@ namespace pss {
 
 class bind: public vendor::bind_impl {
 public:
-	bind(const std::vector<prv::attr_item *> &items);
 
 	template<class... I> bind(const I&... /* prv::attr_item */ items);
 

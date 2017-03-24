@@ -31,15 +31,15 @@ public:
 
 	rand_attr<uint32_t>			pss_field(address);
 
-	constraint c0 {this, address >= 0x1000 }; // named constraint
+	constraint c0 {address >= 0x1000 }; // named constraint
 
-	constraint c1 {this, address >= 0x1000 && address <= 0x1fff }; // anonymous constraint
+	constraint c1 {address >= 0x1000 && address <= 0x1fff }; // anonymous constraint
 
-	constraint c2 {this, {
+	constraint c2 {
 			address >= 0x1000 , // comma used as constraint-statement separator
 			                    // comma-separated statements must be surrounded in parens or braces
 			address <= 0x1fff
-			} };
+			};
 
 };
 pss_type(constraint_basics_test);

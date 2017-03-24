@@ -139,9 +139,9 @@ print "run_root=${run_root}\n";
 
 $ENV{RUN_ROOT}=$run_root;
 
-if ($sysname =~ /CYGWIN/) {
-	$run_root =~ s%^/cygdrive/([a-zA-Z])%$1:%;
-}
+#if ($sysname =~ /CYGWIN/) {
+#	$run_root =~ s%^/cygdrive/([a-zA-Z])%$1:%;
+#}
 
 if ($builddir eq "") {
   $builddir=$ENV{RUN_ROOT};
@@ -150,9 +150,9 @@ if ($builddir eq "") {
 # TODO: platform too?
 $builddir = $builddir . "/" . $sim;
 
-if ($sysname =~ /CYGWIN/) {
-	$builddir =~ s%^/cygdrive/([a-zA-Z])%$1:%;
-}
+#if ($sysname =~ /CYGWIN/) {
+#	$builddir =~ s%^/cygdrive/([a-zA-Z])%$1:%;
+#}
 
 $ENV{BUILD_DIR}=$builddir;
 

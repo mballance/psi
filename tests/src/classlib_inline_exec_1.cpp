@@ -42,9 +42,9 @@ public:
 		attr<uint32_t>			pss_field(p4);
 		attr<uint32_t>			pss_field(p5);
 
-		exec pre_solve_e {this, exec::PreSolve};
+		exec pre_solve_e {exec::PreSolve};
 
-		exec post_solve_e {this, exec::PostSolve};
+		exec post_solve_e {exec::PostSolve};
 
 		void pre_solve() {
 			// Set p4 based on calling a generation-time method
@@ -62,6 +62,7 @@ public:
 };
 pss_type(top);
 
+#ifdef UNDEFINED
 /**
  * Test code
  */
@@ -83,3 +84,4 @@ R"(
 			"entry_point",
 			initial);
 }
+#endif

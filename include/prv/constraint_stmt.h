@@ -11,6 +11,7 @@
 
 namespace pss {
 class pss_if;
+class foreach;
 
 namespace prv {
 
@@ -23,6 +24,8 @@ public:
 	constraint_stmt(const expr &expr);
 
 	constraint_stmt(const pss_if &if_stmt);
+
+	constraint_stmt(const foreach &foreach_stmt);
 
 };
 

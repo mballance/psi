@@ -168,16 +168,16 @@ public:
 	ATTR_OPERATORS
 
 };
+#endif /* UNDEFINED */
 
 template <> class attr<unsigned int> : public vendor::attr_item_impl {
 public:
 
-	attr(const std::string &name) :
-		vendor::attr_item_impl(this, vendor::attr_item_impl::AttrNone, pss_bit(32), 0) { }
+	attr(const std::string &name);
 
-	void set(uint32_t v) { set_bit(v); }
+	void set(uint32_t v);
 
-	uint32_t get() { return get_bit(); }
+	uint32_t get();
 
 	ATTR_OPERATORS
 };
@@ -185,17 +185,17 @@ public:
 template <> class attr<int> : public vendor::attr_item_impl {
 public:
 
-	attr(const std::string &name) :
-		vendor::attr_item_impl(this, vendor::attr_item_impl::AttrNone, pss_int(32), 0) { }
+	attr(const std::string &name);
 
-	void set(int32_t v) { set_int(v); }
+	void set(int32_t v);
 
-	int32_t get() { return get_int(); }
+	int32_t get();
 
 	ATTR_OPERATORS
 
 };
 
+#ifdef UNDEFINED
 template <> class attr<unsigned short> : public vendor::attr_item_impl {
 public:
 

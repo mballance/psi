@@ -45,7 +45,7 @@ public:
 		A1			pss_field(a1_3);
 		A1			pss_field(a1_4);
 
-		activity g {this, {
+		activity g {
 				pss_select {
 						sequence{a1_1, a1_2},
 						sequence{a1_3, a1_4}
@@ -54,7 +54,6 @@ public:
 						sequence{a1_1, a1_2},
 						sequence{a1_3, a1_4}
 				}
-		}
 		};
 	};
 	pss_type(graph_select_test);

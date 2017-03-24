@@ -34,8 +34,7 @@ namespace pss {
 
 class action;
 template <class T> class output : public vendor::output_impl<T> {
-
-	public:
+public:
 		/**
 		 * This constructor is used to specify an action output field
 		 */

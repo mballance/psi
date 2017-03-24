@@ -24,7 +24,7 @@
 
 #ifndef SRC_PSI_UTIL_PSIUTIL_H_
 #define SRC_PSI_UTIL_PSIUTIL_H_
-#include "../../include/psi_api.h"
+#include "../../include/api/psi_api.h"
 
 using namespace psi_api;
 

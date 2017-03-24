@@ -8,8 +8,8 @@
 #****************************************************************************
 
 
-if test ! -f "model.xml"; then
-  echo "FAILED: $1 - no model.xml"
+if test ! -f "${1}.o"; then
+  echo "FAILED: $1 - no ${1}.o"
   exit 0
 fi
 
@@ -27,7 +27,7 @@ fi
 #  echo "FAILED: $1 - differences in model.xml"
 #fi
 
-err_count=`grep 'Error: ' run.log | wc -l`
+err_count=`grep 'error: ' status.log | wc -l`
 if test $err_count -ne 0; then 
   echo "FAILED: $1 - $err_count error messages"
 fi

@@ -36,8 +36,6 @@ class activity {
 
 		template<typename... I> activity(const I&... /* prv::activity_stmt */ stmts);
 
-		activity(const std::vector<prv::activity_stmt> &stmts);
-
 		virtual ~activity();
 
 };

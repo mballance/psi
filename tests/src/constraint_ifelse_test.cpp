@@ -33,13 +33,13 @@ public:
 	rand_attr<uint32_t>			pss_field(address);
 	rand_attr<uint32_t>			pss_field(data);
 
-	constraint c1 {this, "c1",
-		pss_if {(control == 1), address < 10}
+	constraint c1 {"c1",
+		pss_if {control == 1, {address < 10}}
 	};
 
-	constraint c2 {this,
+	constraint c2 {
 		pss_if {
-			(control == 1),
+			control == 1,
 			{
 				address < 10,
 				data > 0 && data < 100
@@ -50,9 +50,9 @@ public:
 		}
 	};
 
-	constraint c3 {this,
+	constraint c3 {
 		pss_if {
-			(control == 1), {
+			control == 1, {
 						address == 1
 			}, /* else */ {
 					pss_if {

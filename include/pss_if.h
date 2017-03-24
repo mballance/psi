@@ -34,9 +34,11 @@ namespace pss {
 
 class pss_if : public vendor::pss_if_impl {
 public:
-	pss_if(const expr &cond, const std::vector<prv::constraint_stmt> &true_stmts);
+	pss_if(const prv::expr &cond,
+			const std::vector<prv::constraint_stmt> &true_stmts);
 
-	pss_if(const expr &cond, const std::vector<prv::activity_stmt> &true_stmts);
+	pss_if(const expr &cond,
+			const std::vector<prv::activity_stmt> &true_stmts);
 
 	pss_if(const expr &cond,
 			const std::vector<prv::constraint_stmt> &true_stmts,

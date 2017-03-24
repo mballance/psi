@@ -48,17 +48,17 @@ class exec : public vendor::exec_impl {
 			const std::string 						&language,
 			const std::string 						&content);
 
-		exec(
+		template <class... T> exec(
 			ExecKind 								kind,
-			const std::vector<exec_stmt>			&stmts);
+			const T&...	/* prv::exec_stmt */		stmts);
 
 		/**
 		 * Inline exec block that activates the appropriate
 		 * hook method
 		 */
 		exec(
-			ExecKind								kind,
-			const std::vector<prv::attr_item>		&write_vars);
+			ExecKind									kind,
+			const std::initializer_list<prv::attr_item>	&write_vars);
 
 #ifdef PSS_HAVE_CXX_11
 //		exec(

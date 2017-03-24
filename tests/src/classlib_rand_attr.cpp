@@ -30,8 +30,7 @@ class data_s : public memory_struct {
 	rand_attr<pss_bit>				data{"data", 8};
 	rand_attr<pss_bit>				address{"address", 32};
 
-	pss_constraint(address_c,
-		address >= 0x1000 && address <= 0x1FFF);
+	constraint address_c { address >= 0x1000 && address <= 0x1FFF };
 };
 pss_type(data_s);
 

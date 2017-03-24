@@ -27,8 +27,8 @@
 #define TESTS_API_TESTS_SRC_PSS_TESTS_H_
 #include <stdio.h>
 
+#include "../../../include/api/psi_api.h"
 #include "pss.h"
-#include "psi_api.h"
 #include "TestCallbackContextImpl.h"
 #include "InlineExecIterator.h"
 #include "InlineExecInitialValueTestFixture.h"

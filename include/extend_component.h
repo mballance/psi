@@ -25,14 +25,14 @@
 
 #ifndef SRC_CLASSLIB_EXTENDCOMPONENT_H_
 #define SRC_CLASSLIB_EXTENDCOMPONENT_H_
-#include "classlib/extend_base.h"
+#include "scope.h"
 
 namespace pss {
 
-template <class T> class extend_component : public extend_base<T> {
+template <class T> class extend_component : public vendor::extend_component_impl<T> {
 
 	protected:
-		extend_component(const scope &p) : extend_base<T>(p) { }
+		extend_component(const scope &p);
 
 		virtual ~extend_component() { }
 

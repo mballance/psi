@@ -10,12 +10,16 @@
 
 namespace pss {
 class pss_if;
+class foreach;
+class action;
 namespace prv {
 
 class activity_stmt : public vendor::activity_stmt_impl {
 public:
 
-	activity_stmt(const pss_if &if_stmt);
+	activity_stmt(const foreach &foreach_stmt);
+
+//	activity_stmt(const action &a);
 
 };
 

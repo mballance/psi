@@ -32,13 +32,11 @@ public:
 	rand_attr<pss_bit>				addr {"addr", 32};
 	rand_attr<pss_bit>				data {"data", 32};
 
-	constraint c { this, "c",
-		{
+	constraint c {"c",
 			(addr == 5).implies(data == 2),
 			(addr == 7).implies(
 					data >= 0 && data <= 7
 					)
-		}
 	};
 };
 type_decl<my_struct>		_my_struct_t;

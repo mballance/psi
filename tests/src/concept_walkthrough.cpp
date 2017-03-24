@@ -31,7 +31,7 @@ public:
 
 	pss_ctor(data_s, memory_struct);
 
-	constraint address_c {this, address >= 0x1000 && address <= 0x1FFF};
+	constraint address_c {address >= 0x1000 && address <= 0x1FFF};
 };
 pss_type(data_s);
 
@@ -44,7 +44,7 @@ public:
 	public:
 		pss_ctor(processor_s, resource_struct);
 
-		constraint resource_c {this, instance_id == 1};
+		constraint resource_c {instance_id == 1};
 
 	};
 	pss_type(processor_s);
@@ -86,13 +86,13 @@ public:
 		rw_comp::read_data		pss_field(rd2);
 
 		// Only a single activity is permitted per action
-		activity g {this,
+		activity g {
 			sequence {
 				wd1, rd1, wd2, rd2
 			}
 		};
 
-		constraint addr_c {this, "addr_c", rd1.in_data.address != rd2.in_data.address };
+		constraint addr_c {"addr_c", rd1.in_data.address != rd2.in_data.address };
 
 	};
 	pss_type(my_test2);
@@ -105,11 +105,11 @@ public:
 	pss_package_ctor(c_methods);
 
 	// Prototypes for import functions
-	import_func do_write {this, "do_write",
-		(input<uint32_t>("addr"), input<uint32_t>("data"))
+	import_func do_write {"do_write",
+		{input<uint32_t>("addr"), input<uint32_t>("data")}
 	};
 
-	import_func do_check {this, "do_check",
+	import_func do_check {"do_check",
 		{input<uint32_t>("addr"), input<uint32_t>("data")}
 	};
 
@@ -126,12 +126,12 @@ public:
 		write_data_ext(const scope &p) : extend_action(this) { }
 
 		// Example of a target-template exec block
-		exec do_write_body {this, exec::Body, "C", R"(
+		exec do_write_body {exec::Body, "C", R"(
 				do_write({{address}}, {{data}}
 				)"
 		};
 
-		exec do_write_body_native {this, exec::Body,
+		exec do_write_body_native {exec::Body,
 			_c_methods_t.do_write(out_data.address, out_data.data)
 		};
 	};
@@ -144,7 +144,7 @@ public:
 
 		rand_attr<pss_bit>			tmp{"tmp", 4};
 
-		exec do_check_body_native {this, exec::Body,
+		exec do_check_body_native {exec::Body,
 			_c_methods_t.do_check(in_data.address, in_data.data)
 		};
 	};

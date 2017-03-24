@@ -24,28 +24,21 @@
 
 #ifndef INCLUDED_REPEAT_H
 #define INCLUDED_REPEAT_H
-#include "../prv/expr.h"
-#include "classlib/pss_types.h"
-#include "classlib/expr_list.h"
-#include "classlib/expr_list_builder.h"
+#include "prv/expr.h"
+#include "prv/activity_stmt.h"
 
 namespace pss {
 
-class repeat: public expr {
+class repeat : public prv::activity_stmt {
 public:
 
-#ifdef PSS_HAVE_CXX_11
-	template<typename... I> repeat(const expr &cond, const I&... items) :
-		repeat(cond, expr_list::mklist(items...)) { }
-#endif
+//	repeat(const prv::expr &cond,
+//			std::initializer_list<prv::activity_stmt> body);
 
-	repeat(const expr &cond, const expr_list &body);
+	template <class... T> repeat(const prv::expr &cond,
+			const T&... /* prv::activity_stmt */ body);
 
 	virtual ~repeat();
-
-	expr_list_builder operator,(const expr &rhs);
-
-	expr_list_builder operator,(const expr_list_builder &rhs);
 
 };
 

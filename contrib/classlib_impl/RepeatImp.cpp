@@ -23,7 +23,7 @@
  *      Author: ballance
  */
 
-#include "classlib/repeat.h"
+#include "../../include/repeat.h"
 #include "ExprCore.h"
 #include "ExprImp.h"
 

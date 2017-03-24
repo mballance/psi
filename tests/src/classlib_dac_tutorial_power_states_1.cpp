@@ -32,14 +32,16 @@ public:
 	rand_attr<pss_bit>		dmn_B {"dmn_B", 2};
 	rand_attr<pss_bit>		dmn_C {"dmn_C", 2};
 
-	constraint c {this, {
-			pss_if {dmn_C != 0, dmn_B == 0},
+	constraint c {
+		pss_if {dmn_C != 0, {
+			dmn_B == 0
+			}
+		},
 
-			pss_if {initial == 1, {
-				dmn_A == 0,
-				dmn_B == 0,
-				dmn_C == 0
-				}
+		pss_if {initial == 1, {
+			dmn_A == 0,
+			dmn_B == 0,
+			dmn_C == 0
 			}
 		}
 	};

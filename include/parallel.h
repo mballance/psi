@@ -33,7 +33,6 @@ namespace pss {
 
 class parallel: public prv::activity_stmt {
 public:
-	parallel(const std::vector<prv::activity_stmt> &body);
 
 	template <typename... I> parallel(const I&... /* prv::activity_stmt */ items);
 

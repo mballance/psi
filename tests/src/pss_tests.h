@@ -27,14 +27,18 @@
 #define TESTS_API_TESTS_SRC_PSS_TESTS_H_
 #include <stdio.h>
 
+class IModel;
 #include "pss.h"
+
+#ifdef UNDEFINED
 #include "psi_api.h"
 #include "TestCallbackContextImpl.h"
 #include "InlineExecIterator.h"
 #include "InlineExecInitialValueTestFixture.h"
+using namespace psi_api;
+#endif
 
 using namespace pss;
-using namespace psi_api;
 
 void build_model(IModel *model);
 

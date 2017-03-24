@@ -26,7 +26,10 @@
 #ifndef INCLUDED_ACTION_H
 #define INCLUDED_ACTION_H
 #include <string>
+#include <vector>
 #include "scope.h"
+#include "prv/action_traversal_activity_stmt.h"
+#include "prv/constraint_stmt.h"
 
 // <vendor>
 #include "vendor/action_impl.h"
@@ -43,6 +46,16 @@ class action : public vendor::action_impl {
 public:
 
 	virtual ~action();
+
+	/**
+	 * Implements traversal-with
+	 */
+	prv::action_traversal_activity_stmt with(
+			std::initializer_list<prv::constraint_stmt> &constraints
+			);
+
+	template <class... T> prv::action_traversal_activity_stmt with(
+			const T&... /* prv::constraint_stmt */ items);
 
 protected:
 
@@ -70,6 +83,7 @@ protected:
 	 * Returns a handle to the active component
 	 */
 	component &comp();
+
 
 };
 

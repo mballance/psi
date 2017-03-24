@@ -38,13 +38,13 @@ public:
 	public:
 		pss_action_ctor(entry_point);
 
-		chandle<my_class>			pss_field(p1);
+		attr<chandle<my_class>>			pss_field(p1);
 		attr<uint32_t>				pss_field(p2);
 		attr<chandle<>>				pss_field(p3);
 
-		exec pre_solve_e {this, exec::PreSolve};
+		exec pre_solve_e {exec::PreSolve};
 
-		exec post_solve_e {this, exec::PostSolve};
+		exec post_solve_e {exec::PostSolve};
 
 		void pre_solve() {
 			p1.set(new my_class());
@@ -60,6 +60,7 @@ public:
 };
 pss_type(top);
 
+#ifdef UNDEFINED
 /**
  * Test code
  */
@@ -79,3 +80,4 @@ R"(
 			"entry_point",
 			initial);
 }
+#endif /* UNDEFINED */

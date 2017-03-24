@@ -29,7 +29,7 @@
 #include <stack>
 #include <map>
 
-#include "psi_api.h"
+#include "../../include/api/psi_api.h"
 
 using namespace psi_api;
 
